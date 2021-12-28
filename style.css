@@ -1,0 +1,112 @@
+.outer-warp {
+    float: left;
+    width: 100%;
+    background-color: #fbfbfb;
+    position: relative;
+    z-index: 9;
+    background-image: url(banner-shape.png);
+    background-repeat: no-repeat;
+    background-position: 100% top;
+    height: auto;
+    min-height: 100vh;
+    background-size: auto 100%;
+}
+.banner-sec {
+    position: relative;
+    padding-top: 105px;
+}
+section {
+    float: left;
+    width: 100%;
+}
+.welcome-header{
+    position: fixed;
+    z-index: 300;
+    top: 0;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 10px;
+}
+.welcome-header span{
+    text-shadow: 2px 2px #000;
+    color: #f4f7fb;
+    font-weight: 700;
+    font-size: 24px;
+
+}
+.line{
+    border-bottom: 2px solid green;
+}
+.brand-logo{
+    font-size: 28px;
+    font-weight: bold;
+}
+.title-main h1{
+    letter-spacing: -1px;
+    line-height: 54px;
+    color: #000;
+    font-size: 44px;
+    font-family: proxima_novaextrabold;
+    padding-top: 0;
+}
+.banner-sec a {margin-top: 32px;}
+.banner-btn{
+    height: 150px;
+    margin-top: 30px;
+}
+.banner-btn a{
+    /*color: #FFF !important;*/
+    text-decoration: none;
+    width: 200px;
+    border-radius: 32.5px !important;
+    border: solid 2px #f13624;
+    max-width: 100%;
+    font-family: proximanovabold;
+    -moz-transition: background-color .3s,color .3s;
+    -webkit-transition: background-color 0.3s,color0.3s;
+    transition: background-color .3s,color .3s;
+     border:none;
+     font-weight: bold;
+     display: inline-block;
+     text-align: center;
+     height: 50px;
+    line-height: 46px;
+    font-size: 18px;
+}
+.banner-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*height: 100vh;*/
+    margin-top: 100px;
+    box-shadow: 5px 5px 15px 5px #ccc;
+}
+.banner-right img {
+    /*width: 240px;*/
+}
+.cover{
+    width: 210px;
+    height: 420px;
+    background-color: #4180d5;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 15px;
+    margin-right: 29px;
+    border-radius: 25px 25px 0px 0px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.box-inside{height: 96px; margin-top: 10px;}
+/*.fs-20{font-size: 60px}*/
+@media(max-width: 763px){
+    .title-main h1{font-size: 22px; line-height: 34px;}
+    .banner-sec a {margin-top: 10px;}
+    .banner-right{display: none;}
+
+}
