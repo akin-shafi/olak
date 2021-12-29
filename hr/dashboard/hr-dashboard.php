@@ -15,6 +15,16 @@ $icon_array = ['Olak Roofing Factory', 'Aroma Eatery'];
 		border: 1px solid black;
 	}
 </style>
+
+
+<?php 
+// $rand = mt_rand(1000, 9999);
+// $rand = rand(1000, 9999);
+// $rand = uniqid();
+
+
+ ?>
+ 
 <div class="page-wrapper">
     <div class="content container-fluid">
        <div class="page-header">
@@ -26,7 +36,7 @@ $icon_array = ['Olak Roofing Factory', 'Aroma Eatery'];
 			         </div>
 			         <div class="welcome-det">
 			            <h3>Welcome, <?php echo $loggedInAdmin->full_name($loggedInAdmin->id) ?></h3>
-			            <p><?php echo date('F j, Y') ?></p>
+			            <p><?php echo date('F j, Y') ?>  </p>
 			         </div>
 			      </div>
 			   </div>

@@ -318,6 +318,24 @@
                         </ul>
                      </li>
                      <li class="menu-title">
+                        <span>Organisation</span>
+                     </li>
+                     <li class="submenu">
+                        <a href="#" class="noti-dot <?php echo $page == "Organisation" ? 'active' : '' ?> "><i class="la la-user"></i> <span> Organisation</span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <?php $organisation_array = [
+                              'All Companies' => 'company', 
+                              'Branches'=> 'branch' , 
+                           ]; ?>
+                           <?php foreach($organisation_array as $key => $val){ ?>
+                           <li><a class="<?php echo $page_title == $key ? 'active' : '' ?>" 
+                              href="<?php echo url_for('organisation/'. $val.'.php') ?>"><?php echo $key; ?></a></li>
+                           <?php } ?>
+                           
+                        </ul>
+                     </li>
+
+                     <li class="menu-title">
                         <span>Employees</span>
                      </li>
                      <li class="submenu">
@@ -330,9 +348,7 @@
                               'Departments' => 'departments', 
                               'Designation' => 'designation',
                            ]; ?>
-                           <?php foreach($employee_array as $key => $val){ 
-
-                           ?>
+                           <?php foreach($employee_array as $key => $val){ ?>
                            <li><a class="<?php echo $page_title == $key ? 'active' : '' ?>" 
                               href="<?php echo url_for('employees/'. $val.'.php') ?>"><?php echo $key; ?></a></li>
                            <?php } ?>
