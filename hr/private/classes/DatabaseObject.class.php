@@ -292,5 +292,3 @@ class DatabaseObject {
 }
 
 // INSERT INTO trackers (product_id, riders_id, assign_date) VALUES ('429', '1', '2019-07-29 17:24:37')INSERT INTO trans_manifest (trans_id, seal, source_manifest_no, destination_manifest_no, source_rider_id, destination_rider_id, time_uploaded, airline, source, destination, hubnspoke, m_route) VALUES ('429', '', '20190729172437024', '20190729172437024', '1', '1', '2019-07-29 17:24:37', '0', '25', '25', '0', 'JIBOWU, HEAD OFFICE --> N/A')INSERT INTO trans_track (trans_id, status, time, rider_id, receiver_name, phone, comments, airline, source, destination, updated_by) VALUES ('429', '6', '2019-07-29 17:24:37', '1', '', '', '', ' 0', '25', '25', '24')
-
-?>

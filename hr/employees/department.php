@@ -2,7 +2,7 @@
 require_once('../private/initialize.php');
 
 $page = 'Employees';
-$page_title = 'Designation';
+$page_title = 'Departments';
 include(SHARED_PATH . '/admin_header.php');
 ?>
 <div class="page-wrapper">
@@ -10,14 +10,14 @@ include(SHARED_PATH . '/admin_header.php');
       <div class="page-header">
          <div class="row align-items-center">
             <div class="col">
-               <h3 class="page-title">Designations</h3>
+               <h3 class="page-title">Department</h3>
                <ul class="breadcrumb">
                   <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Designations</li>
+                  <li class="breadcrumb-item active">Department</li>
                </ul>
             </div>
             <div class="col-auto float-end ms-auto">
-               <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#designation_modal"><i class="fa fa-plus"></i> Add Designation</a>
+               <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#department_modal"><i class="fa fa-plus"></i> Add Department</a>
             </div>
          </div>
       </div>
@@ -30,33 +30,30 @@ include(SHARED_PATH . '/admin_header.php');
 
       <div class="row">
          <div class="col-md-12">
-            <div class="table-responsive">
-               <table class="table table-striped custom-table mb-0 datatable" id="designation-table">
+            <div>
+               <table class="table table-striped custom-table mb-0 datatable" id="department-table">
                   <thead>
                      <tr>
                         <th style="width: 30px;">SN</th>
-                        <th>Designation</th>
-                        <th>Department</th>
+                        <th>Department Name</th>
                         <th>Created At</th>
                         <th class="text-end">Action</th>
                      </tr>
                   </thead>
                   <tbody>
                      <?php $sn = 1;
-                     foreach (Designation::find_by_undeleted() as $designation) :
-                        $departmentName = Department::find_by_id($designation->department_id)->department_name; ?>
+                     foreach (Department::find_by_undeleted() as $department) : ?>
                         <tr>
                            <td><?php echo $sn++ ?></td>
-                           <td><?php echo ucwords($designation->designation_name) ?></td>
-                           <td><?php echo ucwords($departmentName) ?></td>
-                           <td><?php echo date('Y-m-d', strtotime($designation->created_at)) ?></td>
+                           <td><?php echo ucwords($department->department_name) ?></td>
+                           <td><?php echo date('Y-m-d', strtotime($department->created_at)) ?></td>
 
                            <td class="text-end">
                               <div class="dropdown dropdown-action">
                                  <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                  <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#" data-id="<?php echo $designation->id ?>" id="edit-designation-btn"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                    <a class="dropdown-item" href="#" data-id="<?php echo $designation->id ?>" id="delete-designation-btn"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                    <a class="dropdown-item" href="#" data-id="<?php echo $department->id ?>" id="edit-department-btn"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                    <a class="dropdown-item" href="#" data-id="<?php echo $department->id ?>" id="delete-department-btn"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                  </div>
                               </div>
                            </td>
@@ -69,11 +66,11 @@ include(SHARED_PATH . '/admin_header.php');
       </div>
    </div>
 
-   <div id="designation_modal" class="modal custom-modal fade" role="dialog">
+   <div id="department_modal" class="modal custom-modal fade" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
          <div class="modal-content">
             <div class="modal-header">
-               <h5 class="modal-title" id="designation-title">Add Designation</h5>
+               <h5 class="modal-title" id="department-title">Add Department</h5>
                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                </button>
@@ -81,24 +78,13 @@ include(SHARED_PATH . '/admin_header.php');
             <div class="modal-body">
                <div id="showAlert"></div>
 
-               <form id="add_designation_form">
+               <form id="add_department_form">
                   <div class="form-group">
-                     <label>Designation Name <span class="text-danger">*</span></label>
-                     <input class="form-control" name="designation_name" id="designation_name" type="text">
-                  </div>
-                  <div class="form-group">
-                     <label>Department <span class="text-danger">*</span></label>
-                     <select class="select" name="department_id" id="department_id">
-                        <option value="">Select Department</option>
-                        <?php foreach (Department::find_by_undeleted() as $department) : ?>
-                           <option value="<?php echo $department->id ?>">
-                              <?php echo ucwords($department->department_name) ?>
-                           </option>
-                        <?php endforeach; ?>
-                     </select>
+                     <label>Department Name <span class="text-danger">*</span></label>
+                     <input class="form-control" name="department_name" id="department_name" type="text">
                   </div>
                   <div class="submit-section">
-                     <button class="btn btn-primary submit-btn" id="add_designation_btn">Submit</button>
+                     <button class="btn btn-primary submit-btn" id="add_department_btn">Submit</button>
                   </div>
                </form>
             </div>
@@ -112,11 +98,11 @@ include(SHARED_PATH . '/admin_header.php');
 <script type="text/javascript">
    $(document).ready(function() {
 
-      const DESIGNATION_URL = "inc/designation_script.php";
-      const designationModal = new bootstrap.Modal(document.getElementById("designation_modal"));
-      const designationTitle = document.getElementById('designation-title');
-      const submitDesignationBtn = document.getElementById("add_designation_btn");
-      const designationForm = document.getElementById("add_designation_form");
+      const DEPARTMENT_URL = "inc/department_script.php";
+      const departmentModal = new bootstrap.Modal(document.getElementById("department_modal"));
+      const departmentTitle = document.getElementById('department-title');
+      const submitDepartmentBtn = document.getElementById("add_department_btn");
+      const departmentForm = document.getElementById("add_department_form");
 
       const showAlert = document.getElementById('showAlert');
 
@@ -131,15 +117,15 @@ include(SHARED_PATH . '/admin_header.php');
          }).then(() => location.reload())
       }
 
-      designationForm.addEventListener("submit", async (e) => {
+      departmentForm.addEventListener("submit", async (e) => {
          e.preventDefault();
 
-         const formData = new FormData(designationForm);
-         formData.append("addDesignation", 1);
+         const formData = new FormData(departmentForm);
+         formData.append("addDepartment", 1);
 
-         submitDesignationBtn.innerText = "Please Wait...";
+         submitDepartmentBtn.innerText = "Please Wait...";
 
-         const data = await fetch(DESIGNATION_URL, {
+         const data = await fetch(DEPARTMENT_URL, {
             method: "POST",
             body: formData,
          });
@@ -151,7 +137,7 @@ include(SHARED_PATH . '/admin_header.php');
 
             setTimeout(() => {
                showAlert.innerHTML = '';
-               submitDesignationBtn.innerText = "Submit";
+               submitDepartmentBtn.innerText = "Submit";
             }, 3000);
          }
 
@@ -160,32 +146,31 @@ include(SHARED_PATH . '/admin_header.php');
          }
       });
 
-      $('#designation-table tbody').on('click', '#edit-designation-btn', async function(e) {
+      $('#department-table tbody').on('click', '#edit-department-btn', async function(e) {
          let id = this.dataset.id
-         designationForm.id = 'edit_designation_form';
-         const editDesignationForm = document.getElementById("edit_designation_form");
+         departmentForm.id = 'edit_department_form';
+         const editDepartmentForm = document.getElementById("edit_department_form");
 
-         let data = await fetch(DESIGNATION_URL + "?designationId=" + id);
+         let data = await fetch(DEPARTMENT_URL + "?departmentId=" + id);
          let response = await data.json();
 
-         document.getElementById('designation_name').value = response.data.designation_name;
-         document.getElementById('department_id').value = response.data.department_id;
+         document.getElementById('department_name').value = response.data.department_name;
 
-         designationTitle.innerText = 'Edit Designation';
-         submitDesignationBtn.innerText = "Update";
-         submitDesignationBtn.id = "edit_designation_btn";
-         designationModal.show();
+         departmentTitle.innerText = 'Edit Department';
+         submitDepartmentBtn.innerText = "Update";
+         submitDepartmentBtn.id = "edit_department_btn";
+         departmentModal.show();
 
-         submitDesignationBtn.addEventListener("click", async (e) => {
+         submitDepartmentBtn.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            const editFormData = new FormData(editDesignationForm);
+            const editFormData = new FormData(editDepartmentForm);
             editFormData.append("update", 1);
-            editFormData.append('designationId', id);
+            editFormData.append('departmentId', id);
 
-            submitDesignationBtn.innerText = "Please Wait...";
+            submitDepartmentBtn.innerText = "Please Wait...";
 
-            let data = await fetch(DESIGNATION_URL, {
+            let data = await fetch(DEPARTMENT_URL, {
                method: "POST",
                body: editFormData,
             });
@@ -198,14 +183,14 @@ include(SHARED_PATH . '/admin_header.php');
             }
          });
 
-         $('#designation_modal').on('hidden.bs.modal', function() {
+         $('#department_modal').on('hidden.bs.modal', function() {
             location.reload()
          })
       });
 
 
-      $('#designation-table tbody').on('click', '#delete-designation-btn', function() {
-         let designationId = this.dataset.id;
+      $('#department-table tbody').on('click', '#delete-department-btn', function() {
+         let departmentId = this.dataset.id;
 
          swal({
             title: 'Are you sure?',
@@ -223,7 +208,7 @@ include(SHARED_PATH . '/admin_header.php');
             }
          }).then(Delete => {
             if (Delete) {
-               fetch(DESIGNATION_URL + '?designationId=' + designationId + '&deleted=1')
+               fetch(DEPARTMENT_URL + '?departmentId=' + departmentId + '&deleted=1')
                   .then(response => response.json()).then(data => {
                      swal({
                         title: 'Deleted!',
