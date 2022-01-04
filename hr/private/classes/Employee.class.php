@@ -3,7 +3,7 @@ class Employee extends DatabaseObject
 {
 
   protected static $table_name = "employees";
-  protected static $db_columns = ['id', 'photo', 'employee_id', 'first_name', 'last_name', 'department_id', 'designation_id', 'location', 'job_title', 'phone', 'email', 'hashed_password', 'marital_status', 'dob', 'kin_name', 'kin_phone', 'highest_qualification', 'date_employed', 'bank_name', 'bank_account', 'professional_body', 'current_salary', 'grade', 'step', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'photo', 'employee_id', 'first_name', 'last_name', 'department_id', 'designation_id', 'location', 'job_title', 'phone', 'email', 'address', 'hashed_password', 'gender', 'marital_status', 'dob', 'kin_name', 'kin_phone', 'highest_qualification', 'date_employed', 'bank_name', 'bank_account', 'professional_body', 'current_salary', 'grade', 'step', 'created_at', 'deleted'];
 
   public $id;
   public $photo;
@@ -16,6 +16,8 @@ class Employee extends DatabaseObject
   public $job_title;
   public $phone;
   public $email;
+  public $gender;
+  public $address;
   public $marital_status;
   public $dob;
   public $kin_name;
@@ -55,6 +57,8 @@ class Employee extends DatabaseObject
     $this->job_title                = $args['job_title'] ?? '';
     $this->phone                    = $args['phone'] ?? '';
     $this->email                    = $args['email'] ?? '';
+    $this->gender                   = $args['gender'] ?? '';
+    $this->address                  = $args['address'] ?? '';
     $this->marital_status           = $args['marital_status'] ?? '';
     $this->dob                      = $args['dob'] ?? '';
     $this->kin_name                 = $args['kin_name'] ?? '';

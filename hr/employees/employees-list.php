@@ -80,10 +80,10 @@ include(SHARED_PATH . '/admin_header.php');
                         <tr>
                            <td>
                               <h2 class="table-avatar">
-                                 <a href="#" class="avatar">
+                                 <a href="<?php echo url_for('employees/profile.php?employee_id=' . $employee->id) ?>" class="avatar">
                                     <img alt="" src="<?php echo url_for('/assets/uploads/' . $employee->photo); ?>">
                                  </a>
-                                 <a href="#"><?php echo ucwords($employee->full_name()) ?></a>
+                                 <a href="<?php echo url_for('employees/profile.php?employee_id=' . $employee->id) ?>"><?php echo ucwords($employee->full_name()) ?></a>
                               </h2>
                            </td>
                            <td><?php echo strtoupper($employee->employee_id) ?></td>

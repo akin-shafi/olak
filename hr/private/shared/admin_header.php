@@ -348,6 +348,7 @@
                            'Leave Settings' => 'leave-settings',
                            'Departments' => 'department',
                            'Designation' => 'designation',
+                           'Profile' => 'profile',
                         ]; ?>
                         <?php foreach ($employee_array as $key => $val) { ?>
                            <li><a class="<?php echo $page_title == $key ? 'active' : '' ?>" href="<?php echo url_for('employees/' . $val . '.php') ?>"><?php echo $key; ?></a></li>
@@ -500,8 +501,8 @@
                   <li class="submenu">
                      <a href="#"><i class="la la-user"></i> <span> Profile </span> <span class="menu-arrow"></span></a>
                      <ul style="display: none;">
-                        <li><a href="profile.html"> Employee Profile </a></li>
-                        <li><a href="client-profile.html"> Client Profile </a></li>
+                        <li><a href="profile.php"> Employee Profile </a></li>
+                        <li><a href="client-profile.php"> Client Profile </a></li>
                      </ul>
                   </li>
 
