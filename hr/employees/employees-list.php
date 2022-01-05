@@ -128,60 +128,60 @@ include(SHARED_PATH . '/admin_header.php');
                      <div class="col-sm-6">
                         <div class="form-group">
                            <label class="col-form-label">First Name <span class="text-danger">*</span></label>
-                           <input class="form-control" name="first_name" id="first_name" type="text">
+                           <input class="form-control" name="employee[first_name]" id="first_name" type="text">
                         </div>
                      </div>
                      <div class="col-sm-6">
                         <div class="form-group">
                            <label class="col-form-label">Last Name</label>
-                           <input class="form-control" name="last_name" id="last_name" type="text">
+                           <input class="form-control" name="employee[last_name]" id="last_name" type="text">
                         </div>
                      </div>
 
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label class="col-form-label">Email <span class="text-danger">*</span></label>
-                           <input class="form-control" name="email" id="email" type="email">
+                           <input class="form-control" name="employee[email]" id="email" type="email">
                         </div>
                      </div>
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label class="col-form-label">Password</label>
-                           <input class="form-control" name="password" id="password" type="password">
+                           <input class="form-control" name="employee[password]" id="password" type="password">
                         </div>
                      </div>
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label class="col-form-label">Confirm Password</label>
-                           <input class="form-control" name="confirm_password" id="confirm_password" type="password">
+                           <input class="form-control" name="employee[confirm_password]" id="confirm_password" type="password">
                         </div>
                      </div>
 
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label class="col-form-label">Employee ID <span class="text-danger">*</span></label>
-                           <input type="text" class="form-control" name="employee_id" id="employee_id">
+                           <input type="text" class="form-control" name="employee[employee_id]" id="employee_id">
                         </div>
                      </div>
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
                            <div class="cal-icon">
-                              <input class="form-control" name="date_employed" id="date_employed" type="date">
+                              <input class="form-control" name="employee[date_employed]" id="date_employed" type="date">
                            </div>
                         </div>
                      </div>
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label class="col-form-label">Phone </label>
-                           <input class="form-control" name="phone" id="phone" type="text">
+                           <input class="form-control" name="employee[phone]" id="phone" type="text">
                         </div>
                      </div>
 
                      <div class="col-md-6">
                         <div class="form-group">
                            <label>Department <span class="text-danger">*</span></label>
-                           <select class="select" name="department_id" id="department_id">
+                           <select class="select" name="employee[department_id]" id="department_id">
                               <option value="">Select Department</option>
                               <?php foreach (Department::find_by_undeleted() as $department) : ?>
                                  <option value="<?php echo $department->id ?>">
@@ -194,7 +194,7 @@ include(SHARED_PATH . '/admin_header.php');
                      <div class="col-md-6">
                         <div class="form-group">
                            <label>Designation <span class="text-danger">*</span></label>
-                           <select class="select" name="designation_id" id="designation_id">
+                           <select class="select" name="employee[designation_id]" id="designation_id">
                               <option value="">Select Designation</option>
                               <?php foreach (Designation::find_by_undeleted() as $designation) : ?>
                                  <option value="<?php echo $designation->id ?>">

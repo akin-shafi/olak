@@ -1,35 +1,28 @@
 <?php
 class Employee extends DatabaseObject
 {
-
   protected static $table_name = "employees";
-  protected static $db_columns = ['id', 'photo', 'employee_id', 'first_name', 'last_name', 'department_id', 'designation_id', 'location', 'job_title', 'phone', 'email', 'address', 'hashed_password', 'gender', 'marital_status', 'dob', 'kin_name', 'kin_phone', 'highest_qualification', 'date_employed', 'bank_name', 'bank_account', 'professional_body', 'current_salary', 'grade', 'step', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'department_id', 'designation_id', 'first_name', 'last_name', 'gender', 'phone', 'email', 'hashed_password', 'address', 'country', 'state', 'dob', 'marital_status', 'children', 'religion', 'photo', 'location', 'date_employed', 'created_at', 'deleted'];
 
   public $id;
-  public $photo;
   public $employee_id;
-  public $first_name;
-  public $last_name;
   public $department_id;
   public $designation_id;
-  public $location;
-  public $job_title;
+  public $first_name;
+  public $last_name;
+  public $gender;
   public $phone;
   public $email;
-  public $gender;
   public $address;
-  public $marital_status;
+  public $country;
+  public $state;
   public $dob;
-  public $kin_name;
-  public $kin_phone;
-  public $highest_qualification;
+  public $marital_status;
+  public $children;
+  public $religion;
+  public $photo;
+  public $location;
   public $date_employed;
-  public $bank_name;
-  public $bank_account;
-  public $professional_body;
-  public $current_salary;
-  public $grade;
-  public $step;
   public $created_at;
   public $deleted;
 
@@ -42,34 +35,28 @@ class Employee extends DatabaseObject
 
   public function __construct($args = [])
   {
-    $this->photo                    = $args['photo'] ?? '';
-    $this->employee_id              = $args['employee_id'] ?? '';
-    $this->first_name               = $args['first_name'] ?? '';
-    $this->last_name                = $args['last_name'] ?? '';
+    $this->employee_id      = $args['employee_id'] ?? '';
+    $this->department_id    = $args['department_id'] ?? '';
+    $this->designation_id   = $args['designation_id'] ?? '';
+    $this->first_name       = $args['first_name'] ?? '';
+    $this->last_name        = $args['last_name'] ?? '';
+    $this->gender           = $args['gender'] ?? '';
+    $this->phone            = $args['phone'] ?? '';
+    $this->email            = $args['email'] ?? '';
+    $this->address          = $args['address'] ?? '';
+    $this->country          = $args['country'] ?? '';
+    $this->state            = $args['state'] ?? '';
+    $this->dob              = $args['dob'] ?? '';
+    $this->marital_status   = $args['marital_status'] ?? '';
+    $this->children         = $args['children'] ?? '';
+    $this->religion         = $args['religion'] ?? '';
+    $this->photo            = $args['photo'] ?? '';
+    $this->location         = $args['location'] ?? '';
+    $this->date_employed    = $args['date_employed'] ?? '';
+    $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
+    $this->deleted          = $args['deleted'] ?? '';
     $this->password                 = $args['password'] ?? '';
     $this->confirm_password         = $args['confirm_password'] ?? '';
-
-
-    $this->company_id               = $args['company_id'] ?? '';
-    $this->branch_id                = $args['branch_id'] ?? '';
-    $this->department_id            = $args['department_id'] ?? '';
-    $this->designation_id           = $args['designation_id'] ?? '';
-    $this->job_title                = $args['job_title'] ?? '';
-    $this->phone                    = $args['phone'] ?? '';
-    $this->email                    = $args['email'] ?? '';
-    $this->gender                   = $args['gender'] ?? '';
-    $this->address                  = $args['address'] ?? '';
-    $this->marital_status           = $args['marital_status'] ?? '';
-    $this->dob                      = $args['dob'] ?? '';
-    $this->kin_name                 = $args['kin_name'] ?? '';
-    $this->kin_phone                = $args['kin_phone'] ?? '';
-    $this->highest_qualification    = $args['highest_qualification'] ?? '';
-    $this->date_employed            = $args['date_employed'] ?? '';
-    $this->bank_name                = $args['bank_name'] ?? '';
-    $this->bank_account             = $args['bank_account'] ?? '';
-    $this->professional_body        = $args['professional_body'] ?? '';
-    $this->created_at               = $args['created_at'] ?? date('Y-m-d H:i:s');
-    $this->deleted                  = $args['deleted'] ?? '';
   }
 
   protected function set_hashed_password()

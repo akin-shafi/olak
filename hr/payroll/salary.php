@@ -318,6 +318,8 @@ include(SHARED_PATH . '/admin_header.php');
          document.getElementById('tax').value = response.data.tax;
          document.getElementById('pension').value = response.data.pension;
 
+         document.getElementById('net_salary').value = response.data.net_salary;
+
          salaryTitle.innerText = 'Edit Salary';
          submitSalaryBtn.innerText = "Update";
          submitSalaryBtn.id = "edit_salary_btn";

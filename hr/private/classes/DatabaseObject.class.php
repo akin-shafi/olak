@@ -106,7 +106,7 @@ class DatabaseObject {
     $sql .= join("', '", array_values($attributes));
     $sql .= "')";
     
-    // echo $sql."Create";
+    // echo $sql;
     
     $result = self::$database->query($sql);
     if($result) {
@@ -130,7 +130,7 @@ class DatabaseObject {
     $sql .= " WHERE id='" . self::$database->escape_string($this->id) . "' ";
     $sql .= "LIMIT 1";
 
-    // echo $sql."Update";
+    // echo $sql;
     $result = self::$database->query($sql);
     return $result;
   }
