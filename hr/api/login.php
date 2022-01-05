@@ -10,12 +10,12 @@ if (is_post_request()) {
     // Validations
     if (is_blank($email)) {
       $errors[] = true;
-      exit(json_encode('msg' => 'Email cannot be blank', 'success' => false));
+      exit(json_encode(['msg' => 'Email cannot be blank', 'success' => false]));
     }
     if (is_blank($password)) {
       $errors[] = true;
       // $errors[] = "Password cannot be blank.";
-      exit(json_encode('msg' => 'Password cannot be blank', 'success' => false));
+      exit(json_encode(['msg' => 'Password cannot be blank', 'success' => false]));
     }
 
 
