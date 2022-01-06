@@ -19,14 +19,14 @@ function require_login()
         redirect_to(url_for('login.php'));
     }
 }
-function display_errors($errors=array())
+function display_errors($errors = array())
 {
-   
+
     $output = '';
     if (!empty($errors)) {
-       
+
         $output .= "<div  class=\"errors alert alert-danger alert-dismissible fade show\">";
-        $output .= "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>"; 
+        $output .= "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>";
         // $output .= "Please fix the following errors:"; 
         $output .= "<ul>";
         foreach ($errors as $error) {
