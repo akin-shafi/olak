@@ -55,7 +55,7 @@
     }
 
     .w-50 {
-      width: 50% !important;
+      width: 35% !important;
     }
 
   }
@@ -75,7 +75,7 @@
     <main class="container grid-container">
 
       <div class="w-50">
-        <img src="../images/hr-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
+        <img src="../images/factory-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
       </div>
 
       <a href="./login.php" class="btn btn-lg bg-custom-blue text-light anchor">

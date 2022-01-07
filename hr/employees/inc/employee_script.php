@@ -90,7 +90,7 @@ if (is_post_request()) {
         }
 
         $args = $_POST['employee'];
-        $args['profile_image'] = $uploadedFile;
+        $args['photo'] = $uploadedFile;
 
         $employee->merge_attributes($args);
         $employee->save();

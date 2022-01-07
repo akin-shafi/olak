@@ -162,15 +162,15 @@ include(SHARED_PATH . '/admin_header.php');
                         <ul class="personal-info">
                            <li>
                               <div class="title">Name</div>
-                              <div class="text"><?php echo isset($employeeInfo->kin_name) ? ucwords($employeeInfo->kin_name) : 'NOT SET' ?></div>
+                              <div class="text"><?php echo !empty($employeeInfo->kin_name) ? ucwords($employeeInfo->kin_name) : 'NOT SET' ?></div>
                            </li>
                            <li>
                               <div class="title">Relationship</div>
-                              <div class="text"><?php echo isset($employeeInfo->kin_relationship) ? ucwords($employeeInfo->kin_relationship) : 'NOT SET' ?></div>
+                              <div class="text"><?php echo !empty($employeeInfo->kin_relationship) ? ucwords($employeeInfo->kin_relationship) : 'NOT SET' ?></div>
                            </li>
                            <li>
                               <div class="title">Phone </div>
-                              <div class="text"><?php echo $employeeInfo->kin_phone_1 ?? 'NOT SET' ?>, <?php echo $employeeInfo->kin_phone_2 ?? 'NOT SET' ?></div>
+                              <div class="text"><?php echo !empty($employeeInfo->kin_phone_1) ? $employeeInfo->kin_phone_1 : 'NOT SET' ?>, <?php echo $employeeInfo->kin_phone_2 ?? 'NOT SET' ?></div>
                            </li>
                         </ul>
                      </div>
@@ -254,19 +254,19 @@ include(SHARED_PATH . '/admin_header.php');
                            <li>
                               <div class="title">Bank name</div>
                               <div class="text">
-                                 <?php echo isset($employeeInfo->bank_name) ? ucwords($employeeInfo->bank_name) : 'NOT SET' ?>
+                                 <?php echo !empty($employeeInfo->bank_name) ? ucwords($employeeInfo->bank_name) : 'NOT SET' ?>
                               </div>
                            </li>
                            <li>
                               <div class="title">Account name</div>
                               <div class="text">
-                                 <?php echo isset($employeeInfo->account_name) ? ucwords($employeeInfo->account_name) : 'NOT SET' ?>
+                                 <?php echo !empty($employeeInfo->account_name) ? ucwords($employeeInfo->account_name) : 'NOT SET' ?>
                               </div>
                            </li>
                            <li>
                               <div class="title">Bank account No.</div>
                               <div class="text">
-                                 <?php echo isset($employeeInfo->account_number) ? $employeeInfo->account_number : 'NOT SET' ?>
+                                 <?php echo !empty($employeeInfo->account_number) ? $employeeInfo->account_number : 'NOT SET' ?>
                               </div>
                            </li>
                         </ul>
@@ -773,9 +773,7 @@ include(SHARED_PATH . '/admin_header.php');
                            <div class="col-md-6">
                               <div class="form-group">
                                  <label>Birth Date</label>
-                                 <div class="cal-icon">
-                                    <input class="form-control" type="date" name="employee[dob]" value="<?php echo $employee->dob ?? '' ?>">
-                                 </div>
+                                 <input class="form-control" type="date" name="employee[dob]" value="<?php echo $employee->dob ?? '' ?>">
                               </div>
                            </div>
                            <div class="col-md-6">

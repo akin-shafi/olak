@@ -65,7 +65,7 @@
   <div class="container shadow olak bg-white">
     <header class="welcome pt-3">
       <h1 class="text-center">
-        Welcome to Olak HR Admin Centre
+        Welcome to Olak Petroleum
       </h1>
 
       <div class="welcome-box">
@@ -75,7 +75,7 @@
     <main class="container grid-container">
 
       <div class="w-50">
-        <img src="../images/hr-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
+        <img src="../images/petroleum-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
       </div>
 
       <a href="./login.php" class="btn btn-lg bg-custom-blue text-light anchor">

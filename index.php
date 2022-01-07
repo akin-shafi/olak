@@ -19,20 +19,19 @@
 
 <body>
 	<div class="container shadow olak bg-white">
-		<header class="welcome pt-3">
-			<h1>
-				Welcome to Olak Integrated Group of Company
-			</h1>
+		<header class="welcome ml-3 pt-2">
+			<h1>Welcome to Olak Integrated Group of Company</h1>
 			<h5 class="font-weight-bold">Where would you like to Go ?</h5>
 
 			<div class="welcome-box">
 				<img src="./images/blue-top-right.png" title="Welcome" alt="Welcome">
 			</div>
 		</header>
+
 		<main class="container grid-container">
 			<div class="row">
 
-				<aside class="col-md-7 grid aside-left pr-custom">
+				<aside class="col-md-7 grid aside-left">
 					<div class="row pt-4">
 						<div class="col-md-6">
 							<a href="hr/index.php">
@@ -114,7 +113,7 @@
 				</aside>
 			</div>
 		</main>
-		<div class="d-flex justify-content-end align-items-center pb-4">
+		<div class="d-flex justify-content-end align-items-center pb-3">
 			<a href="#" class="custom-blue">Developed by <strong>Sandsify Systems</strong></a>
 		</div>
 	</div>
