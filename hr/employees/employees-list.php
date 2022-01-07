@@ -26,7 +26,7 @@ include(SHARED_PATH . '/admin_header.php');
             </div>
          </div>
       </div>
-      <div class="row filter-row">
+      <div class="row filter-row d-none">
          <div class="col-sm-6 col-md-3">
             <div class="form-group form-focus">
                <input type="text" class="form-control floating">
@@ -57,55 +57,59 @@ include(SHARED_PATH . '/admin_header.php');
          </div>
       </div>
       <div class="row">
-         <div class="col-md-12">
-            <div class="table-responsive">
-               <table class="table table-striped custom-table datatable" id="employee-table">
-                  <thead>
-                     <tr>
-                        <th>Name</th>
-                        <th>Employee ID</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th class="text-nowrap">Join Date</th>
-                        <th>Department</th>
-                        <th>Designation</th>
-                        <th class="text-end no-sort">Action</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <?php foreach (Employee::find_by_undeleted() as $employee) :
-                        $departmentName = Department::find_by_id($employee->department_id)->department_name;
-                        $designationName = Designation::find_by_id($employee->designation_id)->designation_name;
-                     ?>
-                        <tr>
-                           <td>
-                              <h2 class="table-avatar">
-                                 <a href="<?php echo url_for('employees/profile.php?employee_id=' . $employee->id) ?>" class="avatar">
-                                    <img alt="" src="<?php echo url_for('/assets/uploads/' . $employee->photo); ?>">
-                                 </a>
-                                 <a href="<?php echo url_for('employees/profile.php?employee_id=' . $employee->id) ?>"><?php echo ucwords($employee->full_name()) ?></a>
-                              </h2>
-                           </td>
-                           <td><?php echo strtoupper($employee->employee_id) ?></td>
-                           <td><?php echo $employee->email ?></td>
-                           <td><?php echo $employee->phone ?></td>
-                           <td><?php echo date('M jS, Y', strtotime($employee->date_employed)) ?></td>
-                           <td><?php echo ucwords($departmentName) ?></td>
-                           <td><?php echo ucwords($designationName) ?></td>
-                           <td class="text-end">
-                              <div class="dropdown dropdown-action">
-                                 <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#" data-id="<?php echo $employee->id ?>" id="edit-employee-btn"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                    <a class="dropdown-item" href="#" data-id="<?php echo $employee->id ?>" id="delete-employee-btn"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                 </div>
-                              </div>
-                           </td>
-                        </tr>
-                     <?php endforeach; ?>
+         <div class="card">
+            <div class="card-body">
+               <div class="col-md-12">
+                  <div class="table-responsive">
+                     <table class="table table-striped custom-table datatable" id="employee-table">
+                        <thead>
+                           <tr>
+                              <th>Name</th>
+                              <th>Employee ID</th>
+                              <th>Email</th>
+                              <th>Mobile</th>
+                              <th class="text-nowrap">Join Date</th>
+                              <th>Department</th>
+                              <th>Designation</th>
+                              <th class="text-end no-sort">Action</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <?php foreach (Employee::find_by_undeleted() as $employee) :
+                              $departmentName = Department::find_by_id($employee->department_id)->department_name;
+                              $designationName = Designation::find_by_id($employee->designation_id)->designation_name;
+                           ?>
+                              <tr>
+                                 <td>
+                                    <h2 class="table-avatar">
+                                       <a href="<?php echo url_for('employees/profile.php?employee_id=' . $employee->id) ?>" class="avatar">
+                                          <img alt="" src="<?php echo url_for('/assets/uploads/' . $employee->photo); ?>">
+                                       </a>
+                                       <a href="<?php echo url_for('employees/profile.php?employee_id=' . $employee->id) ?>"><?php echo ucwords($employee->full_name()) ?></a>
+                                    </h2>
+                                 </td>
+                                 <td><?php echo strtoupper($employee->employee_id) ?></td>
+                                 <td><?php echo $employee->email ?></td>
+                                 <td><?php echo $employee->phone ?></td>
+                                 <td><?php echo date('M jS, Y', strtotime($employee->date_employed)) ?></td>
+                                 <td><?php echo ucwords($departmentName) ?></td>
+                                 <td><?php echo ucwords($designationName) ?></td>
+                                 <td class="text-end">
+                                    <div class="dropdown dropdown-action">
+                                       <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                       <div class="dropdown-menu dropdown-menu-right">
+                                          <a class="dropdown-item" href="#" data-id="<?php echo $employee->id ?>" id="edit-employee-btn"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                          <a class="dropdown-item" href="#" data-id="<?php echo $employee->id ?>" id="delete-employee-btn"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           <?php endforeach; ?>
 
-                  </tbody>
-               </table>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
             </div>
          </div>
       </div>

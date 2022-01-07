@@ -17,7 +17,12 @@ $page = 'Employees';
 $page_title = 'Profile';
 include(SHARED_PATH . '/admin_header.php');
 ?>
-
+<style type="text/css">
+   .table-wrap {
+     height: 80%;
+     overflow-y: auto;
+   }
+</style>
 <div class="page-wrapper">
    <div class="content container-fluid">
       <div class="page-header">
@@ -112,7 +117,7 @@ include(SHARED_PATH . '/admin_header.php');
             <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
                <ul class="nav nav-tabs nav-tabs-bottom">
                   <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Profile</a></li>
-                  <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Projects</a></li>
+                  <li class="nav-item"><a href="#emp_loan" data-bs-toggle="tab" class="nav-link">Loan Management</a></li>
                   <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank & Statutory <small class="text-danger">(Admin Only)</small></a></li>
                </ul>
             </div>
@@ -275,258 +280,240 @@ include(SHARED_PATH . '/admin_header.php');
                </div>
             </div>
          </div>
+          <?php 
+            $period = 'This month';
+            $salary = 100000;
+            $accessible_loan_percentage = 40;
+            $accessible_loan_value = $salary / 100 * $accessible_loan_percentage;
 
-         <div class="tab-pane fade" id="emp_projects">
+            // Loan calculation
+            $loan_recieved = 15000;
+            $loan_balance = $accessible_loan_value - $loan_recieved;
+            $take_home = $salary - $loan_recieved;
+
+            // Percentage Difference 
+            
+            $loan_recieved_percentage = $loan_recieved / $accessible_loan_value * 100;
+            $loan_balance_percentage = $loan_balance / $accessible_loan_value * 100;
+            $take_home_percentage = $take_home / $salary * 100;
+          ?>
+         <div class="tab-pane fade" id="emp_loan">
             <div class="row">
-               <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                  <div class="card">
-                     <div class="card-body">
-                        <div class="dropdown profile-action">
-                           <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
-                           <div class="dropdown-menu dropdown-menu-right">
-                              <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                              <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+               <div class="col-md-4">
+                  <div class="card-group m-b-30">
+                     <div class="card">
+                        <div class="card-body">
+                           <div>
+                              <p><i class="fa fa-dot-circle-o text-purple me-2"></i>Current Salary <span class="float-end"><?php echo number_format($salary, 2) ?></span></p>
+                              <p><i class="fa fa-dot-circle-o text-warning me-2"></i>Accessible loan(In %) <span class="float-end"><?php echo $accessible_loan_percentage ?>%</span></p>
+                              <p><i class="fa fa-dot-circle-o text-success me-2"></i>Accessible loan(In ₦)  <span class="float-end"><?php echo $currency ." ". number_format($accessible_loan_value, 2); ?></span></p>
+                              <!-- <p><i class="fa fa-dot-circle-o text-danger me-2"></i>Pending Tasks <span class="float-end">47</span></p> -->
+                              <!-- <p class="mb-0"><i class="fa fa-dot-circle-o text-info me-2"></i>Review Tasks <span class="float-end">5</span></p> -->
                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Office Management</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                           <span class="text-xs">1</span> <span class="text-muted">open tasks, </span>
-                           <span class="text-xs">9</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                           typesetting industry. When an unknown printer took a galley of type and
-                           scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                           <div class="sub-title">
-                              Deadline:
-                           </div>
-                           <div class="text-muted">
-                              17 Apr 2019
-                           </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                           <div>Project Leader :</div>
-                           <ul class="team-members">
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
-                              </li>
-                           </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                           <div>Team :</div>
-                           <ul class="team-members">
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" class="all-users">+15</a>
-                              </li>
-                           </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                           <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%"></div>
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                  <div class="card">
-                     <div class="card-body">
-                        <div class="dropdown profile-action">
-                           <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
-                           <div class="dropdown-menu dropdown-menu-right">
-                              <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                              <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+
+               <div class="col-md-8">
+                  <div class="card-group m-b-30">
+                     <div class="card">
+                        <div class="card-body">
+                           <div class="d-flex justify-content-between mb-3">
+                              <div>
+                                 <span class="d-block">Loan Recieved</span>
+                              </div>
+                              <div>
+                                 <span class="text-success"><?php echo $loan_recieved_percentage ?>%</span>
+                              </div>
                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Project Management</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                           <span class="text-xs">2</span> <span class="text-muted">open tasks, </span>
-                           <span class="text-xs">5</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                           typesetting industry. When an unknown printer took a galley of type and
-                           scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                           <div class="sub-title">
-                              Deadline:
+                           <h3 class="mb-3"><?php echo $currency ." ". number_format($loan_recieved, 2) ?></h3>
+                           <div class="progress mb-2" style="height: 5px;">
+                              <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                            </div>
-                           <div class="text-muted">
-                              17 Apr 2019
-                           </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                           <div>Project Leader :</div>
-                           <ul class="team-members">
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
-                              </li>
-                           </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                           <div>Team :</div>
-                           <ul class="team-members">
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" class="all-users">+15</a>
-                              </li>
-                           </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                           <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%"></div>
+                           <p class="mb-0 text-muted"><?php echo $period; ?></p>
                         </div>
                      </div>
-                  </div>
-               </div>
-               <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                  <div class="card">
-                     <div class="card-body">
-                        <div class="dropdown profile-action">
-                           <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
-                           <div class="dropdown-menu dropdown-menu-right">
-                              <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                              <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                     
+                     <div class="card">
+                        <div class="card-body">
+                           <div class="d-flex justify-content-between mb-3">
+                              <div>
+                                 <span class="d-block">Loan Balance</span>
+                              </div>
+                              <div>
+                                 <span class="text-danger"><?php echo $loan_balance_percentage; ?>%</span>
+                              </div>
                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Video Calling App</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                           <span class="text-xs">3</span> <span class="text-muted">open tasks, </span>
-                           <span class="text-xs">3</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                           typesetting industry. When an unknown printer took a galley of type and
-                           scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                           <div class="sub-title">
-                              Deadline:
+                           <h3 class="mb-3"><?php echo $currency ." ". number_format($loan_balance, 2) ?></h3>
+                           <div class="progress mb-2" style="height: 5px;">
+                              <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                            </div>
-                           <div class="text-muted">
-                              17 Apr 2019
-                           </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                           <div>Project Leader :</div>
-                           <ul class="team-members">
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
-                              </li>
-                           </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                           <div>Team :</div>
-                           <ul class="team-members">
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" class="all-users">+15</a>
-                              </li>
-                           </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                           <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%"></div>
+                           <p class="mb-0 text-muted"><?php echo $period; ?></p>
                         </div>
                      </div>
-                  </div>
-               </div>
-               <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                  <div class="card">
-                     <div class="card-body">
-                        <div class="dropdown profile-action">
-                           <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
-                           <div class="dropdown-menu dropdown-menu-right">
-                              <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                              <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                     <div class="card">
+                        <div class="card-body">
+                           <div class="d-flex justify-content-between mb-3">
+                              <div>
+                                 <span class="d-block">Current take home</span>
+                              </div>
+                              <div>
+                                 <span class="text-danger"><?php echo $take_home_percentage; ?>%</span>
+                              </div>
                            </div>
-                        </div>
-                        <h4 class="project-title"><a href="project-view.html">Hospital Administration</a></h4>
-                        <small class="block text-ellipsis m-b-15">
-                           <span class="text-xs">12</span> <span class="text-muted">open tasks, </span>
-                           <span class="text-xs">4</span> <span class="text-muted">tasks completed</span>
-                        </small>
-                        <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                           typesetting industry. When an unknown printer took a galley of type and
-                           scrambled it...
-                        </p>
-                        <div class="pro-deadline m-b-15">
-                           <div class="sub-title">
-                              Deadline:
+                           <h3 class="mb-3"><?php echo $currency ." ". number_format($take_home, 2) ?></h3>
+                           <div class="progress mb-2" style="height: 5px;">
+                              <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                            </div>
-                           <div class="text-muted">
-                              17 Apr 2019
-                           </div>
-                        </div>
-                        <div class="project-members m-b-15">
-                           <div>Project Leader :</div>
-                           <ul class="team-members">
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
-                              </li>
-                           </ul>
-                        </div>
-                        <div class="project-members m-b-15">
-                           <div>Team :</div>
-                           <ul class="team-members">
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                              </li>
-                              <li>
-                                 <a href="#" class="all-users">+15</a>
-                              </li>
-                           </ul>
-                        </div>
-                        <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                        <div class="progress progress-xs mb-0">
-                           <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%"></div>
+                           <p class="mb-0 text-muted"><?php echo $period; ?></p>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
+
+            <div class="row">
+              
+
+               <div class="col-md-6 d-flex">
+                  <div class="card card-table flex-fill">
+                     <div class="card-header">
+                        <h3 class="card-title mb-0">Loan Request</h3>
+                     </div>
+                     <div class="card-body">
+                        <div class="table-responsive table-wrap p-2">
+                           <table class="table table-nowrap custom-table mb-0 ">
+                              <thead>
+                                 <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Client</th>
+                                    <th>Due Date</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td><a href="invoice-view.html">#INV-0001</a></td>
+                                    <td>
+                                       <h2><a href="#">Global Technologies</a></h2>
+                                    </td>
+                                    <td>11 Mar 2019</td>
+                                    <td>$380</td>
+                                    <td>
+                                       <span class="badge bg-inverse-warning">Partially Paid</span>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td><a href="invoice-view.html">#INV-0002</a></td>
+                                    <td>
+                                       <h2><a href="#">Delta Infotech</a></h2>
+                                    </td>
+                                    <td>8 Feb 2019</td>
+                                    <td>$500</td>
+                                    <td>
+                                       <span class="badge bg-inverse-success">Paid</span>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td><a href="invoice-view.html">#INV-0003</a></td>
+                                    <td>
+                                       <h2><a href="#">Cream Inc</a></h2>
+                                    </td>
+                                    <td>23 Jan 2019</td>
+                                    <td>$60</td>
+                                    <td>
+                                       <span class="badge bg-inverse-danger">Unpaid</span>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td><a href="invoice-view.html">#INV-0003</a></td>
+                                    <td>
+                                       <h2><a href="#">Cream Inc</a></h2>
+                                    </td>
+                                    <td>23 Jan 2019</td>
+                                    <td>$60</td>
+                                    <td>
+                                       <span class="badge bg-inverse-danger">Unpaid</span>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td><a href="invoice-view.html">#INV-0003</a></td>
+                                    <td>
+                                       <h2><a href="#">Cream Inc</a></h2>
+                                    </td>
+                                    <td>23 Jan 2019</td>
+                                    <td>$60</td>
+                                    <td>
+                                       <span class="badge bg-inverse-danger">Unpaid</span>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                     <div class="card-footer">
+                        <a href="invoices.html">View all invoices</a>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 d-flex">
+                  <div class="card card-table flex-fill">
+                     <div class="card-header">
+                        <h3 class="card-title mb-0">loan Recieved</h3>
+                     </div>
+                     <div class="card-body">
+                        <div class="table-responsive table-wrap p-2">
+                           <table class="table table-nowrap custom-table mb-0">
+                              <thead>
+                                 <tr>
+                                    <th>Ref ID</th>
+                                    <th>Client</th>
+                                    <th>Payment Type</th>
+                                    <th>Paid Date</th>
+                                    <th>Paid Amount</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td><a href="invoice-view.html">#INV-0001</a></td>
+                                    <td>
+                                       <h2><a href="#">Global Technologies</a></h2>
+                                    </td>
+                                    <td>Paypal</td>
+                                    <td>11 Mar 2019</td>
+                                    <td>$380</td>
+                                 </tr>
+                                 <tr>
+                                    <td><a href="invoice-view.html">#INV-0002</a></td>
+                                    <td>
+                                       <h2><a href="#">Delta Infotech</a></h2>
+                                    </td>
+                                    <td>Paypal</td>
+                                    <td>8 Feb 2019</td>
+                                    <td>$500</td>
+                                 </tr>
+                                 <tr>
+                                    <td><a href="invoice-view.html">#INV-0003</a></td>
+                                    <td>
+                                       <h2><a href="#">Cream Inc</a></h2>
+                                    </td>
+                                    <td>Paypal</td>
+                                    <td>23 Jan 2019</td>
+                                    <td>$60</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                     <div class="card-footer">
+                        <a href="payments.html">View all payments</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
          </div>
          <div class="tab-pane fade" id="bank_statutory">
             <div class="card">
