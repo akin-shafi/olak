@@ -15,6 +15,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;500&family=Poppins:wght@200;300;500&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
 </head>
 <style type="text/css">
   .welcome-box {
@@ -73,30 +75,30 @@
 </style>
 
 <body>
-  <div class="container shadow olak bg-white">
+  <div class="container shadow olak bg-white animate__animated animate__fadeIn">
     <header class="welcome pt-3">
-      <h1 class="text-center">
+      <h1 class="text-center animate__animated animate__fadeInDown animate__delay-0.5s">
         Welcome to Olak HR Admin Centre
       </h1>
 
-      <div class="welcome-box">
+      <div class="welcome-box animate__animated animate__fadeInLeft animate__delay-1s">
         <img src="../images/blue-top-left.png" title="Welcome" alt="Welcome">
       </div>
     </header>
     <main class="container grid-container">
 
-      <div class="w-50">
+      <div class="w-50 animate__animated animate__zoomInLeft animate__delay-1s">
         <img src="../images/hr-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
       </div>
 
-      <a href="./login.php" class="btn btn-lg bg-custom-blue text-light anchor">
+      <a href="./login.php" class="btn btn-lg bg-custom-blue text-light anchor animate__animated animate__rubberBand animate__delay-2s">
         Click <strong>HERE</strong> to Continue
       </a>
     </main>
 
     <div class="d-flex justify-content-between align-items-center pb-4">
-      <a href="../">&leftarrow; Back</a>
-      <a href="#" class="custom-blue">Developed by <strong>Sandsify Systems</strong></a>
+      <a href="../" class="animate__animated animate__lightSpeedInLeft animate__delay-2s">&leftarrow; Back</a>
+      <a href="#" class="custom-blue animate__animated animate__lightSpeedInRight animate__delay-2s">Developed by <strong>Sandsify Systems</strong></a>
     </div>
   </div>
 
