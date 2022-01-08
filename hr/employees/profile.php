@@ -89,7 +89,7 @@ include(SHARED_PATH . '/admin_header.php');
                                     <div class="title">Gender:</div>
                                     <div class="text"><?php echo ucwords($employee->gender); ?></div>
                                  </li>
-                                 <li>
+                                 <!-- <li>
                                     <div class="title">Reports to:</div>
                                     <div class="text">
                                        <div class="avatar-box">
@@ -101,7 +101,7 @@ include(SHARED_PATH . '/admin_header.php');
                                           Jeffery Lalor
                                        </a>
                                     </div>
-                                 </li>
+                                 </li> -->
                               </ul>
                            </div>
                         </div>

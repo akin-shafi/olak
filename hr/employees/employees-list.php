@@ -56,6 +56,15 @@ include(SHARED_PATH . '/admin_header.php');
             <a href="#" class="btn btn-success w-100"> Search </a>
          </div>
       </div>
+
+      <style>
+         th,
+         td {
+            vertical-align: middle;
+            font-size: 14px;
+         }
+      </style>
+
       <div class="row">
          <div class="card">
             <div class="card-body">
@@ -170,9 +179,7 @@ include(SHARED_PATH . '/admin_header.php');
                      <div class="col-sm-4">
                         <div class="form-group">
                            <label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
-                           <div class="cal-icon">
-                              <input class="form-control" name="employee[date_employed]" id="date_employed" type="date">
-                           </div>
+                           <input class="form-control" name="employee[date_employed]" id="date_employed" type="date">
                         </div>
                      </div>
                      <div class="col-sm-4">

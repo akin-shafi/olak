@@ -34,7 +34,7 @@ $icon_array = ['Olak Roofing Factory', 'Aroma Eatery'];
 				<div class="col-md-12">
 					<div class="welcome-box">
 						<div class="welcome-img">
-							<img alt="" src="assets/img/profiles/avatar-02.jpg">
+							<!-- <img alt="" src="assets/img/profiles/avatar-02.jpg"> -->
 						</div>
 						<div class="welcome-det">
 							<h3>Welcome, <?php echo $loggedInAdmin->full_name($loggedInAdmin->id) ?></h3>
@@ -184,7 +184,7 @@ $icon_array = ['Olak Roofing Factory', 'Aroma Eatery'];
 						<h4 class="card-title">Today Absent <span class="badge bg-inverse-danger ms-2">5</span></h4>
 						<div class="leave-info-box">
 							<div class="media d-flex align-items-center">
-								<a href="profile.html" class="avatar"><img alt="" src="assets/img/user.jpg"></a>
+								<!-- <a href="profile.html" class="avatar"><img alt="" src="assets/img/user.jpg"></a> -->
 								<div class="media-body flex-grow-1">
 									<div class="text-sm my-0">Martin Lewis</div>
 								</div>
@@ -201,7 +201,7 @@ $icon_array = ['Olak Roofing Factory', 'Aroma Eatery'];
 						</div>
 						<div class="leave-info-box">
 							<div class="media d-flex align-items-center">
-								<a href="profile.html" class="avatar"><img alt="" src="assets/img/user.jpg"></a>
+								<!-- <a href="profile.html" class="avatar"><img alt="" src="assets/img/user.jpg"></a> -->
 								<div class="media-body flex-grow-1">
 									<div class="text-sm my-0">Martin Lewis</div>
 								</div>

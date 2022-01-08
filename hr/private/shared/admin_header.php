@@ -14,13 +14,16 @@
    <link rel="stylesheet" href="<?php echo url_for('assets/css/bootstrap.min.css') ?>">
    <link rel="stylesheet" href="<?php echo url_for('assets/css/font-awesome.min.css') ?>">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
 
    <link rel="stylesheet" href="<?php echo url_for('assets/css/select2.min.css') ?>">
 
-   <link rel="stylesheet" href="<?php echo url_for('assets/css/bootstrap-datetimepicker.min.css') ?>">
+   <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/css/bootstrap-datetimepicker.min.css') 
+                                       ?>"> -->
 
    <link rel="stylesheet" href="<?php echo url_for('assets/css/line-awesome.min.css') ?>">
-   <link rel="stylesheet" href="<?php echo url_for('assets/plugins/morris/morris.css') ?>">
+   <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/plugins/morris/morris.css') 
+                                       ?>"> -->
    <link rel="stylesheet" href="<?php echo url_for('assets/css/style-green.css') ?>">
 
 </head>
@@ -56,7 +59,7 @@
                   </form>
                </div>
             </li>
-            <li class="nav-item dropdown has-arrow flag-nav">
+            <!-- <li class="nav-item dropdown has-arrow flag-nav">
                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                   <img src="<?php echo url_for('assets/img/flags/us.png') ?>" alt="" height="20"> <span>English</span>
                </a>
@@ -74,7 +77,7 @@
                      <img src="<?php echo url_for('assets/img/flags/de.png') ?>" alt="" height="16"> German
                   </a>
                </div>
-            </li>
+            </li> -->
             <li class="nav-item dropdown">
                <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                   <i class="fa fa-bell-o"></i> <span class="badge rounded-pill">3</span>
@@ -125,11 +128,12 @@
                               </div>
                            </a>
                         </li>
-                        <li class="notification-message">
+                        <!-- <li class="notification-message">
                            <a href="activities.html">
                               <div class="media d-flex">
                                  <span class="avatar flex-shrink-0">
-                                    <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-17.jpg') ?>">
+                                    <img alt="" src="<?php //echo url_for('assets/img/profiles/avatar-17.jpg') 
+                                                      ?>">
                                  </span>
                                  <div class="media-body flex-grow-1">
                                     <p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
@@ -137,8 +141,8 @@
                                  </div>
                               </div>
                            </a>
-                        </li>
-                        <li class="notification-message">
+                        </li> -->
+                        <!-- <li class="notification-message">
                            <a href="activities.html">
                               <div class="media d-flex">
                                  <span class="avatar flex-shrink-0">
@@ -150,7 +154,7 @@
                                  </div>
                               </div>
                            </a>
-                        </li>
+                        </li> -->
                      </ul>
                   </div>
                   <div class="topnav-dropdown-footer">

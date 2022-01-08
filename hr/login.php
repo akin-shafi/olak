@@ -54,7 +54,7 @@ if (is_post_request()) {
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <title>Welcome | IMS </title>
-   <link rel="stylesheet" type="text/css" href="bootstrap.css">
+   <!-- <link rel="stylesheet" type="text/css" href="bootstrap.css"> -->
    <link rel="stylesheet" type="text/css" href="<?php echo url_for('../style.css') ?>">
    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png">
