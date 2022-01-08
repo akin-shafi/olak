@@ -157,7 +157,7 @@ $designationName = Designation::find_by_id($user->designation_id)->designation_n
 
       <div class="main-panel">
         <div class="content-wrapper">
-          <div class="status-wrap mb-4 mr-3">
+          <div class="status-wrap mb-4">
             <div class="card ml-auto shadow" style="width:250px; border-radius: 8px;">
               <div class="card-body p-2">
                 <div class="d-flex align-items-center px-3">
@@ -208,7 +208,7 @@ $designationName = Designation::find_by_id($user->designation_id)->designation_n
                   </div>
                 </div>
 
-                <div class="col-md-12 mt-5">
+                <div class="col-md-12 mt-4">
                   <div class="card shadow" style="border-radius: 8px;">
                     <div class="card-body p-2">
                       <h6 class="font-weight-bold my-3 ml-3">Monthly Attendance Summary</h6>
@@ -220,8 +220,8 @@ $designationName = Designation::find_by_id($user->designation_id)->designation_n
             </div>
 
             <div class="col-md-4">
-              <div class="calendar-wrap mb-5">
-                <h4 class="font-weight-bolder">Calendar</h4>
+              <div class="calendar-wrap mb-4 ">
+                <h4 class="font-weight-bolder d-none">Calendar</h4>
                 <div class="card shadow" style="border-radius: 16px;">
                   <div class="card-body">
                     <div class="calendar-wrapper" id="calendar-wrapper"></div>
@@ -229,8 +229,8 @@ $designationName = Designation::find_by_id($user->designation_id)->designation_n
                 </div>
               </div>
 
-              <div class="leave-wrap mb-5">
-                <h4 class="font-weight-bolder">Leave Status</h4>
+              <div class="leave-wrap mb-1">
+                <h4 class="font-weight-bolder d-none">Leave Status</h4>
                 <div class="card shadow" style="border-radius: 16px;">
                   <div class="card-body">
                     <div class="mb-4">

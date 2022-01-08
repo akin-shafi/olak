@@ -105,6 +105,16 @@
 								</div>
 							</a>
 						</div>
+						<div class="col-md-12">
+							<a href="employee/index.php?id=3">
+								<div class="card bg-custom-blue anchor">
+									<div class="card-body p-3">
+										<h4 class="text-center text-light mb-0">Staff Area</h4>
+									</div>
+								</div>
+							</a>
+						</div>
+						
 					</div>
 				</aside>
 
