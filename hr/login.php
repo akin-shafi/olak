@@ -63,6 +63,7 @@ if (is_post_request()) {
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;500&display=swap" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;500&family=Poppins:wght@200;300;500&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
 </head>
 
@@ -72,7 +73,7 @@ if (is_post_request()) {
          height: auto;
       }
    </style>
-   <div class="container shadow olak bg-white mt-5">
+   <div class="container shadow olak bg-white mt-5 animate__animated animate__fadeIn">
       <header class="welcome pt-3">
          <div class="welcome-box">
             <img src="../images/blue-top-right.png" title="Welcome" alt="Welcome">
