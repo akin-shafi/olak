@@ -36,19 +36,19 @@ include(SHARED_PATH . '/admin_header.php');
                      <tr>
                         <th style="width: 30px;">SN</th>
                         <th>Designation</th>
-                        <th>Department</th>
+                        <!--<th>Department</th>-->
                         <th>Created At</th>
                         <th class="text-end">Action</th>
                      </tr>
                   </thead>
                   <tbody>
                      <?php $sn = 1;
-                     foreach (Designation::find_by_undeleted() as $designation) :
-                        $departmentName = Department::find_by_id($designation->department_id)->department_name; ?>
+                     foreach (Designation::find_by_undeleted(['order' => 'ASC']) as $designation) :
+                        //$departmentName = Department::find_by_id($designation->department_id)->department_name; ?>
                         <tr>
                            <td><?php echo $sn++ ?></td>
                            <td><?php echo ucwords($designation->designation_name) ?></td>
-                           <td><?php echo ucwords($departmentName) ?></td>
+                           <!--<td><?php //echo ucwords($departmentName) ?></td>-->
                            <td><?php echo date('Y-m-d', strtotime($designation->created_at)) ?></td>
 
                            <td class="text-end">
@@ -86,7 +86,7 @@ include(SHARED_PATH . '/admin_header.php');
                      <label>Designation Name <span class="text-danger">*</span></label>
                      <input class="form-control" name="designation_name" id="designation_name" type="text">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group d-none">
                      <label>Department <span class="text-danger">*</span></label>
                      <select class="select" name="department_id" id="department_id">
                         <option value="">Select Department</option>

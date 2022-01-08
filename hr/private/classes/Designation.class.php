@@ -29,9 +29,9 @@ class Designation extends DatabaseObject
       $this->errors[] = "Designation name is required.";
     }
 
-    if (is_blank($this->department_id)) {
-      $this->errors[] = "Department is required.";
-    }
+    // if (is_blank($this->department_id)) {
+    //   $this->errors[] = "Department is required.";
+    // }
 
     return $this->errors;
   }
