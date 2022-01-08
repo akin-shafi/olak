@@ -23,15 +23,12 @@
                                        ?>"> -->
 
    <link rel="stylesheet" href="<?php echo url_for('assets/css/line-awesome.min.css') ?>">
-<<<<<<< HEAD
    <link rel="stylesheet" href="<?php echo url_for('assets/plugins/morris/morris.css') ?>">
    <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/css/style-green.css') ?>"> -->
    <link rel="stylesheet" href="<?php echo url_for('assets/css/style-blue.css') ?>">
-=======
    <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/plugins/morris/morris.css') 
                                        ?>"> -->
    <link rel="stylesheet" href="<?php echo url_for('assets/css/style-green.css') ?>">
->>>>>>> 4fb62370cfc7e1c9332013ec689d6d7937790c70
 
 </head>
 
