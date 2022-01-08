@@ -35,6 +35,13 @@
     }
   }
 
+  @media (min-width:412px) {
+
+    .w-50 {
+      width: 80% !important;
+    }
+  }
+
   @media (min-width:640px) {
 
     .welcome h1 {
@@ -48,6 +55,14 @@
     }
   }
 
+  @media (min-width:760px) {
+
+    .w-50 {
+      width: 50% !important;
+    }
+
+  }
+
   @media (min-width:1024px) {
 
     .welcome h1 {
@@ -57,7 +72,6 @@
     .w-50 {
       width: 35% !important;
     }
-
   }
 </style>
 

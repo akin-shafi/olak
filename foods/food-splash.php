@@ -75,7 +75,7 @@
     <main class="container grid-container">
 
       <div class="w-50">
-        <img src="../images/aroma-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
+        <img src="../images/aroma-splash.png" class="hidden-xs img-fluid d-block m-auto" title="banner balance" alt="banner balance">
       </div>
 
       <a href="./login.php" class="btn btn-lg bg-custom-red text-light anchor">

@@ -48,6 +48,14 @@
     }
   }
 
+  @media (min-width:970px) {
+
+    .w-50 {
+      width: 50% !important;
+    }
+
+  }
+
   @media (min-width:1024px) {
 
     .welcome h1 {

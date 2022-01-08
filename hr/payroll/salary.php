@@ -52,17 +52,13 @@ include(SHARED_PATH . '/admin_header.php');
          </div>
          <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
             <div class="form-group form-focus">
-               <div class="cal-icon">
-                  <input class="form-control floating datetimepicker" type="text">
-               </div>
+               <input class="form-control floating" type="date">
                <label class="focus-label">From</label>
             </div>
          </div>
          <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
             <div class="form-group form-focus">
-               <div class="cal-icon">
-                  <input class="form-control floating datetimepicker" type="text">
-               </div>
+               <input class="form-control floating" type="date">
                <label class="focus-label">To</label>
             </div>
          </div>
@@ -72,8 +68,10 @@ include(SHARED_PATH . '/admin_header.php');
       </div>
 
       <style>
+         th,
          td {
             vertical-align: middle;
+            font-size: 14px;
          }
       </style>
 

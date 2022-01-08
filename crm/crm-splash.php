@@ -29,14 +29,13 @@
     font-size: 1rem;
   }
 
-  @media (min-width:320px) {
+  /* @media (min-width:320px) {
     .w-50 {
-      width: 100% !important;
+      width: 50% !important;
     }
-  }
+  } */
 
   @media (min-width:640px) {
-
     .welcome h1 {
       font-size: 1.7rem;
       padding-top: 1rem;
@@ -46,18 +45,22 @@
       width: 100px;
       height: 100px;
     }
+
+    .w-50 {
+      width: 40% !important;
+    }
+  }
+
+  @media (min-width:970px) {
+    .w-50 {
+      width: 30% !important;
+    }
   }
 
   @media (min-width:1024px) {
-
     .welcome h1 {
       font-size: 2rem;
     }
-
-    .w-50 {
-      width: 25% !important;
-    }
-
   }
 </style>
 
@@ -75,7 +78,7 @@
     <main class="container grid-container">
 
       <div class="w-50">
-        <img src="../images/crm-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
+        <img src="../images/crm-splash.png" class="hidden-xs img-fluid d-block m-auto" title="banner balance" alt="banner balance">
       </div>
 
       <a href="./login.php" class="btn btn-lg bg-custom-blue text-light anchor">

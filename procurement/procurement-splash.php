@@ -38,7 +38,7 @@
   @media (min-width:640px) {
 
     .welcome h1 {
-      font-size: 1.7rem;
+      font-size: 1.3rem;
       padding-top: 1rem;
     }
 
@@ -46,6 +46,18 @@
       width: 100px;
       height: 100px;
     }
+
+    .w-50 {
+      width: 70% !important;
+    }
+  }
+
+  @media (min-width:970px) {
+
+    .w-50 {
+      width: 50% !important;
+    }
+
   }
 
   @media (min-width:1024px) {

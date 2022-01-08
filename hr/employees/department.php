@@ -23,8 +23,10 @@ include(SHARED_PATH . '/admin_header.php');
       </div>
 
       <style>
+         th,
          td {
             vertical-align: middle;
+            font-size: 14px;
          }
       </style>
 

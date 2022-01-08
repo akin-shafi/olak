@@ -43,7 +43,7 @@ if (is_post_request()) {
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <title>Welcome | IMS </title>
-   <link rel="stylesheet" type="text/css" href="bootstrap.css">
+   <!-- <link rel="stylesheet" type="text/css" href="bootstrap.css"> -->
    <link rel="stylesheet" type="text/css" href="<?php echo url_for('../style.css') ?>">
    <link rel="stylesheet" href="../hr/assets/css/bootstrap.min.css">
    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png">
@@ -116,8 +116,8 @@ if (is_post_request()) {
    </div>
 
 
-   <script src="assets/js/jquery-3.6.0.min.js"></script>
-   <script src="assets/js/bootstrap.bundle.min.js"></script>
+   <script src="../hr/assets/js/jquery-3.6.0.min.js"></script>
+   <script src="../hr/assets/js/bootstrap.bundle.min.js"></script>
    <!-- <script type="text/javascript" src="pwa.js"></script> -->
 </body>
 
