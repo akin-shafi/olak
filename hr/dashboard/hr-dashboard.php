@@ -101,7 +101,7 @@ $icon_array = ['Olak Roofing Factory', 'Aroma Eatery'];
 				</div>
 			<?php } ?>
 		</div>
-		<div class="row">
+		<div class="row d-none">
 
 			<div class="col-md-12 col-lg-6 col-xl-4 d-flex">
 				<div class="card flex-fill">
@@ -147,81 +147,7 @@ $icon_array = ['Olak Roofing Factory', 'Aroma Eatery'];
 					</div>
 				</div>
 			</div>
-			<!-- Status 
-				new 
-				paid
-				rejected
-			-->
-			<div class="col-md-8">
-				<div class="p-2">
-				  <div class="row">
-				  	<ol class="col-6 list-group">
-					  <li class="list-group-item d-flex justify-content-between align-items-start">
-					    <div class="ms-2 me-auto">
-					      <div class="fw-bold">Total loan Request</div>
-					    </div>
-					    <span class="">14</span>
-					  </li>
-					 </ol>
-
-				  	<ol class="col-6 list-group list-group-numbered">
-					  <li class="list-group-item d-flex justify-content-between align-items-start">
-					    <div class="ms-2 me-auto">
-					      <div class="fw-bold">Total loan Value</div>
-					    </div>
-					    <span class="">900,0000.00</span>
-					  </li>
-					</ol>
-				  </div>
-				</div>
-
-
-                  <div class="card card-table flex-fill">
-                     <div class="card-header">
-                        <h3 class="card-title mb-0">Loan Request</h3>
-                     </div>
-                     <div class="card-body ">
-                        <div class="table-responsive table-wrap p-2 ">
-                           <table class="table table-nowrap custom-table mb-0 ">
-                              <thead>
-                                 <tr>
-                                    <th>Ref No.</th>
-                                    <th>Amount</th>
-                                    <th>Date requested</th>
-                                    <th>Status</th>
-                                    <th class="text-end">Action</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#REF-0001</a></td>
-                                    <td>
-                                       <h2><a href="#">150,000</a></h2>
-                                    </td>
-                                    <td>11 Jan, 2022</td>
-                                    <td>
-                                       <span class="badge bg-inverse-warning">New</span>
-                                    </td>
-                                    <td class="text-end">
-	                                    <div class="btn-group btn-group-sm">
-	                                      <div class="btn btn-sm btn-outline-success">Approve</div>
-	                                      <div class="btn btn-sm btn-outline-danger">Reject</div>
-	                                    </div>
-	                                 </td>	
-                                 </tr>
-                                 
-
-                                 
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
-                     <div class="card-footer">
-                        <a href="invoices.html">View all invoices</a>
-                     </div>
-                  </div>
-               </div>
-              
+			
 		</div>
 	</div>
 </div>

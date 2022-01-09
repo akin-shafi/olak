@@ -8,217 +8,98 @@ include(SHARED_PATH . '/admin_header.php');
 
          <div class="page-wrapper">
             <div class="content container-fluid">
-               <div class="row">
-                  <div class="col-md-12">
-                     <div class="welcome-box">
-                        <div class="welcome-img">
-                           <img alt="" src="assets/img/profiles/avatar-02.jpg">
-                        </div>
-                        <div class="welcome-det">
-                           <h3>Welcome, John Doe</h3>
-                           <p>Monday, 20 May 2019</p>
-                        </div>
+               <div class="row align-items-center">
+                  <div class="col">
+                     <h3 class="page-title">All Loan Request</h3>
+                     <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Loan</li>
+                     </ul>
+                  </div>
+                  <div class="col-auto float-end ms-auto">
+                     <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#employee_modal"><i class="fa fa-plus"></i> Add Loan Request</a>
+                     <div class="view-icons">
+                        <a href="/olak/hr/employees/" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
+                        <a href="/olak/hr/employees/employees-list.php" class="list-view btn btn-link"><i class="fa fa-bars"></i></a>
                      </div>
                   </div>
                </div>
-               <div class="row">
-                  <div class="col-lg-8 col-md-8">
-                     <section class="dash-section">
-                        <h1 class="dash-sec-title">Today</h1>
-                        <div class="dash-sec-content">
-                           <div class="dash-info-list">
-                              <a href="#" class="dash-card text-danger">
-                                 <div class="dash-card-container">
-                                    <div class="dash-card-icon">
-                                       <i class="fa fa-hourglass-o"></i>
-                                    </div>
-                                    <div class="dash-card-content">
-                                       <p>Richard Miles is off sick today</p>
-                                    </div>
-                                    <div class="dash-card-avatars">
-                                       <div class="e-avatar"><img src="assets/img/profiles/avatar-09.jpg" alt=""></div>
-                                    </div>
+
+
+               
+               <!-- Status 
+            new 
+            paid
+            rejected
+         -->
+         <div class="col-md-12">
+            <div class="p-2">
+              <div class="row">
+               <ol class="col-6 list-group">
+                 <li class="list-group-item d-flex justify-content-between align-items-start">
+                   <div class="ms-2 me-auto">
+                     <div class="fw-bold">Total loan Requested</div>
+                   </div>
+                   <span class="">900,0000.00</span>
+                 </li>
+                </ol>
+
+               <ol class="col-6 list-group ">
+                 <li class="list-group-item d-flex justify-content-between align-items-start">
+                   <div class="ms-2 me-auto">
+                     <div class="fw-bold">Total loan Paid</div>
+                   </div>
+                   <span class="">700,0000.00</span>
+                 </li>
+               </ol>
+              </div>
+            </div>
+
+
+            <div class="card card-table flex-fill">
+               <!-- <div class="card-header">
+                  <h3 class="card-title mb-0">All Loan Request</h3>
+               </div> -->
+               <div class="card-body ">
+                  <div class="table-responsive table-wrap p-2 ">
+                     <table class="table table-nowrap custom-table mb-0 datatable">
+                        <thead>
+                           <tr>
+                              <th>Ref No.</th>
+                              <th>Amount</th>
+                              <th>Date requested</th>
+                              <th>Status</th>
+                              <th class="text-end">Action</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td><a href="invoice-view.html">#REF-0001</a></td>
+                              <td>
+                                 <h2><a href="#">150,000</a></h2>
+                              </td>
+                              <td>11 Jan, 2022</td>
+                              <td>
+                                 <span class="badge bg-inverse-warning">New</span>
+                              </td>
+                              <td class="text-end">
+                                 <div class="btn-group btn-group-sm">
+                                   <div class="btn btn-sm btn-outline-success">Approve</div>
+                                   <div class="btn btn-sm btn-outline-danger">Reject</div>
                                  </div>
-                              </a>
-                           </div>
-                           <div class="dash-info-list">
-                              <a href="#" class="dash-card">
-                                 <div class="dash-card-container">
-                                    <div class="dash-card-icon">
-                                       <i class="fa fa-suitcase"></i>
-                                    </div>
-                                    <div class="dash-card-content">
-                                       <p>You are away today</p>
-                                    </div>
-                                    <div class="dash-card-avatars">
-                                       <div class="e-avatar"><img src="assets/img/profiles/avatar-02.jpg" alt=""></div>
-                                    </div>
-                                 </div>
-                              </a>
-                           </div>
-                           <div class="dash-info-list">
-                              <a href="#" class="dash-card">
-                                 <div class="dash-card-container">
-                                    <div class="dash-card-icon">
-                                       <i class="fa fa-building-o"></i>
-                                    </div>
-                                    <div class="dash-card-content">
-                                       <p>You are working from home today</p>
-                                    </div>
-                                    <div class="dash-card-avatars">
-                                       <div class="e-avatar"><img src="assets/img/profiles/avatar-02.jpg" alt=""></div>
-                                    </div>
-                                 </div>
-                              </a>
-                           </div>
-                        </div>
-                     </section>
-                     <section class="dash-section">
-                        <h1 class="dash-sec-title">Tomorrow</h1>
-                        <div class="dash-sec-content">
-                           <div class="dash-info-list">
-                              <div class="dash-card">
-                                 <div class="dash-card-container">
-                                    <div class="dash-card-icon">
-                                       <i class="fa fa-suitcase"></i>
-                                    </div>
-                                    <div class="dash-card-content">
-                                       <p>2 people will be away tomorrow</p>
-                                    </div>
-                                    <div class="dash-card-avatars">
-                                       <a href="#" class="e-avatar"><img src="assets/img/profiles/avatar-04.jpg" alt=""></a>
-                                       <a href="#" class="e-avatar"><img src="assets/img/profiles/avatar-08.jpg" alt=""></a>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </section>
-                     <section class="dash-section">
-                        <h1 class="dash-sec-title">Next seven days</h1>
-                        <div class="dash-sec-content">
-                           <div class="dash-info-list">
-                              <div class="dash-card">
-                                 <div class="dash-card-container">
-                                    <div class="dash-card-icon">
-                                       <i class="fa fa-suitcase"></i>
-                                    </div>
-                                    <div class="dash-card-content">
-                                       <p>2 people are going to be away</p>
-                                    </div>
-                                    <div class="dash-card-avatars">
-                                       <a href="#" class="e-avatar"><img src="assets/img/profiles/avatar-05.jpg" alt=""></a>
-                                       <a href="#" class="e-avatar"><img src="assets/img/profiles/avatar-07.jpg" alt=""></a>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="dash-info-list">
-                              <div class="dash-card">
-                                 <div class="dash-card-container">
-                                    <div class="dash-card-icon">
-                                       <i class="fa fa-user-plus"></i>
-                                    </div>
-                                    <div class="dash-card-content">
-                                       <p>Your first day is going to be on Thursday</p>
-                                    </div>
-                                    <div class="dash-card-avatars">
-                                       <div class="e-avatar"><img src="assets/img/profiles/avatar-02.jpg" alt=""></div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="dash-info-list">
-                              <a href="" class="dash-card">
-                                 <div class="dash-card-container">
-                                    <div class="dash-card-icon">
-                                       <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <div class="dash-card-content">
-                                       <p>It's Spring Bank Holiday on Monday</p>
-                                    </div>
-                                 </div>
-                              </a>
-                           </div>
-                        </div>
-                     </section>
-                  </div>
-                  <div class="col-lg-4 col-md-4">
-                     <div class="dash-sidebar">
-                        <section>
-                           <h5 class="dash-title">Projects</h5>
-                           <div class="card">
-                              <div class="card-body">
-                                 <div class="time-list">
-                                    <div class="dash-stats-list">
-                                       <h4>71</h4>
-                                       <p>Total Tasks</p>
-                                    </div>
-                                    <div class="dash-stats-list">
-                                       <h4>14</h4>
-                                       <p>Pending Tasks</p>
-                                    </div>
-                                 </div>
-                                 <div class="request-btn">
-                                    <div class="dash-stats-list">
-                                       <h4>2</h4>
-                                       <p>Total Projects</p>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </section>
-                        <section>
-                           <h5 class="dash-title">Your Leave</h5>
-                           <div class="card">
-                              <div class="card-body">
-                                 <div class="time-list">
-                                    <div class="dash-stats-list">
-                                       <h4>4.5</h4>
-                                       <p>Leave Taken</p>
-                                    </div>
-                                    <div class="dash-stats-list">
-                                       <h4>12</h4>
-                                       <p>Remaining</p>
-                                    </div>
-                                 </div>
-                                 <div class="request-btn">
-                                    <a class="btn btn-primary" href="#">Apply Leave</a>
-                                 </div>
-                              </div>
-                           </div>
-                        </section>
-                        <section>
-                           <h5 class="dash-title">Your time off allowance</h5>
-                           <div class="card">
-                              <div class="card-body">
-                                 <div class="time-list">
-                                    <div class="dash-stats-list">
-                                       <h4>5.0 Hours</h4>
-                                       <p>Approved</p>
-                                    </div>
-                                    <div class="dash-stats-list">
-                                       <h4>15 Hours</h4>
-                                       <p>Remaining</p>
-                                    </div>
-                                 </div>
-                                 <div class="request-btn">
-                                    <a class="btn btn-primary" href="#">Apply Time Off</a>
-                                 </div>
-                              </div>
-                           </div>
-                        </section>
-                        <section>
-                           <h5 class="dash-title">Upcoming Holiday</h5>
-                           <div class="card">
-                              <div class="card-body text-center">
-                                 <h4 class="holiday-title mb-0">Mon 20 May 2019 - Ramzan</h4>
-                              </div>
-                           </div>
-                        </section>
-                     </div>
+                              </td> 
+                           </tr>
+                           
+
+                           
+                        </tbody>
+                     </table>
                   </div>
                </div>
+              
+            </div>
+         </div>
+        
             </div>
          </div>
 
