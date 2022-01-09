@@ -282,7 +282,7 @@ include(SHARED_PATH . '/admin_header.php');
          </div>
           <?php 
             $period = 'This month';
-            $salary = 100000;
+            $salary = 200000;
             $accessible_loan_percentage = 40;
             $accessible_loan_value = $salary / 100 * $accessible_loan_percentage;
 
