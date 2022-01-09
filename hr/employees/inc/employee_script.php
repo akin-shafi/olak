@@ -13,6 +13,8 @@ if (is_post_request()) {
     $uploadStatus = 1;
     $uploadedFile = '';
 
+    $args = $_POST['employee'];
+
     if (!empty($_FILES['profile_image']['name'])) {
 
       $temp = explode('.', $_FILES['profile_image']['name']);
@@ -24,6 +26,7 @@ if (is_post_request()) {
       if (in_array($fileType, $allowTypes)) {
         if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFilePath)) {
           $uploadedFile = $fileName;
+          $args['photo'] = $uploadedFile;
         } else {
           $uploadStatus = 0;
           http_response_code(401);
@@ -35,9 +38,6 @@ if (is_post_request()) {
         $response['errors'] = 'Sorry, DOC, DOCX, JPEG, JPG, PDF & PNG files are allowed to upload.';
       }
     }
-
-    $args = $_POST['employee'];
-    $args['profile_image'] = $uploadedFile;
 
     $employee = new Employee($args);
     $employee->save();
@@ -60,6 +60,7 @@ if (is_post_request()) {
       if (isset($_POST['employee'])) {
         $uploadStatus = 1;
         $uploadedFile = '';
+        $args = $_POST['employee'];
 
         if (!empty($_FILES['profile_image']['name'])) {
           $dbUpload = $employee->photo;
@@ -77,6 +78,7 @@ if (is_post_request()) {
           if (in_array($fileType, $allowTypes)) {
             if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFilePath)) {
               $uploadedFile = $fileName;
+              $args['photo'] = $uploadedFile;
             } else {
               $uploadStatus = 0;
               http_response_code(401);
@@ -87,10 +89,9 @@ if (is_post_request()) {
             http_response_code(404);
             $response['errors'] = 'Sorry, DOC, DOCX, JPEG, JPG, PDF & PNG files are allowed to upload.';
           }
+        } else {
+          $args['photo'] = $employee->photo;
         }
-
-        $args = $_POST['employee'];
-        $args['photo'] = $uploadedFile;
 
         $employee->merge_attributes($args);
         $employee->save();

@@ -11,8 +11,8 @@ $employee = Employee::find_by_id($salary->employee_id);
 $department = Department::find_by_id($employee->department_id);
 $designation = Designation::find_by_id($employee->designation_id);
 
-$totalDeduction = SalaryDeduction::find_by_deductions()->total_deductions;
-$totalEarning = SalaryEarning::find_by_earnings()->total_earnings;
+$totalDeduction = SalaryDeduction::find_by_deductions($salary_id)->total_deductions;
+$totalEarning = SalaryEarning::find_by_earnings($salary_id)->total_earnings;
 
 $page = 'Payroll';
 $page_title = 'Payslip';

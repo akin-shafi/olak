@@ -47,10 +47,10 @@ class SalaryEarning extends DatabaseObject
     }
   }
 
-  public static function find_by_earnings()
+  public static function find_by_earnings($salary_id)
   {
     $sql = "SELECT (basic_salary + house_rent + transport + medical + furniture + meal) AS total_earnings FROM " . static::$table_name . " ";
-    $sql .= " GROUP BY salary_id ";
+    $sql .= "WHERE salary_id='" . self::$database->escape_string($salary_id) . "'";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);
