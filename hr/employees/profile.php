@@ -7,9 +7,9 @@ if (!isset($_GET['employee_id'])) {
 
 $id = $_GET['employee_id'];
 $employee = Employee::find_by_id($id);
-$employeeInfo = EmployeeDetail::find_by_id($id) ?? '';
+$employeeInfo = EmployeeDetail::find_by_employee_id($id) ?? '';
+$employeeLoan = EmployeeLoan::find_by_employee_id($id) ?? '';
 $salary = Salary::find_by_employee_id($id);
-
 $salaryDeduction = SalaryDeduction::find_by_deductions($salary->id)->total_deductions;
 $salaryEarning = SalaryEarning::find_by_earnings($salary->id)->total_earnings;
 
@@ -71,7 +71,9 @@ include(SHARED_PATH . '/admin_header.php');
                                  <div class="small doj text-muted">
                                     Date of Join : <?php echo date('M jS, Y', strtotime($employee->date_employed)); ?>
                                  </div>
-                                 <div class="staff-msg"><a class="btn btn-custom" href="#">Send Message</a></div>
+                                 <div class="staff-msg">
+                                    <a href="#" class="btn btn-custom" data-bs-target="#loan_request" data-bs-toggle="modal">Loan Request</a>
+                                 </div>
                               </div>
                            </div>
                            <div class="col-md-7">
@@ -290,12 +292,12 @@ include(SHARED_PATH . '/admin_header.php');
 
          <?php
          $period = 'This month';
-         $salary = intval($salaryEarning);
+         $salary = intval($salary->net_salary);
          $accessible_loan_percentage = 0.4;
          $accessible_loan_value = $salary * $accessible_loan_percentage;
 
          // Loan calculation
-         $loan_received = 3000;
+         $loan_received = $employeeLoan->amount;
          $loan_balance = $accessible_loan_value - $loan_received;
          $take_home = $salary - $loan_received;
 
@@ -314,8 +316,8 @@ include(SHARED_PATH . '/admin_header.php');
                         <div class="card-body">
                            <div>
                               <p><i class="fa fa-dot-circle-o text-purple me-2"></i>Current Salary <span class="float-end"><?php echo number_format($salary, 2) ?></span></p>
-                              <p><i class="fa fa-dot-circle-o text-warning me-2"></i>Accessible loan(In %) <span class="float-end"><?php echo $accessible_loan_percentage * 100 ?>%</span></p>
-                              <p><i class="fa fa-dot-circle-o text-success me-2"></i>Accessible loan(In ₦) <span class="float-end"><?php echo $currency . " " . number_format($accessible_loan_value, 2); ?></span></p>
+                              <p><i class="fa fa-dot-circle-o text-warning me-2"></i>Accessible loan (In %) <span class="float-end"><?php echo $accessible_loan_percentage * 100 ?>%</span></p>
+                              <p><i class="fa fa-dot-circle-o text-success me-2"></i>Accessible loan (In ₦) <span class="float-end"><?php echo $currency . " " . number_format($accessible_loan_value, 2); ?></span></p>
                               <!-- <p><i class="fa fa-dot-circle-o text-danger me-2"></i>Pending Tasks <span class="float-end">47</span></p> -->
                               <!-- <p class="mb-0"><i class="fa fa-dot-circle-o text-info me-2"></i>Review Tasks <span class="float-end">5</span></p> -->
                            </div>
@@ -333,7 +335,7 @@ include(SHARED_PATH . '/admin_header.php');
                                  <span class="d-block">Loan received</span>
                               </div>
                               <div>
-                                 <span class="text-success"><?php echo $loan_received_percentage ?>%</span>
+                                 <span class="text-success"><?php echo round($loan_received_percentage) ?>%</span>
                               </div>
                            </div>
                            <h3 class="mb-3"><?php echo $currency . " " . number_format($loan_received, 2) ?></h3>
@@ -351,7 +353,7 @@ include(SHARED_PATH . '/admin_header.php');
                                  <span class="d-block">Loan Balance</span>
                               </div>
                               <div>
-                                 <span class="text-danger"><?php echo $loan_balance_percentage; ?>%</span>
+                                 <span class="text-danger"><?php echo round($loan_balance_percentage); ?>%</span>
                               </div>
                            </div>
                            <h3 class="mb-3"><?php echo $currency . " " . number_format($loan_balance, 2) ?></h3>
@@ -368,7 +370,7 @@ include(SHARED_PATH . '/admin_header.php');
                                  <span class="d-block">Current take home</span>
                               </div>
                               <div>
-                                 <span class="text-danger"><?php echo $take_home_percentage; ?>%</span>
+                                 <span class="text-danger"><?php echo round($take_home_percentage); ?>%</span>
                               </div>
                            </div>
                            <h3 class="mb-3"><?php echo $currency . " " . number_format($take_home, 2) ?></h3>
@@ -396,41 +398,22 @@ include(SHARED_PATH . '/admin_header.php');
                                     <th>Ref No.</th>
                                     <th>Amount</th>
                                     <th>Date requested</th>
-
                                     <th>Status</th>
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#REF-0001</a></td>
-                                    <td>
-                                       <h2><a href="#">150,000</a></h2>
-                                    </td>
-                                    <td>11 Jan, 2022</td>
-                                    <td>
-                                       <span class="badge bg-inverse-warning">New</span>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#REF-0001</a></td>
-                                    <td>
-                                       <h2><a href="#">150,000</a></h2>
-                                    </td>
-                                    <td>11 Jan, 2022</td>
-                                    <td>
-                                       <span class="badge bg-inverse-success">Paid</span>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#REF-0001</a></td>
-                                    <td>
-                                       <h2><a href="#">150,000</a></h2>
-                                    </td>
-                                    <td>11 Jan, 2022</td>
-                                    <td>
-                                       <span class="badge bg-inverse-danger">Rejected</span>
-                                    </td>
-                                 </tr>
+                                 <?php foreach (EmployeeLoan::find_by_undeleted() as $loan) : ?>
+                                    <tr>
+                                       <td><a href="invoice-view.html">#<?php echo strtoupper($loan->ref_no) ?></a></td>
+                                       <td>
+                                          <h2><a href="#"><?php echo number_format($loan->amount, 2) ?></a></h2>
+                                       </td>
+                                       <td><?php echo date('M jS, Y', strtotime($loan->date_requested)) ?></td>
+                                       <td>
+                                          <span class="badge bg-inverse-warning">New</span>
+                                       </td>
+                                    </tr>
+                                 <?php endforeach; ?>
 
                               </tbody>
                            </table>
@@ -452,21 +435,24 @@ include(SHARED_PATH . '/admin_header.php');
                               <thead>
                                  <tr>
                                     <th>Ref No.</th>
-                                    <th>Paid Date</th>
                                     <th>Paid Amount</th>
+                                    <th>Paid Date</th>
                                     <th>Payment Method</th>
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#INV-0001</a></td>
-                                    <td>11 Mar 2019</td>
-                                    <td>$380</td>
-                                    <td>Paypal</td>
-
-
-                                 </tr>
-
+                                 <?php foreach (EmployeeLoan::find_by_undeleted() as $loan) : ?>
+                                    <tr>
+                                       <td><a href="invoice-view.html">#<?php echo strtoupper($loan->ref_no) ?></a></td>
+                                       <td>
+                                          <h2><a href="#"><?php echo number_format($loan->amount_paid, 2) ?></a></h2>
+                                       </td>
+                                       <td><?php echo date('M jS, Y', strtotime($loan->date_issued)) ?></td>
+                                       <td>
+                                          <span class="badge bg-inverse-warning"><?php echo ucwords($loan->payment_method) ?></span>
+                                       </td>
+                                    </tr>
+                                 <?php endforeach; ?>
                               </tbody>
                            </table>
                         </div>
@@ -693,20 +679,6 @@ include(SHARED_PATH . '/admin_header.php');
 
 <?php include(SHARED_PATH . '/admin_footer.php');  ?>
 
-
-
-
-<!-- 
-// form fields //
-         Ref No
-         employeed_id
-         Amount
-         date_requested
-         date_issued
-         status
-         attached_file 
--->
-
 <script type="text/javascript">
    $(document).ready(function() {
 
@@ -715,6 +687,7 @@ include(SHARED_PATH . '/admin_header.php');
 
       const employeeForm = document.getElementById("add_employee_form");
       const bankForm = document.getElementById("add_bank_form");
+      const loanForm = document.getElementById("add_loan_form");
       const personalInfoForm = document.getElementById("add_personal_form");
       const kinForm = document.getElementById("add_kin_form");
       const educationForm = document.getElementById("add_education_form");
@@ -796,6 +769,11 @@ include(SHARED_PATH . '/admin_header.php');
       bankForm.addEventListener("submit", (e) => {
          e.preventDefault();
          submitForm(EMPLOYEE_URL, bankForm);
+      });
+
+      loanForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, loanForm);
       });
 
       personalInfoForm.addEventListener("submit", async (e) => {

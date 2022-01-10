@@ -18,12 +18,14 @@ class Salary extends DatabaseObject
   public $d_id; //* deduction's ID
 
   // ? EARNINGS
+  public $actual_amount;
   public $basic_salary;
-  public $house_rent;
+  public $housing;
+  public $dressing;
   public $transport;
-  public $medical;
-  public $furniture;
-  public $meal;
+  public $utility;
+  public $other_earning;
+  public $other_deduction;
 
   // ? DEDUCTIONS
   public $tax;
@@ -65,7 +67,7 @@ class Salary extends DatabaseObject
 
   public static function find_by_salaries($salary_id)
   {
-    $sql = "SELECT *, se.id AS e_id, sd.id AS d_id FROM " . static::$table_name . " ";
+    $sql = "SELECT *, se.id AS e_id, sd.id AS d_id, se.others AS other_earning, sd.others AS other_deduction FROM " . static::$table_name . " ";
 
     $sql .= " JOIN salary_earnings AS se ON salaries.id = se.salary_id";
     $sql .= " JOIN salary_deductions AS sd ON salaries.id = sd.salary_id";

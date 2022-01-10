@@ -2,12 +2,13 @@
 class SalaryDeduction extends DatabaseObject
 {
   protected static $table_name = "salary_deductions";
-  protected static $db_columns = ['id', 'salary_id', 'tax', 'pension', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'salary_id', 'tax', 'pension', 'others', 'created_at', 'deleted'];
 
   public $id;
   public $salary_id;
   public $tax;
   public $pension;
+  public $others;
 
   public $created_at;
   public $deleted;
@@ -19,6 +20,7 @@ class SalaryDeduction extends DatabaseObject
     $this->salary_id        = $args['salary_id'] ?? '';
     $this->tax              = $args['tax'] ?? '';
     $this->pension          = $args['pension'] ?? '';
+    $this->others           = $args['others'] ?? '';
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted          = $args['deleted'] ?? '';
   }
