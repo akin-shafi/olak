@@ -287,6 +287,7 @@ include(SHARED_PATH . '/admin_header.php');
                </div>
             </div>
          </div>
+
          <?php
          $period = 'This month';
          $salary = intval($salaryEarning);
@@ -382,8 +383,6 @@ include(SHARED_PATH . '/admin_header.php');
             </div>
 
             <div class="row">
-
-
                <div class="col-md-6 d-flex">
                   <div class="card card-table flex-fill">
                      <div class="card-header">
@@ -394,69 +393,45 @@ include(SHARED_PATH . '/admin_header.php');
                            <table class="table table-nowrap custom-table mb-0 ">
                               <thead>
                                  <tr>
-                                    <th>Invoice ID</th>
-                                    <th>Client</th>
-                                    <th>Due Date</th>
-                                    <th>Total</th>
+                                    <th>Ref No.</th>
+                                    <th>Amount</th>
+                                    <th>Date requested</th>
+
                                     <th>Status</th>
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr>
-                                    <td><a href="invoice-view.html">#INV-0001</a></td>
+                                    <td><a href="invoice-view.html">#REF-0001</a></td>
                                     <td>
-                                       <h2><a href="#">Global Technologies</a></h2>
+                                       <h2><a href="#">150,000</a></h2>
                                     </td>
-                                    <td>11 Mar 2019</td>
-                                    <td>$380</td>
+                                    <td>11 Jan, 2022</td>
                                     <td>
-                                       <span class="badge bg-inverse-warning">Partially Paid</span>
+                                       <span class="badge bg-inverse-warning">New</span>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><a href="invoice-view.html">#INV-0002</a></td>
+                                    <td><a href="invoice-view.html">#REF-0001</a></td>
                                     <td>
-                                       <h2><a href="#">Delta Infotech</a></h2>
+                                       <h2><a href="#">150,000</a></h2>
                                     </td>
-                                    <td>8 Feb 2019</td>
-                                    <td>$500</td>
+                                    <td>11 Jan, 2022</td>
                                     <td>
                                        <span class="badge bg-inverse-success">Paid</span>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td><a href="invoice-view.html">#INV-0003</a></td>
+                                    <td><a href="invoice-view.html">#REF-0001</a></td>
                                     <td>
-                                       <h2><a href="#">Cream Inc</a></h2>
+                                       <h2><a href="#">150,000</a></h2>
                                     </td>
-                                    <td>23 Jan 2019</td>
-                                    <td>$60</td>
+                                    <td>11 Jan, 2022</td>
                                     <td>
-                                       <span class="badge bg-inverse-danger">Unpaid</span>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#INV-0003</a></td>
-                                    <td>
-                                       <h2><a href="#">Cream Inc</a></h2>
-                                    </td>
-                                    <td>23 Jan 2019</td>
-                                    <td>$60</td>
-                                    <td>
-                                       <span class="badge bg-inverse-danger">Unpaid</span>
+                                       <span class="badge bg-inverse-danger">Rejected</span>
                                     </td>
                                  </tr>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#INV-0003</a></td>
-                                    <td>
-                                       <h2><a href="#">Cream Inc</a></h2>
-                                    </td>
-                                    <td>23 Jan 2019</td>
-                                    <td>$60</td>
-                                    <td>
-                                       <span class="badge bg-inverse-danger">Unpaid</span>
-                                    </td>
-                                 </tr>
+
                               </tbody>
                            </table>
                         </div>
@@ -476,41 +451,22 @@ include(SHARED_PATH . '/admin_header.php');
                            <table class="table table-nowrap custom-table mb-0">
                               <thead>
                                  <tr>
-                                    <th>Ref ID</th>
-                                    <th>Client</th>
-                                    <th>Payment Type</th>
+                                    <th>Ref No.</th>
                                     <th>Paid Date</th>
                                     <th>Paid Amount</th>
+                                    <th>Payment Method</th>
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr>
                                     <td><a href="invoice-view.html">#INV-0001</a></td>
-                                    <td>
-                                       <h2><a href="#">Global Technologies</a></h2>
-                                    </td>
-                                    <td>Paypal</td>
                                     <td>11 Mar 2019</td>
                                     <td>$380</td>
-                                 </tr>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#INV-0002</a></td>
-                                    <td>
-                                       <h2><a href="#">Delta Infotech</a></h2>
-                                    </td>
                                     <td>Paypal</td>
-                                    <td>8 Feb 2019</td>
-                                    <td>$500</td>
+
+
                                  </tr>
-                                 <tr>
-                                    <td><a href="invoice-view.html">#INV-0003</a></td>
-                                    <td>
-                                       <h2><a href="#">Cream Inc</a></h2>
-                                    </td>
-                                    <td>Paypal</td>
-                                    <td>23 Jan 2019</td>
-                                    <td>$60</td>
-                                 </tr>
+
                               </tbody>
                            </table>
                         </div>
@@ -737,6 +693,19 @@ include(SHARED_PATH . '/admin_header.php');
 
 <?php include(SHARED_PATH . '/admin_footer.php');  ?>
 
+
+
+
+<!-- 
+// form fields //
+         Ref No
+         employeed_id
+         Amount
+         date_requested
+         date_issued
+         status
+         attached_file 
+-->
 
 <script type="text/javascript">
    $(document).ready(function() {

@@ -23,6 +23,9 @@
                                        ?>"> -->
 
    <link rel="stylesheet" href="<?php echo url_for('assets/css/line-awesome.min.css') ?>">
+   <link rel="stylesheet" href="<?php echo url_for('assets/plugins/morris/morris.css') ?>">
+   <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/css/style-green.css') ?>"> -->
+   <link rel="stylesheet" href="<?php echo url_for('assets/css/style-blue.css') ?>">
    <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/plugins/morris/morris.css') 
                                        ?>"> -->
    <link rel="stylesheet" href="<?php echo url_for('assets/css/style-green.css') ?>">
@@ -302,7 +305,7 @@
 
                         <li><a class="<?php echo $page_title == 'HR Admin' ? 'active' : '' ?>" href="<?php echo url_for('dashboard/hr-dashboard.php') ?>">HR Admin Dashboard</a></li>
 
-                        <li class="d-none"><a class="<?php echo $page_title == 'Employee Dashboard' ? 'active' : '' ?>" href="<?php echo url_for('dashboard/employee-dashboard.php') ?>">Employee Dashboard</a></li>
+                        <li class=""><a class="<?php echo $page_title == 'Employee Dashboard' ? 'active' : '' ?>" href="<?php echo url_for('dashboard/employee-dashboard.php') ?>">Loan </a></li>
                      </ul>
                   </li>
                   <li class="submenu d-none">

@@ -72,6 +72,9 @@
       width: 50% !important;
     }
   }
+  .bg-custom-blue{
+    background-color: #133d80;
+  }
 </style>
 
 <body>
