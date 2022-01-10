@@ -28,7 +28,7 @@
    <link rel="stylesheet" href="<?php echo url_for('assets/css/style-blue.css') ?>">
    <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/plugins/morris/morris.css') 
                                        ?>"> -->
-   <link rel="stylesheet" href="<?php echo url_for('assets/css/style-green.css') ?>">
+  
 
 </head>
 

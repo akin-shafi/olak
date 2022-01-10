@@ -84,7 +84,7 @@ include(SHARED_PATH . '/admin_header.php');
                               </td>
                               <td class="text-end">
                                  <div class="btn-group btn-group-sm">
-                                   <div class="btn btn-sm btn-outline-success">Approve</div>
+                                   <div class="btn btn-sm btn-outline-primary">Approve</div>
                                    <div class="btn btn-sm btn-outline-danger">Reject</div>
                                  </div>
                               </td> 
