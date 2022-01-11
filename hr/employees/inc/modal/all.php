@@ -542,8 +542,24 @@
          </div>
          <div class="modal-body">
            <form id="add_loan_form">
-             <input type="hidden" name="employeeId" value="<?php echo $employee->id; ?>" readonly>
              <div class="row">
+               <?php if ($page_title == 'Employee Dashboard') : ?>
+                 <div class="col-md-8 m-auto">
+                   <div class="form-group mb-3">
+                     <label>Employees</label>
+                     <select class="select" name="employeeId" required>
+                       <option value="">Select Employee</option>
+                       <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
+                         <option value="<?php echo $employee->id ?>">
+                           <?php echo ucwords($employee->full_name()) ?></option>
+                       <?php endforeach; ?>
+                     </select>
+                   </div>
+                 </div>
+               <?php else : ?>
+                 <input type="hidden" name="employeeId" value="<?php echo $employee->id; ?>" readonly>
+               <?php endif; ?>
+
                <div class="col-md-8 m-auto">
                  <div class="form-group mb-3">
                    <label>Amount</label>

@@ -325,6 +325,9 @@ if (is_post_request()) {
         http_response_code(200);
         $response['message'] = 'Employee updated successfully';
       endif;
+    } else {
+      http_response_code(401);
+      exit(json_encode(['errors' => "Employee data is required"]));
     }
   }
 }
