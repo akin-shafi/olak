@@ -115,19 +115,6 @@ if (is_post_request()) {
 
           $employeeDetail = new EmployeeDetail($args);
           $employeeDetail->save();
-
-          if (is_blank($employeeDetail->kin_name)) {
-            http_response_code(401);
-            exit(json_encode(['errors' => "Next of kin name is required."]));
-          }
-          if (is_blank($employeeDetail->kin_phone_1)) {
-            http_response_code(401);
-            exit(json_encode(['errors' => "Phone number is required."]));
-          }
-          if (is_blank($employeeDetail->kin_relationship)) {
-            http_response_code(401);
-            exit(json_encode(['errors' => "Relationship is required."]));
-          }
         } else {
           $args = $_POST['details'];
           $employeeDetail->merge_attributes($args);

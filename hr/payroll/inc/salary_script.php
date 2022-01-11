@@ -11,9 +11,6 @@ if (is_post_request()) {
   if (isset($_POST['addSalary'])) {
 
     $argsSalary     = $_POST['salary'];
-    $argsEarning    = $_POST['earning'];
-    $argsDeduction  = $_POST['deduction'];
-
     $salary = new Salary($argsSalary);
     $salary->save();
 
@@ -25,17 +22,19 @@ if (is_post_request()) {
     if ($salary) {
       $netSalary = Salary::find_by_id($salary->id);
 
+      $argsEarning = $_POST['earning'];
       $argsEarning['salary_id'] = $salary->id;
       $earning = new SalaryEarning($argsEarning);
       $earning->save();
 
+      $argsDeduction = $_POST['deduction'];
       $argsDeduction['salary_id'] = $salary->id;
       $deduction = new SalaryDeduction($argsDeduction);
       $deduction->save();
 
       if ($deduction) {
-        $totalEarning = SalaryEarning::find_by_earnings()->total_earnings;
-        $totalDeduction = SalaryDeduction::find_by_deductions()->total_deductions;
+        $totalEarning = SalaryEarning::find_by_earnings($salary->id)->total_earnings;
+        $totalDeduction = SalaryDeduction::find_by_deductions($salary->id)->total_deductions;
 
         $net = intval($totalEarning) - intval($totalDeduction);
         $args = ['net_salary' => $net];

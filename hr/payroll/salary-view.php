@@ -152,23 +152,34 @@ include(SHARED_PATH . '/admin_header.php');
 
                                  <tr>
                                     <td>
+                                       <strong>Other deductions </strong>
+                                       <span class="float-end">
+                                          ₦ <?php echo number_format($salary->other_deduction, 2); ?></span>
+                                    </td>
+                                 </tr>
+
+                                 <tr>
+                                    <td>
                                        <strong>Total Deductions</strong>
                                        <span class="float-end">
-                                          <strong>₦ <?php echo number_format($totalDeduction, 2); ?></strong></span>
+                                          <strong>₦ <?php echo number_format($totalDeduction, 2); ?>
+                                          </strong></span>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td>
                                        <strong>Monthly Gross Salary</strong>
                                        <span class="float-end">
-                                          <strong>₦ <?php echo number_format($totalEarning, 2); ?></strong></span>
+                                          <strong>₦ <?php echo number_format($totalEarning, 2); ?>
+                                          </strong></span>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td>
                                        <strong>Monthly Net Salary</strong>
                                        <span class="float-end">
-                                          <strong>₦ <?php echo number_format($salary->net_salary, 2); ?></strong></span>
+                                          <strong>₦ <?php echo number_format($salary->net_salary, 2); ?>
+                                          </strong></span>
                                     </td>
                                  </tr>
                               </tbody>

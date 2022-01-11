@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2022 at 05:04 PM
+-- Generation Time: Jan 06, 2022 at 05:38 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -117,7 +117,8 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`id`, `department_name`, `created_at`, `deleted`) VALUES
-(1, 'Agric', '2022-01-03 15:52:11', 0);
+(1, 'Agric', '2022-01-03 15:52:11', 0),
+(2, 'Human resource', '2022-01-06 17:38:07', 0);
 
 -- --------------------------------------------------------
 
@@ -430,7 +431,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `designations`
