@@ -65,7 +65,7 @@ include(SHARED_PATH . '/admin_header.php');
 				<div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
 					<div class="profile-widget">
 						<div class="profile-img">
-							<a href="profile.php" class="avatar">
+							<a href="<?php echo url_for('employees/profile.php?employee_id=' . $employee->id) ?>" class="avatar">
 								<img src="<?php echo url_for('/assets/uploads/' . $employee->photo); ?>" alt=""></a>
 						</div>
 						<div class="dropdown profile-action employee_list">
@@ -76,7 +76,7 @@ include(SHARED_PATH . '/admin_header.php');
 							</div>
 						</div>
 						<h4 class="user-name m-t-10 mb-0 text-ellipsis">
-							<a href="profile.php"><?php echo ucwords($employee->full_name()); ?></a>
+							<a href="<?php echo url_for('employees/profile.php?employee_id=' . $employee->id) ?>"><?php echo ucwords($employee->full_name()); ?></a>
 						</h4>
 						<div class="small text-muted">
 							<?php echo ucwords($departmentName); ?>

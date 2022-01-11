@@ -17,7 +17,7 @@ include(SHARED_PATH . '/admin_header.php');
             </ul>
          </div>
          <div class="col-auto float-end ms-auto">
-            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#employee_modal"><i class="fa fa-plus"></i> Add Loan Request</a>
+            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#loan_request"><i class="fa fa-plus"></i> Add Loan Request</a>
             <div class="view-icons">
                <a href="/olak/hr/employees/" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
                <a href="/olak/hr/employees/employees-list.php" class="list-view btn btn-link"><i class="fa fa-bars"></i></a>
@@ -109,9 +109,12 @@ include(SHARED_PATH . '/admin_header.php');
    </div>
 </div>
 
+<?php include('../employees/inc/modal/all.php');  ?>
 <?php include(SHARED_PATH . '/admin_footer.php');  ?>
 <script>
    const EMPLOYEE_URL = "../employees/inc/employee_script.php";
+
+   const loanForm = document.getElementById("add_loan_form");
 
    const message = (req, res) => {
       swal(req + "!", res, {
@@ -123,6 +126,31 @@ include(SHARED_PATH . '/admin_header.php');
          }
       }).then(() => location.reload())
    }
+
+   const submitForm = async (url, payload) => {
+      const formData = new FormData(payload);
+      formData.append("update", 1);
+
+      const data = await fetch(url, {
+         method: "POST",
+         body: formData,
+      });
+
+      const response = await data.json();
+
+      if (response.errors) {
+         message('error', response.errors)
+      }
+
+      if (response.message) {
+         message('success', response.message)
+      }
+   };
+
+   loanForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitForm(EMPLOYEE_URL, loanForm);
+   });
 
    const updateStatus = async (url) => {
       const data = await fetch(url);
@@ -140,7 +168,6 @@ include(SHARED_PATH . '/admin_header.php');
    $('#loan_status').on('click', '.loan_action', function() {
       let emId = this.dataset.id;
       let statusVal = this.dataset.status;
-      console.log('This is loan_action');
       updateStatus(EMPLOYEE_URL + '?emId=' + emId + '&status=' + statusVal);
    });
 </script>
