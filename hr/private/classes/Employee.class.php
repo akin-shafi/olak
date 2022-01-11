@@ -150,4 +150,28 @@ class Employee extends DatabaseObject
       return false;
     }
   }
+
+  public static function find_by_query($options = [])
+  {
+    $id = $options['employee_id'] ?? false;
+    $name = $options['name'] ?? false;
+    $designate = $options['designate'] ?? false;
+
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+
+    if (isset($id) || isset($name) || isset($designate)) {
+      $sql .= "WHERE employee_id='" . self::$database->escape_string($id) . "'";
+      if (!empty($designate)) {
+        $sql .= " OR designation_id='" . self::$database->escape_string($designate) . "'";
+      }
+      if (!empty($name)) {
+        $sql .= " OR first_name LIKE '%" . self::$database->escape_string($name) . "%'";
+        $sql .= " OR last_name LIKE '%" . self::$database->escape_string($name) . "%'";
+      }
+      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    }
+
+    $sql .= "ORDER BY id DESC";
+    return static::find_by_sql($sql);
+  }
 }

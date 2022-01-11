@@ -2,6 +2,7 @@
 require_once('../../private/initialize.php');
 
 $uploadDir = '../../assets/uploads/';
+$loanDir = '../../assets/uploads/loan/';
 $response = [
   'errors' => null,
   'message' => '',
@@ -105,7 +106,7 @@ if (is_post_request()) {
       }
 
       if (isset($_POST['details'])) {
-        $employeeDetail = EmployeeDetail::find_by_id($employeeId);
+        $employeeDetail = EmployeeDetail::find_by_employee_id($employeeId);
 
         if (empty($employeeDetail->id)) {
 
@@ -114,26 +115,83 @@ if (is_post_request()) {
 
           $employeeDetail = new EmployeeDetail($args);
           $employeeDetail->save();
-
-          if (is_blank($employeeDetail->kin_name)) {
-            http_response_code(401);
-            exit(json_encode(['errors' => "Next of kin name is required."]));
-          }
-          if (is_blank($employeeDetail->kin_phone_1)) {
-            http_response_code(401);
-            exit(json_encode(['errors' => "Phone number is required."]));
-          }
-
-          if (is_blank($employeeDetail->kin_relationship)) {
-            http_response_code(401);
-            exit(json_encode(['errors' => "Relationship is required."]));
-          }
         } else {
           $args = $_POST['details'];
           $employeeDetail->merge_attributes($args);
           $employeeDetail->save();
           http_response_code(200);
           exit(json_encode(['message' => "Employee details updated successfully."]));
+        }
+      }
+
+      if (isset($_POST['loan'])) {
+        $employeeLoan = EmployeeLoan::find_by_employee_id($employeeId);
+
+        if (empty($employeeLoan->id)) {
+
+          $args = $_POST['loan'];
+          $args['employee_id'] = $employeeId;
+          $args['ref_no'] = 'EL-' . rand(100, 999) . '0' . $employeeId; //? EL: Employee Loan
+
+          if (!empty($_FILES['filename']['name'])) {
+            $temp = explode('.', $_FILES['filename']['name']);
+            $fileName = basename(round(microtime(true)) . '.' . end($temp));
+            $targetLoanFilePath = $loanDir . $fileName;
+            $fileType = pathinfo($targetLoanFilePath, PATHINFO_EXTENSION);
+
+            $allowTypes = ['jpeg', 'jpg', 'png', 'pdf'];
+            if (in_array($fileType, $allowTypes)) {
+              if (move_uploaded_file($_FILES['filename']['tmp_name'], $targetLoanFilePath)) {
+                $loanFile = $fileName;
+                $args['file_upload'] = $loanFile;
+              } else {
+                $uploadStatus = 0;
+                http_response_code(401);
+                $response['errors'] = 'Sorry, there was an error uploading your file.';
+              }
+            } else {
+              $uploadStatus = 0;
+              http_response_code(404);
+              $response['errors'] = 'Sorry, JPEG, JPG, PDF & PNG files are allowed to upload.';
+            }
+          }
+
+          $employeeLoan = new EmployeeLoan($args);
+          $employeeLoan->save();
+        } else {
+          $args = $_POST['loan'];
+          if (!empty($_FILES['filename']['name'])) {
+            $dbUpload = $employeeLoan->file_upload ?? '';
+
+            if (file_exists($loanDir . $dbUpload)) {
+              unlink($loanDir . $dbUpload);
+            }
+
+            $temp = explode('.', $_FILES['filename']['name']);
+            $fileName = basename(round(microtime(true)) . '.' . end($temp));
+            $targetLoanFilePath = $loanDir . $fileName;
+            $fileType = pathinfo($targetLoanFilePath, PATHINFO_EXTENSION);
+
+            $allowTypes = ['jpeg', 'jpg', 'png', 'pdf'];
+            if (in_array($fileType, $allowTypes)) {
+              if (move_uploaded_file($_FILES['filename']['tmp_name'], $targetLoanFilePath)) {
+                $loanFile = $fileName;
+                $args['file_upload'] = $loanFile;
+              } else {
+                $uploadStatus = 0;
+                http_response_code(401);
+                $response['errors'] = 'Sorry, there was an error uploading your file.';
+              }
+            } else {
+              $uploadStatus = 0;
+              http_response_code(404);
+              $response['errors'] = 'Sorry, JPEG, JPG, PDF & PNG files are allowed to upload.';
+            }
+          }
+          $employeeLoan->merge_attributes($args);
+          $employeeLoan->save();
+          http_response_code(200);
+          exit(json_encode(['message' => "Employee loan updated successfully."]));
         }
       }
 
@@ -277,6 +335,23 @@ if (is_get_request()) {
 
     http_response_code(200);
     $response['data'] = $employee;
+  }
+
+  if (isset($_GET['emId'])) {
+    $loan = EmployeeLoan::find_by_employee_id($_GET['emId']);
+    $status = $_GET['status'];
+
+    $args = [
+      'status' => $status,
+      'date_issued' => date('Y-m-d H:i:s'),
+    ];
+
+    $loan->merge_attributes($args);
+    $loan->save();
+
+    http_response_code(200);
+    $response['message'] = 'Status updated successfully!';
+    $response['data'] = $loan;
   }
 
   if (isset($_GET['deleted'])) {

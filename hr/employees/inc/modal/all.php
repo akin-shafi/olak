@@ -259,19 +259,19 @@
                    <div class="col-md-6">
                      <div class="form-group">
                        <label>Name <span class="text-danger">*</span></label>
-                       <input class="form-control" name="details[kin_name]" value="<?php echo $employeeInfo->kin_name ?? '' ?>" type="text">
+                       <input class="form-control" name="details[kin_name]" value="<?php echo $employeeInfo->kin_name ?? '' ?>" type="text" required>
                      </div>
                    </div>
                    <div class="col-md-6">
                      <div class="form-group">
                        <label>Relationship <span class="text-danger">*</span></label>
-                       <input class="form-control" name="details[kin_relationship]" value="<?php echo $employeeInfo->kin_relationship ?? '' ?>" type="text">
+                       <input class="form-control" name="details[kin_relationship]" value="<?php echo $employeeInfo->kin_relationship ?? '' ?>" type="text" required>
                      </div>
                    </div>
                    <div class="col-md-6">
                      <div class="form-group">
                        <label>Phone <span class="text-danger">*</span></label>
-                       <input class="form-control" name="details[kin_phone_1]" value="<?php echo $employeeInfo->kin_phone_1 ?? '' ?>" type="text">
+                       <input class="form-control" name="details[kin_phone_1]" value="<?php echo $employeeInfo->kin_phone_1 ?? '' ?>" type="text" required>
                      </div>
                    </div>
                    <div class="col-md-6">
@@ -520,6 +520,42 @@
                </div>
                <div class="add-more pull-right">
                  <a href="javascript:void(0);" id="add_exp"><i class="fa fa-plus-circle"></i> Add More</a>
+               </div>
+             </div>
+             <div class="submit-section">
+               <button class="btn btn-primary submit-btn">Submit</button>
+             </div>
+           </form>
+         </div>
+       </div>
+     </div>
+   </div>
+
+   <div id="loan_request" class="modal custom-modal fade" role="dialog">
+     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title">Loan Request</h5>
+           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <form id="add_loan_form">
+             <input type="hidden" name="employeeId" value="<?php echo $employee->id; ?>" readonly>
+             <div class="row">
+               <div class="col-md-8 m-auto">
+                 <div class="form-group mb-3">
+                   <label>Amount</label>
+                   <input type="number" class="form-control" name="loan[amount]" value="<?php echo $employeeLoan->amount ?>" required>
+                 </div>
+               </div>
+
+               <div class="col-md-8 m-auto">
+                 <div class="form-group">
+                   <label class="col-form-label">Loan Form <small class="text-info">(optional)</small> </label>
+                   <input type="file" name="filename" class="form-control">
+                 </div>
                </div>
              </div>
              <div class="submit-section">

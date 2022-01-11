@@ -22,50 +22,6 @@ include(SHARED_PATH . '/admin_header.php');
             </div>
          </div>
       </div>
-      <div class="row filter-row">
-         <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-            <div class="form-group form-focus">
-               <input type="text" class="form-control floating">
-               <label class="focus-label">Employee Name</label>
-            </div>
-         </div>
-         <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-            <div class="form-group form-focus select-focus">
-               <select class="select floating">
-                  <option value=""> -- Select -- </option>
-                  <option value="">Employee</option>
-                  <option value="1">Manager</option>
-               </select>
-               <label class="focus-label">Role</label>
-            </div>
-         </div>
-         <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-            <div class="form-group form-focus select-focus">
-               <select class="select floating">
-                  <option> -- Select -- </option>
-                  <option> Pending </option>
-                  <option> Approved </option>
-                  <option> Rejected </option>
-               </select>
-               <label class="focus-label">Leave Status</label>
-            </div>
-         </div>
-         <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-            <div class="form-group form-focus">
-               <input class="form-control floating" type="date">
-               <label class="focus-label">From</label>
-            </div>
-         </div>
-         <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-            <div class="form-group form-focus">
-               <input class="form-control floating" type="date">
-               <label class="focus-label">To</label>
-            </div>
-         </div>
-         <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">
-            <a href="#" class="btn btn-success w-100"> Search </a>
-         </div>
-      </div>
 
       <style>
          th,
@@ -180,32 +136,32 @@ include(SHARED_PATH . '/admin_header.php');
                      <div class="col-sm-6">
                         <h4 class="text-primary">Earnings</h4>
                         <div class="form-group">
+                           <label>Actual Amount</label>
+                           <input class="form-control" name="earning[actual_amount]" id="actual_amount" type="number">
+                        </div>
+                        <div class="form-group">
                            <label>Basic</label>
-                           <input class="form-control" name="earning[basic_salary]" id="basic_salary" type="text">
+                           <input class="form-control" name="earning[basic_salary]" id="basic_salary" type="text" readonly>
                         </div>
                         <div class="form-group">
                            <label>House Rent Allowance (?%)</label>
-                           <input class="form-control" name="earning[house_rent]" id="house_rent" type="text">
+                           <input class="form-control" name="earning[housing]" id="housing" type="text" readonly>
+                        </div>
+                        <div class="form-group">
+                           <label>Dressing Allowance</label>
+                           <input class="form-control" name="earning[dressing]" id="dressing" type="text" readonly>
                         </div>
                         <div class="form-group">
                            <label>Transport Allowance</label>
-                           <input class="form-control" name="earning[transport]" id="transport" type="text">
+                           <input class="form-control" name="earning[transport]" id="transport" type="text" readonly>
                         </div>
                         <div class="form-group">
-                           <label>Medical Allowance</label>
-                           <input class="form-control" name="earning[medical]" id="medical" type="text">
+                           <label>Utility Allowance</label>
+                           <input class="form-control" name="earning[utility]" id="utility" type="text" readonly>
                         </div>
                         <div class="form-group">
-                           <label>Meal Allowance</label>
-                           <input class="form-control" name="earning[meal]" id="meal" type="text">
-                        </div>
-                        <div class="form-group">
-                           <label>Furniture Allowance</label>
-                           <input class="form-control" name="earning[furniture]" id="furniture" type="text">
-                        </div>
-                        <div class="form-group">
-                           <label>Others</label>
-                           <input class="form-control" name="earning[]" type="text">
+                           <label>Other Allowances</label>
+                           <input class="form-control" name="earning[others]" id="other_earning" type="text" readonly>
                         </div>
                         <div class="add-more">
                            <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
@@ -225,7 +181,7 @@ include(SHARED_PATH . '/admin_header.php');
 
                         <div class="form-group">
                            <label>Others</label>
-                           <input class="form-control" name="deduction[]" type="text">
+                           <input class="form-control" name="deduction[others]" id="other_deduction" type="text">
                         </div>
                         <div class="add-more">
                            <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
@@ -249,12 +205,13 @@ include(SHARED_PATH . '/admin_header.php');
    $(document).ready(function() {
 
       const SALARY_URL = "inc/salary_script.php";
-      const salaryModal = new bootstrap.Modal(document.getElementById("salary_modal"));
-      const salaryTitle = document.getElementById('salary-title');
-      const submitSalaryBtn = document.getElementById("add_salary_btn");
-      const salaryForm = document.getElementById("add_salary_form");
+      const MORE_FIELDS = "inc/form_fields.php";
+      const salaryModal = new bootstrap.Modal(document.querySelector("#salary_modal"));
+      const salaryTitle = document.querySelector('#salary-title');
+      const submitSalaryBtn = document.querySelector("#add_salary_btn");
+      const salaryForm = document.querySelector("#add_salary_form");
 
-      const showAlert = document.getElementById('showAlert');
+      const showAlert = document.querySelector('#showAlert');
 
       const message = (req, res) => {
          swal(req + "!", res, {
@@ -300,23 +257,25 @@ include(SHARED_PATH . '/admin_header.php');
          let id = this.dataset.id
 
          salaryForm.id = 'edit_salary_form';
-         const editSalaryForm = document.getElementById("edit_salary_form");
+         const editSalaryForm = document.querySelector("#edit_salary_form");
 
          let data = await fetch(SALARY_URL + "?salaryId=" + id);
          let response = await data.json();
 
-         document.getElementById('employee_id').value = response.data.employee_id;
-         document.getElementById('basic_salary').value = response.data.basic_salary;
-         document.getElementById('house_rent').value = response.data.house_rent;
-         document.getElementById('transport').value = response.data.transport;
-         document.getElementById('medical').value = response.data.medical;
-         document.getElementById('meal').value = response.data.meal;
-         document.getElementById('furniture').value = response.data.furniture;
+         document.querySelector('#employee_id').value = response.data.employee_id;
+         document.querySelector('#actual_amount').value = response.data.actual_amount;
+         document.querySelector('#basic_salary').value = response.data.basic_salary;
+         document.querySelector('#housing').value = response.data.housing;
+         document.querySelector('#dressing').value = response.data.dressing;
+         document.querySelector('#transport').value = response.data.transport;
+         document.querySelector('#utility').value = response.data.utility;
+         document.querySelector('#other_earning').value = response.data.other_earning;
 
-         document.getElementById('tax').value = response.data.tax;
-         document.getElementById('pension').value = response.data.pension;
+         document.querySelector('#tax').value = response.data.tax;
+         document.querySelector('#pension').value = response.data.pension;
+         document.querySelector('#other_deduction').value = response.data.other_deduction;
 
-         document.getElementById('net_salary').value = response.data.net_salary;
+         document.querySelector('#net_salary').value = response.data.net_salary;
 
          salaryTitle.innerText = 'Edit Salary';
          submitSalaryBtn.innerText = "Update";
@@ -388,6 +347,27 @@ include(SHARED_PATH . '/admin_header.php');
             }
          })
       });
+
+
+      // ! CALCULATOR
+      const actual_amount = document.querySelector('#actual_amount');
+      const basic_salary = document.querySelector('#basic_salary');
+      const housing = document.querySelector('#housing');
+      const dressing = document.querySelector('#dressing');
+      const transport = document.querySelector('#transport');
+      const utility = document.querySelector('#utility');
+      const other_earning = document.querySelector('#other_earning');
+
+      actual_amount.addEventListener('keyup', function() {
+         let salary = actual_amount.value;
+
+         basic_salary.value = Math.round(salary * 0.12);
+         housing.value = Math.round(salary * 0.32);
+         dressing.value = Math.round(salary * 0.07);
+         transport.value = Math.round(salary * 0.08);
+         utility.value = Math.round(salary * 0.06);
+         other_earning.value = Math.round(salary * 0.35);
+      })
 
    });
 </script>

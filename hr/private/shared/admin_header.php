@@ -12,7 +12,8 @@
    <title><?php echo $page . ' - ' . $page_title ?></title>
    <link rel="shortcut icon" type="image/x-icon" href="<?php echo url_for('assets/img/favicon.png') ?>">
    <link rel="stylesheet" href="<?php echo url_for('assets/css/bootstrap.min.css') ?>">
-   <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/css/font-awesome.min.css') ?>"> -->
+   <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/css/font-awesome.min.css') 
+                                       ?>"> -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -24,7 +25,8 @@
 
    <link rel="stylesheet" href="<?php echo url_for('assets/css/line-awesome.min.css') ?>">
    <link rel="stylesheet" href="<?php echo url_for('assets/plugins/morris/morris.css') ?>">
-   <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/css/style-green.css') ?>"> -->
+   <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/css/style-green.css') 
+                                       ?>"> -->
    <link rel="stylesheet" href="<?php echo url_for('assets/css/style-blue.css') ?>">
    <!-- <link rel="stylesheet" href="<?php //echo url_for('assets/plugins/morris/morris.css') 
                                        ?>"> -->
@@ -408,7 +410,6 @@
                      <a href="#" class="noti-dot <?php echo $page == "Payroll" ? 'active' : '' ?> "><i class="la la-money"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
                      <ul style="display: none;">
                         <li><a href="<?php echo url_for('payroll/index.php') ?>"> Employee Salary </a></li>
-                        <li><a href="salary-view.html"> Payslip </a></li>
                         <li><a href="payroll-items.html"> Payroll Items </a></li>
                      </ul>
                   </li>
@@ -416,7 +417,7 @@
                      <a href="#" class="<?php echo $page == "Payroll" ? 'active' : '' ?> "><i class="la la-money"></i> <span> Payroll</span> <span class="menu-arrow"></span></a>
                      <ul style="display: none;">
                         <?php $employee_array = [
-                           'Employee Salary' => 'salary', 'Payslip' => 'salary-view',
+                           'Employee Salary' => 'salary',
                            'Payroll Items' => 'payroll-items'
                         ]; ?>
                         <?php foreach ($employee_array as $key => $val) { ?>

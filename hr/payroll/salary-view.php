@@ -45,7 +45,7 @@ include(SHARED_PATH . '/admin_header.php');
                   <h4 class="payslip-title">Payslip for the month of Feb 2019</h4>
                   <div class="row">
                      <div class="col-sm-6 m-b-20">
-                        <img src="assets/img/logo2.png" class="inv-logo" alt="">
+                        <!-- <img src="assets/img/logo2.png" class="inv-logo" alt=""> -->
                         <ul class="list-unstyled mb-0">
                            <li>Olak Integrated</li>
                            <li>Plot 5, Irewolede Industrial Estate, </li>
@@ -94,7 +94,14 @@ include(SHARED_PATH . '/admin_header.php');
                                     <td>
                                        <strong>House Rent Allowance (H.R.A.)</strong>
                                        <span class="float-end">
-                                          ₦ <?php echo number_format($salary->house_rent, 2); ?></span>
+                                          ₦ <?php echo number_format($salary->housing, 2); ?></span>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td>
+                                       <strong>Dressing Allowance</strong>
+                                       <span class="float-end">
+                                          ₦ <?php echo number_format($salary->dressing, 2); ?></span>
                                     </td>
                                  </tr>
                                  <tr>
@@ -106,23 +113,16 @@ include(SHARED_PATH . '/admin_header.php');
                                  </tr>
                                  <tr>
                                     <td>
-                                       <strong>Medical Allowance</strong>
+                                       <strong>Utility Allowance</strong>
                                        <span class="float-end">
-                                          ₦ <?php echo number_format($salary->medical, 2); ?></span>
+                                          ₦ <?php echo number_format($salary->utility, 2); ?></span>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td>
-                                       <strong>Furniture Allowance</strong>
+                                       <strong>Other Allowances</strong>
                                        <span class="float-end">
-                                          ₦ <?php echo number_format($salary->furniture, 2); ?></span>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td>
-                                       <strong>Meal Allowance</strong>
-                                       <span class="float-end">
-                                          ₦ <?php echo number_format($salary->meal, 2); ?></span>
+                                          ₦ <?php echo number_format($salary->other_earning, 2); ?></span>
                                     </td>
                                  </tr>
 
@@ -152,23 +152,34 @@ include(SHARED_PATH . '/admin_header.php');
 
                                  <tr>
                                     <td>
+                                       <strong>Other deductions </strong>
+                                       <span class="float-end">
+                                          ₦ <?php echo number_format($salary->other_deduction, 2); ?></span>
+                                    </td>
+                                 </tr>
+
+                                 <tr>
+                                    <td>
                                        <strong>Total Deductions</strong>
                                        <span class="float-end">
-                                          <strong>₦ <?php echo number_format($totalDeduction, 2); ?></strong></span>
+                                          <strong>₦ <?php echo number_format($totalDeduction, 2); ?>
+                                          </strong></span>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td>
                                        <strong>Monthly Gross Salary</strong>
                                        <span class="float-end">
-                                          <strong>₦ <?php echo number_format($totalEarning, 2); ?></strong></span>
+                                          <strong>₦ <?php echo number_format($totalEarning, 2); ?>
+                                          </strong></span>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td>
                                        <strong>Monthly Net Salary</strong>
                                        <span class="float-end">
-                                          <strong>₦ <?php echo number_format($salary->net_salary, 2); ?></strong></span>
+                                          <strong>₦ <?php echo number_format($salary->net_salary, 2); ?>
+                                          </strong></span>
                                     </td>
                                  </tr>
                               </tbody>
