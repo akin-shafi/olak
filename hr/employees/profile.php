@@ -5,7 +5,7 @@ if (!isset($_GET['employee_id'])) {
    redirect_to('../employees/employees-list.php');
 }
 
-$id = $_GET['employee_id'];
+$id = $_GET['employee_id'] ?? 1;
 $employee = Employee::find_by_id($id);
 $employeeInfo = EmployeeDetail::find_by_employee_id($id) ?? '';
 $employeeLoan = EmployeeLoan::find_by_employee_id($id) ?? '';
