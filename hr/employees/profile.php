@@ -1,17 +1,26 @@
 <?php
 require_once('../private/initialize.php');
 
-if (!isset($_GET['employee_id'])) {
+$id = $_GET['employee_id'];
+$employee = Employee::find_by_id($id);
+
+if (!isset($_GET['employee_id']) || empty($employee)) {
    redirect_to('../employees/employees-list.php');
 }
 
+
 $id = $_GET['employee_id'] ?? 1;
 $employee = Employee::find_by_id($id);
+
+
+
 $employeeInfo = EmployeeDetail::find_by_employee_id($id) ?? '';
 $employeeLoan = EmployeeLoan::find_by_employee_id($id) ?? '';
 $salary = Salary::find_by_employee_id($id);
-$salaryDeduction = SalaryDeduction::find_by_deductions($salary->id)->total_deductions;
-$salaryEarning = SalaryEarning::find_by_earnings($salary->id)->total_earnings;
+if (!empty($salary)) {
+   $salaryDeduction = SalaryDeduction::find_by_deductions($salary->id)->total_deductions;
+   $salaryEarning = SalaryEarning::find_by_earnings($salary->id)->total_earnings;
+}
 
 $employeeSalaryEarning = SalaryEarning::find_by_earnings($id);
 $department = Department::find_by_id($employee->department_id);
@@ -51,14 +60,17 @@ include(SHARED_PATH . '/admin_header.php');
                   <div class="profile-view">
                      <div class="profile-img-wrap">
                         <div class="profile-img">
-                           <a href="#"><img alt="" src="<?php echo url_for('/assets/uploads/' . $employee->photo); ?>"></a>
+                           <a href="#">
+                              <img alt="" src="<?php echo url_for('/assets/uploads/' . $employee->photo); ?>">
+                           </a>
                         </div>
                      </div>
                      <div class="profile-basic">
                         <div class="row">
                            <div class="col-md-5">
                               <div class="profile-info-left">
-                                 <h3 class="user-name m-t-0 mb-0"><?php echo ucwords($employee->full_name()); ?></h3>
+                                 <h3 class="user-name m-t-0 mb-0">
+                                    <?php echo ucwords($employee->full_name()); ?></h3>
                                  <h6 class="text-muted">
                                     Department: <?php echo ucwords($department->department_name); ?>
                                  </h6>
@@ -72,7 +84,8 @@ include(SHARED_PATH . '/admin_header.php');
                                     Date of Join : <?php echo date('M jS, Y', strtotime($employee->date_employed)); ?>
                                  </div>
                                  <div class="staff-msg">
-                                    <a href="#" class="btn btn-custom" data-bs-target="#loan_request" data-bs-toggle="modal">Loan Request</a>
+                                    <button class="btn btn-custom" data-bs-target="#loan_request" data-bs-toggle="modal" <?php echo empty($salary) ? 'disabled' : '' ?>>
+                                       Loan Request</button>
                                  </div>
                               </div>
                            </div>
@@ -115,7 +128,10 @@ include(SHARED_PATH . '/admin_header.php');
                            </div>
                         </div>
                      </div>
-                     <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
+                     <div class="pro-edit">
+                        <a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon" href="#">
+                           <i class="fa fa-pencil"></i></a>
+                     </div>
                   </div>
                </div>
             </div>
@@ -292,177 +308,185 @@ include(SHARED_PATH . '/admin_header.php');
 
          <?php
          $period = 'This month';
-         $salary = intval($salary->net_salary);
-         $accessible_loan_percentage = 0.4;
-         $accessible_loan_value = $salary * $accessible_loan_percentage;
+         if (!empty($salary)) {
+            $salary = intval($salary->net_salary);
+            $accessible_loan_percentage = 0.4;
+            $accessible_loan_value = $salary * $accessible_loan_percentage;
 
-         // Loan calculation
-         $loan_received = $employeeLoan->amount;
-         $loan_balance = $accessible_loan_value - $loan_received;
-         $take_home = $salary - $loan_received;
+            // Loan calculation
+            $loan_received = $employeeLoan->amount ?? 0;
+            $loan_balance = $accessible_loan_value - $loan_received;
+            $take_home = $salary - $loan_received;
 
-         // Percentage Difference 
+            // Percentage Difference 
 
-         $loan_received_percentage = ($loan_received / $accessible_loan_value) * 100;
-         $loan_balance_percentage = ($loan_balance / $accessible_loan_value) * 100;
-         $take_home_percentage = ($take_home / $salary) * 100;
+            $loan_received_percentage = ($loan_received / $accessible_loan_value) * 100;
+            $loan_balance_percentage = ($loan_balance / $accessible_loan_value) * 100;
+            $take_home_percentage = ($take_home / $salary) * 100;
+         }
          ?>
 
          <div class="tab-pane fade" id="emp_loan">
-            <div class="row">
-               <div class="col-md-4">
-                  <div class="card-group m-b-30">
-                     <div class="card">
-                        <div class="card-body">
-                           <div>
-                              <p><i class="fa fa-dot-circle-o text-purple me-2"></i>Current Salary <span class="float-end"><?php echo number_format($salary, 2) ?></span></p>
-                              <p><i class="fa fa-dot-circle-o text-warning me-2"></i>Accessible loan (In %) <span class="float-end"><?php echo $accessible_loan_percentage * 100 ?>%</span></p>
-                              <p><i class="fa fa-dot-circle-o text-success me-2"></i>Accessible loan (In ₦) <span class="float-end"><?php echo $currency . " " . number_format($accessible_loan_value, 2); ?></span></p>
-                              <!-- <p><i class="fa fa-dot-circle-o text-danger me-2"></i>Pending Tasks <span class="float-end">47</span></p> -->
-                              <!-- <p class="mb-0"><i class="fa fa-dot-circle-o text-info me-2"></i>Review Tasks <span class="float-end">5</span></p> -->
+            <?php if (!empty($salary)) : ?>
+               <div class="row">
+                  <div class="col-md-4">
+                     <div class="card-group m-b-30">
+                        <div class="card">
+                           <div class="card-body">
+                              <div>
+                                 <p><i class="fa fa-dot-circle-o text-purple me-2"></i>Current Salary <span class="float-end"><?php echo number_format($salary, 2) ?></span></p>
+                                 <p><i class="fa fa-dot-circle-o text-warning me-2"></i>Accessible loan (In %) <span class="float-end"><?php echo $accessible_loan_percentage * 100 ?>%</span></p>
+                                 <p><i class="fa fa-dot-circle-o text-success me-2"></i>Accessible loan (In ₦) <span class="float-end"><?php echo $currency . " " . number_format($accessible_loan_value, 2); ?></span></p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="col-md-8">
+                     <div class="card-group m-b-30">
+                        <div class="card">
+                           <div class="card-body">
+                              <div class="d-flex justify-content-between mb-3">
+                                 <div>
+                                    <span class="d-block">Loan received</span>
+                                 </div>
+                                 <div>
+                                    <span class="text-success"><?php echo round($loan_received_percentage) ?>%</span>
+                                 </div>
+                              </div>
+                              <h3 class="mb-3"><?php echo $currency . " " . number_format($loan_received, 2) ?></h3>
+                              <div class="progress mb-2" style="height: 5px;">
+                                 <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <p class="mb-0 text-muted"><?php echo $period; ?></p>
+                           </div>
+                        </div>
+
+                        <div class="card">
+                           <div class="card-body">
+                              <div class="d-flex justify-content-between mb-3">
+                                 <div>
+                                    <span class="d-block">Loan Balance</span>
+                                 </div>
+                                 <div>
+                                    <span class="text-danger"><?php echo round($loan_balance_percentage); ?>%</span>
+                                 </div>
+                              </div>
+                              <h3 class="mb-3"><?php echo $currency . " " . number_format($loan_balance, 2) ?></h3>
+                              <div class="progress mb-2" style="height: 5px;">
+                                 <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <p class="mb-0 text-muted"><?php echo $period; ?></p>
+                           </div>
+                        </div>
+                        <div class="card">
+                           <div class="card-body">
+                              <div class="d-flex justify-content-between mb-3">
+                                 <div>
+                                    <span class="d-block">Current take home</span>
+                                 </div>
+                                 <div>
+                                    <span class="text-danger"><?php echo round($take_home_percentage); ?>%</span>
+                                 </div>
+                              </div>
+                              <h3 class="mb-3"><?php echo $currency . " " . number_format($take_home, 2) ?></h3>
+                              <div class="progress mb-2" style="height: 5px;">
+                                 <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <p class="mb-0 text-muted"><?php echo $period; ?></p>
                            </div>
                         </div>
                      </div>
                   </div>
                </div>
 
-               <div class="col-md-8">
-                  <div class="card-group m-b-30">
-                     <div class="card">
-                        <div class="card-body">
-                           <div class="d-flex justify-content-between mb-3">
-                              <div>
-                                 <span class="d-block">Loan received</span>
-                              </div>
-                              <div>
-                                 <span class="text-success"><?php echo round($loan_received_percentage) ?>%</span>
-                              </div>
-                           </div>
-                           <h3 class="mb-3"><?php echo $currency . " " . number_format($loan_received, 2) ?></h3>
-                           <div class="progress mb-2" style="height: 5px;">
-                              <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                           </div>
-                           <p class="mb-0 text-muted"><?php echo $period; ?></p>
+               <div class="row">
+                  <div class="col-md-6 d-flex">
+                     <div class="card card-table flex-fill">
+                        <div class="card-header">
+                           <h3 class="card-title mb-0">Loan Request</h3>
                         </div>
-                     </div>
-
-                     <div class="card">
                         <div class="card-body">
-                           <div class="d-flex justify-content-between mb-3">
-                              <div>
-                                 <span class="d-block">Loan Balance</span>
-                              </div>
-                              <div>
-                                 <span class="text-danger"><?php echo round($loan_balance_percentage); ?>%</span>
-                              </div>
-                           </div>
-                           <h3 class="mb-3"><?php echo $currency . " " . number_format($loan_balance, 2) ?></h3>
-                           <div class="progress mb-2" style="height: 5px;">
-                              <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                           </div>
-                           <p class="mb-0 text-muted"><?php echo $period; ?></p>
-                        </div>
-                     </div>
-                     <div class="card">
-                        <div class="card-body">
-                           <div class="d-flex justify-content-between mb-3">
-                              <div>
-                                 <span class="d-block">Current take home</span>
-                              </div>
-                              <div>
-                                 <span class="text-danger"><?php echo round($take_home_percentage); ?>%</span>
-                              </div>
-                           </div>
-                           <h3 class="mb-3"><?php echo $currency . " " . number_format($take_home, 2) ?></h3>
-                           <div class="progress mb-2" style="height: 5px;">
-                              <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                           </div>
-                           <p class="mb-0 text-muted"><?php echo $period; ?></p>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            <div class="row">
-               <div class="col-md-6 d-flex">
-                  <div class="card card-table flex-fill">
-                     <div class="card-header">
-                        <h3 class="card-title mb-0">Loan Request</h3>
-                     </div>
-                     <div class="card-body">
-                        <div class="table-responsive table-wrap p-2">
-                           <table class="table table-nowrap custom-table mb-0 ">
-                              <thead>
-                                 <tr>
-                                    <th>Ref No.</th>
-                                    <th>Amount</th>
-                                    <th>Date requested</th>
-                                    <th>Status</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <?php foreach (EmployeeLoan::find_by_undeleted() as $loan) : ?>
+                           <div class="table-responsive table-wrap p-2">
+                              <table class="table table-nowrap custom-table mb-0 ">
+                                 <thead>
                                     <tr>
-                                       <td><a href="invoice-view.html">#<?php echo strtoupper($loan->ref_no) ?></a></td>
-                                       <td>
-                                          <h2><a href="#"><?php echo number_format($loan->amount, 2) ?></a></h2>
-                                       </td>
-                                       <td><?php echo date('M jS, Y', strtotime($loan->date_requested)) ?></td>
-                                       <td>
-                                          <span class="badge bg-inverse-warning">New</span>
-                                       </td>
+                                       <th>Ref No.</th>
+                                       <th>Amount</th>
+                                       <th>Date requested</th>
+                                       <th>Status</th>
                                     </tr>
-                                 <?php endforeach; ?>
+                                 </thead>
+                                 <tbody>
+                                    <?php foreach (EmployeeLoan::find_by_undeleted() as $loan) : ?>
+                                       <tr>
+                                          <td><a href="invoice-view.html">#<?php echo strtoupper($loan->ref_no) ?></a></td>
+                                          <td>
+                                             <h2><a href="#"><?php echo number_format($loan->amount, 2) ?></a></h2>
+                                          </td>
+                                          <td><?php echo date('M jS, Y', strtotime($loan->date_requested)) ?></td>
+                                          <td>
+                                             <span class="badge bg-inverse-warning">New</span>
+                                          </td>
+                                       </tr>
+                                    <?php endforeach; ?>
 
-                              </tbody>
-                           </table>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                        <div class="card-footer">
+                           <a href="invoices.html">View all invoices</a>
                         </div>
                      </div>
-                     <div class="card-footer">
-                        <a href="invoices.html">View all invoices</a>
-                     </div>
                   </div>
-               </div>
-               <div class="col-md-6 d-flex">
-                  <div class="card card-table flex-fill">
-                     <div class="card-header">
-                        <h3 class="card-title mb-0">loan received</h3>
-                     </div>
-                     <div class="card-body">
-                        <div class="table-responsive table-wrap p-2">
-                           <table class="table table-nowrap custom-table mb-0">
-                              <thead>
-                                 <tr>
-                                    <th>Ref No.</th>
-                                    <th>Paid Amount</th>
-                                    <th>Paid Date</th>
-                                    <th>Payment Method</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <?php foreach (EmployeeLoan::find_by_undeleted() as $loan) : ?>
+                  <div class="col-md-6 d-flex">
+                     <div class="card card-table flex-fill">
+                        <div class="card-header">
+                           <h3 class="card-title mb-0">loan received</h3>
+                        </div>
+                        <div class="card-body">
+                           <div class="table-responsive table-wrap p-2">
+                              <table class="table table-nowrap custom-table mb-0">
+                                 <thead>
                                     <tr>
-                                       <td><a href="invoice-view.html">#<?php echo strtoupper($loan->ref_no) ?></a></td>
-                                       <td>
-                                          <h2><a href="#"><?php echo number_format($loan->amount_paid, 2) ?></a></h2>
-                                       </td>
-                                       <td><?php echo date('M jS, Y', strtotime($loan->date_issued)) ?></td>
-                                       <td>
-                                          <span class="badge bg-inverse-warning"><?php echo ucwords($loan->payment_method) ?></span>
-                                       </td>
+                                       <th>Ref No.</th>
+                                       <th>Paid Amount</th>
+                                       <th>Paid Date</th>
+                                       <th>Payment Method</th>
                                     </tr>
-                                 <?php endforeach; ?>
-                              </tbody>
-                           </table>
+                                 </thead>
+                                 <tbody>
+                                    <?php foreach (EmployeeLoan::find_by_undeleted() as $loan) : ?>
+                                       <tr>
+                                          <td><a href="invoice-view.html">#<?php echo strtoupper($loan->ref_no) ?></a></td>
+                                          <td>
+                                             <h2><a href="#"><?php echo number_format($loan->amount_paid, 2) ?></a></h2>
+                                          </td>
+                                          <td><?php echo date('M jS, Y', strtotime($loan->date_issued)) ?></td>
+                                          <td>
+                                             <span class="badge bg-inverse-warning"><?php echo ucwords($loan->payment_method) ?></span>
+                                          </td>
+                                       </tr>
+                                    <?php endforeach; ?>
+                                 </tbody>
+                              </table>
+                           </div>
                         </div>
-                     </div>
-                     <div class="card-footer">
-                        <a href="payments.html">View all payments</a>
+                        <div class="card-footer">
+                           <a href="payments.html">View all payments</a>
+                        </div>
                      </div>
                   </div>
                </div>
-            </div>
+            <?php else : ?>
+               <h2 class="text-center">Salary is not set for
+                  <span class="text-primary">
+                     <?php echo ucwords($employee->full_name()); ?>
+                  </span>
+               </h2>
+            <?php endif; ?>
 
          </div>
          <div class="tab-pane fade" id="bank_statutory">

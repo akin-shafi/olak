@@ -163,9 +163,9 @@ include(SHARED_PATH . '/admin_header.php');
                            <label>Other Allowances</label>
                            <input class="form-control" name="earning[others]" id="other_earning" type="text" readonly>
                         </div>
-                        <!-- <div class="add-more">
+                        <div class="add-more">
                            <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
-                        </div> -->
+                        </div>
                      </div>
 
                      <div class="col-sm-6">
@@ -183,9 +183,9 @@ include(SHARED_PATH . '/admin_header.php');
                            <label>Others</label>
                            <input class="form-control" name="deduction[others]" id="other_deduction" type="text">
                         </div>
-                        <!-- <div class="add-more">
+                        <div class="add-more">
                            <a href="#"><i class="fa fa-plus-circle"></i> Add More</a>
-                        </div> -->
+                        </div>
                      </div>
                   </div>
                   <div class="submit-section">
@@ -205,6 +205,7 @@ include(SHARED_PATH . '/admin_header.php');
    $(document).ready(function() {
 
       const SALARY_URL = "inc/salary_script.php";
+      const MORE_FIELDS = "inc/form_fields.php";
       const salaryModal = new bootstrap.Modal(document.querySelector("#salary_modal"));
       const salaryTitle = document.querySelector('#salary-title');
       const submitSalaryBtn = document.querySelector("#add_salary_btn");
@@ -268,10 +269,11 @@ include(SHARED_PATH . '/admin_header.php');
          document.querySelector('#dressing').value = response.data.dressing;
          document.querySelector('#transport').value = response.data.transport;
          document.querySelector('#utility').value = response.data.utility;
-         document.querySelector('#other_earning').value = response.data.others;
+         document.querySelector('#other_earning').value = response.data.other_earning;
 
          document.querySelector('#tax').value = response.data.tax;
          document.querySelector('#pension').value = response.data.pension;
+         document.querySelector('#other_deduction').value = response.data.other_deduction;
 
          document.querySelector('#net_salary').value = response.data.net_salary;
 
@@ -365,7 +367,6 @@ include(SHARED_PATH . '/admin_header.php');
          transport.value = Math.round(salary * 0.08);
          utility.value = Math.round(salary * 0.06);
          other_earning.value = Math.round(salary * 0.35);
-         console.log(salary);
       })
 
    });

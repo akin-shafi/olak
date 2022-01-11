@@ -40,7 +40,7 @@ class SalaryDeduction extends DatabaseObject
 
   public static function find_by_deductions($salary_id)
   {
-    $sql = "SELECT (tax + pension) AS total_deductions FROM " . static::$table_name . " ";
+    $sql = "SELECT (tax + pension + others) AS total_deductions FROM " . static::$table_name . " ";
     $sql .= "WHERE salary_id='" . self::$database->escape_string($salary_id) . "'";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
