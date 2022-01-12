@@ -9,6 +9,11 @@ if (!isset($_GET['employee_id']) || empty($employee)) {
 }
 
 
+$id = $_GET['employee_id'] ?? 1;
+$employee = Employee::find_by_id($id);
+
+
+
 $employeeInfo = EmployeeDetail::find_by_employee_id($id) ?? '';
 $employeeLoan = EmployeeLoan::find_by_employee_id($id) ?? '';
 $salary = Salary::find_by_employee_id($id);
