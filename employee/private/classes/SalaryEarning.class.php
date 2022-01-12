@@ -6,7 +6,7 @@ class SalaryEarning extends DatabaseObject
 
   public $id;
   public $salary_id;
-
+ 
   // ? EARNINGS
   public $basic_salary;
   public $house_rent;
