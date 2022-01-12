@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 11, 2022 at 12:00 PM
+-- Generation Time: Jan 12, 2022 at 03:25 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -153,7 +153,7 @@ CREATE TABLE `employees` (
   `designation_id` int(11) DEFAULT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `gender` enum('male','female') NOT NULL,
+  `gender` varchar(20) NOT NULL,
   `phone` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `hashed_password` varchar(255) NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE `employees` (
   `country` varchar(50) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `marital_status` enum('single','married','divorced') NOT NULL,
+  `marital_status` varchar(20) NOT NULL,
   `children` varchar(50) NOT NULL,
   `religion` varchar(50) DEFAULT NULL,
   `photo` varchar(50) NOT NULL,
@@ -176,7 +176,8 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `employee_id`, `department_id`, `designation_id`, `first_name`, `last_name`, `gender`, `phone`, `email`, `hashed_password`, `address`, `country`, `state`, `dob`, `marital_status`, `children`, `religion`, `photo`, `location`, `date_employed`, `created_at`, `deleted`) VALUES
-(1, 'hr-001', 1, 1, 'Abbot', 'Sharpe', '', '+1 (131) 807-4972', 'betyrohi@mailinator.com', '$2y$10$THOUbSvIRKDkaoEFPJagZu59xB8Cnl5cPOyDBfBUkHnnXe6sUibLS', '', '', '', '0000-00-00', '', '', '', '1641866681.jpg', '', '2019-04-29', '2022-01-11 03:04:41', 0);
+(1, 'hr-001', 1, 1, 'Abbot', 'Sharpe', '', '+1 (131) 807-4972', 'betyrohi@mailinator.com', '$2y$10$THOUbSvIRKDkaoEFPJagZu59xB8Cnl5cPOyDBfBUkHnnXe6sUibLS', '', '', '', '0000-00-00', '', '', '', '1641866681.jpg', '', '2019-04-29', '2022-01-11 03:04:41', 0),
+(2, 'hr-002', 1, 1, 'Lenore', 'Mclean', '', '+1 (595) 984-2249', 'mamuhawa@mailinator.com', '$2y$10$/ohVgFR/1qE/kr19jiMYjOutuHMxQRkZ7/Ppl7sRLigQDXw3qIaQK', '', '', '', '0000-00-00', '', '', '', '1641900600.jpg', '', '1973-02-22', '2022-01-11 12:29:59', 0);
 
 -- --------------------------------------------------------
 
@@ -261,6 +262,13 @@ CREATE TABLE `loans` (
   `file_upload` varchar(50) NOT NULL,
   `deleted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `loans`
+--
+
+INSERT INTO `loans` (`id`, `ref_no`, `employee_id`, `amount`, `amount_paid`, `payment_method`, `date_requested`, `date_issued`, `status`, `file_upload`, `deleted`) VALUES
+(1, 'EL-20002', 2, 1000, 0, 0, '2022-01-11 13:16:39', '2022-01-11 14:25:26', 2, '', 0);
 
 -- --------------------------------------------------------
 
@@ -536,7 +544,7 @@ ALTER TABLE `designations`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee_details`
@@ -560,7 +568,7 @@ ALTER TABLE `employee_experience`
 -- AUTO_INCREMENT for table `loans`
 --
 ALTER TABLE `loans`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `payroll_additions`
