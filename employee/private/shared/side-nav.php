@@ -1,68 +1,67 @@
-<div class="leftside-menu leftside-menu-detached">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item nav-profile">
+                <a href="#" class="nav-link">
+                    <div class="profile-image">
+                        <img class="img-xs rounded-circle" src="<?php echo url_for('assets/uploads/' . $user->photo); ?>" alt="profile image">
+                        <div class="dot-indicator bg-success"></div>
+                    </div>
+                    <div class="text-wrapper">
+                        <p class="profile-name"><?php echo ucwords($user->full_name()); ?></p>
+                        <p class="designation"><?php echo strtoupper($designationName); ?></p>
+                    </div>
+                </a>
+            </li>
 
-    <div class="leftbar-user d-none">
-        <a href="javascript: void(0);">
-            <img src="assets/images/users/avatar-1.jpg" alt="user-image" height="42" class="rounded-circle shadow-sm">
-            <span class="leftbar-user-name">Dominic Keller</span>
-        </a>
-    </div>
+            <li class="nav-item <?php echo $page == 'Dashboard' ? 'active' : '' ?>">
+                <a class="nav-link py-4" href="<?php echo url_for('dashboard'); ?>">
+                    <i class="icon-screen-desktop mr-4"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
 
-    <!--- Sidemenu -->
-    <ul class="side-nav">
+            <li class="nav-item <?php echo $page == 'Profile' ? 'active' : '' ?>">
+                <a class="nav-link py-4" href="<?php echo url_for('profiles') ?>">
+                    <i class="icon-user mr-4"></i>
+                    <span class="menu-title">My Profile</span>
+                </a>
+            </li>
 
-        <li class="side-nav-title side-nav-item"></li>
+            <li class="nav-item">
+                <a class="nav-link py-4" href="#">
+                    <i class="icon-credit-card mr-4"></i>
+                    <span class="menu-title">Loan Status</span>
+                </a>
+            </li>
 
-        <li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span class="badge bg-success float-end">4</span>
-                <span> Dashboards </span>
-            </a>
-            <div class="collapse" id="sidebarDashboards">
-                <ul class="side-nav-second-level">
-                    <li>
-                        <a href="dashboard-analytics.html">Analytics</a>
-                    </li>
-                    <li>
-                        <a href="dashboard-crm.html">CRM</a>
-                    </li>
-                    <li>
-                        <a href="index.html">Ecommerce</a>
-                    </li>
-                    <li>
-                        <a href="dashboard-projects.html">Projects</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link py-4" href="#">
+                    <i class="icon-calendar mr-4"></i>
+                    <span class="menu-title">Attendance</span>
+                </a>
+            </li>
 
-        <!-- <li class="side-nav-title side-nav-item">Apps</li> -->
+            <li class="nav-item">
+                <a class="nav-link py-4" href="#">
+                    <i class="icon-home mr-4"></i>
+                    <span class="menu-title">Leave Status</span>
+                </a>
+            </li>
 
-        <li class="side-nav-item">
-            <a href="landing.html" target="_blank" class="side-nav-link">
-                <i class="uil-globe"></i>
-                <span class="badge bg-light text-dark float-end">New</span>
-                <span> Landing </span>
-            </a>
-        </li>
-    </ul>
+            <li class="nav-item">
+                <a class="nav-link py-4" href="#">
+                    <i class="icon-settings mr-4"></i>
+                    <span class="menu-title">Settings</span>
+                </a>
+            </li>
 
-    
+            <div class="m-custom" style="margin-top: 5rem;"></div>
+            <li class="nav-item">
+                <a class="nav-link py-4" href="<?php echo url_for('logout.php') ?>">
+                    <i class="icon-logout mr-4"></i>
+                    <span class="menu-title">Logout</span>
+                </a>
+            </li>
 
-    <!-- Help Box -->
-    <div class="help-box help-box-light text-center d-none">
-        <a href="javascript: void(0);" class="float-end close-btn text-body">
-            <i class="mdi mdi-close"></i>
-        </a>
-        <img src="assets/images/help-icon.svg" height="90" alt="Helper Icon Image" />
-        <h5 class="mt-3">Unlimited Access</h5>
-        <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>
-        <a href="javascript: void(0);" class="btn btn-outline-primary btn-sm">Upgrade</a>
-    </div>
-    <!-- end Help Box -->
-    <!-- End Sidebar -->
-
-    <div class="clearfix"></div>
-    <!-- Sidebar -left -->
-
-</div>
+        </ul>
+    </nav>

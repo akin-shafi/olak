@@ -2,18 +2,19 @@
 class SalaryEarning extends DatabaseObject
 {
   protected static $table_name = "salary_earnings";
-  protected static $db_columns = ['id', 'salary_id', 'basic_salary', 'house_rent', 'transport', 'medical', 'furniture', 'meal', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'salary_id', 'actual_amount', 'basic_salary', 'housing', 'dressing', 'transport', 'utility', 'others', 'created_at', 'deleted'];
 
   public $id;
   public $salary_id;
-
+ 
   // ? EARNINGS
+  public $actual_amount;
   public $basic_salary;
-  public $house_rent;
+  public $housing;
+  public $dressing;
   public $transport;
-  public $medical;
-  public $furniture;
-  public $meal;
+  public $utility;
+  public $others;
 
   public $created_at;
   public $deleted;
@@ -24,12 +25,13 @@ class SalaryEarning extends DatabaseObject
   public function __construct($args = [])
   {
     $this->salary_id        = $args['salary_id'] ?? '';
+    $this->actual_amount    = $args['actual_amount'] ?? '';
     $this->basic_salary     = $args['basic_salary'] ?? '';
-    $this->house_rent       = $args['house_rent'] ?? '';
+    $this->housing          = $args['housing'] ?? '';
+    $this->dressing         = $args['dressing'] ?? '';
     $this->transport        = $args['transport'] ?? '';
-    $this->medical          = $args['medical'] ?? '';
-    $this->furniture        = $args['furniture'] ?? '';
-    $this->meal             = $args['meal'] ?? '';
+    $this->utility          = $args['utility'] ?? '';
+    $this->others           = $args['others'] ?? '';
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted          = $args['deleted'] ?? '';
   }
@@ -47,10 +49,10 @@ class SalaryEarning extends DatabaseObject
     }
   }
 
-  public static function find_by_earnings()
+  public static function find_by_earnings($salary_id)
   {
-    $sql = "SELECT (basic_salary + house_rent + transport + medical + furniture + meal) AS total_earnings FROM " . static::$table_name . " ";
-    $sql .= " GROUP BY salary_id ";
+    $sql = "SELECT (basic_salary + housing + dressing + transport + utility + others) AS total_earnings FROM " . static::$table_name . " ";
+    $sql .= "WHERE salary_id='" . self::$database->escape_string($salary_id) . "'";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);

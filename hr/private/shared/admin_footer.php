@@ -17,7 +17,7 @@
 <script src="<?php echo url_for('assets/js/sweetalert.min.js'); ?>"></script>
 
 <script src="<?php echo url_for('assets/js/app.js') ?>"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 
 </body>

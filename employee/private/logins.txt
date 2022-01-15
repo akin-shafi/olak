@@ -20,3 +20,6 @@
 2022-01-08 12:43:36 | Employee Login: Tanner Gardner Logged in.
 2022-01-08 12:43:41 | Employee Login: Tanner Gardner Logged in.
 2022-01-08 12:45:10 | Employee Login: Tanner Gardner Logged in.
+2022-01-14 21:19:08 | Employee Login: Idiagbon  Igbehinadun Logged in.
+2022-01-15 13:54:48 | Employee Login: Idiagbon  Igbehinadun Logged in.
+2022-01-15 14:06:37 | Employee Login: Idiagbon  Igbehinadun Logged in.

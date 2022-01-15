@@ -17364,9 +17364,9 @@ dl li {
 }
 
 /* Modals */
-.modal .modal-dialog {
-  margin-top: 100px;
-}
+/* .modal .modal-dialog {
+  margin-top: 10px;
+} */
 
 .modal .modal-dialog .modal-content .modal-header {
   padding: 25px 26px;
@@ -18249,7 +18249,7 @@ dl li {
 
 @media (max-width: 991px) {
   .navbar .navbar-brand-wrapper {
-    width: 55px;
+    width: 75px !important;
     padding-left: 15px;
     padding-right: 15px;
   }

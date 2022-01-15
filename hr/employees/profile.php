@@ -314,7 +314,7 @@ include(SHARED_PATH . '/admin_header.php');
             $accessible_loan_value = $salary * $accessible_loan_percentage;
 
             // Loan calculation
-            $loan_received = $employeeLoan->amount ?? 0;
+            $loan_received = $employeeLoan->total_loan_received ?? 0;
             $loan_balance = $accessible_loan_value - $loan_received;
             $take_home = $salary - $loan_received;
 
@@ -489,6 +489,7 @@ include(SHARED_PATH . '/admin_header.php');
             <?php endif; ?>
 
          </div>
+
          <div class="tab-pane fade" id="bank_statutory">
             <div class="card">
                <div class="card-body">
