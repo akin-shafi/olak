@@ -24,6 +24,7 @@ $page_title = 'Employee | Profile';
 
 <div class="main-panel">
   <div class="content-wrapper">
+    <h2 class="font-weight-bolder mb-4">Profile</h2>
     <div class="card shadow">
       <div class="card-body">
         <div class="d-flex align-items-center">
@@ -36,12 +37,13 @@ $page_title = 'Employee | Profile';
               <h3 class="font-weight-bolder mr-3 mb-0">
                 <?php echo ucwords($user->full_name()); ?>
               </h3>
-              <span class="badge badge-success">Active</span>
+              <span class="badge text-light" style="background: #15C327;">Active</span>
+              <button class="btn btn-sm btn-outline-secondary d-block ml-auto">Edit</button>
             </div>
             <div class="row">
               <div class="col-md-6">
                 <p class="mb-0">
-                  <span class="badge badge-info"><?php echo ucwords($departmentName); ?></span>
+                  <span class="badge text-light" style="background: #759DD9;"><?php echo ucwords($departmentName); ?></span>
                 </p>
               </div>
               <div class="col-md-6">
