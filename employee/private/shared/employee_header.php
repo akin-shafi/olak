@@ -27,6 +27,7 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
    <link rel="shortcut icon" href="<?php echo url_for('images/favicon.png" '); ?>" />
+   <link rel="stylesheet" href="<?php echo url_for('assets/custom.css'); ?>">
 </head>
 
 <body>

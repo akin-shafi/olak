@@ -2,7 +2,7 @@
 class Employee extends DatabaseObject
 {
   protected static $table_name = "employees";
-  protected static $db_columns = ['id', 'employee_id', 'department_id', 'designation_id', 'first_name', 'last_name', 'gender', 'phone', 'email', 'hashed_password', 'address', 'country', 'state', 'dob', 'marital_status', 'children', 'religion', 'photo', 'location', 'date_employed', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'department_id', 'designation_id', 'first_name', 'last_name', 'gender', 'phone', 'email', 'hashed_password', 'address', 'country', 'state', 'dob', 'marital_status', 'children', 'religion', 'photo', 'employment_type', 'location', 'date_employed', 'created_at', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -21,6 +21,7 @@ class Employee extends DatabaseObject
   public $children;
   public $religion;
   public $photo;
+  public $employment_type;
   public $location;
   public $date_employed;
   public $created_at;
@@ -32,6 +33,11 @@ class Employee extends DatabaseObject
   public $confirm_password;
 
   public $counts;
+
+  const EMPLOYMENT_TYPE = [
+    1 => 'Casual Worker',
+    2 => 'Full Time',
+  ];
 
   public function __construct($args = [])
   {
@@ -51,6 +57,7 @@ class Employee extends DatabaseObject
     $this->children         = $args['children'] ?? '';
     $this->religion         = $args['religion'] ?? '';
     $this->photo            = $args['photo'] ?? '';
+    $this->employment_type  = $args['employment_type'] ?? '';
     $this->location         = $args['location'] ?? '';
     $this->date_employed    = $args['date_employed'] ?? '';
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');

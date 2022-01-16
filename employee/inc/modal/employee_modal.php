@@ -7,6 +7,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
       <div class="modal-body">
         <div id="showAlert"></div>
 
@@ -63,7 +64,7 @@
               </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
                 <label>Department <span class="text-danger">*</span></label>
                 <select class="select" name="employee[department_id]" id="department_id">
@@ -76,7 +77,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
                 <label>Designation <span class="text-danger">*</span></label>
                 <select class="select" name="employee[designation_id]" id="designation_id">
@@ -84,6 +85,19 @@
                   <?php foreach (Designation::find_by_undeleted() as $designation) : ?>
                     <option value="<?php echo $designation->id ?>">
                       <?php echo ucwords($designation->designation_name) ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Employment Type <span class="text-danger">*</span></label>
+                <select class="select" name="employee[employment_type]" id="employment_type">
+                  <option value="">Select Type</option>
+                  <?php foreach (Employee::EMPLOYMENT_TYPE as $key => $employment) : ?>
+                    <option value="<?php echo $key ?>">
+                      <?php echo ucwords($employment) ?>
                     </option>
                   <?php endforeach; ?>
                 </select>

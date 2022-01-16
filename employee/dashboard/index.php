@@ -54,17 +54,17 @@ $page_title = 'Employee | Dashboard';
 <?php include(SHARED_PATH . '/side-nav.php');  ?>
 
 <div class="main-panel">
-  <div class="content-wrapper">
+  <div class="content-wrapper pb-5">
     <div class="status-wrap d-flex align-items-center">
       <div class="ml-auto">
-        <button type="button" class="btn btn-sm btn-info" data-target="#loan_request" data-toggle="modal" <?php echo empty($salary) ? 'disabled' : '' ?>>
+        <button type="button" class="btn btn-primary" data-target="#loan_request" data-toggle="modal" <?php echo empty($salary) ? 'disabled' : '' ?>>
           <i class="icon-credit-card"></i> <span>Request Loan</span></button>
 
         <?php if (!$isClockedIn) : ?>
-          <button type="button" class="btn btn-sm btn-danger mr-3" data-target="#clock_in" data-toggle="modal">
+          <button type="button" class="btn btn-danger mr-3" data-target="#clock_in" data-toggle="modal">
             <i class="icon-clock"></i> <span>Clock In</span></button>
         <?php else : ?>
-          <button type="button" class="btn btn-sm btn-dark mr-3" data-target="#clock_in" data-toggle="modal" <?php echo isset($attendance->clock_out) && $attendance->clock_out != '00:00:00' ? 'disabled' : '' ?>>
+          <button type="button" class="btn btn-dark mr-3" data-target="#clock_in" data-toggle="modal" <?php echo isset($attendance->clock_out) && $attendance->clock_out != '00:00:00' ? 'disabled' : '' ?>>
             <i class="icon-clock"></i> <span>Clock Out</span></button>
         <?php endif; ?>
 
@@ -82,13 +82,13 @@ $page_title = 'Employee | Dashboard';
     <div class="row">
 
       <div class="col-md-12 my-5">
-        <div class="card shadow" style="border-radius: 16px;">
+        <div class="card border-0 shadow" style="border-radius: 16px;">
           <div class="card-body">
             <?php if (!empty($salary)) : ?>
               <div class="row font-weight-bold">
                 <div class="col-md-4">
                   <div class="card-group">
-                    <div class="card">
+                    <div class="card border-0">
                       <div class="card-body p-2">
                         <div>
                           <p><i class="fa fa-dot-circle-o text-purple me-2"></i>Current Salary <span class="float-right"><?php echo number_format($salary, 2) ?></span></p>
@@ -102,7 +102,7 @@ $page_title = 'Employee | Dashboard';
 
                 <div class="col-md-8">
                   <div class="card-group">
-                    <div class="card">
+                    <div class="card border-0">
                       <div class="card-body p-2">
                         <div class="d-flex justify-content-between mb-3">
                           <div>
@@ -120,7 +120,7 @@ $page_title = 'Employee | Dashboard';
                       </div>
                     </div>
 
-                    <div class="card rounded-0 border-left border-right">
+                    <div class="card rounded-0 border border-top-0 border-bottom-0">
                       <div class="card-body p-2">
                         <div class="d-flex justify-content-between mb-3">
                           <div>
@@ -138,7 +138,7 @@ $page_title = 'Employee | Dashboard';
                       </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card border-0">
                       <div class="card-body p-2">
                         <div class="d-flex justify-content-between mb-3">
                           <div>
@@ -177,7 +177,7 @@ $page_title = 'Employee | Dashboard';
       <div class="col-md-8 pr-4">
         <div class="row">
           <div class="col-md-6 col-sm-12 mb-4">
-            <div class="card shadow" style="border-radius: 20px;">
+            <div class="card border-0 shadow" style="border-radius: 20px;">
               <div class="card-body p-4">
 
                 <div class="d-flex justify-content-between align-items-center">
@@ -195,7 +195,7 @@ $page_title = 'Employee | Dashboard';
             </div>
           </div>
           <div class="col-md-6 col-sm-12 mb-4">
-            <div class="card shadow" style="border-radius: 20px;">
+            <div class="card border-0 shadow" style="border-radius: 20px;">
               <div class="card-body p-4">
 
                 <div class="d-flex justify-content-between align-items-center">
@@ -214,7 +214,7 @@ $page_title = 'Employee | Dashboard';
           </div>
 
           <div class="col-md-12 mt-4">
-            <div class="card shadow" style="border-radius: 8px;">
+            <div class="card border-0 shadow" style="border-radius: 8px;">
               <div class="card-body p-2">
                 <h6 class="font-weight-bold my-3 ml-3">Monthly Attendance Summary</h6>
                 <div id="attendance-chart"></div>
@@ -227,7 +227,7 @@ $page_title = 'Employee | Dashboard';
       <div class="col-md-4">
         <!-- <div class="calendar-wrap mb-4 ">
               <h4 class="font-weight-bolder d-none">Calendar</h4>
-              <div class="card shadow" style="border-radius: 16px;">
+              <div class="card border-0 shadow" style="border-radius: 16px;">
                 <div class="card-body">
                   <div class="calendar-wrapper" id="calendar-wrapper"></div>
                 </div>
@@ -235,13 +235,12 @@ $page_title = 'Employee | Dashboard';
             </div> -->
 
         <div class="leave-wrap mb-4">
-          <h4 class="font-weight-bolder d-none">Information</h4>
-          <div class="card shadow" style="border-radius: 16px;">
+          <div class="card border-0 shadow" style="border-radius: 16px;">
             <div class="card-body">
               <div class="mb-4">
-                <h4 class="font-weight-bolder">Information </h4>
+                <h5 class="font-weight-bolder">Information </h5>
                 <p class="mb-0">Job announcement</p>
-                <h4 class="font-weight-bolder text-uppercase">Digital Marketing Officer </h4>
+                <h6 class="font-weight-bolder text-uppercase">Digital Marketing Officer </h6>
                 <p class="mb-0">Requirements</p>
                 <ul>
                   <li class="ml-3">Bachelor’s degree at Marketing</li>
@@ -254,7 +253,7 @@ $page_title = 'Employee | Dashboard';
 
         <div class="leave-wrap mb-1">
           <h4 class="font-weight-bolder d-none">Leave Status</h4>
-          <div class="card shadow" style="border-radius: 16px;">
+          <div class="card border-0 shadow" style="border-radius: 16px;">
             <div class="card-body">
               <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center">
@@ -281,7 +280,7 @@ $page_title = 'Employee | Dashboard';
     </div>
   </div>
 
-  <footer class="footer">
+  <footer class="footer pb-4">
     <div class="d-sm-flex justify-content-center justify-content-sm-between">
       <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Developed by <a href="#">Sandsify Systems</a> <?php echo date('Y'); ?></span>
     </div>
