@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2022 at 05:38 PM
+-- Generation Time: Jan 12, 2022 at 03:25 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -117,8 +117,7 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`id`, `department_name`, `created_at`, `deleted`) VALUES
-(1, 'Agric', '2022-01-03 15:52:11', 0),
-(2, 'Human resource', '2022-01-06 17:38:07', 0);
+(1, 'Human resource', '2022-01-07 15:24:22', 0);
 
 -- --------------------------------------------------------
 
@@ -139,7 +138,7 @@ CREATE TABLE `designations` (
 --
 
 INSERT INTO `designations` (`id`, `designation_name`, `department_id`, `created_at`, `deleted`) VALUES
-(1, 'Hr', 1, '2022-01-03 17:04:41', 0);
+(1, 'Assistant Hr', 1, '2022-01-03 17:04:41', 0);
 
 -- --------------------------------------------------------
 
@@ -154,7 +153,7 @@ CREATE TABLE `employees` (
   `designation_id` int(11) DEFAULT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `gender` enum('male','female') NOT NULL,
+  `gender` varchar(20) NOT NULL,
   `phone` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `hashed_password` varchar(255) NOT NULL,
@@ -162,7 +161,7 @@ CREATE TABLE `employees` (
   `country` varchar(50) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `marital_status` enum('single','married','divorced') NOT NULL,
+  `marital_status` varchar(20) NOT NULL,
   `children` varchar(50) NOT NULL,
   `religion` varchar(50) DEFAULT NULL,
   `photo` varchar(50) NOT NULL,
@@ -177,8 +176,8 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `employee_id`, `department_id`, `designation_id`, `first_name`, `last_name`, `gender`, `phone`, `email`, `hashed_password`, `address`, `country`, `state`, `dob`, `marital_status`, `children`, `religion`, `photo`, `location`, `date_employed`, `created_at`, `deleted`) VALUES
-(1, 'HR-00001', 1, 1, 'Tanner', 'Gardner', 'female', '14255547215', 'user@gmail.com', '$2y$10$yOcFjgUCI76zTH3O9rSGTOfOfPn6EMXQobjaA0p2x7/aZ7HvDA/hS', 'Accusantium similiqu', 'Nigeria', 'Lagos', '2000-07-04', 'single', '', '', '1641335241.jpg', '', '2019-11-05', '2022-01-03 18:46:25', 0),
-(2, 'Et voluptatem aute d', 1, 1, 'Darius', 'Hardy', 'female', '14255547215', 'jace@mailinator.com', '$2y$10$PFg5DV2gEG2T73jeU7lULeMiGuHeKH5mS1Psz1JAT44ultlR8rmWC', 'Cupiditate explicabos', 'Nigeria', 'Lagos', '1996-10-06', 'married', '3', '', '1641340040.jpg', '', '1982-02-03', '2022-01-05 00:46:06', 0);
+(1, 'hr-001', 1, 1, 'Abbot', 'Sharpe', '', '+1 (131) 807-4972', 'betyrohi@mailinator.com', '$2y$10$THOUbSvIRKDkaoEFPJagZu59xB8Cnl5cPOyDBfBUkHnnXe6sUibLS', '', '', '', '0000-00-00', '', '', '', '1641866681.jpg', '', '2019-04-29', '2022-01-11 03:04:41', 0),
+(2, 'hr-002', 1, 1, 'Lenore', 'Mclean', '', '+1 (595) 984-2249', 'mamuhawa@mailinator.com', '$2y$10$/ohVgFR/1qE/kr19jiMYjOutuHMxQRkZ7/Ppl7sRLigQDXw3qIaQK', '', '', '', '0000-00-00', '', '', '', '1641900600.jpg', '', '1973-02-22', '2022-01-11 12:29:59', 0);
 
 -- --------------------------------------------------------
 
@@ -205,8 +204,7 @@ CREATE TABLE `employee_details` (
 --
 
 INSERT INTO `employee_details` (`id`, `employee_id`, `account_name`, `bank_name`, `account_number`, `kin_name`, `kin_relationship`, `kin_phone_1`, `kin_phone_2`, `created_at`, `deleted`) VALUES
-(1, 2, '', '', '', '', '', '', '', '2022-01-05 13:55:36', 0),
-(2, 2, 'My name', 'GTBank', '020212512', 'Jane Donaldson', 'brother', '+1 (699) 254-7684', '+1 (691) 634-5985', '2022-01-05 13:55:41', 0);
+(1, 1, '', 'First bank', '', '', '', '', '', '2022-01-11 03:20:37', 0);
 
 -- --------------------------------------------------------
 
@@ -227,13 +225,6 @@ CREATE TABLE `employee_education` (
   `deleted` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `employee_education`
---
-
-INSERT INTO `employee_education` (`id`, `employee_id`, `institution`, `subject`, `start_date`, `complete_date`, `degree`, `grade`, `created_at`, `deleted`) VALUES
-(1, 2, 'Federal university of technology, Akure, Ondo State', 'Mechanical Engineering', '2021-12-06', '2022-01-05', '', '', '2022-01-05 20:49:43', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -252,12 +243,96 @@ CREATE TABLE `employee_experience` (
   `deleted` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `employee_experience`
+-- Table structure for table `loans`
 --
 
-INSERT INTO `employee_experience` (`id`, `employee_id`, `company_name`, `location`, `job_position`, `period_from`, `period_to`, `created_at`, `deleted`) VALUES
-(1, 2, 'Sandsify', 'Lagos', 'Web developer', '2022-01-04', '2022-01-05', '2022-01-05 20:50:48', 0);
+CREATE TABLE `loans` (
+  `id` int(11) NOT NULL,
+  `ref_no` varchar(20) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `amount_paid` int(11) NOT NULL,
+  `payment_method` int(11) NOT NULL,
+  `date_requested` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `date_issued` varchar(20) DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `file_upload` varchar(50) NOT NULL,
+  `deleted` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `loans`
+--
+
+INSERT INTO `loans` (`id`, `ref_no`, `employee_id`, `amount`, `amount_paid`, `payment_method`, `date_requested`, `date_issued`, `status`, `file_upload`, `deleted`) VALUES
+(1, 'EL-20002', 2, 1000, 0, 0, '2022-01-11 13:16:39', '2022-01-11 14:25:26', 2, '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payroll_additions`
+--
+
+CREATE TABLE `payroll_additions` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `value` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `deleted` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payroll_additions`
+--
+
+INSERT INTO `payroll_additions` (`id`, `name`, `value`, `created_at`, `deleted`) VALUES
+(1, 'Arrears of salary', 20, '2022-01-10 23:19:44', 0),
+(2, 'Gratuity', 10, '2022-01-10 23:34:20', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payroll_deductions`
+--
+
+CREATE TABLE `payroll_deductions` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `value` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `deleted` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payroll_deductions`
+--
+
+INSERT INTO `payroll_deductions` (`id`, `name`, `value`, `created_at`, `deleted`) VALUES
+(1, 'Absent amount', 10, '2022-01-10 21:36:16', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payroll_overtime`
+--
+
+CREATE TABLE `payroll_overtime` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `value` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `deleted` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payroll_overtime`
+--
+
+INSERT INTO `payroll_overtime` (`id`, `name`, `value`, `created_at`, `deleted`) VALUES
+(1, 'Normal day OT 1.5x', 15, '2022-01-10 21:36:02', 0);
 
 -- --------------------------------------------------------
 
@@ -279,7 +354,7 @@ CREATE TABLE `salaries` (
 --
 
 INSERT INTO `salaries` (`id`, `employee_id`, `net_salary`, `payment_status`, `created_at`, `deleted`) VALUES
-(1, 1, '15000', 0, '2022-01-04 14:32:05', 0);
+(1, 1, '47000', 0, '2022-01-11 03:33:49', 0);
 
 -- --------------------------------------------------------
 
@@ -290,8 +365,9 @@ INSERT INTO `salaries` (`id`, `employee_id`, `net_salary`, `payment_status`, `cr
 CREATE TABLE `salary_deductions` (
   `id` int(11) NOT NULL,
   `salary_id` int(11) NOT NULL,
-  `tax` varchar(50) NOT NULL,
-  `pension` varchar(50) NOT NULL,
+  `tax` int(11) NOT NULL,
+  `pension` int(11) NOT NULL,
+  `others` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `deleted` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -300,8 +376,8 @@ CREATE TABLE `salary_deductions` (
 -- Dumping data for table `salary_deductions`
 --
 
-INSERT INTO `salary_deductions` (`id`, `salary_id`, `tax`, `pension`, `created_at`, `deleted`) VALUES
-(1, 1, '2500', '1500', '2022-01-04 14:32:05', 0);
+INSERT INTO `salary_deductions` (`id`, `salary_id`, `tax`, `pension`, `others`, `created_at`, `deleted`) VALUES
+(1, 1, 0, 2000, 1000, '2022-01-11 03:33:50', 0);
 
 -- --------------------------------------------------------
 
@@ -312,12 +388,13 @@ INSERT INTO `salary_deductions` (`id`, `salary_id`, `tax`, `pension`, `created_a
 CREATE TABLE `salary_earnings` (
   `id` int(11) NOT NULL,
   `salary_id` int(11) NOT NULL,
+  `actual_amount` int(11) DEFAULT NULL,
   `basic_salary` varchar(50) NOT NULL,
-  `house_rent` varchar(50) NOT NULL,
+  `housing` varchar(50) NOT NULL,
+  `dressing` int(11) DEFAULT NULL,
   `transport` varchar(50) NOT NULL,
-  `medical` varchar(50) NOT NULL,
-  `furniture` varchar(50) NOT NULL,
-  `meal` varchar(50) NOT NULL,
+  `utility` int(11) DEFAULT NULL,
+  `others` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `deleted` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -326,8 +403,8 @@ CREATE TABLE `salary_earnings` (
 -- Dumping data for table `salary_earnings`
 --
 
-INSERT INTO `salary_earnings` (`id`, `salary_id`, `basic_salary`, `house_rent`, `transport`, `medical`, `furniture`, `meal`, `created_at`, `deleted`) VALUES
-(1, 1, '10000', '2000', '3000', '1000', '500', '2500', '2022-01-04 14:32:05', 0);
+INSERT INTO `salary_earnings` (`id`, `salary_id`, `actual_amount`, `basic_salary`, `housing`, `dressing`, `transport`, `utility`, `others`, `created_at`, `deleted`) VALUES
+(1, 1, 50000, '6000', '16000', 3500, '4000', 3000, 17500, '2022-01-11 03:33:49', 0);
 
 --
 -- Indexes for dumped tables
@@ -388,6 +465,30 @@ ALTER TABLE `employee_experience`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `loans`
+--
+ALTER TABLE `loans`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payroll_additions`
+--
+ALTER TABLE `payroll_additions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payroll_deductions`
+--
+ALTER TABLE `payroll_deductions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payroll_overtime`
+--
+ALTER TABLE `payroll_overtime`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `salaries`
 --
 ALTER TABLE `salaries`
@@ -431,7 +532,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `designations`
@@ -449,18 +550,42 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `employee_details`
 --
 ALTER TABLE `employee_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `employee_education`
 --
 ALTER TABLE `employee_education`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employee_experience`
 --
 ALTER TABLE `employee_experience`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `loans`
+--
+ALTER TABLE `loans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `payroll_additions`
+--
+ALTER TABLE `payroll_additions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `payroll_deductions`
+--
+ALTER TABLE `payroll_deductions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `payroll_overtime`
+--
+ALTER TABLE `payroll_overtime`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --

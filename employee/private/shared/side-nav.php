@@ -7,7 +7,10 @@
                         <div class="dot-indicator bg-success"></div>
                     </div>
                     <div class="text-wrapper">
-                        <p class="profile-name"><?php echo ucwords($user->full_name()); ?></p>
+                        <p class="profile-name">
+                            <?php echo ucwords($user->first_name);
+                            echo ucwords(substr($user->last_name, 0, 1)) . '.' ?>
+                        </p>
                         <p class="designation"><?php echo strtoupper($designationName); ?></p>
                     </div>
                 </a>

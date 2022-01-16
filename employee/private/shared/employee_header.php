@@ -17,6 +17,8 @@
    <link rel="stylesheet" href="<?php echo url_for('css/style.css'); ?>">
    <link rel="stylesheet" href="<?php echo url_for('css/calendar.css'); ?>">
    <link rel="stylesheet" href="<?php echo url_for('css/theme.css'); ?>">
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
    <link rel="stylesheet" href="<?php echo url_for('vendors/select2/select2.min.css'); ?>">
    <link rel="stylesheet" href="<?php echo url_for('vendors/select2-bootstrap-theme/select2-bootstrap.min.css'); ?>">
 
@@ -38,7 +40,9 @@
          </div>
 
          <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
-            <h5 class="mb-0 font-weight-medium d-none d-lg-flex mr-3">Dashboard</h5>
+            <h3 class="mb-0 d-none d-lg-flex mr-3" style="color:#0A3069;font-weight:700">
+               <?php echo ucwords($page); ?></h3>
+
             <form class="search-form d-none d-md-block" action="#">
                <i class="icon-magnifier"></i>
                <input type="search" class="form-control" placeholder="Search Here" title="Search here">
@@ -83,4 +87,4 @@
             </button>
          </div>
       </nav>
-      <div class="container-fluid page-body-wrapper">
+      <div class="container-fluid pr-0 pl-0 page-body-wrapper">
