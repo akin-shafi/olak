@@ -20,25 +20,25 @@
                    </div>
                  </div>
                  <div class="row">
-                   <div class="col-md-6">
+                   <div class="col-md-3">
                      <div class="form-group">
                        <label>First Name</label>
                        <input type="text" class="form-control" name="employee[first_name]" value="<?php echo $employee->first_name ?? '' ?>">
                      </div>
                    </div>
-                   <div class="col-md-6">
+                   <div class="col-md-3">
                      <div class="form-group">
                        <label>Last Name</label>
                        <input type="text" class="form-control" name="employee[last_name]" value="<?php echo $employee->last_name ?? '' ?>">
                      </div>
                    </div>
-                   <div class="col-md-6">
+                   <div class="col-md-3">
                      <div class="form-group">
                        <label>Birth Date</label>
                        <input class="form-control" type="date" name="employee[dob]" value="<?php echo $employee->dob ?? '' ?>">
                      </div>
                    </div>
-                   <div class="col-md-6">
+                   <div class="col-md-3">
                      <div class="form-group">
                        <label>Gender</label>
                        <select class="select form-control" name="employee[gender]">
@@ -73,7 +73,7 @@
                  </div>
                </div>
 
-               <div class="col-md-6">
+               <div class="col-md-4">
                  <div class="form-group">
                    <label>Department <span class="text-danger">*</span></label>
                    <select class="select" name="employee[department_id]">
@@ -85,7 +85,7 @@
                    </select>
                  </div>
                </div>
-               <div class="col-md-6">
+               <div class="col-md-4">
                  <div class="form-group">
                    <label>Designation <span class="text-danger">*</span></label>
                    <select class="select" name="employee[designation_id]">
@@ -97,7 +97,21 @@
                    </select>
                  </div>
                </div>
-               <div class="col-md-6">
+               <div class="col-md-4">
+                 <div class="form-group">
+                   <label>Employment Type <span class="text-danger">*</span></label>
+                   <select class="select" name="employee[employment_type]" id="employment_type">
+                     <option value="">Select Type</option>
+                     <?php foreach (Employee::EMPLOYMENT_TYPE as $key => $employment) : ?>
+                       <option value="<?php echo $key ?>">
+                         <?php echo ucwords($employment) ?>
+                       </option>
+                     <?php endforeach; ?>
+                   </select>
+                 </div>
+               </div>
+
+               <!-- <div class="col-md-6">
                  <div class="form-group">
                    <label>Reports To <span class="text-danger">*</span></label>
                    <select class="select">
@@ -107,7 +121,7 @@
                      <option>Jeffery Lalor</option>
                    </select>
                  </div>
-               </div>
+               </div> -->
 
                <div class="col-md-6">
                  <div class="form-group">

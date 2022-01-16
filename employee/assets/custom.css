@@ -1,0 +1,59 @@
+.dropdown .dropdown-toggle:after {
+  content: "";
+}
+
+.nav-pills-custom {
+  border-bottom: 1px solid #000;
+}
+
+.nav-link-custom {
+  padding: 0.2rem 1rem !important;
+}
+
+.nav-link.active {
+  border: 0;
+  border-radius: 0;
+  background-color: #fff !important;
+  color: #0A3069 !important;
+  border-bottom: 3px solid #0A3069;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-gen {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+}
+
+@media (min-width:320px) {
+  /* .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  } */
+
+  .img-lg {
+    width: 50px;
+    height: 50px;
+  }
+
+  .fs-custom {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width:640px) {
+  .img-lg {
+    width: 90px;
+    height: 90px;
+  }
+
+  /* .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  } */
+}
