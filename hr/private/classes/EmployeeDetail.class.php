@@ -2,7 +2,7 @@
 class EmployeeDetail extends DatabaseObject
 {
   protected static $table_name = "employee_details";
-  protected static $db_columns = ['id', 'employee_id', 'account_name', 'bank_name', 'account_number', 'kin_name', 'kin_relationship', 'kin_phone_1', 'kin_phone_2', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'account_name', 'bank_name', 'account_number', 'kin_name', 'kin_relationship', 'kin_phone_1', 'kin_phone_2', 'blood_group', 'present_add', 'permanent_add', 'notification', 'created_at', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -13,6 +13,9 @@ class EmployeeDetail extends DatabaseObject
   public $kin_relationship;
   public $kin_phone_1;
   public $kin_phone_2;
+  public $blood_group;
+  public $present_add;
+  public $permanent_add;
   public $created_at;
   public $deleted;
 
@@ -26,6 +29,10 @@ class EmployeeDetail extends DatabaseObject
     $this->kin_relationship = $args['kin_relationship'] ?? '';
     $this->kin_phone_1      = $args['kin_phone_1'] ?? '';
     $this->kin_phone_2      = $args['kin_phone_2'] ?? '';
+    $this->blood_group      = $args['blood_group'] ?? '';
+    $this->present_add      = $args['present_add'] ?? '';
+    $this->permanent_add    = $args['permanent_add'] ?? '';
+    $this->notification     = $args['notification'] ?? '';
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted          = $args['deleted'] ?? '';
   }

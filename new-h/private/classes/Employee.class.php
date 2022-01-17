@@ -2,7 +2,7 @@
 class Employee extends DatabaseObject
 {
   protected static $table_name = "employees";
-  protected static $db_columns = ['id', 'company_id', 'employee_id', 'department_id', 'designation_id', 'first_name', 'last_name', 'gender', 'phone', 'email', 'hashed_password', 'address', 'country', 'state', 'dob', 'marital_status', 'children', 'religion', 'photo', 'employment_type','location', 'date_employed', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'company_id', 'employee_id', 'department_id', 'designation_id', 'first_name', 'last_name', 'gender', 'phone', 'email', 'hashed_password', 'address', 'country', 'state', 'dob', 'marital_status', 'children', 'religion', 'photo', 'employment_type', 'location', 'date_employed', 'created_at', 'deleted'];
 
   public $id;
   public $company_id;
@@ -54,13 +54,13 @@ class Employee extends DatabaseObject
     $this->children         = $args['children'] ?? '';
     $this->religion         = $args['religion'] ?? '';
     $this->photo            = $args['photo'] ?? '';
-    $this->employment_type            = $args['employment_type'] ?? '';
+    $this->employment_type  = $args['employment_type'] ?? '';
     $this->location         = $args['location'] ?? '';
     $this->date_employed    = $args['date_employed'] ?? '';
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted          = $args['deleted'] ?? '';
-    $this->password                 = $args['password'] ?? '';
-    $this->confirm_password         = $args['confirm_password'] ?? '';
+    $this->password         = $args['password'] ?? '';
+    $this->confirm_password = $args['confirm_password'] ?? '';
   }
 
   protected function set_hashed_password()
@@ -103,22 +103,6 @@ class Employee extends DatabaseObject
       $this->errors[] = "Email is required.";
     } elseif (!has_valid_email_format($this->email)) {
       $this->errors[] = "Email must be a valid format.";
-    }
-
-    if (is_blank($this->department_id)) {
-      $this->errors[] = "Department is required.";
-    }
-
-    if (is_blank($this->designation_id)) {
-      $this->errors[] = "Designation is required.";
-    }
-
-    if (is_blank($this->employee_id)) {
-      $this->errors[] = "Employee ID is required.";
-    }
-
-    if (is_blank($this->date_employed)) {
-      $this->errors[] = "Employment date is required.";
     }
 
     if ($this->password_required) {
@@ -179,7 +163,7 @@ class Employee extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
-   public static function find_by_company_id($company_id)
+  public static function find_by_company_id($company_id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE company_id='" . self::$database->escape_string($company_id) . "'";
@@ -188,7 +172,7 @@ class Employee extends DatabaseObject
     return $obj_array;
   }
 
-   public static function find_by_gender($gender)
+  public static function find_by_gender($gender)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE gender='" . self::$database->escape_string($gender) . "'";
@@ -196,5 +180,4 @@ class Employee extends DatabaseObject
     $obj_array = static::find_by_sql($sql);
     return $obj_array;
   }
-  
 }

@@ -37,7 +37,7 @@
 				<aside class="col-md-7 grid aside-left">
 					<div class="row pt-4">
 						<div class="col-md-6">
-							<a href="hr/index.php">
+							<a href="new-h/index.php">
 								<div class="card bg-custom-blue anchor animate__animated animate__fadeInDown animate__delay-1.5s">
 									<div class="card-body p-3">
 										<h4 class="text-center text-light mb-0">Human Resource</h4>
@@ -117,7 +117,7 @@
 								</div>
 							</a>
 						</div>
-						
+
 					</div>
 				</aside>
 

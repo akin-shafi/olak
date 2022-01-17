@@ -39,7 +39,7 @@ include(SHARED_PATH . '/header.php');
                         <option value="4" selected="">4</option>
                         <option value="5">5</option>
                      </select>
-                    
+
                   </div>
                </div>
             </div>
@@ -116,10 +116,11 @@ include(SHARED_PATH . '/header.php');
          </div>
       </div>
    </div>
+
    <div class="col-xl-9 col-md-12 col-lg-12">
       <div class="tab-menu-heading hremp-tabs p-0 ">
          <div class="tabs-menu1">
-            <!-- Tabs --> 
+            <!-- Tabs -->
             <ul class="nav panel-tabs">
                <li class="ms-4"><a href="#tab5" class="active" data-bs-toggle="tab">Personal Details</a></li>
                <li><a href="#tab6" data-bs-toggle="tab">Company Details</a></li>
@@ -128,141 +129,152 @@ include(SHARED_PATH . '/header.php');
             </ul>
          </div>
       </div>
+
       <div class="panel-body tabs-menu-body hremp-tabs1 p-0">
          <div class="tab-content">
             <div class="tab-pane active" id="tab5">
-               <div class="card-body">
-                  <h4 class="mb-4 font-weight-bold">Basic</h4>
-                  <div class="form-group ">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">User Name</label> </div>
-                        <div class="col-md-9">
-                           <div class="row">
-                              <div class="col-md-6"> <input type="text" class="form-control mb-md-0 mb-5" placeholder="First Name"> <span class="text-muted"></span> </div>
-                              <div class="col-md-6"> <input type="text" class="form-control" placeholder="Last Name"> </div>
+               <form id="add_employee_form">
+                  <!-- <input type="hidden" name="employeeId" id="employeeIds" readonly> -->
+
+                  <div class="card-body">
+                     <h4 class="mb-4 font-weight-bold">Basic</h4>
+                     <div class="form-group ">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">User Name</label> </div>
+                           <div class="col-md-9">
+                              <div class="row">
+                                 <div class="col-md-6"> <input type="text" name="employee[first_name]" class="form-control mb-md-0 mb-5" placeholder="First Name"> <span class="text-muted"></span> </div>
+                                 <div class="col-md-6"> <input type="text" name="employee[last_name]" class="form-control" placeholder="Last Name"> </div>
+                              </div>
                            </div>
                         </div>
                      </div>
-                  </div>
-                  <div class="form-group ">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Father Name</label> </div>
-                        <div class="col-md-9"> <input type="text" class="form-control" placeholder="Name"> </div>
+                     <div class="form-group ">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Father Name</label> </div>
+                           <div class="col-md-9"> <input type="text" name="employee[father_name]" class="form-control" placeholder="Name"> </div>
+                        </div>
                      </div>
-                  </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Contact Number</label> </div>
-                        <div class="col-md-9"> <input type="text" class="form-control" placeholder="Phone Number"> </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Contact Number</label> </div>
+                           <div class="col-md-9"> <input type="tel" name="employee[phone]" class="form-control" placeholder="Phone Number"> </div>
+                        </div>
                      </div>
-                  </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Emergency Contact Number 01</label> </div>
-                        <div class="col-md-9"> <input type="text" class="form-control" placeholder="Contact Number01"> </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Emergency Contact Number 01</label> </div>
+                           <div class="col-md-9"> <input type="tel" name="employee[kin_phone_1]" class="form-control" placeholder="Contact Number01"> </div>
+                        </div>
                      </div>
-                  </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Emergency Contact Number 02</label> </div>
-                        <div class="col-md-9"> <input type="text" class="form-control" placeholder="Contact Number02"> </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Emergency Contact Number 02</label> </div>
+                           <div class="col-md-9"> <input type="tel" name="employee[kin_phone_2]" class="form-control" placeholder="Contact Number02"> </div>
+                        </div>
                      </div>
-                  </div>
-                  <div class="form-group ">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Date Of Birth</label> </div>
-                        <div class="col-md-9"> <input type="text" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYY" id="dp1642289966077"> </div>
+                     <div class="form-group ">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Date Of Birth</label> </div>
+                           <div class="col-md-9"> <input type="date" name="employee[dob]" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYY" id="dp1642289966077"> </div>
+                        </div>
                      </div>
-                  </div>
-                  <div class="form-group ">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label">Gender</label> </div>
-                        <div class="col-md-9">
-                           <div class="custom-controls-stacked d-md-flex"> <label class="custom-control custom-radio me-4"> <input type="radio" class="custom-control-input" name="example-radios4" value="option1"> <span class="custom-control-label">Male</span> </label> <label class="custom-control custom-radio"> <input type="radio" class="custom-control-input" name="example-radios4" value="option2"> <span class="custom-control-label">Female</span> </label> </div>
+                     <div class="form-group ">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label">Gender</label> </div>
+                           <div class="col-md-9">
+                              <div class="custom-controls-stacked d-md-flex"> <label class="custom-control custom-radio me-4"> <input type="radio" class="custom-control-input" name="employee[gender]" value="male"> <span class="custom-control-label">Male</span> </label> <label class="custom-control custom-radio"> <input type="radio" class="custom-control-input" name="employee[gender]" value="female"> <span class="custom-control-label">Female</span> </label> </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Marital Status</label> </div>
+                           <div class="col-md-9">
+                              <select name="employee[marital_status]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select" data-select2-id="select2-data-1-decl" tabindex="-1" aria-hidden="true">
+                                 <option label="Select" data-select2-id="select2-data-3-omqq"></option>
+                                 <option value="1">Single</option>
+                                 <option value="2">Married</option>
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Blood Group</label> </div>
+                           <div class="col-md-9">
+                              <select name="employee[blood_group]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Group" data-select2-id="select2-data-4-jt7m" tabindex="-1" aria-hidden="true">
+                                 <option label="Select Group" data-select2-id="select2-data-6-3hhn"></option>
+                                 <option value="1">A+</option>
+                                 <option value="2">B+</option>
+                                 <option value="3">O+</option>
+                                 <option value="4">AB+</option>
+                                 <option value="5">A-</option>
+                                 <option value="6">B-</option>
+                                 <option value="7">O-</option>
+                                 <option value="8">AB-</option>
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Present Address</label> </div>
+                           <div class="col-md-9"> <textarea name="employee[present_add]" rows="3" class="form-control" placeholder="Address1"></textarea> </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Permanent Address</label> </div>
+                           <div class="col-md-9"> <textarea name="employee[permanent_add]" rows="3" class="form-control" placeholder="Address2"></textarea> </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3">
+                              <div class="form-label mb-0 mt-2">Upload Photo</div>
+                           </div>
+                           <div class="col-md-9">
+                              <div class="form-group"> <label for="form-label" class="form-label"></label>
+                                 <input class="form-control" name="profile_image" type="file">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <h4 class="mb-5 mt-7 font-weight-bold">Account Login</h4>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee Email</label> </div>
+                           <div class="col-md-9"> <input type="email" name="employee[email]" class="form-control" placeholder="employee email"> </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
+                           <div class="col-md-9"> <input type="password" name="employee[password]" class="form-control" placeholder="password"> </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
+                           <div class="col-md-9"> <input type="password" name="employee[confirm_password]" class="form-control" placeholder="confirm password"> </div>
+                        </div>
+                     </div>
+                     <div class="form-group mt-7">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label">Email Notification:</label> </div>
+                           <div class="col-md-9"> <label class="custom-switch"> <input type="checkbox" name="employee[notification]" class="custom-switch-input"> <span class="custom-switch-indicator"></span> <span class="custom-switch-description">On/Off</span> </label> </div>
                         </div>
                      </div>
                   </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Marital Status</label> </div>
-                        <div class="col-md-9">
-                           <select name="projects" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select" data-select2-id="select2-data-1-decl" tabindex="-1" aria-hidden="true">
-                              <option label="Select" data-select2-id="select2-data-3-omqq"></option>
-                              <option value="1">Single</option>
-                              <option value="2">Married</option>
-                           </select>
-                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-2-uyzq" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-projects-s8-container"><span class="select2-selection__rendered" id="select2-projects-s8-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
-                        </div>
-                     </div>
+
+                  <div class="card-footer text-end">
+                     <button type="submit" href="#" class="btn btn-primary">Save</button>
+                     <a href="#" class="btn btn-danger">Cancel</a>
                   </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Blood Group</label> </div>
-                        <div class="col-md-9">
-                           <select name="projects" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Group" data-select2-id="select2-data-4-jt7m" tabindex="-1" aria-hidden="true">
-                              <option label="Select Group" data-select2-id="select2-data-6-3hhn"></option>
-                              <option value="1">A+</option>
-                              <option value="2">B+</option>
-                              <option value="3">O+</option>
-                              <option value="4">AB+</option>
-                              <option value="5">A-</option>
-                              <option value="6">B-</option>
-                              <option value="7">O-</option>
-                              <option value="8">AB-</option>
-                           </select>
-                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-5-4930" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-projects-sl-container"><span class="select2-selection__rendered" id="select2-projects-sl-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Group</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
-                        </div>
-                     </div>
-                  </div>
-                  <div class="form-group ">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Email</label> </div>
-                        <div class="col-md-9"> <input type="text" class="form-control" placeholder="email"> </div>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Present Address</label> </div>
-                        <div class="col-md-9"> <textarea rows="3" class="form-control" placeholder="Address1"></textarea> </div>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Permanent Address</label> </div>
-                        <div class="col-md-9"> <textarea rows="3" class="form-control" placeholder="Address2"></textarea> </div>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3">
-                           <div class="form-label mb-0 mt-2">Upload Photo</div>
-                        </div>
-                        <div class="col-md-9">
-                           <div class="form-group"> <label for="form-label" class="form-label"></label> <input class="form-control" type="file"> </div>
-                        </div>
-                     </div>
-                  </div>
-                  <h4 class="mb-5 mt-7 font-weight-bold">Account Login</h4>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee Email</label> </div>
-                        <div class="col-md-9"> <input type="text" class="form-control" placeholder="employee email"> </div>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
-                        <div class="col-md-9"> <input type="password" class="form-control" placeholder="password"> </div>
-                     </div>
-                  </div>
-                  <div class="form-group mt-7">
-                     <div class="row">
-                        <div class="col-md-3"> <label class="form-label">Email Notification:</label> </div>
-                        <div class="col-md-9"> <label class="custom-switch"> <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"> <span class="custom-switch-indicator"></span> <span class="custom-switch-description">On/Off</span> </label> </div>
-                     </div>
-                  </div>
-               </div>
+               </form>
             </div>
+
             <div class="tab-pane" id="tab6">
                <div class="card-body">
                   <div class="form-group">
@@ -317,7 +329,7 @@ include(SHARED_PATH . '/header.php');
                               <option value="0">Full-Time</option>
                               <option value="1">Part-Time</option>
                            </select>
-                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-8-xlaj" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-projects-tt-container"><span class="select2-selection__rendered" id="select2-projects-tt-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Type</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-8-xlaj" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-projects-tt-container"><span class="select2-selection__rendered" id="select2-projects-tt-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Type</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                         </div>
                      </div>
                   </div>
@@ -335,6 +347,7 @@ include(SHARED_PATH . '/header.php');
                   </div>
                </div>
             </div>
+
             <div class="tab-pane" id="tab7">
                <div class="card-body">
                   <div class="form-group">
@@ -375,6 +388,7 @@ include(SHARED_PATH . '/header.php');
                   </div>
                </div>
             </div>
+
             <div class="tab-pane" id="tab8">
                <div class="card-body">
                   <div class="form-group">
@@ -439,11 +453,154 @@ include(SHARED_PATH . '/header.php');
                   </div>
                </div>
             </div>
-            <div class="card-footer text-end"> <a href="#" class="btn btn-primary">Save</a> <a href="#" class="btn btn-danger">Cancel</a> </div>
+
+            <!-- <div class="card-footer text-end"> <a href="#" class="btn btn-primary">Save</a> <a href="#" class="btn btn-danger">Cancel</a> </div> -->
          </div>
       </div>
    </div>
 </div>
 
-<?php include (SHARED_PATH . '/footer.php') ?>
+<?php include(SHARED_PATH . '/footer.php') ?>
 
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+      const EMPLOYEE_URL = "../inc/employee/employee_script.php";
+
+      const employeeForm = document.getElementById("add_employee_form");
+      const bankForm = document.getElementById("add_bank_form");
+      const loanForm = document.getElementById("add_loan_form");
+      const personalInfoForm = document.getElementById("add_personal_form");
+      const kinForm = document.getElementById("add_kin_form");
+      const educationForm = document.getElementById("add_education_form");
+      const experienceForm = document.getElementById("add_experience_form");
+
+      const message = (req, res) => {
+         swal(req + "!", res, {
+            icon: req,
+            buttons: {
+               confirm: {
+                  className: (req == 'error') ? 'btn btn-danger' : 'btn btn-success'
+               }
+            }
+         });
+      }
+
+      const deleted = async (url) => {
+         swal({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to reverse this!',
+            icon: 'warning',
+            buttons: {
+               confirm: {
+                  text: 'Yes, delete it!',
+                  className: 'btn btn-danger'
+               },
+               cancel: {
+                  visible: true,
+                  className: 'btn btn-secondary'
+               }
+            }
+         }).then(Delete => {
+            if (Delete) {
+               fetch(url)
+                  .then(response => response.json()).then(data => {
+                     swal({
+                        title: 'Deleted!',
+                        text: data.message,
+                        icon: 'success',
+                        buttons: {
+                           confirm: {
+                              className: 'btn btn-success'
+                           }
+                        }
+                     }).then(() => location.reload());
+                  })
+            } else {
+               swal.close();
+            }
+         })
+      };
+
+      const submitForm = async (url, payload) => {
+         const formData = new FormData(payload);
+         formData.append("update", 1);
+
+         const data = await fetch(url, {
+            method: "POST",
+            body: formData,
+         });
+
+         const response = await data.json();
+
+         if (response.errors) {
+            // console.log(response.errors.length);
+            let errors = response.errors;
+
+            if (errors.length > 1) {
+               for (let i = 0; i < errors.length; i++) {
+                  const params = errors[i];
+                  message('error', params)
+               }
+            } else {
+               message('error', response.errors)
+
+            }
+         }
+
+         if (response.message) {
+            message('success', response.message)
+         }
+      };
+
+
+      employeeForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, employeeForm);
+      });
+
+      bankForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, bankForm);
+      });
+
+      loanForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, loanForm);
+      });
+
+      personalInfoForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, personalInfoForm);
+      });
+
+      kinForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, kinForm);
+      });
+
+      educationForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, educationForm);
+      });
+
+
+      // ? EXPERIENCE
+
+      experienceForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, experienceForm);
+      });
+
+      $(document).on('click', '.delEdu', function() {
+         let educationId = this.dataset.id;
+         deleted(EMPLOYEE_URL + '?educationId=' + educationId + '&deleteEducation=1');
+      });
+      $(document).on('click', '.delExp', function() {
+         let experienceId = this.dataset.id;
+         deleted(EMPLOYEE_URL + '?experienceId=' + experienceId + '&deleteExperience=1');
+      });
+
+   });
+</script>

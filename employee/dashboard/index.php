@@ -288,5 +288,4 @@ $page_title = 'Employee | Dashboard';
   </footer>
 </div>
 
-<?php include('../inc/modal/all.php');  ?>
 <?php include(SHARED_PATH . '/employee_footer.php');  ?>

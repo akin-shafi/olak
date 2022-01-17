@@ -2,7 +2,7 @@
 class Employee extends DatabaseObject
 {
   protected static $table_name = "employees";
-  protected static $db_columns = ['id', 'employee_id', 'department_id', 'designation_id', 'first_name', 'last_name', 'gender', 'phone', 'email', 'hashed_password', 'address', 'country', 'state', 'dob', 'marital_status', 'children', 'religion', 'photo', 'location', 'date_employed', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'department_id', 'designation_id', 'first_name', 'last_name', 'gender', 'phone', 'email', 'hashed_password', 'country', 'state', 'dob', 'marital_status', 'children', 'religion', 'photo', 'location', 'date_employed', 'created_at', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -13,7 +13,6 @@ class Employee extends DatabaseObject
   public $gender;
   public $phone;
   public $email;
-  public $address;
   public $country;
   public $state;
   public $dob;
@@ -43,7 +42,6 @@ class Employee extends DatabaseObject
     $this->gender           = $args['gender'] ?? '';
     $this->phone            = $args['phone'] ?? '';
     $this->email            = $args['email'] ?? '';
-    $this->address          = $args['address'] ?? '';
     $this->country          = $args['country'] ?? '';
     $this->state            = $args['state'] ?? '';
     $this->dob              = $args['dob'] ?? '';
@@ -55,8 +53,8 @@ class Employee extends DatabaseObject
     $this->date_employed    = $args['date_employed'] ?? '';
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted          = $args['deleted'] ?? '';
-    $this->password                 = $args['password'] ?? '';
-    $this->confirm_password         = $args['confirm_password'] ?? '';
+    $this->password         = $args['password'] ?? '';
+    $this->confirm_password = $args['confirm_password'] ?? '';
   }
 
   protected function set_hashed_password()
@@ -99,22 +97,6 @@ class Employee extends DatabaseObject
       $this->errors[] = "Email is required.";
     } elseif (!has_valid_email_format($this->email)) {
       $this->errors[] = "Email must be a valid format.";
-    }
-
-    if (is_blank($this->department_id)) {
-      $this->errors[] = "Department is required.";
-    }
-
-    if (is_blank($this->designation_id)) {
-      $this->errors[] = "Designation is required.";
-    }
-
-    if (is_blank($this->employee_id)) {
-      $this->errors[] = "Employee ID is required.";
-    }
-
-    if (is_blank($this->date_employed)) {
-      $this->errors[] = "Employment date is required.";
     }
 
     if ($this->password_required) {
