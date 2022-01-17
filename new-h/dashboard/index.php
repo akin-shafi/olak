@@ -94,7 +94,7 @@ $datatable = '';
                                  <div class="col-8">
                                     <div class="mt-0 text-start">
                                        <span class="fs-14 font-weight-semibold">Total Loan Issued</span> 
-                                       <h3 class="mb-0 mt-1  mb-2"><?php echo $currency ?>2,7853</h3>
+                                       <h3 class="mb-0 mt-1  mb-2">2,7853</h3>
                                     </div>
                                     <span class="text-muted"> 
                                        <span class="text-danger fs-12 mt-2 me-1">
