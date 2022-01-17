@@ -110,7 +110,7 @@ $datatable = '';
                            </div>
                         </div>
                      </div>
-                     <div class="col-xl-12 col-md-12 col-lg-12">
+                     <!-- <div class="col-xl-12 col-md-12 col-lg-12 d-none">
                         <div class="card">
                            <div class="card-header border-0 responsive-header">
                               <h4 class="card-title">Overview</h4>
@@ -137,7 +137,68 @@ $datatable = '';
                               <canvas id="chartLine" style="display: block; height: 325px; width: 902px;" width="1623" height="584" class="chartjs-render-monitor"></canvas>
                            </div>
                         </div>
+                     </div> -->
+                     <div class="col-xl-12 col-md-12 col-lg-12">
+                        <div class="card">
+                           
+                           <div class="card-body">
+                              <div class="table-responsive company-table">
+                                 <div id="company-list_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                    
+                                    <div class="row">
+                                       <div class="col-sm-12">
+                                          <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="company-list" role="grid" aria-describedby="company-list_info">
+                                             <thead>
+                                                <tr role="row">
+                                                   <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="#NO" style="width: 27.8958px;">#NO</th>
+                                                   <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Company Name: activate to sort column ascending" style="width: 270.083px;">Company Name</th>
+                                                   <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Units: activate to sort column ascending" style="width: 203.542px;">Units</th>
+                                                   <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="4" aria-label="Branch Name: activate to sort column ascending" style="width: 287.625px;">Branch Name</th>
+                                                   <!-- <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Register Date: activate to sort column ascending" style="width: 141.208px;">Register Date</th> -->
+                                                   <!-- <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 101.021px;">Status</th> -->
+                                                   <!-- <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 191.958px;">Actions</th> -->
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <?php 
+                                                   $companies = Company::find_by_undeleted(); 
+                                                   $sn = 1;
+                                                   foreach ($companies as $key => $value){  
+                                                      $branch = Branch::find_by_company_id($value->id);
+                                                      // pre_r($branch);
+                                                      $employee = Employee::find_by_company_id($value->id);
+                                                      $class = $key % 2 == 0 ? 'even' : 'odd';
+                                                ?>
+                                                <tr class="odd">
+                                                   <td>#0<?php echo $sn++?></td>
+                                                   <td>
+                                                      <a href="#" class="d-flex sidebarmodal-collpase">
+                                                         <span class="avatar avatar-lg bg-transparent brround me-3" style="background-image: url(../../assets/images/files/company/img1.png)"></span> 
+                                                         <div class="mt-0 mt-sm-4 d-block">
+                                                            <h6 class="mb-0 fs-16"><?php echo $value->company_name ?></h6>
+                                                         </div>
+                                                      </a>
+                                                   </td>
+                                                   <td><?php echo count($branch) ?></td>
+                                                   <?php foreach($branch as $b){ ?>
+                                                   <td> <span class=""><?php echo $b->branch_name ?></span> </td>
+                                                   <?php } ?>
+                                                   
+                                                </tr>
+                                               <?php } ?>
+                                             </tbody>
+
+                                             
+                                          </table>
+                                       </div>
+                                    </div>
+                                    
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                      </div>
+
                   </div>
                </div>
                <div class="col-xl-3 col-md-12 col-lg-12">
@@ -247,82 +308,9 @@ $datatable = '';
                      </ul>
                   </div>
                </div>
-               <div class="col-xl-4 col-md-12 col-lg-6">
-                  <div class="card">
-                     <div class="card-header border-0">
-                        <h4 class="card-title">Project Overview</h4>
-                        <div class="card-options">
-                           <div class="dropdown">
-                              <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Week <i class="feather feather-chevron-down"></i> </a> 
-                              <ul class="dropdown-menu dropdown-menu-end" role="menu">
-                                 <li><a href="#">Monthly</a></li>
-                                 <li><a href="#">Yearly</a></li>
-                                 <li><a href="#">Weekly</a></li>
-                              </ul>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="card-body">
-                        <div class="mt-5">
-                           <div class="chartjs-size-monitor">
-                              <div class="chartjs-size-monitor-expand">
-                                 <div class=""></div>
-                              </div>
-                              <div class="chartjs-size-monitor-shrink">
-                                 <div class=""></div>
-                              </div>
-                           </div>
-                           <canvas id="sales-summary" class="chartjs-render-monitor" height="449" style="display: block; height: 250px; width: 361px;" width="649"></canvas>
-                        </div>
-                        <div class="sales-chart mt-4 row text-center">
-                           <div class="d-flex my-auto col-sm-4 mx-auto text-center justify-content-center"><span class="dot-label bg-primary me-2 my-auto"></span>On progress</div>
-                           <div class="d-flex my-auto col-sm-4 mx-auto text-center justify-content-center"><span class="dot-label bg-secondary me-2 my-auto"></span>Pending</div>
-                           <div class="d-flex my-auto col-sm-4 mx-auto text-center justify-content-center"><span class="dot-label bg-light4  me-2 my-auto"></span>Completed</div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-xl-4 col-md-12 col-lg-6">
-                  <div class="card">
-                     <div class="card-header border-0">
-                        <h4 class="card-title">Recent Activity</h4>
-                        <div class="card-options">
-                           <div class="dropdown">
-                              <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> View All <i class="feather feather-chevron-down"></i> </a> 
-                              <ul class="dropdown-menu dropdown-menu-end" role="menu">
-                                 <li><a href="#">Monthly</a></li>
-                                 <li><a href="#">Yearly</a></li>
-                                 <li><a href="#">Weekly</a></li>
-                              </ul>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="card-body">
-                        <ul class="timeline">
-                           <li>
-                              <a target="_blank" href="#" class="font-weight-semibold fs-15 ms-3">Leave Approval Request</a> <a href="#" class="text-muted float-end fs-13">6 min ago</a> 
-                              <p class="mb-0 pb-0 text-muted pt-1 fs-11 ms-3">From "RuthDyer" UiDesign Leave</p>
-                              <span class="text-muted  ms-3 fs-11"> On Monday 12 Jan 2020.</span> 
-                           </li>
-                           <li class="primary">
-                              <a target="_blank" href="#" class="font-weight-semibold fs-15 mb-2 ms-3">Wok Update</a> <a href="#" class="text-muted float-end fs-13">10 min ago</a> 
-                              <p class="mb-0 pb-0 text-muted fs-11 pt-1 ms-3">From "Robert Marshall" Developer</p>
-                              <span class="text-muted ms-3 fs-11">Task Completed.</span> 
-                           </li>
-                           <li class="pink">
-                              <a target="_blank" href="#" class="font-weight-semibold fs-15 mb-2 ms-3">Received Mail</a> <a href="#" class="text-muted float-end fs-13">15 min ago</a> 
-                              <p class="mb-0 pb-0 text-muted fs-11 pt-1 ms-3">Emergency Sick Leave from "jacob Berry"</p>
-                              <span class="text-muted ms-3 fs-11">Ui Designer, Designer Team.</span> 
-                           </li>
-                           <li class="success mb-0 pb-0">
-                              <a target="_blank" href="#" class="font-weight-semibold fs-15 mb-2 ms-3">Job Application Mail</a> <a href="#" class="text-muted float-end fs-13">1 Hour ago</a> 
-                              <p class="mb-0 pb-0 text-muted fs-11 pt-1 ms-3">From jobmail@gmail.com laravel developer.</p>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-xl-4 col-md-12 col-lg-12">
+               
+
+               <div class="col-xl-4 col-md-12 col-lg-12 d-none">
                   <div class="card chart-donut1">
                      <div class="card-header  border-0">
                         <h4 class="card-title">Gender by Employees</h4>
