@@ -93,7 +93,7 @@ $datatable = '';
                               <div class="row">
                                  <div class="col-8">
                                     <div class="mt-0 text-start">
-                                       <span class="fs-14 font-weight-semibold">Total Loan Issued</span> 
+                                       <span class="fs-14 font-weight-semibold">Total Loan Approved</span> 
                                        <h3 class="mb-0 mt-1  mb-2">2,7853</h3>
                                     </div>
                                     <span class="text-muted"> 
