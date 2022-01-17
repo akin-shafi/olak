@@ -48,13 +48,19 @@ $datatable = '';
                               <div class="row">
                                  <div class="col-8">
                                     <div class="mt-0 text-start">
-                                       <span class="fs-14 font-weight-semibold">Total Employees</span> 
+                                       <span class="fs-14 font-weight-semibold">Total Salary Paid</span> 
                                        <h3 class="mb-0 mt-1 mb-2">6,578</h3>
-                                       <span class="text-muted"> <span class="text-success fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>124</span> for last month </span> 
+                                       <span class="text-muted"> 
+                                          <span class="text-success fs-12 mt-2 me-1">
+                                             <i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>124</span> 
+                                             for last month 
+                                          </span> 
                                     </div>
                                  </div>
                                  <div class="col-4">
-                                    <div class="icon1 bg-success my-auto  float-end"> <i class="feather feather-users"></i> </div>
+                                    <div class="icon1 bg-success my-auto  float-end"> 
+                                       <!-- <i class="feather feather-dollar-sign"></i>  --><?php echo $currency ?>
+                                 </div>
                                  </div>
                               </div>
                            </div>
@@ -66,9 +72,12 @@ $datatable = '';
                               <div class="row">
                                  <div class="col-8">
                                     <div class="mt-0 text-start">
-                                       <span class="fs-14 font-weight-semibold">Department</span> 
+                                       <span class="fs-14 font-weight-semibold">Total Loan Request</span> 
                                        <h3 class="mb-0 mt-1 mb-2">124</h3>
-                                       <span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i>13</span> for last month </span> 
+                                       <span class="text-muted"> 
+                                          <span class="text-danger fs-12 mt-2 me-1">
+                                             <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i>13</span> 
+                                             for this month </span> 
                                     </div>
                                  </div>
                                  <div class="col-4">
@@ -84,13 +93,18 @@ $datatable = '';
                               <div class="row">
                                  <div class="col-8">
                                     <div class="mt-0 text-start">
-                                       <span class="fs-14 font-weight-semibold">Expenses</span> 
-                                       <h3 class="mb-0 mt-1  mb-2">$2,7853</h3>
+                                       <span class="fs-14 font-weight-semibold">Total Loan Issued</span> 
+                                       <h3 class="mb-0 mt-1  mb-2"><?php echo $currency ?>2,7853</h3>
                                     </div>
-                                    <span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>21.1% </span> for last month </span> 
+                                    <span class="text-muted"> 
+                                       <span class="text-danger fs-12 mt-2 me-1">
+                                          <i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>21.1% 
+                                    </span> for this month </span> 
                                  </div>
                                  <div class="col-4">
-                                    <div class="icon1 bg-secondary brround my-auto  float-end"> <i class="feather feather-dollar-sign"></i> </div>
+                                    <div class="icon1 bg-secondary brround my-auto  float-end"> 
+                                       <!-- <i class="feather feather-dollar-sign"></i>  --> <?php echo $currency ?>
+                                    </div>
                                  </div>
                               </div>
                            </div>
@@ -188,7 +202,7 @@ $datatable = '';
                         <li style="" class="item">
                            <div class="card p-4 ">
                               <div class="d-flex">
-                                 <img src="assets/images/users/16.jpg" alt="img" class="avatar avatar-md bradius me-3"> 
+                                 <img src="../assets/images/users/16.jpg" alt="img" class="avatar avatar-md bradius me-3"> 
                                  <div class="me-3 mt-0 mt-sm-1 d-block">
                                     <h6 class="mb-1">Vanessa James</h6>
                                     <span class="clearfix"></span> <small>Birthday on Feb 16</small> 
@@ -211,7 +225,7 @@ $datatable = '';
                         <li style="" class="item">
                            <div class="card p-4 ">
                               <div class="d-flex">
-                                 <img src="assets/images/users/4.jpg" alt="img" class="avatar avatar-md bradius me-3"> 
+                                 <img src="../assets/images/users/4.jpg" alt="img" class="avatar avatar-md bradius me-3"> 
                                  <div class="me-3 mt-0 mt-sm-1 d-block">
                                     <h6 class="mb-1">Faith Harris</h6>
                                     <span class="clearfix"></span> <small>Smart Device Trade Show</small> 
@@ -364,7 +378,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/16.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/16.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">Faith Harris</h6>
                                                    <div class="clearfix"></div>
@@ -379,7 +393,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/1.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/1.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">James Paige</h6>
                                                    <div class="clearfix"></div>
@@ -394,7 +408,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/4.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/4.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">Liam Miller</h6>
                                                    <div class="clearfix"></div>
@@ -409,7 +423,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/8.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/8.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">Kimberly Berry</h6>
                                                    <div class="clearfix"></div>
@@ -424,7 +438,7 @@ $datatable = '';
                                        <tr>
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/9.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/9.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">Kimberly Berry</h6>
                                                    <div class="clearfix"></div>
@@ -462,7 +476,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <div class="table_img brround bg-light me-3"> <img src="assets/images/photos/html.png" alt="img" class=" bg-light brround"> </div>
+                                                <div class="table_img brround bg-light me-3"> <img src="../assets/images/photos/html.png" alt="img" class=" bg-light brround"> </div>
                                                 <div class="me-3 mt-3 d-block">
                                                    <h6 class="mb-0 fs-13 font-weight-semibold">Experienced Html Developer</h6>
                                                    <div class="clearfix"></div>
@@ -477,7 +491,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <div class="table_img brround bg-light me-3"> <img src="assets/images/photos/jquery.png" alt="img" class=" bg-light brround"> </div>
+                                                <div class="table_img brround bg-light me-3"> <img src="../assets/images/photos/jquery.png" alt="img" class=" bg-light brround"> </div>
                                                 <div class="me-3 mt-3 d-block">
                                                    <h6 class="mb-0 fs-13 font-weight-semibold">Experienced Jquery Developer</h6>
                                                    <div class="clearfix"></div>
@@ -492,7 +506,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <div class="table_img brround bg-light me-3"> <img src="assets/images/photos/vue.png" alt="img" class=" bg-light brround"> </div>
+                                                <div class="table_img brround bg-light me-3"> <img src="../assets/images/photos/vue.png" alt="img" class=" bg-light brround"> </div>
                                                 <div class="me-3 mt-3 d-block">
                                                    <h6 class="mb-0 fs-13 font-weight-semibold">Vue js Developer</h6>
                                                    <div class="clearfix"></div>
@@ -507,7 +521,7 @@ $datatable = '';
                                        <tr>
                                           <td>
                                              <div class="d-flex">
-                                                <div class="table_img brround bg-light me-3"> <img src="assets/images/photos/html.png" alt="img" class=" bg-light brround"> </div>
+                                                <div class="table_img brround bg-light me-3"> <img src="../assets/images/photos/html.png" alt="img" class=" bg-light brround"> </div>
                                                 <div class="me-3 mt-3 d-block">
                                                    <h6 class="mb-0 fs-13 font-weight-semibold">Kimberly Berry</h6>
                                                    <div class="clearfix"></div>
@@ -530,7 +544,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/16.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/16.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">Faith Harris</h6>
                                                    <div class="clearfix"></div>
@@ -545,7 +559,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/1.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/1.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">James Paige</h6>
                                                    <div class="clearfix"></div>
@@ -560,7 +574,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/4.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/4.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">Liam Miller</h6>
                                                    <div class="clearfix"></div>
@@ -575,7 +589,7 @@ $datatable = '';
                                        <tr class="border-bottom">
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/8.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/8.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">Kimberly Berry</h6>
                                                    <div class="clearfix"></div>
@@ -590,7 +604,7 @@ $datatable = '';
                                        <tr>
                                           <td>
                                              <div class="d-flex">
-                                                <img src="assets/images/users/9.jpg" alt="img" class="avatar avatar-md brround me-3"> 
+                                                <img src="../assets/images/users/9.jpg" alt="img" class="avatar avatar-md brround me-3"> 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                                    <h6 class="mb-0">Kimberly Berry</h6>
                                                    <div class="clearfix"></div>
@@ -740,4 +754,4 @@ $datatable = '';
    
 
 </script>
-<script src="assets/js/index1.js"></script>
+<script src="<?php echo url_for('assets/js/index1.js') ?>"></script>
