@@ -118,20 +118,8 @@
                            <li><a href="<?php echo url_for('settings/') ?>" class="slide-item">Settings</a></li>
                         </ul>
                      </li>
-                     <li class="slide">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="#"> <i class="feather  feather-users sidemenu_icon"></i> <span class="side-menu__label">Employee <span class="nav-list">Dashboard</span></span><i class="angle fa fa-angle-right"></i> </a>
-                        <ul class="slide-menu">
-                           <li class="side-menu-label1"><a href="#">Employee Dashboard</a></li>
-                           <li><a href="<?php echo url_for('index2.php') ?>" class="slide-item">Dashboard</a></li>
-                           <li><a href="<?php echo url_for('employee-attendance.php') ?>" class="slide-item">Attendance</a></li>
-                           <li><a href="<?php echo url_for('employee-leaves.php') ?>" class="slide-item">Apply Leaves </a></li>
-                           <li><a href="<?php echo url_for('employee-myleaves.php') ?>" class="slide-item">My Leaves </a></li>
-                           <li><a href="<?php echo url_for('employee-payslips.php') ?>" class="slide-item">Payslips </a></li>
-                           <li><a href="<?php echo url_for('employee-expenses.php') ?>" class="slide-item">Expenses</a></li>
-                        </ul>
-                     </li>
 
-                     <li class="slide">
+                     <li class="slide d-none">
                         <a class="side-menu__item" data-bs-toggle="slide" href="#"> <i class="feather feather-slack sidemenu_icon"></i> <span class="side-menu__label">Super Admin</span><i class="angle fa fa-angle-right"></i> </a>
                         <ul class="slide-menu">
                            <li class="side-menu-label1"><a href="#">Super Admin</a></li>
