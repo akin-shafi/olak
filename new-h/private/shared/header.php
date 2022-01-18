@@ -1,4 +1,6 @@
-<?php require_login(); ?>
+<?php require_login();
+$user = $loggedInAdmin;
+?>
 <!DOCTYPE php>
 <php lang="en" dir="ltr">
 
@@ -66,8 +68,9 @@
                      <div class="dropdown user-pro-body text-center">
                         <div class="user-pic"> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="user-img" class="avatar-xxl rounded-circle mb-1"> </div>
                         <div class="user-info">
-                           <h5 class=" mb-2">Abigali kelly</h5>
-                           <span class="text-muted app-sidebar__user-name text-sm">App Developer</span>
+                           <h5 class=" mb-2"><?php echo ucwords($user->full_name()) ?></h5>
+                           <span class="text-muted app-sidebar__user-name text-sm">
+                              <?php echo $user->admin_level ? $user->admin_level : 'Not Set' ?></span>
                         </div>
                      </div>
                   </div>
@@ -161,7 +164,7 @@
                   <div class="app-header header">
                      <div class="container-fluid">
                         <div class="d-flex">
-                           <a class="header-brand" href="index.html"> <img src="<?php echo url_for('assets/images/brand/logo.png') ?>" class="header-brand-img desktop-lgo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/logo-white.png') ?>" class="header-brand-img dark-logo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/favicon.png') ?>" class="header-brand-img mobile-logo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/favicon1.png') ?>" class="header-brand-img darkmobile-logo" alt="Dayonelogo"> </a>
+                           <a class="header-brand" href="#"> <img src="<?php echo url_for('assets/images/brand/logo.png') ?>" class="header-brand-img desktop-lgo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/logo-white.png') ?>" class="header-brand-img dark-logo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/favicon.png') ?>" class="header-brand-img mobile-logo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/favicon1.png') ?>" class="header-brand-img darkmobile-logo" alt="Dayonelogo"> </a>
                            <div class="app-sidebar__toggle" data-bs-toggle="sidebar"> <a class="open-toggle" href="#"> <i class="feather feather-menu"></i> </a> <a class="close-toggle" href="#"> <i class="feather feather-x"></i> </a> </div>
                            <div class="mt-0">
                               <form class="form-inline">
@@ -205,7 +208,7 @@
                                           <a class="nav-link icon" data-bs-toggle="dropdown"> <i class="feather feather-mail header-icon"></i> <span class="badge badge-success side-badge">5</span> </a>
                                           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow  animated">
                                              <div class="header-dropdown-list message-menu" id="message-menu">
-                                                <a class="dropdown-item border-bottom" href="chat.html">
+                                                <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
                                                       <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/1.jpg" style="background: url(&quot;assets/images/users/1.jpg&quot;) center center;"></span> </div>
                                                       <div class="d-flex">
@@ -217,7 +220,7 @@
                                                       </div>
                                                    </div>
                                                 </a>
-                                                <a class="dropdown-item border-bottom" href="chat.html">
+                                                <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
                                                       <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/2.jpg" style="background: url(&quot;assets/images/users/2.jpg&quot;) center center;"></span> </div>
                                                       <div class="d-flex">
@@ -229,7 +232,7 @@
                                                       </div>
                                                    </div>
                                                 </a>
-                                                <a class="dropdown-item border-bottom" href="chat.html">
+                                                <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
                                                       <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/3.jpg" style="background: url(&quot;assets/images/users/3.jpg&quot;) center center;"></span> </div>
                                                       <div class="d-flex">
@@ -241,7 +244,7 @@
                                                       </div>
                                                    </div>
                                                 </a>
-                                                <a class="dropdown-item border-bottom" href="chat.html">
+                                                <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
                                                       <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/4.jpg" style="background: url(&quot;assets/images/users/4.jpg&quot;) center center;"></span> </div>
                                                       <div class="d-flex">
@@ -253,7 +256,7 @@
                                                       </div>
                                                    </div>
                                                 </a>
-                                                <a class="dropdown-item border-bottom" href="chat.html">
+                                                <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
                                                       <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/6.jpg" style="background: url(&quot;assets/images/users/6.jpg&quot;) center center;"></span> </div>
                                                       <div class="d-flex">
@@ -266,7 +269,7 @@
                                                    </div>
                                                 </a>
                                              </div>
-                                             <div class=" text-center p-2"> <a href="chat.html" class="">See All Messages</a> </div>
+                                             <div class=" text-center p-2"> <a href="#" class="">See All Messages</a> </div>
                                           </div>
                                        </div>
                                        <div class="dropdown header-notify"> <a class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right"> <i class="feather feather-bell header-icon"></i> <span class="bg-dot"></span> </a> </div>
@@ -274,18 +277,19 @@
                                           <a href="#" class="nav-link pe-1 ps-0 leading-none" data-bs-toggle="dropdown"> <span> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img" class="avatar avatar-md bradius"> </span> </a>
                                           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow animated">
                                              <div class="p-3 text-center border-bottom">
-                                                <a href="profile-1.html" class="text-center user pb-0 font-weight-bold">John Thomson</a>
-                                                <p class="text-center user-semi-title">App Developer</p>
+                                                <a href="#" class="text-center user pb-0 font-weight-bold">
+                                                   <?php echo ucwords($user->full_name()) ?></a>
+                                                <p class="text-center user-semi-title"><?php echo $user->admin_level ? $user->admin_level : 'Not Set' ?></p>
                                              </div>
-                                             <a class="dropdown-item d-flex" href="profile-1.html">
+                                             <a class="dropdown-item d-flex" href="#">
                                                 <i class="feather feather-user me-3 fs-16 my-auto"></i>
                                                 <div class="mt-1">Profile</div>
                                              </a>
-                                             <a class="dropdown-item d-flex" href="editprofile.html">
+                                             <a class="dropdown-item d-flex" href="#">
                                                 <i class="feather feather-settings me-3 fs-16 my-auto"></i>
                                                 <div class="mt-1">Settings</div>
                                              </a>
-                                             <a class="dropdown-item d-flex" href="chat.html">
+                                             <a class="dropdown-item d-flex" href="#">
                                                 <i class="feather feather-mail me-3 fs-16 my-auto"></i>
                                                 <div class="mt-1">Messages</div>
                                              </a>

@@ -1,8 +1,10 @@
 <?php
 require_once('../../private/initialize.php');
 
-$uploadDir = '../../assets/uploads/';
-$loanDir = '../../assets/uploads/loan/';
+$avatarDir = '../../assets/uploads/profiles/';
+$loanDir = '../../assets/uploads/loans/';
+$documentDir = '../../assets/uploads/documents/';
+
 $response = [
   'errors' => null,
   'message' => '',
@@ -10,46 +12,125 @@ $response = [
 ];
 
 if (is_post_request()) {
-  if (isset($_POST['addEmployee'])) {
-    $uploadStatus = 1;
-    $uploadedFile = '';
 
-    $args = $_POST['employee'];
+  if (isset($_POST['personal'])) {
+    if (isset($_POST['personalId'])) {
+      $personal = Employee::find_by_id($_POST['personalId']);
+      $args = $_POST['personal'];
+      $personal->merge_attributes($args);
+      $personal->save();
 
-    if (!empty($_FILES['profile_image']['name'])) {
+      http_response_code(200);
+      $response['message'] = 'Employee information updated successfully';
+    } else {
+      $uploadStatus = 1;
+      $uploadedFile = '';
+      $args = $_POST['personal'];
 
-      $temp = explode('.', $_FILES['profile_image']['name']);
-      $fileName = basename(round(microtime(true)) . '.' . end($temp));
-      $targetFilePath = $uploadDir . $fileName;
-      $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+      $employee = new EmployeeData($args);
+      $employee->save();
 
-      $allowTypes = ['jpeg', 'jpg', 'png'];
-      if (in_array($fileType, $allowTypes)) {
-        if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFilePath)) {
-          $uploadedFile = $fileName;
-          $args['photo'] = $uploadedFile;
-        } else {
-          $uploadStatus = 0;
-          http_response_code(401);
-          $response['errors'] = 'Sorry, there was an error uploading your file.';
+      if ($employee) {
+
+        $args['employee_id'] = $employee->id;
+        if (!empty($_FILES['avatar']['name'])) {
+
+          $temp = explode('.', $_FILES['avatar']['name']);
+          $fileName = basename(round(microtime(true)) . '.' . end($temp));
+          $targetFilePath = $avatarDir . $fileName;
+          $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+          $allowTypes = ['jpeg', 'jpg', 'png'];
+          if (in_array($fileType, $allowTypes)) {
+            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetFilePath)) {
+              $uploadedFile = $fileName;
+              $args['photo'] = $uploadedFile;
+            } else {
+              $uploadStatus = 0;
+              http_response_code(401);
+              $response['errors'] = 'Sorry, there was an error uploading your file.';
+            }
+          } else {
+            $uploadStatus = 0;
+            http_response_code(404);
+            $response['errors'] = 'Sorry, JPEG, JPG & PNG files are allowed to upload.';
+          }
         }
-      } else {
-        $uploadStatus = 0;
-        http_response_code(404);
-        $response['errors'] = 'Sorry, DOC, DOCX, JPEG, JPG, PDF & PNG files are allowed to upload.';
+
+        $personal = new Employee($args);
+        $personal->save();
+
+        if ($personal->errors) :
+          http_response_code(401);
+          $response['errors'] = $personal->errors[0];
+        else :
+          http_response_code(201);
+          $response['message'] = 'Employee created successfully!';
+        endif;
       }
     }
+  }
 
-    $employee = new Employee($args);
-    $employee->save();
 
-    if ($employee->errors) :
-      http_response_code(401);
-      $response['errors'] = display_errors($employee->errors);
-    else :
-      http_response_code(201);
-      $response['message'] = 'Employee created successfully!';
-    endif;
+  if (isset($_POST['company'])) {
+    if (isset($_POST['companyId'])) {
+      $company = EmployeeCompany::find_by_id($_POST['companyId']);
+      $args = $_POST['company'];
+      $company->merge_attributes($args);
+      $company->save();
+
+      http_response_code(200);
+      $response['message'] = 'Employee Company updated successfully';
+    } else {
+      $args = $_POST['company'];
+
+      $employeeData = EmployeeData::find_by_id($args['employee_id']);
+      $dep_name = Department::find_by_id($args['department_id'])->department_name;
+      $des_name = Designation::find_by_id($args['designation_id'])->designation_name;
+
+      $args['department'] = $dep_name;
+      $args['designation'] = $des_name;
+
+      $employeeData->merge_attributes($args);
+      $employeeData->save();
+
+      if ($employeeData) {
+        $company = new EmployeeCompany($args);
+        $company->save();
+
+        if ($company->errors) :
+          http_response_code(401);
+          $response['errors'] = $company->errors[0];
+        else :
+          http_response_code(201);
+          $response['message'] = 'Employee Company created successfully!';
+        endif;
+      }
+    }
+  }
+
+  if (isset($_POST['bank'])) {
+    if (isset($_POST['bankId'])) {
+      $bank = EmployeeBank::find_by_id($_POST['bankId']);
+      $args = $_POST['bank'];
+      $bank->merge_attributes($args);
+      $bank->save();
+
+      http_response_code(200);
+      $response['message'] = 'Employee bank updated successfully';
+    } else {
+      $args = $_POST['bank'];
+      $bank = new EmployeeBank($args);
+      $bank->save();
+
+      if ($bank->errors) :
+        http_response_code(401);
+        $response['errors'] = $bank->errors[0];
+      else :
+        http_response_code(201);
+        $response['message'] = 'Employee bank created successfully!';
+      endif;
+    }
   }
 
   if (isset($_POST['department'])) {
@@ -97,262 +178,6 @@ if (is_post_request()) {
     http_response_code(200);
     $response['message'] = 'Attendance updated successfully';
   }
-
-  // if (isset($_POST['update'])) {
-
-  //   if (isset($_POST['employeeId'])) {
-  //     $employeeId = $_POST['employeeId'];
-  //     $employee = Employee::find_by_id($employeeId);
-
-  //     if (isset($_POST['employee'])) {
-  //       $uploadStatus = 1;
-  //       $uploadedFile = '';
-  //       $args = $_POST['employee'];
-
-  //       if (!empty($_FILES['profile_image']['name'])) {
-  //         $dbUpload = $employee->photo;
-
-  //         if (file_exists($uploadDir . $dbUpload)) {
-  //           unlink($uploadDir . $dbUpload);
-  //         }
-
-  //         $temp = explode('.', $_FILES['profile_image']['name']);
-  //         $fileName = basename(round(microtime(true)) . '.' . end($temp));
-  //         $targetFilePath = $uploadDir . $fileName;
-  //         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-  //         $allowTypes = ['jpeg', 'jpg', 'png'];
-  //         if (in_array($fileType, $allowTypes)) {
-  //           if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFilePath)) {
-  //             $uploadedFile = $fileName;
-  //             $args['photo'] = $uploadedFile;
-  //           } else {
-  //             $uploadStatus = 0;
-  //             http_response_code(401);
-  //             $response['errors'] = 'Sorry, there was an error uploading your file.';
-  //           }
-  //         } else {
-  //           $uploadStatus = 0;
-  //           http_response_code(404);
-  //           $response['errors'] = 'Sorry, DOC, DOCX, JPEG, JPG, PDF & PNG files are allowed to upload.';
-  //         }
-  //       } else {
-  //         $args['photo'] = $employee->photo;
-  //       }
-
-  //       $employee->merge_attributes($args);
-  //       $employee->save();
-  //     }
-
-  //     if (isset($_POST['personal'])) {
-  //       $args = $_POST['personal'];
-
-  //       $employee->merge_attributes($args);
-  //       $employee->save();
-  //     }
-
-  //     if (isset($_POST['details'])) {
-  //       $employeeDetail = EmployeeDetail::find_by_employee_id($employeeId);
-
-  //       if (empty($employeeDetail->id)) {
-
-  //         $args = $_POST['details'];
-  //         $args['employee_id'] = $employeeId;
-
-  //         $employeeDetail = new EmployeeDetail($args);
-  //         $employeeDetail->save();
-  //       } else {
-  //         $args = $_POST['details'];
-  //         $employeeDetail->merge_attributes($args);
-  //         $employeeDetail->save();
-  //         http_response_code(200);
-  //         exit(json_encode(['message' => "Employee details updated successfully."]));
-  //       }
-  //     }
-
-  //     if (isset($_POST['loan'])) {
-  //       $employeeLoan = EmployeeLoan::find_by_employee_id($employeeId);
-  //       // $employeeLoan = EmployeeLoan::find_by_employee_id($employeeId, ['requested' => date('Y-m-d')]);
-
-  //       $args = $_POST['loan'];
-  //       $args['employee_id'] = $employeeId;
-  //       $args['ref_no'] = 'EL-' . rand(100, 999) . '0' . $employeeId; //? EL: Employee Loan
-
-  //       $salary = Salary::find_by_employee_id($employeeId);
-
-  //       $accessible_loan_value = intval($salary->net_salary) * 0.4;
-  //       $updateLoan = intval($args['amount']) + intval($employeeLoan->total_loan_received);
-
-  //       if ($args['type'] == 1) {
-  //         if (($args['amount'] > $accessible_loan_value) || ($updateLoan > $accessible_loan_value)) {
-  //           http_response_code(404);
-  //           exit(json_encode(['errors' => 'Sorry, kindly check your loan balance! You have exceeded your monthly allowed limit. Thank you!']));
-  //         }
-  //       }
-
-  //       if (!empty($_FILES['filename']['name'])) {
-  //         $temp = explode('.', $_FILES['filename']['name']);
-  //         $fileName = basename(round(microtime(true)) . '.' . end($temp));
-  //         $targetLoanFilePath = $loanDir . $fileName;
-  //         $fileType = pathinfo($targetLoanFilePath, PATHINFO_EXTENSION);
-
-  //         $allowTypes = ['jpeg', 'jpg', 'png', 'pdf'];
-  //         if (in_array($fileType, $allowTypes)) {
-  //           if (move_uploaded_file($_FILES['filename']['tmp_name'], $targetLoanFilePath)) {
-  //             $loanFile = $fileName;
-  //             $args['file_upload'] = $loanFile;
-  //           } else {
-  //             $uploadStatus = 0;
-  //             http_response_code(401);
-  //             $response['errors'] = 'Sorry, there was an error uploading your file.';
-  //           }
-  //         } else {
-  //           $uploadStatus = 0;
-  //           http_response_code(404);
-  //           $response['errors'] = 'Sorry, JPEG, JPG, PDF & PNG files are allowed to upload.';
-  //         }
-  //       }
-
-
-  //       $employeeLoan = new EmployeeLoan($args);
-  //       $employeeLoan->save();
-  //     }
-
-  //     if (isset($_POST['education'])) {
-  //       $employeeEdu = EmployeeEducation::find_by_employee_id($employeeId);
-
-  //       if (empty($employeeEdu)) {
-  //         $count = $_POST['institution'];
-
-  //         for ($i = 0; $i < count($count); $i++) {
-  //           $args = [
-  //             'employee_id' => $employeeId,
-  //             'institution' => $_POST['institution'][$i],
-  //             'subject' => $_POST['subject'][$i],
-  //             'start_date' => $_POST['start_date'][$i],
-  //             'complete_date' => $_POST['complete_date'][$i],
-  //             'degree' => $_POST['degree'][$i],
-  //             'grade' => $_POST['grade'][$i],
-  //           ];
-  //           $education = new EmployeeEducation($args);
-  //           $education->save();
-  //         }
-
-  //         if (is_blank($education->institution)) {
-  //           http_response_code(401);
-  //           exit(json_encode(['errors' => "Institution/School is required."]));
-  //         }
-  //       } else {
-
-  //         for ($i = 0; $i < count($_POST['institution']); $i++) {
-
-  //           if (isset($employeeEdu[$i]->id)) {
-  //             $educate = EmployeeEducation::find_by_id($employeeEdu[$i]->id);
-
-  //             $args = [
-  //               'employee_id' => $employeeId,
-  //               'institution' => $_POST['institution'][$i],
-  //               'subject' => $_POST['subject'][$i],
-  //               'start_date' => $_POST['start_date'][$i],
-  //               'complete_date' => $_POST['complete_date'][$i],
-  //               'degree' => $_POST['degree'][$i],
-  //               'grade' => $_POST['grade'][$i],
-  //             ];
-
-  //             $educate->merge_attributes($args);
-  //             $educate->save();
-  //           } else {
-
-  //             $args = [
-  //               'employee_id' => $employeeId,
-  //               'institution' => $_POST['institution'][$i],
-  //               'subject' => $_POST['subject'][$i],
-  //               'start_date' => $_POST['start_date'][$i],
-  //               'complete_date' => $_POST['complete_date'][$i],
-  //               'degree' => $_POST['degree'][$i],
-  //               'grade' => $_POST['grade'][$i],
-  //             ];
-  //             $education = new EmployeeEducation($args);
-  //             $education->save();
-  //           }
-  //         }
-
-  //         http_response_code(200);
-  //         exit(json_encode(['message' => "Education updated successfully."]));
-  //       }
-  //     }
-
-  //     if (isset($_POST['experience'])) {
-  //       $employeeExp = EmployeeExperience::find_by_employee_id($employeeId);
-
-  //       if (empty($employeeExp)) {
-  //         $count = $_POST['company_name'];
-
-  //         for ($i = 0; $i < count($count); $i++) {
-  //           $args = [
-  //             'employee_id' => $employeeId,
-  //             'company_name' => $_POST['company_name'][$i],
-  //             'location' => $_POST['location'][$i],
-  //             'job_position' => $_POST['job_position'][$i],
-  //             'period_from' => $_POST['period_from'][$i],
-  //             'period_to' => $_POST['period_to'][$i],
-  //           ];
-  //           $experience = new EmployeeExperience($args);
-  //           $experience->save();
-  //         }
-
-  //         if (is_blank($experience->company_name)) {
-  //           http_response_code(401);
-  //           exit(json_encode(['errors' => "Company name is required."]));
-  //         }
-  //       } else {
-
-  //         for ($i = 0; $i < count($_POST['company_name']); $i++) {
-
-  //           if (isset($employeeExp[$i]->id)) {
-  //             $educate = EmployeeExperience::find_by_id($employeeExp[$i]->id);
-
-  //             $args = [
-  //               'employee_id' => $employeeId,
-  //               'company_name' => $_POST['company_name'][$i],
-  //               'location' => $_POST['location'][$i],
-  //               'job_position' => $_POST['job_position'][$i],
-  //               'period_from' => $_POST['period_from'][$i],
-  //               'period_to' => $_POST['period_to'][$i],
-  //             ];
-
-  //             $educate->merge_attributes($args);
-  //             $educate->save();
-  //           } else {
-
-  //             $args = [
-  //               'employee_id' => $employeeId,
-  //               'company_name' => $_POST['company_name'][$i],
-  //               'location' => $_POST['location'][$i],
-  //               'job_position' => $_POST['job_position'][$i],
-  //               'period_from' => $_POST['period_from'][$i],
-  //               'period_to' => $_POST['period_to'][$i],
-  //             ];
-  //             $experience = new EmployeeExperience($args);
-  //             $experience->save();
-  //           }
-  //         }
-
-  //         http_response_code(200);
-  //         exit(json_encode(['message' => "Experience updated successfully."]));
-  //       }
-  //     }
-
-
-  //     if ($employee) :
-  //       http_response_code(200);
-  //       $response['message'] = 'Employee updated successfully';
-  //     endif;
-  //   } else {
-  //     http_response_code(401);
-  //     exit(json_encode(['errors' => "Employee data is required"]));
-  //   }
-  // }
 }
 
 if (is_get_request()) {

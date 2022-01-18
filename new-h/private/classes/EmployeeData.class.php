@@ -26,6 +26,17 @@ class EmployeeData extends DatabaseObject
   public $created_at;
   public $deleted;
 
+  public $company_id;
+  public $employee_id;
+  public $father_name;
+  public $gender;
+  public $hashed_password;
+  public $present_add;
+  public $permanent_add;
+  public $blood_group;
+  public $photo;
+  public $notification;
+
   public $counts;
 
   public function __construct($args = [])
@@ -105,5 +116,18 @@ class EmployeeData extends DatabaseObject
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     return $obj_array;
+  }
+
+  public static function find_by_employee_data($id)
+  {
+    $sql = "SELECT employee.*, employees.company_id, employees.father_name, employees.gender, employees.present_add, employees.permanent_add,employees.blood_group, employees.photo,employees.notification FROM " . static::$table_name . " ";
+    $sql .= " LEFT JOIN employees ON employee.id = employees.employee_id ";
+    $sql .= "WHERE employee.id='" . self::$database->escape_string($id) . "'";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
   }
 }

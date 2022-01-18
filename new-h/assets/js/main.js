@@ -70,15 +70,35 @@ $(document).ready(function () {
   const EMPLOYEE_URL = "../inc/employee/";
 
   const attendanceForm = document.querySelector("#attendance_form");
+  const personalForm = document.getElementById("add_personal_form");
+  const companyForm = document.getElementById("add_company_form");
+  const bankForm = document.getElementById("add_bank_form");
+  const docForm = document.getElementById("add_doc_form");
 
-  /* ----------------------------- // ? ATTENDANCE ---------------------------- */
+  personalForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitForm(EMPLOYEE_URL, personalForm);
+  });
+
+  companyForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    submitForm(EMPLOYEE_URL, companyForm);
+  });
+
+  bankForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    submitForm(EMPLOYEE_URL, bankForm);
+  });
+
+  docForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    submitForm(EMPLOYEE_URL, docForm);
+  });
+
   attendanceForm.addEventListener("submit", (e) => {
     e.preventDefault();
     submitForm(EMPLOYEE_URL, attendanceForm);
   });
-  /* ----------------------------- // ? ATTENDANCE END ---------------------------- */
-
-  /* ----------------------------- // ? DEPARTMENT START ---------------------------- */
 
   const SETTING_URL = "../inc/setting/";
 
@@ -89,7 +109,7 @@ $(document).ready(function () {
   const departmentTitle = document.querySelector("#department-title");
   const departmentBtn = document.querySelector("#add_department_btn");
 
-  const designationModal = new bootstrap.Modal(
+  const designateModal = new bootstrap.Modal(
     document.querySelector("#designation_modal")
   );
   const designationForm = document.querySelector("#add_designation_form");
@@ -151,7 +171,7 @@ $(document).ready(function () {
     designationTitle.innerText = "Edit Designation";
     designationBtn.innerText = "Update";
 
-    designationModal.show();
+    designateModal.show();
 
     designationBtn.addEventListener("click", async (e) => {
       e.preventDefault();
