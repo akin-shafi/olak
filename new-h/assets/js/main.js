@@ -2,6 +2,7 @@ $(document).ready(function () {
   const message = (req, res) => {
     swal(req + "!", res, {
       icon: req,
+      timer: 2000,
       buttons: {
         confirm: {
           className: req == "error" ? "btn btn-danger" : "btn btn-success",

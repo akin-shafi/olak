@@ -8,13 +8,34 @@ include(SHARED_PATH . '/header.php');
 ?>
 <link rel="stylesheet" href="assets/plugins/rating/css/ratings.css">
 <link rel="stylesheet" href="assets/plugins/rating/css/rating-themes.css">
+
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
       <h4 class="page-title">Add Employee</h4>
    </div>
+
    <div class="page-rightheader ms-md-auto">
       <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
-         <div class="btn-list"> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+         <div class="btn-list">
+            <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<div class="card">
+   <div class="card-body">
+      <div class="row ">
+         <div class="col-lg-4 col-md-6 m-auto">
+            <form id="upload_csv" enctype="multipart/form-data">
+               <input type="hidden" name="csv" value="1">
+               <div class="form-group"> <label for="form-label" class="form-label"></label>
+                  <input class="form-control" name="employee_csv_data" type="file" accept=".csv" id="employee_data">
+               </div>
+               <button type="submit" class="btn btn-sm btn-outline-dark d-block m-auto">Upload Employee Data</button>
+            </form>
+         </div>
       </div>
    </div>
 </div>
@@ -467,7 +488,9 @@ include(SHARED_PATH . '/header.php');
    $(document).ready(function() {
 
       const EMPLOYEE_URL = "../inc/employee/employee_script.php";
+      const SETTING_URL = "../inc/setting/csv_uploads.php";
 
+      const uploadForm = document.getElementById("upload_csv");
       const employeeForm = document.getElementById("add_employee_form");
       const bankForm = document.getElementById("add_bank_form");
       const loanForm = document.getElementById("add_loan_form");
@@ -479,6 +502,7 @@ include(SHARED_PATH . '/header.php');
       const message = (req, res) => {
          swal(req + "!", res, {
             icon: req,
+            timer: 2000,
             buttons: {
                confirm: {
                   className: (req == 'error') ? 'btn btn-danger' : 'btn btn-success'
@@ -535,7 +559,6 @@ include(SHARED_PATH . '/header.php');
          const response = await data.json();
 
          if (response.errors) {
-            // console.log(response.errors.length);
             let errors = response.errors;
 
             if (errors.length > 1) {
@@ -545,7 +568,6 @@ include(SHARED_PATH . '/header.php');
                }
             } else {
                message('error', response.errors)
-
             }
          }
 
@@ -554,6 +576,11 @@ include(SHARED_PATH . '/header.php');
          }
       };
 
+
+      uploadForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(SETTING_URL, uploadForm);
+      });
 
       employeeForm.addEventListener("submit", (e) => {
          e.preventDefault();
