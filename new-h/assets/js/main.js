@@ -71,7 +71,7 @@ $(document).ready(function () {
 
   const attendanceForm = document.querySelector("#attendance_form");
   const personalForm = document.getElementById("add_personal_form");
-  const companyForm = document.getElementById("add_company_form");
+  const employeeCompForm = document.getElementById("add_employee_company_form");
   const bankForm = document.getElementById("add_bank_form");
   const docForm = document.getElementById("add_doc_form");
 
@@ -80,9 +80,9 @@ $(document).ready(function () {
     submitForm(EMPLOYEE_URL, personalForm);
   });
 
-  companyForm.addEventListener("submit", (e) => {
+  employeeCompForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    submitForm(EMPLOYEE_URL, companyForm);
+    submitForm(EMPLOYEE_URL, employeeCompForm);
   });
 
   bankForm.addEventListener("submit", (e) => {

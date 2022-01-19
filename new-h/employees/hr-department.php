@@ -86,12 +86,12 @@ $datatable = '';
             <div class="col-xl-6 col-md-12 col-lg-12">
                <div class="card">
                   <div class="card-header  border-0">
-                     <h4 class="card-title">Designation Summary</h4>
+                     <h4 class="card-title">Job Title</h4>
                      <div class="page-rightheader ms-md-auto">
                         <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
                            <div class="btn-list">
                               <a href="#" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#designation_modal">
-                                 Add Designation</a>
+                                 Add Job Title</a>
                            </div>
                         </div>
                      </div>

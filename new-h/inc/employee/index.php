@@ -23,50 +23,34 @@ if (is_post_request()) {
       http_response_code(200);
       $response['message'] = 'Employee information updated successfully';
     } else {
-      $uploadStatus = 1;
-      $uploadedFile = '';
       $args = $_POST['personal'];
 
-      $employee = new EmployeeData($args);
-      $employee->save();
+      if (!empty($_FILES['avatar']['name'])) {
+        $temp = explode('.', $_FILES['avatar']['name']);
+        $fileName = basename(round(microtime(true)) . '.' . end($temp));
+        $targetFilePath = $avatarDir . $fileName;
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
-      if ($employee) {
-
-        $args['employee_id'] = $employee->id;
-        if (!empty($_FILES['avatar']['name'])) {
-
-          $temp = explode('.', $_FILES['avatar']['name']);
-          $fileName = basename(round(microtime(true)) . '.' . end($temp));
-          $targetFilePath = $avatarDir . $fileName;
-          $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-          $allowTypes = ['jpeg', 'jpg', 'png'];
-          if (in_array($fileType, $allowTypes)) {
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetFilePath)) {
-              $uploadedFile = $fileName;
-              $args['photo'] = $uploadedFile;
-            } else {
-              $uploadStatus = 0;
-              http_response_code(401);
-              $response['errors'] = 'Sorry, there was an error uploading your file.';
-            }
-          } else {
-            $uploadStatus = 0;
-            http_response_code(404);
-            $response['errors'] = 'Sorry, JPEG, JPG & PNG files are allowed to upload.';
+        $allowTypes = ['jpeg', 'jpg', 'png'];
+        if (in_array($fileType, $allowTypes)) {
+          if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetFilePath)) {
+            $args['photo'] = $fileName;
           }
+        } else {
+          http_response_code(404);
+          $response['errors'] = 'Sorry, JPEG, JPG & PNG files are allowed to upload.';
         }
+      }
 
-        $personal = new Employee($args);
-        $personal->save();
+      $personal = new Employee($args);
+      $personal->save();
 
-        if ($personal->errors) :
-          http_response_code(401);
-          $response['errors'] = $personal->errors[0];
-        else :
-          http_response_code(201);
-          $response['message'] = 'Employee created successfully!';
-        endif;
+      if ($personal->errors) {
+        http_response_code(401);
+        exit(json_encode(['errors' => $personal->errors[0]]));
+      } else {
+        http_response_code(201);
+        $response['message'] = 'Employee created successfully!';
       }
     }
   }
@@ -84,28 +68,18 @@ if (is_post_request()) {
     } else {
       $args = $_POST['company'];
 
-      $employeeData = EmployeeData::find_by_id($args['employee_id']);
+      $employee = Employee::find_by_id($args['employee_id']);
       $dep_name = Department::find_by_id($args['department_id'])->department_name;
-      $des_name = Designation::find_by_id($args['designation_id'])->designation_name;
+      $des_name = Designation::find_by_id($args['job_title_id'])->designation_name;
 
       $args['department'] = $dep_name;
-      $args['designation'] = $des_name;
+      $args['job_title'] = $des_name;
 
-      $employeeData->merge_attributes($args);
-      $employeeData->save();
+      $employee->merge_attributes($args);
+      $employee->save();
 
-      if ($employeeData) {
-        $company = new EmployeeCompany($args);
-        $company->save();
-
-        if ($company->errors) :
-          http_response_code(401);
-          $response['errors'] = $company->errors[0];
-        else :
-          http_response_code(201);
-          $response['message'] = 'Employee Company created successfully!';
-        endif;
-      }
+      http_response_code(201);
+      $response['message'] = 'Employee updated successfully!';
     }
   }
 

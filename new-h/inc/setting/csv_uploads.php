@@ -21,9 +21,9 @@ if (is_post_request()) {
       LINES TERMINATED BY "\r\n"
       IGNORE 1 LINES
 
-      (@column1, @column2, @column3, @column4, @column5, @column6, @column7, @column8, @column9, @column10, @column11, @column12, @column13, @column14, @column15, @column16, @column17, @column18)
+      (@column1, @column2, @column3, @column4, @column5, @column6, @column7, @column8, @column9, @column10, @column11, @column12, @column13, @column14, @column15, @column16, @column17, @column18, @column19, @column20, @column21, @column22, @column23, @column24, @column25, @column26)
 
-      SET firstname = @column1, lastname = @column2, othername = @column3, department = @column4, location = @column5, phone = @column6, email = @column7, marital_status = @column8, dob = @column9, kin_name = @column10, kin_phone = @column11, highest_qualification = @column12, date_employed = @column13, bank_name = @column14, bank_account = @column15, professional_body = @column16, present_salary = @column17, grade_step = @column18
+      SET employee_id = @column1, first_name = @column2, last_name = @column3, other_name = @column4, father_name = @column5, phone = @column6, email = @column7, gender = @column8, marital_status = @column9, dob = @column10, kin_name = @column11, kin_phone = @column12, present_add = @column13, permanent_add = @column14, highest_qualification = @column15, company = @column16, branch = @column17, department = @column18, job_title = @column19, date_employed = @column20, employment_type = @column21, present_salary = @column22, grade_step = @column23, bank_name = @column24, account_number = @column25, blood_group = @column26
     ';
 
     $statement = $connect->prepare($query_1);
@@ -36,3 +36,10 @@ if (is_post_request()) {
     echo json_encode($output);
   }
 }
+
+      
+
+
+      //       (@column1, @column2, @column3, @column4, @column5, @column6, @column7, @column8, @column9, @column10, @column11, @column12, @column13, @column14, @column15, @column16, @column17, @column18)
+
+      // SET firstname = @column1, lastname = @column2, othername = @column3, department = @column4, location = @column5, phone = @column6, email = @column7, marital_status = @column8, dob = @column9, kin_name = @column10, kin_phone = @column11, highest_qualification = @column12, date_employed = @column13, bank_name = @column14, bank_account = @column15, professional_body = @column16, present_salary = @column17, grade_step = @column18

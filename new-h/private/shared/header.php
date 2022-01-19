@@ -85,7 +85,6 @@ $user = $loggedInAdmin;
                         <ul class="slide-menu open">
                            <li class="side-menu-label1"><a href="#">HR Dashboard</a></li>
                            <li class="is-expanded"><a href="<?php echo url_for('dashboard/index.php') ?>" class="slide-item ">Dashboard</a></li>
-                           <li><a href="<?php echo url_for('employees/hr-department.php') ?>" class="slide-item">Department</a></li>
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Employees</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
@@ -120,22 +119,9 @@ $user = $loggedInAdmin;
                            <li><a href="<?php echo url_for('general/hr-award.php') ?>" class="slide-item">Awards</a></li>
                            <li><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
 
-                           <li><a href="<?php echo url_for('general/hr-expenses.php') ?>" class="slide-item">Expenses</a></li>
                            <li><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
                            <li><a href="<?php echo url_for('general/settings/') ?>" class="slide-item">Settings</a></li>
                         </ul>
-                     </li>
-
-                     <li class="slide d-none">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="#"> <i class="feather feather-slack sidemenu_icon"></i> <span class="side-menu__label">Super Admin</span><i class="angle fa fa-angle-right"></i> </a>
-                        <ul class="slide-menu">
-                           <li class="side-menu-label1"><a href="#">Super Admin</a></li>
-                           <li><a href="index7.php" class="slide-item">Dashboard</a></li>
-                           <li><a href="superadmin-company.php" class="slide-item">Companies</a></li>
-                           <li><a href="superadmin-subscription.php" class="slide-item">Subscription Plans</a></li>
-                           <li><a href="superadmin-invoices.php" class="slide-item">Invoices</a></li>
-                           <li><a href="superadmin-admins.php" class="slide-item">Super Admins</a></li>
-                           <li><a href="superadmin-settings.php" class="slide-item">Settings</a></li>
                            <li><a href="superadmin-role.php" class="slide-item">Role Access</a></li>
                         </ul>
                      </li>
