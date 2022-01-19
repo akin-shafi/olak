@@ -33,6 +33,10 @@ $user = $loggedInAdmin;
       <link href="<?php echo url_for('assets/plugins/sidebar/sidebar.css') ?>" rel="stylesheet" />
       <!-- Select2 css -->
       <link href="<?php echo url_for('assets/plugins/select2/select2.min.css') ?>" rel="stylesheet" />
+
+      <link href="<?php echo url_for('assets/plugins/fullcalendar/fullcalendar.css') ?>" rel="stylesheet">
+      
+      <link href="<?php echo url_for('assets/plugins/modal-datepicker/datepicker.css') ?>" rel="stylesheet">
       <!--- INTERNAL jvectormap css-->
       <link href="<?php echo url_for('assets/plugins/jvectormap/jqvmap.css') ?>" rel="stylesheet" />
       <!-- INTERNAL Data table css -->
@@ -98,9 +102,9 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attview.php') ?>">Attendance View</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-overviewcldr.php') ?>">Overview Calender</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attmark.php') ?>">Attendance Mark </a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leaves.php') ?>">Leave Settings</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leavesapplication.php') ?>">Leave Applications</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-recentleaves.php') ?>">Recent Leaves </a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-leaves.php') ?>">Leave Settings</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-leavesapplication.php') ?>">Leave Applications</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-recentleaves.php') ?>">Recent Leaves </a></li>
                               </ul>
                            </li>
 
@@ -112,13 +116,13 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-editpayroll.php') ?>">Edit Payroll</a></li>
                               </ul>
                            </li>
-                           <li><a href="<?php echo url_for('others/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
-                           <li><a href="<?php echo url_for('others/hr-award.php') ?>" class="slide-item">Awards</a></li>
-                           <li><a href="<?php echo url_for('others/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
+                           <li><a href="<?php echo url_for('general/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
+                           <li><a href="<?php echo url_for('general/hr-award.php') ?>" class="slide-item">Awards</a></li>
+                           <li><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
 
-                           <li><a href="<?php echo url_for('others/hr-expenses.php') ?>" class="slide-item">Expenses</a></li>
-                           <li><a href="<?php echo url_for('events/') ?>" class="slide-item">Events</a></li>
-                           <li><a href="<?php echo url_for('settings/') ?>" class="slide-item">Settings</a></li>
+                           <li><a href="<?php echo url_for('general/hr-expenses.php') ?>" class="slide-item">Expenses</a></li>
+                           <li><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
+                           <li><a href="<?php echo url_for('general/settings/') ?>" class="slide-item">Settings</a></li>
                         </ul>
                      </li>
 

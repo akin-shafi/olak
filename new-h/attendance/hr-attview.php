@@ -1,19 +1,57 @@
 <?php
 require_once('../private/initialize.php');
 
-$page = 'Attendance';
-$page_title = 'Attendance List';
+$page = 'Blank';
+$page_title = 'Blank';
 include(SHARED_PATH . '/header.php');
 
 ?>
 
+
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
-      <h4 class="page-title">Mark Attendance</h4>
+      <h4 class="page-title">Attendance View</h4>
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <div class="btn-list"> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+         <div class="btn-list"> <a href="<?php echo url_for('attendance/hr-attmark.php') ?>" class="btn btn-primary me-3">Mark Attendance</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+      </div>
+   </div>
+</div>
+<div class="row">
+   <div class="col-md-12">
+      <div class="card">
+         <div class="card-header  border-0">
+            <h4 class="card-title">Days Overview This Month</h4>
+         </div>
+         <div class="card-body pt-0 pb-3">
+            <div class="row mb-0 pb-0">
+               <div class="col-md-6 col-lg-2 text-center py-5">
+                  <span class="avatar avatar-md bradius fs-20 bg-primary-transparent">31</span> 
+                  <h5 class="mb-0 mt-3">Total Working Days</h5>
+               </div>
+               <div class="col-md-6 col-lg-2 text-center py-5 ">
+                  <span class="avatar avatar-md bradius fs-20 bg-success-transparent">24</span> 
+                  <h5 class="mb-0 mt-3">Present Days</h5>
+               </div>
+               <div class="col-md-6 col-lg-2 text-center py-5">
+                  <span class="avatar avatar-md bradius fs-20 bg-danger-transparent">2</span> 
+                  <h5 class="mb-0 mt-3">Absent Days</h5>
+               </div>
+               <div class="col-md-6 col-lg-2 text-center py-5">
+                  <span class="avatar avatar-md bradius fs-20 bg-warning-transparent">0</span> 
+                  <h5 class="mb-0 mt-3">Half Days</h5>
+               </div>
+               <div class="col-md-6 col-lg-2 text-center py-5 ">
+                  <span class="avatar avatar-md bradius fs-20 bg-orange-transparent">2</span> 
+                  <h5 class="mb-0 mt-3">Late Days</h5>
+               </div>
+               <div class="col-md-6 col-lg-2 text-center py-5">
+                  <span class="avatar avatar-md bradius fs-20 bg-pink-transparent">5</span> 
+                  <h5 class="mb-0 mt-3">Holidays</h5>
+               </div>
+            </div>
+         </div>
       </div>
    </div>
 </div>
@@ -314,6 +352,5 @@ include(SHARED_PATH . '/header.php');
       </div>
    </div>
 </div>
-
 
 <?php include (SHARED_PATH . '/footer.php') ?>

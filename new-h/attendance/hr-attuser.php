@@ -4,7 +4,7 @@ require_once('../private/initialize.php');
 $page = 'Attendance';
 $page_title = 'Attendance List';
 include(SHARED_PATH . '/header.php');
-
+$datatable = '';
 ?>
 
 <div class="page-header d-xl-flex d-block">
@@ -147,25 +147,7 @@ include(SHARED_PATH . '/header.php');
          <div class="card-body">
             <div class="table-responsive">
                <div id="emp-attendance_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                  <div class="row">
-                     <div class="col-sm-12 col-md-6">
-                        <div class="dataTables_length" id="emp-attendance_length">
-                           <label>
-                              Show 
-                              <select name="emp-attendance_length" aria-controls="emp-attendance" class="form-select form-select-sm">
-                                 <option value="10">10</option>
-                                 <option value="25">25</option>
-                                 <option value="50">50</option>
-                                 <option value="100">100</option>
-                              </select>
-                              entries
-                           </label>
-                        </div>
-                     </div>
-                     <div class="col-sm-12 col-md-6">
-                        <div id="emp-attendance_filter" class="dataTables_filter"><label><input type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="emp-attendance"></label></div>
-                     </div>
-                  </div>
+                  
                   <div class="row">
                      <div class="col-sm-12">
                         <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="emp-attendance" role="grid" aria-describedby="emp-attendance_info">
@@ -316,21 +298,7 @@ include(SHARED_PATH . '/header.php');
                         </table>
                      </div>
                   </div>
-                  <div class="row">
-                     <div class="col-sm-12 col-md-5">
-                        <div class="dataTables_info" id="emp-attendance_info" role="status" aria-live="polite">Showing 1 to 10 of 15 entries</div>
-                     </div>
-                     <div class="col-sm-12 col-md-7">
-                        <div class="dataTables_paginate paging_simple_numbers" id="emp-attendance_paginate">
-                           <ul class="pagination">
-                              <li class="paginate_button page-item previous disabled" id="emp-attendance_previous"><a href="#" aria-controls="emp-attendance" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                              <li class="paginate_button page-item active"><a href="#" aria-controls="emp-attendance" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="emp-attendance" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                              <li class="paginate_button page-item next" id="emp-attendance_next"><a href="#" aria-controls="emp-attendance" data-dt-idx="3" tabindex="0" class="page-link">Next</a></li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
+                 
                </div>
             </div>
          </div>
@@ -340,3 +308,49 @@ include(SHARED_PATH . '/header.php');
 
 
 <?php include (SHARED_PATH . '/footer.php') ?>
+
+<script type="text/javascript">
+   $(function(e){
+
+      // //________ DataTable
+      // var table = $('#hr-attendance').DataTable( {
+      //    rowReorder: true,
+      //    columnDefs: [
+      //       { orderable: true, className: 'reorder', targets: 0 },
+      //       { orderable: false, targets: '_all' }
+      //    ]
+      // } );
+      
+
+      // //________ DataTable
+      // $('#emp-attendance').DataTable({
+      //    "order": [[ 0, "asec" ]],
+      //    order: [],
+      //    columnDefs: [ { orderable: false, targets: [5, 6] } ],
+      //    language: {
+      //       searchPlaceholder: 'Search...',
+      //       sSearch: '',
+            
+      //    }
+      // });
+
+      //________ Timepicker
+      $('.timepicker').timepicker({
+         showInputs: false,
+      });
+      
+      //________ Datepicker
+      $( ".fc-datepicker" ).datepicker({
+         dateFormat: "dd MM yy",
+         monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec" ]
+      });
+      $('.fc-datepicker').datepicker('setDate', 'today');
+
+      //______Select2
+      $('.select2').select2({
+         minimumResultsForSearch: Infinity,
+         width: '100%'
+      });
+      
+    });
+</script>

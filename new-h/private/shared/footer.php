@@ -235,13 +235,16 @@
  <script src="<?php echo url_for('assets/plugins/chart.min/chart.min.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/chart.min/rounded-barchart.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/jQuery-countdowntimer/jQuery.countdownTimer.js') ?>"></script>
-
+<script type="text/javascript">
+   
+</script>
  <?php if (isset($select2)) : ?>
     <script type="text/javascript">
        /* Select2 */
        $('.select2').select2({
           minimumResultsForSearch: Infinity
        });
+
     </script>
  <?php endif ?>
  <script src="<?php echo url_for('assets/plugins/select2/select2.full.min.js') ?>"></script>
@@ -278,6 +281,8 @@
 
 
        });
+
+
     </script>
 
  <?php endif ?>

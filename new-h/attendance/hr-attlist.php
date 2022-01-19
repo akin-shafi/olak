@@ -12,7 +12,7 @@ include(SHARED_PATH . '/header.php');
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <div class="btn-list"> <a href="hr-attmark.html" class="btn btn-primary me-3">Mark Attendance</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+         <div class="btn-list"> <a href="<?php echo url_for('attendance/hr-attmark.php') ?>" class="btn btn-primary me-3">Mark Attendance</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
       </div>
    </div>
 </div>
@@ -45,7 +45,7 @@ include(SHARED_PATH . '/header.php');
                         <option value="14">Julia Hodges</option>
                         <option value="15">Michael Sutherland</option>
                      </select>
-                     <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-38-w0u0" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-uqyx-container"><span class="select2-selection__rendered" id="select2-uqyx-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Employee</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
+                     
                   </div>
                </div>
                <div class="col-md-6 col-lg-3">
@@ -66,7 +66,7 @@ include(SHARED_PATH . '/header.php');
                         <option value="11">November</option>
                         <option value="12">December</option>
                      </select>
-                     <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-54-dlts" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-k5oa-container"><span class="select2-selection__rendered" id="select2-k5oa-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Month</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
+                     
                   </div>
                </div>
                <div class="col-md-6 col-lg-3">
@@ -91,7 +91,7 @@ include(SHARED_PATH . '/header.php');
                         <option value="15">2019</option>
                         <option value="16">2010</option>
                      </select>
-                     <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-74-ugsj" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-ubkn-container"><span class="select2-selection__rendered" id="select2-ubkn-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Year</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
+                     
                   </div>
                </div>
                <div class="col-md-6 col-lg-3">
