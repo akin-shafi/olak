@@ -1,7 +1,7 @@
 <?php
 require_once('../../private/initialize.php');
 
-$uploadDir = '../../assets/uploads/';
+$logoDir = '../../assets/uploads/company/';
 $loanDir = '../../assets/uploads/loan/';
 $response = [
   'errors' => null,
@@ -10,6 +10,105 @@ $response = [
 ];
 
 if (is_post_request()) {
+
+  if (isset($_POST['company'])) {
+    if (isset($_POST['companyId']) && $_POST['companyId'] != '') {
+      $company = Company::find_by_id($_POST['companyId']);
+      $args = $_POST['company'];
+      $company->merge_attributes($args);
+      $company->save();
+
+      http_response_code(200);
+      $response['message'] = 'Company updated successfully';
+    } else {
+      $args = $_POST['company'];
+
+      if (!empty($_FILES['logo']['name'])) {
+
+        $temp = explode('.', $_FILES['logo']['name']);
+        $fileName = basename(round(microtime(true)) . '.' . end($temp));
+        $targetFilePath = $logoDir . $fileName;
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+        $allowTypes = ['jpeg', 'jpg', 'png'];
+        if (in_array($fileType, $allowTypes)) {
+          if (move_uploaded_file($_FILES['logo']['tmp_name'], $targetFilePath)) {
+            $uploadedFile = $fileName;
+            $args['logo'] = $uploadedFile;
+          } else {
+            $uploadStatus = 0;
+            http_response_code(401);
+            $response['errors'] = 'Sorry, there was an error uploading your file.';
+          }
+        } else {
+          $uploadStatus = 0;
+          http_response_code(404);
+          $response['errors'] = 'Sorry, JPEG, JPG & PNG files are allowed to upload.';
+        }
+      }
+      $company = new Company($args);
+      $company->save();
+
+      if ($company->errors) :
+        http_response_code(401);
+        $response['errors'] = $company->errors[0];
+      else :
+        http_response_code(201);
+        $response['message'] = 'Company created successfully!';
+      endif;
+    }
+  }
+
+  if (isset($_POST['branch'])) {
+    if (isset($_POST['branchId']) && $_POST['branchId'] != '') {
+      $branch = Branch::find_by_id($_POST['branchId']);
+      $args = $_POST['branch'];
+      $branch->merge_attributes($args);
+      $branch->save();
+
+      http_response_code(200);
+      $response['message'] = 'Branch updated successfully';
+    } else {
+      $args = $_POST['branch'];
+      $branch = new Branch($args);
+      $branch->save();
+
+      if ($branch->errors) :
+        http_response_code(401);
+        $response['errors'] = $branch->errors[0];
+      else :
+        http_response_code(201);
+        $response['message'] = 'Branch created successfully!';
+      endif;
+    }
+  }
+
+  if (isset($_POST['eType'])) {
+    if (isset($_POST['eTypeId']) && $_POST['eTypeId'] != '') {
+      $eType = EmployeeType::find_by_id($_POST['eTypeId']);
+      $args = $_POST['eType'];
+      $eType->merge_attributes($args);
+      $eType->save();
+
+      http_response_code(200);
+      $response['message'] = 'Employee type updated successfully';
+    } else {
+      $args = $_POST['eType'];
+      $eType = new EmployeeType($args);
+      $eType->save();
+
+      if ($eType->errors) :
+        http_response_code(401);
+        $response['errors'] = $eType->errors[0];
+      else :
+        http_response_code(201);
+        $response['message'] = 'Employee type created successfully!';
+      endif;
+    }
+  }
+
+
+
   if (isset($_POST['department'])) {
     if (isset($_POST['departmentId']) && $_POST['departmentId'] != '') {
       $department = Department::find_by_id($_POST['departmentId']);

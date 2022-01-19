@@ -2,10 +2,13 @@
 class EmployeeCompany extends DatabaseObject
 {
   protected static $table_name = "employee_companies";
-  protected static $db_columns = ['id', 'employee_id', 'employee_number', 'department_id', 'designation_id', 'date_employed', 'reg_date', 'terminate_date', 'salary_type', 'salary', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'company_id', 'branch_id', 'eType_id', 'employee_id', 'employee_number', 'department_id', 'designation_id', 'date_employed', 'reg_date', 'terminate_date', 'salary_type', 'salary', 'created_at', 'deleted'];
 
 
   public $id;
+  public $company_id;
+  public $branch_id;
+  public $eType_id;
   public $employee_id;
   public $employee_number;
   public $department_id;
@@ -23,6 +26,9 @@ class EmployeeCompany extends DatabaseObject
   public function __construct($args = [])
   {
 
+    $this->company_id       = $args['company_id'] ?? '';
+    $this->branch_id        = $args['branch_id'] ?? '';
+    $this->eType_id         = $args['eType_id'] ?? '';
     $this->employee_id      = $args['employee_id'] ?? '';
     $this->employee_number  = $args['employee_number'] ?? '';
     $this->department_id    = $args['department_id'] ?? '';

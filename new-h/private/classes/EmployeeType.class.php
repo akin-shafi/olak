@@ -1,0 +1,49 @@
+<?php
+class EmployeeType extends DatabaseObject
+{
+  protected static $table_name = "employee_types";
+  protected static $db_columns = ['id', 'name', 'label', 'created_at',  'deleted'];
+
+  public $id;
+  public $name;
+  public $label;
+  public $deleted;
+
+  public $counts;
+
+  public function __construct($args = [])
+  {
+    $this->name           = $args['name'] ?? '';
+    $this->label          = $args['label'] ?? '';
+    $this->created_at     = $args['created_at'] ?? date('Y-m-d H:i:s');
+    $this->deleted        = $args['deleted'] ?? '';
+  }
+
+  protected function validate()
+  {
+    $this->errors = [];
+
+    if (is_blank($this->name)) {
+      $this->errors[] = "Name is required";
+    }
+
+    if (is_blank($this->label)) {
+      $this->errors[] = " Label is required.";
+    }
+
+    return $this->errors;
+  }
+
+  public static function find_by_label($label)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE label='" . self::$database->escape_string($label) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+}

@@ -81,7 +81,6 @@ $user = $loggedInAdmin;
                         <ul class="slide-menu open">
                            <li class="side-menu-label1"><a href="#">HR Dashboard</a></li>
                            <li class="is-expanded"><a href="<?php echo url_for('dashboard/index.php') ?>" class="slide-item ">Dashboard</a></li>
-                           <li><a href="<?php echo url_for('employees/hr-department.php') ?>" class="slide-item">Department</a></li>
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Employees</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
@@ -118,7 +117,14 @@ $user = $loggedInAdmin;
 
                            <li><a href="<?php echo url_for('others/hr-expenses.php') ?>" class="slide-item">Expenses</a></li>
                            <li><a href="<?php echo url_for('events/') ?>" class="slide-item">Events</a></li>
-                           <li><a href="<?php echo url_for('settings/') ?>" class="slide-item">Settings</a></li>
+                           <li class="sub-slide">
+                              <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Settings</span><i class="sub-angle fa fa-angle-right"></i></a>
+                              <ul class="sub-slide-menu">
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('settings/') ?>">Company</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('employees/hr-department.php') ?>">Department</a></li>
+
+                              </ul>
+                           </li>
                         </ul>
                      </li>
 

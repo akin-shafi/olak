@@ -168,14 +168,14 @@ include(SHARED_PATH . '/header.php');
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">User Name</label> </div>
                            <div class="col-md-9">
                               <div class="row">
-                                 <div class="col-md-4"> <input type="text" name="personal[firstname]" class="form-control mb-md-0 mb-5" placeholder="First Name"> <span class="text-muted"></span> </div>
-                                 <div class="col-md-4"> <input type="text" name="personal[lastname]" class="form-control" placeholder="Last Name"> </div>
-                                 <div class="col-md-4"> <input type="text" name="personal[othername]" class="form-control" placeholder="Middle Name"> </div>
+                                 <div class="col-md-4"> <input type="text" name="personal[first_name]" class="form-control mb-md-0 mb-5" placeholder="First Name"> <span class="text-muted"></span> </div>
+                                 <div class="col-md-4"> <input type="text" name="personal[last_name]" class="form-control" placeholder="Last Name"> </div>
+                                 <div class="col-md-4"> <input type="text" name="personal[other_name]" class="form-control" placeholder="Middle Name"> </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                     
+
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Contact Number</label> </div>
@@ -185,7 +185,7 @@ include(SHARED_PATH . '/header.php');
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Next of Kin Name</label> </div>
-                           <div class="col-md-9"> <input type="tel" name="personal[kin_name]" class="form-control" placeholder="Next of Kin Name"> </div>
+                           <div class="col-md-9"> <input type="text" name="personal[kin_name]" class="form-control" placeholder="Next of Kin Name"> </div>
                         </div>
                      </div>
                      <div class="form-group">
@@ -297,7 +297,7 @@ include(SHARED_PATH . '/header.php');
             </div>
 
             <div class="tab-pane" id="tab6">
-               <form id="add_company_form">
+               <form id="add_employee_company_form">
                   <div class="card-body">
                      <div class="form-group">
                         <div class="row">
@@ -305,7 +305,7 @@ include(SHARED_PATH . '/header.php');
                            <div class="col-md-9">
                               <select name="company[employee_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Employee" required>
                                  <option label="Select Employee"></option>
-                                 <?php foreach (EmployeeData::find_by_undeleted() as $value) : ?>
+                                 <?php foreach (Employee::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>"><?php echo ucwords($value->full_name()) ?></option>
                                  <?php endforeach; ?>
                               </select>
@@ -316,7 +316,21 @@ include(SHARED_PATH . '/header.php');
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee ID</label> </div>
-                           <div class="col-md-9"> <input type="text" name="company[employee_number]" class="form-control" placeholder="#ID"> </div>
+                           <div class="col-md-9">
+                              <div class="row">
+                                 <div class="col-md-6">
+                                    <select name="company[company_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Company" required>
+                                       <option label="Company"></option>
+                                       <?php foreach (Company::find_by_undeleted() as $value) : ?>
+                                          <option value="<?php echo $value->id ?>"><?php echo ucwords($value->company_name) ?></option>
+                                       <?php endforeach; ?>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-6">
+                                    <input type="text" name="company[employee_number]" class="form-control" placeholder="#ID">
+                                 </div>
+                              </div>
+                           </div>
                         </div>
                      </div>
                      <div class="form-group">
@@ -333,18 +347,24 @@ include(SHARED_PATH . '/header.php');
                            </div>
                         </div>
                      </div>
+
                      <div class="form-group">
                         <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Location</label> </div>
-                           <div class="col-md-9"> <input type="text" name="company[location]" class="form-control" placeholder="Location"> </div>
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
+                           <div class="col-md-9"> <select name="company[branch_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
+                                 <option label="Select Branch"></option>
+                                 <?php foreach (Branch::find_by_undeleted() as $value) : ?>
+                                    <option value="<?php echo $value->id ?>"><?php echo ucwords($value->branch_name) ?></option>
+                                 <?php endforeach; ?>
+                              </select> </div>
                         </div>
                      </div>
                      <div class="form-group">
                         <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Designation</label> </div>
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
                            <div class="col-md-9">
-                              <select name="company[designation_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Employee" required>
-                                 <option label="Select Employee"></option>
+                              <select name="company[job_title_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
+                                 <option label="Select Employment Title"></option>
                                  <?php foreach (Designation::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>">
                                        <?php echo ucwords($value->designation_name) ?></option>
@@ -359,27 +379,16 @@ include(SHARED_PATH . '/header.php');
                            <div class="col-md-9"> <input type="date" name="company[date_employed]" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYYY" id="dp1642289966078"> </div>
                         </div>
                      </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Resignation Date</label> </div>
-                           <div class="col-md-9"> <input type="date" name="company[reg_date]" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYYY" id="dp1642289966079"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Termination Date</label> </div>
-                           <div class="col-md-9"> <input type="date" name="company[terminate_date]" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYYY" id="dp1642289966080"> </div>
-                        </div>
-                     </div>
                      <h4 class="mb-5 mt-7 font-weight-bold">Salary</h4>
                      <div class="form-group">
                         <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Type</label> </div>
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employment Type</label> </div>
                            <div class="col-md-9">
-                              <select name="company[salary_type]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Type" data-select2-id="select2-data-7-uv0d" tabindex="-1" aria-hidden="true">
-                                 <option value="" label="Select Type" data-select2-id="select2-data-9-49kl"></option>
-                                 <option value="1">Full-Time</option>
-                                 <option value="2">Casual-Worker</option>
+                              <select name="company[employment_type]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
+                                 <option label="Employee Type"></option>
+                                 <?php foreach (EmployeeType::find_by_undeleted() as $value) : ?>
+                                    <option value="<?php echo $value->id ?>"><?php echo ucwords($value->name) ?></option>
+                                 <?php endforeach; ?>
                               </select>
                            </div>
                         </div>
@@ -417,7 +426,7 @@ include(SHARED_PATH . '/header.php');
                            <div class="col-md-9">
                               <select name="bank[employee_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Employee" data-select2-id="select2-data-7-uv0d" tabindex="-1" aria-hidden="true" required>
                                  <option label="Select Employee" data-select2-id="select2-data-9-49kl"></option>
-                                 <?php foreach (EmployeeData::find_by_undeleted() as $value) : ?>
+                                 <?php foreach (Employee::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>"><?php echo $value->full_name() ?></option>
                                  <?php endforeach; ?>
                               </select>

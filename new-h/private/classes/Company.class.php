@@ -2,11 +2,12 @@
 class Company extends DatabaseObject
 {
   protected static $table_name = "companies";
-  protected static $db_columns = ['id', 'logo', 'company_name', 'registration_no', 'created_at',  'deleted'];
+  protected static $db_columns = ['id', 'logo', 'company_name', 'company_label', 'registration_no', 'created_at',  'deleted'];
 
   public $id;
   public $logo;
   public $company_name;
+  public $company_label;
   public $registration_no;
   public $created_at;
   public $deleted;
@@ -18,6 +19,7 @@ class Company extends DatabaseObject
   {
     $this->logo            = $args['logo'] ?? '';
     $this->company_name    = $args['company_name'] ?? '';
+    $this->company_label   = $args['company_label'] ?? '';
     $this->registration_no = $args['registration_no'] ?? '';
     $this->created_at      = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted         = $args['deleted'] ?? '';
