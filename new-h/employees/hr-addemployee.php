@@ -532,3 +532,47 @@ include(SHARED_PATH . '/header.php');
 </div>
 
 <?php include(SHARED_PATH . '/footer.php') ?>
+
+<script>
+   $(document).ready(function() {
+      const message = (req, res) => {
+         swal(req + "!", res, {
+            icon: req,
+            timer: 2000,
+            buttons: {
+               confirm: {
+                  className: req == "error" ? "btn btn-danger" : "btn btn-success",
+               },
+            },
+         }).then(() => location.reload());
+      };
+
+      const submitForm = async (url, payload) => {
+         const formData = new FormData(payload);
+
+         const data = await fetch(url, {
+            method: "POST",
+            body: formData,
+         });
+
+         const res = await data.json();
+
+         if (res.errors) {
+            message("error", res.errors);
+         }
+
+         if (res.message) {
+            message("success", res.message);
+         }
+      };
+
+      const SETTING_URL = "../inc/setting/csv_uploads.php";
+
+      const uploadForm = document.getElementById("upload_csv");
+
+      uploadForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(SETTING_URL, uploadForm);
+      });
+   })
+</script>

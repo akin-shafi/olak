@@ -224,17 +224,13 @@ $employee = EmployeeData::find_by_employee_data($id);
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Present Address</label> </div>
-                           <div class="col-md-9"> <textarea name="personal[present_add]" rows="3" class="form-control" placeholder="Address1">
-                              <?php echo trim($employee->present_add) ?? '' ?>
-                           </textarea> </div>
+                           <div class="col-md-9"> <textarea name="personal[present_add]" rows="3" class="form-control" placeholder="Address1"><?php echo trim($employee->present_add) ?? '' ?></textarea> </div>
                         </div>
                      </div>
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Permanent Address</label> </div>
-                           <div class="col-md-9"> <textarea name="personal[permanent_add]" rows="3" class="form-control" placeholder="Address2">
-                              <?php echo trim($employee->permanent_add) ?? '' ?>
-                           </textarea> </div>
+                           <div class="col-md-9"> <textarea name="personal[permanent_add]" rows="3" class="form-control" placeholder="Address2"><?php echo trim($employee->permanent_add) ?? '' ?></textarea> </div>
                         </div>
                      </div>
                      <div class="form-group">
