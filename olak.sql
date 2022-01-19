@@ -1,7 +1,7 @@
-admin	CREATE TABLE `admin` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `admin` (
+ `id` int(11) NOT NULL,
  `first_name` varchar(50) NOT NULL,
- `last_name` varchar(50) NOT NULL,
+ `last_name` varchar(50) NOT NULL, 
  `email` varchar(50) NOT NULL,
  `profile_img` varchar(191) NOT NULL,
  `hashed_password` varchar(191) NOT NULL,
@@ -14,9 +14,9 @@ admin	CREATE TABLE `admin` (
  `created_by` varchar(50) DEFAULT NULL,
  `deleted` varchar(50) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
-branches	CREATE TABLE `branches` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `branches` (
+ `id` int(11) NOT NULL,
  `company_id` varchar(50) NOT NULL,
  `branch_name` varchar(50) NOT NULL,
  `address` varchar(50) NOT NULL,
@@ -26,33 +26,33 @@ branches	CREATE TABLE `branches` (
  `created_at` datetime DEFAULT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
-companies	CREATE TABLE `companies` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `companies` (
+ `id` int(11) NOT NULL,
  `logo` varchar(50) NOT NULL,
  `company_name` varchar(50) NOT NULL,
  `registration_no` varchar(50) NOT NULL,
  `created_at` datetime DEFAULT NULL,
  `deleted` varchar(50) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
-departments	CREATE TABLE `departments` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `departments` (
+ `id` int(11) NOT NULL,
  `department_name` varchar(50) DEFAULT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
-designations	CREATE TABLE `designations` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `designations` (
+ `id` int(11) NOT NULL,
  `designation_name` varchar(50) NOT NULL,
  `department_id` int(11) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4
-employee	CREATE TABLE `employee` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `employee` (
+ `id` int(11) NOT NULL,
  `firstname` varchar(50) NOT NULL,
  `lastname` varchar(50) NOT NULL,
  `othername` varchar(50) NOT NULL,
@@ -74,9 +74,9 @@ employee	CREATE TABLE `employee` (
  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=513 DEFAULT CHARSET=utf8mb4
-employees	CREATE TABLE `employees` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `employees` (
+ `id` int(11) NOT NULL,
  `company_id` int(11) NOT NULL,
  `employee_id` varchar(5) NOT NULL,
  `father_name` varchar(50) NOT NULL,
@@ -90,18 +90,18 @@ employees	CREATE TABLE `employees` (
  `created_at` datetime DEFAULT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
-employee_attendances	CREATE TABLE `employee_attendances` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `employee_attendances` (
+ `id` int(11) NOT NULL,
  `employee_id` int(11) NOT NULL,
  `clock_in` time NOT NULL DEFAULT current_timestamp(),
  `clock_out` time NOT NULL,
  `note` varchar(255) NOT NULL,
  `created_at` datetime NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-employee_banks	CREATE TABLE `employee_banks` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `employee_banks` (
+ `id` int(11) NOT NULL,
  `employee_id` varchar(5) NOT NULL,
  `account_holder` varchar(50) NOT NULL,
  `account_number` varchar(50) NOT NULL,
@@ -110,9 +110,9 @@ employee_banks	CREATE TABLE `employee_banks` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
-employee_companies	CREATE TABLE `employee_companies` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `employee_companies` (
+ `id` int(11) NOT NULL,
  `employee_id` varchar(5) NOT NULL,
  `employee_number` varchar(15) NOT NULL,
  `department_id` varchar(5) NOT NULL,
@@ -125,9 +125,9 @@ employee_companies	CREATE TABLE `employee_companies` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
-employee_details	CREATE TABLE `employee_details` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `employee_details` (
+ `id` int(11) NOT NULL,
  `employee_id` int(11) NOT NULL,
  `account_name` varchar(50) NOT NULL,
  `bank_name` varchar(50) NOT NULL,
@@ -143,9 +143,11 @@ employee_details	CREATE TABLE `employee_details` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-employee_docs	CREATE TABLE `employee_docs` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+
+
+CREATE TABLE `employee_docs` (
+ `id` int(11) NOT NULL,
  `employee_id` varchar(5) NOT NULL,
  `cv` varchar(50) NOT NULL,
  `id_card` varchar(50) NOT NULL,
@@ -155,9 +157,9 @@ employee_docs	CREATE TABLE `employee_docs` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-employee_education	CREATE TABLE `employee_education` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `employee_education` (
+ `id` int(11) NOT NULL,
  `employee_id` int(11) NOT NULL,
  `institution` varchar(255) NOT NULL,
  `subject` varchar(50) NOT NULL,
@@ -168,9 +170,9 @@ employee_education	CREATE TABLE `employee_education` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-employee_experience	CREATE TABLE `employee_experience` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `employee_experience` (
+ `id` int(11) NOT NULL,
  `employee_id` int(11) NOT NULL,
  `company_name` varchar(50) NOT NULL,
  `location` varchar(50) NOT NULL,
@@ -180,9 +182,9 @@ employee_experience	CREATE TABLE `employee_experience` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-loans	CREATE TABLE `loans` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `loans` (
+ `id` int(11) NOT NULL,
  `ref_no` varchar(20) NOT NULL,
  `employee_id` int(11) NOT NULL,
  `type` int(11) NOT NULL,
@@ -196,42 +198,42 @@ loans	CREATE TABLE `loans` (
  `note` text NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-payroll_additions	CREATE TABLE `payroll_additions` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `payroll_additions` (
+ `id` int(11) NOT NULL,
  `name` varchar(50) NOT NULL,
  `value` int(11) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-payroll_deductions	CREATE TABLE `payroll_deductions` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `payroll_deductions` (
+ `id` int(11) NOT NULL,
  `name` varchar(50) NOT NULL,
  `value` int(11) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-payroll_overtime	CREATE TABLE `payroll_overtime` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `payroll_overtime` (
+ `id` int(11) NOT NULL,
  `name` varchar(50) NOT NULL,
  `value` int(11) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-salaries	CREATE TABLE `salaries` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `salaries` (
+ `id` int(11) NOT NULL,
  `employee_id` int(11) NOT NULL,
  `net_salary` varchar(50) NOT NULL,
  `payment_status` int(11) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-salary_deductions	CREATE TABLE `salary_deductions` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `salary_deductions` (
+ `id` int(11) NOT NULL,
  `salary_id` int(11) NOT NULL,
  `tax` int(11) NOT NULL,
  `pension` int(11) NOT NULL,
@@ -239,9 +241,9 @@ salary_deductions	CREATE TABLE `salary_deductions` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-salary_earnings	CREATE TABLE `salary_earnings` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
+);
+CREATE TABLE `salary_earnings` (
+ `id` int(11) NOT NULL,
  `salary_id` int(11) NOT NULL,
  `actual_amount` int(11) DEFAULT NULL,
  `basic_salary` varchar(50) NOT NULL,
@@ -253,4 +255,99 @@ salary_earnings	CREATE TABLE `salary_earnings` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+);
+
+
+
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `branches`
+--
+ALTER TABLE `branches`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `designations`
+--
+ALTER TABLE `designations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `employees`
+--
+ALTER TABLE `employees`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `employee_details`
+--
+ALTER TABLE `employee_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `employee_education`
+--
+ALTER TABLE `employee_education`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `employee_experience`
+--
+ALTER TABLE `employee_experience`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `loans`
+--
+ALTER TABLE `loans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payroll_additions`
+--
+ALTER TABLE `payroll_additions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payroll_deductions`
+--
+ALTER TABLE `payroll_deductions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payroll_overtime`
+--
+ALTER TABLE `payroll_overtime`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `salaries`
+--
+ALTER TABLE `salaries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `salary_deductions`
+--
+ALTER TABLE `salary_deductions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `salary_earnings`
+--
+ALTER TABLE `salary_earnings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
