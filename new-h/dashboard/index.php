@@ -101,7 +101,7 @@ $datatable = '';
                            <span class="text-muted">
                               <span class="text-danger fs-12 mt-2 me-1">
                                  <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i>13</span>
-                              for this month </span>
+                              this month </span>
                         </div>
                      </div>
                      <div class="col-4">
@@ -122,8 +122,8 @@ $datatable = '';
                         </div>
                         <span class="text-muted">
                            <span class="text-danger fs-12 mt-2 me-1">
-                              <i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>21.1%
-                           </span> for this month </span>
+                              <i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>21
+                           </span> this month </span>
                      </div>
                      <div class="col-4">
                         <div class="icon1 bg-secondary brround my-auto  float-end">

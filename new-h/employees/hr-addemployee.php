@@ -77,12 +77,12 @@ include(SHARED_PATH . '/header.php');
                   <h5 class="fs-12 mb-0">Attendance</h5>
                </div>
                <div class="col-4  py-5 text-center border-end">
-                  <h5 class="fs-12 font-weight-semibold mb-3">Year-2021</h5>
-                  <h5 class="mb-2"> <span class="fs-18 text-orange">0</span> <span class="my-auto fs-9 font-weight-normal  ms-1 me-1">/</span> <span class="fs-18 font-weight-semibold text-dark">41</span> </h5>
+                  <h5 class="fs-12 font-weight-semibold mb-3">Year-<?php echo date('Y') ?></h5>
+                  <h5 class="mb-2"> <span class="fs-18 text-orange">0</span> <span class="my-auto fs-9 font-weight-normal  ms-1 me-1">/</span> <span class="fs-18 font-weight-semibold text-dark">28</span> </h5>
                   <h5 class="fs-12 mb-0">Leaves</h5>
                </div>
                <div class="col-4 text-center py-5">
-                  <h5 class="fs-12 font-weight-semibold mb-3">Year-2021</h5>
+                  <h5 class="fs-12 font-weight-semibold mb-3">Year-<?php echo date('Y') ?></h5>
                   <h5 class="mb-2"> <span class="fs-18 text-primary">0</span> </h5>
                   <h5 class="fs-12 mb-0">Awards</h5>
                </div>
@@ -91,7 +91,7 @@ include(SHARED_PATH . '/header.php');
       </div>
       <div class="card">
          <div class="card-header  border-0">
-            <div class="card-title">Statistics-2021</div>
+            <div class="card-title">Statistics-<?php echo date('Y') ?></div>
          </div>
          <div class="card-body">
             <div class="row mb-7">
@@ -175,12 +175,7 @@ include(SHARED_PATH . '/header.php');
                            </div>
                         </div>
                      </div>
-                     <div class="form-group ">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Father Name</label> </div>
-                           <div class="col-md-9"> <input type="text" name="personal[father_name]" class="form-control" placeholder="Father Name"> </div>
-                        </div>
-                     </div>
+                     
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Contact Number</label> </div>

@@ -27,7 +27,7 @@ $employee = EmployeeData::find_by_employee_data($id);
          <div class="card-body text-center">
             <div class="widget-user-image mx-auto text-center"> <img class="avatar avatar-xxl brround rounded-circle" alt="img" src="<?php echo url_for('assets/images/users/1.jpg') ?>"> </div>
             <div class="pro-user mt-3">
-               <h5 class="pro-user-username text-dark mb-1 fs-16"><?php echo $employee->full_name() ?></h5>
+               <h5 class="pro-user-username text-dark mb-1 fs-16"><?php echo $employee->find_by_id($id)->full_name() ?? "Not Set" ?></h5>
                <h6 class="pro-user-desc text-muted fs-12"><?php echo $employee->location ?></h6>
                <!-- <h6 class="pro-user-desc text-muted fs-12"><?php //echo Designation::find_by_id($employee->designation_id)->designation_name 
                                                                ?></h6> -->
@@ -153,12 +153,12 @@ $employee = EmployeeData::find_by_employee_data($id);
                            </div>
                         </div>
                      </div>
-                     <div class="form-group ">
+                     <!-- <div class="form-group ">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Father Name</label> </div>
-                           <div class="col-md-9"> <input type="text" name="personal[father_name]" value="<?php echo $employee->father_name ?>" class="form-control" placeholder="Father Name"> </div>
+                           <div class="col-md-9"> <input type="text" name="personal[father_name]" value="<?php //echo $employee->father_name ?>" class="form-control" placeholder="Father Name"> </div>
                         </div>
-                     </div>
+                     </div> -->
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Contact Number</label> </div>
