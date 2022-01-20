@@ -210,7 +210,7 @@
  <!-- End Change password Modal  -->
  </div>
 
- <?php include('../inc/modal/all.php');  ?>
+ <?php //include('../inc/modal/all.php');  ?>
 
  <script src="<?php echo url_for('assets/plugins/jquery/jquery.min.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/moment/moment.js') ?>"></script>
@@ -296,7 +296,7 @@
 
 
  <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
- <script src="<?php echo url_for('assets/js/main.js') ?>"></script>
+ <script src="<?php //echo url_for('assets/js/main.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/sweetalert.min.js'); ?>"></script>
  <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
