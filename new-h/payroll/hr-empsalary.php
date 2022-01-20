@@ -5,6 +5,7 @@ $page = 'Payroll';
 $page_title = 'Payroll Items';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
+$select2 = '';
 ?>
 
 <div class="page-header d-xl-flex d-block">

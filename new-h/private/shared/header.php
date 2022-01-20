@@ -33,6 +33,10 @@ $user = $loggedInAdmin;
       <link href="<?php echo url_for('assets/plugins/sidebar/sidebar.css') ?>" rel="stylesheet" />
       <!-- Select2 css -->
       <link href="<?php //echo url_for('assets/plugins/select2/select2.min.css') ?>" rel="stylesheet" />
+
+      <link href="<?php echo url_for('assets/plugins/fullcalendar/fullcalendar.css') ?>" rel="stylesheet">
+      
+      <link href="<?php echo url_for('assets/plugins/modal-datepicker/datepicker.css') ?>" rel="stylesheet">
       <!--- INTERNAL jvectormap css-->
       <link href="<?php echo url_for('assets/plugins/jvectormap/jqvmap.css') ?>" rel="stylesheet" />
       <!-- INTERNAL Data table css -->
@@ -99,9 +103,9 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attview.php') ?>">Attendance View</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-overviewcldr.php') ?>">Overview Calender</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attmark.php') ?>">Attendance Mark </a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leaves.php') ?>">Leave Settings</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leavesapplication.php') ?>">Leave Applications</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-recentleaves.php') ?>">Recent Leaves </a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-leaves.php') ?>">Leave Settings</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-leavesapplication.php') ?>">Leave Applications</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-recentleaves.php') ?>">Recent Leaves </a></li>
                               </ul>
                            </li>
 
@@ -125,22 +129,13 @@ $user = $loggedInAdmin;
                               <ul class="sub-slide-menu">
                                  <li><a class="sub-slide-item" href="<?php echo url_for('settings/') ?>">Company</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('employees/hr-department.php') ?>">Department</a></li>
+                           <li><a href="<?php echo url_for('general/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
+                           <li><a href="<?php echo url_for('general/hr-award.php') ?>" class="slide-item">Awards</a></li>
+                           <li><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
 
-                              </ul>
-                           </li>
+                           <li><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
+                           <li><a href="<?php echo url_for('general/settings/') ?>" class="slide-item">Settings</a></li>
                         </ul>
-                     </li>
-
-                     <li class="slide d-none">
-                        <a class="side-menu__item" data-bs-toggle="slide" href="#"> <i class="feather feather-slack sidemenu_icon"></i> <span class="side-menu__label">Super Admin</span><i class="angle fa fa-angle-right"></i> </a>
-                        <ul class="slide-menu">
-                           <li class="side-menu-label1"><a href="#">Super Admin</a></li>
-                           <li><a href="index7.php" class="slide-item">Dashboard</a></li>
-                           <li><a href="superadmin-company.php" class="slide-item">Companies</a></li>
-                           <li><a href="superadmin-subscription.php" class="slide-item">Subscription Plans</a></li>
-                           <li><a href="superadmin-invoices.php" class="slide-item">Invoices</a></li>
-                           <li><a href="superadmin-admins.php" class="slide-item">Super Admins</a></li>
-                           <li><a href="superadmin-settings.php" class="slide-item">Settings</a></li>
                            <li><a href="superadmin-role.php" class="slide-item">Role Access</a></li>
                         </ul>
                      </li>

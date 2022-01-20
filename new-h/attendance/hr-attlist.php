@@ -12,7 +12,7 @@ include(SHARED_PATH . '/header.php');
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <div class="btn-list"> <a href="hr-attmark.html" class="btn btn-primary me-3">Mark Attendance</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+         <div class="btn-list"> <a href="<?php echo url_for('attendance/hr-attmark.php') ?>" class="btn btn-primary me-3">Mark Attendance</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
       </div>
    </div>
 </div>
@@ -26,7 +26,7 @@ include(SHARED_PATH . '/header.php');
             <div class="row mt-5">
                <div class="col-md-6 col-lg-3">
                   <div class="form-group">
-                     <label class="form-label">Employee Name:</label>
+                     <label class="form-label">Employee Name:</label> 
                      <select class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Employee" tabindex="-1" aria-hidden="true" data-select2-id="select2-data-37-7xkd">
                         <option label="Select Employee" data-select2-id="select2-data-39-ncyx"></option>
                         <option value="1">Faith Harris</option>
@@ -45,12 +45,12 @@ include(SHARED_PATH . '/header.php');
                         <option value="14">Julia Hodges</option>
                         <option value="15">Michael Sutherland</option>
                      </select>
-                     <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-38-w0u0" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-uqyx-container"><span class="select2-selection__rendered" id="select2-uqyx-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Employee</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                     
                   </div>
                </div>
                <div class="col-md-6 col-lg-3">
                   <div class="form-group">
-                     <label class="form-label">Month:</label>
+                     <label class="form-label">Month:</label> 
                      <select class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Month" tabindex="-1" aria-hidden="true" data-select2-id="select2-data-53-0b88">
                         <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
                         <option value="1">January</option>
@@ -66,12 +66,12 @@ include(SHARED_PATH . '/header.php');
                         <option value="11">November</option>
                         <option value="12">December</option>
                      </select>
-                     <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-54-dlts" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-k5oa-container"><span class="select2-selection__rendered" id="select2-k5oa-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Month</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                     
                   </div>
                </div>
                <div class="col-md-6 col-lg-3">
                   <div class="form-group">
-                     <label class="form-label">Year:</label>
+                     <label class="form-label">Year:</label> 
                      <select class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Year" tabindex="-1" aria-hidden="true" data-select2-id="select2-data-73-czd0">
                         <option label="Select Year" data-select2-id="select2-data-75-ehux"></option>
                         <option value="1">2024</option>
@@ -91,7 +91,7 @@ include(SHARED_PATH . '/header.php');
                         <option value="15">2019</option>
                         <option value="16">2010</option>
                      </select>
-                     <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-74-ugsj" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-ubkn-container"><span class="select2-selection__rendered" id="select2-ubkn-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Select Year</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                     
                   </div>
                </div>
                <div class="col-md-6 col-lg-3">
@@ -110,7 +110,7 @@ include(SHARED_PATH . '/header.php');
                      <div class="col-sm-12 col-md-6">
                         <div class="dataTables_length" id="hr-attendance_length">
                            <label>
-                              Show
+                              Show 
                               <select name="hr-attendance_length" aria-controls="hr-attendance" class="form-select form-select-sm">
                                  <option value="10">10</option>
                                  <option value="25">25</option>
@@ -169,7 +169,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="odd">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/11.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/11.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Adam Quinn</h6>
                                        </div>
@@ -245,7 +245,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="even">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/5.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/5.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Amelia Russell</h6>
                                        </div>
@@ -339,7 +339,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="odd">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/9.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/9.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Austin Bell</h6>
                                        </div>
@@ -435,7 +435,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="even">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Faith Harris</h6>
                                        </div>
@@ -523,7 +523,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="odd">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/2.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/2.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Maria Bower</h6>
                                        </div>
@@ -603,7 +603,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="even">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/12.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/12.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Max Wilson</h6>
                                        </div>
@@ -691,7 +691,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="odd">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/4.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/4.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Melanie Coleman</h6>
                                        </div>
@@ -783,7 +783,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="even">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/10.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/10.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Peter Hill</h6>
                                        </div>
@@ -879,7 +879,7 @@ include(SHARED_PATH . '/header.php');
                               <tr class="odd">
                                  <td class="reorder sorting_1">
                                     <div class="d-flex">
-                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/3.jpg)"></span>
+                                       <span class="avatar avatar brround me-3" style="background-image: url(../../assets/images/users/3.jpg)"></span> 
                                        <div class="me-3 mt-0 mt-sm-2 d-block">
                                           <h6 class="mb-1 fs-14">Victoria Lyman</h6>
                                        </div>
@@ -976,7 +976,7 @@ include(SHARED_PATH . '/header.php');
                         </table>
                      </div>
                   </div>
-
+                  
                </div>
             </div>
          </div>
@@ -984,4 +984,4 @@ include(SHARED_PATH . '/header.php');
    </div>
 </div>
 
-<?php include(SHARED_PATH . '/footer.php') ?>
+<?php include (SHARED_PATH . '/footer.php') ?>
