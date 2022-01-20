@@ -17,6 +17,24 @@ if (is_post_request()) {
     if (isset($_POST['personalId'])) {
       $personal = Employee::find_by_id($_POST['personalId']);
       $args = $_POST['personal'];
+
+      if (!empty($_FILES['avatar']['name'])) {
+        $temp = explode('.', $_FILES['avatar']['name']);
+        $fileName = basename(round(microtime(true)) . '.' . end($temp));
+        $targetFilePath = $avatarDir . $fileName;
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+        $allowTypes = ['jpeg', 'jpg', 'png'];
+        if (in_array($fileType, $allowTypes)) {
+          if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetFilePath)) {
+            $args['photo'] = $fileName;
+          }
+        } else {
+          http_response_code(404);
+          $response['errors'] = 'Sorry, JPEG, JPG & PNG files are allowed to upload.';
+        }
+      }
+
       $personal->merge_attributes($args);
       $personal->save();
 
@@ -55,56 +73,97 @@ if (is_post_request()) {
     }
   }
 
-
   if (isset($_POST['company'])) {
-    if (isset($_POST['companyId'])) {
-      $company = EmployeeCompany::find_by_id($_POST['companyId']);
-      $args = $_POST['company'];
-      $company->merge_attributes($args);
-      $company->save();
+
+    $args = $_POST['company'];
+    $employee = Employee::find_by_id($_POST['companyId']);
+    $company  = Company::find_by_id($args['company_id'])->company_name;
+    $branch   = Branch::find_by_id($args['branch_id'])->branch_name;
+    $dep_name = Department::find_by_id($args['department_id'])->department_name;
+    $des_name = Designation::find_by_id($args['job_title_id'])->designation_name;
+
+    $args['employee_id'] = $args['employee_number'];
+    $args['department'] = $dep_name;
+    $args['job_title'] = $des_name;
+    $args['company'] = $company;
+    $args['branch'] = $branch;
+
+    $employee->merge_attributes($args);
+    $employee->save();
+
+    http_response_code(201);
+    $response['message'] = 'Employee updated successfully!';
+  }
+
+  if (isset($_POST['loan'])) {
+    if (isset($_POST['loanId'])) {
+      $loan = EmployeeLoan::find_by_id($_POST['loanId']);
+      $args = $_POST['loan'];
+      $loan->merge_attributes($args);
+      $loan->save();
 
       http_response_code(200);
-      $response['message'] = 'Employee Company updated successfully';
+      $response['message'] = 'Employee loan updated successfully';
     } else {
-      $args = $_POST['company'];
 
-      $employee = Employee::find_by_id($args['employee_id']);
-      $dep_name = Department::find_by_id($args['department_id'])->department_name;
-      $des_name = Designation::find_by_id($args['job_title_id'])->designation_name;
+      $args = $_POST['loan'];
+      $args['ref_no'] = 'EL-' . rand(100, 999) . '0' . $args['employee_id']; //? EL: Employee Loan
 
-      $args['department'] = $dep_name;
-      $args['job_title'] = $des_name;
+      $employeeId = $args['employee_id'];
+      $employee = Employee::find_by_id($employeeId);
+      $employeeLoan = EmployeeLoan::find_by_employee_id($employeeId);
 
-      $employee->merge_attributes($args);
-      $employee->save();
+      $accessible_loan_value = intval($employee->present_salary) * 0.4;
 
-      http_response_code(201);
-      $response['message'] = 'Employee updated successfully!';
+      if ($args['type'] == 1) {
+        if (($args['amount'] > $accessible_loan_value)) {
+          http_response_code(404);
+          exit(json_encode(['errors' => 'Monthly allowed limit exceeded!']));
+        }
+      }
+
+      if (!empty($_FILES['filename']['name'])) {
+        $temp = explode('.', $_FILES['filename']['name']);
+        $fileName = basename(round(microtime(true)) . '.' . end($temp));
+        $loanFilePath = $loanDir . $fileName;
+        $fileType = pathinfo($loanFilePath, PATHINFO_EXTENSION);
+
+        $allowTypes = ['jpeg', 'jpg', 'png', 'pdf'];
+        if (in_array($fileType, $allowTypes)) {
+          if (move_uploaded_file($_FILES['filename']['tmp_name'], $loanFilePath)) {
+            $args['file_upload'] = $fileName;
+          }
+        } else {
+          $uploadStatus = 0;
+          http_response_code(404);
+          $response['errors'] = 'Sorry, JPEG, JPG, PDF & PNG files are allowed to upload.';
+        }
+      }
+
+      $loan = new EmployeeLoan($args);
+      $loan->save();
+
+      if ($loan->errors) :
+        http_response_code(401);
+        $response['errors'] = $loan->errors[0];
+      else :
+        http_response_code(201);
+        $response['message'] = 'Employee loan created successfully!';
+      endif;
     }
   }
 
   if (isset($_POST['bank'])) {
-    if (isset($_POST['bankId'])) {
-      $bank = EmployeeBank::find_by_id($_POST['bankId']);
+    if (isset($_POST['bankId'])) :
+      $bank = Employee::find_by_id($_POST['bankId']);
+
       $args = $_POST['bank'];
       $bank->merge_attributes($args);
       $bank->save();
 
       http_response_code(200);
       $response['message'] = 'Employee bank updated successfully';
-    } else {
-      $args = $_POST['bank'];
-      $bank = new EmployeeBank($args);
-      $bank->save();
-
-      if ($bank->errors) :
-        http_response_code(401);
-        $response['errors'] = $bank->errors[0];
-      else :
-        http_response_code(201);
-        $response['message'] = 'Employee bank created successfully!';
-      endif;
-    }
+    endif;
   }
 
   if (isset($_POST['department'])) {

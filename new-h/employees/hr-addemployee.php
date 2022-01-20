@@ -396,7 +396,7 @@ include(SHARED_PATH . '/header.php');
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Salary</label> </div>
-                           <div class="col-md-9"> <input type="number" name="company[salary]" class="form-control" placeholder="₦Salary"> </div>
+                           <div class="col-md-9"> <input type="number" name="company[present_salary]" class="form-control" placeholder="₦Salary"> </div>
                         </div>
                      </div>
                      <div class="form-group mt-7">

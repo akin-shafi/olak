@@ -32,7 +32,7 @@ $user = $loggedInAdmin;
       <!---Sidebar css-->
       <link href="<?php echo url_for('assets/plugins/sidebar/sidebar.css') ?>" rel="stylesheet" />
       <!-- Select2 css -->
-      <link href="<?php echo url_for('assets/plugins/select2/select2.min.css') ?>" rel="stylesheet" />
+      <link href="<?php //echo url_for('assets/plugins/select2/select2.min.css') ?>" rel="stylesheet" />
       <!--- INTERNAL jvectormap css-->
       <link href="<?php echo url_for('assets/plugins/jvectormap/jqvmap.css') ?>" rel="stylesheet" />
       <!-- INTERNAL Data table css -->
@@ -47,6 +47,8 @@ $user = $loggedInAdmin;
       <script type="text/javascript"></script>
 
       <script src="<?php echo url_for('assets/plugins/jquery/jquery.min.js') ?>"></script>
+
+      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
    </head>
 
    <body class="app sidebar-mini">
@@ -60,7 +62,7 @@ $user = $loggedInAdmin;
                <img src="assets/images/brand/logo-white.png" class="header-brand-img dark-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon.png" class="header-brand-img mobile-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon1.png" class="header-brand-img darkmobile-logo" alt="Dayonelogo">  -->
-                     Olak
+                     IOGC
                   </a>
                </div>
                <div class="app-sidebar3 ps ps--active-y is-expanded">
@@ -111,6 +113,7 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-editpayroll.php') ?>">Edit Payroll</a></li>
                               </ul>
                            </li>
+                           <li><a href="<?php echo url_for('loan/hr-loan.php') ?>" class="slide-item">Loan</a></li>
                            <li><a href="<?php echo url_for('others/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
                            <li><a href="<?php echo url_for('others/hr-award.php') ?>" class="slide-item">Awards</a></li>
                            <li><a href="<?php echo url_for('others/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>

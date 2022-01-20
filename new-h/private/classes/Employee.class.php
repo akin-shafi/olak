@@ -2,14 +2,13 @@
 class Employee extends DatabaseObject
 {
   protected static $table_name = "employees";
-  protected static $db_columns = ['id', 'employee_id', 'first_name', 'last_name', 'other_name', 'father_name', 'phone', 'email', 'gender', 'marital_status', 'dob', 'kin_name', 'kin_phone', 'present_add', 'permanent_add', 'highest_qualification', 'company', 'branch', 'department', 'job_title', 'date_employed', 'employment_type', 'present_salary', 'grade_step', 'bank_name', 'account_number', 'blood_group', 'hashed_password', 'notification',  'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'first_name', 'last_name', 'other_name', 'phone', 'email', 'gender', 'marital_status', 'dob', 'kin_name', 'kin_phone', 'present_add', 'permanent_add', 'highest_qualification', 'company', 'branch', 'department', 'job_title', 'date_employed', 'employment_type', 'present_salary', 'grade_step', 'bank_name', 'account_number', 'blood_group', 'company_id', 'photo', 'notification', 'hashed_password', 'created_at', 'deleted'];
 
   public $id;
   public $employee_id;
   public $first_name;
   public $last_name;
   public $other_name;
-  public $father_name;
   public $phone;
   public $email;
   public $gender;
@@ -31,6 +30,8 @@ class Employee extends DatabaseObject
   public $bank_name;
   public $account_number;
   public $blood_group;
+  public $company_id;
+  public $photo;
   public $notification;
   public $created_at;
   public $deleted;
@@ -48,7 +49,6 @@ class Employee extends DatabaseObject
     $this->first_name             = $args['first_name'] ?? '';
     $this->last_name              = $args['last_name'] ?? '';
     $this->other_name             = $args['other_name'] ?? '';
-    $this->father_name            = $args['father_name'] ?? '';
     $this->phone                  = $args['phone'] ?? '';
     $this->email                  = $args['email'] ?? '';
     $this->gender                 = $args['gender'] ?? '';
@@ -70,6 +70,7 @@ class Employee extends DatabaseObject
     $this->bank_name              = $args['bank_name'] ?? '';
     $this->account_number         = $args['account_number'] ?? '';
     $this->blood_group            = $args['blood_group'] ?? '';
+    $this->company_id             = $args['company_id'] ?? '';
     $this->photo                  = $args['photo'] ?? '';
     $this->notification           = $args['notification'] ?? '';
     $this->created_at             = $args['created_at'] ?? date('Y-m-d H:i:s');
@@ -137,10 +138,10 @@ class Employee extends DatabaseObject
     return $this->first_name . " " . $this->last_name;
   }
 
-  public static function find_by_company_id($name)
+  public static function find_by_company_id($id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE company_id='" . self::$database->escape_string($name) . "'";
+    $sql .= "WHERE company_id='" . self::$database->escape_string($id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "ORDER BY id ASC";
     $obj_array = static::find_by_sql($sql);

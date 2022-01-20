@@ -1,4 +1,4 @@
-    <div id="department_modal" class="modal custom-modal fade" role="dialog">
+    <div id="department_modal" class="modal custom-modal fade select_modal" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div id="designation_modal" class="modal custom-modal fade" role="dialog">
+    <div id="designation_modal" class="modal custom-modal fade select_modal" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <div id="company_modal" class="modal custom-modal fade" role="dialog">
+    <div id="company_modal" class="modal custom-modal fade select_modal" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -137,7 +137,7 @@
       </div>
     </div>
 
-    <div id="branch_modal" class="modal custom-modal fade" role="dialog">
+    <div id="branch_modal" class="modal custom-modal fade select_modal" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -194,7 +194,7 @@
       </div>
     </div>
 
-    <div id="employee_type_modal" class="modal custom-modal fade" role="dialog">
+    <div id="employee_type_modal" class="modal custom-modal fade select_modal" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -224,6 +224,98 @@
               </div>
             </form>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loan_request" class="modal custom-modal fade select_modal" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="eType-title">Loan Request</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="add_loan_form" class="mb-0">
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Employees</label>
+                <select class="select2" name="loan[employee_id]" id="employee_id" required>
+                  <option value="">Select Employee</option>
+                  <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
+                    <option value="<?php echo $employee->id ?>">
+                      <?php echo ucwords($employee->full_name()) ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Loan Type</label>
+                    <select class="select2" name="loan[type]" id="loan_type" required>
+                      <option value="">Select Loan Type</option>
+                      <option value="1">Salary Advance</option>
+                      <option value="2">Long Term</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" class="form-control" name="loan[amount]" placeholder="Request Amount" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-responsive border my-3 d-none" id="isAdvance">
+                <table class="table table-hover table-sm  w-75 m-auto">
+                  <thead class="text-center">
+                    <tr>
+                      <th>Salary</th>
+                      <th>Loan Obtainable (40%) of Basic</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center">
+                    <tr>
+                      <td><span id="sal"></span></td>
+                      <td><span id="allowable"></span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row d-none" id="isLongTerm">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Pay-back Duration</label>
+                    <input type="text" class="form-control" name="loan[loan_duration]" placeholder="Duration">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Monthly Deduction</label>
+                    <input type="number" class="form-control" name="loan[loan_deduction]" placeholder="Deduction Rate">
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label>Note</label>
+                <textarea name="loan[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="col-form-label">Loan Form <small class="text-info">(optional)</small> </label>
+                <input type="file" name="filename" class="form-control">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn btn-primary">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
