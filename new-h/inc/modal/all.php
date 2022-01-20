@@ -319,3 +319,26 @@
         </div>
       </div>
     </div>
+
+    <div id="loan_request_closed" class="modal custom-modal fade select_modal" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="eType-title">Loan Request</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex align-items-center">
+              <span class="feather feather-alert-triangle fs-2 me-1 text-danger"></span>
+              <h4 class="mb-0">Loan request closed for this month. Thank you!</h4>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>

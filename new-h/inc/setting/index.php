@@ -159,6 +159,17 @@ if (is_post_request()) {
 }
 
 if (is_get_request()) {
+  if (isset($_GET['status_id'])) {
+    $config = Configuration::find_by_id($_GET['status_id']);
+    $status = ($_GET['status'] == 'activate') ? 1 : 0;
+    $args = ['loan_config' => $status];
+
+    $config->merge_attributes($args);
+    $config->save();
+    http_response_code(200);
+    $response['message'] = 'Updated!';
+  }
+
   if (isset($_GET['departmentId']) && !isset($_GET['deleted'])) {
     $department = Department::find_by_id($_GET['departmentId']);
 
