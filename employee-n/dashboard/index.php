@@ -561,7 +561,7 @@ $datatable = '';
 
 
 <?php include(SHARED_PATH . '/footer.php') ?>
-
+<script src="../../assets/plugins/pg-calendar-master/pignose.calendar.full.min.js"></script>
 <script type="text/javascript">
    $(function(e) {
 

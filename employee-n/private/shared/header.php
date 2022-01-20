@@ -30,6 +30,8 @@
       <link href="<?php echo url_for('assets/plugins/sidebar/sidebar.css') ?>" rel="stylesheet" />
       <!-- Select2 css --> 
       <link href="<?php echo url_for('assets/plugins/select2/select2.min.css') ?>" rel="stylesheet" />
+      <link rel="stylesheet" href="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.css') ?>">
+      <link href="<?php echo url_for('assets/plugins/pg-calendar-master/pignose.calendar.css') ?>" rel="stylesheet">
       <!--- INTERNAL jvectormap css--> 
       <link href="<?php echo url_for('assets/plugins/jvectormap/jqvmap.css') ?>" rel="stylesheet" />
       <!-- INTERNAL Data table css --> 
@@ -56,8 +58,10 @@
                <img src="assets/images/brand/logo-white.png" class="header-brand-img dark-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon.png" class="header-brand-img mobile-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon1.png" class="header-brand-img darkmobile-logo" alt="Dayonelogo">  -->
-               Olak
+               IOGC HR MGT
             </a> 
+            <br>
+            <small class="text-white">Staff Portal</small>
          </div>
          <div class="app-sidebar3 ps ps--active-y is-expanded">
             <div class="app-sidebar__user active">
@@ -78,7 +82,7 @@
                      <li class="side-menu-label1"><a href="#">Employee Dashboard</a></li>
                      <li><a href="<?php echo url_for('dashboard/index.php') ?>" class="slide-item">Dashboard</a></li>
                      <li><a href="<?php echo url_for('employee-attendance.php') ?>" class="slide-item">Attendance</a></li>
-                     <li><a href="<?php echo url_for('employee-leaves.php') ?>" class="slide-item">Apply Leaves </a></li>
+                     <!-- <li><a href="<?php //echo url_for('employee-leaves.php') ?>" class="slide-item">Apply Leaves </a></li> -->
                      <li><a href="<?php echo url_for('employee-myleaves.php') ?>" class="slide-item">My Leaves </a></li>
                      <li><a href="<?php echo url_for('employee-payslips.php') ?>" class="slide-item">Payslips </a></li>
                      <li><a href="<?php echo url_for('employee-expenses.php') ?>" class="slide-item">Expenses</a></li>

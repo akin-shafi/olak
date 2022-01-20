@@ -235,6 +235,7 @@
  <script src="<?php echo url_for('assets/plugins/chart.min/chart.min.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/chart.min/rounded-barchart.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/jQuery-countdowntimer/jQuery.countdownTimer.js') ?>"></script>
+ <script src="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.js') ?>"></script>
 <script type="text/javascript">
    
 </script>
