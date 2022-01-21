@@ -33,8 +33,6 @@ $user = $loggedInAdmin;
       <link href="<?php echo url_for('assets/css/icons.css') ?>" rel="stylesheet" />
       <!---Sidebar css-->
       <link href="<?php echo url_for('assets/plugins/sidebar/sidebar.css') ?>" rel="stylesheet" />
-      <!-- Select2 css -->
-      <link href="<?php echo url_for('assets/plugins/select2/select2.min.css') ?>" rel="stylesheet" />
       <link rel="stylesheet" href="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.css') ?>">
       <link href="<?php echo url_for('assets/plugins/pg-calendar-master/pignose.calendar.css') ?>" rel="stylesheet">
       <!--- INTERNAL jvectormap css-->
@@ -51,6 +49,7 @@ $user = $loggedInAdmin;
       <script type="text/javascript"></script>
 
       <script src="<?php echo url_for('assets/plugins/jquery/jquery.min.js') ?>"></script>
+      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
    </head>
 
    <body class="app sidebar-mini">

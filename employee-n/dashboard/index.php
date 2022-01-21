@@ -4,6 +4,10 @@ require_once('../private/initialize.php');
 $id = $loggedInAdmin->id;
 $employee = Employee::find_by_id($id);
 
+if ($employee->update_profile == 0) {
+   redirect_to('../password_reset.php');
+}
+
 /* ----------------------------------- //? ATTENDANCE ---------------------------------- */
 $attendance = EmployeeAttendance::find_by_employee_id($id, ['clock_in' => date('Y-m-d')]);
 $isClockedIn =  isset($attendance->clock_in) && $attendance->clock_in != '00:00:00' ? true : false;
@@ -21,7 +25,7 @@ $datatable = '';
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <a href="#" class="btn btn-primary me-3 mt-3 mt-lg-0 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#applyleaves">Apply Leaves</a>
+         <a href="#" class="btn btn-primary me-3 mt-3 mt-lg-0 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#leave_modal">Apply Leaves</a>
          <div class="d-flex">
             <div class="header-datepicker me-3">
                <div class="input-group">
@@ -43,7 +47,7 @@ $datatable = '';
             <!-- wd-150 -->
          </div>
          <div class="d-lg-flex d-block">
-            <div class="btn-list"> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clockinmodal">Clock In</button> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+            <div class="btn-list"> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clock_in_modal">Clock In</button> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
          </div>
       </div>
    </div>
@@ -559,36 +563,65 @@ $datatable = '';
    </div>
 </div>
 
-<?php
-
-if ($user->update_profile == 1) : ?>
-   <div id="default_login" class="modal fade show" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="default_loginLabel" style="display: block; padding-right: 19px;" aria-modal="true" role="dialog">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title" id="default_loginLabel">Change Password</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <div class="form-group"> <label class="form-label">New Password</label> <input type="password" name="change[password]" class="form-control" placeholder="password"> </div>
-               <div class="form-group"> <label class="form-label">Confirm New Password</label> <input type="password" name="change[confirm_password]" class="form-control" placeholder="Confirm New Password"> </div>
-            </div>
-
-            <div class="modal-footer">
-               <a href="#" class="btn btn-primary">Confirm</a>
-            </div>
-         </div>
-      </div>
-   </div>
-<?php endif; ?>
 
 <?php include('../inc/modal/all.php') ?>
 <?php include(SHARED_PATH . '/footer.php') ?>
+
+<script src="<?php echo url_for('assets/js/employee/emp-myleaves.js') ?>"></script>
 <script src="../../assets/plugins/pg-calendar-master/pignose.calendar.full.min.js"></script>
+
+<script>
+   $(document).ready(function() {
+      const message = (req, res) => {
+         swal(req + "!", res, {
+            icon: req,
+            timer: 2000,
+            buttons: {
+               confirm: {
+                  className: req == "error" ? "btn btn-danger" : "btn btn-success",
+               },
+            },
+         }).then(() => location.reload());
+      };
+
+      const submitForm = async (url, payload) => {
+         const formData = new FormData(payload);
+
+         const data = await fetch(url, {
+            method: "POST",
+            body: formData,
+         });
+
+         const res = await data.json();
+
+         if (res.errors) {
+            message("error", res.errors);
+         }
+
+         if (res.message) {
+            message("success", res.message);
+         }
+      };
+
+      const LEAVE_URL = "../inc/leave/";
+
+      const leaveForm = document.getElementById("add_leave_form");
+
+      leaveForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(LEAVE_URL, leaveForm);
+      });
+   })
+</script>
+
+
+
+
+
+
 <script type="text/javascript">
    $(function(e) {
 
-      //________ Datepicker
       $(".fc-datepicker").datepicker({
          dateFormat: "dd MM yy",
          monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"]

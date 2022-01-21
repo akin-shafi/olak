@@ -209,7 +209,8 @@
  <!-- End Change password Modal  -->
  </div>
 
- <?php //include('../inc/modal/all.php');  ?>
+ <?php //include('../inc/modal/all.php');  
+   ?>
 
  <script src="<?php echo url_for('assets/plugins/jquery/jquery.min.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/moment/moment.js') ?>"></script>
@@ -235,19 +236,14 @@
  <script src="<?php echo url_for('assets/plugins/chart.min/rounded-barchart.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/jQuery-countdowntimer/jQuery.countdownTimer.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.js') ?>"></script>
-<script type="text/javascript">
-   
-</script>
- <?php if (isset($select2)) : ?>
-    <script type="text/javascript">
-       /* Select2 */
-       $('.select2').select2({
-          minimumResultsForSearch: Infinity
-       });
+ <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    </script>
- <?php endif ?>
- <script src="<?php echo url_for('assets/plugins/select2/select2.full.min.js') ?>"></script>
+  <script type="text/javascript">
+    $('.select2').select2({
+       dropdownParent: $('.select_modal')
+    });
+ </script>
+
  <?php if (isset($datatable)) : ?>
 
     <script src="<?php echo url_for('assets/plugins/datatable/js/jquery.dataTables.min.js') ?>"></script>
@@ -281,8 +277,6 @@
 
 
        });
-
-
     </script>
 
  <?php endif ?>
@@ -296,7 +290,8 @@
 
 
  <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
- <script src="<?php //echo url_for('assets/js/main.js') ?>"></script>
+ <script src="<?php //echo url_for('assets/js/main.js') 
+               ?>"></script>
  <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/sweetalert.min.js'); ?>"></script>
  <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>

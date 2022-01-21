@@ -107,6 +107,30 @@ if (is_post_request()) {
     }
   }
 
+  if (isset($_POST['leave'])) {
+    if (isset($_POST['leaveId']) && $_POST['leaveId'] != '') {
+      $leave = EmployeeLeaveType::find_by_id($_POST['leaveId']);
+      $args = $_POST['leave'];
+      $leave->merge_attributes($args);
+      $leave->save();
+
+      http_response_code(200);
+      $response['message'] = 'Employee leave type updated successfully';
+    } else {
+      $args = $_POST['leave'];
+      $leave = new EmployeeLeaveType($args);
+      $leave->save();
+
+      if ($leave->errors) :
+        http_response_code(401);
+        $response['errors'] = $leave->errors[0];
+      else :
+        http_response_code(201);
+        $response['message'] = 'Employee leave type created successfully!';
+      endif;
+    }
+  }
+
 
 
   if (isset($_POST['department'])) {

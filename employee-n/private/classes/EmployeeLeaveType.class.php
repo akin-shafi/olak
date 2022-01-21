@@ -1,20 +1,20 @@
 <?php
-class EmployeeType extends DatabaseObject
+class EmployeeLeaveType extends DatabaseObject
 {
-  protected static $table_name = "employee_types";
-  protected static $db_columns = ['id', 'name', 'created_at',  'deleted'];
+
+  protected static $table_name = "leave_types";
+  protected static $db_columns = ['id', 'name', 'created_at', 'deleted'];
 
   public $id;
   public $name;
+  public $created_at;
   public $deleted;
-
-  public $counts;
 
   public function __construct($args = [])
   {
-    $this->name           = $args['name'] ?? '';
-    $this->created_at     = $args['created_at'] ?? date('Y-m-d H:i:s');
-    $this->deleted        = $args['deleted'] ?? '';
+    $this->name             = $args['name'] ?? '';
+    $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
+    $this->deleted          = $args['deleted'] ?? '';
   }
 
   protected function validate()
@@ -22,7 +22,7 @@ class EmployeeType extends DatabaseObject
     $this->errors = [];
 
     if (is_blank($this->name)) {
-      $this->errors[] = "Name is required";
+      $this->errors[] = "Leave type is required.";
     }
 
     return $this->errors;

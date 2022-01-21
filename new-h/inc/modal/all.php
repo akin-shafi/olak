@@ -7,18 +7,19 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form id="add_department_form">
+
+          <form id="add_department_form" class="mb-0">
+            <div class="modal-body">
               <input type="hidden" name="departmentId" id="departmentId" readonly>
               <div class="form-group">
                 <label>Department Name <span class="text-danger">*</span></label>
                 <input class="form-control" name="department[department_name]" id="dept_name" type="text">
               </div>
-              <div class="modal-footer">
-                <button class="btn btn-primary" id="add_department_btn">Submit</button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" id="add_department_btn">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -32,8 +33,8 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form id="add_designation_form">
+          <form id="add_designation_form" class="mb-0">
+            <div class="modal-body">
               <input type="hidden" name="designationId" id="designationId" readonly>
               <div class="form-group">
                 <label>Job Title <span class="text-danger">*</span></label>
@@ -50,11 +51,11 @@
                   <?php endforeach; ?>
                 </select>
               </div>
-              <div class="modal-footer">
-                <button class="btn btn-primary" id="add_designation_btn">Submit</button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" id="add_designation_btn">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -107,19 +108,12 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form id="add_company_form">
+          <form id="add_company_form" class="mb-0">
+            <div class="modal-body">
               <input type="hidden" name="companyId" id="companyId" readonly>
               <div class="form-group">
                 <label>Company <span class="text-danger">*</span></label>
-                <div class="row">
-                  <div class="col-md-8">
-                    <input class="form-control" name="company[company_name]" id="comp_name" type="text" placeholder="Company Name">
-                  </div>
-                  <div class="col-md-4">
-                    <input class="form-control" name="company[company_label]" id="comp_label" type="text" placeholder="Company Label">
-                  </div>
-                </div>
+                <input class="form-control" name="company[company_name]" id="comp_name" type="text" placeholder="Company Name">
               </div>
               <div class="form-group">
                 <label>Registration Number <span class="text-danger">*</span></label>
@@ -128,11 +122,11 @@
               <div class="form-group">
                 <label>Company Logo</label><input class="form-control" name="logo" type="file">
               </div>
-              <div class="modal-footer">
-                <button class="btn btn-primary" id="add_company_btn">Submit</button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" id="add_company_btn">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -146,8 +140,8 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form id="add_branch_form" method="POST">
+          <form id="add_branch_form" class="mb-0">
+            <div class="modal-body">
               <input type="hidden" name="branchId" id="branchId" readonly>
               <div class="form-group">
                 <label>Company <span class="text-danger">*</span></label>
@@ -160,70 +154,88 @@
               </div>
               <div class="form-group">
                 <label>Branch <span class="text-danger">*</span></label>
-                <div class="row">
-                  <div class="col-md-8">
-                    <input class="form-control" name="branch[branch_name]" id="branch_name" type="text" placeholder="Branch Name">
-                  </div>
-                  <div class="col-md-4">
-                    <input class="form-control" name="branch[branch_name]" id="branch_name" type="text" placeholder="Branch Label">
-                  </div>
-                </div>
+                <input class="form-control" name="branch[branch_name]" id="branch_name" type="text" placeholder="Branch Name">
               </div>
               <div class="form-group">
                 <label>Address <span class="text-danger">*</span></label>
                 <input class="form-control" name="branch[address]" id="branch_address" type="text" placeholder="Branch Address">
               </div>
-              <div class="form-group">
-                <label>State <span class="text-danger">*</span></label>
-                <input class="form-control" name="branch[state]" id="branch_state" type="text" placeholder="Branch State">
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>State <span class="text-danger">*</span></label>
+                    <input class="form-control" name="branch[state]" id="branch_state" type="text" placeholder="Branch State">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>City <span class="text-danger">*</span></label>
+                    <input class="form-control" name="branch[city]" id="branch_city" type="text" placeholder="Branch City">
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label>City <span class="text-danger">*</span></label>
-                <input class="form-control" name="branch[city]" id="branch_city" type="text" placeholder="Branch City">
-              </div>
+
               <div class="form-group">
                 <label>Establishment Date <span class="text-danger">*</span></label>
                 <input class="form-control" name="branch[established_id]" id="established_id" type="date">
               </div>
-              <div class="modal-footer">
-                <button class="btn btn-primary" id="add_branch_btn">Submit</button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" id="add_branch_btn">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
 
     <div id="employee_type_modal" class="modal custom-modal fade select_modal" role="dialog">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="eType-title">Add EMployee Type</h5>
+            <h5 class="modal-title" id="eType-title">Add Employee Type</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form id="add_eType_form">
+          <form id="add_eType_form" class="mb-0">
+            <div class="modal-body">
               <input type="hidden" name="eTypeId" id="eTypeId" readonly>
               <div class="form-group">
-                <div class="row">
-                  <div class="col-md-8">
-                    <label>Name <span class="text-danger">*</span></label>
-                    <input class="form-control" name="eType[name]" id="e_name" type="text" placeholder="Employee Type">
-                  </div>
-                  <div class="col-md-4">
-                    <label>Label <span class="text-danger">*</span></label>
-                    <input class="form-control" name="eType[label]" id="e_label" type="text" placeholder="Employee Type Label">
-                  </div>
-                </div>
+                <label>Name <span class="text-danger">*</span></label>
+                <input class="form-control" name="eType[name]" id="e_name" type="text" placeholder="Employee Type">
               </div>
 
-              <div class="modal-footer">
-                <button class="btn btn-primary" id="add_e_type_btn">Submit</button>
-              </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" id="add_e_type_btn">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="leave_type_modal" class="modal custom-modal fade select_modal" role="dialog">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="leave-title">Add Leave Type</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
+          <form id="add_leave_form" class="mb-0">
+            <div class="modal-body">
+              <input type="hidden" name="leaveId" id="leaveId" readonly>
+              <div class="form-group">
+                <label>Name <span class="text-danger">*</span></label>
+                <input class="form-control" name="leave[name]" id="leave_name" type="text" placeholder="Leave Type">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" id="add_e_type_btn">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -232,7 +244,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="eType-title">Loan Request</h5>
+            <h5 class="modal-title" id="loan-title">Loan Request</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -324,7 +336,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="eType-title">Loan Request</h5>
+            <h5 class="modal-title" id="loan-request-title">Loan Request</h5>
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
