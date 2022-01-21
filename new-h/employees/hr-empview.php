@@ -256,7 +256,8 @@ $select2 = '';
                            <div class="col-md-9"> <input type="email" name="personal[email]" id="email" value="<?php echo $employee->email; ?>" class="form-control" placeholder="employee email"> </div>
                         </div>
                      </div>
-                     <div class="form-group">
+
+                     <!-- <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
                            <div class="col-md-9"> <input type="password" name="personal[password]" id="password" class="form-control" placeholder="password"> </div>
@@ -267,7 +268,8 @@ $select2 = '';
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
                            <div class="col-md-9"> <input type="password" name="personal[confirm_password]" id="confirm_password" class="form-control" placeholder="confirm password"> </div>
                         </div>
-                     </div>
+                     </div> -->
+
                      <div class="form-group mt-7">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label">Email Notification:</label> </div>
@@ -495,6 +497,8 @@ $select2 = '';
          let data = await fetch(EMPLOYEE_URL + '?employeeId=' + emp_id)
          let res = await data.json();
 
+         console.log(res.data);
+
          document.querySelector('#first_name').value = res.data.first_name ?? '';
          document.querySelector('#last_name').value = res.data.last_name ?? '';
          document.querySelector('#other_name').value = res.data.other_name ?? '';
@@ -503,14 +507,11 @@ $select2 = '';
          document.querySelector('#kin_phone').value = res.data.kin_phone ?? '';
          document.querySelector('#dob').value = res.data.dob ?? '';
          document.querySelector('#gender').value = res.data.gender ?? '';
-         document.querySelector('#gender').value = res.data.gender ?? '';
          document.querySelector('#marital_status').value = res.data.marital_status ?? '';
          document.querySelector('#blood_group').value = res.data.blood_group ?? '';
          document.querySelector('#present_add').value = res.data.present_add ?? '';
          document.querySelector('#permanent_add').value = res.data.permanent_add ?? '';
          document.querySelector('#email').value = res.data.email ?? '';
-         document.querySelector('#password').value = res.data.password ?? '';
-         document.querySelector('#confirm_password').value = res.data.confirm_password ?? '';
          document.querySelector('#notification').value = res.data.notification ?? '';
 
          document.querySelector('#company_id').value = res.data.company ?? '';

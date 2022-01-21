@@ -52,7 +52,20 @@ class EmployeeLoan extends DatabaseObject
     return $this->errors;
   }
 
-  public static function find_by_employee_id($employee_id, $option = [])
+  public static function find_by_employee_id($employee_id)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function find_by_employee_loan($employee_id, $option = [])
   {
     $isRequested = $option['requested'] ?? false;
     $loanType = $option['type'] ?? false;

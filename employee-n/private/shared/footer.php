@@ -191,7 +191,6 @@
     </div>
  </div>
  <!--/sidebar-right-->
- <!--Change password Modal -->
  <div class="modal fade" id="changepasswordnmodal">
     <div class="modal-dialog" role="document">
        <div class="modal-content">

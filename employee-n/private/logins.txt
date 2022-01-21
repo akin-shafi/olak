@@ -27,3 +27,5 @@
 2022-01-17 12:37:57 | Employee Login: Idiagbon  Igbehinadun Logged in.
 2022-01-17 12:50:45 | Employee Login: Idiagbon  Igbehinadun Logged in.
 2022-01-17 13:35:01 | Employee Login: Idiagbon  Igbehinadun Logged in.
+2022-01-20 16:47:14 | Employee Login: Ade Mola Logged in.
+2022-01-20 17:12:47 | Employee Login: Ade Mola Logged in.
