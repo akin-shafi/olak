@@ -10,10 +10,16 @@ if (is_post_request()) {
     $staff_expenses = StaffExpenses::find_by_employee_id($employee->id) ?? 0;
     $attendance = EmployeeAttendance::find_by_employee_id($employee->id) ?? 0;
     $take_home = $employee->present_salary - $salary_advance - $loan + $staff_expenses;
+
+    if (!empty($loan)) {
+      $loan = EmployeeLoan::find_by_employee_id($employee->id) ?? 0;
+    }
+
+    pre_r($loan);
     $args = [
       'employee_id' => $employee->id,
       'salary' => $employee->present_salary,
-      'salary_advance' => $salary_advance->total_request,
+      'salary_advance' => $salary_advance->total_requested,
       'loan' => $loan->commitment,
       'other_expenses' => $staff_expenses->amount,
       'present_days' => $employee->id,
