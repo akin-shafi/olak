@@ -291,7 +291,7 @@
 
 
  <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
- <script src="<?php echo url_for('assets/js/main.js') ?>"></script>
+ <script src="<?php //echo url_for('assets/js/main.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/sweetalert.min.js'); ?>"></script>
  <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
