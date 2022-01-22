@@ -1,4 +1,4 @@
-<?php //require_login(); ?>
+<?php require_login(); ?>
 <!DOCTYPE php>
 <php lang="en" dir="ltr">
    <head>

@@ -213,6 +213,7 @@ $select2 = '';
                                  <td class="font-weight-semibold">$28,000</td>
                                  <td>02-08-2020</td>
                                  <td><span class="badge badge-danger">UnPaid</span></td>
+                                 
                                  <td class="text-start"> <a href="#" class="action-btns" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Share"> <i class="feather feather-share-2 text-warning"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-x text-danger"></i> </a> </td>
                               </tr>
                            </tbody>
@@ -222,6 +223,202 @@ $select2 = '';
                   
                </div>
             </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="excelmodal">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Select Month &amp; Year</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button> 
+         </div>
+         <div class="modal-body">
+            <div class="form-group">
+               <label class="form-label">Month:</label> 
+               <select name="attendance" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Month" tabindex="-1" aria-hidden="true" data-select2-id="select2-data-41-r5ty">
+                  <option label="Select Month" data-select2-id="select2-data-43-d01z"></option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+               </select>
+              
+            </div>
+            <div class="form-group">
+               <label class="form-label">Year:</label> 
+               <select name="attendance" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Year" tabindex="-1" aria-hidden="true" data-select2-id="select2-data-61-gp2g">
+                  <option label="Select Year" data-select2-id="select2-data-63-4rka"></option>
+                  <option value="1">2024</option>
+                  <option value="2">2023</option>
+                  <option value="3">2022</option>
+                  <option value="4">2021</option>
+                  <option value="5">2020</option>
+                  <option value="6">2019</option>
+                  <option value="7">2018</option>
+                  <option value="8">2017</option>
+                  <option value="9">2016</option>
+                  <option value="10">2015</option>
+                  <option value="11">2014</option>
+                  <option value="12">2013</option>
+                  <option value="13">2012</option>
+                  <option value="14">2011</option>
+                  <option value="15">2019</option>
+                  <option value="16">2010</option>
+               </select>
+                
+            </div>
+         </div>
+         <div class="modal-footer"> <a href="#" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</a> <a href="#" class="btn btn-primary">Download</a> </div>
+      </div>
+   </div>
+</div>
+
+
+<div class="modal fade" id="viewsalarymodal">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">PaySlip</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button> 
+         </div>
+         <div class="modal-header">
+            <div> <img src="../../assets/images/brand/logo.png" class="header-brand-img" alt="Dayonelogo"> </div>
+            <div class="ms-auto">
+               <div class="font-weight-bold text-md-right mt-3">Date: 01-02-2021</div>
+            </div>
+         </div>
+         <div class="modal-body pt-1">
+            <div class="table-responsive mt-3 mb-3">
+               <table class="table mb-0 modal-paytable">
+                  <tbody>
+                     <tr>
+                        <td> <strong>Emp ID:</strong> <span>2987</span> </td>
+                        <td class="text-end"> <strong>Emp Name:</strong> <span>Faith Harris</span> </td>
+                     </tr>
+                     <tr>
+                        <td> <strong>Location:</strong> <span>USA</span> </td>
+                        <td class="text-end"> <strong>Pay Period:</strong> <span>January-2021</span> </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="table-responsive mt-4">
+               <table class="table text-nowrap mb-0 border">
+                  <tbody>
+                     <tr>
+                        <td class="p-0">
+                           <table class="table text-nowrap mb-0">
+                              <thead>
+                                 <tr>
+                                    <th class="fs-18" rowspan="1" colspan="2">Earnings</th>
+                                 </tr>
+                                 <tr>
+                                    <th>Pay Type</th>
+                                    <th class="border-start">Amount</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td>Basic</td>
+                                    <td class="border-start">$32,000</td>
+                                 </tr>
+                                 <tr>
+                                    <td>HRA</td>
+                                    <td class="border-start">0.00</td>
+                                 </tr>
+                                 <tr>
+                                    <td>Medical Allowance</td>
+                                    <td class="border-start">0.00</td>
+                                 </tr>
+                                 <tr>
+                                    <td>Bonus Allowance</td>
+                                    <td class="border-start">0.00</td>
+                                 </tr>
+                                 <tr class="border-top">
+                                    <td class="font-weight-semibold">Total Earnings</td>
+                                    <td class="font-weight-semibold border-start">$32,000</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                        <td class="p-0">
+                           <table class="table text-nowrap mb-0 border-start">
+                              <thead>
+                                 <tr>
+                                    <th class="fs-18" rowspan="1" colspan="2">Deduction</th>
+                                 </tr>
+                                 <tr>
+                                    <th>Pay Type</th>
+                                    <th class="border-start">Amount</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td>PF</td>
+                                    <td class="border-start">0.00</td>
+                                 </tr>
+                                 <tr>
+                                    <td>Professional Tax</td>
+                                    <td class="border-start">0.00</td>
+                                 </tr>
+                                 <tr>
+                                    <td>TDS</td>
+                                    <td class="border-start">0.00</td>
+                                 </tr>
+                                 <tr>
+                                    <td>Loans &amp; Others</td>
+                                    <td class="border-start">0.00</td>
+                                 </tr>
+                                 <tr class="border-top">
+                                    <td class="font-weight-semibold">Total Deduction</td>
+                                    <td class="font-weight-semibold border-start">0.00</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="mt-4 mb-3">
+               <table class="table mb-0">
+                  <tbody>
+                     <tr>
+                        <td class="font-weight-semibold w-20 fs-18 pb-0 pt-0">Net Salary</td>
+                        <td class="pb-0 pt-0">
+                           <h4 class="font-weight-semibold mb-0 fs-24">$32,000</h4>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="font-weight-semibold w-20 pb-0 pt-1 text-muted">InWords</td>
+                        <td class="pb-0 pt-1">
+                           <h5 class="mb-0  text-muted">Thirty-Two Thousand only</h5>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="p-5 border-top text-center">
+            <div class="text-center">
+               <h6 class="mb-2">Spruko Technologies Pvt Ltd.</h6>
+               <p class="mb-1 fs-12">Near Tulasi Hospital ECIL, ushaiguda, Hyderabad, Telangana 500062</p>
+               <div> <small>Tel No: 99488 67536,</small> <small>Email: info@spruko.com</small> </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <div class="ms-auto"> <a href="#" class="btn btn-info" onclick="javascript:window.print();"><i class="si si-printer"></i> Print</a> <a href="#" class="btn btn-success"><i class="feather feather-download"></i> Download</a> <a href="#" class="btn btn-primary"><i class="si si-paper-plane"></i> Send</a> <a href="#" class="btn btn-danger" data-bs-dismiss="modal"><i class="feather feather-x"></i> Close</a> </div>
          </div>
       </div>
    </div>
