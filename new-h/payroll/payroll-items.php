@@ -15,7 +15,7 @@ $select2 = '';
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <div class="btn-list mt-3 mt-lg-0"> <button type="button" class="btn btn-primary me-3" id="generate_payslip">Add Item</button>
+         <div class="btn-list mt-3 mt-lg-0"> <button type="button" class="btn btn-primary me-3" id="add_item">Add Item</button>
             
 
              <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
@@ -249,56 +249,92 @@ $select2 = '';
 
 
 
-<!-- <div class="modal fade in" data-easein="flipYIn" id="addModal" style="display: block; padding-left: 0px;" aria-hidden="false">
-   <div class="modal-dialog modal-lg modal-dialog-top" role="document" style="opacity: 1; display: block;">
+<div id="add_addition" class="modal custom-modal fade" role="dialog" >
+   <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-         <div class="modal-header d-flex justify-content-between">
-            <h3 class="modal-title" id="exampleModalCenterTitle">New Category </h3>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+         <div class="modal-header">
+            <h5 class="modal-title">Add Addition</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            </button>
          </div>
-         <center id="errors"></center>
-         <form class="form-group" method="post" id="itemForm">
-            <input type="hidden" name="created_by" value="1">
-            <div class="modal-body">
-               <div class="table-responsive">
-                  <span id="error"></span>
-                  <table class="table table-sm table-borderless">
-                     <thead>
-                        <tr class="fs-12">
-                           <th class="fs-12">SN.</th>
-                           <th>Category:</th>
-                           <th>Action</th>
-                        </tr>
-                     </thead>
-                     <tbody id="items">
-                        <tr>
-                           <td>1.</td>
-                           <td>
-                              <input type="text" name="category[]" id="category1" class="form-control category" placeholder="Enter Category">
-                           </td>
-                           <td><span class="btn" id="add"><i class="fa fa-plus text-success"></i></span></td>
-                        </tr>
-                        <tr id="row_id2">
-                           <td><span id="sr_no">2.</span></td>
-                           <td><input type="text" name="category[]" id="category2" data-srno="2" class="form-control category" placeholder="Enter Category"></td>
-                           <td><span class="btn remove" id="2"><i class="fa fa-minus text-danger bold fs-22"></i></span></td>
-                        </tr>
-                     </tbody>
-                  </table>
-                  Total: <b class="text-danger total_item">2 items</b> 
-                  <input type="hidden" name="total_item" id="item_amt" value="2">
+         <div class="modal-body">
+            <form>
+               <div class="form-group">
+                  <label>Name <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text">
                </div>
-            </div>
-            <div class="modal-footer">
-               <button type="submit" class="btn btn-primary " id="btnAdd">Add</button>
-               <button type="button" class="btn btn-secondary waves-effect waves-light" data-dismiss="modal">Cancel</button>
-            </div>
-         </form>
+               <div class="form-group">
+                  <label>Category <span class="text-danger">*</span></label>
+                  <select class="select form-control">
+                     <option>Select a category</option>
+                     <option data-select2-id="select2-data-3-i7pt">Monthly remuneration</option>
+                     <option>Additional remuneration</option>
+                  </select>
+                  
+               </div>
+               <div class="form-group">
+                  <label class="d-block">Unit calculation</label>
+                  <div class="status-toggle">
+                     <input type="checkbox" id="unit_calculation" class="check">
+                     <label for="unit_calculation" class="checktoggle">checkbox</label>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label>Unit Amount</label>
+                  <div class="input-group">
+                     <span class="input-group-text">$</span>
+                     <input type="text" class="form-control">
+                     <span class="input-group-text">.00</span>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="d-block">Assignee</label>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="addition_assignee" id="addition_no_emp" value="option1" checked="">
+                     <label class="form-check-label" for="addition_no_emp">
+                     No assignee
+                     </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="addition_assignee" id="addition_all_emp" value="option2">
+                     <label class="form-check-label" for="addition_all_emp">
+                     All employees
+                     </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="addition_assignee" id="addition_single_emp" value="option3">
+                     <label class="form-check-label" for="addition_single_emp">
+                     Select Employee
+                     </label>
+                  </div>
+                  <div class="form-group">
+                     <select class="select select2-hidden-accessible" data-select2-id="select2-data-4-gbha" tabindex="-1" aria-hidden="true">
+                        <option data-select2-id="select2-data-6-3351">-</option>
+                        <option>Select All</option>
+                        <option>John Doe</option>
+                        <option>Richard Miles</option>
+                     </select>
+                     
+                  </div>
+               </div>
+               <div class="submit-section">
+                  <button class="btn btn-primary submit-btn">Submit</button>
+               </div>
+            </form>
+         </div>
       </div>
    </div>
-</div> -->
+</div>
+
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
+
+<script type="text/javascript">
+	$(document).on('click', '#add_item', function() {
+		$('#add_addition').modal('show')
+	})
+</script>
 <!-- <script type="text/javascript">
 	addMultipleFormInput();
 	function addMultipleFormInput(){
