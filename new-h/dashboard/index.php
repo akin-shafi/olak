@@ -70,18 +70,17 @@ $datatable = '';
             <div class="card">
                <div class="card-body">
                   <div class="row">
-                     <div class="col-8">
+                     <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Salary Paid</span>
-                           <h3 class="mb-0 mt-1 mb-2">6,578</h3>
+                           <h3 class="mb-0 mt-1 mb-2">0.00</h3>
                            <span class="text-muted">
                               <span class="text-success fs-12 mt-2 me-1">
-                                 <i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>124</span>
-                              for last month
+                                 <i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>0 Person</span>last month
                            </span>
                         </div>
                      </div>
-                     <div class="col-4">
+                     <div class="col-3">
                         <div class="icon1 bg-success my-auto  float-end">
                            <!-- <i class="feather feather-dollar-sign"></i>  --><?php echo $currency ?>
                         </div>
@@ -94,18 +93,18 @@ $datatable = '';
             <div class="card">
                <div class="card-body">
                   <div class="row">
-                     <div class="col-8">
+                     <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Request</span>
-                           <h3 class="mb-0 mt-1 mb-2">124</h3>
+                           <h3 class="mb-0 mt-1 mb-2"><?php echo '0.00'; //echo count(EmployeeLoan::find_all()); ?></h3>
                            <span class="text-muted">
                               <span class="text-danger fs-12 mt-2 me-1">
-                                 <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i>13</span>
+                                 <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i><?php echo count(EmployeeLoan::find_all()); ?> Person</span>
                               this month </span>
                         </div>
                      </div>
-                     <div class="col-4">
-                        <div class="icon1 bg-primary my-auto  float-end"> <i class="feather feather-box"></i> </div>
+                     <div class="col-3">
+                        <div class="icon1 bg-primary my-auto  float-end"> <?php echo $currency ?> </div>
                      </div>
                   </div>
                </div>
@@ -115,17 +114,17 @@ $datatable = '';
             <div class="card">
                <div class="card-body">
                   <div class="row">
-                     <div class="col-8">
+                     <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Approved</span>
-                           <h3 class="mb-0 mt-1  mb-2">2,7853</h3>
+                           <h3 class="mb-0 mt-1  mb-2">0.00</h3>
                         </div>
                         <span class="text-muted">
                            <span class="text-danger fs-12 mt-2 me-1">
-                              <i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>21
+                              <i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>0 Person
                            </span> this month </span>
                      </div>
-                     <div class="col-4">
+                     <div class="col-3">
                         <div class="icon1 bg-secondary brround my-auto  float-end">
                            <!-- <i class="feather feather-dollar-sign"></i>  --> <?php echo $currency ?>
                         </div>

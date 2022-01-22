@@ -8,7 +8,8 @@ $(document).ready(function () {
           className: req == "error" ? "btn btn-danger" : "btn btn-success",
         },
       },
-    }).then(() => location.reload());
+    })
+    // .then(() => location.reload());
   };
 
   const deleted = async (url) => {

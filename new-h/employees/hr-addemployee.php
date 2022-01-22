@@ -1,13 +1,13 @@
 <?php
 require_once('../private/initialize.php');
-
+ 
 $page = 'Employees';
 $page_title = 'Add Employee';
 include(SHARED_PATH . '/header.php');
 
 ?>
-<link rel="stylesheet" href="assets/plugins/rating/css/ratings.css">
-<link rel="stylesheet" href="assets/plugins/rating/css/rating-themes.css">
+<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
+<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
@@ -214,8 +214,8 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Marital Status</label> </div>
                            <div class="col-md-9">
-                              <select name="personal[marital_status]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select" data-select2-id="select2-data-1-decl" tabindex="-1" aria-hidden="true">
-                                 <option label="Select" data-select2-id="select2-data-3-omqq"></option>
+                              <select name="personal[marital_status]" class="form-control custom-select  ">
+                                 <option value="">Select</option>
                                  <option value="Single">Single</option>
                                  <option value="Married">Married</option>
                               </select>
@@ -226,8 +226,8 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Blood Group</label> </div>
                            <div class="col-md-9">
-                              <select name="personal[blood_group]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Group" data-select2-id="select2-data-4-jt7m" tabindex="-1" aria-hidden="true">
-                                 <option label="Select Group" data-select2-id="select2-data-6-3hhn"></option>
+                              <select name="personal[blood_group]" class="form-control custom-select ">
+                                 <option value="">Select Group</option>
                                  <option value="1">A+</option>
                                  <option value="2">B+</option>
                                  <option value="3">O+</option>
@@ -386,7 +386,7 @@ include(SHARED_PATH . '/header.php');
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Salary</label> </div>
-                           <div class="col-md-9"> <input type="number" name="company[present_salary]" class="form-control" placeholder="₦Salary"> </div>
+                           <div class="col-md-9"> <input type="number" name="company[present_salary]" class="form-control" placeholder="e.g 150000"> </div>
                         </div>
                      </div>
                      <div class="form-group mt-7">

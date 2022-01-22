@@ -14,8 +14,11 @@ $user = $loggedInAdmin;
       <!-- Title -->
       <title><?php echo $page_title; ?></title>
       <!--Favicon -->
-      <link rel="icon" type="image/x-icon" href="<?php echo url_for('assets/images/brand/favicon.ico') ?>" sizes="16x16" />
+
+      <!-- <link rel="icon" type="image/x-icon" href="<?php //echo url_for('assets/images/brand/favicon.ico') ?>" sizes="16x16" /> -->
+     
       <!-- <link rel="icon" type="image/png" href="/favicon16x16.png" > -->
+      <link rel="icon" href="<?php echo url_for('assets/images/brand/favicon.ico') ?>" type="image/x-icon">
       <!-- Bootstrap css -->
       <link href="<?php echo url_for('assets/plugins/bootstrap/css/bootstrap.css') ?>" rel="stylesheet" id="style" />
       <!-- Style css -->
@@ -67,7 +70,7 @@ $user = $loggedInAdmin;
                <img src="assets/images/brand/logo-white.png" class="header-brand-img dark-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon.png" class="header-brand-img mobile-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon1.png" class="header-brand-img darkmobile-logo" alt="Dayonelogo">  -->
-                     IOGC
+                     IOGC HR-Admin
                   </a>
                </div>
                <div class="app-sidebar3 ps ps--active-y is-expanded">
@@ -184,31 +187,7 @@ $user = $loggedInAdmin;
                                  <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                                     <div class="d-flex ms-auto">
                                        <a class="nav-link my-auto icon p-0 nav-link-lg d-md-none navsearch" href="#" data-bs-toggle="search"> <i class="feather feather-search search-icon header-icon"></i> </a>
-                                       <div class="dropdown header-flags d-none">
-                                          <a class="nav-link icon" data-bs-toggle="dropdown"> <img src="<?php echo url_for('assets/images/flags/flag-png/united-kingdom.png') ?>" class="h-24" alt="img"> </a>
-                                          <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow animated">
-                                             <a href="#" class="dropdown-item d-flex ">
-                                                <span class="avatar  me-3 align-self-center bg-transparent"><img src="<?php echo url_for('assets/images/flags/flag-png/india.png') ?>" alt="img" class="h-24"></span>
-                                                <div class="d-flex"> <span class="my-auto">India</span> </div>
-                                             </a>
-                                             <a href="#" class="dropdown-item d-flex">
-                                                <span class="avatar  me-3 align-self-center bg-transparent"><img src="<?php echo url_for('assets/images/flags/flag-png/united-kingdom.png') ?>" alt="img" class="h-24"></span>
-                                                <div class="d-flex"> <span class="my-auto">UK</span> </div>
-                                             </a>
-                                             <a href="#" class="dropdown-item d-flex">
-                                                <span class="avatar me-3 align-self-center bg-transparent"><img src="<?php echo url_for('assets/images/flags/flag-png/italy.png') ?>" alt="img" class="h-24"></span>
-                                                <div class="d-flex"> <span class="my-auto">Italy</span> </div>
-                                             </a>
-                                             <a href="#" class="dropdown-item d-flex">
-                                                <span class="avatar me-3 align-self-center bg-transparent"><img src="<?php echo url_for('assets/images/flags/flag-png/united-states-of-america.png') ?>" class="h-24" alt="img"></span>
-                                                <div class="d-flex"> <span class="my-auto">US</span> </div>
-                                             </a>
-                                             <a href="#" class="dropdown-item d-flex">
-                                                <span class="avatar  me-3 align-self-center bg-transparent"><img src="<?php echo url_for('assets/images/flags/flag-png/spain.png') ?>" alt="img" class="h-24"></span>
-                                                <div class="d-flex"> <span class="my-auto">Spain</span> </div>
-                                             </a>
-                                          </div>
-                                       </div>
+                                       
                                        <div class="dropdown header-fullscreen"> <a class="nav-link icon full-screen-link"> <i class="feather feather-maximize fullscreen-button fullscreen header-icons"></i> <i class="feather feather-minimize fullscreen-button exit-fullscreen header-icons"></i> </a> </div>
                                        <div class="dropdown header-message">
                                           <a class="nav-link icon" data-bs-toggle="dropdown"> <i class="feather feather-mail header-icon"></i> <span class="badge badge-success side-badge">5</span> </a>
