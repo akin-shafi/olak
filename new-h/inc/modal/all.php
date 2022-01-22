@@ -40,13 +40,13 @@
                 <label>Job Title <span class="text-danger">*</span></label>
                 <input class="form-control" name="designation[designation_name]" id="des_name" type="text">
               </div>
-              <div class="form-group d-none">
-                <label>Department <span class="text-danger">*</span></label>
-                <select class="form-control" name="designation[department_id]" id="dept_id">
-                  <option value="">Select Department</option>
-                  <?php foreach (Department::find_by_undeleted() as $dept) : ?>
-                    <option value="<?php echo $dept->id ?>">
-                      <?php echo ucwords($dept->department_name) ?>
+              <div class="form-group ">
+                <label>Company <span class="text-danger">*</span></label>
+                <select class="form-control" name="designation[company_id]" id="company_id">
+                  <option value="">Select Company</option>
+                  <?php foreach (Company::find_by_undeleted() as $company) : ?>
+                    <option value="<?php echo $company->id ?>">
+                      <?php echo ucwords($company->company_name) ?>
                     </option>
                   <?php endforeach; ?>
                 </select>

@@ -146,12 +146,14 @@ class Employee extends DatabaseObject
     $sql .= "WHERE company_id='" . self::$database->escape_string($id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "ORDER BY id ASC";
+    // $obj_array = static::find_by_sql($sql);
+    // if (!empty($obj_array)) {
+    //   return array_shift($obj_array);
+    // } else {
+    //   return false;
+    // }
     $obj_array = static::find_by_sql($sql);
-    if (!empty($obj_array)) {
-      return array_shift($obj_array);
-    } else {
-      return false;
-    }
+    return $obj_array;
   }
 
   public static function find_by_query($options = [])

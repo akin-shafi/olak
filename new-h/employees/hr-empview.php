@@ -4,20 +4,39 @@ require_once('../private/initialize.php');
 $page = 'Employees';
 $page_title = 'Employees View';
 include(SHARED_PATH . '/header.php');
-$id = $_GET['id'] ?? 1;
+$all = Employee::find_by_undeleted(['order' => 'ASC']);
+$my_id = array_values($all)[0]->id; 
+$id = $_GET['id'] ?? $my_id;
+
+
+
 $employee = Employee::find_by_id($id);
+
+
+if (!empty($employee->photo)) {
+   $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
+}else{
+   if ($employee->gender == 'male') {
+      $profile_picture = url_for('assets/images/users/male.jpg');
+   }else{
+      $profile_picture = url_for('assets/images/users/female.jpg');
+   }
+   
+}
 
 $select2 = '';
 ?>
 
-<link rel="stylesheet" href="assets/plugins/rating/css/ratings.css">
-<link rel="stylesheet" href="assets/plugins/rating/css/rating-themes.css">
+<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
+<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
       <h4 class="page-title">View Employee</h4>
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-center">
+         <!-- <div class="add">Add New Employee</div> -->
+         <a href="<?php echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-primary me-3">Add New Employee</a> 
          <select name="query[employee_id]" class="select2" data-placeholder="Select Employee" id="query_employee">
             <option label="Select Employee"></option>
             <?php foreach (Employee::find_by_undeleted() as $value) : ?>
@@ -36,9 +55,11 @@ $select2 = '';
    <div class="col-xl-3 col-md-12 col-lg-12">
       <div class="card box-widget widget-user">
          <div class="card-body text-center">
-            <div class="widget-user-image mx-auto text-center"> <img class="avatar avatar-xxl brround rounded-circle" alt="img" src="<?php echo url_for('assets/uploads/profiles/' . $employee->photo) ?>"> </div>
+            <div class="widget-user-image mx-auto text-center"> 
+               <img class="avatar avatar-xxl brround rounded-circle" alt="img" 
+               src="<?php echo $profile_picture; ?>"> </div>
             <div class="pro-user mt-3">
-               <h5 class="pro-user-username text-dark mb-1 fs-16"><?php echo $employee->find_by_id($id)->full_name() ?? "Not Set" ?></h5>
+               <h5 class="pro-user-username text-dark mb-1 fs-16"><?php echo  $employee->find_by_id($id)->full_name() ?? "Not Set" ?></h5>
                <h6 class="pro-user-desc text-muted fs-12"><?php echo $employee->branch ?? 'Not Set' ?></h6>
             </div>
             <div class="star-ratings start-ratings-main mb-0 clearfix">
@@ -372,7 +393,7 @@ $select2 = '';
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Salary</label> </div>
-                           <div class="col-md-9"> <input type="number" name="company[present_salary]" value="<?php echo $employee->present_salary ?>" id="present_salary" class="form-control" placeholder="₦Salary"> </div>
+                           <div class="col-md-9"> <input type="number" name="company[present_salary]" value="<?php echo $employee->present_salary ?>" id="present_salary" class="form-control" placeholder="e.g 15000"> </div>
                         </div>
                      </div>
                      <div class="form-group mt-7 d-none">

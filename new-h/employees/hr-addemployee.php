@@ -1,13 +1,13 @@
 <?php
 require_once('../private/initialize.php');
-
+ 
 $page = 'Employees';
 $page_title = 'Add Employee';
 include(SHARED_PATH . '/header.php');
 
 ?>
-<link rel="stylesheet" href="assets/plugins/rating/css/ratings.css">
-<link rel="stylesheet" href="assets/plugins/rating/css/rating-themes.css">
+<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
+<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
@@ -214,8 +214,8 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Marital Status</label> </div>
                            <div class="col-md-9">
-                              <select name="personal[marital_status]" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Marital Status">
-                                 <option label="Select"></option>
+                              <select name="personal[marital_status]" class="form-control custom-select  ">
+                                 <option value="">Select</option>
                                  <option value="Single">Single</option>
                                  <option value="Married">Married</option>
                               </select>
@@ -226,8 +226,8 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Blood Group</label> </div>
                            <div class="col-md-9">
-                              <select name="personal[blood_group]" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Group">
-                                 <option label="Select Group"></option>
+                              <select name="personal[blood_group]" class="form-control custom-select ">
+                                 <option value="">Select Group</option>
                                  <option value="1">A+</option>
                                  <option value="2">B+</option>
                                  <option value="3">O+</option>
@@ -386,7 +386,7 @@ include(SHARED_PATH . '/header.php');
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Salary</label> </div>
-                           <div class="col-md-9"> <input type="number" name="company[present_salary]" class="form-control" placeholder="₦Salary"> </div>
+                           <div class="col-md-9"> <input type="number" name="company[present_salary]" class="form-control" placeholder="e.g 150000"> </div>
                         </div>
                      </div>
                      <div class="form-group mt-7">

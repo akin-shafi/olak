@@ -2,7 +2,7 @@
 require_once('../private/initialize.php');
 
 $page = 'Payroll';
-$page_title = 'Payroll Items';
+$page_title = 'Payroll';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 $select2 = '';
@@ -12,19 +12,46 @@ $select2 = '';
    <div class="page-leftheader">
       <h4 class="page-title">Employee Salary</h4>
    </div>
-   <!-- <div class="page-rightheader ms-md-auto">
+   <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
          <div class="btn-list mt-3 mt-lg-0"> <button type="button" class="btn btn-primary me-3" id="generate_payslip">Generate Payslip</button>
             <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
          </div>
       </div>
-   </div> -->
+   </div>
 </div>
 
 <div class="row">
    <div class="col-md-12">
       <div class="card">
-         
+         <div class="card-body">
+            <div class="row">
+               <div class="col-md-12 col-lg-3" data-select2-id="select2-data-67-rw6j">
+                  <div class="form-group" data-select2-id="select2-data-66-6byr">
+                     <label class="form-label">Employee Name:</label>
+                     <select name="attendance" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Employee" tabindex="-1" aria-hidden="true" data-select2-id="select2-data-25-irhg">
+                        <option label="Select Employee" data-select2-id="select2-data-27-u6o2"></option>
+                        <option value="1" data-select2-id="select2-data-68-qxxj">Faith Harris</option>
+                        <option value="2" data-select2-id="select2-data-69-4h6e">Austin Bell</option>
+                        <option value="3" data-select2-id="select2-data-70-n21p">Maria Bower</option>
+                        <option value="4" data-select2-id="select2-data-71-ud4x">Peter Hill</option>
+                        <option value="5" data-select2-id="select2-data-72-bsgz">Victoria Lyman</option>
+                        <option value="6" data-select2-id="select2-data-73-7491">Adam Quinn</option>
+                        <option value="7" data-select2-id="select2-data-74-jipj">Melanie Coleman</option>
+                        <option value="8" data-select2-id="select2-data-75-xx3l">Max Wilson</option>
+                        <option value="9" data-select2-id="select2-data-76-vdk3">Amelia Russell</option>
+                        <option value="10" data-select2-id="select2-data-77-3m24">Justin Metcalfe</option>
+                        <option value="11" data-select2-id="select2-data-78-n5lu">Ryan Young</option>
+                        <option value="12" data-select2-id="select2-data-79-v0s5">Jennifer Hardacre</option>
+                        <option value="13" data-select2-id="select2-data-80-qste">Justin Parr</option>
+                        <option value="14" data-select2-id="select2-data-81-v041">Julia Hodges</option>
+                        <option value="15" data-select2-id="select2-data-82-osf2">Michael Sutherland</option>
+                     </select>
+
+                  </div>
+               </div>
+            </div>
+         </div>
          <div class="card-body">
             <div class="table-responsive">
                <div id="hr-payroll_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -44,11 +71,11 @@ $select2 = '';
                               </tr>
                            </thead>
                            <tbody>
-                              <?php $sn = 1; foreach (Employee::find_by_undeleted() as $value) :
+                              <?php foreach (Employee::find_by_undeleted() as $value) :
                                  $empLoan = EmployeeLoan::find_by_employee_id($value->id);
                               ?>
                                  <tr>
-                                    <td>#<?php echo $sn++ ?></td>
+                                    <td>#<?php echo $value->id ?></td>
                                     <td>
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>

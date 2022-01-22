@@ -1,4 +1,5 @@
-@import url("../plugins/iconfonts/font-awesome/css/font-awesome.min.css");
+/*@import url("../plugins/iconfonts/font-awesome/css/font-awesome.min.css");*/
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css");
 @import url("../plugins/iconfonts/glyphicons/glyphicon.css");
 @import url("../plugins/iconfonts/ionicons/ionicons.css");
 @import url("../plugins/iconfonts/linearicons/Linearicons.css");

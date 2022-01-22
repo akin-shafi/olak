@@ -3,11 +3,11 @@ class Designation extends DatabaseObject
 {
 
   protected static $table_name = "designations";
-  protected static $db_columns = ['id', 'designation_name', 'department_id', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'designation_name', 'company_id', 'created_at', 'deleted'];
 
   public $id;
   public $designation_name;
-  public $department_id;
+  public $company_id;
   public $created_at;
   public $deleted;
 
@@ -16,7 +16,7 @@ class Designation extends DatabaseObject
   public function __construct($args = [])
   {
     $this->designation_name          = $args['designation_name'] ?? '';
-    $this->department_id    = $args['department_id'] ?? '';
+    $this->company_id    = $args['company_id'] ?? '';
     $this->created_at    = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted       = $args['deleted'] ?? '';
   }
@@ -29,7 +29,7 @@ class Designation extends DatabaseObject
       $this->errors[] = "Designation name is required.";
     }
 
-    if (is_blank($this->department_id)) {
+    if (is_blank($this->company_id)) {
       $this->errors[] = "Department is required.";
     }
 

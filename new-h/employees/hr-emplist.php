@@ -205,6 +205,7 @@ $datatable = '';
                         foreach ($companies as $key => $value) {
                            $branch = Branch::find_by_company_id($value->id);
                            $employee = Employee::find_by_company_id($value->id);
+                           // pre_r($employee);
                            // $color = ['#3366ff', '#01c353', '#ffad00', '#fe7f00', '#f11541', '#02d395'];
                            if ($key == 0) {
                               $color = '#3366ff';
@@ -231,7 +232,7 @@ $datatable = '';
                               <td><?php echo count($branch) ?? 0; ?></td>
                               <td class="p-2">
                                  <!-- <span class="me-4 fs-16">:</span> -->
-                                 <span class="ms-auto font-weight-semibold fs-16 staff_strength"><?php echo Employee::count_all(); ?></span>
+                                 <span class="ms-auto font-weight-semibold fs-16 staff_strength"><?php echo count($employee) ?? 0; ?></span>
                               </td>
                            </tr>
                         <?php } ?>
