@@ -240,7 +240,7 @@
       </div>
     </div>
 
-    <div id="loan_request" class="modal custom-modal fade select_modal" role="dialog">
+    <div id="loan_request" class="modal custom-modal fade select_loan" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -253,7 +253,7 @@
             <div class="modal-body">
               <div class="form-group">
                 <label>Employees</label>
-                <select class="select2" name="loan[employee_id]" id="employee_id" required>
+                <select class="form-control select2 select2-hidden-accessible employeeId" name="loan[employee_id]" id="employee_id" required>
                   <option value="">Select Employee</option>
                   <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
                     <option value="<?php echo $employee->id ?>">
@@ -266,7 +266,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Loan Type</label>
-                    <select class="select2" name="loan[type]" id="loan_type" required>
+                    <select class="form-control select2 select2-hidden-accessible" name="loan[type]" id="loan_type" required>
                       <option value="">Select Loan Type</option>
                       <option value="1">Salary Advance</option>
                       <option value="2">Long Term</option>
