@@ -107,6 +107,13 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attview.php') ?>">Attendance View</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-overviewcldr.php') ?>">Overview Calender</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attmark.php') ?>">Attendance Mark </a></li>
+                                 
+                              </ul>
+                           </li>
+
+                           <li class="sub-slide">
+                              <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Leaves</span><i class="sub-angle fa fa-angle-right"></i></a>
+                              <ul class="sub-slide-menu">
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-leaves.php') ?>">Leave Settings</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-leavesapplication.php') ?>">Leave Applications</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-recentleaves.php') ?>">Recent Leaves </a></li>
@@ -117,17 +124,21 @@ $user = $loggedInAdmin;
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Payroll</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-empsalary.php') ?>">Employee Salary</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-addpayroll.php') ?>">Add Payroll</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-editpayroll.php') ?>">Edit Payroll</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll.php') ?>">Payroll</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll-settings.php') ?>">Payroll Settings</a></li>
+                                 <!-- <li><a class="sub-slide-item" href="<?php //echo url_for('payroll/hr-addpayroll.php') ?>">Add Payroll</a></li> -->
+                                 <!-- <li><a class="sub-slide-item" href="<?php //echo url_for('payroll/hr-editpayroll.php') ?>">Edit Payroll</a></li> -->
                               </ul>
                            </li>
                            <li><a href="<?php echo url_for('loan/hr-loan.php') ?>" class="slide-item">Loan</a></li>
-                           <li><a href="<?php echo url_for('others/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
-                           <li><a href="<?php echo url_for('others/hr-award.php') ?>" class="slide-item">Awards</a></li>
-                           <li><a href="<?php echo url_for('others/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
 
-                           <li><a href="<?php echo url_for('others/hr-expenses.php') ?>" class="slide-item">Expenses</a></li>
-                           <li><a href="<?php echo url_for('events/') ?>" class="slide-item">Events</a></li>
+
+                           <li><a href="<?php echo url_for('general/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
+                           <li><a href="<?php echo url_for('general/hr-award.php') ?>" class="slide-item">Awards</a></li>
+                           <li><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
+
+                           <li><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
+                          
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Settings</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
@@ -135,12 +146,7 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('settings/hr-department.php') ?>">Department</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('settings/hr-configuration.php') ?>">Configurations</a></li>
                               </ul>
-                           <li><a href="<?php echo url_for('general/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
-                           <li><a href="<?php echo url_for('general/hr-award.php') ?>" class="slide-item">Awards</a></li>
-                           <li><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
-
-                           <li><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
-                           <li><a href="<?php echo url_for('general/settings/') ?>" class="slide-item">Settings</a></li>
+                           </li>
                            <li><a href="superadmin-role.php" class="slide-item">Role Access</a></li>
                         </ul>
                      </li>
