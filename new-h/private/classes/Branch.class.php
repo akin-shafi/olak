@@ -2,12 +2,11 @@
 class Branch extends DatabaseObject
 {
   protected static $table_name = "branches";
-  protected static $db_columns = ['id', 'company_id', 'branch_name', 'branch_label', 'address', 'city', 'state', 'established_in', 'created_at',  'deleted'];
+  protected static $db_columns = ['id', 'company_id', 'branch_name', 'address', 'city', 'state', 'established_in', 'created_at',  'deleted'];
 
   public $id;
   public $company_id;
   public $branch_name;
-  public $branch_label;
   public $address;
   public $city;
   public $state;
@@ -19,7 +18,6 @@ class Branch extends DatabaseObject
   {
     $this->company_id     = $args['company_id'] ?? '';
     $this->branch_name    = $args['branch_name'] ?? '';
-    $this->branch_label   = $args['branch_label'] ?? '';
     $this->address        = $args['address'] ?? '';
     $this->city           = $args['city'] ?? '';
     $this->state          = $args['state'] ?? '';

@@ -235,19 +235,15 @@
  <script src="<?php echo url_for('assets/plugins/chart.min/chart.min.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/chart.min/rounded-barchart.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/jQuery-countdowntimer/jQuery.countdownTimer.js') ?>"></script>
-<script type="text/javascript">
-   
-</script>
- <?php if (isset($select2)) : ?>
-    <script type="text/javascript">
-       /* Select2 */
-       $('.select2').select2({
-          minimumResultsForSearch: Infinity
-       });
+ <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    </script>
- <?php endif ?>
- <script src="<?php echo url_for('assets/plugins/select2/select2.full.min.js') ?>"></script>
+ <script>
+    $(document).ready(function() {
+       $('.select2').select2({
+          dropdownParent: $('.select_modal')
+       });
+    })
+ </script>
  <?php if (isset($datatable)) : ?>
 
     <script src="<?php echo url_for('assets/plugins/datatable/js/jquery.dataTables.min.js') ?>"></script>
@@ -281,8 +277,6 @@
 
 
        });
-
-
     </script>
 
  <?php endif ?>

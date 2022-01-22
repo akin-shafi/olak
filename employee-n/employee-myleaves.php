@@ -13,7 +13,7 @@ $datatable = '';
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
-         <div class="btn-list"> <a href="#" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#applyleaves">Apply Leaves</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+         <div class="btn-list"> <a href="#" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#leave_modal">Apply Leaves</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
       </div>
    </div>
 </div>
@@ -26,7 +26,7 @@ $datatable = '';
          <div class="card-body">
             <div class="table-responsive">
                <div id="emp-attendance_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                  
+
                   <div class="row">
                      <div class="col-sm-12">
                         <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" role="grid" aria-describedby="emp-attendance_info">
@@ -44,121 +44,41 @@ $datatable = '';
                               </tr>
                            </thead>
                            <tbody>
-                              <tr class="odd">
-                                 <td class="text-center">1</td>
-                                 <td>Casual Leave</td>
-                                 <td>16-01-2021</td>
-                                 <td>16-01-2021</td>
-                                 <td class="font-weight-semibold">1 Day</td>
-                                 <td>Personal</td>
-                                 <td>05-01-2021</td>
-                                 <td> <span class="badge badge-primary">New</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="even">
-                                 <td class="text-center">2</td>
-                                 <td>Sick Leave</td>
-                                 <td>14-01-2021</td>
-                                 <td>15-01-2021</td>
-                                 <td class="font-weight-semibold">2 Days</td>
-                                 <td>Going to Hospital</td>
-                                 <td>13-01-2021</td>
-                                 <td> <span class="badge badge-success">Approved</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="odd">
-                                 <td class="text-center">3</td>
-                                 <td>Casual Leave</td>
-                                 <td>21-01-2021</td>
-                                 <td>27-01-2021</td>
-                                 <td class="font-weight-semibold">7 Days</td>
-                                 <td>Going to Family Trip</td>
-                                 <td>11-01-2021</td>
-                                 <td> <span class="badge badge-warning">Pending</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="even">
-                                 <td class="text-center">4</td>
-                                 <td>Casual Leave</td>
-                                 <td>05-01-2021</td>
-                                 <td>05-01-2021</td>
-                                 <td class="font-weight-semibold">1 Days</td>
-                                 <td>Personal</td>
-                                 <td>12-12-2020</td>
-                                 <td> <span class="badge badge-success">Approved</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="odd">
-                                 <td class="text-center">5</td>
-                                 <td>Medical Leave</td>
-                                 <td>22-01-2021</td>
-                                 <td>22-01-2021</td>
-                                 <td class="font-weight-semibold">1 Days</td>
-                                 <td>Take Rest</td>
-                                 <td>21-01-2021</td>
-                                 <td> <span class="badge badge-success">Approved</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="even">
-                                 <td class="text-center">6</td>
-                                 <td>Casual Leave</td>
-                                 <td>18-01-2021</td>
-                                 <td>19-01-2021</td>
-                                 <td class="font-weight-semibold">2 Days</td>
-                                 <td>Going to my Hometown</td>
-                                 <td>10-01-2021</td>
-                                 <td> <span class="badge badge-warning">Pending</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="odd">
-                                 <td class="text-center">7</td>
-                                 <td>Casual Leave</td>
-                                 <td>11-01-2021</td>
-                                 <td>11-01-2021</td>
-                                 <td class="font-weight-semibold">1st Half Day</td>
-                                 <td>Going to Hosiptal</td>
-                                 <td>11-01-2021</td>
-                                 <td> <span class="badge badge-danger">Rejected</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="even">
-                                 <td class="text-center">8</td>
-                                 <td>Medical Leave</td>
-                                 <td>09-01-2021</td>
-                                 <td>09-01-2021</td>
-                                 <td class="font-weight-semibold">1 Days</td>
-                                 <td>Going to Hosiptal</td>
-                                 <td>08-01-2021</td>
-                                 <td> <span class="badge badge-success">Approved</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="odd">
-                                 <td class="text-center">9</td>
-                                 <td>Casual Leave</td>
-                                 <td>08-01-2021</td>
-                                 <td>07-01-2021</td>
-                                 <td class="font-weight-semibold">2 Days</td>
-                                 <td>Personal</td>
-                                 <td>25-12-2020</td>
-                                 <td> <span class="badge badge-success">Approved</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
-                              <tr class="even">
-                                 <td class="text-center">10</td>
-                                 <td>Casual Leave</td>
-                                 <td>21-12-2020</td>
-                                 <td>21-12-2020</td>
-                                 <td class="font-weight-semibold">1 Days</td>
-                                 <td>Personal</td>
-                                 <td>19-12-2020</td>
-                                 <td> <span class="badge badge-danger">Rejected</span> </td>
-                                 <td class="text-start d-flex"> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
-                              </tr>
+                              <?php foreach (EmployeeLeave::find_by_undeleted() as $leave) :
+                                 $leave_type = EmployeeLeaveType::find_by_id($leave->leave_type)->name;
+                              ?>
+                                 <tr>
+                                    <td class="text-center">1</td>
+                                    <td><?php echo ucwords($leave_type); ?></td>
+                                    <td><?php echo date('Y-m-d', strtotime($leave->date_from)) ?></td>
+                                    <td><?php echo date('Y-m-d', strtotime($leave->date_to)) ?></td>
+                                    <td class="font-weight-semibold"><?php echo ucwords($leave->duration) ?></td>
+                                    <td><?php echo ucfirst($leave->reason) ?></td>
+                                    <td><?php echo date('Y-m-d', strtotime($leave->created_at)) ?></td>
+                                    <td> <?php
+                                          switch ($leave->status):
+                                             case '1':
+                                                echo '<span class="badge badge-primary">New</span>';
+                                                break;
+                                             case '2':
+                                                echo '<span class="badge badge-warning">Pending</span>';
+                                                break;
+                                             case '3':
+                                                echo '<span class="badge badge-success">Approved</span>';
+                                                break;
+                                             default:
+                                                echo '<span class="badge badge-danger">Rejected</span>';
+                                                break;
+                                          endswitch;
+                                          ?> </td>
+                                    <td class="text-start d-flex"> <a href="#" class="action-btns1" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-id="<?php echo $leave->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
+                                 </tr>
+                              <?php endforeach; ?>
                            </tbody>
                         </table>
                      </div>
                   </div>
-                  
+
                </div>
             </div>
          </div>
@@ -171,7 +91,7 @@ $datatable = '';
          </div>
          <div class="card-body">
             <div id="leavesoverview" class="mx-auto pt-2" style="min-height: 278.341px;">
-               
+
             </div>
             <div class="row pt-7 pb-5  mx-auto text-center">
                <div class="col-md-7 mx-auto d-block">
@@ -208,7 +128,7 @@ $datatable = '';
       <div class="modal-content">
          <div class="modal-header">
             <h5 class="modal-title">My Leave Application</h5>
-            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button> 
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
          </div>
          <div class="modal-body">
             <div class="table-responsive">
@@ -247,89 +167,54 @@ $datatable = '';
       </div>
    </div>
 </div>
-<div class="modal fade" id="reportmodal" style="display: none;" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title">Report</h5>
-            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button> 
-         </div>
-         <div class="modal-body">
-            <div class="form-group"> <label class="form-label">Email Address</label> <input type="text" class="form-control" placeholder="hr@gmail.com" value="" readonly=""> </div>
-            <div class="form-group"> <label class="form-label">Subject</label> <textarea class="form-control" rows="3">Some text here...</textarea> </div>
-         </div>
-         <div class="modal-footer"> <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</a> <a href="#" class="btn btn-primary">Submit</a> </div>
-      </div>
-   </div>
-</div>
-<div class="modal fade" id="applyleaves" style="display: none;" aria-hidden="true">
-   <div class="modal-dialog" role="document" data-select2-id="select2-data-26-l5v6">
-      <div class="modal-content" data-select2-id="select2-data-25-cvqx">
-         <div class="modal-header">
-            <h5 class="modal-title">Apply Leaves</h5>
-            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button> 
-         </div>
-         <div class="modal-body">
-            <div class="leave-types" data-select2-id="select2-data-24-j2g1">
-               <div class="form-group" data-select2-id="select2-data-23-x4k4">
-                  <label class="form-label">Leaves Dates</label> 
-                  <select name="projects" class="form-control custom-select select2 " id="daterange-categories">
-                     <option value="single" data-select2-id="select2-data-8-rpp1">Single Leaves</option>
-                     <option value="multiple" data-select2-id="select2-data-29-tvho">Multiple Leaves</option>
-                  </select>
-                  
-               </div>
-               <div class="leave-content active" id="single" style="display: none;">
-                  <div class="form-group">
-                     <label class="form-label">Date Range:</label> 
-                     <div class="input-group">
-                        <input type="text" name="singledaterange" class="form-control" placeholder="select dates"> 
-                        <div class="input-group-append">
-                           <div class="input-group-text"> <i class="bx bx-calendar"></i> </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="leave-content" id="multiple" style="display: block;">
-                  <div class="form-group">
-                     <label class="form-label">Date Range:</label> 
-                     <div class="input-group">
-                        <input type="text" name="daterange" class="form-control" placeholder="select dates"> 
-                        <div class="input-group-append">
-                           <div class="input-group-text"> <i class="bx bx-calendar"></i> </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="form-label">Leaves Types</label> 
-                  <select name="projects" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select" tabindex="-1" aria-hidden="true" data-select2-id="select2-data-18-k3qr">
-                     <option label="select" data-select2-id="select2-data-20-0cct"></option>
-                     <option value="1">Half Day Leave</option>
-                     <option value="2">Casual Leaves</option>
-                     <option value="3">Sick Leaves</option>
-                     <option value="4">Maternity Leaves</option>
-                     <option value="5">Paternity Leaves</option>
-                     <option value="6">Annual Leaves</option>
-                     <option value="6">Unpaid Leaves</option>
-                     <option value="8">Other Leaves</option>
-                  </select>
-                  
-               </div>
-               <div class="form-group"> <label class="form-label">Reason:</label> <textarea class="form-control" rows="5">Some text here...</textarea> </div>
-            </div>
-         </div>
-         <div class="modal-footer">
-            <div class=""> <label class="mb-0 font-weight-semibold">Selected Days:</label> <span class="badge badge-danger badge-pill ms-2">2</span> </div>
-            <div class="ms-auto"> <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</a> <a href="#" class="btn btn-primary">Submit</a> </div>
-         </div>
-      </div>
-   </div>
-</div>
 
 
-
-<?php include (SHARED_PATH . '/footer.php') ?>
+<?php include('inc/modal/all.php') ?>
+<?php include(SHARED_PATH . '/footer.php') ?>
 
 <script src="<?php echo url_for('assets/js/employee/emp-myleaves.js') ?>"></script>
 <script src="<?php echo url_for('assets/plugins/pg-calendar-master/pignose.calendar.full.min.js') ?>"></script>
+
+<script>
+   $(document).ready(function() {
+      const message = (req, res) => {
+         swal(req + "!", res, {
+            icon: req,
+            timer: 2000,
+            buttons: {
+               confirm: {
+                  className: req == "error" ? "btn btn-danger" : "btn btn-success",
+               },
+            },
+         }).then(() => location.reload());
+      };
+
+      const submitForm = async (url, payload) => {
+         const formData = new FormData(payload);
+
+         const data = await fetch(url, {
+            method: "POST",
+            body: formData,
+         });
+
+         const res = await data.json();
+
+         if (res.errors) {
+            message("error", res.errors);
+         }
+
+         if (res.message) {
+            message("success", res.message);
+         }
+      };
+
+      const LEAVE_URL = "./inc/leave/";
+
+      const leaveForm = document.getElementById("add_leave_form");
+
+      leaveForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(LEAVE_URL, leaveForm);
+      });
+   })
+</script>

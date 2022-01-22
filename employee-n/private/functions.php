@@ -247,16 +247,16 @@ function pre_r($array)
 
 
 
-function time_elapsed_string($datetime, $full = false)
+function time_diff_string($from, $to, $full = false)
 {
-  $now = new DateTime;
-  $ago = new DateTime($datetime);
-  $diff = $now->diff($ago);
+  $from = new DateTime($from);
+  $to = new DateTime($to);
+  $diff = $to->diff($from);
 
   $diff->w = floor($diff->d / 7);
   $diff->d -= $diff->w * 7;
 
-  $string = [
+  $string = array(
     'y' => 'year',
     'm' => 'month',
     'w' => 'week',
@@ -264,7 +264,7 @@ function time_elapsed_string($datetime, $full = false)
     'h' => 'hour',
     'i' => 'minute',
     's' => 'second',
-  ];
+  );
   foreach ($string as $k => &$v) {
     if ($diff->$k) {
       $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
@@ -274,7 +274,8 @@ function time_elapsed_string($datetime, $full = false)
   }
 
   if (!$full) $string = array_slice($string, 0, 1);
-  return $string ? implode(', ', $string) . ' ago' : 'just now';
+  return implode(', ', $string);
+  // return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
 
 

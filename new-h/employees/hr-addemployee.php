@@ -160,6 +160,8 @@ include(SHARED_PATH . '/header.php');
             <div class="tab-pane active" id="tab5">
                <form id="add_personal_form" enctype="multipart/form-data">
                   <!-- <input type="hidden" name="employeeId" id="employeeIds" readonly> -->
+                  <input type="hidden" name="personal[password]" value="12345" readonly>
+                  <input type="hidden" name="personal[confirm_password]" value="12345" readonly>
 
                   <div class="card-body">
                      <h4 class="mb-4 font-weight-bold">Basic</h4>
@@ -267,18 +269,6 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee Email</label> </div>
                            <div class="col-md-9"> <input type="email" name="personal[email]" class="form-control" placeholder="employee email"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
-                           <div class="col-md-9"> <input type="password" name="personal[password]" class="form-control" placeholder="password"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
-                           <div class="col-md-9"> <input type="password" name="personal[confirm_password]" class="form-control" placeholder="confirm password"> </div>
                         </div>
                      </div>
                      <div class="form-group mt-7">
@@ -396,7 +386,7 @@ include(SHARED_PATH . '/header.php');
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Salary</label> </div>
-                           <div class="col-md-9"> <input type="number" name="company[salary]" class="form-control" placeholder="₦Salary"> </div>
+                           <div class="col-md-9"> <input type="number" name="company[present_salary]" class="form-control" placeholder="₦Salary"> </div>
                         </div>
                      </div>
                      <div class="form-group mt-7">

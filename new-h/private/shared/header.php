@@ -32,10 +32,11 @@ $user = $loggedInAdmin;
       <!---Sidebar css-->
       <link href="<?php echo url_for('assets/plugins/sidebar/sidebar.css') ?>" rel="stylesheet" />
       <!-- Select2 css -->
-      <link href="<?php echo url_for('assets/plugins/select2/select2.min.css') ?>" rel="stylesheet" />
+      <link href="<?php //echo url_for('assets/plugins/select2/select2.min.css') 
+                  ?>" rel="stylesheet" />
 
       <link href="<?php echo url_for('assets/plugins/fullcalendar/fullcalendar.css') ?>" rel="stylesheet">
-      
+
       <link href="<?php echo url_for('assets/plugins/modal-datepicker/datepicker.css') ?>" rel="stylesheet">
       <!--- INTERNAL jvectormap css-->
       <link href="<?php echo url_for('assets/plugins/jvectormap/jqvmap.css') ?>" rel="stylesheet" />
@@ -51,6 +52,8 @@ $user = $loggedInAdmin;
       <script type="text/javascript"></script>
 
       <script src="<?php echo url_for('assets/plugins/jquery/jquery.min.js') ?>"></script>
+
+      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
    </head>
 
    <body class="app sidebar-mini">
@@ -64,7 +67,7 @@ $user = $loggedInAdmin;
                <img src="assets/images/brand/logo-white.png" class="header-brand-img dark-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon.png" class="header-brand-img mobile-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon1.png" class="header-brand-img darkmobile-logo" alt="Dayonelogo">  -->
-                     Olak
+                     IOGC
                   </a>
                </div>
                <div class="app-sidebar3 ps ps--active-y is-expanded">
@@ -115,13 +118,26 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-editpayroll.php') ?>">Edit Payroll</a></li>
                               </ul>
                            </li>
+                           <li><a href="<?php echo url_for('loan/hr-loan.php') ?>" class="slide-item">Loan</a></li>
+                           <li><a href="<?php echo url_for('others/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
+                           <li><a href="<?php echo url_for('others/hr-award.php') ?>" class="slide-item">Awards</a></li>
+                           <li><a href="<?php echo url_for('others/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
+
+                           <li><a href="<?php echo url_for('others/hr-expenses.php') ?>" class="slide-item">Expenses</a></li>
+                           <li><a href="<?php echo url_for('events/') ?>" class="slide-item">Events</a></li>
+                           <li class="sub-slide">
+                              <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Settings</span><i class="sub-angle fa fa-angle-right"></i></a>
+                              <ul class="sub-slide-menu">
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('settings/') ?>">Company</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('settings/hr-department.php') ?>">Department</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('settings/hr-configuration.php') ?>">Configurations</a></li>
+                              </ul>
                            <li><a href="<?php echo url_for('general/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
                            <li><a href="<?php echo url_for('general/hr-award.php') ?>" class="slide-item">Awards</a></li>
                            <li><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
 
                            <li><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
                            <li><a href="<?php echo url_for('general/settings/') ?>" class="slide-item">Settings</a></li>
-                        </ul>
                            <li><a href="superadmin-role.php" class="slide-item">Role Access</a></li>
                         </ul>
                      </li>

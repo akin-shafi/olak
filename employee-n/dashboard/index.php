@@ -4,6 +4,10 @@ require_once('../private/initialize.php');
 $id = $loggedInAdmin->id;
 $employee = Employee::find_by_id($id);
 
+if ($employee->update_profile == 0) {
+   redirect_to('../password_reset.php');
+}
+
 /* ----------------------------------- //? ATTENDANCE ---------------------------------- */
 $attendance = EmployeeAttendance::find_by_employee_id($id, ['clock_in' => date('Y-m-d')]);
 $isClockedIn =  isset($attendance->clock_in) && $attendance->clock_in != '00:00:00' ? true : false;
@@ -21,29 +25,29 @@ $datatable = '';
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <a href="#" class="btn btn-primary me-3 mt-3 mt-lg-0 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#applyleaves">Apply Leaves</a> 
+         <a href="#" class="btn btn-primary me-3 mt-3 mt-lg-0 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#leave_modal">Apply Leaves</a>
          <div class="d-flex">
             <div class="header-datepicker me-3">
                <div class="input-group">
                   <div class="input-group-prepend">
                      <div class="input-group-text"> <i class="feather feather-calendar"></i> </div>
                   </div>
-                  <input class="form-control fc-datepicker hasDatepicker" placeholder="19 Feb 2020" type="text" id="dp1642632811672"> 
+                  <input class="form-control fc-datepicker hasDatepicker" placeholder="19 Feb 2020" type="text" id="dp1642632811672">
                </div>
             </div>
             <div class="header-datepicker me-3">
                <div class="input-group">
                   <div class="input-group-prepend">
                      <div class="input-group-text"> <i class="feather feather-clock"></i> </div>
-                     <!-- input-group-text --> 
+                     <!-- input-group-text -->
                   </div>
-                  <!-- input-group-prepend --> <input id="tpBasic" type="text" placeholder="09:30am" class="form-control input-small ui-timepicker-input" autocomplete="off"> 
+                  <!-- input-group-prepend --> <input id="tpBasic" type="text" placeholder="09:30am" class="form-control input-small ui-timepicker-input" autocomplete="off">
                </div>
             </div>
-            <!-- wd-150 --> 
+            <!-- wd-150 -->
          </div>
          <div class="d-lg-flex d-block">
-            <div class="btn-list"> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clockinmodal">Clock In</button> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+            <div class="btn-list"> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clock_in_modal">Clock In</button> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
          </div>
       </div>
    </div>
@@ -125,7 +129,7 @@ $datatable = '';
             <h4 class="card-title">Salary And Attendance chart</h4>
             <div class="card-options me-3">
                <div class="btn-list">
-                  <a href="#" class="btn btn-outline-light text-dark float-start me-4 d-flex my-auto"><span class="dot-label bg-light4 me-2 my-auto"></span>Attendance</a> <a href="#" class="btn btn-outline-light text-dark float-start me-4 d-flex my-auto"><span class="dot-label bg-primary me-2 my-auto"></span>Salary</a> <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Year <i class="feather feather-chevron-down"></i> </a> 
+                  <a href="#" class="btn btn-outline-light text-dark float-start me-4 d-flex my-auto"><span class="dot-label bg-light4 me-2 my-auto"></span>Attendance</a> <a href="#" class="btn btn-outline-light text-dark float-start me-4 d-flex my-auto"><span class="dot-label bg-primary me-2 my-auto"></span>Salary</a> <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Year <i class="feather feather-chevron-down"></i> </a>
                   <ul class="dropdown-menu dropdown-menu-end" role="menu">
                      <li><a href="#">Monthly</a></li>
                      <li><a href="#">Yearly</a></li>
@@ -158,61 +162,61 @@ $datatable = '';
                   <tbody>
                      <tr class="border-bottom">
                         <td class="d-flex ps-6">
-                           <span class="bg-pink pink-border brround d-block me-5 mt-1 h-5 w-5"></span> 
+                           <span class="bg-pink pink-border brround d-block me-5 mt-1 h-5 w-5"></span>
                            <div class="my-auto">
-                              <span class="mb-1 font-weight-semibold fs-17">You Late to day</span> 
+                              <span class="mb-1 font-weight-semibold fs-17">You Late to day</span>
                               <div class="clearfix"></div>
-                              <small class="text-muted fs-14">Your office intime is 9:42</small> 
+                              <small class="text-muted fs-14">Your office intime is 9:42</small>
                               <div class="clearfix"></div>
-                              <small class="text-muted fs-14">Late time 14min</small> 
+                              <small class="text-muted fs-14">Late time 14min</small>
                            </div>
                         </td>
                         <td class="text-end pe-6"> <a class="text-muted d-block fs-16" href="#">Just Now</a> </td>
                      </tr>
                      <tr class="border-bottom">
                         <td class="d-flex ps-6">
-                           <span class="bg-warning warning-border brround d-block me-5 mt-1 h-5 w-5"></span> 
+                           <span class="bg-warning warning-border brround d-block me-5 mt-1 h-5 w-5"></span>
                            <div class="my-auto">
-                              <span class="mb-1 font-weight-semibold fs-17">Below for those interested</span> 
+                              <span class="mb-1 font-weight-semibold fs-17">Below for those interested</span>
                               <div class="clearfix"></div>
-                              <small class="text-muted fs-14">Undoubtable source</small> 
+                              <small class="text-muted fs-14">Undoubtable source</small>
                            </div>
                         </td>
                         <td class="text-end pe-6"> <a class="text-muted d-block fs-16" href="#">1 Hour ago</a> </td>
                      </tr>
                      <tr class="border-bottom">
                         <td class="d-flex ps-6">
-                           <span class="bg-primary primary-border brround d-block me-5 mt-1 h-5 w-5"></span> 
+                           <span class="bg-primary primary-border brround d-block me-5 mt-1 h-5 w-5"></span>
                            <div class="my-auto">
-                              <span class="mb-1 font-weight-semibold fs-17">Success! your Lunch Time</span> 
+                              <span class="mb-1 font-weight-semibold fs-17">Success! your Lunch Time</span>
                               <div class="clearfix"></div>
-                              <small class="text-muted fs-14">Lunch time 1:30 To 2:30</small> 
+                              <small class="text-muted fs-14">Lunch time 1:30 To 2:30</small>
                            </div>
                         </td>
                         <td class="text-end pe-6"> <a class="text-muted d-block fs-16" href="#">4 hours ago</a> </td>
                      </tr>
                      <tr class="border-bottom">
                         <td class="d-flex ps-6">
-                           <span class="bg-success success-border brround d-block me-5 mt-1 h-5 w-5"></span> 
+                           <span class="bg-success success-border brround d-block me-5 mt-1 h-5 w-5"></span>
                            <div class="my-auto">
-                              <span class="mb-1 font-weight-semibold fs-17">Many desktops Publishing The</span> 
+                              <span class="mb-1 font-weight-semibold fs-17">Many desktops Publishing The</span>
                               <div class="clearfix"></div>
-                              <span class="mb-1 font-weight-semibold fs-17"> versions are evolved</span> 
+                              <span class="mb-1 font-weight-semibold fs-17"> versions are evolved</span>
                               <div class="clearfix"></div>
-                              <small class="text-muted fs-14">Page editors now use...</small> 
+                              <small class="text-muted fs-14">Page editors now use...</small>
                               <div class="clearfix"></div>
-                              <small class="text-muted fs-14">Late time 14min</small> 
+                              <small class="text-muted fs-14">Late time 14min</small>
                            </div>
                         </td>
                         <td class="text-end pe-6"> <a class="text-muted d-block fs-16" href="#">5 hours ago</a> </td>
                      </tr>
                      <tr>
                         <td class="d-flex ps-6">
-                           <span class="bg-orange orange-border brround d-block me-5 mt-1 h-5 w-5"></span> 
+                           <span class="bg-orange orange-border brround d-block me-5 mt-1 h-5 w-5"></span>
                            <div class="my-auto">
-                              <span class="mb-1 font-weight-semibold fs-17">Below for those interested</span> 
+                              <span class="mb-1 font-weight-semibold fs-17">Below for those interested</span>
                               <div class="clearfix"></div>
-                              <small class="text-muted fs-14">Birthday on Feb 16</small> 
+                              <small class="text-muted fs-14">Birthday on Feb 16</small>
                            </div>
                         </td>
                         <td class="text-end pe-6"> <a class="text-muted d-block fs-16" href="#">11 Jan 2020</a> </td>
@@ -235,7 +239,7 @@ $datatable = '';
             </div>
             <div class="calendar">
                <div class="pignose-calendar pignose-calendar-light pignose-calendar-default">
-                 
+
                </div>
             </div>
          </div>
@@ -249,50 +253,50 @@ $datatable = '';
          <div class="card-body mt-1">
             <div class="mb-5">
                <div class="d-flex comming_holidays calendar-icon icons">
-                  <span class="date_time bg-success-transparent bradius me-3"><span class="date fs-20">3</span> <span class="month fs-13">FEB</span> </span> 
+                  <span class="date_time bg-success-transparent bradius me-3"><span class="date fs-20">3</span> <span class="month fs-13">FEB</span> </span>
                   <div class="me-3 mt-0 mt-sm-1 d-block">
                      <h6 class="mb-1 font-weight-semibold">Office Off</h6>
-                     <span class="clearfix"></span> <small>Sunday</small> 
+                     <span class="clearfix"></span> <small>Sunday</small>
                   </div>
                   <p class="float-end text-muted  mb-0 fs-13 ms-auto bradius my-auto">3 days to left</p>
                </div>
             </div>
             <div class="mb-5">
                <div class="d-flex comming_holidays calendar-icon icons">
-                  <span class="date_time bg-purple-transparent bradius me-3"><span class="date fs-20">10</span> <span class="month fs-13">FEB</span> </span> 
+                  <span class="date_time bg-purple-transparent bradius me-3"><span class="date fs-20">10</span> <span class="month fs-13">FEB</span> </span>
                   <div class="me-3 mt-0 mt-sm-1 d-block">
                      <h6 class="mb-1 font-weight-semibold">Public Holiday</h6>
-                     <span class="clearfix"></span> <small>Enjoy your day off</small> 
+                     <span class="clearfix"></span> <small>Enjoy your day off</small>
                   </div>
                   <p class="float-end text-muted  mb-0 fs-13 ms-auto bradius my-auto">13 days to left</p>
                </div>
             </div>
             <div class="mb-5">
                <div class="d-flex comming_holidays calendar-icon icons">
-                  <span class="date_time bg-orange-transparent bradius me-3"><span class="date fs-20">20</span> <span class="month fs-13">MAR</span> </span> 
+                  <span class="date_time bg-orange-transparent bradius me-3"><span class="date fs-20">20</span> <span class="month fs-13">MAR</span> </span>
                   <div class="me-3 mt-0 mt-sm-1 d-block">
                      <h6 class="mb-1 font-weight-semibold">Office Off</h6>
-                     <span class="clearfix"></span> <small>Sunday</small> 
+                     <span class="clearfix"></span> <small>Sunday</small>
                   </div>
                   <p class="float-end text-muted  mb-0 fs-13 ms-auto bradius my-auto">23 days to left</p>
                </div>
             </div>
             <div class="mb-5">
                <div class="d-flex comming_holidays calendar-icon icons">
-                  <span class="date_time bg-warning-transparent bradius me-3"><span class="date fs-20">17</span> <span class="month fs-13">FEB</span> </span> 
+                  <span class="date_time bg-warning-transparent bradius me-3"><span class="date fs-20">17</span> <span class="month fs-13">FEB</span> </span>
                   <div class="me-3 mt-0 mt-sm-1 d-block">
                      <h6 class="mb-1 font-weight-semibold">Optional Holiday</h6>
-                     <span class="clearfix"></span> <small>Sunday</small> 
+                     <span class="clearfix"></span> <small>Sunday</small>
                   </div>
                   <p class="float-end text-muted  mb-0 fs-13 ms-auto bradius my-auto">20 days to left</p>
                </div>
             </div>
             <div class="mb-0">
                <div class="d-flex comming_holidays calendar-icon icons">
-                  <span class="date_time bg-pink-transparent bradius me-3"><span class="date fs-20">13</span> <span class="month fs-13">MAR</span> </span> 
+                  <span class="date_time bg-pink-transparent bradius me-3"><span class="date fs-20">13</span> <span class="month fs-13">MAR</span> </span>
                   <div class="me-3 mt-0 mt-sm-1 d-block">
                      <h6 class="mb-1 font-weight-semibold">Conference</h6>
-                     <span class="clearfix"></span> <small>Money Update</small> 
+                     <span class="clearfix"></span> <small>Money Update</small>
                   </div>
                   <p class="float-end text-muted  mb-0 fs-13 ms-auto bradius my-auto">35 days to left</p>
                </div>
@@ -369,7 +373,7 @@ $datatable = '';
          <div class="card-header  border-bottom-0">
             <h4 class="card-title">Recent Job Application</h4>
             <div class="card-options">
-               <a href="" class="me-0 option-dots text-default" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-vertical"></span> </a> 
+               <a href="" class="me-0 option-dots text-default" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-vertical"></span> </a>
                <ul class="dropdown-menu dropdown-menu-end" role="menu">
                   <li><a href="#"><i class="feather feather-eye me-2"></i>View</a></li>
                   <li><a href="#"><i class="feather feather-plus-circle me-2"></i>Add</a></li>
@@ -382,7 +386,7 @@ $datatable = '';
          <div class="table-responsive recent-jobstable pt-4">
             <div class="btn-task"> <a href="#" class="btn btn-primary">New Task<i class="feather feather-plus"></i></a> </div>
             <div id="assigntask_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-               
+
                <div class="row">
                   <div class="col-sm-12">
                      <table class="table table-vcenter text-nowrap border-top mb-0 dataTable no-footer" id="assigntask" role="grid" aria-describedby="assigntask_info">
@@ -486,7 +490,7 @@ $datatable = '';
                      </table>
                   </div>
                </div>
-              
+
             </div>
          </div>
       </div>
@@ -503,9 +507,9 @@ $datatable = '';
                   <tbody>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/4.jpg" alt="media1"> 
+                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/4.jpg" alt="media1">
                            <div class="my-auto">
-                              <a href="#" class="mb-1 font-weight-semibold fs-16">Jennifer Kerr</a> 
+                              <a href="#" class="mb-1 font-weight-semibold fs-16">Jennifer Kerr</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
                            </div>
                         </td>
@@ -513,9 +517,9 @@ $datatable = '';
                      </tr>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/6.jpg" alt="media1"> 
+                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/6.jpg" alt="media1">
                            <div class="my-auto">
-                              <a href="#" class="mb-1 font-weight-semibold fs-16">Rebecca Cameron</a> 
+                              <a href="#" class="mb-1 font-weight-semibold fs-16">Rebecca Cameron</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
                            </div>
                         </td>
@@ -523,9 +527,9 @@ $datatable = '';
                      </tr>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/2.jpg" alt="media1"> 
+                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/2.jpg" alt="media1">
                            <div class="my-auto">
-                              <a href="#" class="mb-1 font-weight-semibold fs-16">Jessica Johnston</a> 
+                              <a href="#" class="mb-1 font-weight-semibold fs-16">Jessica Johnston</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
                            </div>
                         </td>
@@ -533,9 +537,9 @@ $datatable = '';
                      </tr>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/7.jpg" alt="media1"> 
+                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/7.jpg" alt="media1">
                            <div class="my-auto">
-                              <a href="#" class="mb-1 font-weight-semibold fs-16">Lily Ball</a> 
+                              <a href="#" class="mb-1 font-weight-semibold fs-16">Lily Ball</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
                            </div>
                         </td>
@@ -543,9 +547,9 @@ $datatable = '';
                      </tr>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/12.jpg" alt="media1"> 
+                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/12.jpg" alt="media1">
                            <div class="my-auto">
-                              <a href="#" class="mb-1 font-weight-semibold fs-16">Yadira Acklin</a> 
+                              <a href="#" class="mb-1 font-weight-semibold fs-16">Yadira Acklin</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
                            </div>
                         </td>
@@ -560,12 +564,64 @@ $datatable = '';
 </div>
 
 
+<?php include('../inc/modal/all.php') ?>
 <?php include(SHARED_PATH . '/footer.php') ?>
+
+<script src="<?php echo url_for('assets/js/employee/emp-myleaves.js') ?>"></script>
 <script src="../../assets/plugins/pg-calendar-master/pignose.calendar.full.min.js"></script>
+
+<script>
+   $(document).ready(function() {
+      const message = (req, res) => {
+         swal(req + "!", res, {
+            icon: req,
+            timer: 2000,
+            buttons: {
+               confirm: {
+                  className: req == "error" ? "btn btn-danger" : "btn btn-success",
+               },
+            },
+         }).then(() => location.reload());
+      };
+
+      const submitForm = async (url, payload) => {
+         const formData = new FormData(payload);
+
+         const data = await fetch(url, {
+            method: "POST",
+            body: formData,
+         });
+
+         const res = await data.json();
+
+         if (res.errors) {
+            message("error", res.errors);
+         }
+
+         if (res.message) {
+            message("success", res.message);
+         }
+      };
+
+      const LEAVE_URL = "../inc/leave/";
+
+      const leaveForm = document.getElementById("add_leave_form");
+
+      leaveForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(LEAVE_URL, leaveForm);
+      });
+   })
+</script>
+
+
+
+
+
+
 <script type="text/javascript">
    $(function(e) {
 
-      //________ Datepicker
       $(".fc-datepicker").datepicker({
          dateFormat: "dd MM yy",
          monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"]

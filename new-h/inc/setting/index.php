@@ -107,6 +107,30 @@ if (is_post_request()) {
     }
   }
 
+  if (isset($_POST['leave'])) {
+    if (isset($_POST['leaveId']) && $_POST['leaveId'] != '') {
+      $leave = EmployeeLeaveType::find_by_id($_POST['leaveId']);
+      $args = $_POST['leave'];
+      $leave->merge_attributes($args);
+      $leave->save();
+
+      http_response_code(200);
+      $response['message'] = 'Employee leave type updated successfully';
+    } else {
+      $args = $_POST['leave'];
+      $leave = new EmployeeLeaveType($args);
+      $leave->save();
+
+      if ($leave->errors) :
+        http_response_code(401);
+        $response['errors'] = $leave->errors[0];
+      else :
+        http_response_code(201);
+        $response['message'] = 'Employee leave type created successfully!';
+      endif;
+    }
+  }
+
 
 
   if (isset($_POST['department'])) {
@@ -159,6 +183,17 @@ if (is_post_request()) {
 }
 
 if (is_get_request()) {
+  if (isset($_GET['status_id'])) {
+    $config = Configuration::find_by_id($_GET['status_id']);
+    $status = ($_GET['status'] == 'activate') ? 1 : 0;
+    $args = ['loan_config' => $status];
+
+    $config->merge_attributes($args);
+    $config->save();
+    http_response_code(200);
+    $response['message'] = 'Updated!';
+  }
+
   if (isset($_GET['departmentId']) && !isset($_GET['deleted'])) {
     $department = Department::find_by_id($_GET['departmentId']);
 

@@ -29,7 +29,7 @@ $datatable = '';
                      <div class="col-7">
                         <div class="mt-0 text-start">
                            <span class="font-weight-semibold">Total <br>Employees</span>
-                           <h3 class="mb-0 mt-1 text-success"><?php echo count(EmployeeData::find_by_undeleted()) ?></h3>
+                           <h3 class="mb-0 mt-1 text-success"><?php echo count(Employee::find_by_undeleted()) ?></h3>
                         </div>
                      </div>
                      <div class="col-5">
@@ -113,7 +113,7 @@ $datatable = '';
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Emp Name: activate to sort column ascending" style="width: 185.017px;">Emp Name</th>
                                        <!-- <th class="border-bottom-0 w-10 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="#Emp ID: activate to sort column ascending" style="width: 52.8993px;">#Emp ID</th> -->
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Department: activate to sort column ascending" style="width: 159.028px;">Department</th>
-                                       <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Location: activate to sort column ascending" style="width: 113.663px;">Location</th>
+                                       <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Location: activate to sort column ascending" style="width: 113.663px;">Branch</th>
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Phone Number: activate to sort column ascending" style="width: 94.0799px;">Phone Number</th>
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Join Date: activate to sort column ascending" style="width: 78.4896px;">Join Date</th>
                                        <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 64.5833px;">Actions</th>
@@ -121,7 +121,7 @@ $datatable = '';
                                  </thead>
                                  <tbody>
                                     <?php $sn = 1;
-                                    foreach (EmployeeData::find_all() as $key => $value) {
+                                    foreach (Employee::find_all() as $key => $value) {
 
                                        $class = $key % 2 == 0 ? 'even' : 'odd';
                                        // $image = $value->gender == 'male' ? '../assets/images/users/male.png' : '../assets/images/users/female.png';
@@ -136,7 +136,7 @@ $datatable = '';
                                                 <span class="avatar avatar-md brround me-3" style="background-image: url( <?php echo $image ?>)"></span>
 
                                                 <div class="me-3 mt-0 mt-sm-1 d-block">
-                                                   <h6 class="mb-1 fs-14"><?php echo EmployeeData::find_by_id($value->id)->full_name(); ?></h6>
+                                                   <h6 class="mb-1 fs-14"><?php echo Employee::find_by_id($value->id)->full_name(); ?></h6>
                                                    <p class="text-muted mb-0 fs-12"><?php echo $value->email ?></p>
                                                 </div>
                                              </a>
@@ -146,9 +146,9 @@ $datatable = '';
                                           <!-- <td><?php //echo Department::find_by_id($value->department_id)->department_name; 
                                                    ?></td> -->
                                           <td><?php echo $value->department ? $value->department : 'Not Set'; ?></td>
-                                          <td><?php echo $value->location ? $value->location : 'Not Set'; ?></td>
+                                          <td><?php echo $value->branch ? $value->branch : 'Not Set'; ?></td>
                                           <td><?php echo $value->phone ? $value->phone : 'Not Set'; ?></td>
-                                          <td><?php echo $value->date_employed ? $value->date_employed : 'Not Set'; ?></td>
+                                          <td><?php echo $value->date_employed ? date('Y-m-d', strtotime($value->date_employed)) : 'Not Set'; ?></td>
 
                                           <td>
                                              <a class="btn btn-primary btn-icon btn-sm" href="hr-empview.html">
@@ -231,7 +231,7 @@ $datatable = '';
                               <td><?php echo count($branch) ?? 0; ?></td>
                               <td class="p-2">
                                  <!-- <span class="me-4 fs-16">:</span> -->
-                                 <span class="ms-auto font-weight-semibold fs-16 staff_strength"><?php echo EmployeeData::count_all(); ?></span>
+                                 <span class="ms-auto font-weight-semibold fs-16 staff_strength"><?php echo Employee::count_all(); ?></span>
                               </td>
                            </tr>
                         <?php } ?>
