@@ -214,8 +214,8 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Marital Status</label> </div>
                            <div class="col-md-9">
-                              <select name="personal[marital_status]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select" data-select2-id="select2-data-1-decl" tabindex="-1" aria-hidden="true">
-                                 <option label="Select" data-select2-id="select2-data-3-omqq"></option>
+                              <select name="personal[marital_status]" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Marital Status">
+                                 <option label="Select"></option>
                                  <option value="Single">Single</option>
                                  <option value="Married">Married</option>
                               </select>
@@ -226,8 +226,8 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Blood Group</label> </div>
                            <div class="col-md-9">
-                              <select name="personal[blood_group]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Group" data-select2-id="select2-data-4-jt7m" tabindex="-1" aria-hidden="true">
-                                 <option label="Select Group" data-select2-id="select2-data-6-3hhn"></option>
+                              <select name="personal[blood_group]" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Group">
+                                 <option label="Select Group"></option>
                                  <option value="1">A+</option>
                                  <option value="2">B+</option>
                                  <option value="3">O+</option>
@@ -293,7 +293,7 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee Name</label> </div>
                            <div class="col-md-9">
-                              <select name="company[employee_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Employee" required>
+                              <select name="company[employee_id]" style="width:100%" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Employee" required>
                                  <option label="Select Employee"></option>
                                  <?php foreach (Employee::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>"><?php echo ucwords($value->full_name()) ?></option>
@@ -309,7 +309,7 @@ include(SHARED_PATH . '/header.php');
                            <div class="col-md-9">
                               <div class="row">
                                  <div class="col-md-6">
-                                    <select name="company[company_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Company" required>
+                                    <select name="company[company_id]" style="width:100%" class="form-control select2 select2-hidden-accessible" data-placeholder="Company" required>
                                        <option label="Company"></option>
                                        <?php foreach (Company::find_by_undeleted() as $value) : ?>
                                           <option value="<?php echo $value->id ?>"><?php echo ucwords($value->company_name) ?></option>
@@ -327,7 +327,7 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Department</label> </div>
                            <div class="col-md-9">
-                              <select name="company[department_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
+                              <select name="company[department_id]" style="width:100%" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Department" required>
                                  <option label="Select Department"></option>
                                  <?php foreach (Department::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>">
@@ -341,7 +341,7 @@ include(SHARED_PATH . '/header.php');
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
-                           <div class="col-md-9"> <select name="company[branch_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
+                           <div class="col-md-9"> <select name="company[branch_id]" style="width:100%" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
                                  <option label="Select Branch"></option>
                                  <?php foreach (Branch::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>"><?php echo ucwords($value->branch_name) ?></option>
@@ -353,7 +353,7 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
                            <div class="col-md-9">
-                              <select name="company[job_title_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
+                              <select name="company[job_title_id]" style="width:100%" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
                                  <option label="Select Employment Title"></option>
                                  <?php foreach (Designation::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>">
@@ -374,7 +374,7 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employment Type</label> </div>
                            <div class="col-md-9">
-                              <select name="company[employment_type]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
+                              <select name="company[employment_type]" style="width:100%" class="form-control select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
                                  <option label="Employee Type"></option>
                                  <?php foreach (EmployeeType::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>"><?php echo ucwords($value->name) ?></option>
@@ -414,8 +414,8 @@ include(SHARED_PATH . '/header.php');
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee Name</label> </div>
                            <div class="col-md-9">
-                              <select name="bank[employee_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Employee" data-select2-id="select2-data-7-uv0d" tabindex="-1" aria-hidden="true" required>
-                                 <option label="Select Employee" data-select2-id="select2-data-9-49kl"></option>
+                              <select name="bank[employee_id]" style="width:100%" class="form-control select2 select2-hidden-accessible" data-placeholder="Select Employee" required>
+                                 <option label="Select Employee"></option>
                                  <?php foreach (Employee::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>"><?php echo $value->full_name() ?></option>
                                  <?php endforeach; ?>
@@ -541,6 +541,43 @@ include(SHARED_PATH . '/header.php');
          }).then(() => location.reload());
       };
 
+      const deleted = async (url) => {
+         swal({
+            title: "Are you sure?",
+            text: "You won't be able to reverse this!",
+            icon: "warning",
+            buttons: {
+               confirm: {
+                  text: "Yes, delete it!",
+                  className: "btn btn-danger",
+               },
+               cancel: {
+                  visible: true,
+                  className: "btn btn-secondary",
+               },
+            },
+         }).then((Delete) => {
+            if (Delete) {
+               fetch(url)
+                  .then((res) => res.json())
+                  .then((data) => {
+                     swal({
+                        title: "Deleted!",
+                        text: data.message,
+                        icon: "success",
+                        buttons: {
+                           confirm: {
+                              className: "btn btn-success",
+                           },
+                        },
+                     }).then(() => location.reload());
+                  });
+            } else {
+               swal.close();
+            }
+         });
+      };
+
       const submitForm = async (url, payload) => {
          const formData = new FormData(payload);
 
@@ -560,13 +597,39 @@ include(SHARED_PATH . '/header.php');
          }
       };
 
-      const SETTING_URL = "../inc/setting/csv_uploads.php";
+      const EMPLOYEE_URL = "../inc/employee/";
+      const SETTING_URL = "../inc/setting/";
 
-      const uploadForm = document.getElementById("upload_csv");
+      const personalForm = document.getElementById("add_personal_form");
+      const employeeCompForm = document.getElementById("add_employee_company_form");
+      const bankForm = document.getElementById("add_bank_form");
+      const docForm = document.getElementById("add_doc_form");
 
-      uploadForm.addEventListener("submit", async (e) => {
+      const uploadCSVForm = document.getElementById("upload_csv");
+
+      uploadCSVForm.addEventListener("submit", async (e) => {
          e.preventDefault();
-         submitForm(SETTING_URL, uploadForm);
+         submitForm(SETTING_URL + 'csv_uploads.php', uploadCSVForm);
       });
-   })
+
+      personalForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, personalForm);
+      });
+
+      employeeCompForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, employeeCompForm);
+      });
+
+      bankForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, bankForm);
+      });
+
+      docForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, docForm);
+      });
+   });
 </script>

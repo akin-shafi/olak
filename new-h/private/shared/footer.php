@@ -240,8 +240,11 @@
  <script>
     $(document).ready(function() {
        $('.select2').select2();
-    })
+    });
  </script>
+
+
+
  <?php if (isset($datatable)) : ?>
 
     <script src="<?php echo url_for('assets/plugins/datatable/js/jquery.dataTables.min.js') ?>"></script>
@@ -292,7 +295,6 @@
  <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/sweetalert.min.js'); ?>"></script>
  <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
-
 
  </body>
 

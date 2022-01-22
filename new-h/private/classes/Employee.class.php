@@ -2,7 +2,7 @@
 class Employee extends DatabaseObject
 {
   protected static $table_name = "employees";
-  protected static $db_columns = ['id', 'employee_id', 'first_name', 'last_name', 'other_name', 'phone', 'email', 'gender', 'marital_status', 'dob', 'kin_name', 'kin_phone', 'present_add', 'permanent_add', 'highest_qualification', 'company', 'branch', 'department', 'job_title', 'date_employed', 'employment_type', 'present_salary', 'grade_step', 'bank_name', 'account_number', 'blood_group', 'company_id', 'photo', 'notification', 'hashed_password', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'first_name', 'last_name', 'other_name', 'phone', 'email', 'gender', 'marital_status', 'dob', 'kin_name', 'kin_phone', 'present_add', 'permanent_add', 'highest_qualification', 'company', 'branch', 'department', 'job_title', 'date_employed', 'employment_type', 'present_salary', 'grade_step', 'bank_name', 'account_number', 'blood_group', 'company_id', 'photo', 'notification', 'hashed_password', 'update_profile', 'created_at', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -33,6 +33,7 @@ class Employee extends DatabaseObject
   public $company_id;
   public $photo;
   public $notification;
+  public $update_profile;
   public $created_at;
   public $deleted;
 
@@ -73,6 +74,7 @@ class Employee extends DatabaseObject
     $this->company_id             = $args['company_id'] ?? '';
     $this->photo                  = $args['photo'] ?? '';
     $this->notification           = $args['notification'] ?? '';
+    $this->update_profile         = $args['update_profile'] ?? '';
     $this->created_at             = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted                = $args['deleted'] ?? '';
     $this->password               = $args['password'] ?? '';
