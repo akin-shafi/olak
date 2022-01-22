@@ -230,22 +230,21 @@ $datatable = '';
     });
 
     $('#employee_id').select2({
-      dropdownParent: $('.select_modal')
+      dropdownParent: $('.select_loan')
     }).on("change", async () => {
       let emp_id = $("#employee_id").val()
       let data = await fetch(EMPLOYEE_URL + '?employeeId=' + emp_id)
       let res = await data.json();
 
       let salary = res.data.present_salary;
-      document.getElementById('sal').innerText = numberWithCommas(salary)
+      document.getElementById('sal').innerText = salary != '' ? numberWithCommas(salary) : 'Not set'
       document.getElementById('allowable').innerText = numberWithCommas(salary * 0.4);
-      console.log(salary);
     });
 
     let isAdvance = document.getElementById('isAdvance');
     let isLongTerm = document.getElementById('isLongTerm');
     $('#loan_type').select2({
-      dropdownParent: $('.select_modal')
+      dropdownParent: $('.select_loan')
     }).on("change", () => {
       if ($("#loan_type").val() == 2) {
         isLongTerm.classList.remove('d-none')

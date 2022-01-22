@@ -201,7 +201,7 @@ $user = $loggedInAdmin;
                                              <div class="header-dropdown-list message-menu" id="message-menu">
                                                 <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/1.jpg" style="background: url(&quot;assets/images/users/1.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Jack Wright</h6>
@@ -213,7 +213,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/2.jpg" style="background: url(&quot;assets/images/users/2.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Lisa Rutherford</h6>
@@ -225,7 +225,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/3.jpg" style="background: url(&quot;assets/images/users/3.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Blake Walker</h6>
@@ -237,7 +237,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/4.jpg" style="background: url(&quot;assets/images/users/4.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Fiona Morrison</h6>
@@ -249,7 +249,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/6.jpg" style="background: url(&quot;assets/images/users/6.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Stewart Bond</h6>

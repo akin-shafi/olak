@@ -19,7 +19,7 @@
     <div class="">
        <div class="list-group-item  align-items-center border-0">
           <div class="d-flex">
-             <span class="avatar avatar-lg brround me-3" style="background-image: url(assets/images/users/4.jpg)"></span>
+             <span class="avatar avatar-lg brround me-3" style="background-image: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>)"></span>
              <div class="mt-1"> <a href="#" class="font-weight-semibold fs-16">Liam <span class="text-muted font-weight-normal">Sent Message</span></a> <span class="clearfix"></span> <span class="text-muted fs-13 ms-auto"><i class="mdi mdi-clock text-muted me-1"></i>30 mins ago</span> </div>
              <div class="ms-auto">
                 <a href="" class="me-0 option-dots" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-horizontal"></span> </a>
@@ -34,7 +34,7 @@
        </div>
        <div class="list-group-item  align-items-center  border-bottom">
           <div class="d-flex">
-             <span class="avatar avatar-lg brround me-3" style="background-image: url(assets/images/users/10.jpg)"></span>
+             <span class="avatar avatar-lg brround me-3" style="background-image: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>)"></span>
              <div class="mt-1"> <a href="#" class="font-weight-semibold fs-16">Paul<span class="text-muted font-weight-normal"> commented on you post</span></a> <span class="clearfix"></span> <span class="text-muted fs-13 ms-auto"><i class="mdi mdi-clock text-muted me-1"></i>1 hour ago</span> </div>
              <div class="ms-auto">
                 <a href="" class="me-0 option-dots" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-horizontal"></span> </a>
@@ -64,7 +64,7 @@
        </div>
        <div class="list-group-item  align-items-center  border-bottom">
           <div class="d-flex">
-             <span class="avatar avatar-lg brround me-3" style="background-image: url(assets/images/users/9.jpg)"> <span class="avatar-status bg-green"></span> </span>
+             <span class="avatar avatar-lg brround me-3" style="background-image: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>)"> <span class="avatar-status bg-green"></span> </span>
              <div class="mt-1"> <a href="#" class="font-weight-semibold fs-16">Diane<span class="text-muted font-weight-normal"> New Message Received</span></a> <span class="clearfix"></span> <span class="text-muted fs-13 ms-auto"><i class="mdi mdi-clock text-muted me-1"></i>1 day ago</span> </div>
              <div class="ms-auto">
                 <a href="" class="me-0 option-dots" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-horizontal"></span> </a>
@@ -79,7 +79,7 @@
        </div>
        <div class="list-group-item  align-items-center  border-bottom">
           <div class="d-flex">
-             <span class="avatar avatar-lg brround me-3" style="background-image: url(assets/images/users/5.jpg)"> <span class="avatar-status bg-muted"></span> </span>
+             <span class="avatar avatar-lg brround me-3" style="background-image: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>)"> <span class="avatar-status bg-muted"></span> </span>
              <div class="mt-1"> <a href="#" class="font-weight-semibold fs-16">Vinny<span class="text-muted font-weight-normal"> shared your post</span></a> <span class="clearfix"></span> <span class="text-muted fs-13 ms-auto"><i class="mdi mdi-clock text-muted me-1"></i>2 days ago</span> </div>
              <div class="ms-auto">
                 <a href="" class="me-0 option-dots" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-horizontal"></span> </a>
@@ -109,7 +109,7 @@
        </div>
        <div class="list-group-item  align-items-center  border-bottom">
           <div class="d-flex">
-             <span class="avatar avatar-lg brround me-3" style="background-image: url(assets/images/users/12.jpg)"> <span class="avatar-status bg-green"></span> </span>
+             <span class="avatar avatar-lg brround me-3" style="background-image: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>)"> <span class="avatar-status bg-green"></span> </span>
              <div class="mt-1"> <a href="#" class="font-weight-semibold fs-16">Vinny<span class="text-muted font-weight-normal"> shared your post</span></a> <span class="clearfix"></span> <span class="text-muted fs-13 ms-auto"><i class="mdi mdi-clock text-muted me-1"></i>04 Jan 2021 1:56 Am</span> </div>
              <div class="ms-auto">
                 <a href="" class="me-0 option-dots" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-horizontal"></span> </a>
@@ -124,7 +124,7 @@
        </div>
        <div class="list-group-item  align-items-center  border-bottom">
           <div class="d-flex">
-             <span class="avatar avatar-lg brround me-3" style="background-image: url(assets/images/users/8.jpg)"> </span>
+             <span class="avatar avatar-lg brround me-3" style="background-image: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>)"> </span>
              <div class="mt-1"> <a href="#" class="font-weight-semibold fs-16">Anna<span class="text-muted font-weight-normal"> likes your post</span></a> <span class="clearfix"></span> <span class="text-muted fs-13 ms-auto"><i class="mdi mdi-clock text-muted me-1"></i>25 Dec 2020 11:25 Am</span> </div>
              <div class="ms-auto">
                 <a href="" class="me-0 option-dots" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-horizontal"></span> </a>
@@ -139,7 +139,7 @@
        </div>
        <div class="list-group-item  align-items-center  border-bottom">
           <div class="d-flex">
-             <span class="avatar avatar-lg brround me-3" style="background-image: url(assets/images/users/14.jpg)"> </span>
+             <span class="avatar avatar-lg brround me-3" style="background-image: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>)"> </span>
              <div class="mt-1"> <a href="#" class="font-weight-semibold fs-16">Kimberly<span class="text-muted font-weight-normal"> Completed one task</span></a> <span class="clearfix"></span> <span class="text-muted fs-13 ms-auto"><i class="mdi mdi-clock text-muted me-1"></i>24 Dec 2020 9:30 Pm</span> </div>
              <div class="ms-auto">
                 <a href="" class="me-0 option-dots" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-horizontal"></span> </a>
@@ -154,7 +154,7 @@
        </div>
        <div class="list-group-item  align-items-center  border-bottom">
           <div class="d-flex">
-             <span class="avatar avatar-lg brround me-3" style="background-image: url(assets/images/users/3.jpg)"> </span>
+             <span class="avatar avatar-lg brround me-3" style="background-image: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>)"> </span>
              <div class="mt-1"> <a href="#" class="font-weight-semibold fs-16">Rina<span class="text-muted font-weight-normal"> your account has Updated</span></a> <span class="clearfix"></span> <span class="text-muted fs-13 ms-auto"><i class="mdi mdi-clock text-muted me-1"></i>28 Nov 2020 7:16 Am</span> </div>
              <div class="ms-auto">
                 <a href="" class="me-0 option-dots" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="feather feather-more-horizontal"></span> </a>
@@ -291,7 +291,6 @@
 
 
  <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
- <script src="<?php //echo url_for('assets/js/main.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/sweetalert.min.js'); ?>"></script>
  <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
