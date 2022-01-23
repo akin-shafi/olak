@@ -235,6 +235,35 @@ if (is_get_request()) {
     $response['message'] = 'Department deleted successfully';
   }
 
+  if (isset($_GET['leaveId'])) {
+    $leave = EmployeeLeave::find_by_id($_GET['leaveId']);
+    $leave_status = $_GET['leave_status'];
+
+    switch ($leave_status):
+      case 'pending':
+        $status = 2;
+        break;
+      case 'accept':
+        $status = 3;
+        break;
+      default:
+        $status = 4;
+        break;
+    endswitch;
+
+    $args = [
+      'status' => $status,
+      'approved_by' => $loggedInAdmin->id,
+      'date_approved' => date('Y-m-d'),
+    ];
+
+    $leave->merge_attributes($args);
+    $leave->save();
+
+    http_response_code(200);
+    $response['message'] = 'Status updated successfully!';
+  }
+
   if (isset($_GET['emId'])) {
     $loan = EmployeeLoan::find_by_employee_id($_GET['emId']);
     $status = $_GET['status'];

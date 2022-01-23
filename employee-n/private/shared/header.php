@@ -136,7 +136,7 @@ $user = $loggedInAdmin;
                                  <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                                     <div class="d-flex ms-auto">
                                        <a class="nav-link my-auto icon p-0 nav-link-lg d-md-none navsearch" href="#" data-bs-toggle="search"> <i class="feather feather-search search-icon header-icon"></i> </a>
-                                       <div class="dropdown header-flags d-none">
+                                       <!-- <div class="dropdown header-flags d-none">
                                           <a class="nav-link icon" data-bs-toggle="dropdown"> <img src="<?php echo url_for('assets/images/flags/flag-png/united-kingdom.png') ?>" class="h-24" alt="img"> </a>
                                           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow animated">
                                              <a href="#" class="dropdown-item d-flex ">
@@ -160,7 +160,7 @@ $user = $loggedInAdmin;
                                                 <div class="d-flex"> <span class="my-auto">Spain</span> </div>
                                              </a>
                                           </div>
-                                       </div>
+                                       </div> -->
                                        <div class="dropdown header-fullscreen"> <a class="nav-link icon full-screen-link"> <i class="feather feather-maximize fullscreen-button fullscreen header-icons"></i> <i class="feather feather-minimize fullscreen-button exit-fullscreen header-icons"></i> </a> </div>
                                        <div class="dropdown header-message">
                                           <a class="nav-link icon" data-bs-toggle="dropdown"> <i class="feather feather-mail header-icon"></i> <span class="badge badge-success side-badge">5</span> </a>
@@ -168,7 +168,7 @@ $user = $loggedInAdmin;
                                              <div class="header-dropdown-list message-menu" id="message-menu">
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/1.jpg" style="background: url(&quot;assets/images/users/1.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/1.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Jack Wright</h6>
@@ -180,7 +180,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/2.jpg" style="background: url(&quot;assets/images/users/2.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/2.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Lisa Rutherford</h6>
@@ -192,7 +192,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/3.jpg" style="background: url(&quot;assets/images/users/3.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/3.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Blake Walker</h6>
@@ -204,7 +204,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/4.jpg" style="background: url(&quot;assets/images/users/4.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/4.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Fiona Morrison</h6>
@@ -216,7 +216,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/6.jpg" style="background: url(&quot;assets/images/users/6.jpg&quot;) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/6.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Stewart Bond</h6>
@@ -254,7 +254,7 @@ $user = $loggedInAdmin;
                                                 <i class="feather feather-edit-2 me-3 fs-16 my-auto"></i>
                                                 <div class="mt-1">Change Password</div>
                                              </a>
-                                             <a class="dropdown-item d-flex" href="login-1.html">
+                                             <a class="dropdown-item d-flex" href="<?php echo url_for('logout.php') ?>">
                                                 <i class="feather feather-power me-3 fs-16 my-auto"></i>
                                                 <div class="mt-1">Sign Out</div>
                                              </a>

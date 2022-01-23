@@ -231,9 +231,58 @@
                 <label>Name <span class="text-danger">*</span></label>
                 <input class="form-control" name="leave[name]" id="leave_name" type="text" placeholder="Leave Type">
               </div>
+
+              <div class="form-group">
+                <label>Duration <span class="text-danger">*</span></label>
+                <input class="form-control" name="leave[duration]" id="leave_duration" type="text" placeholder="Duration of leave">
+              </div>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" id="add_e_type_btn">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade select_leave" id="leave_modal" aria-hidden="true">
+      <div class="modal-dialog" role="document" data-select2-id="select2-data-26-l5v6">
+        <div class="modal-content" data-select2-id="select2-data-25-cvqx">
+          <div class="modal-header">
+            <h5 class="modal-title">Apply Leaves</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+          </div>
+          <form id="add_leave_form">
+            <div class="modal-body">
+              <div class="leave-types" data-select2-id="select2-data-24-j2g1">
+                <div class="leave-content" id="multiple" style="display: block;">
+                  <div class="form-group">
+                    <label class="form-label">Leave Date Range:</label>
+                    <div class="input-group">
+                      <input type="text" name="daterange" class="form-control" placeholder="select dates">
+                      <div class="input-group-append">
+                        <div class="input-group-text"> <i class="bx bx-calendar"></i> </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Leaves Types</label>
+                  <select name="leave[leave_type]" class="select2" data-placeholder="Select Leave Type" id="select-leave">
+                    <option label="select"></option>
+                    <?php foreach (EmployeeLeaveType::find_by_undeleted() as $leaveType) : ?>
+                      <option value="<?php echo $leaveType->id ?>"><?php echo ucwords($leaveType->name) ?></option>
+                    <?php endforeach; ?>
+
+                  </select>
+                </div>
+                <div class="form-group"> <label class="form-label">Reason:</label> <textarea name="leave[reason]" class="form-control" rows="5"></textarea> </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="ms-auto"> <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
             </div>
           </form>
         </div>

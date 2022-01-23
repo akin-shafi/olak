@@ -15,8 +15,9 @@ $user = $loggedInAdmin;
       <title><?php echo $page_title; ?></title>
       <!--Favicon -->
 
-      <!-- <link rel="icon" type="image/x-icon" href="<?php //echo url_for('assets/images/brand/favicon.ico') ?>" sizes="16x16" /> -->
-     
+      <!-- <link rel="icon" type="image/x-icon" href="<?php //echo url_for('assets/images/brand/favicon.ico') 
+                                                      ?>" sizes="16x16" /> -->
+
       <!-- <link rel="icon" type="image/png" href="/favicon16x16.png" > -->
       <link rel="icon" href="<?php echo url_for('assets/images/brand/favicon.ico') ?>" type="image/x-icon">
       <!-- Bootstrap css -->
@@ -37,7 +38,8 @@ $user = $loggedInAdmin;
       <!-- Select2 css -->
       <link href="<?php //echo url_for('assets/plugins/select2/select2.min.css') 
                   ?>" rel="stylesheet" />
-
+      <link rel="stylesheet" href="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.css') ?>">
+      <link href="<?php echo url_for('assets/plugins/pg-calendar-master/pignose.calendar.css') ?>" rel="stylesheet">
       <link href="<?php echo url_for('assets/plugins/fullcalendar/fullcalendar.css') ?>" rel="stylesheet">
 
       <link href="<?php echo url_for('assets/plugins/modal-datepicker/datepicker.css') ?>" rel="stylesheet">
@@ -107,16 +109,15 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attview.php') ?>">Attendance View</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-overviewcldr.php') ?>">Overview Calender</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attmark.php') ?>">Attendance Mark </a></li>
-                                 
+
                               </ul>
                            </li>
 
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Leaves</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-leaves.php') ?>">Leave Settings</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-leavesapplication.php') ?>">Leave Applications</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-recentleaves.php') ?>">Recent Leaves </a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leaves.php') ?>">Leave Settings</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leavesapplication.php') ?>">Leave Applications</a></li>
                               </ul>
                            </li>
 
@@ -126,8 +127,10 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-empsalary.php') ?>">Employee Salary</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll.php') ?>">Payroll</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll-settings.php') ?>">Payroll Settings</a></li>
-                                 <!-- <li><a class="sub-slide-item" href="<?php //echo url_for('payroll/hr-addpayroll.php') ?>">Add Payroll</a></li> -->
-                                 <!-- <li><a class="sub-slide-item" href="<?php //echo url_for('payroll/hr-editpayroll.php') ?>">Edit Payroll</a></li> -->
+                                 <!-- <li><a class="sub-slide-item" href="<?php //echo url_for('payroll/hr-addpayroll.php') 
+                                                                           ?>">Add Payroll</a></li> -->
+                                 <!-- <li><a class="sub-slide-item" href="<?php //echo url_for('payroll/hr-editpayroll.php') 
+                                                                           ?>">Edit Payroll</a></li> -->
                               </ul>
                            </li>
                            <li><a href="<?php echo url_for('loan/hr-loan.php') ?>" class="slide-item">Loan</a></li>
@@ -138,7 +141,7 @@ $user = $loggedInAdmin;
                            <li><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
 
                            <li><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
-                          
+
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Settings</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
@@ -193,7 +196,7 @@ $user = $loggedInAdmin;
                                  <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                                     <div class="d-flex ms-auto">
                                        <a class="nav-link my-auto icon p-0 nav-link-lg d-md-none navsearch" href="#" data-bs-toggle="search"> <i class="feather feather-search search-icon header-icon"></i> </a>
-                                       
+
                                        <div class="dropdown header-fullscreen"> <a class="nav-link icon full-screen-link"> <i class="feather feather-maximize fullscreen-button fullscreen header-icons"></i> <i class="feather feather-minimize fullscreen-button exit-fullscreen header-icons"></i> </a> </div>
                                        <div class="dropdown header-message">
                                           <a class="nav-link icon" data-bs-toggle="dropdown"> <i class="feather feather-mail header-icon"></i> <span class="badge badge-success side-badge">5</span> </a>

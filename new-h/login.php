@@ -123,6 +123,7 @@ if (is_post_request()) {
                            </div>
                            <div class="card-body border-top-0 pb-6 pt-2">
                               <div class="text-center"> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-facebook-line"></i></span> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-instagram-line"></i></span> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-twitter-line"></i></span> </div>
+                              <a href="../">&leftarrow; Back</a>
                            </div>
                         </div>
                      </div>

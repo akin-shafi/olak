@@ -3,7 +3,7 @@ class EmployeeLeave extends DatabaseObject
 {
 
   protected static $table_name = "leaves";
-  protected static $db_columns = ['id', 'employee_id', 'leave_type', 'date_from', 'date_to', 'duration', 'reason', 'status', 'approved_by', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'leave_type', 'date_from', 'date_to', 'duration', 'reason', 'status', 'approved_by', 'date_approved', 'created_at', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -14,6 +14,7 @@ class EmployeeLeave extends DatabaseObject
   public $reason;
   public $status;
   public $approved_by;
+  public $date_approved;
   public $created_at;
   public $deleted;
 
@@ -27,6 +28,7 @@ class EmployeeLeave extends DatabaseObject
     $this->reason           = $args['reason'] ?? '';
     $this->status           = $args['status'] ?? 1;
     $this->approved_by      = $args['approved_by'] ?? '';
+    $this->date_approved    = $args['date_approved'] ?? date('Y-m-d');
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted          = $args['deleted'] ?? '';
   }

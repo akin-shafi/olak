@@ -405,14 +405,14 @@ $datatable = '';
                               <td class="text-start fs-13">1</td>
                               <td class="pl-0">
                                  <div class="d-flex">
-                                    <div class="table_img brround bg-orange-transparent  me-3"> <img src="../../assets/images/photos/html.png" alt="img" class="brround"> </div>
+                                    <div class="table_img brround bg-orange-transparent  me-3"> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img" class="brround"> </div>
                                     <div class="my-auto">
                                        <h5 class="mb-0 font-weight-medium">Html Business Template</h5>
                                     </div>
                                  </div>
                               </td>
                               <td class="text-start">
-                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="../../assets/images/users/12.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/3.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/2.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/5.jpg" alt="img"> </div>
+                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> </div>
                               </td>
                               <td class="text-start">19 Feb 2020</td>
                               <td class="text-start"><a href="" class="btn btn-outline-success btn-block">Completed</a></td>
@@ -422,14 +422,14 @@ $datatable = '';
                               <td class="text-start">2</td>
                               <td class="pl-0">
                                  <div class="d-flex">
-                                    <div class="table_img brround bg-pink-transparent  me-3"> <img src="../../assets/images/photos/xd.png" alt="img" class="brround"> </div>
+                                    <div class="table_img brround bg-pink-transparent  me-3"> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img" class="brround"> </div>
                                     <div class="my-auto">
                                        <h5 class="mb-0 font-weight-medium">Adobe xd Education Template</h5>
                                     </div>
                                  </div>
                               </td>
                               <td class="text-start">
-                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="../../assets/images/users/4.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/2.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/12.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/15.jpg" alt="img"> </div>
+                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> </div>
                               </td>
                               <td class="text-start">24 Feb 2020</td>
                               <td class="text-start"><a href="" class="btn btn-block btn-primary">Accept</a></td>
@@ -439,14 +439,14 @@ $datatable = '';
                               <td class="text-start">3</td>
                               <td class="pl-0">
                                  <div class="d-flex">
-                                    <div class="table_img brround bg-warning-transparent  me-3"> <img src="../../assets/images/photos/js.png" alt="img" class="brround"> </div>
+                                    <div class="table_img brround bg-warning-transparent  me-3"> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img" class="brround"> </div>
                                     <div class="my-auto">
                                        <h5 class="mb-0 font-weight-medium">js recent Plugin Updated</h5>
                                     </div>
                                  </div>
                               </td>
                               <td class="text-start">
-                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="../../assets/images/users/7.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/8.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/9.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/10.jpg" alt="img"> </div>
+                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> </div>
                               </td>
                               <td class="text-start">5 Mar 2020</td>
                               <td class="text-start"><a href="" class="btn btn-block btn-primary">Accept</a></td>
@@ -456,14 +456,14 @@ $datatable = '';
                               <td class="text-start">4</td>
                               <td class="pl-0">
                                  <div class="d-flex">
-                                    <div class="table_img brround bg-pink-transparent  me-3"> <img src="../../assets/images/photos/sass.png" alt="img" class="brround"> </div>
+                                    <div class="table_img brround bg-pink-transparent  me-3"> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img" class="brround"> </div>
                                     <div class="my-auto">
                                        <h5 class="mb-0 font-weight-medium">Sass Development Program</h5>
                                     </div>
                                  </div>
                               </td>
                               <td class="text-start">
-                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="../../assets/images/users/5.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/6.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/1.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/12.jpg" alt="img"> </div>
+                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> </div>
                               </td>
                               <td class="text-start">14 Mar 2020</td>
                               <td class="text-start"><a href="" class="btn btn-block btn-outline-success">Completed</a></td>
@@ -473,14 +473,14 @@ $datatable = '';
                               <td class="text-start">5</td>
                               <td class="pl-0">
                                  <div class="d-flex">
-                                    <div class="table_img brround bg-danger-transparent  me-3"> <img src="../../assets/images/photos/angular.png" alt="img" class="brround"> </div>
+                                    <div class="table_img brround bg-danger-transparent  me-3"> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img" class="brround"> </div>
                                     <div class="my-auto">
                                        <h5 class="mb-0 font-weight-medium">Angular Development</h5>
                                     </div>
                                  </div>
                               </td>
                               <td class="text-start">
-                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="../../assets/images/users/6.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/11.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/14.jpg" alt="img"> <img class="avatar avatar-md brround" src="../../assets/images/users/1.jpg" alt="img"> </div>
+                                 <div class="avatar-list avatar-list-stacked"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> <img class="avatar avatar-md brround" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img"> </div>
                               </td>
                               <td class="text-start">20 Mar 2020</td>
                               <td class="text-start"><a href="" class="btn btn-block btn-primary">Accept</a></td>
@@ -507,7 +507,7 @@ $datatable = '';
                   <tbody>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/4.jpg" alt="media1">
+                           <img class="w-8 h-8 bradius me-3" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="media1">
                            <div class="my-auto">
                               <a href="#" class="mb-1 font-weight-semibold fs-16">Jennifer Kerr</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
@@ -517,7 +517,7 @@ $datatable = '';
                      </tr>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/6.jpg" alt="media1">
+                           <img class="w-8 h-8 bradius me-3" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="media1">
                            <div class="my-auto">
                               <a href="#" class="mb-1 font-weight-semibold fs-16">Rebecca Cameron</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
@@ -527,7 +527,7 @@ $datatable = '';
                      </tr>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/2.jpg" alt="media1">
+                           <img class="w-8 h-8 bradius me-3" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="media1">
                            <div class="my-auto">
                               <a href="#" class="mb-1 font-weight-semibold fs-16">Jessica Johnston</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
@@ -537,7 +537,7 @@ $datatable = '';
                      </tr>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/7.jpg" alt="media1">
+                           <img class="w-8 h-8 bradius me-3" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="media1">
                            <div class="my-auto">
                               <a href="#" class="mb-1 font-weight-semibold fs-16">Lily Ball</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>
@@ -547,7 +547,7 @@ $datatable = '';
                      </tr>
                      <tr>
                         <td class="d-flex">
-                           <img class="w-8 h-8 bradius me-3" src="../../assets/images/users/12.jpg" alt="media1">
+                           <img class="w-8 h-8 bradius me-3" src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="media1">
                            <div class="my-auto">
                               <a href="#" class="mb-1 font-weight-semibold fs-16">Yadira Acklin</a>
                               <p class="text-muted fs-13 mb-0">19 Feb 2020 26 Years Old</p>

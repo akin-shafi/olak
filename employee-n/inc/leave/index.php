@@ -50,11 +50,18 @@ if (is_post_request()) {
 }
 
 if (is_get_request()) {
-  if (isset($_GET['employeeId']) && !isset($_GET['deleted'])) {
-    $leave = EmployeeLeave::find_by_id($_GET['employeeId']);
+  if (isset($_GET['leaveId']) && !isset($_GET['deleted'])) {
+    $leave = EmployeeLeave::find_by_id($_GET['leaveId']);
 
     http_response_code(200);
     $response['data'] = $leave;
+  }
+
+  if (isset($_GET['deleted'])) {
+    EmployeeLeave::deleted($_GET['leaveId']);
+
+    http_response_code(200);
+    $response['message'] = 'Record deleted successfully';
   }
 
   if (isset($_GET['clear_loan'])) {

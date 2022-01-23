@@ -203,62 +203,6 @@ $datatable = '';
           </div>
         </div>
 
-        <div class="col-xl-6 col-md-12 col-lg-12">
-          <div class="card">
-            <div class="card-header  border-0">
-              <h4 class="card-title">Leave Type</h4>
-              <div class="page-rightheader ms-md-auto">
-                <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
-                  <div class="btn-list">
-                    <a href="#" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#leave_type_modal">
-                      Add Leave Type</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-body">
-              <div class="table-responsive">
-                <div id="hr-table_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="leave-table" role="grid" aria-describedby="hr-table_info">
-                        <thead>
-                          <tr role="row">
-                            <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 24.3576px;">#ID</th>
-                            <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 678.872px;">Leave Type</th>
-                            <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 291.771px;">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php $sn = 1;
-                          foreach (EmployeeLeaveType::find_by_undeleted() as $leave) : ?>
-                            <tr>
-                              <td><?php echo $sn++ ?></td>
-                              <td><?php echo ucwords($leave->name) ?></td>
-
-                              <td>
-                                <a class="btn btn-primary btn-icon btn-sm" data-id="<?php echo $leave->id ?>" id="edit_leave">
-                                  <i class="feather feather-edit" data-bs-toggle="tooltip" data-original-title="Edit" data-bs-original-title="" title=""></i>
-                                </a>
-                                <a class="btn btn-danger btn-icon btn-sm" data-id="<?php echo $leave->id ?>" id="delete_leave">
-                                  <i class="feather feather-trash-2"></i>
-                                </a>
-                              </td>
-                            </tr>
-                          <?php endforeach; ?>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
@@ -343,7 +287,6 @@ $datatable = '';
     const companyForm = document.getElementById("add_company_form");
     const branchForm = document.getElementById("add_branch_form");
     const eTypeForm = document.getElementById("add_eType_form");
-    const leaveForm = document.getElementById("add_leave_form");
 
     companyForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -360,9 +303,5 @@ $datatable = '';
       submitForm(SETTING_URL, eTypeForm);
     });
 
-    leaveForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitForm(SETTING_URL, leaveForm);
-    });
   })
 </script>

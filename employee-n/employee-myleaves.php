@@ -1,6 +1,8 @@
 <?php
 require_once('private/initialize.php');
 
+$user = $loggedInAdmin;
+
 $page = 'My Leaves';
 $page_title = 'My Leaves';
 include(SHARED_PATH . '/header.php');
@@ -29,7 +31,7 @@ $datatable = '';
 
                   <div class="row">
                      <div class="col-sm-12">
-                        <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" role="grid" aria-describedby="emp-attendance_info">
+                        <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="leave-table" role="grid" aria-describedby="emp-attendance_info">
                            <thead>
                               <tr role="row">
                                  <th class="border-bottom-0 text-center sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 21.5208px;">#ID</th>
@@ -37,23 +39,22 @@ $datatable = '';
                                  <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="From: activate to sort column ascending" style="width: 70.625px;">From</th>
                                  <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="TO: activate to sort column ascending" style="width: 70.625px;">TO</th>
                                  <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Days: activate to sort column ascending" style="width: 76.3125px;">Days</th>
-                                 <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Reason: activate to sort column ascending" style="width: 146.542px;">Reason</th>
                                  <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Applied On: activate to sort column ascending" style="width: 70.625px;">Applied On</th>
                                  <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 75.0417px;">Status</th>
                                  <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="width: 120px;">Action</th>
                               </tr>
                            </thead>
                            <tbody>
-                              <?php foreach (EmployeeLeave::find_by_undeleted() as $leave) :
+                              <?php $sn = 1;
+                              foreach (EmployeeLeave::find_by_employee_leaves($user->id) as $leave) :
                                  $leave_type = EmployeeLeaveType::find_by_id($leave->leave_type)->name;
                               ?>
                                  <tr>
-                                    <td class="text-center">1</td>
+                                    <td class="text-center"><?php echo $sn++ ?></td>
                                     <td><?php echo ucwords($leave_type); ?></td>
                                     <td><?php echo date('Y-m-d', strtotime($leave->date_from)) ?></td>
                                     <td><?php echo date('Y-m-d', strtotime($leave->date_to)) ?></td>
                                     <td class="font-weight-semibold"><?php echo ucwords($leave->duration) ?></td>
-                                    <td><?php echo ucfirst($leave->reason) ?></td>
                                     <td><?php echo date('Y-m-d', strtotime($leave->created_at)) ?></td>
                                     <td> <?php
                                           switch ($leave->status):
@@ -71,7 +72,11 @@ $datatable = '';
                                                 break;
                                           endswitch;
                                           ?> </td>
-                                    <td class="text-start d-flex"> <a href="#" class="action-btns1" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a> <a href="#" class="action-btns1" data-id="<?php echo $leave->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> <a href="#" class="action-btns1" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a> </td>
+                                    <td class="text-start d-flex">
+                                       <a href="#" class="action-btns1" id="view_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a>
+                                       <a href="#" class="action-btns1" id="delete_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a>
+                                       <a href="#" class="action-btns1" id="report_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a>
+                                    </td>
                                  </tr>
                               <?php endforeach; ?>
                            </tbody>
@@ -135,29 +140,11 @@ $datatable = '';
                <table class="table mb-0">
                   <tbody>
                      <tr>
-                        <td class="font-weight-semibold">Leave Type </td>
-                        <td>:</td>
-                        <td>Casual Leave</td>
-                     </tr>
-                     <tr>
-                        <td class="font-weight-semibold">Date</td>
-                        <td>:</td>
-                        <td>16-01-2021</td>
-                     </tr>
-                     <tr>
-                        <td class="font-weight-semibold">Days</td>
-                        <td>:</td>
-                        <td>1 day</td>
-                     </tr>
-                     <tr>
                         <td class="font-weight-semibold">Reason</td>
                         <td>:</td>
-                        <td>Personal</td>
-                     </tr>
-                     <tr>
-                        <td class="font-weight-semibold">Applied On</td>
-                        <td>:</td>
-                        <td>05-01-2021</td>
+                        <td>
+                           <p id="leave_reason"></p>
+                        </td>
                      </tr>
                   </tbody>
                </table>
@@ -189,6 +176,43 @@ $datatable = '';
          }).then(() => location.reload());
       };
 
+      const deleted = async (url) => {
+         swal({
+            title: "Are you sure?",
+            text: "You won't be able to reverse this!",
+            icon: "warning",
+            buttons: {
+               confirm: {
+                  text: "Yes, delete it!",
+                  className: "btn btn-danger",
+               },
+               cancel: {
+                  visible: true,
+                  className: "btn btn-secondary",
+               },
+            },
+         }).then((Delete) => {
+            if (Delete) {
+               fetch(url)
+                  .then((res) => res.json())
+                  .then((data) => {
+                     swal({
+                        title: "Deleted!",
+                        text: data.message,
+                        icon: "success",
+                        buttons: {
+                           confirm: {
+                              className: "btn btn-success",
+                           },
+                        },
+                     }).then(() => location.reload());
+                  });
+            } else {
+               swal.close();
+            }
+         });
+      };
+
       const submitForm = async (url, payload) => {
          const formData = new FormData(payload);
 
@@ -215,6 +239,20 @@ $datatable = '';
       leaveForm.addEventListener("submit", async (e) => {
          e.preventDefault();
          submitForm(LEAVE_URL, leaveForm);
+      });
+
+      $("#leave-table tbody").on("click", "#view_leave", async function() {
+         let id = this.dataset.id;
+
+         let data = await fetch(LEAVE_URL + "?leaveId=" + id);
+         let response = await data.json();
+
+         document.querySelector('#leave_reason').innerHTML = response.data.reason
+      });
+
+      $("#leave-table tbody").on("click", "#delete_leave", function() {
+         let id = this.dataset.id;
+         deleted(LEAVE_URL + "?leaveId=" + id + "&deleted");
       });
    })
 </script>

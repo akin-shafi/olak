@@ -49,7 +49,6 @@
           </div>
         </div>
         <div class="modal-footer">
-          <div class=""> <label class="mb-0 font-weight-semibold">Selected Days:</label> <span class="badge badge-danger badge-pill ms-2">2</span> </div>
           <div class="ms-auto"> <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</a>
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>

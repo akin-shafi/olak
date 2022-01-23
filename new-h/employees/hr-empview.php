@@ -5,7 +5,7 @@ $page = 'Employees';
 $page_title = 'Employees View';
 include(SHARED_PATH . '/header.php');
 $all = Employee::find_by_undeleted(['order' => 'ASC']);
-$my_id = array_values($all)[0]->id; 
+$my_id = array_values($all)[0]->id;
 $id = $_GET['id'] ?? $my_id;
 
 
@@ -15,13 +15,12 @@ $employee = Employee::find_by_id($id);
 
 if (!empty($employee->photo)) {
    $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
-}else{
+} else {
    if ($employee->gender == 'male') {
       $profile_picture = url_for('assets/images/users/male.jpg');
-   }else{
+   } else {
       $profile_picture = url_for('assets/images/users/female.jpg');
    }
-   
 }
 
 $select2 = '';
@@ -36,7 +35,7 @@ $select2 = '';
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-center">
          <!-- <div class="add">Add New Employee</div> -->
-         <a href="<?php echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-primary me-3">Add New Employee</a> 
+         <a href="<?php echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-primary me-3">Add New Employee</a>
          <select name="query[employee_id]" class="select2" data-placeholder="Select Employee" id="query_employee">
             <option label="Select Employee"></option>
             <?php foreach (Employee::find_by_undeleted() as $value) : ?>
@@ -55,9 +54,9 @@ $select2 = '';
    <div class="col-xl-3 col-md-12 col-lg-12">
       <div class="card box-widget widget-user">
          <div class="card-body text-center">
-            <div class="widget-user-image mx-auto text-center"> 
-               <img class="avatar avatar-xxl brround rounded-circle" alt="img" 
-               src="<?php echo $profile_picture; ?>"> </div>
+            <div class="widget-user-image mx-auto text-center">
+               <img class="avatar avatar-xxl brround rounded-circle" alt="img" src="<?php echo $profile_picture; ?>">
+            </div>
             <div class="pro-user mt-3">
                <h5 class="pro-user-username text-dark mb-1 fs-16"><?php echo  $employee->find_by_id($id)->full_name() ?? "Not Set" ?></h5>
                <h6 class="pro-user-desc text-muted fs-12"><?php echo $employee->branch ?? 'Not Set' ?></h6>
@@ -316,7 +315,7 @@ $select2 = '';
                            <div class="col-md-9">
                               <div class="row">
                                  <div class="col-md-6">
-                                    <select name="company[company_id]" value="<?php echo $employee->company_id ?>" id="company_id" class="form-control select2" data-placeholder="Company Name" required>
+                                    <select name="company[company_id]" value="<?php echo $employee->company_id ?>" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
                                        <option label="Company"></option>
                                        <?php foreach (Company::find_by_undeleted() as $value) : ?>
                                           <option value="<?php echo $value->id ?>" <?php echo $value->company_name == $employee->company ? 'selected' : '' ?>><?php echo ucwords($value->company_name) ?></option>
@@ -334,7 +333,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Department</label> </div>
                            <div class="col-md-9">
-                              <select name="company[department_id]" value="<?php echo $employee->department ?>" id="department_id" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
+                              <select name="company[department_id]" value="<?php echo $employee->department ?>" id="department_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
                                  <option label="Select Department"></option>
                                  <?php foreach (Department::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->department == $value->department_name ? 'selected' : '' ?>>
@@ -348,7 +347,7 @@ $select2 = '';
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
-                           <div class="col-md-9"> <select name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
+                           <div class="col-md-9"> <select name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
                                  <option label="Select Branch"></option>
                                  <?php foreach (Branch::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->branch == $value->branch_name ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
@@ -360,7 +359,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
                            <div class="col-md-9">
-                              <select name="company[job_title_id]" value="<?php echo $employee->job_title_id ?>" id="job_title_id" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
+                              <select name="company[job_title_id]" value="<?php echo $employee->job_title_id ?>" id="job_title_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
                                  <option label="Select Employment Title"></option>
                                  <?php foreach (Designation::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->job_title == $value->designation_name ? 'selected' : '' ?>>
@@ -381,7 +380,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employment Type</label> </div>
                            <div class="col-md-9">
-                              <select name="company[employment_type]" value="<?php echo $employee->employment_type ?>" id="employment_type" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
+                              <select name="company[employment_type]" value="<?php echo $employee->employment_type ?>" id="employment_type" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
                                  <option label="Employee Type"></option>
                                  <?php foreach (EmployeeType::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->employment_type == $value->id ? 'selected' : '' ?>><?php echo ucwords($value->name) ?></option>
@@ -510,8 +509,101 @@ $select2 = '';
 
 <script>
    $(document).ready(function() {
+      const message = (req, res) => {
+         swal(req + "!", res, {
+            icon: req,
+            timer: 2000,
+            buttons: {
+               confirm: {
+                  className: req == "error" ? "btn btn-danger" : "btn btn-success",
+               },
+            },
+         }).then(() => location.reload());
+      };
+
+      const deleted = async (url) => {
+         swal({
+            title: "Are you sure?",
+            text: "You won't be able to reverse this!",
+            icon: "warning",
+            buttons: {
+               confirm: {
+                  text: "Yes, delete it!",
+                  className: "btn btn-danger",
+               },
+               cancel: {
+                  visible: true,
+                  className: "btn btn-secondary",
+               },
+            },
+         }).then((Delete) => {
+            if (Delete) {
+               fetch(url)
+                  .then((res) => res.json())
+                  .then((data) => {
+                     swal({
+                        title: "Deleted!",
+                        text: data.message,
+                        icon: "success",
+                        buttons: {
+                           confirm: {
+                              className: "btn btn-success",
+                           },
+                        },
+                     }).then(() => location.reload());
+                  });
+            } else {
+               swal.close();
+            }
+         });
+      };
+
+      const submitForm = async (url, payload) => {
+         const formData = new FormData(payload);
+
+         const data = await fetch(url, {
+            method: "POST",
+            body: formData,
+         });
+
+         const res = await data.json();
+
+         if (res.errors) {
+            message("error", res.errors);
+         }
+
+         if (res.message) {
+            message("success", res.message);
+         }
+      };
 
       const EMPLOYEE_URL = "../inc/employee/";
+      const SETTING_URL = "../inc/setting/";
+
+      const personalForm = document.getElementById("add_personal_form");
+      const employeeCompForm = document.getElementById("add_employee_company_form");
+      const bankForm = document.getElementById("add_bank_form");
+      const docForm = document.getElementById("add_doc_form");
+
+      personalForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, personalForm);
+      });
+
+      employeeCompForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, employeeCompForm);
+      });
+
+      bankForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, bankForm);
+      });
+
+      docForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, docForm);
+      });
 
       $('#query_employee').select2().on("change", async () => {
          let emp_id = $("#query_employee").val()
@@ -549,5 +641,6 @@ $select2 = '';
 
 
       });
+
    });
 </script>
