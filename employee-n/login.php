@@ -1,39 +1,39 @@
 <?php
-require_once('private/initialize.php');
-$errors = [];
-$email = '';
-$password = '';
-if (is_post_request()) {
-   $login = $_POST['login'] ?? '';
+   require_once('private/initialize.php');
+   $errors = [];
+   $email = '';
+   $password = '';
+   if (is_post_request()) {
+      $login = $_POST['login'] ?? '';
 
-   $email = $login['email'] ?? '';
-   $password = $login['password'] ?? '';
+      $email = $login['email'] ?? '';
+      $password = $login['password'] ?? '';
 
-   if (is_blank($email)) {
-      $errors[] = "Email cannot be blank.";
-   }
-   if (is_blank($password)) {
-      $errors[] = "Password cannot be blank.";
-   }
-
-   if (empty($errors)) {
-      $employee = Employee::find_by_email($email);
-
-      if ($employee != false && $employee->verify_password($password)) {
-         $session->logout(true);
-         $session->logout('', true);
-
-         $session->login($employee);
-
-         log_action('Employee Login', "{$employee->full_name()} Logged in.", "login");
-         redirect_to(url_for('/dashboard'));
-      } else {
-         $errors[] = "Log in not successful.";
+      if (is_blank($email)) {
+         $errors[] = "Email cannot be blank.";
       }
+      if (is_blank($password)) {
+         $errors[] = "Password cannot be blank.";
+      }
+
+      if (empty($errors)) {
+         $employee = Employee::find_by_email($email);
+
+         if ($employee != false && $employee->verify_password($password)) {
+            $session->logout(true);
+            $session->logout('', true);
+
+            $session->login($employee);
+
+            log_action('Employee Login', "{$employee->full_name()} Logged in.", "login");
+            redirect_to(url_for('/dashboard'));
+         } else {
+            $errors[] = "Log in not successful.";
+         }
+      }
+   } else {
+      $employee = new Employee;
    }
-} else {
-   $employee = new Employee;
-}
 ?>
 <!DOCTYPE html>
 <html>
