@@ -6,6 +6,7 @@ $page_title = 'Payroll';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 $select2 = '';
+$employees = Employee::find_by_undeleted();
 ?>
 
 <div class="page-header d-xl-flex d-block">
@@ -31,21 +32,10 @@ $select2 = '';
                      <label class="form-label">Employee Name:</label>
                      <select name="attendance" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Employee" tabindex="-1" aria-hidden="true" data-select2-id="select2-data-25-irhg">
                         <option label="Select Employee" data-select2-id="select2-data-27-u6o2"></option>
-                        <option value="1" data-select2-id="select2-data-68-qxxj">Faith Harris</option>
-                        <option value="2" data-select2-id="select2-data-69-4h6e">Austin Bell</option>
-                        <option value="3" data-select2-id="select2-data-70-n21p">Maria Bower</option>
-                        <option value="4" data-select2-id="select2-data-71-ud4x">Peter Hill</option>
-                        <option value="5" data-select2-id="select2-data-72-bsgz">Victoria Lyman</option>
-                        <option value="6" data-select2-id="select2-data-73-7491">Adam Quinn</option>
-                        <option value="7" data-select2-id="select2-data-74-jipj">Melanie Coleman</option>
-                        <option value="8" data-select2-id="select2-data-75-xx3l">Max Wilson</option>
-                        <option value="9" data-select2-id="select2-data-76-vdk3">Amelia Russell</option>
-                        <option value="10" data-select2-id="select2-data-77-3m24">Justin Metcalfe</option>
-                        <option value="11" data-select2-id="select2-data-78-n5lu">Ryan Young</option>
-                        <option value="12" data-select2-id="select2-data-79-v0s5">Jennifer Hardacre</option>
-                        <option value="13" data-select2-id="select2-data-80-qste">Justin Parr</option>
-                        <option value="14" data-select2-id="select2-data-81-v041">Julia Hodges</option>
-                        <option value="15" data-select2-id="select2-data-82-osf2">Michael Sutherland</option>
+                        <?php foreach ($employees as $key => $value) { ?>
+                           <option value="<?php echo $value->employee_id  ?>" data-select2-id="select2-data-68-qxxj">
+                              <?php echo Employee::find_by_id($value->id)->full_name()  ?></option>
+                        <?php } ?>
                      </select>
 
                   </div>
@@ -61,21 +51,26 @@ $select2 = '';
                         <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-payroll" role="grid" aria-describedby="hr-payroll_xxinfo">
                            <thead>
                               <tr role="row">
-                                 <th class="border-bottom-0 w-5 sorting" tabindex="0" aria-controls="hr-payroll" rowspan="1" colspan="1" aria-label="#Emp ID: activate to sort column ascending" style="width: 52.8993px;">#Emp ID</th>
-                                 <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-payroll" rowspan="1" colspan="1" aria-label="Emp Name: activate to sort column ascending" style="width: 174.41px;">Emp Name</th>
-                                 <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-payroll" rowspan="1" colspan="1" aria-label="(₦) Salary: activate to sort column ascending" style="width: 61.6146px;">(₦) Salary</th>
-                                 <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-payroll" rowspan="1" colspan="1" aria-label="(₦) Salary Advance: activate to sort column ascending" style="width: 61.6146px;">(₦) Salary Advance</th>
-                                 <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-payroll" rowspan="1" colspan="1" aria-label="(₦) Loan: activate to sort column ascending" style="width: 61.6146px;">(₦) Loan</th>
-                                 <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-payroll" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 63.0382px;">Status</th>
-                                 <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 260.503px;">Actions</th>
+                                 <th>#Emp ID</th>
+                                 <th>#Emp Name</th>
+                                 <th>(₦) Salary</th>
+                                 <th>(₦) Salary Advance</th>
+                                 <th>(₦) Loan</th>
+                                 <th>(₦) Take Home</th>
+                                 <th>Status</th>
+                                 <th>Action</th>
                               </tr>
                            </thead>
                            <tbody>
                               <?php foreach (Employee::find_by_undeleted() as $value) :
                                  $empLoan = EmployeeLoan::find_by_employee_id($value->id);
+                                 $salary_advance = SalaryAdvance::find_by_employee_id($value->id);
+                                 $salary = intval($value->present_salary);
+                                 $take_home = intval($salary) - intval($empLoan);
+                                 $sn = 1;
                               ?>
                                  <tr>
-                                    <td>#<?php echo $value->id ?></td>
+                                    <td><?php echo $sn++ ; ?></td>
                                     <td>
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
@@ -85,17 +80,15 @@ $select2 = '';
                                           </div>
                                        </div>
                                     </td>
-                                    <td class="font-weight-semibold"><?php echo number_format(intval($value->present_salary)) ?></td>
+                                    <td><?php echo number_format($salary) ?></td>
                                     <td>
-                                       <?php echo isset($empLoan->type) && $empLoan->type == '1'
-                                          ? number_format($empLoan->amount) : '0.00' ?>
+                                       <?php echo !empty($salary_advance->total_requested) ? number_format($salary_advance->total_requested) : '0.00' ?>
                                     </td>
                                     <td>
-                                       <?php echo isset($empLoan->type) && $empLoan->type == '2'
-                                          ? number_format($empLoan->amount) : '0.00' ?>
+                                       <?php echo !empty($empLoan->amount) ? number_format($empLoan->amount) : '0.00' ?>
                                     </td>
-
-                                    <td><span class="badge badge-warning">Nill</span></td>
+                                    <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
+                                    <td><span class="badge badge-danger">Unpaid</span></td>
                                     <td class="text-start"> <a href="#" class="action-btns" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a></td>
                                  </tr>
                               <?php endforeach; ?>

@@ -526,7 +526,7 @@ include(SHARED_PATH . '/header.php');
 </div>
 
 <?php include(SHARED_PATH . '/footer.php') ?>
-
+ 
 <script>
    $(document).ready(function() {
       const message = (req, res) => {

@@ -238,7 +238,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-primary" id="add_e_type_btn">Submit</button>
+              <button class="btn btn-primary" id="add_l_type_btn">Submit</button>
             </div>
           </form>
         </div>

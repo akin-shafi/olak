@@ -729,9 +729,7 @@ $datatable = '';
    </div>
 </div>
 
-</div>
-</div>
-<!-- end app-content-->
+
 
 <?php include(SHARED_PATH . '/footer.php') ?>
 
