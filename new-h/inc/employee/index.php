@@ -13,6 +13,43 @@ $response = [
 
 if (is_post_request()) {
 
+  if (isset($_POST['leave'])) {
+    $args = $_POST['leave'];
+
+    if (isset($_POST['leaveId'])) :
+      $leave = EmployeeLeave::find_by_id($_POST['leaveId']);
+
+      $leave->merge_attributes($args);
+      $leave->save();
+
+      http_response_code(200);
+      $response['message'] = 'Employee leave updated successfully';
+    else :
+
+      $dateRange  = $_POST['daterange'];
+      $ex         = explode('-', $dateRange);
+      $from       = $ex[0];
+      $to         = $ex[1];
+      $duration   = time_diff_string($from, $to, true);
+
+      $args['employee_id']  = $loggedInAdmin->id;
+      $args['date_from']    = date('Y-m-d', strtotime($from));
+      $args['date_to']      = date('Y-m-d', strtotime($to));
+      $args['duration']     = $duration;
+
+      $leave = new EmployeeLeave($args);
+      $leave->save();
+
+      if ($leave->errors) :
+        http_response_code(401);
+        $response['errors'] = $leave->errors[0];
+      else :
+        http_response_code(201);
+        $response['message'] = 'Employee leave created successfully!';
+      endif;
+    endif;
+  }
+
   if (isset($_POST['personal'])) {
     if (isset($_POST['personalId'])) {
       $personal = Employee::find_by_id($_POST['personalId']);

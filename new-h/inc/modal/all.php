@@ -255,6 +255,17 @@
           <form id="add_leave_form">
             <div class="modal-body">
               <div class="leave-types" data-select2-id="select2-data-24-j2g1">
+                <div class="form-group">
+                  <label class="form-label">Employee Name</label>
+                  <select name="leave[employee_id]" class="select2" data-placeholder="Select Employee">
+                    <option label="select"></option>
+                    <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
+                      <option value="<?php echo $employee->id ?>">
+                        <?php echo ucwords($employee->full_name()) ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+
                 <div class="leave-content" id="multiple" style="display: block;">
                   <div class="form-group">
                     <label class="form-label">Leave Date Range:</label>
@@ -273,7 +284,6 @@
                     <?php foreach (EmployeeLeaveType::find_by_undeleted() as $leaveType) : ?>
                       <option value="<?php echo $leaveType->id ?>"><?php echo ucwords($leaveType->name) ?></option>
                     <?php endforeach; ?>
-
                   </select>
                 </div>
                 <div class="form-group"> <label class="form-label">Reason:</label> <textarea name="leave[reason]" class="form-control" rows="5"></textarea> </div>

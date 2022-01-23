@@ -198,6 +198,13 @@ include(SHARED_PATH . '/header.php');
 
       const EMPLOYEE_URL = "../inc/employee/";
 
+      const leaveForm = document.getElementById("add_leave_form");
+
+      leaveForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(EMPLOYEE_URL, leaveForm);
+      });
+
       $(".action").on("click", async function() {
          let id = this.dataset.id;
          let action = this.dataset.action;
