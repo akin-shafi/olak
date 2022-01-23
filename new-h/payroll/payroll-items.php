@@ -56,54 +56,30 @@ $select2 = '';
 						            <thead>
 						               <tr>
 						                  <th>Name</th>
-						                  <th>Category</th>
-						                  <th>Default/Unit Amount</th>
+						                  <!-- <th>Category</th> -->
+						                  <th>Default(Unit Amount/Percentage)</th>
 						                  <th class="text-end">Action</th>
 						               </tr>
 						            </thead>
 						            <tbody>
-						               <tr>
-						                  <th>Leave balance amount</th>
-						                  <td>Monthly remuneration</td>
-						                  <td>$5</td>
-						                  <td class="text-end">
-						                     <div class="dropdown dropdown-action">
-						                        <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-						                        <div class="dropdown-menu dropdown-menu-right">
-						                           <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_addition"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-						                           <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_addition"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-						                        </div>
-						                     </div>
-						                  </td>
-						               </tr>
-						               <tr>
-						                  <th>Arrears of salary</th>
-						                  <td>Additional remuneration</td>
-						                  <td>$8</td>
-						                  <td class="text-end">
-						                     <div class="dropdown dropdown-action">
-						                        <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-						                        <div class="dropdown-menu dropdown-menu-right">
-						                           <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_addition"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-						                           <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_addition"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-						                        </div>
-						                     </div>
-						                  </td>
-						               </tr>
-						               <tr>
-						                  <th>Gratuity</th>
-						                  <td>Monthly remuneration</td>
-						                  <td>$20</td>
-						                  <td class="text-end">
-						                     <div class="dropdown dropdown-action">
-						                        <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-						                        <div class="dropdown-menu dropdown-menu-right">
-						                           <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_addition"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-						                           <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_addition"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-						                        </div>
-						                     </div>
-						                  </td>
-						               </tr>
+						            	<?php  
+						            		foreach (PayrollItem::find_by_category(1) as $key => $value) { ?>
+							               <tr>
+							                  <th><?php echo $value->item; ?></th>
+							                  <td><?php echo $value->amount ?></td>
+							                  <td class="text-start"> 
+							                  	
+
+							                  	<a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> 
+
+							                  	<a href="#" class="action-btns" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-trash text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> 
+
+							                  	
+							                  </td>
+							               </tr>
+						               <?php 
+						               	 } ?>
+						               
 						            </tbody>
 						         </table>
 						      </div>
@@ -187,50 +163,28 @@ $select2 = '';
 							         <thead>
 							            <tr>
 							               <th>Name</th>
-							               <th>Default/Unit Amount</th>
+							               <th>Default(Unit Amount/Percentage)</th>
 							               <th class="text-end">Action</th>
 							            </tr>
 							         </thead>
 							         <tbody>
-							            <tr>
-							               <th>Absent amount</th>
-							               <td>$12</td>
-							               <td class="text-end">
-							                  <div class="dropdown dropdown-action">
-							                     <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-							                     <div class="dropdown-menu dropdown-menu-right">
-							                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_deduction"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-							                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_deduction"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-							                     </div>
-							                  </div>
-							               </td>
-							            </tr>
-							            <tr>
-							               <th>Advance</th>
-							               <td>$7</td>
-							               <td class="text-end">
-							                  <div class="dropdown dropdown-action">
-							                     <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-							                     <div class="dropdown-menu dropdown-menu-right">
-							                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_deduction"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-							                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_deduction"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-							                     </div>
-							                  </div>
-							               </td>
-							            </tr>
-							            <tr>
-							               <th>Unpaid leave</th>
-							               <td>$3</td>
-							               <td class="text-end">
-							                  <div class="dropdown dropdown-action">
-							                     <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-							                     <div class="dropdown-menu dropdown-menu-right">
-							                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_deduction"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-							                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_deduction"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-							                     </div>
-							                  </div>
-							               </td>
-							            </tr>
+							            <?php  
+						            		foreach (PayrollItem::find_by_category(3) as $key => $value) { ?>
+							               <tr>
+							                  <th><?php echo $value->item; ?></th>
+							                  <td><?php echo $value->amount ?></td>
+							                  <td class="text-start"> 
+							                  	
+
+							                  	<a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> 
+
+							                  	<a href="#" class="action-btns" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-trash text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> 
+
+							                  	
+							                  </td>
+							               </tr>
+						               <?php } ?>
+							            
 							         </tbody>
 							      </table>
 							   </div>
@@ -259,36 +213,32 @@ $select2 = '';
             </button>
          </div>
          <div class="modal-body">
-            <form>
+            <form id="add_item_form">
+            	<input type="hidden" name="addPayrollItem">
                <div class="form-group">
                   <label>Name <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text">
+                  <input class="form-control" type="text" name="item">
                </div>
                <div class="form-group">
                   <label>Category <span class="text-danger">*</span></label>
-                  <select class="select form-control">
+                  <select class="select form-control" name="category">
                      <option>Select a category</option>
-                     <option data-select2-id="select2-data-3-i7pt">Monthly remuneration</option>
-                     <option>Additional remuneration</option>
+                     <?php foreach (PayrollItem::PAYROLL_CATEGORY as $key => $value) : ?>
+	                     <option value="<?php echo $key ?>"><?php echo $value ?></option>
+	                  <?php endforeach ?>
                   </select>
                   
                </div>
+               
                <div class="form-group">
-                  <label class="d-block">Unit calculation</label>
-                  <div class="status-toggle">
-                     <input type="checkbox" id="unit_calculation" class="check">
-                     <label for="unit_calculation" class="checktoggle">checkbox</label>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label>Unit Amount</label>
+                  <label>Unit Amount/Percentage</label>
                   <div class="input-group">
-                     <span class="input-group-text">$</span>
-                     <input type="text" class="form-control">
+                     <span class="input-group-text"><?php echo $currency ?></span>
+                     <input type="text" class="form-control" name="amount">
                      <span class="input-group-text">.00</span>
                   </div>
                </div>
-               <div class="form-group">
+               <!-- <div class="form-group d-none">
                   <label class="d-block">Assignee</label>
                   <div class="form-check form-check-inline">
                      <input class="form-check-input" type="radio" name="addition_assignee" id="addition_no_emp" value="option1" checked="">
@@ -302,22 +252,22 @@ $select2 = '';
                      All employees
                      </label>
                   </div>
-                  <div class="form-check form-check-inline">
+                  <div class="form-check form-check-inline d-none">
                      <input class="form-check-input" type="radio" name="addition_assignee" id="addition_single_emp" value="option3">
                      <label class="form-check-label" for="addition_single_emp">
                      Select Employee
                      </label>
                   </div>
                   <div class="form-group">
-                     <select class="select select2-hidden-accessible" data-select2-id="select2-data-4-gbha" tabindex="-1" aria-hidden="true">
-                        <option data-select2-id="select2-data-6-3351">-</option>
-                        <option>Select All</option>
-                        <option>John Doe</option>
-                        <option>Richard Miles</option>
+                     <select class="select form-control select2 d-none" name="employee_id">
+                        <option data-select2-id="select2-data-6-3351">Select All</option>
+                        <?php foreach (Employee::find_by_undeleted() as $key => $value) : ?>
+	                        <option value="<?php echo $key ?>"><?php echo Employee::find_by_id($value->id)->full_name() ?></option>
+	                     <?php endforeach ?>
                      </select>
                      
                   </div>
-               </div>
+               </div> -->
                <div class="submit-section">
                   <button class="btn btn-primary submit-btn">Submit</button>
                </div>
@@ -333,146 +283,29 @@ $select2 = '';
 <script type="text/javascript">
 	$(document).on('click', '#add_item', function() {
 		$('#add_addition').modal('show')
-	})
+	});
+
+	$(document).on('submit', '#add_item_form', function(e) {
+		e.preventDefault()
+		$.ajax({
+         url: '../inc/payroll/payroll_script.php',
+         method:"POST",
+         data: $(this).serialize(),
+         dataType: 'json',
+         success: function (data) {
+             if (data.success == true) {
+             	$('#add_addition').modal('hide')
+                 successAlert(data.msg);
+             }else{
+                 errorAlert(data.msg);
+             }
+         }
+     })
+  })
+
+  
 </script>
-<!-- <script type="text/javascript">
-	addMultipleFormInput();
-	function addMultipleFormInput(){
 
-
-	   var final_total_amount = $('#final_total_amount').text();
-	      // console.log(final_total_amount)
-	      
-	      var count = 1;
-	      $(document).on('click', '#add', function() {
-	        count = count + 1;
-
-	        if (count <= 1) {
-	          $('.total_item').text(count + ' item');
-	          $('#item_amt').val(count);
-	        } else {
-	          $('.total_item').text(count + ' items');
-	          $('#item_amt').val(count);
-	        }
-
-	        var html_code = '';
-	        html_code += '<tr id="row_id' + count + '">';
-	        html_code += '<td><span id="sr_no">'+count+'.</span></td>';
-	        html_code += '<td><input type="text"  name="category[]" id="category' + count + '" data-srno="' + count + '" class="form-control category" placeholder="Enter Category"></td>';
-	        
-
-	        html_code += '<td><span class="btn remove" id="' + count + '"><i class="fa fa-minus text-danger bold fs-22"></i></span></td>';
-
-	        $('#items').append(html_code);
-
-	      });
-
-
-	      // Remove Item
-
-	      $(document).on('click', '.remove', function() {
-	          var row_id = $(this).attr('id');	          
-	          $('#row_id' + row_id).remove();
-	          count = count - 1;
-	          if (count <= 1) {
-	            $('.total_item').text(count + ' item');
-	            // $('#item_amt').val(count);
-	          } else { 
-	            $('.total_item').text(count + ' items');
-	             // $('#item_amt').val(count);
-	          }
-	      });
-
-
-	      $(document).on('click', '#btnAdd', function(e) {
-	        e.preventDefault();
-	        var error = '';
-	        $('.category').each(function() {
-	          var count = 1;
-	          if ($(this).val() == '') {
-	            $('.category').removeClass('suc');
-	            $('.category').addClass('err');
-	            error += 'Enter item type at row ' + count + '. ';
-	            return false;
-	          } else {
-	            $('.category').removeClass('err');
-	            $('.category').addClass('suc');
-	            return true;
-	          }
-	          count = count + 1;
-	      });
-	      
-
-	      // var formData = $(this).serialize();
-	      if (error == '') {
-	        
-	        $.ajax({
-	          url: 'category/inc/addItem.php',
-	          method: 'POST',
-	          data: $('#itemForm').serialize(),
-	          dataType: 'json',
-	          success: function(r) {
-	            if (r.msg == 'OK') {
-	              $("#addModal").modal("hide");
-	              $("#itemForm")[0].reset();
-	              successAlert("Invoice raised successfully.")
-	              window.location.href = eUrl
-	            }else{
-	                errorAlert("Error: Something went wrong.")
-	            }
-	          }
-	        });
-	      } else {
-	          errorAlert("TO CONTINUE PLEASE, FILL ALL THE NECCESSARY FIELDS.");
-	      }
-
-
-
-	    });
-	     
-	   
-	}
-
-	$(document).on("click", ".editItem", function(){
-	  $("#editModal").modal("show");
-	    var eid = $(this).data('id');
-	    $.ajax({
-	            url: 'category/inc/fetch_form.php',
-	            method: 'post',
-	            data: {
-	              stockForm: 1,
-	              id: eid,
-	            },
-	            success: function(r) {
-	              $("#fetchForm").html(r)       
-	            }
-	    });
-	})
-
-	// Edit Stock
-	
-	$(document).on("click", ".deleteItem", function(){
-	  // $("#editModal").modal("show");
-	    var eid = $(this).data('id');
-	    $.ajax({
-	            url: 'category/inc/category_crud.php',
-	            method: 'post',
-	            data: {
-	              delete: 1,
-	              id: eid,
-	            },
-	            dataType: 'json',
-	            success: function(r) {
-	              if (r.msg == 'OK') {
-	                successTime("Deleted Succesfully");
-	                window.location.href = eUrl
-	              }else{
-	                errorAlert(r.msg)
-	              }         
-	            }
-	    });
-	})
-</script> -->
 
 
 

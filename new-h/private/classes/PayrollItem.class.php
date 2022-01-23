@@ -14,6 +14,18 @@ class PayrollItem extends DatabaseObject
     public $deleted;
     public $counts;
 
+
+    const PAYROLL_CATEGORY = [
+        1 => 'Addition',
+        2 => 'Overtime',
+        3 => 'Deduction',
+    ];
+
+    const ITEM_GROUP = [
+        1 => 'Monthly remuneration',
+        2 => 'Additional remuneration',
+    ];
+
     public function __construct($args=[])
     {
         $this->item = $args['item'] ?? '';
@@ -24,6 +36,19 @@ class PayrollItem extends DatabaseObject
         $this->deleted = $args['deleted'] ?? '';
     }
 
+
+    public static function find_by_category($category)
+    {
+        $sql = "SELECT * FROM " . static::$table_name . " ";
+        $sql .= "WHERE category='" . self::$database->escape_string($category) . "'";
+        $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+        $sql .= " ORDER BY id ASC ";
+        // echo $sql;
+
+        return static::find_by_sql($sql);
+    }
+    
  
    
 }

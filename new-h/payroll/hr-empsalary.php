@@ -8,11 +8,23 @@ $datatable = '';
 $select2 = '';
 ?>
 
+
+
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
       <h4 class="page-title">Employee Salary</h4>
    </div>
-   
+   <div class="page-rightheader ms-md-auto">
+      <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
+         <div class="btn-list mt-3 mt-lg-0"> 
+
+            <button type="button" class="btn btn-primary me-3" id="addSalary">Add Salary</button>
+            
+
+             <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+         </div>
+      </div>
+   </div>
 </div>
 
 <div class="row">
@@ -222,70 +234,71 @@ $select2 = '';
    </div>
 </div>
 
+<div class="modal fade show" id="AddSalaryModal" aria-modal="true" role="dialog">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Add Staff Salary</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form>
+               <div id="salaryField"></div>
+               
+               <div class="submit-section">
+                  <button class="btn btn-primary submit-btn">Submit</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
 
-<script>
-   $(document).ready(function() {
-      const message = (req, res) => {
-         swal(req + "!", res, {
-            icon: req,
-            timer: 2000,
-            buttons: {
-               confirm: {
-                  className: req == "error" ? "btn btn-danger" : "btn btn-success",
-               },
-            },
-         }).then(() => location.reload());
-      };
-
-      const submitForm = async (url, payload) => {
-         const formData = new FormData(payload);
-
-         const data = await fetch(url, {
-            method: "POST",
-            body: formData,
-         });
-
-         const res = await data.json();
-
-         if (res.errors) {
-            message("error", res.errors);
+<script type="text/javascript">
+   function fetch_data(emp_id='') {
+      $.ajax({
+         url: 'inc/script.php',
+         method:"POST",
+         data: {
+            fetch: 1,
+            staff_id: emp_id,
+         },
+         success: function(r) {
+             $("#salaryField").html(r)
          }
+     })
+   }
 
-         if (res.message) {
-            message("success", res.message);
-         }
-      };
-
-      const SETTING_URL = "../inc/setting/generate_payslip.php";
-
-      const generateSlip = document.getElementById("generate_payslip");
-
-      generateSlip.addEventListener("click", async (e) => {
-         $.ajax({
-            url: SETTING_URL,
-            method: "POST",
-            data: {
-               generateSlip: 1,
-            },
-            dataType: "json",
-            success: function(r) {
-               if (r.success == true) {
-                  console.log('welcome back');
-               } else {
-                  // errorAlert("Success email not sent")
-               }
-            }
-         })
-      })
-
-      // generateSlip.addEventListener("click", async (e) => {
-      //    e.preventDefault();
-      //    let data = await fetch(SETTING_URL + '?generate')
-      //    let res = await data.json();
-      //    console.log(res.message);
-      //    console.log(e);
-      // });
+   $(document).on('click', '#addSalary', function(e) {
+      $('#AddSalaryModal').modal('show');
+      fetch_data();
+      
    })
+  
+  $(document).on('change', '#staff_id', function(){
+      var selected = $(this).find('option:selected');
+      var staff_id = $(this).val();
+      var staff_salary = selected.data('salary');
+      var emp_id = staff_id;
+      fetch_data(emp_id);
+
+   })
+   
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
