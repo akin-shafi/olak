@@ -73,7 +73,7 @@ $datatable = '';
               <div class="col-7">
                 <div class="mt-0 text-start">
                   <span class="font-weight-semibold">Long Loan</span>
-                  <h3 class="mb-0 mt-1 text-secondary"><?php echo count(EmployeeLoan::find_by_loan_term(['loan_type' => 2])) ?? 0 ?></h3>
+                  <h3 class="mb-0 mt-1 text-secondary"><?php echo count(LongTermLoan::find_by_undeleted()) ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
@@ -107,7 +107,7 @@ $datatable = '';
       <div class="col-xl-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="card-header  border-0">
-            <h4 class="card-title">Loan List</h4>
+            <h4 class="card-title">Salary Advance Summary</h4>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -164,6 +164,77 @@ $datatable = '';
                       </tbody>
                     </table>
 
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="card-header border-0">
+            <h4 class="card-title">Long Term Loan Summary</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <div id="emp-attendance_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" role="grid" aria-describedby="emp-attendance_info">
+                      <thead>
+                        <tr role="row">
+                          <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 52.5417px;">SN</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Ref No: activate to sort column ascending" style="width: 169.062px;">Ref No</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Amount Requested (₦): activate to sort column ascending" style="width: 120.396px;">Amount Requested (₦)</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Amount Committed (₦): activate to sort column ascending" style="width: 120.396px;">Amount Committed (₦)</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Duration: activate to sort column ascending" style="width: 119.979px;">Duration</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Date Requested: activate to sort column ascending" style="width: 119.979px;">Date Requested</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Date Approved: activate to sort column ascending" style="width: 119.979px;">Date Approved</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Aprroval Status: activate to sort column ascending" style="width: 158.458px;">Approval Status</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 133.708px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php $sn = 1;
+                        foreach (LongTermLoanDetail::find_by_undeleted() as $loan) :
+                          $longTerm = LongTermLoan::find_by_employee_id($loan->employee_id);
+                        ?>
+                          <tr>
+                            <td><?php echo $sn++ ?></td>
+                            <td><?php echo strtoupper($loan->ref_no) ?></td>
+                            <td><?php echo number_format($longTerm->amount_requested) ?></td>
+                            <td><?php echo number_format($longTerm->commitment) ?></td>
+                            <td><?php echo ucwords($loan->commitment_duration) ?></td>
+                            <td><?php echo date('Y-m-d', strtotime($loan->created_at)) ?></td>
+                            <td><?php echo $loan->date_approved != '0000-00-00' ? date('Y-m-d', strtotime($loan->date_approved)) : 'Not Set' ?></td>
+
+                            <td>
+                              <?php
+                              switch ($loan->status):
+                                case '0':
+                                  echo '<span class="badge badge-warning">Pending</span>';
+                                  break;
+                                case '1':
+                                  echo '<span class="badge badge-success">Approved</span>';
+                                  break;
+                                default:
+                                  echo '<span class="badge badge-danger">Rejected</span>';
+                                  break;
+                              endswitch;
+                              ?>
+                            </td>
+
+
+                            <td class="text-start d-flex"> <a href="#" class="action-btns1" data-id="<?php echo $loan->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View"> <i class="feather feather-eye  text-primary"></i> </a> <a href="#" class="action-btns1" data-id="<?php echo $loan->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> </td>
+                          </tr>
+                        <?php endforeach; ?>
+
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 

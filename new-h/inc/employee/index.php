@@ -187,6 +187,52 @@ if (is_post_request()) {
           http_response_code(404);
           exit(json_encode(['errors' => 'Monthly allowed limit exceeded!']));
         }
+
+        $loan = new SalaryAdvanceDetail($args);
+        $loan->save();
+
+        if ($loan) {
+          $advanceDetails = SalaryAdvanceDetail::find_by_employee_id($loan->employee_id, ['requested' => date('Y-m-d')]);
+          if (!empty($salaryAdvance->employee_id)) {
+            $salaryAdvance->merge_attributes(['total_requested' => $advanceDetails->total_loan_received]);
+            $salaryAdvance->save();
+          } else {
+            $params = [
+              'employee_id' => $loan->employee_id,
+              'total_requested' => $args['amount'],
+            ];
+            $advance = new SalaryAdvance($params);
+            $advance->save();
+          }
+        }
+
+        http_response_code(401);
+        exit(json_encode(['errors' => $loan->errors[0]]));
+      } else {
+        $args['commitment_duration'] = $args['loan_duration'];
+        $args['loan_repayment'] = $args['loan_deduction'];
+
+        $longTerm = new LongTermLoanDetail($args);
+        $longTerm->save();
+
+        if ($longTerm) {
+          $longDetails = LongTermLoanDetail::find_by_employee_id($longTerm->employee_id);
+          $longLoan = LongTermLoan::find_by_employee_id($longTerm->employee_id);
+
+          if (!empty($longLoan->employee_id)) {
+            $longLoan->merge_attributes(['amount_paid' => $longDetails->total_loan_refunded]);
+            $longLoan->save();
+          } else {
+            $params = [
+              'employee_id' => $args['employee_id'],
+              'amount_requested' => $args['amount'],
+              'amount_paid' => $args['loan_deduction'],
+              'commitment' => $args['loan_deduction'],
+            ];
+            $longTermLoan = new LongTermLoan($params);
+            $longTermLoan->save();
+          }
+        }
       }
 
       if (!empty($_FILES['filename']['name'])) {
@@ -207,31 +253,8 @@ if (is_post_request()) {
         }
       }
 
-      $loan = new SalaryAdvanceDetail($args);
-      $loan->save();
-
-      if ($loan) {
-        $advanceDetails = SalaryAdvanceDetail::find_by_employee_id($loan->employee_id, ['requested' => date('Y-m-d')]);
-        if (!empty($salaryAdvance->employee_id)) {
-          $salaryAdvance->merge_attributes(['total_requested' => $advanceDetails->total_loan_received]);
-          $salaryAdvance->save();
-        } else {
-          $params = [
-            'employee_id' => $loan->employee_id,
-            'total_requested' => $args['amount'],
-          ];
-          $advance = new SalaryAdvance($params);
-          $advance->save();
-        }
-      }
-
-      if ($loan->errors) :
-        http_response_code(401);
-        $response['errors'] = $loan->errors[0];
-      else :
-        http_response_code(201);
-        $response['message'] = 'Employee loan created successfully!';
-      endif;
+      http_response_code(201);
+      $response['message'] = 'Employee loan created successfully!';
     }
   }
 

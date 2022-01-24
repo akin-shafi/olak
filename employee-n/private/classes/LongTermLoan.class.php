@@ -1,6 +1,7 @@
 <?php
 class LongTermLoan extends DatabaseObject
 {
+
   protected static $table_name = "long_term_loans";
   protected static $db_columns = ['id', 'employee_id', 'amount_requested', 'amount_paid', 'commitment', 'date_requested', 'deleted'];
 
