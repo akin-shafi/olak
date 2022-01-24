@@ -118,6 +118,7 @@ include(SHARED_PATH . '/header.php');
                         title: "Deleted!",
                         text: data.message,
                         icon: "success",
+                        timer: 2000,
                         buttons: {
                            confirm: {
                               className: "btn btn-success",
@@ -151,9 +152,8 @@ include(SHARED_PATH . '/header.php');
       };
 
       const SETTING_URL = "../inc/setting/";
-      const LEAVE_URL = "../inc/setting/";
 
-      const leaveForm = document.getElementById("add_leave_form");
+      const leaveForm = document.getElementById("add_leave_type_form");
 
       leaveForm.addEventListener("submit", (e) => {
          e.preventDefault();
@@ -163,10 +163,9 @@ include(SHARED_PATH . '/header.php');
       $("#hr-leavestypes tbody").on("click", "#edit_leave", async function() {
          let id = this.dataset.id;
 
-         let data = await fetch(LEAVE_URL + "index.php?leaveId=" + id);
+         let data = await fetch(SETTING_URL + "?leaveId=" + id);
          let response = await data.json();
 
-         console.log(response.data);
          document.querySelector('#leaveId').value = id
          document.querySelector('#leave_name').value = response.data.name
          document.querySelector('#leave_duration').value = response.data.duration
@@ -179,7 +178,7 @@ include(SHARED_PATH . '/header.php');
 
       $("#hr-leavestypes tbody").on("click", "#delete_leave", function() {
          let id = this.dataset.id;
-         deleted(LEAVE_URL + "?leaveId=" + id + "&deleteLeaveType");
+         deleted(SETTING_URL + "?leaveId=" + id + "&deleteLeaveType");
       });
    })
 </script>

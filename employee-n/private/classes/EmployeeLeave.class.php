@@ -3,7 +3,7 @@ class EmployeeLeave extends DatabaseObject
 {
 
   protected static $table_name = "leaves";
-  protected static $db_columns = ['id', 'employee_id', 'leave_type', 'date_from', 'date_to', 'duration', 'reason', 'status', 'approved_by', 'date_approved', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'leave_type', 'date_from', 'date_to', 'duration', 'days_left', 'reason', 'status', 'approved_by', 'date_approved', 'created_at', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -11,6 +11,7 @@ class EmployeeLeave extends DatabaseObject
   public $date_from;
   public $date_to;
   public $duration;
+  public $days_left;
   public $reason;
   public $status;
   public $approved_by;
@@ -25,6 +26,7 @@ class EmployeeLeave extends DatabaseObject
     $this->date_from        = $args['date_from'] ?? '';
     $this->date_to          = $args['date_to'] ?? '';
     $this->duration         = $args['duration'] ?? '';
+    $this->days_left        = $args['days_left'] ?? '';
     $this->reason           = $args['reason'] ?? '';
     $this->status           = $args['status'] ?? 1;
     $this->approved_by      = $args['approved_by'] ?? '';
@@ -48,6 +50,20 @@ class EmployeeLeave extends DatabaseObject
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function find_by_employee_leave_type($employee_id, $leave_type)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
+    $sql .= " AND leave_type='" . self::$database->escape_string($leave_type) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {

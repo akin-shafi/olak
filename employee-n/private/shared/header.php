@@ -96,6 +96,7 @@ $user = $loggedInAdmin;
                            <!-- <li><a href="<?php //echo url_for('employee-leaves.php') 
                                              ?>" class="slide-item">Apply Leaves </a></li> -->
                            <li><a href="<?php echo url_for('employee-myleaves.php') ?>" class="slide-item">My Leaves </a></li>
+                           <li><a href="<?php echo url_for('employee-myloans.php') ?>" class="slide-item">My Loans </a></li>
                            <li><a href="<?php echo url_for('employee-payslips.php') ?>" class="slide-item">Payslips </a></li>
                            <li><a href="<?php echo url_for('employee-expenses.php') ?>" class="slide-item">Expenses</a></li>
                         </ul>

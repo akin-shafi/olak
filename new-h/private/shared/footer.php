@@ -1,6 +1,6 @@
  </div>
-</div>
-<!-- end app-content-->
+ </div>
+ <!-- end app-content-->
 
  <a href="#top" id="back-to-top" style="display: inline;"><span class="feather feather-chevrons-up"></span></a>
  </div>
@@ -241,28 +241,22 @@
  <script src="<?php echo url_for('assets/plugins/jQuery-countdowntimer/jQuery.countdownTimer.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.js') ?>"></script>
  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+ <script src="<?php echo url_for('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.js') ?>"></script>
+
+ <script src="<?php echo url_for('assets/plugins/othercharts/jquery.sparkline.min.js') ?>"></script>
+ <script src="<?php echo url_for('assets/plugins/circle-progress/circle-progress.min.js') ?>"></script>
+ <script src="<?php echo url_for('assets/plugins/rating/js/custom-ratings.js') ?>"></script>
+ <script src="<?php echo url_for('assets/plugins/rating/js/jquery.barrating.js') ?>"></script>
+
+ <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
+ <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
 
  <script>
     $(document).ready(function() {
        $('.select2').select2();
     });
-    // swal({
-    //      title: "Are you sure?",
-    //      text: "You won't be able to reverse this!",
-    //      icon: "warning",
-    //      buttons: {
-    //         confirm: {
-    //            text: "Yes, delete it!",
-    //            className: "btn btn-danger",
-    //         },
-    //         cancel: {
-    //            visible: true,
-    //            className: "btn btn-secondary",
-    //         },
-    //      },
-    //   })
-
-    
  </script>
 
 
@@ -304,69 +298,60 @@
 
  <?php endif ?>
 
- <script src="<?php echo url_for('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.js') ?>"></script>
 
- <script src="<?php echo url_for('assets/plugins/othercharts/jquery.sparkline.min.js') ?>"></script>
- <script src="<?php echo url_for('assets/plugins/circle-progress/circle-progress.min.js') ?>"></script>
- <script src="<?php echo url_for('assets/plugins/rating/js/custom-ratings.js') ?>"></script>
- <script src="<?php echo url_for('assets/plugins/rating/js/jquery.barrating.js') ?>"></script>
-
-
- <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
- <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
- <!-- <script src="<?php //echo url_for('assets/js/sweetalert.min.js'); ?>"></script> -->
- <script src="<?php echo url_for('assets/js/sweetalert2.all.min.js'); ?>"></script>
- <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
 
  <script type="text/javascript">
-    function successAlert(msg){
-         Swal.fire({
-           title: msg,
-           type: "success",
-           // html: 'Would you like to send an <b>sms or email</b> to the Customer ?',
-           showCloseButton: !1,
-           // showCancelButton: !0,
-           focusConfirm: !1,
-           confirmButtonText: '<i class="fa fa-thumbs-up"></i> Ok!',
-           confirmButtonAriaLabel: "Thumbs up, great!",
-           // cancelButtonText: '<i class="fa fa-thumbs-down"></i> No',
-           // cancelButtonAriaLabel: "Thumbs down",
-           confirmButtonClass: "btn btn-primary",
-           buttonsStyling: !1,
-           // cancelButtonClass: "btn btn-danger ml-1"
-         });
-     }
-     function successTime(msg){
+    function successAlert(msg) {
        Swal.fire({
-         position: 'bottom-end',
-         type:"success",
-         title:msg,
-         showConfirmButton:!1,
-         timer:1000,
-       })
-     }
-     function errorAlert(msg){
-         Swal.fire({
-           title: msg,
-           type: "error",
-           showCloseButton: !1,
-           timer:1500,
-           showCancelButton: !1,
-           confirmButtonClass: "btn btn-primary",
-           buttonsStyling: !1,
-         });
-     }
-     function errorTime(msg){
+          title: msg,
+          type: "success",
+          // html: 'Would you like to send an <b>sms or email</b> to the Customer ?',
+          showCloseButton: !1,
+          // showCancelButton: !0,
+          focusConfirm: !1,
+          confirmButtonText: '<i class="fa fa-thumbs-up"></i> Ok!',
+          confirmButtonAriaLabel: "Thumbs up, great!",
+          // cancelButtonText: '<i class="fa fa-thumbs-down"></i> No',
+          // cancelButtonAriaLabel: "Thumbs down",
+          confirmButtonClass: "btn btn-primary",
+          buttonsStyling: !1,
+          // cancelButtonClass: "btn btn-danger ml-1"
+       });
+    }
+
+    function successTime(msg) {
        Swal.fire({
-         position:"center",
-         type:"error",
-         title:msg,
-         showConfirmButton:!1,
-         timer:1500,
-         confirmButtonClass:"btn btn-primary",
-         buttonsStyling:!1
+          position: 'bottom-end',
+          type: "success",
+          title: msg,
+          showConfirmButton: !1,
+          timer: 1000,
        })
-     }
+    }
+
+    function errorAlert(msg) {
+       Swal.fire({
+          title: msg,
+          type: "error",
+          showCloseButton: !1,
+          timer: 1500,
+          showCancelButton: !1,
+          confirmButtonClass: "btn btn-primary",
+          buttonsStyling: !1,
+       });
+    }
+
+    function errorTime(msg) {
+       Swal.fire({
+          position: "center",
+          type: "error",
+          title: msg,
+          showConfirmButton: !1,
+          timer: 1500,
+          confirmButtonClass: "btn btn-primary",
+          buttonsStyling: !1
+       })
+    }
  </script>
 
  </body>

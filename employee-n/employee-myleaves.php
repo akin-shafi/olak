@@ -41,6 +41,7 @@ $datatable = '';
                                  <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Days: activate to sort column ascending" style="width: 76.3125px;">Days</th>
                                  <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Applied On: activate to sort column ascending" style="width: 70.625px;">Applied On</th>
                                  <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 75.0417px;">Status</th>
+                                 <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Updated At: activate to sort column ascending" style="width: 70.625px;">Updated At</th>
                                  <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="width: 120px;">Action</th>
                               </tr>
                            </thead>
@@ -72,6 +73,8 @@ $datatable = '';
                                                 break;
                                           endswitch;
                                           ?> </td>
+                                    <td><?php echo $leave->approved_by != 0 ? date('Y-m-d', strtotime($leave->date_approved)) : 'Not Set' ?></td>
+
                                     <td class="text-start d-flex">
                                        <a href="#" class="action-btns1" id="view_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a>
                                        <a href="#" class="action-btns1" id="delete_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a>
@@ -128,34 +131,6 @@ $datatable = '';
 </div>
 
 
-<div class="modal fade" id="leaveapplictionmodal" style="display: none;" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title">My Leave Application</h5>
-            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
-         </div>
-         <div class="modal-body">
-            <div class="table-responsive">
-               <table class="table mb-0">
-                  <tbody>
-                     <tr>
-                        <td class="font-weight-semibold">Reason</td>
-                        <td>:</td>
-                        <td>
-                           <p id="leave_reason"></p>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
-         <div class="modal-footer"> <a href="#" class="btn btn-primary" data-bs-dismiss="modal">Close</a> </div>
-      </div>
-   </div>
-</div>
-
-
 <?php include('inc/modal/all.php') ?>
 <?php include(SHARED_PATH . '/footer.php') ?>
 
@@ -164,10 +139,14 @@ $datatable = '';
 
 <script>
    $(document).ready(function() {
+      $('.select2').select2({
+         dropdownParent: $('.select_leave')
+      });
+
       const message = (req, res) => {
          swal(req + "!", res, {
             icon: req,
-            timer: 2000,
+            timer: 3000,
             buttons: {
                confirm: {
                   className: req == "error" ? "btn btn-danger" : "btn btn-success",

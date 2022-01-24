@@ -56,7 +56,7 @@ $datatable = '';
               <div class="col-7">
                 <div class="mt-0 text-start">
                   <span class="font-weight-semibold">Short Loan</span>
-                  <h3 class="mb-0 mt-1 text-primary"><?php echo count(EmployeeLoan::find_by_loan_term(['loan_type' => 1])) ?? 0 ?></h3>
+                  <h3 class="mb-0 mt-1 text-primary"><?php echo count(SalaryAdvanceDetail::find_by_undeleted()) ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
@@ -130,8 +130,8 @@ $datatable = '';
                       </thead>
                       <tbody>
                         <?php $sn = 1;
-                        foreach (EmployeeLoan::find_by_undeleted() as $key => $value) {
-                          $employee = Employee::find_by_id($value->id);
+                        foreach (SalaryAdvanceDetail::find_by_undeleted() as $key => $value) {
+                          $employee = Employee::find_by_id($value->employee_id);
                           $class = $key % 2 == 0 ? 'even' : 'odd';
                           $image =  '../assets/images/users/male.png';
                         ?>
@@ -237,8 +237,11 @@ $datatable = '';
       let res = await data.json();
 
       let salary = res.data.present_salary;
-      document.getElementById('sal').innerText = salary != '' ? numberWithCommas(salary) : 'Not set'
+      let balance = res.balance;
+
+      document.getElementById('sal').innerText = salary != '' ? numberWithCommas(salary) : 'Not set';
       document.getElementById('allowable').innerText = numberWithCommas(salary * 0.4);
+      document.getElementById('loan_balance').innerText = balance != '' ? numberWithCommas(balance) : 'Not set'
     });
 
     let isAdvance = document.getElementById('isAdvance');

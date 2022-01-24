@@ -1,14 +1,14 @@
 $(function(e){
 
 	/* Data Table */
-	$('#emp-attendance').DataTable({
-		"order": [[ 0, "desc" ]],
-		language: {
-			searchPlaceholder: 'Search...',
-			sSearch: '',
+	// $('#emp-attendance').DataTable({
+	// 	"order": [[ 0, "desc" ]],
+	// 	language: {
+	// 		searchPlaceholder: 'Search...',
+	// 		sSearch: '',
 
-		}
-	});
+	// 	}
+	// });
 	/* End Data Table */
 
 	//________ Datepicker

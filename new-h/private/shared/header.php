@@ -36,8 +36,6 @@ $user = $loggedInAdmin;
       <!---Sidebar css-->
       <link href="<?php echo url_for('assets/plugins/sidebar/sidebar.css') ?>" rel="stylesheet" />
       <!-- Select2 css -->
-      <link href="<?php //echo url_for('assets/plugins/select2/select2.min.css') 
-                  ?>" rel="stylesheet" />
       <link rel="stylesheet" href="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.css') ?>">
       <link href="<?php echo url_for('assets/plugins/pg-calendar-master/pignose.calendar.css') ?>" rel="stylesheet">
       <link href="<?php echo url_for('assets/plugins/fullcalendar/fullcalendar.css') ?>" rel="stylesheet">

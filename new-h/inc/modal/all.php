@@ -224,7 +224,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form id="add_leave_form" class="mb-0">
+          <form id="add_leave_type_form" class="mb-0">
             <div class="modal-body">
               <input type="hidden" name="leaveId" id="leaveId" readonly>
               <div class="form-group">
@@ -341,17 +341,19 @@
               </div>
 
               <div class="table-responsive border my-3 d-none" id="isAdvance">
-                <table class="table table-hover table-sm  w-75 m-auto">
+                <table class="table table-hover table-sm ">
                   <thead class="text-center">
                     <tr>
                       <th>Salary</th>
                       <th>Loan Obtainable (40%) of Basic</th>
+                      <th>Loan Balance</th>
                     </tr>
                   </thead>
                   <tbody class="text-center">
                     <tr>
                       <td><span id="sal"></span></td>
                       <td><span id="allowable"></span></td>
+                      <td><span id="loan_balance"></span></td>
                     </tr>
                   </tbody>
                 </table>

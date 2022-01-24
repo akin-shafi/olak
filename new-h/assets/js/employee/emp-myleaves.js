@@ -71,15 +71,15 @@ $(function(e){
 
 
 	/* Data Table */
-	$('#emp-attendance').DataTable({
-		order: [],
-		columnDefs: [ { orderable: false, targets: [0, 8] } ],
-		language: {
-			searchPlaceholder: 'Search...',
-			sSearch: '',
+	// $('#emp-attendance').DataTable({
+	// 	order: [],
+	// 	columnDefs: [ { orderable: false, targets: [0, 8] } ],
+	// 	language: {
+	// 		searchPlaceholder: 'Search...',
+	// 		sSearch: '',
 
-		}
-	});
+	// 	}
+	// });
 	/* End Data Table */
 
 	//Daterangepicker with Callback

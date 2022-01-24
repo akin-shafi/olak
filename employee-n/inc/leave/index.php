@@ -24,16 +24,42 @@ if (is_post_request()) {
       $response['message'] = 'Employee leave updated successfully';
     else :
 
+      if (isset($args['employee_id'])) :
+        $employeeId = $args['employee_id'];
+      else :
+        $employeeId = $loggedInAdmin->id;
+      endif;
+
       $dateRange  = $_POST['daterange'];
       $ex         = explode('-', $dateRange);
       $from       = $ex[0];
       $to         = $ex[1];
       $duration   = time_diff_string($from, $to, true);
 
-      $args['employee_id']  = $loggedInAdmin->id;
+      $date_from = new DateTime($from);
+      $date_to = new DateTime($to);
+
+      $dateDiff = $date_from->diff($date_to)->days;
+
+      $employeeLeave = EmployeeLeave::find_by_employee_leave_type($employeeId, $args['leave_type']);
+      $leaveType = EmployeeLeaveType::find_by_id($args['leave_type']);
+
+      if (isset($employeeLeave->leave_type) && $dateDiff > $employeeLeave->days_left) :
+        $numberOfDaysLeft = $employeeLeave->days_left != '' ? $employeeLeave->days_left : 0;
+        exit(json_encode(['errors' => 'You have ' . $numberOfDaysLeft . ' day(s) left for ' . $leaveType->name]));
+      endif;
+
+      if ($dateDiff > $leaveType->duration) :
+        exit(json_encode(['errors' => 'Maximum number of days set for ' . $leaveType->name . ' is ' . $leaveType->duration]));
+      endif;
+
+      $days_left = $leaveType->duration - $dateDiff;
+
+      $args['employee_id']  = $employeeId;
       $args['date_from']    = date('Y-m-d', strtotime($from));
       $args['date_to']      = date('Y-m-d', strtotime($to));
       $args['duration']     = $duration;
+      $args['days_left']    = $days_left;
 
       $leave = new EmployeeLeave($args);
       $leave->save();

@@ -209,9 +209,6 @@
  <!-- End Change password Modal  -->
  </div>
 
- <?php //include('../inc/modal/all.php');  
-   ?>
-
  <script src="<?php echo url_for('assets/plugins/jquery/jquery.min.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/moment/moment.js') ?>"></script>
  <script src="<?php echo url_for('assets/plugins/bootstrap/js/popper.min.js') ?>"></script>
@@ -238,9 +235,21 @@
  <script src="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.js') ?>"></script>
  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+ <script src="<?php echo url_for('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.js') ?>"></script>
+
+ <script src="<?php echo url_for('assets/plugins/othercharts/jquery.sparkline.min.js') ?>"></script>
+ <script src="<?php echo url_for('assets/plugins/circle-progress/circle-progress.min.js') ?>"></script>
+ <script src="<?php echo url_for('assets/plugins/rating/js/custom-ratings.js') ?>"></script>
+ <script src="<?php echo url_for('assets/plugins/rating/js/jquery.barrating.js') ?>"></script>
+
+ <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
+ <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
+
  <script type="text/javascript">
     $('.select2').select2({
-       dropdownParent: $('.select_modal')
+       dropdownParent: $('.select_leave')
     });
  </script>
 
@@ -281,20 +290,7 @@
 
  <?php endif ?>
 
- <script src="<?php echo url_for('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.js') ?>"></script>
 
- <script src="<?php echo url_for('assets/plugins/othercharts/jquery.sparkline.min.js') ?>"></script>
- <script src="<?php echo url_for('assets/plugins/circle-progress/circle-progress.min.js') ?>"></script>
- <script src="<?php echo url_for('assets/plugins/rating/js/custom-ratings.js') ?>"></script>
- <script src="<?php echo url_for('assets/plugins/rating/js/jquery.barrating.js') ?>"></script>
-
-
- <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
- <script src="<?php //echo url_for('assets/js/main.js') 
-               ?>"></script>
- <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
- <script src="<?php echo url_for('assets/js/sweetalert.min.js'); ?>"></script>
- <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
 
 
  </body>

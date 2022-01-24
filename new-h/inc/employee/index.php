@@ -26,16 +26,42 @@ if (is_post_request()) {
       $response['message'] = 'Employee leave updated successfully';
     else :
 
+      if (isset($args['employee_id'])) :
+        $employeeId = $args['employee_id'];
+      else :
+        $employeeId = $loggedInAdmin->id;
+      endif;
+
       $dateRange  = $_POST['daterange'];
       $ex         = explode('-', $dateRange);
       $from       = $ex[0];
       $to         = $ex[1];
       $duration   = time_diff_string($from, $to, true);
 
-      $args['employee_id']  = $loggedInAdmin->id;
+      $date_from = new DateTime($from);
+      $date_to = new DateTime($to);
+
+      $dateDiff = $date_from->diff($date_to)->days;
+
+      $employeeLeave = EmployeeLeave::find_by_employee_leave_type($employeeId, $args['leave_type']);
+      $leaveType = EmployeeLeaveType::find_by_id($args['leave_type']);
+
+      if (isset($employeeLeave->leave_type) && $dateDiff > $employeeLeave->days_left) :
+        $numberOfDaysLeft = $employeeLeave->days_left != '' ? $employeeLeave->days_left : 0;
+        exit(json_encode(['errors' => 'You have ' . $numberOfDaysLeft . ' day(s) left for ' . $leaveType->name]));
+      endif;
+
+      if ($dateDiff > $leaveType->duration) :
+        exit(json_encode(['errors' => 'Maximum number of days set for ' . $leaveType->name . ' is ' . $leaveType->duration]));
+      endif;
+
+      $days_left = $leaveType->duration - $dateDiff;
+
+      $args['employee_id']  = $employeeId;
       $args['date_from']    = date('Y-m-d', strtotime($from));
       $args['date_to']      = date('Y-m-d', strtotime($to));
       $args['duration']     = $duration;
+      $args['days_left']    = $days_left;
 
       $leave = new EmployeeLeave($args);
       $leave->save();
@@ -144,16 +170,20 @@ if (is_post_request()) {
     } else {
 
       $args = $_POST['loan'];
-      $args['ref_no'] = 'EL-' . rand(100, 999) . '0' . $args['employee_id']; //? EL: Employee Loan
-
       $employeeId = $args['employee_id'];
+
+      $args['ref_no'] = 'SAL-' . rand(100, 999) . '0' . $employeeId; //? SAL: Salary Advance Loan
+
       $employee = Employee::find_by_id($employeeId);
-      $employeeLoan = EmployeeLoan::find_by_employee_id($employeeId);
 
       $accessible_loan_value = intval($employee->present_salary) * 0.4;
+      $salaryAdvance = SalaryAdvance::find_by_employee_id($employeeId);
+      if (isset($salaryAdvance)) {
+        $loan_balance = $accessible_loan_value - intval($salaryAdvance->total_requested);
+      }
 
       if ($args['type'] == 1) {
-        if (($args['amount'] > $accessible_loan_value)) {
+        if (($args['amount'] > $accessible_loan_value || $args['amount'] > $loan_balance)) {
           http_response_code(404);
           exit(json_encode(['errors' => 'Monthly allowed limit exceeded!']));
         }
@@ -177,8 +207,23 @@ if (is_post_request()) {
         }
       }
 
-      $loan = new EmployeeLoan($args);
+      $loan = new SalaryAdvanceDetail($args);
       $loan->save();
+
+      if ($loan) {
+        $advanceDetails = SalaryAdvanceDetail::find_by_employee_id($loan->employee_id, ['requested' => date('Y-m-d')]);
+        if (!empty($salaryAdvance->employee_id)) {
+          $salaryAdvance->merge_attributes(['total_requested' => $advanceDetails->total_loan_received]);
+          $salaryAdvance->save();
+        } else {
+          $params = [
+            'employee_id' => $loan->employee_id,
+            'total_requested' => $args['amount'],
+          ];
+          $advance = new SalaryAdvance($params);
+          $advance->save();
+        }
+      }
 
       if ($loan->errors) :
         http_response_code(401);
@@ -254,8 +299,15 @@ if (is_get_request()) {
   if (isset($_GET['employeeId']) && !isset($_GET['deleted'])) {
     $employee = Employee::find_by_id($_GET['employeeId']);
 
+    $accessible_loan_value = intval($employee->present_salary) * 0.4;
+    $salaryAdvance = SalaryAdvance::find_by_employee_id($employee->id);
+    if (isset($salaryAdvance)) {
+      $loan_balance = $accessible_loan_value - intval($salaryAdvance->total_requested);
+    }
+
     http_response_code(200);
     $response['data'] = $employee;
+    $response['balance'] = $loan_balance;
   }
 
   if (isset($_GET['departmentId']) && !isset($_GET['deleted'])) {

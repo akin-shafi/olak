@@ -15,7 +15,7 @@ $isClockedIn =  isset($attendance->clock_in) && $attendance->clock_in != '00:00:
 // pre_r($attendance);
 
 $page = 'Dashboard';
-$page_title = 'HR Dashboard';
+$page_title = 'Employee Dashboard';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 ?>
@@ -52,6 +52,7 @@ $datatable = '';
       </div>
    </div>
 </div>
+
 <div class="row">
    <div class="col-xl-3 col-lg-6 col-md-12">
       <div class="card">
@@ -122,6 +123,7 @@ $datatable = '';
       </div>
    </div>
 </div>
+
 <div class="row">
    <div class="col-xl-8 col-md-12 col-lg-12">
       <div class="card">
@@ -495,6 +497,7 @@ $datatable = '';
          </div>
       </div>
    </div>
+   
    <div class="col-xl-4 col-md-12 col-lg-12">
       <div class="card">
          <div class="card-header border-bottom-0">
@@ -568,10 +571,14 @@ $datatable = '';
 <?php include(SHARED_PATH . '/footer.php') ?>
 
 <script src="<?php echo url_for('assets/js/employee/emp-myleaves.js') ?>"></script>
-<script src="../../assets/plugins/pg-calendar-master/pignose.calendar.full.min.js"></script>
+<script src="<?php echo url_for('assets/plugins/pg-calendar-master/pignose.calendar.full.min.js') ?>"></script>
 
 <script>
    $(document).ready(function() {
+      $('.select2').select2({
+         dropdownParent: $('.select_leave')
+      });
+
       const message = (req, res) => {
          swal(req + "!", res, {
             icon: req,
@@ -613,10 +620,6 @@ $datatable = '';
       });
    })
 </script>
-
-
-
-
 
 
 <script type="text/javascript">
