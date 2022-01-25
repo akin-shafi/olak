@@ -15,10 +15,10 @@ $employees = Employee::find_by_undeleted();
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-            <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
-         </div>
+         <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
       </div>
    </div>
+</div>
 </div>
 
 <div class="row">
@@ -103,7 +103,7 @@ $employees = Employee::find_by_undeleted();
 
                               ?>
                                  <tr>
-                                    <td class="bg-white"><?php echo $sn++ ; ?></td>
+                                    <td class="bg-white"><?php echo $sn++; ?></td>
                                     <td class="bg-white">
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
@@ -120,7 +120,7 @@ $employees = Employee::find_by_undeleted();
                                     <td><?php echo number_format($commitment) ?></td>
                                     <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
                                     <td><span class="badge badge-danger">Unpaid</span></td>
-                                    <td class="text-start">
+                                    <td class="text-start bg-white">
                                        <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
                                     </td>
                                  </tr>

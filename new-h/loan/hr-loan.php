@@ -39,7 +39,7 @@ $datatable = '';
               <div class="col-7">
                 <div class="mt-0 text-start">
                   <span class="font-weight-semibold">Loan Refunded</span>
-                  <h3 class="mb-0 mt-1 text-success">0<?php //echo count(Employee::find_by_undeleted()) ?></h3>
+                  <h3 class="mb-0 mt-1 text-success"><?php echo '0' ?></h3>
                 </div>
               </div>
               <div class="col-5">
@@ -269,7 +269,7 @@ $datatable = '';
             className: req == "error" ? "btn btn-danger" : "btn btn-success",
           },
         },
-      }).then(() => location.reload());
+      });
     };
 
     const submitForm = async (url, payload) => {
