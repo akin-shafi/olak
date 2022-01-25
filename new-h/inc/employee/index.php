@@ -34,7 +34,7 @@ if (is_post_request()) {
 
       $dateRange  = $_POST['daterange'];
       $ex         = explode('-', $dateRange);
-      $from       = $ex[0];
+      $from       = $ex;
       $to         = $ex[1];
       $duration   = time_diff_string($from, $to, true);
 
@@ -68,7 +68,7 @@ if (is_post_request()) {
 
       if ($leave->errors) :
         http_response_code(401);
-        $response['errors'] = $leave->errors[0];
+        $response['errors'] = $leave->errors;
       else :
         http_response_code(201);
         $response['message'] = 'Employee leave created successfully!';
@@ -128,7 +128,7 @@ if (is_post_request()) {
 
       if ($personal->errors) {
         http_response_code(401);
-        exit(json_encode(['errors' => $personal->errors[0]]));
+        exit(json_encode(['errors' => $personal->errors]));
       } else {
         http_response_code(201);
         $response['message'] = 'Employee created successfully!';
@@ -207,7 +207,7 @@ if (is_post_request()) {
         }
 
         http_response_code(401);
-        exit(json_encode(['errors' => $loan->errors[0]]));
+        exit(json_encode(['errors' => $loan->errors]));
       } else {
         $args['commitment_duration'] = $args['loan_duration'];
         $args['loan_repayment'] = $args['loan_deduction'];
@@ -287,7 +287,7 @@ if (is_post_request()) {
 
       if ($department->errors) :
         http_response_code(401);
-        $response['errors'] = $department->errors[0];
+        $response['errors'] = $department->errors;
       else :
         http_response_code(201);
         $response['message'] = 'Department created successfully!';
