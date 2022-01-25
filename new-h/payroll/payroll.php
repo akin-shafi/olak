@@ -43,7 +43,7 @@ $employees = Employee::find_by_undeleted();
             </div>
          </div>
          <div class="card-body">
-            <div class="table-responsive">
+            <div class="">
                <div id="hr-payroll_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
 
                   <div class="row">
@@ -51,14 +51,14 @@ $employees = Employee::find_by_undeleted();
                         <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-payroll" role="grid" aria-describedby="hr-payroll_xxinfo">
                            <thead>
                               <tr role="row">
-                                 <th>#Emp ID</th>
-                                 <th>#Emp Name</th>
+                                 <th class="bg-white">#Emp ID</th>
+                                 <th class="bg-white">#Emp Name</th>
                                  <th>(₦) Salary</th>
                                  <th>(₦) Salary Advance</th>
                                  <th>(₦) Loan</th>
                                  <th>(₦) Take Home</th>
                                  <th>Status</th>
-                                 <th>Action</th>
+                                 <th class="bg-white">Action</th>
                               </tr>
                            </thead>
                            <tbody>
@@ -70,8 +70,8 @@ $employees = Employee::find_by_undeleted();
                                  $sn = 1;
                               ?>
                                  <tr>
-                                    <td><?php echo $sn++ ; ?></td>
-                                    <td>
+                                    <td class="bg-white"><?php echo $sn++ ; ?></td>
+                                    <td class="bg-white">
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                           <div class="me-3 mt-0 mt-sm-1 d-block">
@@ -89,7 +89,7 @@ $employees = Employee::find_by_undeleted();
                                     </td>
                                     <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
                                     <td><span class="badge badge-danger">Unpaid</span></td>
-                                    <td class="text-start"> <a href="#" class="action-btns" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a></td>
+                                    <td class="text-start bg-white"> <a href="#" class="action-btns" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a></td>
                                  </tr>
                               <?php endforeach; ?>
                            </tbody>
