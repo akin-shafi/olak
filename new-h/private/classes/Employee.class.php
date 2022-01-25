@@ -74,7 +74,7 @@ class Employee extends DatabaseObject
     $this->company_id             = $args['company_id'] ?? '';
     $this->photo                  = $args['photo'] ?? '';
     $this->notification           = $args['notification'] ?? '';
-    $this->update_profile         = $args['update_profile'] ?? '';
+    $this->update_profile         = $args['update_profile'] ?? 0;
     $this->created_at             = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted                = $args['deleted'] ?? '';
     $this->password               = $args['password'] ?? '';
