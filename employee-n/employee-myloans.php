@@ -74,7 +74,7 @@ $datatable = '';
                            <div>
                               <p><i class="feather feather-circle text-purple me-2"></i>Current Salary <span class="float-right"><?php echo number_format($salary, 2) ?></span></p>
                               <p><i class="feather feather-circle text-warning me-2"></i>Accessible loan (%) <span class="float-right"><?php echo $accessible_loan_percentage * 100 ?>%</span></p>
-                              <p><i class="feather feather-circle text-success me-2"></i>Accessible loan (₦) <span class="float-right"><?php echo $currency . " " . number_format($accessible_loan_value, 2); ?></span></p>
+                              <p><i class="feather feather-circle text-success me-2"></i>Accessible loan (₦) <span class="float-right"><?php echo number_format($accessible_loan_value, 2); ?></span></p>
                            </div>
                         </div>
                      </div>
