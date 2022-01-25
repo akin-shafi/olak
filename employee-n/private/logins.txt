@@ -49,3 +49,6 @@
 2022-01-24 14:52:33 | Employee Login: Ade Mola Logged in.
 2022-01-24 15:21:49 | Employee Login: Ade Mola Logged in.
 2022-01-24 17:28:10 | Employee Login: Ade Mola Logged in.
+2022-01-25 12:01:52 | Employee Login: Ade Mola Logged in.
+2022-01-25 12:13:44 | Employee Login: Ade Mola Logged in.
+2022-01-25 12:23:05 | Employee Login: Ade Mola Logged in.

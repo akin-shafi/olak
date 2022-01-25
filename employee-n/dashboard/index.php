@@ -4,7 +4,7 @@ require_once('../private/initialize.php');
 $id = $loggedInAdmin->id;
 $employee = Employee::find_by_id($id);
 
-if ($employee->update_profile == 0) {
+if ($employee->update_profile == 0 || $employee->update_profile == '') {
    redirect_to('../password_reset.php');
 }
 
@@ -497,7 +497,7 @@ $datatable = '';
          </div>
       </div>
    </div>
-   
+
    <div class="col-xl-4 col-md-12 col-lg-12">
       <div class="card">
          <div class="card-header border-bottom-0">

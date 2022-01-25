@@ -124,11 +124,7 @@ $user = $loggedInAdmin;
                               <ul class="sub-slide-menu">
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-empsalary.php') ?>">Employee Salary</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll.php') ?>">Payroll</a></li>
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll-settings.php') ?>">Payroll Settings</a></li>
-                                 <!-- <li><a class="sub-slide-item" href="<?php //echo url_for('payroll/hr-addpayroll.php') 
-                                                                           ?>">Add Payroll</a></li> -->
-                                 <!-- <li><a class="sub-slide-item" href="<?php //echo url_for('payroll/hr-editpayroll.php') 
-                                                                           ?>">Edit Payroll</a></li> -->
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll-items.php') ?>">Payroll Settings</a></li>
                               </ul>
                            </li>
                            <li><a href="<?php echo url_for('loan/hr-loan.php') ?>" class="slide-item">Loan</a></li>

@@ -59,7 +59,7 @@ if (isset($_POST['loan'])) {
       }
 
       http_response_code(401);
-      exit(json_encode(['errors' => $loan->errors[0]]));
+      exit(json_encode(['errors' => $loan->errors]));
     } else {
       $args['commitment_duration'] = $args['loan_duration'];
       $args['loan_repayment'] = $args['loan_deduction'];

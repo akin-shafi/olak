@@ -50,7 +50,7 @@ $select2 = '';
                            </thead>
                            <tbody>
                               <?php $sn = 1; foreach (Employee::find_by_undeleted() as $value) :
-                                 $empLoan = EmployeeLoan::find_by_employee_id($value->id);
+                                 // $empLoan = EmployeeLoan::find_by_employee_id($value->id);
                               ?>
                                  <tr>
                                     <td>#<?php echo $sn++ ?></td>

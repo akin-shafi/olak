@@ -415,3 +415,81 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade show" id="viewsalarymodal" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">PaySlip</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+          </div>
+          <div class="modal-header">
+            <div> <img src="<?php echo url_for('assets/images/brand/logo.png') ?>" class="header-brand-img" alt="Dayonelogo"> </div>
+            <div class="ms-auto">
+              <!-- <div class="font-weight-bold text-md-right mt-3">Date: 01-02-2021</div> -->
+            </div>
+          </div>
+
+          <div id="salary_data">
+            <!-- //? AJAX CALL -->
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="payroll_narration" class="modal custom-modal fade" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loan-title">Other Payroll Narrations</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="add_loan_form" class="mb-0">
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Employees</label>
+                <select class="form-control select2 select2-hidden-accessible employeeId" name="payroll[employee_id]" id="employee_id" required>
+                  <option value="">Select Employee</option>
+                  <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
+                    <option value="<?php echo $employee->id ?>">
+                      <?php echo ucwords($employee->full_name()) ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Overtime Allowance <span class="text-danger">*</span></label>
+                <input class="form-control" name="payroll[overtime_allowance]" id="comp_name" type="text" placeholder="Overtime Allowance">
+              </div>
+
+              <div class="form-group">
+                <label>Overtime Allowance <span class="text-danger">*</span></label>
+                <input class="form-control" name="payroll[overtime_allowance]" id="comp_name" type="text" placeholder="Overtime Allowance">
+              </div>
+
+              <div class="form-group">
+                <label>Overtime Allowance <span class="text-danger">*</span></label>
+                <input class="form-control" name="payroll[overtime_allowance]" id="comp_name" type="text" placeholder="Overtime Allowance">
+              </div>
+
+              <div class="form-group">
+                <label>Overtime Allowance <span class="text-danger">*</span></label>
+                <input class="form-control" name="payroll[overtime_allowance]" id="comp_name" type="text" placeholder="Overtime Allowance">
+              </div>
+
+              <div class="form-group">
+                <label>Note</label>
+                <textarea name="payroll[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
