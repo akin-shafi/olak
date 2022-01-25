@@ -62,12 +62,14 @@ $employees = Employee::find_by_undeleted();
                               </tr>
                            </thead>
                            <tbody>
-                              <?php foreach (Employee::find_by_undeleted() as $value) :
+                              <?php 
+                                 $sn = 1;
+                                 foreach (Employee::find_by_undeleted() as $value) :
                                  $empLoan = EmployeeLoan::find_by_employee_id($value->id);
                                  $salary_advance = SalaryAdvance::find_by_employee_id($value->id);
                                  $salary = intval($value->present_salary);
                                  $take_home = intval($salary) - intval($empLoan);
-                                 $sn = 1;
+                                 
                               ?>
                                  <tr>
                                     <td class="bg-white"><?php echo $sn++ ; ?></td>
