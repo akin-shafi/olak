@@ -99,7 +99,7 @@ $datatable = '';
                            <h3 class="mb-0 mt-1 mb-2"><?php echo '0.00'; //echo count(EmployeeLoan::find_all()); ?></h3>
                            <span class="text-muted">
                               <span class="text-danger fs-12 mt-2 me-1">
-                                 <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i><?php echo count(EmployeeLoan::find_all()); ?> Person</span>
+                                 <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i><?php echo count(LongTermLoanDetail::find_all()); ?> Person</span>
                               this month </span>
                         </div>
                      </div>

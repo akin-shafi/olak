@@ -74,7 +74,7 @@ $employees = Employee::find_by_undeleted();
             </div>
          </div>
          <div class="card-body">
-            <div class="">
+            <div class="table-responsive">
                <div id="hr-payroll_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
 
                   <div class="row">

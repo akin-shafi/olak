@@ -275,14 +275,14 @@
 
           /* Data Table */
           $('.datatable').DataTable({
-            scrollY:        "300px",
-              scrollX:        true,
-              scrollCollapse: true,
-              paging:         false,
-              fixedColumns:   {
-                  left: 2,
-                  right: 1
-              },
+            // scrollY:        "300px",
+            //   scrollX:        true,
+            //   scrollCollapse: true,
+            //   paging:         false,
+            //   fixedColumns:   {
+            //       left: 2,
+            //       right: 1
+            //   },
              "order": [
                 [0, "desc"]
              ],
