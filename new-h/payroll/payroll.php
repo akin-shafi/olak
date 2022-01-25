@@ -74,7 +74,7 @@ $employees = Employee::find_by_undeleted();
             </div>
          </div>
          <div class="card-body">
-            <div class="table-responsive">
+            <div class="">
                <div id="hr-payroll_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
 
                   <div class="row">
@@ -82,14 +82,14 @@ $employees = Employee::find_by_undeleted();
                         <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-payroll" role="grid">
                            <thead>
                               <tr role="row">
-                                 <th>#Emp ID</th>
-                                 <th>#Emp Name</th>
+                                 <th class="bg-white">#Emp ID</th>
+                                 <th class="bg-white">#Emp Name</th>
                                  <th>(₦) Salary</th>
                                  <th>(₦) Salary Advance</th>
                                  <th>(₦) Loan</th>
                                  <th>(₦) Take Home</th>
                                  <th>Status</th>
-                                 <th>Action</th>
+                                 <th class="bg-white">Action</th>
                               </tr>
                            </thead>
                            <tbody>
@@ -103,8 +103,8 @@ $employees = Employee::find_by_undeleted();
 
                               ?>
                                  <tr>
-                                    <td><?php echo $sn++; ?></td>
-                                    <td>
+                                    <td class="bg-white"><?php echo $sn++ ; ?></td>
+                                    <td class="bg-white">
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                           <div class="me-3 mt-0 mt-sm-1 d-block">
