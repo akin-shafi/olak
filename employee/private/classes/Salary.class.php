@@ -8,8 +8,7 @@ class Salary extends DatabaseObject
   public $employee_id;
   public $net_salary;
 
-  public $monthly_gross_salary;
-
+  // public $monthly_gross_salary;
   public $payment_status;
   public $created_at;
   public $deleted;

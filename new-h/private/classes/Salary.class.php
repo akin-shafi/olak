@@ -2,55 +2,49 @@
 class Salary extends DatabaseObject
 {
   protected static $table_name = "salaries";
-  protected static $db_columns = ['id', 'employee_id', 'net_salary', 'payment_status', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'present_salary', 'loan', 'salary_advance','overtime','leave_allowance','other_allowance', 'other_deduction', 'note', 'present_days', 'payment_status', 'created_at', 'tax', 'pension', 'deleted'];
 
   public $id;
   public $employee_id;
-  public $net_salary;
-
-  public $monthly_gross_salary;
-
-  public $payment_status;
-  public $created_at;
-  public $deleted;
-
-  public $e_id; //* earning's ID
-  public $d_id; //* deduction's ID
-
-  // ? EARNINGS
-  public $actual_amount;
-  public $basic_salary;
-  public $housing;
-  public $dressing;
-  public $transport;
-  public $utility;
-  public $other_earning;
-  public $other_deduction;
+  public $present_salary;
+  public $loan; 
+  public $salary_advance;
+  public $overtime;
+  public $leave_allowance;
+  public $other_allowance; 
+  public $other_deduction; 
+  public $note; 
+  public $present_days; 
+  public $payment_status; 
+  public $created_at; 
+  
 
   // ? DEDUCTIONS
   public $tax;
   public $pension;
-
+  public $deleted;
 
   public function __construct($args = [])
   {
     $this->employee_id      = $args['employee_id'] ?? '';
-    $this->net_salary       = $args['net_salary'] ?? '';
-    $this->payment_status   = $args['payment_status'] ?? '';
+    $this->present_salary   = $args['present_salary'] ?? '';
+    $this->loan             = $args['loan'] ?? '';
+    $this->salary_advance   = $args['salary_advance'] ?? '';
+    $this->overtime         = $args['overtime'] ?? 0;
+    $this->leave_allowance  = $args['leave_allowance'] ?? 0;
+    $this->other_allowance  = $args['other_allowance'] ?? 0; 
+    $this->other_deduction  = $args['other_deduction'] ?? 0; 
+    $this->note             = $args['note'] ?? ''; 
+    $this->present_days     = $args['present_days'] ?? '';
+    $this->payment_status   = $args['payment_status'] ?? 0;
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:i:s');
+    $this->tax              = $args['tax'] ?? '';
+    $this->pension          = $args['pension'] ?? '';
     $this->deleted          = $args['deleted'] ?? '';
   }
 
-  protected function validate()
-  {
-    $this->errors = [];
+  
 
-    if (is_blank($this->employee_id)) {
-      $this->errors[] = "Kindly select an employee";
-    }
-
-    return $this->errors;
-  }
 
   public static function find_by_employee_id($employee_id)
   {
@@ -65,18 +59,14 @@ class Salary extends DatabaseObject
     }
   }
 
-  public static function find_by_salaries($salary_id)
+  public static function find_by_created_at($created_at)
   {
-    $sql = "SELECT *, se.id AS e_id, sd.id AS d_id, se.others AS other_earning, sd.others AS other_deduction FROM " . static::$table_name . " ";
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= " AND created_at LIKE'%" . self::$database->escape_string($created_at) . "%'";
+    return static::find_by_sql($sql);
 
-    $sql .= " JOIN salary_earnings AS se ON salaries.id = se.salary_id";
-    $sql .= " JOIN salary_deductions AS sd ON salaries.id = sd.salary_id";
-    $sql .= " WHERE salaries.id='" . self::$database->escape_string($salary_id) . "'";
-    $obj_array = static::find_by_sql($sql);
-    if (!empty($obj_array)) {
-      return array_shift($obj_array);
-    } else {
-      return false;
-    }
   }
+
+
 }
