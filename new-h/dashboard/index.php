@@ -2,7 +2,7 @@
 require_once('../private/initialize.php');
 
 $id = $loggedInAdmin->id;
-$employee = Employee::find_by_id($id);
+// $employee = Employee::find_by_id($id);
 
 /* ----------------------------------- //? ATTENDANCE ---------------------------------- */
 $attendance = EmployeeAttendance::find_by_employee_id($id, ['clock_in' => date('Y-m-d')]);

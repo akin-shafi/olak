@@ -14,7 +14,7 @@ CREATE TABLE `admin` (
  `created_by` varchar(50) DEFAULT NULL,
  `deleted` varchar(50) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `branches` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `company_id` varchar(50) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE `branches` (
  `created_at` datetime DEFAULT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `companies` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `logo` varchar(50) NOT NULL,
@@ -35,19 +35,21 @@ CREATE TABLE `companies` (
  `created_at` datetime DEFAULT NULL,
  `deleted` varchar(50) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `configurations` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `loan_config` varchar(5) NOT NULL,
+ `process_salary` varchar(50) NOT NULL DEFAULT '0',
+ `process_salary_date` date NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `departments` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `department_name` varchar(50) DEFAULT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `designations` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `designation_name` varchar(50) NOT NULL,
@@ -55,7 +57,7 @@ CREATE TABLE `designations` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `employees` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `employee_id` varchar(50) NOT NULL,
@@ -87,11 +89,11 @@ CREATE TABLE `employees` (
  `photo` varchar(20) NOT NULL,
  `notification` varchar(255) NOT NULL,
  `hashed_password` varchar(255) NOT NULL,
- `update_profile` int(11) NOT NULL,
+ `update_profile` varchar(2) NOT NULL DEFAULT '0',
  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
- `deleted` int(11) NOT NULL,
+ `deleted` varchar(2) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=383 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `employee_attendances` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `employee_id` int(11) NOT NULL,
@@ -100,51 +102,7 @@ CREATE TABLE `employee_attendances` (
  `note` varchar(255) NOT NULL,
  `created_at` datetime NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-CREATE TABLE `employee_banks` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `employee_id` varchar(5) NOT NULL,
- `account_holder` varchar(50) NOT NULL,
- `account_number` varchar(50) NOT NULL,
- `bank_name` varchar(50) NOT NULL,
- `bank_location` varchar(50) NOT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
-CREATE TABLE `employee_companies` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `employee_id` varchar(5) NOT NULL,
- `employee_number` varchar(15) NOT NULL,
- `department_id` varchar(5) NOT NULL,
- `designation_id` varchar(5) NOT NULL,
- `date_employed` varchar(20) NOT NULL,
- `reg_date` varchar(20) NOT NULL,
- `terminate_date` varchar(20) NOT NULL,
- `salary_type` varchar(2) NOT NULL,
- `salary` varchar(20) NOT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
-CREATE TABLE `employee_details` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `employee_id` int(11) NOT NULL,
- `account_name` varchar(50) NOT NULL,
- `bank_name` varchar(50) NOT NULL,
- `account_number` varchar(50) NOT NULL,
- `kin_name` varchar(50) NOT NULL,
- `kin_relationship` varchar(20) NOT NULL,
- `kin_phone_1` varchar(20) NOT NULL,
- `kin_phone_2` varchar(20) NOT NULL,
- `blood_group` varchar(5) NOT NULL,
- `present_add` varchar(255) NOT NULL,
- `permanent_add` varchar(255) NOT NULL,
- `notification` int(11) NOT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) DEFAULT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `employee_docs` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `employee_id` varchar(5) NOT NULL,
@@ -156,7 +114,7 @@ CREATE TABLE `employee_docs` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `employee_education` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `employee_id` int(11) NOT NULL,
@@ -169,7 +127,7 @@ CREATE TABLE `employee_education` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `employee_experience` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `employee_id` int(11) NOT NULL,
@@ -181,14 +139,14 @@ CREATE TABLE `employee_experience` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `employee_types` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `name` varchar(50) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `leaves` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `employee_id` int(11) NOT NULL,
@@ -196,51 +154,38 @@ CREATE TABLE `leaves` (
  `date_from` date NOT NULL,
  `date_to` date NOT NULL,
  `duration` varchar(50) NOT NULL,
+ `days_left` varchar(50) NOT NULL,
  `reason` varchar(255) NOT NULL,
  `status` int(11) NOT NULL,
  `approved_by` int(11) NOT NULL,
+ `date_approved` date NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `leave_types` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `name` varchar(50) NOT NULL,
+ `duration` varchar(50) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4
-CREATE TABLE `loans` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `ref_no` varchar(20) NOT NULL,
- `employee_id` int(11) NOT NULL,
- `type` int(11) NOT NULL,
- `loan_duration` varchar(50) NOT NULL,
- `loan_deduction` varchar(50) NOT NULL,
- `amount` int(11) NOT NULL,
- `amount_paid` int(11) NOT NULL,
- `payment_method` int(11) NOT NULL,
- `date_requested` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
- `date_issued` varchar(20) DEFAULT NULL,
- `status` int(11) NOT NULL,
- `file_upload` varchar(50) NOT NULL,
- `note` text NOT NULL,
- `deleted` int(11) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `long_term_loans` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
- `employee_id` int(11) NOT NULL,
+ `employee_id` varchar(10) NOT NULL,
  `amount_requested` varchar(50) NOT NULL,
+ `amount_paid` varchar(50) NOT NULL,
  `commitment` varchar(50) NOT NULL,
  `date_requested` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `long_term_loan_details` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `ref_no` varchar(50) NOT NULL,
- `employee_id` int(11) NOT NULL,
+ `employee_id` varchar(10) NOT NULL,
+ `type` varchar(5) NOT NULL,
  `commitment_duration` varchar(50) NOT NULL,
  `loan_repayment` varchar(50) NOT NULL,
  `balance` varchar(50) NOT NULL,
@@ -249,101 +194,73 @@ CREATE TABLE `long_term_loan_details` (
  `note` varchar(50) NOT NULL,
  `file_uploads` varchar(50) NOT NULL,
  `issued_by` int(11) NOT NULL,
+ `date_approved` date NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4
-CREATE TABLE `payrolls` (
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `payroll_item` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `item` varchar(50) NOT NULL,
+ `category` varchar(50) NOT NULL,
+ `amount` varchar(50) NOT NULL,
+ `created_at` varchar(50) NOT NULL,
+ `deleted` varchar(50) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `payroll_narrations` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `employee_id` varchar(5) NOT NULL,
- `salary` varchar(50) NOT NULL,
- `short_loan` varchar(50) NOT NULL,
- `long_loan` varchar(50) NOT NULL,
- `other_expenses` varchar(50) NOT NULL,
- `present_days` varchar(50) NOT NULL,
- `take_home` varchar(50) NOT NULL,
+ `overtime_allowance` varchar(50) NOT NULL,
+ `leave_allowance` varchar(50) NOT NULL,
+ `other_allowance` varchar(50) NOT NULL,
+ `other_deduction` varchar(50) NOT NULL,
+ `note` varchar(255) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-CREATE TABLE `payroll_additions` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `name` varchar(50) NOT NULL,
- `value` int(11) NOT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-CREATE TABLE `payroll_deductions` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `name` varchar(50) NOT NULL,
- `value` int(11) NOT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-CREATE TABLE `payroll_overtime` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `name` varchar(50) NOT NULL,
- `value` int(11) NOT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `salaries` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
- `employee_id` int(11) NOT NULL,
- `net_salary` varchar(50) NOT NULL,
- `payment_status` int(11) NOT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) DEFAULT NULL,
+ `employee_id` varchar(50) NOT NULL,
+ `present_salary` varchar(50) NOT NULL,
+ `loan` varchar(50) NOT NULL,
+ `salary_advance` varchar(191) NOT NULL,
+ `overtime_allowance` varchar(191) NOT NULL,
+ `leave_allowance` varchar(50) NOT NULL,
+ `other_allowance` varchar(50) DEFAULT NULL,
+ `other_deduction` varchar(50) DEFAULT NULL,
+ `note` varchar(50) DEFAULT NULL,
+ `present_days` varchar(50) NOT NULL,
+ `payment_status` varchar(50) NOT NULL,
+ `created_at` varchar(50) NOT NULL,
+ `tax` varchar(50) NOT NULL,
+ `pension` varchar(50) NOT NULL,
+ `deleted` varchar(50) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=383 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `salary_advances` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
- `employee_id` int(11) NOT NULL,
+ `employee_id` varchar(10) NOT NULL,
  `total_requested` varchar(50) NOT NULL,
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `salary_advance_details` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `ref_no` varchar(50) NOT NULL,
  `employee_id` int(11) NOT NULL,
+ `type` varchar(5) NOT NULL,
  `amount` varchar(50) NOT NULL,
  `date_requested` datetime NOT NULL,
- `date_issued` datetime NOT NULL,
+ `date_issued` date NOT NULL,
  `status` varchar(5) NOT NULL,
  `file_upload` varchar(50) NOT NULL,
- `created_at` datetime NOT NULL,
+ `note` varchar(255) NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4
-CREATE TABLE `salary_deductions` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `salary_id` int(11) NOT NULL,
- `tax` int(11) NOT NULL,
- `pension` int(11) NOT NULL,
- `others` int(11) NOT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) DEFAULT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-CREATE TABLE `salary_earnings` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `salary_id` int(11) NOT NULL,
- `actual_amount` int(11) DEFAULT NULL,
- `basic_salary` varchar(50) NOT NULL,
- `housing` varchar(50) NOT NULL,
- `dressing` int(11) DEFAULT NULL,
- `transport` varchar(50) NOT NULL,
- `utility` int(11) DEFAULT NULL,
- `others` int(11) DEFAULT NULL,
- `created_at` datetime NOT NULL,
- `deleted` int(11) DEFAULT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `staff_expenses` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `employee_id` int(11) NOT NULL,
@@ -352,4 +269,4 @@ CREATE TABLE `staff_expenses` (
  `created_at` datetime NOT NULL,
  `deleted` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

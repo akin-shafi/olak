@@ -8,6 +8,7 @@ $datatable = '';
 $select2 = '';
 $employees = Employee::find_by_undeleted();
 $thisMonth = date('Y-m');
+$config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $thisMonth]);
 ?>
 
 <div class="page-header d-xl-flex d-block">
@@ -16,17 +17,16 @@ $thisMonth = date('Y-m');
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <?php 
-         $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $thisMonth]);
-         if($config == true) : ?>
+         <?php if($config == true) : ?>
             <button class="btn btn-dark me-3" id="PaySlipDisabled">Payslip Generated</button>
+            <a class="btn btn-secondary me-3" target="_blank" href="<?php echo url_for('payroll/exportData.php') ?>"> <i class="las la-file-excel"></i> Download Monthly Excel Report </a> 
+
          <?php else: ?>
             <button class="btn btn-primary me-3" id="genPaySlip">Generate Payslip</button>
          <?php endif ?>
          
 
-         <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button> 
-
+        
          <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
       </div>
    </div>
@@ -96,7 +96,7 @@ $thisMonth = date('Y-m');
                               <tr role="row">
                                  <th class="bg-white">#Emp ID</th>
                                  <th class="bg-white">#Emp Name</th>
-                                 <th>(₦) Salary</th>
+                                 <th>(₦) Net Salary</th>
                                  <th>(₦) Salary Advance</th>
                                  <th>(₦) Loan</th>
                                  <th>(₦) Take Home</th>
@@ -105,41 +105,43 @@ $thisMonth = date('Y-m');
                               </tr>
                            </thead>
                            <tbody>
-                              <?php 
-                              $sn = 1;
-                              foreach (Salary::find_by_created_at($thisMonth) as $value) :
+                              <?php if($config == true) : ?>
+                                 <?php 
+                                 $sn = 1;
+                                 foreach (Salary::find_by_created_at($thisMonth) as $value) :
 
-                                 $empLoan = LongTermLoan::find_by_employee_id($value->employee_id);
-                                 $salary_advance = SalaryAdvance::find_by_employee_id($value->employee_id);
-                                 $employee = Employee::find_by_id($value->employee_id);
-                                 $salary = intval($value->present_salary);
-                                 $commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
-                                 $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested));
+                                    $empLoan = LongTermLoan::find_by_employee_id($value->employee_id);
+                                    $salary_advance = SalaryAdvance::find_by_employee_id($value->employee_id);
+                                    $employee = Employee::find_by_id($value->employee_id);
+                                    $salary = intval($value->present_salary);
+                                    $commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
+                                    $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested));
 
-                              ?>
-                                 <tr>
-                                    <td class="bg-white"><?php echo $sn++; ?></td>
-                                    <td class="bg-white">
-                                       <div class="d-flex">
-                                          <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
-                                          <div class="me-3 mt-0 mt-sm-1 d-block">
-                                             <h6 class="mb-1 fs-14"><?php echo $employee->full_name() ?></h6>
-                                             <p class="text-muted mb-0 fs-12"><?php echo strtolower($employee->email) ?></p>
+                                 ?>
+                                    <tr>
+                                       <td class="bg-white"><?php echo $sn++; ?></td>
+                                       <td class="bg-white">
+                                          <div class="d-flex">
+                                             <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
+                                             <div class="me-3 mt-0 mt-sm-1 d-block">
+                                                <h6 class="mb-1 fs-14"><?php echo $employee->full_name() ?></h6>
+                                                <p class="text-muted mb-0 fs-12"><?php echo strtolower($employee->email) ?></p>
+                                             </div>
                                           </div>
-                                       </div>
-                                    </td>
-                                    <td><?php echo number_format($salary) ?></td>
-                                    <td>
-                                       <?php echo !empty($salary_advance->total_requested) ? number_format($salary_advance->total_requested) : '0.00' ?>
-                                    </td>
-                                    <td><?php echo number_format($commitment) ?></td>
-                                    <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
-                                    <td><span class="badge badge-danger">Unpaid</span></td>
-                                    <td class="text-start bg-white">
-                                       <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
-                                    </td>
-                                 </tr>
-                              <?php endforeach; ?>
+                                       </td>
+                                       <td><?php echo number_format($salary) ?></td>
+                                       <td>
+                                          <?php echo !empty($salary_advance->total_requested) ? number_format($salary_advance->total_requested) : '0.00' ?>
+                                       </td>
+                                       <td><?php echo number_format($commitment) ?></td>
+                                       <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
+                                       <td><span class="badge badge-danger">Unpaid</span></td>
+                                       <td class="text-start bg-white">
+                                          <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
+                                       </td>
+                                    </tr>
+                                 <?php endforeach; ?>
+                              <?php endif ?>
                            </tbody>
                         </table>
                      </div>
