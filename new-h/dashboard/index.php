@@ -15,8 +15,6 @@ $page_title = 'HR Dashboard';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 ?>
-<!--/app header-->
-<!--Page header-->
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
@@ -61,8 +59,6 @@ $datatable = '';
    </div>
 </div>
 
-<!--End Page header-->
-<!--Row-->
 <div class="row">
    <div class="col-xl-9 col-md-12 col-lg-12">
       <div class="row">
@@ -96,10 +92,11 @@ $datatable = '';
                      <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Request</span>
-                           <h3 class="mb-0 mt-1 mb-2"><?php echo '0.00'; //echo count(EmployeeLoan::find_all()); ?></h3>
+                           <h3 class="mb-0 mt-1 mb-2"><?php echo '0.00'; //echo count(LongTermLoanDetail::find_all()); 
+                                                      ?></h3>
                            <span class="text-muted">
                               <span class="text-danger fs-12 mt-2 me-1">
-                                 <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i><?php echo count(EmployeeLoan::find_all()); ?> Person</span>
+                                 <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i><?php echo count(LongTermLoanDetail::find_all()); ?> Person</span>
                               this month </span>
                         </div>
                      </div>
@@ -133,34 +130,6 @@ $datatable = '';
                </div>
             </div>
          </div>
-         <!-- <div class="col-xl-12 col-md-12 col-lg-12 d-none">
-                        <div class="card">
-                           <div class="card-header border-0 responsive-header">
-                              <h4 class="card-title">Overview</h4>
-                              <div class="card-options">
-                                 <div class="btn-list">
-                                    <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-light4 me-2 my-auto"></span>Employees</a> <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-primary me-2 my-auto"></span>Budget</a> <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Year <i class="feather feather-chevron-down"></i> </a> 
-                                    <ul class="dropdown-menu dropdown-menu-end" role="menu">
-                                       <li><a href="#">Monthly</a></li>
-                                       <li><a href="#">Yearly</a></li>
-                                       <li><a href="#">Weekly</a></li>
-                                    </ul>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="card-body">
-                              <div class="chartjs-size-monitor">
-                                 <div class="chartjs-size-monitor-expand">
-                                    <div class=""></div>
-                                 </div>
-                                 <div class="chartjs-size-monitor-shrink">
-                                    <div class=""></div>
-                                 </div>
-                              </div>
-                              <canvas id="chartLine" style="display: block; height: 325px; width: 902px;" width="1623" height="584" class="chartjs-render-monitor"></canvas>
-                           </div>
-                        </div>
-                     </div> -->
          <div class="col-xl-12 col-md-12 col-lg-12">
             <div class="card">
 
@@ -177,9 +146,6 @@ $datatable = '';
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Company Name: activate to sort column ascending" style="width: 270.083px;">Company Name</th>
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Units: activate to sort column ascending" style="width: 203.542px;">Units</th>
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="4" aria-label="Branch Name: activate to sort column ascending" style="width: 287.625px;">Branch Name</th>
-                                       <!-- <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Register Date: activate to sort column ascending" style="width: 141.208px;">Register Date</th> -->
-                                       <!-- <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 101.021px;">Status</th> -->
-                                       <!-- <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 191.958px;">Actions</th> -->
                                     </tr>
                                  </thead>
                                  <tbody>

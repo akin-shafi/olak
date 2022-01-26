@@ -180,10 +180,12 @@ if (is_post_request()) {
       $salaryAdvance = SalaryAdvance::find_by_employee_id($employeeId);
       if (isset($salaryAdvance)) {
         $loan_balance = $accessible_loan_value - intval($salaryAdvance->total_requested);
+      } else {
+        $loan_balance = 0;
       }
 
       if ($args['type'] == 1) {
-        if (($args['amount'] > $accessible_loan_value || $args['amount'] > $loan_balance)) {
+        if (($args['amount'] > $accessible_loan_value || ($loan_balance != 0 && $args['amount'] > $loan_balance))) {
           http_response_code(404);
           exit(json_encode(['errors' => 'Monthly allowed limit exceeded!']));
         }
@@ -205,9 +207,11 @@ if (is_post_request()) {
             $advance->save();
           }
         }
-
-        http_response_code(401);
-        exit(json_encode(['errors' => $loan->errors]));
+        
+        if ($loan->errors) {
+          http_response_code(401);
+          exit(json_encode(['errors' => $loan->errors]));
+        }
       } else {
         $args['commitment_duration'] = $args['loan_duration'];
         $args['loan_repayment'] = $args['loan_deduction'];

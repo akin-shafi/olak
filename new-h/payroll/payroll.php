@@ -79,60 +79,143 @@ $employees = Employee::find_by_undeleted();
 
                   <div class="row">
                      <div class="col-sm-12">
-                        <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-payroll" role="grid">
-                           <thead>
-                              <tr role="row">
-                                 <th class="bg-white">#Emp ID</th>
-                                 <th class="bg-white">#Emp Name</th>
-                                 <th>(₦) Salary</th>
-                                 <th>(₦) Salary Advance</th>
-                                 <th>(₦) Loan</th>
-                                 <th>(₦) Take Home</th>
-                                 <th>Status</th>
-                                 <th class="bg-white">Action</th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <?php $sn = 1;
-                              foreach (Employee::find_by_undeleted() as $value) :
-                                 $empLoan = LongTermLoan::find_by_employee_id($value->id);
-                                 $salary_advance = SalaryAdvance::find_by_employee_id($value->id);
-                                 $salary = intval($value->present_salary);
-                                 $commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
-                                 $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested));
-
-                              ?>
-                                 <tr>
-                                    <td class="bg-white"><?php echo $sn++; ?></td>
-                                    <td class="bg-white">
-                                       <div class="d-flex">
-                                          <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
-                                          <div class="me-3 mt-0 mt-sm-1 d-block">
-                                             <h6 class="mb-1 fs-14"><?php echo $value->full_name() ?></h6>
-                                             <p class="text-muted mb-0 fs-12"><?php echo strtolower($value->email) ?></p>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td><?php echo number_format($salary) ?></td>
-                                    <td>
-                                       <?php echo !empty($salary_advance->total_requested) ? number_format($salary_advance->total_requested) : '0.00' ?>
-                                    </td>
-                                    <td><?php echo number_format($commitment) ?></td>
-                                    <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
-                                    <td><span class="badge badge-danger">Unpaid</span></td>
-                                    <td class="text-start bg-white">
-                                       <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
-                                    </td>
+                        <div class="table-responsive">
+                           <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-payroll" role="grid">
+                              <thead>
+                                 <tr role="row">
+                                    <th class="bg-white">#Emp ID</th>
+                                    <th class="bg-white">#Emp Name</th>
+                                    <th>(₦) Salary</th>
+                                    <th>(₦) Salary Advance</th>
+                                    <th>(₦) Loan</th>
+                                    <th>(₦) Take Home</th>
+                                    <th>Status</th>
+                                    <th class="bg-white">Action</th>
                                  </tr>
-                              <?php endforeach; ?>
-                           </tbody>
-                        </table>
+                              </thead>
+                              <tbody>
+                                 <?php $sn = 1;
+                                 foreach (Employee::find_by_undeleted() as $value) :
+                                    $empLoan = LongTermLoan::find_by_employee_id($value->id);
+                                    $salary_advance = SalaryAdvance::find_by_employee_id($value->id);
+                                    $salary = intval($value->present_salary);
+                                    $commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
+                                    $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested));
+                                 ?>
+                                    <tr>
+                                       <td class="bg-white"><?php echo $sn++; ?></td>
+                                       <td class="bg-white">
+                                          <div class="d-flex">
+                                             <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
+                                             <div class="me-3 mt-0 mt-sm-1 d-block">
+                                                <h6 class="mb-1 fs-14"><?php echo $value->full_name() ?></h6>
+                                                <p class="text-muted mb-0 fs-12"><?php echo strtolower($value->email) ?></p>
+                                             </div>
+                                          </div>
+                                       </td>
+                                       <td><?php echo number_format($salary) ?></td>
+                                       <td>
+                                          <?php echo !empty($salary_advance->total_requested) ? number_format($salary_advance->total_requested) : '0.00' ?>
+                                       </td>
+                                       <td><?php echo number_format($commitment) ?></td>
+                                       <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
+                                       <td><span class="badge badge-danger">Unpaid</span></td>
+                                       <td class="text-start bg-white">
+                                          <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
+                                          <a href="#" class="action-btns" id="edit_salary" data-id="<?php echo $value->id ?>" data-bs-toggle="modal" data-bs-target="#payroll_narration" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a>
+                                          <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
+                                       </td>
+                                    </tr>
+                                 <?php endforeach; ?>
+                              </tbody>
+                           </table>
+                        </div>
                      </div>
                   </div>
 
                </div>
             </div>
          </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="viewsalarymodal" aria-modal="true" role="dialog">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">PaySlip</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+         </div>
+         <div class="modal-header">
+            <div> <img src="<?php echo url_for('assets/images/brand/logo.png') ?>" class="header-brand-img" alt="Dayonelogo"> </div>
+            <div class="ms-auto">
+               <!-- <div class="font-weight-bold text-md-right mt-3">Date: 01-02-2021</div> -->
+            </div>
+         </div>
+
+         <div id="salary_data">
+            <!-- //? AJAX CALL -->
+         </div>
+
+      </div>
+   </div>
+</div>
+
+<div id="payroll_narration" class="modal custom-modal fade" role="dialog">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="loan-title">Other Payroll Narrations</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form id="add_payroll_narration_form" class="mb-0">
+            <div class="modal-body">
+               <div class="form-group">
+                  <label>Employees</label>
+                  <input type="text" id="employee_id">
+               </div>
+
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label>Overtime Allowance <span class="text-danger">*</span></label>
+                        <input class="form-control" name="payroll[overtime_allowance]" id="comp_name" type="text" placeholder="Overtime Allowance">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label>Leave Allowance <span class="text-danger">*</span></label>
+                        <input class="form-control" name="payroll[leave_allowance]" id="comp_name" type="text" placeholder="Leave Allowance">
+                     </div>
+                  </div>
+
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label>Other Allowance <span class="text-danger">*</span></label>
+                        <input class="form-control" name="payroll[other_allowance]" id="comp_name" type="text" placeholder="Other Allowance">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label>Other Allowance <span class="text-danger">*</span></label>
+                        <input class="form-control" name="payroll[other_deduction]" id="comp_name" type="text" placeholder="Other Deduction">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                  <label>Note</label>
+                  <textarea name="payroll[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
+               </div>
+            </div>
+
+            <div class="modal-footer">
+               <button class="btn btn-primary">Submit</button>
+            </div>
+         </form>
       </div>
    </div>
 </div>
@@ -172,44 +255,33 @@ $employees = Employee::find_by_undeleted();
          }
       };
 
+      const PAYROLL_URL = "../inc/payroll/payroll_script.php";
       const SETTING_URL = "../inc/setting/generate_payslip.php";
-      const PAYROLL_URL = "./inc/salary_data.php";
+      const SALARY_URL = "./inc/salary_data.php";
 
-      const generateSlip = document.getElementById("generate_payslip");
+      const payrollForm = document.getElementById("add_payroll_narration_form");
       const getSalary = document.getElementById("get_salary");
-
-      generateSlip.addEventListener("click", async (e) => {
-         $.ajax({
-            url: SETTING_URL,
-            method: "POST",
-            data: {
-               generateSlip: 1,
-            },
-            dataType: "json",
-            success: function(r) {
-               if (r.success == true) {
-                  console.log('welcome back');
-               } else {
-                  // errorAlert("Success email not sent")
-               }
-            }
-         })
-      })
 
       $('tbody').on('click', '#get_salary', async function() {
          let empId = this.dataset.id;
-         let data = await fetch(PAYROLL_URL + '?empId=' + empId + '&salary_data')
+         let data = await fetch(SALARY_URL + '?empId=' + empId + '&salary_data')
          let res = await data.text();
 
          $('#salary_data').html(res);
       })
 
-      // getSalary.addEventListener("click", async (e) => {
-      //    e.preventDefault();
-      //    let data = await fetch(SETTING_URL + '?generate')
-      //    let res = await data.json();
-      //    console.log(res.message);
-      //    console.log(e);
-      // });
+      $('tbody').on('click', '#edit_salary', async function() {
+         let empId = this.dataset.id;
+         let data = await fetch(PAYROLL_URL + '?empId=' + empId + '&edit_salary')
+         let res = await data.json();
+
+         $('#employee_id').val(empId);
+
+         payrollForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            submitForm(PAYROLL_URL, payrollForm);
+         });
+
+      })
    })
 </script>
