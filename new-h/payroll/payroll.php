@@ -7,6 +7,7 @@ include(SHARED_PATH . '/header.php');
 $datatable = '';
 $select2 = '';
 $employees = Employee::find_by_undeleted();
+$thisMonth = date('Y-m');
 ?>
 
 <div class="page-header d-xl-flex d-block">
@@ -15,7 +16,18 @@ $employees = Employee::find_by_undeleted();
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+         <?php 
+         $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $thisMonth]);
+         if($config == true) : ?>
+            <button class="btn btn-dark me-3" id="PaySlipDisabled">Payslip Generated</button>
+         <?php else: ?>
+            <button class="btn btn-primary me-3" id="genPaySlip">Generate Payslip</button>
+         <?php endif ?>
+         
+
+         <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button> 
+
+         <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
       </div>
    </div>
 </div>
@@ -93,10 +105,13 @@ $employees = Employee::find_by_undeleted();
                               </tr>
                            </thead>
                            <tbody>
-                              <?php $sn = 1;
-                              foreach (Employee::find_by_undeleted() as $value) :
-                                 $empLoan = LongTermLoan::find_by_employee_id($value->id);
-                                 $salary_advance = SalaryAdvance::find_by_employee_id($value->id);
+                              <?php 
+                              $sn = 1;
+                              foreach (Salary::find_by_created_at($thisMonth) as $value) :
+
+                                 $empLoan = LongTermLoan::find_by_employee_id($value->employee_id);
+                                 $salary_advance = SalaryAdvance::find_by_employee_id($value->employee_id);
+                                 $employee = Employee::find_by_id($value->employee_id);
                                  $salary = intval($value->present_salary);
                                  $commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
                                  $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested));
@@ -108,8 +123,8 @@ $employees = Employee::find_by_undeleted();
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                           <div class="me-3 mt-0 mt-sm-1 d-block">
-                                             <h6 class="mb-1 fs-14"><?php echo $value->full_name() ?></h6>
-                                             <p class="text-muted mb-0 fs-12"><?php echo strtolower($value->email) ?></p>
+                                             <h6 class="mb-1 fs-14"><?php echo $employee->full_name() ?></h6>
+                                             <p class="text-muted mb-0 fs-12"><?php echo strtolower($employee->email) ?></p>
                                           </div>
                                        </div>
                                     </td>
@@ -121,7 +136,7 @@ $employees = Employee::find_by_undeleted();
                                     <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
                                     <td><span class="badge badge-danger">Unpaid</span></td>
                                     <td class="text-start bg-white">
-                                       <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
+                                       <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a> <a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Download"> <i class="feather feather-download  text-secondary"></i> </a> <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
                                     </td>
                                  </tr>
                               <?php endforeach; ?>
@@ -150,7 +165,7 @@ $employees = Employee::find_by_undeleted();
                   className: req == "error" ? "btn btn-danger" : "btn btn-success",
                },
             },
-         }).then(() => location.reload());
+         })
       };
 
       const submitForm = async (url, payload) => {
@@ -175,26 +190,9 @@ $employees = Employee::find_by_undeleted();
       const SETTING_URL = "../inc/setting/generate_payslip.php";
       const PAYROLL_URL = "./inc/salary_data.php";
 
-      const generateSlip = document.getElementById("generate_payslip");
+      
       const getSalary = document.getElementById("get_salary");
-
-      generateSlip.addEventListener("click", async (e) => {
-         $.ajax({
-            url: SETTING_URL,
-            method: "POST",
-            data: {
-               generateSlip: 1,
-            },
-            dataType: "json",
-            success: function(r) {
-               if (r.success == true) {
-                  console.log('welcome back');
-               } else {
-                  // errorAlert("Success email not sent")
-               }
-            }
-         })
-      })
+     
 
       $('tbody').on('click', '#get_salary', async function() {
          let empId = this.dataset.id;
@@ -211,5 +209,41 @@ $employees = Employee::find_by_undeleted();
       //    console.log(res.message);
       //    console.log(e);
       // });
+
+      $(document).on('click', '#PaySlipDisabled', function() {
+         message('error', 'Payslip already generated for this month! Thank You');
+      })
+      $(document).on('click', '#genPaySlip', function() {
+         $(this).html('Processing')
+         $(this).attr("disabled", true);
+         $.ajax({
+            url: '../inc/payroll/payroll_script.php',
+            method:"POST",
+            data: {
+               genPaySlip: 1,
+               present_day: 31,
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.success == true) {
+                    message('success', data.msg);
+                    window.reload();
+                }else{
+                    message('error', data.msg);
+                }
+            }
+        })
+      })
    })
 </script>
+
+
+
+
+
+
+
+
+
+
+
