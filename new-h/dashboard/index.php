@@ -8,6 +8,20 @@ $id = $loggedInAdmin->id;
 $attendance = EmployeeAttendance::find_by_employee_id($id, ['clock_in' => date('Y-m-d')]);
 $isClockedIn =  isset($attendance->clock_in) && $attendance->clock_in != '00:00:00' ? true : false;
 
+$salaryAdvance = SalaryAdvance::find_by_total_salary_advance_amount();
+$advanceApproval = SalaryAdvanceDetail::find_by_loan_approved(['status' => 1]);
+
+$longTerm = LongTermLoan::find_by_total_long_term_amount();
+$loanApproval = LongTermLoanDetail::find_by_loan_approved(['status' => 1]);
+
+$totalLoanRequest = intval($longTerm->counts) + intval($salaryAdvance->counts);
+$totalLoanValue = intval($longTerm->total_amount) + intval($salaryAdvance->total_amount);
+
+if ($salaryAdvance->status == 1) {
+   $totalLoanApproved = intval($loanApproval->counts) + intval($advanceApproval->counts);
+}
+
+
 // pre_r($attendance);
 
 $page = 'Dashboard';
@@ -15,8 +29,6 @@ $page_title = 'HR Dashboard';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 ?>
-<!--/app header-->
-<!--Page header-->
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
@@ -61,8 +73,6 @@ $datatable = '';
    </div>
 </div>
 
-<!--End Page header-->
-<!--Row-->
 <div class="row">
    <div class="col-xl-9 col-md-12 col-lg-12">
       <div class="row">
@@ -76,14 +86,13 @@ $datatable = '';
                            <h3 class="mb-0 mt-1 mb-2">0.00</h3>
                            <span class="text-muted">
                               <span class="text-success fs-12 mt-2 me-1">
-                                 <i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>0 Person</span>last month
+                                 <i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>
+                                 0 Person</span> last month
                            </span>
                         </div>
                      </div>
                      <div class="col-3">
-                        <div class="icon1 bg-success my-auto  float-end">
-                           <!-- <i class="feather feather-dollar-sign"></i>  --><?php echo $currency ?>
-                        </div>
+                        <div class="icon1 bg-success my-auto  float-end"><?php echo $currency ?></div>
                      </div>
                   </div>
                </div>
@@ -96,11 +105,11 @@ $datatable = '';
                      <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Request</span>
-                           <h3 class="mb-0 mt-1 mb-2"><?php echo '0.00'; //echo count(EmployeeLoan::find_all()); ?></h3>
+                           <h3 class="mb-0 mt-1 mb-2"><?php echo number_format($totalLoanValue); ?></h3>
                            <span class="text-muted">
                               <span class="text-danger fs-12 mt-2 me-1">
-                                 <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i><?php echo count(LongTermLoanDetail::find_all()); ?> Person</span>
-                              this month </span>
+                                 <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i>
+                                 <?php echo $totalLoanRequest; ?> Person</span> this month </span>
                         </div>
                      </div>
                      <div class="col-3">
@@ -117,50 +126,21 @@ $datatable = '';
                      <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Approved</span>
-                           <h3 class="mb-0 mt-1  mb-2">0.00</h3>
+                           <h3 class="mb-0 mt-1  mb-2"><?php echo $totalLoanApproved ?? '0.00' ?></h3>
                         </div>
                         <span class="text-muted">
                            <span class="text-danger fs-12 mt-2 me-1">
-                              <i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>0 Person
+                              <i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>
+                              <?php echo $totalLoanApproved ?? 0 ?> Person
                            </span> this month </span>
                      </div>
                      <div class="col-3">
-                        <div class="icon1 bg-secondary brround my-auto  float-end">
-                           <!-- <i class="feather feather-dollar-sign"></i>  --> <?php echo $currency ?>
-                        </div>
+                        <div class="icon1 bg-secondary brround my-auto  float-end"><?php echo $currency ?></div>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <!-- <div class="col-xl-12 col-md-12 col-lg-12 d-none">
-                        <div class="card">
-                           <div class="card-header border-0 responsive-header">
-                              <h4 class="card-title">Overview</h4>
-                              <div class="card-options">
-                                 <div class="btn-list">
-                                    <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-light4 me-2 my-auto"></span>Employees</a> <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-primary me-2 my-auto"></span>Budget</a> <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Year <i class="feather feather-chevron-down"></i> </a> 
-                                    <ul class="dropdown-menu dropdown-menu-end" role="menu">
-                                       <li><a href="#">Monthly</a></li>
-                                       <li><a href="#">Yearly</a></li>
-                                       <li><a href="#">Weekly</a></li>
-                                    </ul>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="card-body">
-                              <div class="chartjs-size-monitor">
-                                 <div class="chartjs-size-monitor-expand">
-                                    <div class=""></div>
-                                 </div>
-                                 <div class="chartjs-size-monitor-shrink">
-                                    <div class=""></div>
-                                 </div>
-                              </div>
-                              <canvas id="chartLine" style="display: block; height: 325px; width: 902px;" width="1623" height="584" class="chartjs-render-monitor"></canvas>
-                           </div>
-                        </div>
-                     </div> -->
          <div class="col-xl-12 col-md-12 col-lg-12">
             <div class="card">
 
@@ -173,13 +153,10 @@ $datatable = '';
                               <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="company-list" role="grid" aria-describedby="company-list_info">
                                  <thead>
                                     <tr role="row">
-                                       <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="#NO" style="width: 27.8958px;">#NO</th>
+                                       <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="SN" style="width: 27.8958px;">SN</th>
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Company Name: activate to sort column ascending" style="width: 270.083px;">Company Name</th>
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Units: activate to sort column ascending" style="width: 203.542px;">Units</th>
                                        <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="4" aria-label="Branch Name: activate to sort column ascending" style="width: 287.625px;">Branch Name</th>
-                                       <!-- <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Register Date: activate to sort column ascending" style="width: 141.208px;">Register Date</th> -->
-                                       <!-- <th class="border-bottom-0 sorting" tabindex="0" aria-controls="company-list" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 101.021px;">Status</th> -->
-                                       <!-- <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 191.958px;">Actions</th> -->
                                     </tr>
                                  </thead>
                                  <tbody>
@@ -188,15 +165,14 @@ $datatable = '';
                                     $sn = 1;
                                     foreach ($companies as $key => $value) {
                                        $branch = Branch::find_by_company_id($value->id);
-                                       // pre_r($branch);
                                        $employee = Employee::find_by_company_id($value->id);
                                        $class = $key % 2 == 0 ? 'even' : 'odd';
                                     ?>
-                                       <tr class="odd">
-                                          <td>#0<?php echo $sn++ ?></td>
+                                       <tr>
+                                          <td><?php echo $sn++ ?></td>
                                           <td>
                                              <a href="#" class="d-flex sidebarmodal-collpase">
-                                                <span class="avatar avatar-lg bg-transparent brround me-3" style="background-image: url(../../assets/images/files/company/img1.png)"></span>
+                                                <span class="avatar avatar-lg bg-transparent brround me-3" style="background-image: url(../../assets/images/files/company/avatar.png)"></span>
                                                 <div class="mt-0 mt-sm-4 d-block">
                                                    <h6 class="mb-0 fs-16"><?php echo $value->company_name ?></h6>
                                                 </div>
@@ -224,6 +200,7 @@ $datatable = '';
 
       </div>
    </div>
+
    <div class="col-xl-3 col-md-12 col-lg-12">
       <div class="card overflow-hidden">
          <div class="card-header border-0">

@@ -12,6 +12,8 @@ class LongTermLoan extends DatabaseObject
   public $date_requested;
   public $deleted;
 
+  public $total_amount;
+  public $counts;
 
   public function __construct($args = [])
   {
@@ -40,6 +42,47 @@ class LongTermLoan extends DatabaseObject
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function find_by_total_long_term_amount($option = [])
+  {
+    $currentMonth = $option['current'] ?? false;
+
+    $sql = "SELECT COUNT(*) AS counts, SUM(amount_requested) AS total_amount, SUM(amount_paid) AS amount_paid FROM " . static::$table_name . " ";
+
+    if ($currentMonth) {
+      $sql .= "WHERE date_requested LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
+    }
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function find_by_loan_approved($option = [])
+  {
+    $currentMonth = $option['current'] ?? false;
+    $salaryStatus = $option['status'] ?? false;
+
+    $sql = "SELECT COUNT(*) AS counts FROM " . static::$table_name . " ";
+
+    if ($currentMonth) {
+      $sql .= " WHERE created_at LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
+    }
+
+    if ($salaryStatus == 1) {
+      $sql .= " AND status='" . self::$database->escape_string($salaryStatus) . "'";
+    }
+
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);

@@ -232,7 +232,7 @@ $datatable = '';
                               <td><?php echo count($branch) ?? 0; ?></td>
                               <td class="p-2">
                                  <!-- <span class="me-4 fs-16">:</span> -->
-                                 <span class="ms-auto font-weight-semibold fs-16 staff_strength"><?php echo count($employee); ?></span>
+                                 <span class="ms-auto font-weight-semibold fs-16 staff_strength"><?php echo count($employee) ?? 0; ?></span>
                               </td>
                            </tr>
                         <?php } ?>

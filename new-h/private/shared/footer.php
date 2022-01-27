@@ -269,7 +269,6 @@
     <script src="<?php echo url_for('assets/plugins/datatable/js/buttons.bootstrap5.min.js') ?>"></script>
     <script src="<?php echo url_for('assets/plugins/datatable/dataTables.responsive.min.js') ?>"></script>
     <script src="<?php echo url_for('assets/plugins/datatable/responsive.bootstrap5.min.js') ?>"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>
     <script type="text/javascript">
        $(function(e) {
 
@@ -291,16 +290,16 @@
           });
           /* End Data Table */
 
-          var table = $('#example').DataTable( {
-              scrollY:        "300px",
-              scrollX:        true,
-              scrollCollapse: true,
-              paging:         false,
-              fixedColumns:   {
-                  left: 1,
-                  right: 1
-              }
-          } );
+          var table = $('#example').DataTable({
+             scrollY: "300px",
+             scrollX: true,
+             scrollCollapse: true,
+             paging: false,
+             fixedColumns: {
+                left: 1,
+                right: 1
+             }
+          });
 
        });
     </script>

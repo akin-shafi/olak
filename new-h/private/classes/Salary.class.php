@@ -26,21 +26,21 @@ class Salary extends DatabaseObject
 
   public function __construct($args = [])
   {
-    $this->employee_id                = $args['employee_id'] ?? '';
-    $this->present_salary             = $args['present_salary'] ?? '';
-    $this->loan                       = $args['loan'] ?? '';
-    $this->salary_advance             = $args['salary_advance'] ?? '';
-    $this->overtime_allowance         = $args['overtime_allowance'] ?? 0;
-    $this->leave_allowance            = $args['leave_allowance'] ?? 0;
-    $this->other_allowance            = $args['other_allowance'] ?? 0; 
-    $this->other_deduction            = $args['other_deduction'] ?? 0; 
-    $this->note                       = $args['note'] ?? ''; 
-    $this->present_days               = $args['present_days'] ?? '';
-    $this->payment_status             = $args['payment_status'] ?? 0;
-    $this->created_at                 = $args['created_at'] ?? date('Y-m-d H:i:s');
-    $this->tax                        = $args['tax'] ?? '';
-    $this->pension                    = $args['pension'] ?? '';
-    $this->deleted                    = $args['deleted'] ?? '';
+    $this->employee_id          = $args['employee_id'] ?? '';
+    $this->present_salary       = $args['present_salary'] ?? '';
+    $this->loan                 = $args['loan'] ?? '';
+    $this->salary_advance       = $args['salary_advance'] ?? '';
+    $this->overtime_allowance   = $args['overtime_allowance'] ?? 0;
+    $this->leave_allowance      = $args['leave_allowance'] ?? 0;
+    $this->other_allowance      = $args['other_allowance'] ?? 0; 
+    $this->other_deduction      = $args['other_deduction'] ?? 0; 
+    $this->note                 = $args['note'] ?? ''; 
+    $this->present_days         = $args['present_days'] ?? '';
+    $this->payment_status       = $args['payment_status'] ?? 0;
+    $this->created_at           = $args['created_at'] ?? date('Y-m-d H:i:s');
+    $this->tax                  = $args['tax'] ?? '';
+    $this->pension              = $args['pension'] ?? '';
+    $this->deleted              = $args['deleted'] ?? '';
   }
 
   
