@@ -42,10 +42,10 @@
               </div>
               <div class="form-group ">
                 <label>Company <span class="text-danger">*</span></label>
-                <select class="form-control" name="designation[company_id]" id="company_id">
+                <select class="form-control" name="designation[company_name]" id="company_name">
                   <option value="">Select Company</option>
                   <?php foreach (Company::find_by_undeleted() as $company) : ?>
-                    <option value="<?php echo $company->id ?>">
+                    <option value="<?php echo $company->company_name ?>">
                       <?php echo ucwords($company->company_name) ?>
                     </option>
                   <?php endforeach; ?>
@@ -145,10 +145,10 @@
               <input type="hidden" name="branchId" id="branchId" readonly>
               <div class="form-group">
                 <label>Company <span class="text-danger">*</span></label>
-                <select name="branch[company_id]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Company Name" required>
+                <select name="branch[company_name]" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Company Name" required>
                   <option label="Company Name"></option>
                   <?php foreach (Company::find_by_undeleted() as $value) : ?>
-                    <option value="<?php echo $value->id ?>"><?php echo ucwords($value->company_name) ?></option>
+                    <option value="<?php echo $value->company_name ?>"><?php echo ucwords($value->company_name) ?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
