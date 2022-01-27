@@ -43,7 +43,22 @@ if (is_post_request()) {
 			$config->save();
 			exit(json_encode(['success' => true, 'msg' => 'Sent successful']));
 		} else {
-			exit(json_encode(['success' => false, 'msg' => display_errors($staff_salary->errors)]));
+			http_response_code(404);
+			exit(json_encode(['error' => display_errors($staff_salary->errors)]));
+		}
+	}
+
+	if (isset($_POST['salary'])) {
+		$args = $_POST['salary'];
+		if (isset($args['employee_id'])) {
+			$salary = Salary::find_by_employee_id($args['employee_id']);
+			$salary->merge_attributes($args);
+			$salary->save();
+
+			if ($salary) {
+				http_response_code(200);
+				$response['message'] = 'Payroll narration updated successfully';
+			}
 		}
 	}
 }
@@ -53,6 +68,8 @@ if (is_get_request()) {
 		$employee = Employee::find_by_id($_GET['empId']);
 
 		http_response_code(200);
-		$response['data'] = $employee;
+		exit(json_encode(['data' => $employee]));
 	}
 }
+
+exit(json_encode($response));

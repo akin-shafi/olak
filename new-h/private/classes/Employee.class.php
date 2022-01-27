@@ -143,7 +143,7 @@ class Employee extends DatabaseObject
   public static function find_by_company_id($id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE company_id='" . self::$database->escape_string($id) . "'";
+    $sql .= "WHERE company='" . self::$database->escape_string($id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "ORDER BY id ASC";
     // $obj_array = static::find_by_sql($sql);

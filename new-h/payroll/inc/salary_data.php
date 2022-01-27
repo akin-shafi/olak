@@ -9,6 +9,18 @@
 
     $earnings = PayrollItem::find_all_payroll(['category' => 1]);
     $deductions = PayrollItem::find_all_payroll(['category' => 3]);
+    $salaryAdvance = SalaryAdvance::find_by_employee_id($empId);
+    $longTerm = LongTermLoan::find_by_employee_id($empId);
+    $commitment = $longTerm ? intval($longTerm->commitment) : 0;
+
+    $salary = Salary::find_by_employee_id($empId);
+    $overtime = $salary->overtime_allowance ?? 0;
+    $leave = $salary->leave_allowance ?? 0;
+    $otherAllowance = $salary->other_allowance ?? 0;
+    $otherDeduction = $salary->other_deduction ?? 0;
+
+    $totalAllowance = $overtime + $leave + $otherAllowance + $employee->present_salary;
+    $totalDeduction = $commitment + $otherDeduction;
 
 ?>
     <div class="modal-body pt-1">
@@ -54,13 +66,27 @@
                       </tr>
                     <?php endforeach; ?>
 
+                    <tr>
+                      <td>Overtime Allowance</td>
+                      <td class="border-start"><?php echo number_format($overtime) ?></td>
+                    </tr>
+                    <tr>
+                      <td>Leave Allowance</td>
+                      <td class="border-start"><?php echo number_format($leave) ?></td>
+                    </tr>
+                    <tr>
+                      <td>Additional Days Allowance</td>
+                      <td class="border-start"><?php echo number_format($otherAllowance) ?></td>
+                    </tr>
+
                     <tr class="border-top">
                       <td class="font-weight-semibold">Total Earnings</td>
-                      <td class="font-weight-semibold border-start"><?php echo number_format($employee->present_salary) ?></td>
+                      <td class="font-weight-semibold border-start"><?php echo number_format(intval($totalAllowance)) ?></td>
                     </tr>
                   </tbody>
                 </table>
               </td>
+
               <td class="p-0">
                 <table class="table text-nowrap mb-0 border-start">
                   <thead>
@@ -81,13 +107,19 @@
                         <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
                       </tr>
                     <?php endforeach; ?>
+
+                    <tr>
+                      <td>Other Deductions</td>
+                      <td class="border-start"><?php echo number_format($otherDeduction) ?></td>
+                    </tr>
+
                     <tr>
                       <td>Loans &amp; Others</td>
-                      <td class="border-start">0.00</td>
+                      <td class="border-start"><?php echo number_format($commitment) ?></td>
                     </tr>
                     <tr class="border-top">
                       <td class="font-weight-semibold">Total Deduction</td>
-                      <td class="font-weight-semibold border-start">0.00</td>
+                      <td class="font-weight-semibold border-start"><?php echo number_format(intval($totalDeduction)) ?></td>
                     </tr>
                   </tbody>
                 </table>

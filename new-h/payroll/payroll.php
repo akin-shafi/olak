@@ -135,7 +135,7 @@ $thisMonth = date('Y-m');
                                     <td><span class="badge badge-danger">Unpaid</span></td>
                                     <td class="text-start bg-white">
                                        <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
-                                       <a href="#" class="action-btns" id="edit_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a>
+                                       <a href="#" class="action-btns" id="edit_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#payroll_narration" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a>
                                        <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
                                     </td>
                                  </tr>
@@ -185,43 +185,44 @@ $thisMonth = date('Y-m');
             </button>
          </div>
          <form id="add_payroll_narration_form" class="mb-0">
+            <input type="hidden" name="salary[employee_id]" id="employee_id" readonly>
             <div class="modal-body">
                <div class="form-group">
                   <label>Employees</label>
-                  <input type="text" id="employee_id" name="payroll[employee_id]" class="form-control" readonly>
+                  <input type="text" id="employee_name" class="form-control" readonly>
                </div>
 
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Overtime Allowance <span class="text-danger">*</span></label>
-                        <input class="form-control" name="payroll[overtime_allowance]" id="comp_name" type="text" placeholder="Overtime Allowance">
+                        <input class="form-control" name="salary[overtime_allowance]" type="number" placeholder="Overtime Allowance">
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Leave Allowance <span class="text-danger">*</span></label>
-                        <input class="form-control" name="payroll[leave_allowance]" id="comp_name" type="text" placeholder="Leave Allowance">
+                        <input class="form-control" name="salary[leave_allowance]" type="number" placeholder="Leave Allowance">
                      </div>
                   </div>
 
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Other Allowance <span class="text-danger">*</span></label>
-                        <input class="form-control" name="payroll[other_allowance]" id="comp_name" type="text" placeholder="Other Allowance">
+                        <input class="form-control" name="salary[other_allowance]" type="number" placeholder="Other Allowance">
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Other Allowance <span class="text-danger">*</span></label>
-                        <input class="form-control" name="payroll[other_deduction]" id="comp_name" type="text" placeholder="Other Deduction">
+                        <label>Other Deduction <span class="text-danger">*</span></label>
+                        <input class="form-control" name="salary[other_deduction]" type="number" placeholder="Other Deduction">
                      </div>
                   </div>
                </div>
 
                <div class="form-group">
                   <label>Note</label>
-                  <textarea name="payroll[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
+                  <textarea name="salary[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
                </div>
             </div>
 
@@ -277,7 +278,6 @@ $thisMonth = date('Y-m');
       const editSalary = document.getElementById("edit_salary");
 
 
-
       $('tbody').on('click', '#get_salary', async function() {
          let empId = this.dataset.id;
          let data = await fetch(SALARY_URL + '?empId=' + empId + '&salary_data')
@@ -290,17 +290,20 @@ $thisMonth = date('Y-m');
          let empId = this.dataset.id;
          let data = await fetch(PAYROLL_URL + '?empId=' + empId + '&salary_data')
          let res = await data.json();
-
-         $('#employee_id').val(res.data.first_name + ' ' + res.data.last_name);
-
-         payrollForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            submitForm(PAYROLL_URL, payrollForm);
-         });
+         $('#employee_id').val(res.data.id);
+         $('#employee_name').val(res.data.first_name + ' ' + res.data.last_name);
       })
 
+      payrollForm.addEventListener("submit", async (e) => {
+         e.preventDefault();
+         submitForm(PAYROLL_URL, payrollForm);
+         setTimeout(() => {
+            window.location.reload();
+         }, 1500);
+      });
+
       $(document).on('click', '#PaySlipDisabled', function() {
-         message('error', 'Payslip already generated for this month! Thank You');
+         message('error', 'Payslip already generated for this month. Thank You!');
       })
 
       $(document).on('click', '#genPaySlip', function() {
