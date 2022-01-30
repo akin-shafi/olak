@@ -1,4 +1,4 @@
-<?php
+g<?php
 require_once('../private/initialize.php');
 
 $page = 'Payroll';
