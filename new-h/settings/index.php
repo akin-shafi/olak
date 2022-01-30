@@ -15,7 +15,7 @@ $datatable = '';
     </div>
     <div class="page-rightheader ms-md-auto">
       <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
-        <div class="btn-list">
+        <div class="btn-list d-none">
           <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button>
           <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button>
           <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
@@ -52,7 +52,7 @@ $datatable = '';
                           <tr role="row">
                             <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 24.3576px;">#ID</th>
                             <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Company Name: activate to sort column ascending" style="width: 678.872px;">Company Name</th>
-                            <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Company Label: activate to sort column ascending" style="width: 678.872px;">Company Label</th>
+                            <!-- <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Company Label: activate to sort column ascending" style="width: 678.872px;">Company Label</th> -->
                             <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 291.771px;">Actions</th>
                           </tr>
                         </thead>
@@ -115,14 +115,15 @@ $datatable = '';
                           <tr role="row">
                             <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 24.3576px;">#ID</th>
                             <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Company Name: activate to sort column ascending" style="width: 678.872px;">Company Name</th>
-                            <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Branch Label: activate to sort column ascending" style="width: 678.872px;">Branch Label</th>
+                            <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Branch Label: activate to sort column ascending" style="width: 678.872px;">Branch Name</th>
                             <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 291.771px;">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           <?php $sn = 1;
                           foreach (Branch::find_by_undeleted() as $branch) :
-                            $company = Company::find_by_id($branch->company_id);
+                            // pre_r($branch);
+                            $company = Company::find_by_company_name($branch->company_name);
                           ?>
                             <tr>
                               <td><?php echo $sn++ ?></td>

@@ -140,22 +140,26 @@ class Employee extends DatabaseObject
     return $this->first_name . " " . $this->last_name;
   }
 
-  public static function find_by_company_id($id)
+  // public static function find_by_company_id($id)
+  // {
+  //   $sql = "SELECT * FROM " . static::$table_name . " ";
+  //   $sql .= "WHERE company='" . self::$database->escape_string($id) . "'";
+  //   $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+  //   $sql .= "ORDER BY id ASC";
+  //   $obj_array = static::find_by_sql($sql);
+  //   return $obj_array;
+  // }
+  
+  public static function find_by_company_name($id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE company='" . self::$database->escape_string($id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "ORDER BY id ASC";
-    // $obj_array = static::find_by_sql($sql);
-    // if (!empty($obj_array)) {
-    //   return array_shift($obj_array);
-    // } else {
-    //   return false;
-    // }
     $obj_array = static::find_by_sql($sql);
     return $obj_array;
   }
-
+  
   public static function find_by_query($options = [])
   {
     $id = $options['employee_id'] ?? false;

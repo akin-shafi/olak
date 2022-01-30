@@ -13,7 +13,7 @@
     $longTerm = LongTermLoan::find_by_employee_id($empId);
     $commitment = $longTerm ? intval($longTerm->commitment) : 0;
 
-    $salary = Salary::find_by_employee_id($empId);
+    $salary = Payroll::find_by_employee_id($empId);
     $overtime = $salary->overtime_allowance ?? 0;
     $leave = $salary->leave_allowance ?? 0;
     $otherAllowance = $salary->other_allowance ?? 0;

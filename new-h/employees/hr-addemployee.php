@@ -14,17 +14,21 @@ include(SHARED_PATH . '/header.php');
       <h4 class="page-title">Add Employee</h4>
    </div>
 
-   <div class="page-rightheader ms-md-auto">
+   <div class="page-rightheader ms-md-auto d-none">
       <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
          <div class="btn-list">
-            <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+            <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
+
+            <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button>
+
+             <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
          </div>
       </div>
    </div>
 </div>
 
 
-<div class="card">
+<div class="card d-none">
    <div class="card-body">
       <div class="row ">
          <div class="col-lg-4 col-md-6 m-auto">
@@ -42,107 +46,9 @@ include(SHARED_PATH . '/header.php');
 
 
 <div class="row">
-   <div class="col-xl-3 col-md-12 col-lg-12">
-      <div class="card box-widget widget-user">
-         <div class="card-body text-center">
-            <div class="widget-user-image mx-auto text-center">
-               <img class="avatar avatar-xxl brround rounded-circle" alt="img" src="../assets/images/users/1.jpg">
-            </div>
-            <div class="pro-user mt-3">
-               <h5 class="pro-user-username text-dark mb-1 fs-16">
-                  <?php echo ucwords($user->full_name()) ?></h5>
-               <h6 class="pro-user-desc text-muted fs-12">
-                  <?php echo $user->admin_level ? $user->admin_level : 'Not Set' ?></h6>
-            </div>
-            <div class="star-ratings start-ratings-main mb-0 clearfix">
-               <div class="stars stars-example-fontawesome star-sm">
-                  <div class="br-wrapper br-theme-fontawesome-stars">
-                     <select id="example-fontawesome" name="rating" style="display: none;">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4" selected="">4</option>
-                        <option value="5">5</option>
-                     </select>
+  
 
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="card-footer p-0">
-            <div class="row">
-               <div class="col-4 text-center py-5 border-end">
-                  <h5 class="fs-12 font-weight-semibold mb-3">January</h5>
-                  <h5 class="mb-2"> <span class="fs-18 text-success">0</span> <span class="my-auto fs-9 font-weight-normal  ms-1 me-1">/</span> <span class="fs-18 font-weight-semibold text-dark">31</span> </h5>
-                  <h5 class="fs-12 mb-0">Attendance</h5>
-               </div>
-               <div class="col-4  py-5 text-center border-end">
-                  <h5 class="fs-12 font-weight-semibold mb-3">Year-<?php echo date('Y') ?></h5>
-                  <h5 class="mb-2"> <span class="fs-18 text-orange">0</span> <span class="my-auto fs-9 font-weight-normal  ms-1 me-1">/</span> <span class="fs-18 font-weight-semibold text-dark">28</span> </h5>
-                  <h5 class="fs-12 mb-0">Leaves</h5>
-               </div>
-               <div class="col-4 text-center py-5">
-                  <h5 class="fs-12 font-weight-semibold mb-3">Year-<?php echo date('Y') ?></h5>
-                  <h5 class="mb-2"> <span class="fs-18 text-primary">0</span> </h5>
-                  <h5 class="fs-12 mb-0">Awards</h5>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="card">
-         <div class="card-header  border-0">
-            <div class="card-title">Statistics-<?php echo date('Y') ?></div>
-         </div>
-         <div class="card-body">
-            <div class="row mb-7">
-               <div class="col-4 text-center">
-                  <div class="chart-circle chart-circle-sm" data-value="0.00" data-thickness="5" data-color="#3366ff">
-                     <canvas width="115" height="115" style="height: 63.9931px; width: 63.9931px;"></canvas>
-                     <div class="chart-circle-value text-primary">0</div>
-                  </div>
-                  <h6 class="fs-14 font-weight-semibold mt-3">Attendance</h6>
-               </div>
-               <div class="col-4 text-center">
-                  <div class="chart-circle chart-circle-sm" data-value="0.00" data-thickness="5" data-color="#fe7f00">
-                     <canvas width="115" height="115" style="height: 63.9931px; width: 63.9931px;"></canvas>
-                     <div class="chart-circle-value text-secondary">0</div>
-                  </div>
-                  <h6 class="fs-14 font-weight-semibold mt-3">Projects</h6>
-               </div>
-               <div class="col-4 text-center">
-                  <div class="chart-circle chart-circle-sm" data-value="0.00" data-thickness="5" data-color="#0dcd94">
-                     <canvas width="115" height="115" style="height: 63.9931px; width: 63.9931px;"></canvas>
-                     <div class="chart-circle-value text-success">0%</div>
-                  </div>
-                  <h6 class="fs-14 font-weight-semibold mt-3">Performance</h6>
-               </div>
-            </div>
-            <div class="d-flex align-items-end justify-content-between mg-b-5">
-               <h6 class="">This Week</h6>
-               <h6 class="font-weight-bold mb-1">0</h6>
-            </div>
-            <div class="progress progress-sm mb-5">
-               <div class="progress-bar bg-danger w-0"></div>
-            </div>
-            <div class="d-flex align-items-end justify-content-between mg-b-5">
-               <h6 class="">This Month</h6>
-               <h6 class="font-weight-bold mb-1">0</h6>
-            </div>
-            <div class="progress progress-sm mb-5">
-               <div class="progress-bar bg-info w-0"></div>
-            </div>
-            <div class="d-flex align-items-end justify-content-between mg-b-5">
-               <h6 class="">This Year</h6>
-               <h6 class="font-weight-bold mb-1">0</h6>
-            </div>
-            <div class="progress progress-sm mb-5">
-               <div class="progress-bar bg-warning w-0"></div>
-            </div>
-         </div>
-      </div>
-   </div>
-
-   <div class="col-xl-9 col-md-12 col-lg-12">
+   <div class="col-xl-12 col-md-12 col-lg-12">
       <div class="tab-menu-heading hremp-tabs p-0 ">
          <div class="tabs-menu1">
             <!-- Tabs -->

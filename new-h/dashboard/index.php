@@ -34,7 +34,7 @@ $datatable = '';
    <div class="page-leftheader">
       <h4 class="page-title">HR<span class="font-weight-normal text-muted ms-2">Dashboard</span></h4>
    </div>
-   <div class="page-rightheader ms-md-auto">
+   <div class="page-rightheader ms-md-auto d-none">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
          <div class="d-flex">
             <div class="header-datepicker me-3">
@@ -74,7 +74,7 @@ $datatable = '';
 </div>
 
 <div class="row">
-   <div class="col-xl-9 col-md-12 col-lg-12">
+   <div class="col-xl-12 col-md-12 col-lg-12">
       <div class="row">
          <div class="col-xl-4 col-lg-6 col-md-12">
             <div class="card">
@@ -161,11 +161,11 @@ $datatable = '';
                                  </thead>
                                  <tbody>
                                     <?php
-                                    $companies = Company::find_by_undeleted();
+                                    $companies = Company::find_by_undeleted(['order' => 'ASC']);
                                     $sn = 1;
                                     foreach ($companies as $key => $value) {
-                                       $branch = Branch::find_by_company_id($value->id);
-                                       $employee = Employee::find_by_company_id($value->id);
+                                       $branch = Branch::find_by_company_name($value->company_name);
+                                       $employee = Employee::find_by_company_name($value->company_name);
                                        $class = $key % 2 == 0 ? 'even' : 'odd';
                                     ?>
                                        <tr>
@@ -201,7 +201,7 @@ $datatable = '';
       </div>
    </div>
 
-   <div class="col-xl-3 col-md-12 col-lg-12">
+   <div class="col-xl-3 col-md-12 col-lg-12 d-none">
       <div class="card overflow-hidden">
          <div class="card-header border-0">
             <h4 class="card-title">Notice Board</h4>
@@ -332,7 +332,7 @@ $datatable = '';
    </div>
 </div>
 
-<div class="row">
+<div class="row d-none">
    <div class="col-xl-6 col-lg-12 col-md-12">
       <div class="card">
          <div class="card-header border-bottom-0">

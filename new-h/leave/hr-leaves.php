@@ -13,15 +13,21 @@ include(SHARED_PATH . '/header.php');
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <div class="btn-list"> <a href="#" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#leave_type_modal">Add Leave Type</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+         <div class="btn-list"> <a href="#" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#leave_type_modal">Add Leave Type</a> 
+
+            <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
+
+            <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> 
+
+            <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
       </div>
    </div>
 </div>
 <div class="row">
    <div class="col-md-12">
       <div class="card">
-         <div class="card-header  border-0">
-            <h4 class="card-title">Leaves Types</h4>
+         <div class="card-header  border-0 d-none">
+            <h4 class="card-title">Leave Types</h4>
          </div>
          <div class="card-body">
             <div class="table-responsive">
@@ -36,8 +42,8 @@ include(SHARED_PATH . '/header.php');
                            <thead>
                               <tr role="row">
                                  <th>SN</th>
-                                 <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" style="width: 477.062px;">Leaves Type</th>
-                                 <th class="border-bottom-0 text-center sorting_disabled" rowspan="1" colspan="1" style="width: 398.938px;">No.of Leaves</th>
+                                 <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" style="width: 477.062px;">Leave Type</th>
+                                 <th class="border-bottom-0 text-center sorting_disabled" rowspan="1" colspan="1" style="width: 398.938px;">Number of days</th>
                                  <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" style="width: 383.333px;">Actions</th>
                               </tr>
                            </thead>

@@ -13,7 +13,13 @@ $datatable = '';
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
-         <div class="btn-list"> <a href="hr-addemployee.php" class="btn btn-primary me-3">Add New Employee</a> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+         <div class="btn-list"> <a href="hr-addemployee.php" class="btn btn-primary me-3">Add New Employee</a> 
+
+            <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
+
+            <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> 
+
+            <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
       </div>
    </div>
 </div>
@@ -109,14 +115,14 @@ $datatable = '';
                               <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-table" role="grid" aria-describedby="hr-table_info">
                                  <thead>
                                     <tr role="row">
-                                       <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="No" style="width: 17.8125px;">No</th>
-                                       <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Emp Name: activate to sort column ascending" style="width: 185.017px;">Emp Name</th>
-                                       <!-- <th class="border-bottom-0 w-10 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="#Emp ID: activate to sort column ascending" style="width: 52.8993px;">#Emp ID</th> -->
-                                       <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Department: activate to sort column ascending" style="width: 159.028px;">Department</th>
-                                       <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Location: activate to sort column ascending" style="width: 113.663px;">Branch</th>
-                                       <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Phone Number: activate to sort column ascending" style="width: 94.0799px;">Phone Number</th>
-                                       <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Join Date: activate to sort column ascending" style="width: 78.4896px;">Join Date</th>
-                                       <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 64.5833px;">Actions</th>
+                                       <th>S/N</th>
+                                       <th>Emp Name</th>
+                                       <th>Company</th>
+                                       <th>Branch</th>
+                                       <th>Department</th>
+                                       <th>Phone No.</th>
+                                       <th>Join Date</th>
+                                       <th>Action</th>
                                     </tr>
                                  </thead>
                                  <tbody>
@@ -141,12 +147,10 @@ $datatable = '';
                                                 </div>
                                              </a>
                                           </td>
-                                          <!-- <td>#<?php //echo $value->employee_id 
-                                                      ?></td> -->
-                                          <!-- <td><?php //echo Department::find_by_id($value->department_id)->department_name; 
-                                                   ?></td> -->
-                                          <td><?php echo $value->department ? $value->department : 'Not Set'; ?></td>
+                                          <td><?php echo $value->company ?></td>
                                           <td><?php echo $value->branch ? $value->branch : 'Not Set'; ?></td>
+                                          <td><?php echo $value->department ? $value->department : 'Not Set'; ?></td>
+                                          
                                           <td><?php echo $value->phone ? $value->phone : 'Not Set'; ?></td>
                                           <td><?php echo $value->date_employed ? date('Y-m-d', strtotime($value->date_employed)) : 'Not Set'; ?></td>
 
@@ -190,55 +194,57 @@ $datatable = '';
             <div id="analysis" class="mx-auto apex-dount" style="min-height: 229.561px;"></div>
             <div class="row">
                <div class="col-10 mx-auto">
-                  <table class="table table-vcenter text-nowrap table-bordered border-bottom  no-footer">
+                  <div class="table-responsive">
+                     <table class="table table-vcenter text-nowrap table-bordered border-bottom  no-footer">
 
-                     <tbody>
-                        <tr role="row">
-                           <td>Company</td>
-                           <td>Branch</td>
-                           <td>T.Staff</td>
-                        </tr>
-                        <?php
-                        $sn = 1;
-                        $companies = Company::find_by_undeleted();
-
-                        foreach ($companies as $key => $value) {
-                           $branch = Branch::find_by_company_id($value->id);
-                           $employee = Employee::find_by_company_id($value->id);
-                           // pre_r($employee);
-                           // $color = ['#3366ff', '#01c353', '#ffad00', '#fe7f00', '#f11541', '#02d395'];
-                           if ($key == 0) {
-                              $color = '#3366ff';
-                           } elseif ($key == 1) {
-                              $color = '#ffad00';
-                           } elseif ($key == 2) {
-                              $color = 'green';
-                           } elseif ($key == 3) {
-                              $color = '#fe7f00';
-                           } elseif ($key == 4) {
-                              $color = '#f11541';
-                           } elseif ($key == 5) {
-                              $color = '#02d395';
-                           } else {
-                              $color = 'purple';
-                           }
-
-                           // for ($i=0; $i < count($color); $i++) { 
-                           //    echo $color++;
-                           // }
-                        ?>
-                           <tr>
-                              <td class="p-2 d-flex"><span style="background-color: <?php echo $color; ?>" class="dot-label me-2 mt-1"></span><span class="font-weight-normal company_name"> <?php echo $value->company_name ?></span></td>
-                              <td><?php echo count($branch) ?? 0; ?></td>
-                              <td class="p-2">
-                                 <!-- <span class="me-4 fs-16">:</span> -->
-                                 <span class="ms-auto font-weight-semibold fs-16 staff_strength"><?php echo count($employee) ?? 0; ?></span>
-                              </td>
+                        <tbody>
+                           <tr role="row">
+                              <td><a href="<?php echo url_for('settings/') ?>">Company</a></td>
+                              <td><a href="<?php echo url_for('settings/') ?>">Branch</a></td>
+                              <td>T.Staff</td>
                            </tr>
-                        <?php } ?>
+                           <?php
+                           $sn = 1;
+                           $companies = Company::find_by_undeleted();
 
-                     </tbody>
-                  </table>
+                           foreach ($companies as $key => $value) {
+                              $branch = Branch::find_by_company_name($value->company_name);
+                              $employee = Employee::find_by_company_name($value->company_name);
+                              // pre_r($employee);
+                              // $color = ['#3366ff', '#01c353', '#ffad00', '#fe7f00', '#f11541', '#02d395'];
+                              if ($key == 0) {
+                                 $color = '#3366ff';
+                              } elseif ($key == 1) {
+                                 $color = '#ffad00';
+                              } elseif ($key == 2) {
+                                 $color = 'green';
+                              } elseif ($key == 3) {
+                                 $color = '#fe7f00';
+                              } elseif ($key == 4) {
+                                 $color = '#f11541';
+                              } elseif ($key == 5) {
+                                 $color = '#02d395';
+                              } else {
+                                 $color = 'purple';
+                              }
+
+                              // for ($i=0; $i < count($color); $i++) { 
+                              //    echo $color++;
+                              // }
+                           ?>
+                              <tr>
+                                 <td class="p-2 d-flex"><span style="background-color: <?php echo $color; ?>" class="dot-label me-2 mt-1"></span><span class="font-weight-normal company_name"> <?php echo $value->company_name ?></span></td>
+                                 <td><?php echo count($branch) ?? 0; ?></td>
+                                 <td class="p-2">
+                                    <!-- <span class="me-4 fs-16">:</span> -->
+                                    <span class="ms-auto font-weight-semibold fs-16 staff_strength"><?php echo count($employee) ?? 0; ?></span>
+                                 </td>
+                              </tr>
+                           <?php } ?>
+
+                        </tbody>
+                     </table>
+                  </div>
                </div>
             </div>
             <div class="resize-triggers">

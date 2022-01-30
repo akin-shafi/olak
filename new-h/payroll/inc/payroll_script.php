@@ -29,7 +29,7 @@ if (is_post_request()) {
 				'present_days' => $_POST['present_day'],
 			];
 
-			$staff_salary = new Salary($args);
+			$staff_salary = new Payroll($args);
 			$result = $staff_salary->save();
 		}
 
@@ -51,7 +51,7 @@ if (is_post_request()) {
 	if (isset($_POST['salary'])) {
 		$args = $_POST['salary'];
 		if (isset($args['employee_id'])) {
-			$salary = Salary::find_by_employee_id($args['employee_id']);
+			$salary = Payroll::find_by_employee_id($args['employee_id']);
 			$salary->merge_attributes($args);
 			$salary->save();
 

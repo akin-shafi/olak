@@ -21,13 +21,16 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $thisMonth]);
          if ($config == true) : ?>
             <button class="btn btn-dark me-3" id="PaySlipDisabled">Payslip Generated</button>
+            <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button>
          <?php else : ?>
             <button class="btn btn-primary me-3" id="genPaySlip">Generate Payslip</button>
          <?php endif ?>
 
-         <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button>
+         
 
-         <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+         <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
+
+         <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
       </div>
    </div>
 </div>
@@ -107,7 +110,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                            <tbody>
                               <?php
                               $sn = 1;
-                              foreach (Salary::find_by_created_at($thisMonth) as $value) :
+                              foreach (Payroll::find_by_created_at($thisMonth) as $value) :
 
                                  $empLoan = LongTermLoan::find_by_employee_id($value->employee_id);
                                  $salary_advance = SalaryAdvance::find_by_employee_id($value->employee_id);
@@ -123,7 +126,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                           <div class="me-3 mt-0 mt-sm-1 d-block">
                                              <h6 class="mb-1 fs-14"><?php echo $employee->full_name() ?></h6>
-                                             <p class="text-muted mb-0 fs-12"><?php echo strtolower($employee->email) ?></p>
+                                             <p class="text-muted mb-0 fs-12">Emp ID: <?php echo  str_pad($employee->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
                                           </div>
                                        </div>
                                     </td>
@@ -311,7 +314,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          $(this).html('Processing')
          $(this).attr("disabled", true);
          $.ajax({
-            url: '../inc/payroll/payroll_script.php',
+            url: 'inc/payroll_script.php',
             method: "POST",
             data: {
                genPaySlip: 1,

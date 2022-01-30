@@ -70,7 +70,8 @@ $user = $loggedInAdmin;
                <img src="assets/images/brand/logo-white.png" class="header-brand-img dark-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon.png" class="header-brand-img mobile-logo" alt="Dayonelogo"> 
                <img src="assets/images/brand/favicon1.png" class="header-brand-img darkmobile-logo" alt="Dayonelogo">  -->
-                     IOGC HR-Admin
+                     <!-- <span class="header-brand-img desktop-lgo">IOGC HR-Admin</span>
+                     <span class="header-brand-img darkmobile-logo">IOGC</span> -->
                   </a>
                </div>
                <div class="app-sidebar3 ps ps--active-y is-expanded">
@@ -85,21 +86,24 @@ $user = $loggedInAdmin;
                      </div>
                   </div>
                   <ul class="side-menu open">
-                     <li class="side-item side-item-category mt-4">Dashboards</li>
+                     <!--<li class="side-item side-item-category mt-4">Dashboards</li>-->
                      <li class="slide is-expanded">
-                        <a class="side-menu__item  is-expanded" data-bs-toggle="slide" href="#"> <i class="feather feather-home sidemenu_icon"></i> <span class="side-menu__label">HR <span class="nav-list">Dashboard</span></span><i class="angle fa fa-angle-right"></i> </a>
+                        <!--<a class="side-menu__item  is-expanded" data-bs-toggle="slide" href="#"> 
+                            <i class="feather feather-home sidemenu_icon"></i> 
+                            <span class="side-menu__label">HR <span class="nav-list">Dashboard</span></span><i class="angle fa fa-angle-right"></i> 
+                        </a>-->
                         <ul class="slide-menu open">
                            <li class="side-menu-label1"><a href="#">HR Dashboard</a></li>
-                           <li class="is-expanded"><a href="<?php echo url_for('dashboard/index.php') ?>" class="slide-item ">Dashboard</a></li>
+                           <li class="is-expanded "><a href="<?php echo url_for('dashboard/index.php') ?>" class="slide-item ">Dashboard</a></li>
                            <li class="sub-slide">
-                              <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Employees</span><i class="sub-angle fa fa-angle-right"></i></a>
+                              <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Employee</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
                                  <li><a class="sub-slide-item" href="<?php echo url_for('employees/hr-emplist.php') ?>">Employees List</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('employees/hr-empview.php') ?>">View Employee</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('employees/hr-addemployee.php') ?>">Add Employee</a></li>
                               </ul>
                            </li>
-                           <li class="sub-slide">
+                           <li class="sub-slide d-none">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Attendance</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
                                  <li><a class="sub-slide-item" href="<?php echo url_for('attendance/hr-attlist.php') ?>">Attendance List</a></li>
@@ -130,11 +134,11 @@ $user = $loggedInAdmin;
                            <li><a href="<?php echo url_for('loan/hr-loan.php') ?>" class="slide-item">Loan</a></li>
 
 
-                           <li><a href="<?php echo url_for('general/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
-                           <li><a href="<?php echo url_for('general/hr-award.php') ?>" class="slide-item">Awards</a></li>
-                           <li><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
+                           <li class="d-none"><a href="<?php echo url_for('general/hr-notice.php') ?>" class="slide-item">Notice Board</a></li>
+                           <li class="d-none"><a href="<?php echo url_for('general/hr-award.php') ?>" class="slide-item">Awards</a></li>
+                           <li class="d-none"><a href="<?php echo url_for('general/hr-holiday.php') ?>" class="slide-item">Holidays</a></li>
 
-                           <li><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
+                           <li class="d-none"><a href="<?php echo url_for('general/hr-events.php') ?>" class="slide-item">Events</a></li>
 
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Settings</span><i class="sub-angle fa fa-angle-right"></i></a>
@@ -144,13 +148,13 @@ $user = $loggedInAdmin;
                                  <li><a class="sub-slide-item" href="<?php echo url_for('settings/hr-configuration.php') ?>">Configurations</a></li>
                               </ul>
                            </li>
-                           <li><a href="superadmin-role.php" class="slide-item">Role Access</a></li>
+                           <li class="d-none"><a href="superadmin-role.php" class="slide-item">Role Access</a></li>
                         </ul>
                      </li>
 
 
                   </ul>
-                  <div class="Annoucement_card">
+                  <div class="Annoucement_card d-none">
                      <div class="text-center">
                         <div>
                            <h5 class="title mt-0 mb-1 ms-2 font-weight-bold tx-12">Announcement</h5>
@@ -178,7 +182,7 @@ $user = $loggedInAdmin;
                         <div class="d-flex">
                            <a class="header-brand" href="#"> <img src="<?php echo url_for('assets/images/brand/logo.png') ?>" class="header-brand-img desktop-lgo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/logo-white.png') ?>" class="header-brand-img dark-logo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/favicon.png') ?>" class="header-brand-img mobile-logo" alt="Dayonelogo"> <img src="<?php echo url_for('assets/images/brand/favicon1.png') ?>" class="header-brand-img darkmobile-logo" alt="Dayonelogo"> </a>
                            <div class="app-sidebar__toggle" data-bs-toggle="sidebar"> <a class="open-toggle" href="#"> <i class="feather feather-menu"></i> </a> <a class="close-toggle" href="#"> <i class="feather feather-x"></i> </a> </div>
-                           <div class="mt-0">
+                           <div class="mt-0 d-none">
                               <form class="form-inline">
                                  <div class="search-element"> <input type="search" class="form-control header-search" placeholder="Search…" aria-label="Search" tabindex="1"> <button class="btn btn-primary-color"> <i class="feather feather-search"></i> </button> </div>
                               </form>
@@ -192,7 +196,7 @@ $user = $loggedInAdmin;
                                        <a class="nav-link my-auto icon p-0 nav-link-lg d-md-none navsearch" href="#" data-bs-toggle="search"> <i class="feather feather-search search-icon header-icon"></i> </a>
 
                                        <div class="dropdown header-fullscreen"> <a class="nav-link icon full-screen-link"> <i class="feather feather-maximize fullscreen-button fullscreen header-icons"></i> <i class="feather feather-minimize fullscreen-button exit-fullscreen header-icons"></i> </a> </div>
-                                       <div class="dropdown header-message">
+                                       <div class="dropdown header-message d-none">
                                           <a class="nav-link icon" data-bs-toggle="dropdown"> <i class="feather feather-mail header-icon"></i> <span class="badge badge-success side-badge">5</span> </a>
                                           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow  animated">
                                              <div class="header-dropdown-list message-menu" id="message-menu">
@@ -260,7 +264,7 @@ $user = $loggedInAdmin;
                                              <div class=" text-center p-2"> <a href="#" class="">See All Messages</a> </div>
                                           </div>
                                        </div>
-                                       <div class="dropdown header-notify"> <a class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right"> <i class="feather feather-bell header-icon"></i> <span class="bg-dot"></span> </a> </div>
+                                       <div class="dropdown header-notify d-none"> <a class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right"> <i class="feather feather-bell header-icon"></i> <span class="bg-dot"></span> </a> </div>
                                        <div class="dropdown profile-dropdown">
                                           <a href="#" class="nav-link pe-1 ps-0 leading-none" data-bs-toggle="dropdown"> <span> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img" class="avatar avatar-md bradius"> </span> </a>
                                           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow animated">
@@ -294,7 +298,9 @@ $user = $loggedInAdmin;
                                     </div>
                                  </div>
                               </div>
-                              <div class="d-flex header-setting-icon"> <a class="nav-link icon demo-icon" href="#"> <i class="feather feather-settings  fe-spin"></i> </a> </div>
+                              <div class="d-none">
+                              <div class="d-flex header-setting-icon "> <a class="nav-link icon demo-icon" href="#"> <i class="feather feather-settings  fe-spin"></i> </a> </div>
+                              </div>
                            </div>
                         </div>
                      </div>

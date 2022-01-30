@@ -21,7 +21,9 @@ $select2 = '';
             <button type="button" class="btn btn-primary me-3" id="addSalary">Add Salary</button>
             
 
-             <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+             <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
+
+             <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
          </div>
       </div>
    </div>
@@ -42,6 +44,7 @@ $select2 = '';
                               <tr role="row">
                                
                                  <th>SN</th>
+                                 <!-- <th>Emp ID</th> -->
                                  <th>Emp Name</th>
                                  <th>Job Title</th>
                                  <th>(₦) Salary</th>
@@ -49,17 +52,19 @@ $select2 = '';
                               </tr>
                            </thead>
                            <tbody>
-                              <?php $sn = 1; foreach (Employee::find_by_undeleted() as $value) :
+                              <?php $sn = 1; foreach (Employee::find_by_undeleted(['order' => 'ASC']) as $value) :
                                  // $empLoan = EmployeeLoan::find_by_employee_id($value->id);
                               ?>
                                  <tr>
                                     <td>#<?php echo $sn++ ?></td>
+                                    <!-- <td></td> -->
                                     <td>
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                           <div class="me-3 mt-0 mt-sm-1 d-block">
                                              <h6 class="mb-1 fs-14"><?php echo $value->full_name() ?></h6>
                                              <p class="text-muted mb-0 fs-12"><?php echo strtolower($value->email) ?></p>
+                                             <p class="text-muted mb-0 fs-12">Emp ID: <?php echo  str_pad($value->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
                                           </div>
                                        </div>
                                     </td>
