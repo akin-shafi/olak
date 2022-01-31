@@ -51,453 +51,779 @@ $select2 = '';
 </div>
 
 
-<div class="row">
-   <div class="col-xl-3 col-md-12 col-lg-12">
-      <div class="card box-widget widget-user">
-         <div class="card-body text-center">
-            <div class="widget-user-image mx-auto text-center">
-               <img class="avatar avatar-xxl brround rounded-circle" alt="img" src="<?php echo $profile_picture; ?>">
-            </div>
-            <div class="pro-user mt-3">
-               <h5 class="pro-user-username text-dark mb-1 fs-16"><?php echo  $employee->find_by_id($id)->full_name() ?? "Not Set" ?></h5>
-               <h6 class="pro-user-desc text-muted fs-12"><?php echo $employee->branch ?? 'Not Set' ?></h6>
-            </div>
-            <div class="star-ratings start-ratings-main mb-0 clearfix">
-               <div class="stars stars-example-fontawesome star-sm">
-                  <div class="br-wrapper br-theme-fontawesome-stars">
-                     <select  id="example-fontawesome" name="rating" style="display: none;">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4" selected="">4</option>
-                        <option value="5">5</option>
-                     </select>
-
+<div class="content container-fluid">
+  
+   <div class="card mb-0">
+      <div class="card-body">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="profile-view">
+                  <div class="profile-img-wrap">
+                     <div class="profile-img">
+                        <a href="#"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+                     </div>
                   </div>
-               </div>
-            </div>
-         </div>
-         <div class="card-footer p-0">
-            <div class="row">
-               <div class="col-4 text-center py-5 border-end">
-                  <h5 class="fs-12 font-weight-semibold mb-3">January</h5>
-                  <h5 class="mb-2"> <span class="fs-18 text-success">0</span> <span class="my-auto fs-9 font-weight-normal  ms-1 me-1">/</span> <span class="fs-18 font-weight-semibold text-dark">31</span> </h5>
-                  <h5 class="fs-12 mb-0">Attendance</h5>
-               </div>
-               <div class="col-4  py-5 text-center border-end">
-                  <h5 class="fs-12 font-weight-semibold mb-3">Year-2021</h5>
-                  <h5 class="mb-2"> <span class="fs-18 text-orange">0</span> <span class="my-auto fs-9 font-weight-normal  ms-1 me-1">/</span> <span class="fs-18 font-weight-semibold text-dark">41</span> </h5>
-                  <h5 class="fs-12 mb-0">Leaves</h5>
-               </div>
-               <div class="col-4 text-center py-5">
-                  <h5 class="fs-12 font-weight-semibold mb-3">Year-2021</h5>
-                  <h5 class="mb-2"> <span class="fs-18 text-primary">0</span> </h5>
-                  <h5 class="fs-12 mb-0">Awards</h5>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="card">
-         <div class="card-header  border-0">
-            <div class="card-title">Statistics-2021</div>
-         </div>
-         <div class="card-body">
-            <div class="row mb-7">
-               <div class="col-4 text-center">
-                  <div class="chart-circle chart-circle-sm" data-value="0.89" data-thickness="5" data-color="#3366ff">
-                     <canvas width="115" height="115" style="height: 63.9931px; width: 63.9931px;"></canvas>
-                     <div class="chart-circle-value text-primary">89</div>
+                  <div class="profile-basic">
+                     <div class="row">
+                        <div class="col-md-5">
+                           <div class="profile-info-left">
+                              <h3 class="user-name m-t-0 mb-0">John Doe</h3>
+                              <h6 class="text-muted">UI/UX Design Team</h6>
+                              <small class="text-muted">Web Designer</small>
+                              <div class="staff-id">Employee ID : FT-0001</div>
+                              <div class="small doj text-muted">Date of Join : 1st Jan 2013</div>
+                              <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send Message</a></div>
+                           </div>
+                        </div>
+                        <div class="col-md-7">
+                           <ul class="personal-info">
+                              <li>
+                                 <div class="title">Phone:</div>
+                                 <div class="text"><a href="">9876543210</a></div>
+                              </li>
+                              <li>
+                                 <div class="title">Email:</div>
+                                 <div class="text"><a href="">johndoe@example.com</a></div>
+                              </li>
+                              <li>
+                                 <div class="title">Birthday:</div>
+                                 <div class="text">24th July</div>
+                              </li>
+                              <li>
+                                 <div class="title">Address:</div>
+                                 <div class="text">1861 Bayonne Ave, Manchester Township, NJ, 08759</div>
+                              </li>
+                              <li>
+                                 <div class="title">Gender:</div>
+                                 <div class="text">Male</div>
+                              </li>
+                              <li>
+                                 <div class="title">Reports to:</div>
+                                 <div class="text">
+                                    <div class="avatar-box">
+                                       <div class="avatar avatar-xs">
+                                          <img src="assets/img/profiles/avatar-16.jpg" alt="">
+                                       </div>
+                                    </div>
+                                    <a href="profile.html">
+                                    Jeffery Lalor
+                                    </a>
+                                 </div>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
                   </div>
-                  <h6 class="fs-14 font-weight-semibold mt-3">Attendance</h6>
+                  <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
                </div>
-               <div class="col-4 text-center">
-                  <div class="chart-circle chart-circle-sm" data-value="0.23" data-thickness="5" data-color="#fe7f00">
-                     <canvas width="115" height="115" style="height: 63.9931px; width: 63.9931px;"></canvas>
-                     <div class="chart-circle-value text-secondary">23</div>
-                  </div>
-                  <h6 class="fs-14 font-weight-semibold mt-3">Projects</h6>
-               </div>
-               <div class="col-4 text-center">
-                  <div class="chart-circle chart-circle-sm" data-value="0.67" data-thickness="5" data-color="#0dcd94">
-                     <canvas width="115" height="115" style="height: 63.9931px; width: 63.9931px;"></canvas>
-                     <div class="chart-circle-value text-success">67%</div>
-                  </div>
-                  <h6 class="fs-14 font-weight-semibold mt-3">Performance</h6>
-               </div>
-            </div>
-            <div class="d-flex align-items-end justify-content-between mg-b-5">
-               <h6 class="">This Week</h6>
-               <h6 class="font-weight-bold mb-1">01</h6>
-            </div>
-            <div class="progress progress-sm mb-5">
-               <div class="progress-bar bg-danger w-10"></div>
-            </div>
-            <div class="d-flex align-items-end justify-content-between mg-b-5">
-               <h6 class="">This Month</h6>
-               <h6 class="font-weight-bold mb-1">05</h6>
-            </div>
-            <div class="progress progress-sm mb-5">
-               <div class="progress-bar bg-info w-30"></div>
-            </div>
-            <div class="d-flex align-items-end justify-content-between mg-b-5">
-               <h6 class="">This Year</h6>
-               <h6 class="font-weight-bold mb-1">22</h6>
-            </div>
-            <div class="progress progress-sm mb-5">
-               <div class="progress-bar bg-warning w-50"></div>
             </div>
          </div>
       </div>
-
    </div>
-   <div class="col-xl-9 col-md-12 col-lg-12">
-      <div class="tab-menu-heading hremp-tabs p-0 ">
-         <div class="tabs-menu1">
-            <!-- Tabs -->
-            <ul class="nav panel-tabs">
-               <li class="ms-4"><a href="#tab5" class="active" data-bs-toggle="tab">Personal Details</a></li>
-               <li><a href="#tab6" data-bs-toggle="tab">Company Details</a></li>
-               <li><a href="#tab7" data-bs-toggle="tab">Bank Details</a></li>
-               <li><a href="#tab8" data-bs-toggle="tab">Upload Documents</a></li>
+   <div class="card tab-box mt-5">
+      <div class="row user-tabs">
+         <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
+            <ul class="nav nav-tabs nav-tabs-bottom">
+               <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Profile</a></li>
+               <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Projects</a></li>
+               <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &amp; Statutory <small class="text-danger">(Admin Only)</small></a></li>
             </ul>
          </div>
       </div>
-
-      <div class="panel-body tabs-menu-body hremp-tabs1 p-0">
-         <div class="tab-content">
-            <div class="tab-pane active" id="tab5">
-               <form id="add_personal_form" enctype="multipart/form-data">
-                  <input type="hidden" name="personalId" value="<?php echo $employee->id ?>" >
-
+   </div>
+   <div class="tab-content">
+      <div id="emp_profile" class="pro-overview tab-pane fade show active">
+         <div class="row">
+            <div class="col-md-6 d-flex">
+               <div class="card profile-box flex-fill">
                   <div class="card-body">
-                     <h4 class="mb-4 font-weight-bold">Basic</h4>
-                     <div class="form-group ">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">User Name</label> </div>
-                           <div class="col-md-9">
-                              <div class="row">
-                                 <div class="col-md-4"> <input  type="text" name="personal[first_name]" id="first_name" value="<?php echo $employee->first_name; ?>" class="form-control mb-md-0 mb-5" placeholder="First Name"> <span class="text-muted"></span> </div>
-                                 <div class="col-md-4"> <input  type="text" name="personal[last_name]" id="last_name" value="<?php echo $employee->last_name; ?>" class="form-control" placeholder="Last Name"> </div>
-                                 <div class="col-md-4"> <input  type="text" name="personal[other_name]" id="other_name" value="<?php echo $employee->other_name; ?>" class="form-control" placeholder="Middle Name"> </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Contact Number</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="personal[phone]" id="phone" value="<?php echo $employee->phone; ?>" class="form-control" placeholder="Phone Number"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Next of Kin Name</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="personal[kin_name]" id="kin_name" value="<?php echo $employee->kin_name; ?>" class="form-control" placeholder="Next of Kin Name"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Next of Kin Number</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="personal[kin_phone]" id="kin_phone" value="<?php echo $employee->kin_phone; ?>" class="form-control" placeholder="Contact Number"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group ">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Date Of Birth</label> </div>
-                           <div class="col-md-9"> <input  type="date" name="personal[dob]" id="dob" value="<?php echo $employee->dob; ?>" class="form-control" placeholder="DD-MM-YYY"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group ">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label">Gender</label> </div>
-                           <div class="col-md-9">
-                              <div class="custom-controls-stacked d-md-flex"> <label class="custom-control custom-radio me-4"> <input type="radio" class="custom-control-input" name="personal[gender]" id="gender" value="male" <?php echo $employee->gender == 'male' ? 'checked' : '' ?>> <span class="custom-control-label">Male</span> </label> <label class="custom-control custom-radio"> <input type="radio" class="custom-control-input" name="personal[gender]" id="gender" value="female" <?php echo $employee->gender == 'female' ? 'checked' : '' ?>> <span class="custom-control-label">Female</span> </label> </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Marital Status</label> </div>
-                           <div class="col-md-9">
-                              <select  name="personal[marital_status]" id="marital_status" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Status" data-select2-id="select2-data-1-decl" tabindex="-1" aria-hidden="true">
-                                 <option label="Select" data-select2-id="select2-data-3-omqq"></option>
-                                 <option value="Single" <?php echo $employee->marital_status == 'Single' ? 'selected' : '' ?>>Single</option>
-                                 <option value="Married" <?php echo $employee->marital_status == 'Married' ? 'selected' : '' ?>>Married</option>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Blood Group</label> </div>
-                           <div class="col-md-9">
-                              <select  name="personal[blood_group]" id="blood_group" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Group" data-select2-id="select2-data-4-jt7m" tabindex="-1" aria-hidden="true">
-                                 <option label="Select Group" data-select2-id="select2-data-6-3hhn"></option>
-                                 <option value="1" <?php echo $employee->blood_group == 1 ? 'selected' : '' ?>>A+</option>
-                                 <option value="2" <?php echo $employee->blood_group == 2 ? 'selected' : '' ?>>B+</option>
-                                 <option value="3" <?php echo $employee->blood_group == 3 ? 'selected' : '' ?>>O+</option>
-                                 <option value="4" <?php echo $employee->blood_group == 4 ? 'selected' : '' ?>>AB+</option>
-                                 <option value="5" <?php echo $employee->blood_group == 5 ? 'selected' : '' ?>>A-</option>
-                                 <option value="6" <?php echo $employee->blood_group == 6 ? 'selected' : '' ?>>B-</option>
-                                 <option value="7" <?php echo $employee->blood_group == 7 ? 'selected' : '' ?>>O-</option>
-                                 <option value="8" <?php echo $employee->blood_group == 8 ? 'selected' : '' ?>>AB-</option>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Present Address</label> </div>
-                           <div class="col-md-9"> <textarea name="personal[present_add]" id="present_add" rows="3" class="form-control" placeholder="Address1"><?php echo $employee->present_add ?></textarea> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Permanent Address</label> </div>
-                           <div class="col-md-9"> <textarea name="personal[permanent_add]" id="permanent_add" rows="3" class="form-control" placeholder="Address2"><?php echo $employee->permanent_add ?></textarea> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3">
-                              <div class="form-label mb-0 mt-2">Upload Photo</div>
-                           </div>
-                           <div class="col-md-9">
-                              <div class="form-group"> <label for="form-label" class="form-label"></label>
-                                 <input class="form-control" name="avatar" type="file">
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <h4 class="mb-5 mt-7 font-weight-bold">Account Login</h4>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee Email</label> </div>
-                           <div class="col-md-9"> <input type="email" name="personal[email]" id="email" value="<?php echo $employee->email; ?>" class="form-control" placeholder="employee email"> </div>
-                        </div>
-                     </div>
-
-                     <!-- <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
-                           <div class="col-md-9"> <input type="password" name="personal[password]" id="password" class="form-control" placeholder="password"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
-                           <div class="col-md-9"> <input type="password" name="personal[confirm_password]" id="confirm_password" class="form-control" placeholder="confirm password"> </div>
-                        </div>
-                     </div> -->
-
-                     <div class="form-group mt-7">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label">Email Notification:</label> </div>
-                           <div class="col-md-9"> <label class="custom-switch"> <input type="checkbox" name="personal[notification]" id="notification" class="custom-switch-input" <?php echo $employee->notification == 'on' ? 'checked' : '' ?>> <span class="custom-switch-indicator"></span> <span class="custom-switch-description">On/Off</span> </label> </div>
-                        </div>
-                     </div>
+                     <h3 class="card-title">Personal Informations <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#personal_info_modal"><i class="fa fa-pencil"></i></a></h3>
+                     <ul class="personal-info">
+                        <li>
+                           <div class="title">Passport No.</div>
+                           <div class="text">9876543210</div>
+                        </li>
+                        <li>
+                           <div class="title">Passport Exp Date.</div>
+                           <div class="text">9876543210</div>
+                        </li>
+                        <li>
+                           <div class="title">Tel</div>
+                           <div class="text"><a href="">9876543210</a></div>
+                        </li>
+                        <li>
+                           <div class="title">Nationality</div>
+                           <div class="text">Indian</div>
+                        </li>
+                        <li>
+                           <div class="title">Religion</div>
+                           <div class="text">Christian</div>
+                        </li>
+                        <li>
+                           <div class="title">Marital status</div>
+                           <div class="text">Married</div>
+                        </li>
+                        <li>
+                           <div class="title">Employment of spouse</div>
+                           <div class="text">No</div>
+                        </li>
+                        <li>
+                           <div class="title">No. of children</div>
+                           <div class="text">2</div>
+                        </li>
+                     </ul>
                   </div>
-
-                  <div class="card-footer text-end">
-                     <button type="submit" href="#" class="btn btn-primary">Update</button>
-                     <a href="#" class="btn btn-danger">Cancel</a>
-                  </div>
-               </form>
+               </div>
             </div>
-
-            <div class="tab-pane" id="tab6">
-               <form id="add_employee_company_form">
-                  <input type="hidden" name="companyId" value="<?php echo $employee->id ?>" >
+            <div class="col-md-6 d-flex">
+               <div class="card profile-box flex-fill">
                   <div class="card-body">
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee ID</label> </div>
-                           <div class="col-md-9">
-                              <div class="row">
-                                 <div class="col-md-6">
-                                    <select  name="company[company_id]" value="<?php echo $employee->company_id ?>" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
-                                       <option label="Company"></option>
-                                       <?php foreach (Company::find_by_undeleted() as $value) : ?>
-                                          <option value="<?php echo $value->id ?>" <?php echo $value->company_name == $employee->company ? 'selected' : '' ?>><?php echo ucwords($value->company_name) ?></option>
-                                       <?php endforeach; ?>
-                                    </select>
+                     <h3 class="card-title">Emergency Contact <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#emergency_contact_modal"><i class="fa fa-pencil"></i></a></h3>
+                     <h5 class="section-title">Primary</h5>
+                     <ul class="personal-info">
+                        <li>
+                           <div class="title">Name</div>
+                           <div class="text">John Doe</div>
+                        </li>
+                        <li>
+                           <div class="title">Relationship</div>
+                           <div class="text">Father</div>
+                        </li>
+                        <li>
+                           <div class="title">Phone </div>
+                           <div class="text">9876543210, 9876543210</div>
+                        </li>
+                     </ul>
+                     <hr>
+                     <h5 class="section-title">Secondary</h5>
+                     <ul class="personal-info">
+                        <li>
+                           <div class="title">Name</div>
+                           <div class="text">Karen Wills</div>
+                        </li>
+                        <li>
+                           <div class="title">Relationship</div>
+                           <div class="text">Brother</div>
+                        </li>
+                        <li>
+                           <div class="title">Phone </div>
+                           <div class="text">9876543210, 9876543210</div>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-6 d-flex">
+               <div class="card profile-box flex-fill">
+                  <div class="card-body">
+                     <h3 class="card-title">Bank information</h3>
+                     <ul class="personal-info">
+                        <li>
+                           <div class="title">Bank name</div>
+                           <div class="text">ICICI Bank</div>
+                        </li>
+                        <li>
+                           <div class="title">Bank account No.</div>
+                           <div class="text">159843014641</div>
+                        </li>
+                        <li>
+                           <div class="title">IFSC Code</div>
+                           <div class="text">ICI24504</div>
+                        </li>
+                        <li>
+                           <div class="title">PAN No</div>
+                           <div class="text">TC000Y56</div>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6 d-flex">
+               <div class="card profile-box flex-fill">
+                  <div class="card-body">
+                     <h3 class="card-title">Family Informations <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#family_info_modal"><i class="fa fa-pencil"></i></a></h3>
+                     <div class="table-responsive">
+                        <table class="table table-nowrap">
+                           <thead>
+                              <tr>
+                                 <th>Name</th>
+                                 <th>Relationship</th>
+                                 <th>Date of Birth</th>
+                                 <th>Phone</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>Leo</td>
+                                 <td>Brother</td>
+                                 <td>Feb 16th, 2019</td>
+                                 <td>9876543210</td>
+                                 <td class="text-end">
+                                    <div class="dropdown dropdown-action">
+                                       <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
+                                       <div class="dropdown-menu dropdown-menu-right">
+                                          <a href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                          <a href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-6 d-flex">
+               <div class="card profile-box flex-fill">
+                  <div class="card-body">
+                     <h3 class="card-title">Education Informations <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#education_info"><i class="fa fa-pencil"></i></a></h3>
+                     <div class="experience-box">
+                        <ul class="experience-list">
+                           <li>
+                              <div class="experience-user">
+                                 <div class="before-circle"></div>
+                              </div>
+                              <div class="experience-content">
+                                 <div class="timeline-content">
+                                    <a href="#/" class="name">International College of Arts and Science (UG)</a>
+                                    <div>Bsc Computer Science</div>
+                                    <span class="time">2000 - 2003</span>
                                  </div>
-                                 <div class="col-md-6">
-                                    <input  type="text" name="company[employee_number]" value="<?php echo $employee->employee_id ?>" id="employee_number" class="form-control" placeholder="#ID">
+                              </div>
+                           </li>
+                           <li>
+                              <div class="experience-user">
+                                 <div class="before-circle"></div>
+                              </div>
+                              <div class="experience-content">
+                                 <div class="timeline-content">
+                                    <a href="#/" class="name">International College of Arts and Science (PG)</a>
+                                    <div>Msc Computer Science</div>
+                                    <span class="time">2000 - 2003</span>
                                  </div>
                               </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Department</label> </div>
-                           <div class="col-md-9">
-                              <select  name="company[department_id]" value="<?php echo $employee->department ?>" id="department_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
-                                 <option label="Select Department"></option>
-                                 <?php foreach (Department::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->department == $value->department_name ? 'selected' : '' ?>>
-                                       <?php echo ucwords($value->department_name) ?></option>
-                                 <?php endforeach; ?>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
-                           <div class="col-md-9"> <select  name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
-                                 <option label="Select Branch"></option>
-                                 <?php foreach (Branch::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->branch == $value->branch_name ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
-                                 <?php endforeach; ?>
-                              </select> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
-                           <div class="col-md-9">
-                              <select  name="company[job_title_id]" value="<?php echo $employee->job_title_id ?>" id="job_title_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
-                                 <option label="Select Employment Title"></option>
-                                 <?php foreach (Designation::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->job_title == $value->designation_name ? 'selected' : '' ?>>
-                                       <?php echo ucwords($value->designation_name) ?></option>
-                                 <?php endforeach; ?>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Date Of Joining</label> </div>
-                           <div class="col-md-9"> <input  type="date" name="company[date_employed]" value="<?php echo $employee->date_employed ?>" id="date_employed" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYYY" id="dp1642289966078"> </div>
-                        </div>
-                     </div>
-                     <h4 class="mb-5 mt-7 font-weight-bold">Salary</h4>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employment Type</label> </div>
-                           <div class="col-md-9">
-                              <select  name="company[employment_type]" value="<?php echo $employee->employment_type ?>" id="employment_type" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
-                                 <option label="Employee Type"></option>
-                                 <?php foreach (EmployeeType::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->employment_type == $value->id ? 'selected' : '' ?>><?php echo ucwords($value->name) ?></option>
-                                 <?php endforeach; ?>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Salary</label> </div>
-                           <div class="col-md-9"> <input type="number" name="company[present_salary]" value="<?php echo $employee->present_salary ?>" id="present_salary" class="form-control" placeholder="e.g 15000"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group mt-7 d-none">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label">Status:</label> </div>
-                           <div class="col-md-9">
-                              <label class="custom-switch"> <input type="checkbox" name="company[status]" value="<?php echo $employee->status ?>" id="status" class="custom-switch-input"> <span class="custom-switch-indicator"></span>
-                                 <span class="custom-switch-description">Active/Inactive</span> </label>
-                           </div>
-                        </div>
+                           </li>
+                        </ul>
                      </div>
                   </div>
-
-                  <div class="card-footer text-end">
-                     <button type="submit" href="#" class="btn btn-primary">Update</button>
-                     <a href="#" class="btn btn-danger">Cancel</a>
-                  </div>
-               </form>
+               </div>
             </div>
-
-            <div class="tab-pane" id="tab7">
-               <form id="add_bank_form">
-                  <input type="hidden" name="bankId" value="<?php echo $employee->id ?>" >
+            <div class="col-md-6 d-flex">
+               <div class="card profile-box flex-fill">
                   <div class="card-body">
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Account Number</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="bank[account_number]" value="<?php echo $employee->account_number ?>" id="account_number" class="form-control" placeholder="Number"> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Bank Name</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="bank[bank_name]" value="<?php echo $employee->bank_name ?>" id="bank_name" class="form-control" placeholder="Name"> </div>
-                        </div>
-                     </div>
-
-                     <div class="card-footer text-end">
-                        <button type="submit" href="#" class="btn btn-primary">Update</button>
-                        <a href="#" class="btn btn-danger">Cancel</a>
+                     <h3 class="card-title">Experience <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#experience_info"><i class="fa fa-pencil"></i></a></h3>
+                     <div class="experience-box">
+                        <ul class="experience-list">
+                           <li>
+                              <div class="experience-user">
+                                 <div class="before-circle"></div>
+                              </div>
+                              <div class="experience-content">
+                                 <div class="timeline-content">
+                                    <a href="#/" class="name">Web Designer at Zen Corporation</a>
+                                    <span class="time">Jan 2013 - Present (5 years 2 months)</span>
+                                 </div>
+                              </div>
+                           </li>
+                           <li>
+                              <div class="experience-user">
+                                 <div class="before-circle"></div>
+                              </div>
+                              <div class="experience-content">
+                                 <div class="timeline-content">
+                                    <a href="#/" class="name">Web Designer at Ron-tech</a>
+                                    <span class="time">Jan 2013 - Present (5 years 2 months)</span>
+                                 </div>
+                              </div>
+                           </li>
+                           <li>
+                              <div class="experience-user">
+                                 <div class="before-circle"></div>
+                              </div>
+                              <div class="experience-content">
+                                 <div class="timeline-content">
+                                    <a href="#/" class="name">Web Designer at Dalt Technology</a>
+                                    <span class="time">Jan 2013 - Present (5 years 2 months)</span>
+                                 </div>
+                              </div>
+                           </li>
+                        </ul>
                      </div>
                   </div>
-               </form>
+               </div>
             </div>
-
-            <div class="tab-pane" id="tab8">
-               <form id="add_doc_form">
-                  <input type="hidden" name="documentId" value="<?php echo $employee->id ?>" >
+         </div>
+      </div>
+      <div class="tab-pane fade" id="emp_projects">
+         <div class="row">
+            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+               <div class="card">
                   <div class="card-body">
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3">
-                              <div class="form-label mb-0 mt-2">Resume</div>
-                           </div>
-                           <div class="col-md-9">
-                              <div class="form-group"> <label for="form-label" class="form-label"></label> <input class="form-control" type="file"> </div>
+                     <div class="dropdown profile-action">
+                        <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                           <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                        </div>
+                     </div>
+                     <h4 class="project-title"><a href="project-view.html">Office Management</a></h4>
+                     <small class="block text-ellipsis m-b-15">
+                     <span class="text-xs">1</span> <span class="text-muted">open tasks, </span>
+                     <span class="text-xs">9</span> <span class="text-muted">tasks completed</span>
+                     </small>
+                     <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. When an unknown printer took a galley of type and
+                        scrambled it...
+                     </p>
+                     <div class="pro-deadline m-b-15">
+                        <div class="sub-title">
+                           Deadline:
+                        </div>
+                        <div class="text-muted">
+                           17 Apr 2019
+                        </div>
+                     </div>
+                     <div class="project-members m-b-15">
+                        <div>Project Leader :</div>
+                        <ul class="team-members">
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Jeffery Lalor" aria-label="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
+                           </li>
+                        </ul>
+                     </div>
+                     <div class="project-members m-b-15">
+                        <div>Team :</div>
+                        <ul class="team-members">
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="John Doe" aria-label="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Richard Miles" aria-label="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="John Smith" aria-label="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Mike Litorus" aria-label="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" class="all-users">+15</a>
+                           </li>
+                        </ul>
+                     </div>
+                     <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
+                     <div class="progress progress-xs mb-0">
+                        <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%" data-bs-original-title=""></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="dropdown profile-action">
+                        <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                           <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                        </div>
+                     </div>
+                     <h4 class="project-title"><a href="project-view.html">Project Management</a></h4>
+                     <small class="block text-ellipsis m-b-15">
+                     <span class="text-xs">2</span> <span class="text-muted">open tasks, </span>
+                     <span class="text-xs">5</span> <span class="text-muted">tasks completed</span>
+                     </small>
+                     <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. When an unknown printer took a galley of type and
+                        scrambled it...
+                     </p>
+                     <div class="pro-deadline m-b-15">
+                        <div class="sub-title">
+                           Deadline:
+                        </div>
+                        <div class="text-muted">
+                           17 Apr 2019
+                        </div>
+                     </div>
+                     <div class="project-members m-b-15">
+                        <div>Project Leader :</div>
+                        <ul class="team-members">
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Jeffery Lalor" aria-label="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
+                           </li>
+                        </ul>
+                     </div>
+                     <div class="project-members m-b-15">
+                        <div>Team :</div>
+                        <ul class="team-members">
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="John Doe" aria-label="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Richard Miles" aria-label="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="John Smith" aria-label="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Mike Litorus" aria-label="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" class="all-users">+15</a>
+                           </li>
+                        </ul>
+                     </div>
+                     <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
+                     <div class="progress progress-xs mb-0">
+                        <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%" data-bs-original-title=""></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="dropdown profile-action">
+                        <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                           <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                        </div>
+                     </div>
+                     <h4 class="project-title"><a href="project-view.html">Video Calling App</a></h4>
+                     <small class="block text-ellipsis m-b-15">
+                     <span class="text-xs">3</span> <span class="text-muted">open tasks, </span>
+                     <span class="text-xs">3</span> <span class="text-muted">tasks completed</span>
+                     </small>
+                     <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. When an unknown printer took a galley of type and
+                        scrambled it...
+                     </p>
+                     <div class="pro-deadline m-b-15">
+                        <div class="sub-title">
+                           Deadline:
+                        </div>
+                        <div class="text-muted">
+                           17 Apr 2019
+                        </div>
+                     </div>
+                     <div class="project-members m-b-15">
+                        <div>Project Leader :</div>
+                        <ul class="team-members">
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Jeffery Lalor" aria-label="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
+                           </li>
+                        </ul>
+                     </div>
+                     <div class="project-members m-b-15">
+                        <div>Team :</div>
+                        <ul class="team-members">
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="John Doe" aria-label="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Richard Miles" aria-label="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="John Smith" aria-label="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Mike Litorus" aria-label="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" class="all-users">+15</a>
+                           </li>
+                        </ul>
+                     </div>
+                     <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
+                     <div class="progress progress-xs mb-0">
+                        <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%" data-bs-original-title=""></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="dropdown profile-action">
+                        <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                           <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                        </div>
+                     </div>
+                     <h4 class="project-title"><a href="project-view.html">Hospital Administration</a></h4>
+                     <small class="block text-ellipsis m-b-15">
+                     <span class="text-xs">12</span> <span class="text-muted">open tasks, </span>
+                     <span class="text-xs">4</span> <span class="text-muted">tasks completed</span>
+                     </small>
+                     <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. When an unknown printer took a galley of type and
+                        scrambled it...
+                     </p>
+                     <div class="pro-deadline m-b-15">
+                        <div class="sub-title">
+                           Deadline:
+                        </div>
+                        <div class="text-muted">
+                           17 Apr 2019
+                        </div>
+                     </div>
+                     <div class="project-members m-b-15">
+                        <div>Project Leader :</div>
+                        <ul class="team-members">
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Jeffery Lalor" aria-label="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
+                           </li>
+                        </ul>
+                     </div>
+                     <div class="project-members m-b-15">
+                        <div>Team :</div>
+                        <ul class="team-members">
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="John Doe" aria-label="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Richard Miles" aria-label="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="John Smith" aria-label="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" data-bs-toggle="tooltip" title="" data-bs-original-title="Mike Litorus" aria-label="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
+                           </li>
+                           <li>
+                              <a href="#" class="all-users">+15</a>
+                           </li>
+                        </ul>
+                     </div>
+                     <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
+                     <div class="progress progress-xs mb-0">
+                        <div style="width: 40%" title="" data-bs-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%" data-bs-original-title=""></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="tab-pane fade" id="bank_statutory">
+         <div class="card">
+            <div class="card-body">
+               <h3 class="card-title"> Basic Salary Information</h3>
+               <form>
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Salary basis <span class="text-danger">*</span></label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-1-lnje" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-3-0grr">Select salary basis type</option>
+                              <option>Hourly</option>
+                              <option>Daily</option>
+                              <option>Weekly</option>
+                              <option>Monthly</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-2-p3yc" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-tfvh-container" aria-controls="select2-tfvh-container"><span class="select2-selection__rendered" id="select2-tfvh-container" role="textbox" aria-readonly="true" title="Select salary basis type">Select salary basis type</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Salary amount <small class="text-muted">per month</small></label>
+                           <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="text" class="form-control" placeholder="Type your salary amount" value="0.00">
                            </div>
                         </div>
                      </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3">
-                              <div class="form-label mb-0 mt-2">ID Proof</div>
-                           </div>
-                           <div class="col-md-9">
-                              <div class="form-group"> <label for="form-label" class="form-label"></label> <input class="form-control" type="file"> </div>
-                           </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Payment type</label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-4-9l3z" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-6-r1qg">Select payment type</option>
+                              <option>Bank transfer</option>
+                              <option>Check</option>
+                              <option>Cash</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-5-vr3e" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-2543-container" aria-controls="select2-2543-container"><span class="select2-selection__rendered" id="select2-2543-container" role="textbox" aria-readonly="true" title="Select payment type">Select payment type</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                         </div>
                      </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3">
-                              <div class="form-label mb-0 mt-2">Offer Letter</div>
-                           </div>
-                           <div class="col-md-9">
-                              <div class="form-group"> <label for="form-label" class="form-label"></label> <input class="form-control" type="file"> </div>
-                           </div>
+                  </div>
+                  <hr>
+                  <h3 class="card-title"> PF Information</h3>
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">PF contribution</label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-7-7jb1" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-9-8dp7">Select PF contribution</option>
+                              <option>Yes</option>
+                              <option>No</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-8-sjvo" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-ivij-container" aria-controls="select2-ivij-container"><span class="select2-selection__rendered" id="select2-ivij-container" role="textbox" aria-readonly="true" title="Select PF contribution">Select PF contribution</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                         </div>
                      </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3">
-                              <div class="form-label mb-0 mt-2">Joining Letter</div>
-                           </div>
-                           <div class="col-md-9">
-                              <div class="form-group"> <label for="form-label" class="form-label"></label> <input class="form-control" type="file"> </div>
-                           </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">PF No. <span class="text-danger">*</span></label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-10-1dqh" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-12-jm2r">Select PF contribution</option>
+                              <option>Yes</option>
+                              <option>No</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-11-2nyc" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-szyo-container" aria-controls="select2-szyo-container"><span class="select2-selection__rendered" id="select2-szyo-container" role="textbox" aria-readonly="true" title="Select PF contribution">Select PF contribution</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                         </div>
                      </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3">
-                              <div class="form-label mb-0 mt-2">Agreement Letter</div>
-                           </div>
-                           <div class="col-md-9">
-                              <div class="form-group"> <label for="form-label" class="form-label"></label> <input class="form-control" type="file"> </div>
-                           </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Employee PF rate</label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-13-zrkf" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-15-snao">Select PF contribution</option>
+                              <option>Yes</option>
+                              <option>No</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-14-6gwv" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-pdol-container" aria-controls="select2-pdol-container"><span class="select2-selection__rendered" id="select2-pdol-container" role="textbox" aria-readonly="true" title="Select PF contribution">Select PF contribution</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                         </div>
                      </div>
-
-                     <div class="card-footer text-end">
-                        <button type="submit" href="#" class="btn btn-primary">Update</button>
-                        <a href="#" class="btn btn-danger">Cancel</a>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-16-ht44" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-18-2hnp">Select additional rate</option>
+                              <option>0%</option>
+                              <option>1%</option>
+                              <option>2%</option>
+                              <option>3%</option>
+                              <option>4%</option>
+                              <option>5%</option>
+                              <option>6%</option>
+                              <option>7%</option>
+                              <option>8%</option>
+                              <option>9%</option>
+                              <option>10%</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-17-wnaz" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-4lz2-container" aria-controls="select2-4lz2-container"><span class="select2-selection__rendered" id="select2-4lz2-container" role="textbox" aria-readonly="true" title="Select additional rate">Select additional rate</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
                      </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Total rate</label>
+                           <input type="text" class="form-control" placeholder="N/A" value="11%">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Employee PF rate</label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-19-o0pz" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-21-zqy8">Select PF contribution</option>
+                              <option>Yes</option>
+                              <option>No</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-20-4o2r" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-84vn-container" aria-controls="select2-84vn-container"><span class="select2-selection__rendered" id="select2-84vn-container" role="textbox" aria-readonly="true" title="Select PF contribution">Select PF contribution</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-22-zqt8" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-24-c0cf">Select additional rate</option>
+                              <option>0%</option>
+                              <option>1%</option>
+                              <option>2%</option>
+                              <option>3%</option>
+                              <option>4%</option>
+                              <option>5%</option>
+                              <option>6%</option>
+                              <option>7%</option>
+                              <option>8%</option>
+                              <option>9%</option>
+                              <option>10%</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-23-hscm" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-546e-container" aria-controls="select2-546e-container"><span class="select2-selection__rendered" id="select2-546e-container" role="textbox" aria-readonly="true" title="Select additional rate">Select additional rate</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Total rate</label>
+                           <input type="text" class="form-control" placeholder="N/A" value="11%">
+                        </div>
+                     </div>
+                  </div>
+                  <hr>
+                  <h3 class="card-title"> ESI Information</h3>
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">ESI contribution</label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-25-mseh" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-27-q7sg">Select ESI contribution</option>
+                              <option>Yes</option>
+                              <option>No</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-26-szbq" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-kw78-container" aria-controls="select2-kw78-container"><span class="select2-selection__rendered" id="select2-kw78-container" role="textbox" aria-readonly="true" title="Select ESI contribution">Select ESI contribution</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">ESI No. <span class="text-danger">*</span></label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-28-njrx" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-30-mvlr">Select ESI contribution</option>
+                              <option>Yes</option>
+                              <option>No</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-29-4bm7" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-ky9r-container" aria-controls="select2-ky9r-container"><span class="select2-selection__rendered" id="select2-ky9r-container" role="textbox" aria-readonly="true" title="Select ESI contribution">Select ESI contribution</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Employee ESI rate</label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-31-4gdu" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-33-rlgb">Select ESI contribution</option>
+                              <option>Yes</option>
+                              <option>No</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-32-zrk4" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-a1c7-container" aria-controls="select2-a1c7-container"><span class="select2-selection__rendered" id="select2-a1c7-container" role="textbox" aria-readonly="true" title="Select ESI contribution">Select ESI contribution</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
+                           <select class="select select2-hidden-accessible" data-select2-id="select2-data-34-jnv6" tabindex="-1" aria-hidden="true">
+                              <option data-select2-id="select2-data-36-97x7">Select additional rate</option>
+                              <option>0%</option>
+                              <option>1%</option>
+                              <option>2%</option>
+                              <option>3%</option>
+                              <option>4%</option>
+                              <option>5%</option>
+                              <option>6%</option>
+                              <option>7%</option>
+                              <option>8%</option>
+                              <option>9%</option>
+                              <option>10%</option>
+                           </select>
+                           <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-35-190x" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-1mxl-container" aria-controls="select2-1mxl-container"><span class="select2-selection__rendered" id="select2-1mxl-container" role="textbox" aria-readonly="true" title="Select additional rate">Select additional rate</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="form-group">
+                           <label class="col-form-label">Total rate</label>
+                           <input type="text" class="form-control" placeholder="N/A" value="11%">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="submit-section">
+                     <button class="btn btn-primary submit-btn" type="submit">Save</button>
                   </div>
                </form>
             </div>
@@ -505,6 +831,7 @@ $select2 = '';
       </div>
    </div>
 </div>
+
 
 <?php include(SHARED_PATH . '/footer.php') ?>
 

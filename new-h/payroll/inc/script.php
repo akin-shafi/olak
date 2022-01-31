@@ -112,6 +112,8 @@
 						 		<td>Taxable Income</td>
 						 		<td><?php echo number_format($tax['taxable_income'], 2) ?></td>
 						 	</tr>
+						 	
+
 						 	<tr>
 						 		<td>Annual Tax</td>
 						 		<td><?php echo number_format($tax['annunal_tax'], 2) ?></td>
@@ -119,6 +121,11 @@
 						 	<tr>
 						 		<td>Monthly Tax</td>
 						 		<td><?php echo number_format($tax['monthly_tax'], 2) ?></td>
+						 	</tr>
+
+						 	<tr>
+						 		<td>Pension</td>
+						 		<td><?php echo number_format($tax['pension'], 2) ?></td>
 						 	</tr>
 						 </table>
                   </div>
