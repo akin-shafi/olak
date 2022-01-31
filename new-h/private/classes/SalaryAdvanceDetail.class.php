@@ -20,6 +20,20 @@ class SalaryAdvanceDetail extends DatabaseObject
 
   public $total_loan_received;
 
+  const STATUS = [
+     1 => 'New Request',
+     2 => 'In View',
+     3 => 'Approved',
+     4 => 'Rejected',
+  ];
+
+  const COLOR = [
+     1 => 'text-primary',
+     2 => 'text-warning',
+     3 => 'text-success',
+     4 => 'text-danger',
+  ];
+
   public function __construct($args = [])
   {
     $this->ref_no           = $args['ref_no'] ?? '';
@@ -33,6 +47,7 @@ class SalaryAdvanceDetail extends DatabaseObject
     $this->note             = $args['note'] ?? '';
     $this->deleted          = $args['deleted'] ?? '';
   }
+
 
 
   protected function validate()
@@ -64,6 +79,15 @@ class SalaryAdvanceDetail extends DatabaseObject
     } else {
       return false;
     }
+  }
+
+  public static function  find_by_status($status){
+      $sql = "SELECT * FROM " . static::$table_name . " ";
+      $sql .= "WHERE status='" . self::$database->escape_string($status) . "'";
+      // $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $obj_array = static::find_by_sql($sql);
+      return $obj_array;
+      
   }
 
   public static function find_by_loan_approved($option = [])

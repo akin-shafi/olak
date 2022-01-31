@@ -4,10 +4,11 @@
 class PayrollItem extends DatabaseObject
 {
     protected static $table_name = "payroll_item";
-    protected static $db_columns = ['id', 'item', 'category', 'amount', 'created_at', 'deleted'];
+    protected static $db_columns = ['id', 'item', 'addon', 'category', 'amount', 'created_at', 'deleted'];
 
     public $id;
     public $item;
+    public $addon;
     public $category;
     public $amount;
     public $created_at;
@@ -29,6 +30,7 @@ class PayrollItem extends DatabaseObject
     public function __construct($args = [])
     {
         $this->item = $args['item'] ?? '';
+        $this->addon = $args['addon'] ?? '';
         $this->category = $args['category'] ?? '';
         $this->amount = $args['amount'] ?? '';
         $this->email = $args['email'] ?? '';

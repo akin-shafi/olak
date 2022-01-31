@@ -100,6 +100,8 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                  <th class="bg-white">#Emp ID</th>
                                  <th class="bg-white">#Emp Name</th>
                                  <th>(₦) Net Salary</th>
+                                 <th>(₦) Monthly Tax</th>
+                                 <th>(₦) Pension</th>
                                  <th>(₦) Salary Advance</th>
                                  <th>(₦) Loan</th>
                                  <th>(₦) Take Home</th>
@@ -118,6 +120,12 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                  $salary = intval($value->present_salary);
                                  $commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
                                  $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested));
+                                 
+                                
+                                 $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
+                                 $monthly_tax = $tax['monthly_tax'];
+                                 $pension = $tax['pension'];
+
                               ?>
                                  <tr>
                                     <td class="bg-white"><?php echo $sn++; ?></td>
@@ -131,6 +139,9 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                        </div>
                                     </td>
                                     <td><?php echo number_format($salary) ?></td>
+                                    <td><?php echo  number_format($monthly_tax) ?></td>
+                                    <td><?php echo  number_format($pension) ?></td>
+                                    
                                     <td>
                                        <?php echo !empty($salary_advance->total_requested) ? number_format($salary_advance->total_requested) : '0.00' ?>
                                     </td>

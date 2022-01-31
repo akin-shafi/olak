@@ -64,6 +64,7 @@ class Payroll extends DatabaseObject
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= " AND created_at LIKE'%" . self::$database->escape_string($created_at) . "%'";
+    $sql .= "ORDER BY id DESC";
     return static::find_by_sql($sql);
 
   }
@@ -166,7 +167,8 @@ class Payroll extends DatabaseObject
       'taxfree' => $taxfree,
       'taxable_income' => $taxable_income,
       'annunal_tax' => $annunal_tax,
-      'monthly_tax' => $monthly_tax
+      'monthly_tax' => $monthly_tax,
+      'pension' => $pensionContribution
     ];
     return $obj;
       

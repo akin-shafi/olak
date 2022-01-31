@@ -9,11 +9,7 @@ $datatable = '';
 
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
-    <!-- <h4 class="page-title">Loan Management</h4> -->
-    <div class="btn-group">
-      <div class="btn text-primary">Salary Advance Management</div>
-      <div class="btn text-outline-primary">Loan Management</div>
-    </div>
+    <h4 class="page-title">Salary Advance</h4>
   </div>
   <div class="page-rightheader ms-md-auto">
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
@@ -36,74 +32,31 @@ $datatable = '';
 <div class="row">
   <div class="col-xl-12 col-lg-12 col-md-12">
     <div class="row">
+      <?php 
+        
+        foreach (SalaryAdvanceDetail::STATUS as $key => $value) { 
+        $count = count(SalaryAdvanceDetail::find_by_status($key)) ?? 0;
+        $color = SalaryAdvanceDetail::COLOR[$key];
+      ?>
       <div class="col-xl-3 col-lg-6 col-md-12">
         <div class="card">
           <div class="card-body">
             <div class="row">
               <div class="col-7">
                 <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Loan Refunded</span>
-                  <h3 class="mb-0 mt-1 text-success"><?php echo '0' ?></h3>
+                  <span class="font-weight-semibold"><?php echo $value?></span>
+                  <h3 class="mb-0 mt-1 <?php echo $color ?>"><?php echo $count ?></h3>
                 </div>
               </div>
-              <div class="col-5">
+              <!-- <div class="col-5">
                 <div class="icon1 bg-success-transparent my-auto  float-end"> <i class="las la-users"></i> </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
       </div>
-      <div class="col-xl-3 col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-7">
-                <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Short Loan</span>
-                  <h3 class="mb-0 mt-1 text-primary"><?php echo count(SalaryAdvanceDetail::find_by_undeleted()) ?? 0 ?></h3>
-                </div>
-              </div>
-              <div class="col-5">
-                <div class="icon1 bg-primary-transparent my-auto  float-end"> <i class="las la-male"></i> </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-7">
-                <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Long Loan</span>
-                  <h3 class="mb-0 mt-1 text-secondary"><?php echo count(LongTermLoan::find_by_undeleted()) ?? 0 ?></h3>
-                </div>
-              </div>
-              <div class="col-5">
-                <div class="icon1 bg-secondary-transparent my-auto  float-end"> <i class="las la-female"></i> </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-7">
-                <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Loan Rejected</span>
-                  <h3 class="mb-0 mt-1 text-danger">0</h3>
-                </div>
-              </div>
-              <div class="col-5">
-                <div class="icon1 bg-danger-transparent my-auto  float-end"> <i class="las la-user-friends"></i> </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <?php } ?>
+      
     </div>
 
 

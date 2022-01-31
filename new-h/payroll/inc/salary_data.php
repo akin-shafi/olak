@@ -9,7 +9,7 @@
 
     $earnings = PayrollItem::find_all_payroll(['category' => 1]);
     $deductions = PayrollItem::find_all_payroll(['category' => 3]);
-    $salaryAdvance = SalaryAdvance::find_by_employee_id($empId);
+    $salaryAdvance = SalaryAdvance::find_by_employee_id($empId)->total_requested ?? 0;
     $longTerm = LongTermLoan::find_by_employee_id($empId);
     $commitment = $longTerm ? intval($longTerm->commitment) : 0;
 
@@ -19,8 +19,10 @@
     $otherAllowance = $salary->other_allowance ?? 0;
     $otherDeduction = $salary->other_deduction ?? 0;
 
-    $totalAllowance = $overtime + $leave + $otherAllowance + $employee->present_salary;
+    $totalAllowance = intval($overtime) + intval($leave) + intval($otherAllowance) + intval($employee->present_salary);
     $totalDeduction = $commitment + $otherDeduction;
+
+    $tax = Payroll::tax_calculator(['netSalary' => intval($employee->present_salary)]);
 
 ?>
     <div class="modal-body pt-1">
@@ -41,96 +43,103 @@
           </tbody>
         </table>
       </div>
-      <div class="table-responsive mt-4">
-        <table class="table text-nowrap mb-0 border">
-          <tbody>
-            <tr>
-              <td class="p-0">
-                <table class="table text-nowrap mb-0">
-                  <thead>
-                    <tr>
-                      <th class="fs-18" rowspan="1" colspan="2">Earnings</th>
-                    </tr>
-                    <tr>
-                      <th>Pay Type</th>
-                      <th class="border-start">Amount(<?php echo $currency ?>)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php foreach ($earnings as $value) :
-                      $amountCalculated = $employee->present_salary * (intval($value->amount) / 100);
-                    ?>
-                      <tr>
-                        <td><?php echo ucwords($value->item) ?></td>
-                        <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
-                      </tr>
-                    <?php endforeach; ?>
+     
+      <div class="row">
+        <div class="col-6">
+          <table class="table text-nowrap border mb-0">
+            <thead>
+              <tr>
+                <th class="fs-18" rowspan="1" colspan="2">Earnings</th>
+              </tr>
+              <tr>
+                <th>Pay Type</th>
+                <th class="border-start">Amount(<?php echo $currency ?>)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($earnings as $value) :
+                $amountCalculated = intval($employee->present_salary) * (intval($value->amount) / 100);
+              ?>
+                <tr>
+                  <td><?php echo ucwords($value->item) ?></td>
+                  <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
+                </tr>
+              <?php endforeach; ?>
 
-                    <tr>
-                      <td>Overtime Allowance</td>
-                      <td class="border-start"><?php echo number_format($overtime) ?></td>
-                    </tr>
-                    <tr>
-                      <td>Leave Allowance</td>
-                      <td class="border-start"><?php echo number_format($leave) ?></td>
-                    </tr>
-                    <tr>
-                      <td>Additional Days Allowance</td>
-                      <td class="border-start"><?php echo number_format($otherAllowance) ?></td>
-                    </tr>
+              <tr>
+                <td>Overtime Allowance</td>
+                <td class="border-start"><?php echo number_format($overtime) ?></td>
+              </tr>
+              <tr>
+                <td>Leave Allowance</td>
+                <td class="border-start"><?php echo number_format($leave) ?></td>
+              </tr>
+              <tr>
+                <td>Additional Days Allowance</td>
+                <td class="border-start"><?php echo number_format($otherAllowance) ?></td>
+              </tr>
 
-                    <tr class="border-top">
-                      <td class="font-weight-semibold">Total Earnings</td>
-                      <td class="font-weight-semibold border-start"><?php echo number_format(intval($totalAllowance)) ?></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
+              <tr class="border-top">
+                <td class="font-weight-semibold">Total Earnings</td>
+                <td class="font-weight-semibold border-start"><?php echo number_format(intval($totalAllowance)) ?></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-              <td class="p-0">
-                <table class="table text-nowrap mb-0 border-start">
-                  <thead>
-                    <tr>
-                      <th class="fs-18" rowspan="1" colspan="2">Deduction</th>
-                    </tr>
-                    <tr>
-                      <th>Pay Type</th>
-                      <th class="border-start">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php foreach ($deductions as $value) :
-                      $amountCalculated = $employee->present_salary * (intval($value->amount) / 100);
-                    ?>
-                      <tr>
-                        <td><?php echo ucwords($value->item) ?></td>
-                        <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
-                      </tr>
-                    <?php endforeach; ?>
+        <div class="col-6">
+          <table class="table text-nowrap mb-0 border">
+            <thead>
+              <tr>
+                <th class="fs-18" rowspan="1" colspan="2">Deductions</th>
+              </tr>
+              <tr>
+                <th>Pay Type</th>
+                <th class="border-start">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($deductions as $value) :
+                if ($value->item == 'Tax(PAYE)') {
+                  $amountCalculated = $tax['monthly_tax'];
+                }elseif ($value->item == 'Pension') {
+                  $amountCalculated = $tax['pension'];
+                }else{
+                  $amountCalculated = $employee->present_salary * (intval($value->amount) / 100);
+                }
+                
+              ?>
+                <tr>
+                  <td><?php echo ucwords($value->item) ?></td>
+                  <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
+                </tr>
 
-                    <tr>
-                      <td>Other Deductions</td>
-                      <td class="border-start"><?php echo number_format($otherDeduction) ?></td>
-                    </tr>
+              <?php endforeach; ?>
 
-                    <tr>
-                      <td>Loans &amp; Others</td>
-                      <td class="border-start"><?php echo number_format($commitment) ?></td>
-                    </tr>
-                    <tr class="border-top">
-                      <td class="font-weight-semibold">Total Deduction</td>
-                      <td class="font-weight-semibold border-start"><?php echo number_format(intval($totalDeduction)) ?></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <!-- <tr>
+                <td>Other Deductions</td>
+                <td class="border-start"><?php //echo number_format($otherDeduction) ?></td>
+              </tr> -->
+              <tr>
+                <td>Salary Advance </td>
+                <td class="border-start"><?php echo number_format(intval($salaryAdvance)) ?></td>
+              </tr>
+              <tr>
+                <td>Loans </td>
+                <td class="border-start"><?php echo number_format($commitment) ?></td>
+              </tr>
+              <tr class="border-top">
+                <td class="font-weight-semibold">Total Deductions</td>
+                <td class="font-weight-semibold border-start"><?php echo number_format(intval($totalDeduction)) ?></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+          
 
       <div class="mt-4 mb-3">
-        <table class="table mb-0">
+        <table class="table mb-0 border">
           <tbody>
             <tr>
               <td class="font-weight-semibold w-20 fs-18 pb-0 pt-0">Net Salary</td>

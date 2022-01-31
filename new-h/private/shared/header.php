@@ -66,12 +66,7 @@ $user = $loggedInAdmin;
             <aside class="app-sidebar">
                <div class="app-sidebar__logo">
                   <a class="header-brand text-white" href="index.php">
-                     <!-- <img src="assets/images/brand/logo.png" class="header-brand-img desktop-lgo" alt="Dayonelogo"> 
-               <img src="assets/images/brand/logo-white.png" class="header-brand-img dark-logo" alt="Dayonelogo"> 
-               <img src="assets/images/brand/favicon.png" class="header-brand-img mobile-logo" alt="Dayonelogo"> 
-               <img src="assets/images/brand/favicon1.png" class="header-brand-img darkmobile-logo" alt="Dayonelogo">  -->
-                     <!-- <span class="header-brand-img desktop-lgo">IOGC HR-Admin</span>
-                     <span class="header-brand-img darkmobile-logo">IOGC</span> -->
+                 
                   </a>
                </div>
                <div class="app-sidebar3 ps ps--active-y is-expanded">
@@ -128,6 +123,7 @@ $user = $loggedInAdmin;
                               <ul class="sub-slide-menu">
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-empsalary.php') ?>">Employee Salary</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll.php') ?>">Payroll</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/tax_calculator.php') ?>">Tax Calculator</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll-items.php') ?>">Payroll Settings</a></li>
                               </ul>
                            </li>
