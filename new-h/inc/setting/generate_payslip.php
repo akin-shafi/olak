@@ -15,7 +15,6 @@ if (is_post_request()) {
       $loan = EmployeeLoan::find_by_employee_id($employee->id) ?? 0;
     }
 
-    pre_r($loan);
     $args = [
       'employee_id' => $employee->id,
       'salary' => $employee->present_salary,

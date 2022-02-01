@@ -27,6 +27,7 @@ if (is_post_request()) {
 				'loan' => $commitment,
 				'salary_advance' => $salary_advance->total_requested,
 				'present_days' => $_POST['present_day'],
+				'payment_status' => 1,
 			];
 
 			$staff_salary = new Payroll($args);
@@ -39,6 +40,7 @@ if (is_post_request()) {
 				'process_salary' => 1,
 				'process_salary_date' => date('Y-m-d'),
 			];
+
 			$config->merge_attributes($data);
 			$config->save();
 			exit(json_encode(['success' => true, 'msg' => 'Sent successful']));

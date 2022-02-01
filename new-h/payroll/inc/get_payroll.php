@@ -7,6 +7,8 @@ if (is_get_request()) {
 
     $payrolls = Payroll::find_by_created_at(date('Y-m', strtotime($queryMonth)));
 
+
+
 ?>
     <?php
     $sn = 1;
@@ -44,7 +46,8 @@ if (is_get_request()) {
         </td>
         <td><?php echo number_format($commitment) ?></td>
         <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
-        <td><span class="badge badge-danger">Unpaid</span></td>
+        <td><span class="badge <?php echo $value->payment_status != 0 ? 'badge-success' : 'badge-danger' ?>">
+            <?php echo $value->payment_status != 0 ? 'Paid' : 'Unpaid' ?></span></td>
         <td class="text-start bg-white">
           <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
           <a href="#" class="action-btns" id="edit_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#payroll_narration" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a>
