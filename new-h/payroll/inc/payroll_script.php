@@ -43,7 +43,7 @@ if (is_post_request()) {
 
 			$config->merge_attributes($data);
 			$config->save();
-			exit(json_encode(['success' => true, 'msg' => 'Sent successful']));
+			exit(json_encode(['success' => true, 'msg' => 'Generated successful!']));
 		} else {
 			http_response_code(404);
 			exit(json_encode(['error' => display_errors($staff_salary->errors)]));

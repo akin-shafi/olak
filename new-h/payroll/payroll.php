@@ -26,7 +26,9 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
             <button class="btn btn-dark me-3" id="PaySlipDisabled">Payslip Generated</button>
             <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button>
          <?php else : ?>
-            <button class="btn btn-primary me-3" id="genPaySlip">Generate Payslip</button>
+            <div id="generating">
+               <button class="btn btn-primary me-3" id="genPaySlip">Generate Payslip</button>
+            </div>
          <?php endif ?>
 
 
@@ -333,7 +335,9 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
       })
 
       $(document).on('click', '#genPaySlip', function() {
-         $(this).html('Processing')
+         let processing = '<button class="btn btn-primary" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...</button>';
+
+         $('#generating').html(processing)
          $(this).attr("disabled", true);
          $.ajax({
             url: 'inc/payroll_script.php',
@@ -346,7 +350,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
             success: function(data) {
                if (data.success == true) {
                   message('success', data.msg);
-                  window.reload();
+                  window.location.reload();
                } else {
                   message('error', data.msg);
                }
