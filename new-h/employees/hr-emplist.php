@@ -155,7 +155,7 @@ $datatable = '';
                                           <td><?php echo $value->date_employed ? date('Y-m-d', strtotime($value->date_employed)) : 'Not Set'; ?></td>
 
                                           <td>
-                                             <a class="btn btn-primary btn-icon btn-sm" href="hr-empview.html">
+                                             <a class="btn btn-primary btn-icon btn-sm" href="<?php echo url_for('employees/hr-editemp.php?id='. $value->id) ?>">
                                                 <i class="feather feather-edit" data-bs-toggle="tooltip" data-original-title="View/Edit" data-bs-original-title="" title=""></i>
                                              </a>
                                              <a class="btn btn-danger btn-icon btn-sm" data-bs-toggle="tooltip" data-original-title="Delete" data-bs-original-title="" title=""><i class="feather feather-trash-2"></i></a>

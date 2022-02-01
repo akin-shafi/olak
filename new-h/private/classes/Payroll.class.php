@@ -87,7 +87,7 @@ class Payroll extends DatabaseObject
     // Pension calculation
     $BHT = $basic_salary + $housing + $transport;
     $pensionContribution = $BHT * 0.08 * 12;
-    $monthly_pension = $BHT * 0.08;
+    $montly_pension = $BHT * 0.08;
     $grossSalary = $netSalary * 12;
 
     // Taxable Income Calculation
@@ -158,7 +158,7 @@ class Payroll extends DatabaseObject
       'taxable_income' => $taxable_income,
       'annunal_tax' => $annual_tax,
       'monthly_tax' => $monthly_tax,
-      'pension' => $monthly_pension
+      'pension' => $montly_pension
     ];
     return $obj;
   }
