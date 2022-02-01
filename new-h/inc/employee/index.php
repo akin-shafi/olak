@@ -34,9 +34,10 @@ if (is_post_request()) {
 
       $dateRange  = $_POST['daterange'];
       $ex         = explode('-', $dateRange);
-      $from       = $ex;
+      $from       = $ex[0];
       $to         = $ex[1];
       $duration   = time_diff_string($from, $to, true);
+
 
       $date_from = new DateTime($from);
       $date_to = new DateTime($to);

@@ -12,7 +12,7 @@ $select2 = '';
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
-      <h4 class="page-title">Salary</h4>
+      <h4 class="page-title">Employee Salary</h4>
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
