@@ -238,7 +238,7 @@ $datatable = '';
                   </div>
                   <div class="ms-1">
                      <div class="h5 fs-14 mb-1">Office Timings Changed</div>
-                     <small class="text-muted"> this effetct after March 01st 9:00 Am To 5:00 Pm</small>
+                     <small class="text-muted"> this effect after March 01st 9:00 Am To 5:00 Pm</small>
                   </div>
                </div>
                <div class="list-group-item d-flex pt-3 pb-5 align-items-center border-0">
@@ -249,7 +249,7 @@ $datatable = '';
                   </div>
                   <div class="ms-1">
                      <div class="h5 fs-15 mb-1"> Republic Day Celebrated </div>
-                     <small class="text-muted">participate the all employess </small>
+                     <small class="text-muted">participate the all employees </small>
                   </div>
                </div>
             </div>
@@ -260,7 +260,7 @@ $datatable = '';
             <h4 class="card-title">Upcomming Events</h4>
          </div>
          <ul class="vertical-scroll pt-4 " style="overflow-y: hidden; height: 344px;">
-            <li style="" class="item">
+            <li class="item">
                <div class="card p-4 ">
                   <div class="d-flex">
                      <img src="../assets/images/users/16.jpg" alt="img" class="avatar avatar-md bradius me-3">
@@ -272,7 +272,7 @@ $datatable = '';
                   </div>
                </div>
             </li>
-            <li style="" class="item">
+            <li class="item">
                <div class="card p-4 ">
                   <div class="d-flex comming_events calendar-icon icons">
                      <span class="date_time bg-success-transparent bradius me-3"><span class="date fs-18">21</span> <span class="month fs-10">Feb</span> </span>
@@ -283,7 +283,7 @@ $datatable = '';
                   </div>
                </div>
             </li>
-            <li style="" class="item">
+            <li class="item">
                <div class="card p-4 ">
                   <div class="d-flex">
                      <img src="../assets/images/users/4.jpg" alt="img" class="avatar avatar-md bradius me-3">
@@ -294,7 +294,7 @@ $datatable = '';
                   </div>
                </div>
             </li>
-            <li style="" class="item">
+            <li class="item">
                <div class="card p-4 ">
                   <div class="d-flex comming_events calendar-icon icons">
                      <span class="date_time bg-pink-transparent bradius me-3"><span class="date fs-18">25</span> <span class="month fs-10">Mar</span> </span>

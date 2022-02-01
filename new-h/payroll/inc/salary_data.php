@@ -43,7 +43,7 @@
           </tbody>
         </table>
       </div>
-     
+
       <div class="row">
         <div class="col-6">
           <table class="table text-nowrap border mb-0">
@@ -102,12 +102,12 @@
               <?php foreach ($deductions as $value) :
                 if ($value->item == 'Tax(PAYE)') {
                   $amountCalculated = $tax['monthly_tax'];
-                }elseif ($value->item == 'Pension') {
+                } elseif ($value->item == 'Pension') {
                   $amountCalculated = $tax['pension'];
-                }else{
+                } else {
                   $amountCalculated = $employee->present_salary * (intval($value->amount) / 100);
                 }
-                
+
               ?>
                 <tr>
                   <td><?php echo ucwords($value->item) ?></td>
@@ -116,10 +116,6 @@
 
               <?php endforeach; ?>
 
-              <!-- <tr>
-                <td>Other Deductions</td>
-                <td class="border-start"><?php //echo number_format($otherDeduction) ?></td>
-              </tr> -->
               <tr>
                 <td>Salary Advance </td>
                 <td class="border-start"><?php echo number_format(intval($salaryAdvance)) ?></td>
@@ -136,7 +132,7 @@
           </table>
         </div>
       </div>
-          
+
 
       <div class="mt-4 mb-3">
         <table class="table mb-0 border">
@@ -169,8 +165,6 @@
     <div class="modal-footer">
       <div class="ms-auto">
         <a href="#" class="btn btn-info" onclick="javascript:window.print();"><i class="si si-printer"></i> Print</a>
-        <!-- <a href="#" class="btn btn-success"><i class="feather feather-download"></i> Download</a>  -->
-        <!-- <a href="#" class="btn btn-primary"><i class="si si-paper-plane"></i> Send</a>  -->
         <a href="#" class="btn btn-danger" data-bs-dismiss="modal"><i class="feather feather-x"></i> Close</a>
       </div>
     </div>

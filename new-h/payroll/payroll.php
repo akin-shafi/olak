@@ -43,10 +43,16 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
       <div class="card">
          <div class="card-body">
             <div class="row">
-               <div class="col-md-6 col-lg-3">
+               <div class="col-xl-2 col-md-4 col-sm-12">
+                  <div class="form-group">
+                     <label class="form-label">Filter By Date:</label>
+                     <input type="date" class="form-control" name="by_date" id="byDate">
+                  </div>
+               </div>
+               <!-- <div class="col-md-6 col-lg-3">
                   <div class="form-group">
                      <label class="form-label">Month:</label>
-                     <select class="form-control select2" data-placeholder="Select Month">
+                     <select class="form-control select2" id="isMonth" data-placeholder="Select Month">
                         <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
                         <option value="1" <?php echo date('m') == '1' ? 'selected' : '' ?>>January</option>
                         <option value="2" <?php echo date('m') == '2' ? 'selected' : '' ?>>February</option>
@@ -66,7 +72,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                <div class="col-md-6 col-lg-3">
                   <div class="form-group">
                      <label class="form-label">Year:</label>
-                     <select class="form-control select2" data-placeholder="Select Year">
+                     <select class="form-control select2" id="isYear" data-placeholder="Select Year">
                         <option label="Select Year" data-select2-id="select2-data-75-ehux"></option>
                         <option value="2024" <?php echo date('Y') == '2024' ? 'selected' : '' ?>>2024</option>
                         <option value="2023" <?php echo date('Y') == '2023' ? 'selected' : '' ?>>2023</option>
@@ -87,7 +93,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                      </select>
 
                   </div>
-               </div>
+               </div> -->
             </div>
          </div>
          <div class="card-body">
@@ -111,7 +117,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                  <th class="bg-white">Action</th>
                               </tr>
                            </thead>
-                           <tbody>
+                           <tbody id="get_payroll">
                               <?php
                               $sn = 1;
                               foreach ($payrolls as $value) :
@@ -287,6 +293,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
       const PAYROLL_URL = "../inc/payroll/payroll_script.php";
       const SETTING_URL = "../inc/setting/generate_payslip.php";
       const SALARY_URL = "./inc/salary_data.php";
+      const GET_PAYROLL_URL = "./inc/get_payroll.php";
 
       const payrollForm = document.getElementById("add_payroll_narration_form");
       const getSalary = document.getElementById("get_salary");
@@ -342,5 +349,13 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
             }
          })
       })
+
+      $('#byDate').on("change", async () => {
+         let filterDate = $("#byDate").val()
+         let data = await fetch(GET_PAYROLL_URL + '?filter_date=' + filterDate)
+         let res = await data.text();
+
+         $('tbody#get_payroll').html(res);
+      });
    })
 </script>

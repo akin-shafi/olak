@@ -21,17 +21,17 @@ class SalaryAdvanceDetail extends DatabaseObject
   public $total_loan_received;
 
   const STATUS = [
-     1 => 'New Request',
-     2 => 'In View',
-     3 => 'Approved',
-     4 => 'Rejected',
+    1 => 'New Request',
+    2 => 'In View',
+    3 => 'Approved',
+    4 => 'Rejected',
   ];
 
   const COLOR = [
-     1 => 'text-primary',
-     2 => 'text-warning',
-     3 => 'text-success',
-     4 => 'text-danger',
+    1 => 'text-primary',
+    2 => 'text-warning',
+    3 => 'text-success',
+    4 => 'text-danger',
   ];
 
   public function __construct($args = [])
@@ -42,7 +42,7 @@ class SalaryAdvanceDetail extends DatabaseObject
     $this->amount           = $args['amount'] ?? '';
     $this->date_requested   = $args['date_requested'] ?? date('Y-m-d H:i:s');
     $this->date_issued      = $args['date_issued'] ?? '';
-    $this->status           = $args['status'] ?? 0;
+    $this->status           = $args['status'] ?? 1;
     $this->file_upload      = $args['file_upload'] ?? '';
     $this->note             = $args['note'] ?? '';
     $this->deleted          = $args['deleted'] ?? '';
@@ -81,13 +81,22 @@ class SalaryAdvanceDetail extends DatabaseObject
     }
   }
 
-  public static function  find_by_status($status){
-      $sql = "SELECT * FROM " . static::$table_name . " ";
-      $sql .= "WHERE status='" . self::$database->escape_string($status) . "'";
-      // $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      $obj_array = static::find_by_sql($sql);
-      return $obj_array;
-      
+  public static function find_by_created_at($created_at)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= " AND created_at LIKE'%" . self::$database->escape_string($created_at) . "%'";
+    $sql .= "ORDER BY id DESC";
+    return static::find_by_sql($sql);
+  }
+
+  public static function find_by_status($status)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE status='" . self::$database->escape_string($status) . "'";
+    // $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    return $obj_array;
   }
 
   public static function find_by_loan_approved($option = [])
@@ -97,15 +106,13 @@ class SalaryAdvanceDetail extends DatabaseObject
 
     $sql = "SELECT COUNT(*) AS counts FROM " . static::$table_name . " ";
 
-    if ($salaryStatus == 1) {
+    if ($salaryStatus) {
       $sql .= " WHERE status='" . self::$database->escape_string($salaryStatus) . "'";
     }
 
     if ($currentMonth) {
       $sql .= " AND created_at LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
     }
-
-
 
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {

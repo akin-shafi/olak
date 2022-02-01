@@ -207,7 +207,7 @@ if (is_post_request()) {
             $advance->save();
           }
         }
-        
+
         if ($loan->errors) {
           http_response_code(401);
           exit(json_encode(['errors' => $loan->errors]));
@@ -416,6 +416,47 @@ if (is_get_request()) {
 
     http_response_code(200);
     $response['message'] = 'Record deleted successfully';
+  }
+
+  if (isset($_GET['salary_advance_status'])) {
+    $leave = SalaryAdvanceDetail::find_by_id($_GET['detailId']);
+    $loan_status = $_GET['salary_advance_status'];
+
+    if ($loan_status == 3) :
+      $dateIssued = date('Y-m-d');
+    endif;
+
+    $args = [
+      'status' => $loan_status,
+      'date_issued' => $dateIssued ?? '',
+    ];
+
+    $leave->merge_attributes($args);
+    $leave->save();
+
+    http_response_code(200);
+    $response['message'] = 'Status updated successfully!';
+  }
+
+  if (isset($_GET['long_term_status'])) {
+    $leave = LongTermLoanDetail::find_by_id($_GET['detailId']);
+    $loan_status = $_GET['long_term_status'];
+
+    if ($loan_status == 2) :
+      $dateApproved = date('Y-m-d');
+    endif;
+
+    $args = [
+      'status' => $loan_status,
+      'issued_by' => $loggedInAdmin->id,
+      'date_approved' => $dateApproved ?? '',
+    ];
+
+    $leave->merge_attributes($args);
+    $leave->save();
+
+    http_response_code(200);
+    $response['message'] = 'Status updated successfully!';
   }
 
   if (isset($_GET['clear_loan'])) {

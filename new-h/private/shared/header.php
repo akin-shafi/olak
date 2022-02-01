@@ -5,51 +5,36 @@ $user = $loggedInAdmin;
 <php lang="en" dir="ltr">
 
    <head>
-      <!-- Meta data -->
       <meta charset="UTF-8">
       <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
       <meta content="Sandsify Systems  - HR, Employee and Job Dashboard. This Solution is a multipurpose php solution and also deals with Task, Project, Client and Support System Dashboard." name="description">
       <meta content="HR solutions" name="author">
       <meta name="keywords" content="Hr Dashboard" />
-      <!-- Title -->
       <title><?php echo $page_title; ?></title>
-      <!--Favicon -->
 
       <!-- <link rel="icon" type="image/x-icon" href="<?php //echo url_for('assets/images/brand/favicon.ico') 
                                                       ?>" sizes="16x16" /> -->
 
       <!-- <link rel="icon" type="image/png" href="/favicon16x16.png" > -->
       <link rel="icon" href="<?php echo url_for('assets/images/brand/favicon.ico') ?>" type="image/x-icon">
-      <!-- Bootstrap css -->
       <link href="<?php echo url_for('assets/plugins/bootstrap/css/bootstrap.css') ?>" rel="stylesheet" id="style" />
-      <!-- Style css -->
       <link href="<?php echo url_for('assets/css/style.css') ?>" rel="stylesheet" />
       <link href="<?php echo url_for('assets/css/boxed.css') ?>" rel="stylesheet" />
       <link href="<?php echo url_for('assets/css/dark.css') ?>" rel="stylesheet" />
       <link href="<?php echo url_for('assets/css/skin-modes.css') ?>" rel="stylesheet" />
-      <!-- Animate css -->
       <link href="<?php echo url_for('assets/css/animated.css') ?>" rel="stylesheet" />
-      <!-- P-scroll bar css-->
       <link href="<?php echo url_for('assets/plugins/p-scrollbar/p-scrollbar.css') ?>" rel="stylesheet" />
-      <!---Icons css-->
       <link href="<?php echo url_for('assets/css/icons.css') ?>" rel="stylesheet" />
-      <!---Sidebar css-->
       <link href="<?php echo url_for('assets/plugins/sidebar/sidebar.css') ?>" rel="stylesheet" />
-      <!-- Select2 css -->
       <link rel="stylesheet" href="<?php echo url_for('assets/plugins/daterangepicker/daterangepicker.css') ?>">
       <link href="<?php echo url_for('assets/plugins/pg-calendar-master/pignose.calendar.css') ?>" rel="stylesheet">
       <link href="<?php echo url_for('assets/plugins/fullcalendar/fullcalendar.css') ?>" rel="stylesheet">
 
       <link href="<?php echo url_for('assets/plugins/modal-datepicker/datepicker.css') ?>" rel="stylesheet">
-      <!--- INTERNAL jvectormap css-->
       <link href="<?php echo url_for('assets/plugins/jvectormap/jqvmap.css') ?>" rel="stylesheet" />
-      <!-- INTERNAL Data table css -->
       <link href="<?php echo url_for('assets/plugins/datatable/css/dataTables.bootstrap5.css') ?>" rel="stylesheet" />
-      <!-- INTERNAL Time picker css -->
       <link href="<?php echo url_for('assets/plugins/time-picker/jquery.timepicker.css') ?>" rel="stylesheet" />
-      <!-- INTERNAL jQuery-countdowntimer css -->
       <link href="<?php echo url_for('assets/plugins/jQuery-countdowntimer/jQuery.countdownTimer.css') ?>" rel="stylesheet" />
-      <!-- INTERNAL Switcher css -->
       <link href="<?php echo url_for('assets/switcher/css/switcher.css') ?>" rel="stylesheet" />
       <link href="<?php echo url_for('assets/switcher/demo.css') ?>" rel="stylesheet" />
       <script type="text/javascript"></script>
@@ -62,11 +47,11 @@ $user = $loggedInAdmin;
    <body class="app sidebar-mini">
       <div class="page">
          <div class="page-main is-expanded">
-            <!--aside open-->
+
             <aside class="app-sidebar">
                <div class="app-sidebar__logo">
                   <a class="header-brand text-white" href="index.php">
-                 
+
                   </a>
                </div>
                <div class="app-sidebar3 ps ps--active-y is-expanded">
@@ -168,7 +153,6 @@ $user = $loggedInAdmin;
                   </div>
                </div>
             </aside>
-            <!--aside closed-->
 
             <div class="app-content main-content">
                <div class="side-app">
@@ -295,7 +279,7 @@ $user = $loggedInAdmin;
                                  </div>
                               </div>
                               <div class="d-none">
-                              <div class="d-flex header-setting-icon "> <a class="nav-link icon demo-icon" href="#"> <i class="feather feather-settings  fe-spin"></i> </a> </div>
+                                 <div class="d-flex header-setting-icon "> <a class="nav-link icon demo-icon" href="#"> <i class="feather feather-settings  fe-spin"></i> </a> </div>
                               </div>
                            </div>
                         </div>

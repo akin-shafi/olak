@@ -2,17 +2,30 @@
 require_once('../private/initialize.php');
 
 $page = 'Loan';
-$page_title = 'Loan List';
+$page_title = 'Loan Management';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
+
+$totalLoanRequested = intval(count(LongTermLoanDetail::find_by_undeleted())) + intval(count(SalaryAdvanceDetail::find_by_undeleted()));
+
+$longLoanPending        = LongTermLoanDetail::find_by_loan_approved(['status' => 1])->counts;
+$salaryAdvancePending   = SalaryAdvanceDetail::find_by_loan_approved(['status' => 1])->counts;
+$salaryAdvancePending2  = SalaryAdvanceDetail::find_by_loan_approved(['status' => 2])->counts;
+
+$longLoanApproved       = LongTermLoanDetail::find_by_loan_approved(['status' => 2])->counts;
+$salaryAdvanceApproved  = SalaryAdvanceDetail::find_by_loan_approved(['status' => 3])->counts;
+
+$longLoanRejected       = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->counts;
+$salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' => 4])->counts;
+
 ?>
 
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
-    <!-- <h4 class="page-title">Loan Management</h4> -->
     <div class="btn-group">
-      <div class="btn text-primary">Salary Advance Management</div>
-      <div class="btn text-outline-primary">Loan Management</div>
+      <h4 class="page-title me-3">Loan Management</h4>
+      <div class="btn text-primary">Long Term</div>
+      <button class="btn text-outline-primary"><a href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a></button>
     </div>
   </div>
   <div class="page-rightheader ms-md-auto">
@@ -36,69 +49,73 @@ $datatable = '';
 <div class="row">
   <div class="col-xl-12 col-lg-12 col-md-12">
     <div class="row">
+
       <div class="col-xl-3 col-lg-6 col-md-12">
         <div class="card">
           <div class="card-body">
             <div class="row">
               <div class="col-7">
                 <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Loan Refunded</span>
-                  <h3 class="mb-0 mt-1 text-success"><?php echo '0' ?></h3>
+                  <span class="font-weight-semibold">Total Loan Requested</span>
+                  <h3 class="mb-0 mt-1 text-primary"><?php echo $totalLoanRequested ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
-                <div class="icon1 bg-success-transparent my-auto  float-end"> <i class="las la-users"></i> </div>
+                <div class="icon1 bg-primary-transparent my-auto  float-end"> <i class="las la-business-time"></i> </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="col-xl-3 col-lg-6 col-md-12">
         <div class="card">
           <div class="card-body">
             <div class="row">
               <div class="col-7">
                 <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Short Loan</span>
-                  <h3 class="mb-0 mt-1 text-primary"><?php echo count(SalaryAdvanceDetail::find_by_undeleted()) ?? 0 ?></h3>
+                  <span class="font-weight-semibold">Total Pending</span>
+                  <h3 class="mb-0 mt-1 text-secondary"><?php echo intval($longLoanPending + $salaryAdvancePending + $salaryAdvancePending2) ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
-                <div class="icon1 bg-primary-transparent my-auto  float-end"> <i class="las la-male"></i> </div>
+                <div class="icon1 bg-secondary-transparent my-auto  float-end"> <i class="las la-hourglass-half"></i> </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="col-xl-3 col-lg-6 col-md-12">
         <div class="card">
           <div class="card-body">
             <div class="row">
               <div class="col-7">
                 <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Long Loan</span>
-                  <h3 class="mb-0 mt-1 text-secondary"><?php echo count(LongTermLoan::find_by_undeleted()) ?? 0 ?></h3>
+                  <span class="font-weight-semibold">Total Approved</span>
+                  <h3 class="mb-0 mt-1 text-success"><?php echo intval($longLoanApproved + $salaryAdvanceApproved) ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
-                <div class="icon1 bg-secondary-transparent my-auto  float-end"> <i class="las la-female"></i> </div>
+                <div class="icon1 bg-success-transparent my-auto  float-end"> <i class="las la-exchange-alt"></i> </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="col-xl-3 col-lg-6 col-md-12">
         <div class="card">
           <div class="card-body">
             <div class="row">
               <div class="col-7">
                 <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Loan Rejected</span>
-                  <h3 class="mb-0 mt-1 text-danger">0</h3>
+                  <span class="font-weight-semibold">Total Rejected</span>
+                  <h3 class="mb-0 mt-1 text-danger"><?php echo intval($longLoanRejected + $salaryAdvanceRejected) ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
-                <div class="icon1 bg-danger-transparent my-auto  float-end"> <i class="las la-user-friends"></i> </div>
+                <div class="icon1 bg-danger-transparent my-auto  float-end"> <i class="las la-sitemap"></i> </div>
               </div>
             </div>
           </div>
@@ -108,75 +125,6 @@ $datatable = '';
 
 
     <div class="row">
-      <div class="col-xl-12 col-md-12 col-lg-12">
-        <div class="card">
-          <div class="card-header  border-0">
-            <h4 class="card-title">Salary Advance Summary</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <div id="hr-table_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-
-                <div class="row">
-                  <div class="col-sm-12">
-
-                    <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-table" role="grid" aria-describedby="hr-table_info">
-                      <thead>
-                        <tr role="row">
-                          <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="No" style="width: 17.8125px;">SN</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Emp Name: activate to sort column ascending" style="width: 185.017px;">Ref. No</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Emp Name: activate to sort column ascending" style="width: 185.017px;">Emp Name</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Loan Type: activate to sort column ascending" style="width: 159.028px;">Loan Type</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Amount: activate to sort column ascending" style="width: 113.663px;">Amount</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Date Requested: activate to sort column ascending" style="width: 94.0799px;">Date Requested</th>
-                          <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 64.5833px;">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php $sn = 1;
-                        foreach (SalaryAdvanceDetail::find_by_undeleted() as $key => $value) {
-                          $employee = Employee::find_by_id($value->employee_id);
-                          $class = $key % 2 == 0 ? 'even' : 'odd';
-                          $image =  '../assets/images/users/male.png';
-                        ?>
-                          <tr class="<?php echo $class; ?>">
-                            <td><?php echo $sn++; ?></td>
-                            <td><?php echo $value->ref_no; ?></td>
-                            <td>
-                              <a href="<?php echo url_for('employees/hr-empview.php?id=' . $value->id); ?>" class="d-flex">
-                                <span class="avatar avatar-md brround me-3" style="background-image: url( <?php echo $image ?>)"></span>
-
-                                <div class="me-3 mt-0 mt-sm-1 d-block">
-                                  <h6 class="mb-1 fs-14"><?php echo $employee->full_name(); ?></h6>
-                                  <p class="text-muted mb-0 fs-12"><?php echo $employee->email ?></p>
-                                </div>
-                              </a>
-
-                            <td><?php echo $value->type == 1 ? 'Salary Advance' : 'Long Term'; ?></td>
-                            <td><?php echo $value->amount ? number_format($value->amount) : 'Not Set'; ?></td>
-                            <td><?php echo $value->date_requested ? date('M. jS, Y', strtotime($value->date_requested)) : 'Not Set'; ?></td>
-
-                            <td>
-                              <a class="btn btn-primary btn-icon btn-sm" href="hr-empview.html">
-                                <i class="feather feather-edit" data-bs-toggle="tooltip" data-original-title="View/Edit" data-bs-original-title="" title=""></i>
-                              </a>
-                              <a class="btn btn-danger btn-icon btn-sm" data-bs-toggle="tooltip" data-original-title="Delete" data-bs-original-title="" title=""><i class="feather feather-trash-2"></i></a>
-                            </td>
-                          </tr>
-                        <?php } ?>
-
-                      </tbody>
-                    </table>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="col-xl-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="card-header border-0">
@@ -193,12 +141,13 @@ $datatable = '';
                         <tr role="row">
                           <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 52.5417px;">SN</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Ref No: activate to sort column ascending" style="width: 169.062px;">Ref No</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Ref No: activate to sort column ascending" style="width: 169.062px;">Emp Name</th>
+
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Amount Requested (₦): activate to sort column ascending" style="width: 120.396px;">Amount Requested (₦)</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Amount Committed (₦): activate to sort column ascending" style="width: 120.396px;">Amount Committed (₦)</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Duration: activate to sort column ascending" style="width: 119.979px;">Duration</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Date Requested: activate to sort column ascending" style="width: 119.979px;">Date Requested</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Date Approved: activate to sort column ascending" style="width: 119.979px;">Date Approved</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Aprroval Status: activate to sort column ascending" style="width: 158.458px;">Approval Status</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 133.708px;">Action</th>
                         </tr>
                       </thead>
@@ -206,34 +155,42 @@ $datatable = '';
                         <?php $sn = 1;
                         foreach (LongTermLoanDetail::find_by_undeleted() as $loan) :
                           $longTerm = LongTermLoan::find_by_employee_id($loan->employee_id);
+                          $employee = Employee::find_by_id($loan->employee_id);
                         ?>
                           <tr>
                             <td><?php echo $sn++ ?></td>
                             <td><?php echo strtoupper($loan->ref_no) ?></td>
+                            <td>
+                              <div class="d-flex">
+                                <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
+                                <div class="me-3 mt-0 mt-sm-1 d-block">
+                                  <h6 class="mb-1 fs-14"><?php echo $employee->first_name ? $employee->full_name() : 'Not Set' ?></h6>
+                                  <p class="text-muted mb-0 fs-12"><?php echo strtolower($employee->email) ?></p>
+                                  <p class="text-muted mb-0 fs-12">Emp ID: <?php echo  str_pad($loan->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
+                                </div>
+                              </div>
+                            </td>
                             <td><?php echo number_format($longTerm->amount_requested) ?></td>
                             <td><?php echo number_format($longTerm->commitment) ?></td>
                             <td><?php echo ucwords($loan->commitment_duration) ?></td>
                             <td><?php echo date('Y-m-d', strtotime($loan->created_at)) ?></td>
                             <td><?php echo $loan->date_approved != '0000-00-00' ? date('Y-m-d', strtotime($loan->date_approved)) : 'Not Set' ?></td>
-
                             <td>
-                              <?php
-                              switch ($loan->status):
-                                case '0':
-                                  echo '<span class="badge badge-warning">Pending</span>';
-                                  break;
-                                case '1':
-                                  echo '<span class="badge badge-success">Approved</span>';
-                                  break;
-                                default:
-                                  echo '<span class="badge badge-danger">Rejected</span>';
-                                  break;
-                              endswitch;
-                              ?>
+                              <div class="btn-group">
+                                <button class="btn <?php echo $loan->status == 1 ? 'btn-warning' : 'btn-outline-warning' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="1">
+                                  <i class="feather feather-loader"></i>
+                                  Pending
+                                </button>
+                                <button class="btn <?php echo $loan->status == 2 ? 'btn-success' : 'btn-outline-success' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="2">
+                                  <i class="feather feather-check"></i>
+                                  Approve
+                                </button>
+                                <button class="btn <?php echo $loan->status == 3 ? 'btn-danger' : 'btn-outline-danger' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="3">
+                                  <i class="feather feather-delete"></i>
+                                  Reject
+                                </button>
+                              </div>
                             </td>
-
-
-                            <td class="text-start d-flex"> <a href="#" class="action-btns1" data-id="<?php echo $loan->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View"> <i class="feather feather-eye  text-primary"></i> </a> <a href="#" class="action-btns1" data-id="<?php echo $loan->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> </td>
                           </tr>
                         <?php endforeach; ?>
 
@@ -252,6 +209,79 @@ $datatable = '';
 
 </div>
 
+<div id="loan_request" class="modal custom-modal fade select_loan" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loan-title">Loan Request</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="add_loan_form" class="mb-0">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Employees</label>
+            <select class="form-control select2 select2-hidden-accessible employeeId" name="loan[employee_id]" id="employee_id" required>
+              <option value="">Select Employee</option>
+              <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
+                <option value="<?php echo $employee->id ?>">
+                  <?php echo ucwords($employee->full_name()) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Loan Type</label>
+                <select class="form-control select2 select2-hidden-accessible" name="loan[type]" id="loan_type" required>
+                  <option value="">Select Loan Type</option>
+                  <option value="2">Long Term</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Amount</label>
+                <input type="number" class="form-control" name="loan[amount]" placeholder="Request Amount" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="row d-none" id="isLongTerm">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Pay-back Duration</label>
+                <input type="text" class="form-control" name="loan[loan_duration]" placeholder="Duration">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Monthly Deduction</label>
+                <input type="number" class="form-control" name="loan[loan_deduction]" placeholder="Deduction Rate">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Note</label>
+            <textarea name="loan[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label">Loan Form <small class="text-info">(optional)</small> </label>
+            <input type="file" name="filename" class="form-control">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <?php include(SHARED_PATH . '/footer.php') ?>
 <script src="<?php echo url_for('assets/plugins/chart.min/chart.min.js') ?>"></script>
@@ -292,6 +322,9 @@ $datatable = '';
 
       if (res.message) {
         message("success", res.message);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
     };
 
@@ -303,6 +336,19 @@ $datatable = '';
       e.preventDefault();
       submitForm(EMPLOYEE_URL, loanForm);
     });
+
+    $('tbody').on('click', '.status', async function() {
+      let detailId = this.dataset.id;
+      let loan_status = this.dataset.status;
+
+      const data = await fetch(EMPLOYEE_URL + '?detailId=' + detailId + '&long_term_status=' + loan_status);
+      const res = await data.json();
+
+      message('success', res.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    })
 
     $('#employee_id').select2({
       dropdownParent: $('.select_loan')
@@ -319,17 +365,14 @@ $datatable = '';
       document.getElementById('loan_balance').innerText = balance != '' ? numberWithCommas(balance) : 'Not set'
     });
 
-    let isAdvance = document.getElementById('isAdvance');
     let isLongTerm = document.getElementById('isLongTerm');
     $('#loan_type').select2({
       dropdownParent: $('.select_loan')
     }).on("change", () => {
       if ($("#loan_type").val() == 2) {
         isLongTerm.classList.remove('d-none')
-        isAdvance.classList.add('d-none')
       } else {
         isLongTerm.classList.add('d-none')
-        isAdvance.classList.remove('d-none')
       }
     });
   });

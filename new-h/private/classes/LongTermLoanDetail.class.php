@@ -33,7 +33,7 @@ class LongTermLoanDetail extends DatabaseObject
     $this->loan_repayment         = $args['loan_repayment'] ?? '';
     $this->balance                = $args['balance'] ?? '';
     $this->payment_method         = $args['payment_method'] ?? '';
-    $this->status                 = $args['status'] ?? 0;
+    $this->status                 = $args['status'] ?? 1;
     $this->note                   = $args['note'] ?? '';
     $this->file_uploads           = $args['file_uploads'] ?? '';
     $this->issued_by              = $args['issued_by'] ?? '';
@@ -81,7 +81,7 @@ class LongTermLoanDetail extends DatabaseObject
 
     $sql = "SELECT COUNT(*) AS counts FROM " . static::$table_name . " ";
 
-    if ($salaryStatus == 1) {
+    if ($salaryStatus) {
       $sql .= " WHERE status='" . self::$database->escape_string($salaryStatus) . "'";
     }
 
