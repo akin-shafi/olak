@@ -1,4 +1,4 @@
-g<?php
+<?php
 require_once('../private/initialize.php');
 
 $page = 'Payroll';
@@ -6,8 +6,11 @@ $page_title = 'Payroll';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 $select2 = '';
-$employees = Employee::find_by_undeleted();
+
 $thisMonth = date('Y-m');
+$employees = Employee::find_by_undeleted();
+$payrolls = Payroll::find_by_created_at($thisMonth);
+
 $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $thisMonth]);
 ?>
 
@@ -26,14 +29,13 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
             <button class="btn btn-primary me-3" id="genPaySlip">Generate Payslip</button>
          <?php endif ?>
 
-         
 
-         <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
+
+         <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button>
 
          <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
       </div>
    </div>
-</div>
 </div>
 
 <div class="row">
@@ -99,7 +101,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                               <tr role="row">
                                  <th class="bg-white">#Emp ID</th>
                                  <th class="bg-white">#Emp Name</th>
-                                 <th>(₦) Net Salary</th>
+                                 <th>(₦) Gross Salary</th>
                                  <th>(₦) Monthly Tax</th>
                                  <th>(₦) Pension</th>
                                  <th>(₦) Salary Advance</th>
@@ -112,7 +114,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                            <tbody>
                               <?php
                               $sn = 1;
-                              foreach (Payroll::find_by_created_at($thisMonth) as $value) :
+                              foreach ($payrolls as $value) :
 
                                  $empLoan = LongTermLoan::find_by_employee_id($value->employee_id);
                                  $salary_advance = SalaryAdvance::find_by_employee_id($value->employee_id);
@@ -120,8 +122,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                  $salary = intval($value->present_salary);
                                  $commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
                                  $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested));
-                                 
-                                
+
                                  $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
                                  $monthly_tax = $tax['monthly_tax'];
                                  $pension = $tax['pension'];
@@ -133,15 +134,15 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                           <div class="me-3 mt-0 mt-sm-1 d-block">
-                                             <h6 class="mb-1 fs-14"><?php echo $employee->full_name() ?></h6>
-                                             <p class="text-muted mb-0 fs-12">Emp ID: <?php echo  str_pad($employee->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
+                                             <h6 class="mb-1 fs-14"><?php echo isset($employee->first_name) ? $employee->full_name() : 'Not Set' ?></h6>
+                                             <p class="text-muted mb-0 fs-12">Emp ID: <?php echo isset($employee->employee_id) ? str_pad($employee->employee_id, 3, '0', STR_PAD_LEFT) : 'Not Set'; ?></p>
                                           </div>
                                        </div>
                                     </td>
                                     <td><?php echo number_format($salary) ?></td>
                                     <td><?php echo  number_format($monthly_tax) ?></td>
                                     <td><?php echo  number_format($pension) ?></td>
-                                    
+
                                     <td>
                                        <?php echo !empty($salary_advance->total_requested) ? number_format($salary_advance->total_requested) : '0.00' ?>
                                     </td>
@@ -165,7 +166,6 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          </div>
       </div>
    </div>
-</div>
 </div>
 
 <div class="modal fade" id="viewsalarymodal" aria-modal="true" role="dialog">
