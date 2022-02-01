@@ -32,7 +32,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
 <div class="modal-header">
    <!-- <div> <img src="<?php //echo url_for('assets/images/brand/logo.png') 
                         ?>" class="header-brand-img" alt="Dayonelogo"> </div> -->
-   <h1>Integrated Olak</h1>
+   <h1 class="mb-0">Integrated Olak</h1>
    <div class="ms-auto">
       <!-- <div class="font-weight-bold text-md-right mt-3">Date: 01-02-2021</div> -->
    </div>

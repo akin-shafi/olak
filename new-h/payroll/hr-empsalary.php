@@ -12,7 +12,7 @@ $select2 = '';
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
-      <h4 class="page-title">Employee Salary</h4>
+      <h4 class="page-title">Salary</h4>
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
@@ -44,8 +44,8 @@ $select2 = '';
                               <tr role="row">
 
                                  <th>SN</th>
-                                 <!-- <th>Emp ID</th> -->
                                  <th>Emp Name</th>
+                                 <th>Company</th>
                                  <th>Job Title</th>
                                  <th>(₦) Salary</th>
                                  <th>Action</th>
@@ -58,7 +58,6 @@ $select2 = '';
                               ?>
                                  <tr>
                                     <td>#<?php echo $sn++ ?></td>
-                                    <!-- <td></td> -->
                                     <td>
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
@@ -69,16 +68,13 @@ $select2 = '';
                                           </div>
                                        </div>
                                     </td>
-                                    <td>
-                                       <?php echo !empty($value->job_title) ? $value->job_title : 'Not Set' ?>
-                                    </td>
+                                    <td><?php echo !empty($value->company) ? $value->company : 'Not Set' ?></td>
+                                    <td><?php echo !empty($value->job_title) ? $value->job_title : 'Not Set' ?> </td>
                                     <td class="font-weight-semibold"><?php echo number_format(intval($value->present_salary), 2) ?></td>
-
 
                                     <td class="text-start">
                                        <a href="#" class="btn action-btns viewSalary" data-id="<?php echo $value->id ?>">
                                           <i class="feather feather-eye text-primary"></i> </a>
-
                                        <a href="#" class="btn action-btns" onclick="javascript:window.print();" data-bs-original-title="Print Salary Details">
                                           <i class="feather feather-printer text-success"></i> </a>
                                     </td>

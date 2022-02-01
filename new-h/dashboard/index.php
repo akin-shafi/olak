@@ -79,22 +79,24 @@ $datatable = '';
          <div class="col-xl-4 col-lg-6 col-md-12">
             <div class="card">
                <div class="card-body">
-                  <div class="row">
-                     <div class="col-9">
-                        <div class="mt-0 text-start">
-                           <span class="fs-14 font-weight-semibold">Total Salary Paid</span>
-                           <h3 class="mb-0 mt-1 mb-2">0.00</h3>
-                           <span class="text-muted">
-                              <span class="text-success fs-12 mt-2 me-1">
-                                 <i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>
-                                 0 Person</span> last month
-                           </span>
+                  <a href="#">
+                     <div class="row">
+                        <div class="col-9">
+                           <div class="mt-0 text-start">
+                              <span class="fs-14 font-weight-semibold">Total Salary Paid</span>
+                              <h3 class="mb-0 mt-1 mb-2">0.00</h3>
+                              <span class="text-muted">
+                                 <span class="text-success fs-12 mt-2 me-1">
+                                    <i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>
+                                    0 Person</span> last month
+                              </span>
+                           </div>
+                        </div>
+                        <div class="col-3">
+                           <div class="icon1 bg-success my-auto  float-end"><?php echo $currency ?></div>
                         </div>
                      </div>
-                     <div class="col-3">
-                        <div class="icon1 bg-success my-auto  float-end"><?php echo $currency ?></div>
-                     </div>
-                  </div>
+                  </a>
                </div>
             </div>
          </div>
