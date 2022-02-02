@@ -37,12 +37,35 @@ class Employee extends DatabaseObject
   public $created_at;
   public $deleted;
 
+  public $total_salary;
   public $counts;
 
   protected $password_required = true;
   public $password;
   public $hashed_password;
   public $confirm_password;
+
+  const TEXT_COLOR = [
+    0 => 'text-purple',
+    1 => 'text-primary',
+    2 => 'text-secondary',
+    3 => 'text-success',
+    4 => 'text-danger',
+    5 => 'text-warning',
+    6 => 'text-info',
+    7 => 'text-dark',
+  ];
+
+  const BG_COLOR = [
+    0 => 'bg-purple',
+    1 => 'bg-primary',
+    2 => 'bg-secondary',
+    3 => 'bg-success',
+    4 => 'bg-danger',
+    5 => 'bg-warning',
+    6 => 'bg-info',
+    7 => 'bg-dark',
+  ];
 
   public function __construct($args = [])
   {
@@ -140,26 +163,32 @@ class Employee extends DatabaseObject
     return $this->first_name . " " . $this->last_name;
   }
 
-  // public static function find_by_company_id($id)
-  // {
-  //   $sql = "SELECT * FROM " . static::$table_name . " ";
-  //   $sql .= "WHERE company='" . self::$database->escape_string($id) . "'";
-  //   $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-  //   $sql .= "ORDER BY id ASC";
-  //   $obj_array = static::find_by_sql($sql);
-  //   return $obj_array;
-  // }
-  
-  public static function find_by_company_name($id)
+  public static function find_by_company_total_salary()
   {
-    $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE company='" . self::$database->escape_string($id) . "'";
-    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    $sql .= "ORDER BY id ASC";
-    $obj_array = static::find_by_sql($sql);
-    return $obj_array;
+    $sql = "SELECT company, branch, COUNT(employee_id) AS counts, SUM(present_salary) AS total_salary FROM " . static::$table_name . " ";
+    $sql .= " GROUP BY company";
+    return static::find_by_sql($sql);
   }
-  
+
+  public static function find_by_company_name($name, $options = [])
+  {
+    $companyName = $options['company'] ?? false;
+
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+
+    if ($companyName && $companyName != 'not set') :
+      $sql .= "WHERE company LIKE '%" . self::$database->escape_string($companyName) . "%'";
+    elseif ($companyName == 'not set') :
+      $sql .= "WHERE company='' ";
+    else :
+      $sql .= "WHERE company='" . self::$database->escape_string($name) . "'";
+    endif;
+
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= " ORDER BY id ASC";
+    return static::find_by_sql($sql);
+  }
+
   public static function find_by_query($options = [])
   {
     $id = $options['employee_id'] ?? false;
@@ -199,14 +228,12 @@ class Employee extends DatabaseObject
     $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "ORDER BY id ASC";
-     $obj_array = static::find_by_sql($sql);
-     // return $obj_array;
+    $obj_array = static::find_by_sql($sql);
+    // return $obj_array;
     if (!empty($obj_array)) {
       return array_shift($obj_array);
     } else {
       return false;
     }
   }
-
-
 }

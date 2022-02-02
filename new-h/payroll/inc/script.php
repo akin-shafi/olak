@@ -58,18 +58,6 @@
 <?php } ?>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <?php if (isset($_POST['tax_calculator'])) {
 	$emp_id = $_POST['emp_id'] ?? 1;
 	$employee = Employee::find_by_id($emp_id);
@@ -126,4 +114,17 @@
 			</div>
 		</div>
 	</div>
+<?php } ?>
+
+
+<?php if (isset($_POST['tax_calculator'])) {
+	$emp_id = $_POST['emp_id'] ?? 1;
+	$employee = Employee::find_by_id($emp_id);
+	$netSalary = intval($employee->present_salary) ?? 0;
+
+	$tax = Payroll::tax_calculator(['netSalary' => $netSalary]);
+?>
+
+
+
 <?php } ?>
