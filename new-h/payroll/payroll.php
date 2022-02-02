@@ -161,10 +161,9 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                        <span class="badge <?php echo $value->payment_status != 0 ? 'badge-success' : 'badge-danger' ?>">
                                           <?php echo $value->payment_status != 0 ? 'Paid' : 'Unpaid' ?></span>
                                     </td>
-                                    <td class="text-start bg-white">
-                                       <a href="#" class="action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
-                                       <a href="#" class="action-btns" id="edit_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#payroll_narration" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a>
-                                       <a href="#" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" onclick="javascript:window.print();" data-bs-original-title="Print"> <i class="feather feather-printer text-success"></i> </a>
+                                    <td class="text-center">
+                                       <a href="#" class="btn btn-outline-primary action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
+                                       <a href="#" class="btn btn-outline-warning action-btns" id="edit_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#payroll_narration" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit"></i> </a>
                                     </td>
                                  </tr>
                               <?php endforeach; ?>
@@ -183,16 +182,6 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 <div class="modal fade" id="viewsalarymodal" aria-modal="true" role="dialog">
    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title">PaySlip</h5>
-            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
-         </div>
-         <div class="modal-header">
-            <div> <img src="<?php echo url_for('assets/images/brand/logo.png') ?>" class="header-brand-img" alt="Dayonelogo"> </div>
-            <div class="ms-auto">
-               <!-- <div class="font-weight-bold text-md-right mt-3">Date: 01-02-2021</div> -->
-            </div>
-         </div>
 
          <div id="salary_data">
             <!-- //? AJAX CALL -->
@@ -298,7 +287,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 
       const PAYROLL_URL = "../inc/payroll/payroll_script.php";
       const SETTING_URL = "../inc/setting/generate_payslip.php";
-      const SALARY_URL = "./inc/salary_data.php";
+      const SALARY_URL = "./inc/salaryItem.php";
       const GET_PAYROLL_URL = "./inc/get_payroll.php";
 
       const payrollForm = document.getElementById("add_payroll_narration_form");

@@ -1,6 +1,6 @@
 <?php require_once('../../private/initialize.php');
 
-$empId = $_POST['empId'] ?? 1;
+$empId = $_GET['empId'] ?? 1;
 $employee = Employee::find_by_id($empId);
 // pre_r($employee);
 $earnings = PayrollItem::find_all_payroll(['category' => 1]);
@@ -26,7 +26,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
 
 ?>
 
-<div id="printThis">
+<div id="printPayroll">
    <div class="modal-header">
       <h5 class="modal-title">Salary Narration</h5>
       <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-text="true">×</span> </button>
@@ -238,7 +238,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
    }
 
    document.getElementById("btnPrint").onclick = function() {
-      printElement(document.getElementById("printThis"));
+      printElement(document.getElementById("printPayroll"));
    }
 
    function printElement(elem) {

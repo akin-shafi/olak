@@ -332,7 +332,7 @@ $totalSalary = Employee::find_by_company_total_salary();
    function fetchSalarydata(empId = '') {
       $.ajax({
          url: 'inc/salaryItem.php',
-         method: "POST",
+         method: "GET",
          data: {
             fetch: 1,
             empId: empId,
