@@ -5,12 +5,12 @@ $employee = Employee::find_by_id($empId);
 // pre_r($employee);
 $earnings = PayrollItem::find_all_payroll(['category' => 1]);
 $deductions = PayrollItem::find_all_payroll(['category' => 3]);
-$salaryAdvance = SalaryAdvance::find_by_employee_id($empId);
-$longTerm = LongTermLoan::find_by_employee_id($empId);
+$salaryAdvance = SalaryAdvance::find_by_employee_id($employee->employee_id);
+$longTerm = LongTermLoan::find_by_employee_id($employee->employee_id);
 $commitment = $longTerm ? intval($longTerm->commitment) : 0;
 $presentSalary = $employee->present_salary ? $employee->present_salary : 0;
 
-$salary = Payroll::find_by_employee_id($empId);
+$salary = Payroll::find_by_employee_id($employee->employee_id);
 $overtime = $salary->overtime_allowance ?? 0;
 $leave = $salary->leave_allowance ?? 0;
 $otherAllowance = $salary->other_allowance ?? 0;
@@ -19,7 +19,8 @@ $otherDeduction = $salary->other_deduction ?? 0;
 $tax = Payroll::tax_calculator(['netSalary' => $presentSalary]);
 
 $totalAllowance = $overtime + $leave + $otherAllowance + $presentSalary;
-$totalDeduction = $commitment + $salaryAdvance->total_requested + $otherDeduction + $tax['monthly_tax'] + $tax['pension'];
+$totalDeduction = $commitment + $salaryAdvance->total_requested + $otherDeduction;
+// $totalDeduction = $commitment + $salaryAdvance->total_requested + $otherDeduction + $tax['monthly_tax'] + $tax['pension'];
 
 $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
 
@@ -55,7 +56,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
       </div>
       <div class="row">
 
-         <div class="col-6">
+         <div class="col-6 table-responsive">
             <table class="table border text-nowrap mb-0">
                <thead>
                   <tr>
@@ -90,7 +91,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
                </tbody>
             </table>
          </div>
-         <div class="col-6">
+         <div class="col-6 table-responsive">
             <table class="table text-nowrap mb-0 border">
                <thead>
                   <tr>
@@ -102,20 +103,23 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
                   </tr>
                </thead>
                <tbody>
-                  <?php foreach ($deductions as $value) :
-                     if ($value->item == 'Tax(PAYE)') {
-                        $amountCalculated = $tax['monthly_tax'];
-                     } elseif ($value->item == 'Pension') {
-                        $amountCalculated = $tax['pension'];
-                     } else {
-                        $amountCalculated = $presentSalary * (intval($value->amount) / 100);
-                     }
+                  <?php //foreach ($deductions as $value) :
+                  // if ($value->item == 'Tax(PAYE)') {
+                  //    $amountCalculated = $tax['monthly_tax'];
+                  // } elseif ($value->item == 'Pension') {
+                  //    $amountCalculated = $tax['pension'];
+                  // } else {
+                  //    $amountCalculated = $presentSalary * (intval($value->amount) / 100);
+                  // }
                   ?>
-                     <tr>
-                        <td><?php echo ucwords($value->item) ?></td>
-                        <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
-                     </tr>
-                  <?php endforeach; ?>
+                  <!-- <tr>
+                        <td><?php //echo ucwords($value->item) 
+                              ?></td>
+                        <td class="border-start"><?php //echo number_format($amountCalculated) 
+                                                   ?></td>
+                     </tr> -->
+                  <?php //endforeach; 
+                  ?>
 
                   <tr>
                      <td>Salary Advance</td>
@@ -136,7 +140,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
          </div>
 
       </div>
-      <div class="mt-4 mb-3">
+      <div class="mt-4 mb-3 table-responsive">
          <table class="table mb-0">
             <tbody>
                <tr>

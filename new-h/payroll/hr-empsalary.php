@@ -248,11 +248,9 @@ $totalSalary = Employee::find_by_company_total_salary();
                                     <td><?php echo !empty($value->job_title) ? $value->job_title : 'Not Set' ?> </td>
                                     <td class="font-weight-semibold"><?php echo number_format(intval($value->present_salary), 2) ?></td>
 
-                                    <td class="text-start">
-                                       <a href="#" class="btn action-btns viewSalary" data-id="<?php echo $value->id ?>">
-                                          <i class="feather feather-eye text-primary"></i> </a>
-                                       <a href="#" class="btn action-btns" onclick="javascript:window.print();" data-bs-original-title="Print Salary Details">
-                                          <i class="feather feather-printer text-success"></i> </a>
+                                    <td class="text-center">
+                                       <a href="#" class="btn btn-outline-primary action-btns viewSalary" data-id="<?php echo $value->id ?>">
+                                          <i class="feather feather-eye "></i> </a>
                                     </td>
                                  </tr>
                               <?php endforeach; ?>
