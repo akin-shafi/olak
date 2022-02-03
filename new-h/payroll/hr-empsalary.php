@@ -22,22 +22,15 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary(['branch' => true]
 ?>
 
 <style>
-   .active-card {
+   /* .active-card {
       background: rgb(55, 42, 255);
       background: linear-gradient(30deg, rgba(55, 42, 255, 1) 50%, rgba(7, 23, 168, 1) 50%);
    }
 
    .active-card-link {
       color: #fff;
-   }
-</style>
+   } */
 
-
-
-
-?>
-
-<style type="text/css">
     #analytic .card:hover{
         background-color: #063bb3;
         color: red;
@@ -45,11 +38,14 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary(['branch' => true]
     #analytic .card:hover span{
         color: #FFF !important;
     }
-    #analytic .card:hover h3{
+    #analytic .card:hover h4{
         color: #FFF !important;
     }
    .current {
       background-color: #063bb3;
+    }
+    .current span,.current h4{
+      color: #FFF !important;
     }
 </style> 
 <div class="page-header d-xl-flex d-block">
@@ -78,8 +74,8 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary(['branch' => true]
             $companyQuery = $salary->company != '' ? $salary->company : 'not set'; ?>
 
             <div class="col-xl-3 col-lg-6 col-md-12">
-               <div class="card">
-                  <div class="card-body <?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'active-card' : '' ?>">
+               <div class="card <?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'current' : '' ?>">
+                  <div class="card-body ">
                      <a href="<?php echo url_for('payroll/hr-empsalary.php?q=' . strtolower($companyQuery)) ?>" class="<?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'active-card-link' : '' ?>">
                         <div class="row">
                            <div class="col-9">
@@ -112,7 +108,7 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary(['branch' => true]
 
 </div>
 
-<div class="row d-none">
+<div class="row">
    <div class="col-md-12">
       <div class="card">
          <div class="card-header border-0 responsive-header">
