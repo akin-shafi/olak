@@ -18,11 +18,27 @@ class Payroll extends DatabaseObject
   public $payment_status;
   public $created_at;
 
+  public $counts;
 
   // ? DEDUCTIONS
   public $tax;
   public $pension;
   public $deleted;
+
+  const MONTH = [
+    '01' => 'January',
+    '02' => 'February',
+    '03' => 'March',
+    '04' => 'April',
+    '05' => 'May',
+    '06' => 'June',
+    '07' => 'July',
+    '08' => 'August',
+    '09' => 'September',
+    '10' => 'October',
+    '11' => 'November',
+    '12' => 'December',
+  ];
 
   public function __construct($args = [])
   {
@@ -66,6 +82,25 @@ class Payroll extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
+  public static function find_by_salary_payable($options = [])
+  {
+    $lastMonth = $options['month'] ?? false;
+
+    $sql = "SELECT COUNT(employee_id) AS counts, SUM(present_salary) AS present_salary, SUM(loan) AS loan, SUM(salary_advance) AS salary_advance, SUM(overtime_allowance) AS overtime_allowance, SUM(leave_allowance) AS leave_allowance, SUM(other_allowance) AS other_allowance, SUM(other_deduction) AS other_deduction FROM " . static::$table_name . " ";
+
+    if ($lastMonth) {
+      $sql .= " WHERE created_at LIKE'%" . self::$database->escape_string($lastMonth) . "%'";
+    }
+
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
 
   public static function tax_calculator($options = [])
   {

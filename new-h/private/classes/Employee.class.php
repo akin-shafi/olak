@@ -170,6 +170,17 @@ class Employee extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
+  public static function find_by_total_salary()
+  {
+    $sql = "SELECT COUNT(employee_id) AS counts, SUM(present_salary) AS total_salary FROM " . static::$table_name . " ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
   public static function find_by_company_name($name, $options = [])
   {
     $companyName = $options['company'] ?? false;

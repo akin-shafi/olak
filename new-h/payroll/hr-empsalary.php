@@ -18,6 +18,16 @@ $companies = Employee::find_by_company_name('aroma', ['company' => $isCompany]);
 $totalSalary = Employee::find_by_company_total_salary();
 ?>
 
+<style>
+   .active-card {
+      background: rgb(55, 42, 255);
+      background: linear-gradient(30deg, rgba(55, 42, 255, 1) 50%, rgba(7, 23, 168, 1) 50%);
+   }
+
+   .active-card-link {
+      color: #fff;
+   }
+</style>
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
@@ -42,20 +52,19 @@ $totalSalary = Employee::find_by_company_total_salary();
    <div class="col-xl-12 col-md-12 col-lg-12">
       <div class="row">
          <?php foreach ($totalSalary as $key => $salary) :
-            $companyQuery = $salary->company != '' ? $salary->company : 'not set';
-         ?>
+            $companyQuery = $salary->company != '' ? $salary->company : 'not set'; ?>
 
             <div class="col-xl-3 col-lg-6 col-md-12">
                <div class="card">
-                  <div class="card-body">
-                     <a href="<?php echo url_for('payroll/hr-empsalary.php?q=' . strtolower($companyQuery)) ?>">
+                  <div class="card-body <?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'active-card' : '' ?>">
+                     <a href="<?php echo url_for('payroll/hr-empsalary.php?q=' . strtolower($companyQuery)) ?>" class="<?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'active-card-link' : '' ?>">
                         <div class="row">
                            <div class="col-9">
                               <div class="mt-0 text-start">
                                  <span class="fs-16 font-weight-semibold">
                                     <?php echo $salary->company != '' ? ucwords($salary->company) : 'Company not set' ?></span>
 
-                                 <h3 class="mb-0 mt-1 mb-2"><?php echo number_format($salary->total_salary, 2) ?></h3>
+                                 <h4 class="mb-0 mt-1 mb-2"><?php echo number_format($salary->total_salary, 2) ?></h4>
                                  <span class="text-muted">
                                     <span class="<?php echo Employee::TEXT_COLOR[$key] ?> fs-12 mt-2 me-1">
                                        <i class="feather feather-arrow-up-right me-1 <?php echo Employee::BG_COLOR[$key] . '-transparent' ?>  p-1 brround"></i>
@@ -85,10 +94,9 @@ $totalSalary = Employee::find_by_company_total_salary();
          <div class="card-header border-0 responsive-header">
             <h4 class="card-title"><?php echo !empty($companies[0]->company) ? $companies[0]->company : 'Company Not Set'; ?></h4>
 
-
             <div class="card-options d-none">
                <div class="btn-list">
-                  <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-light4 me-2 my-auto"></span>Employees</a> <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-primary me-2 my-auto"></span>Budget</a> <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Year <i class="feather feather-chevron-down"></i> </a> 
+                  <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-light4 me-2 my-auto"></span>Employees</a> <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-primary me-2 my-auto"></span>Budget</a> <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Year <i class="feather feather-chevron-down"></i> </a>
                   <ul class="dropdown-menu dropdown-menu-end" role="menu">
                      <li><a href="#">Monthly</a></li>
                      <li><a href="#">Yearly</a></li>
@@ -98,7 +106,7 @@ $totalSalary = Employee::find_by_company_total_salary();
             </div>
          </div>
 
- 
+
          <div class="card-body">
             <div class="table-responsive">
                <div id="hr-payroll_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -118,16 +126,16 @@ $totalSalary = Employee::find_by_company_total_salary();
                            </thead>
                            <tbody>
                               <?php $sn = 1;
-                              foreach ($companies as $value) : 
+                              foreach ($companies as $value) :
 
-                                 ?>
+                              ?>
                                  <tr>
                                     <td>#<?php echo $sn++ ?></td>
                                     <td>
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                           <div class="me-3 mt-0 mt-sm-1 d-block">
-                                             <a href="<?php echo url_for('employees/hr-empview.php?id='. $value->id) ?>">
+                                             <a href="<?php echo url_for('employees/hr-empview.php?id=' . $value->id) ?>">
                                                 <h6 class="mb-1 fs-14"><?php echo $value->full_name() ?></h6>
                                                 <p class="text-muted mb-0 fs-12"><?php echo strtolower($value->email) ?></p>
                                                 <p class="text-muted mb-0 fs-12">Emp ID: <?php echo  str_pad($value->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
@@ -142,7 +150,7 @@ $totalSalary = Employee::find_by_company_total_salary();
                                     <td class="text-center">
                                        <a href="#" class="btn btn-outline-primary action-btns viewSalary" title="View Salary" data-id="<?php echo $value->id ?>">
                                           <i class="feather feather-eye "></i> </a>
-                                       <a href="<?php echo url_for('employees/hr-editemp.php?id='. $value->id) ?>" class="btn btn-outline-primary action-btns editStaffDetails" title="Edit Staff Details">
+                                       <a href="<?php echo url_for('employees/hr-editemp.php?id=' . $value->id) ?>" class="btn btn-outline-primary action-btns editStaffDetails" title="Edit Staff Details">
                                           <i class="feather feather-edit "></i> </a>
                                     </td>
                                  </tr>
