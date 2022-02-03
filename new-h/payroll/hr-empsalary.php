@@ -77,141 +77,28 @@ $totalSalary = Employee::find_by_company_total_salary();
       </div>
    </div>
 
-   <div class="col-xl-3 col-md-12 col-lg-12 d-none">
-      <div class="card overflow-hidden">
-         <div class="card-header border-0">
-            <h4 class="card-title">Notice Board</h4>
-         </div>
-         <div class="pt-2">
-            <div class="list-group">
-               <div class="list-group-item d-flex pt-3 pb-3 align-items-center border-0">
-                  <div class="me-3 me-xs-0">
-                     <div class="calendar-icon icons">
-                        <div class="date_time bg-pink-transparent"> <span class="date">18</span> <span class="month">FEB</span> </div>
-                     </div>
-                  </div>
-                  <div class="ms-1">
-                     <div class="h5 fs-14 mb-1">Board meeting Completed</div>
-                     <small class="text-muted">attend the company mangers...</small>
-                  </div>
-               </div>
-               <div class="list-group-item d-flex pt-3 pb-3 align-items-center border-0">
-                  <div class="me-3 me-xs-0">
-                     <div class="calendar-icon icons">
-                        <div class="date_time bg-success-transparent "> <span class="date">16</span> <span class="month">FEB</span> </div>
-                     </div>
-                  </div>
-                  <div class="ms-1">
-                     <div class="h5 fs-14 mb-1"><span class="font-weight-normal">Updated the Company</span> Policy</div>
-                     <small class="text-muted">some changes &amp; add the terms &amp; conditions </small>
-                  </div>
-               </div>
-               <div class="list-group-item d-flex pt-3 pb-3 align-items-center border-0">
-                  <div class="me-3 me-xs-0">
-                     <div class="calendar-icon icons">
-                        <div class="date_time bg-orange-transparent "> <span class="date">17</span> <span class="month">FEB</span> </div>
-                     </div>
-                  </div>
-                  <div class="ms-1">
-                     <div class="h5 fs-14 mb-1">Office Timings Changed</div>
-                     <small class="text-muted"> this effect after March 01st 9:00 Am To 5:00 Pm</small>
-                  </div>
-               </div>
-               <div class="list-group-item d-flex pt-3 pb-5 align-items-center border-0">
-                  <div class="me-3 me-xs-0">
-                     <div class="calendar-icon icons">
-                        <div class="date_time bg-info-transparent "> <span class="date">26</span> <span class="month">JAN</span> </div>
-                     </div>
-                  </div>
-                  <div class="ms-1">
-                     <div class="h5 fs-15 mb-1"> Republic Day Celebrated </div>
-                     <small class="text-muted">participate the all employees </small>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="mb-4">
-         <div class="card-header border-bottom-0 pt-2 ps-0">
-            <h4 class="card-title">Upcomming Events</h4>
-         </div>
-         <ul class="vertical-scroll pt-4 " style="overflow-y: hidden; height: 344px;">
-            <li class="item">
-               <div class="card p-4 ">
-                  <div class="d-flex">
-                     <img src="../assets/images/users/16.jpg" alt="img" class="avatar avatar-md bradius me-3">
-                     <div class="me-3 mt-0 mt-sm-1 d-block">
-                        <h6 class="mb-1">Vanessa James</h6>
-                        <span class="clearfix"></span> <small>Birthday on Feb 16</small>
-                     </div>
-                     <span class="avatar bg-primary ms-auto bradius mt-1"> <i class="feather feather-mail text-white"></i> </span>
-                  </div>
-               </div>
-            </li>
-            <li class="item">
-               <div class="card p-4 ">
-                  <div class="d-flex comming_events calendar-icon icons">
-                     <span class="date_time bg-success-transparent bradius me-3"><span class="date fs-18">21</span> <span class="month fs-10">Feb</span> </span>
-                     <div class="me-3 mt-0 mt-sm-1 d-block">
-                        <h6 class="mb-1">Anniversary</h6>
-                        <span class="clearfix"></span> <small>3rd Anniversary on 21st Feb</small>
-                     </div>
-                  </div>
-               </div>
-            </li>
-            <li class="item">
-               <div class="card p-4 ">
-                  <div class="d-flex">
-                     <img src="../assets/images/users/4.jpg" alt="img" class="avatar avatar-md bradius me-3">
-                     <div class="me-3 mt-0 mt-sm-1 d-block">
-                        <h6 class="mb-1">Faith Harris</h6>
-                        <span class="clearfix"></span> <small>Smart Device Trade Show</small>
-                     </div>
-                  </div>
-               </div>
-            </li>
-            <li class="item">
-               <div class="card p-4 ">
-                  <div class="d-flex comming_events calendar-icon icons">
-                     <span class="date_time bg-pink-transparent bradius me-3"><span class="date fs-18">25</span> <span class="month fs-10">Mar</span> </span>
-                     <div class="me-3 mt-0 mt-sm-1 d-block">
-                        <h6 class="mb-1">Meeting</h6>
-                        <span class="clearfix"></span> <small>It will be held in meeting room</small>
-                     </div>
-                  </div>
-               </div>
-            </li>
-         </ul>
-      </div>
-   </div>
-
-
-   <div class="col-xl-4 col-md-12 col-lg-12 d-none">
-      <div class="card chart-donut1">
-         <div class="card-header  border-0">
-            <h4 class="card-title">Gender by Employees</h4>
-         </div>
-         <div class="card-body">
-            <div id="employees" class="mx-auto apex-dount" style="min-height: 270.537px;"></div>
-            <div class="sales-chart pt-5 pb-3 d-flex mx-auto text-center justify-content-center ">
-               <div class="d-flex me-5"><span class="dot-label bg-primary me-2 my-auto"></span>Male</div>
-               <div class="d-flex"><span class="dot-label bg-secondary  me-2 my-auto"></span>Female</div>
-            </div>
-            <div class="resize-triggers">
-               <div class="expand-trigger">
-                  <div style="width: 410px; height: 377px;"></div>
-               </div>
-               <div class="contract-trigger"></div>
-            </div>
-         </div>
-      </div>
-   </div>
 </div>
 
 <div class="row">
    <div class="col-md-12">
       <div class="card">
+         <div class="card-header border-0 responsive-header">
+            <h4 class="card-title"><?php echo !empty($companies[0]->company) ? $companies[0]->company : 'Company Not Set'; ?></h4>
 
+
+            <div class="card-options d-none">
+               <div class="btn-list">
+                  <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-light4 me-2 my-auto"></span>Employees</a> <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-primary me-2 my-auto"></span>Budget</a> <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Year <i class="feather feather-chevron-down"></i> </a> 
+                  <ul class="dropdown-menu dropdown-menu-end" role="menu">
+                     <li><a href="#">Monthly</a></li>
+                     <li><a href="#">Yearly</a></li>
+                     <li><a href="#">Weekly</a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+
+ 
          <div class="card-body">
             <div class="table-responsive">
                <div id="hr-payroll_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -223,7 +110,7 @@ $totalSalary = Employee::find_by_company_total_salary();
                               <tr role="row">
                                  <th>SN</th>
                                  <th>Emp Name</th>
-                                 <th>Company</th>
+                                 <th>Department</th>
                                  <th>Job Title</th>
                                  <th>(₦) Salary</th>
                                  <th>Action</th>
@@ -231,7 +118,9 @@ $totalSalary = Employee::find_by_company_total_salary();
                            </thead>
                            <tbody>
                               <?php $sn = 1;
-                              foreach ($companies as $value) : ?>
+                              foreach ($companies as $value) : 
+
+                                 ?>
                                  <tr>
                                     <td>#<?php echo $sn++ ?></td>
                                     <td>
@@ -244,7 +133,7 @@ $totalSalary = Employee::find_by_company_total_salary();
                                           </div>
                                        </div>
                                     </td>
-                                    <td><?php echo !empty($value->company) ? $value->company : 'Not Set' ?></td>
+                                    <td><?php echo !empty($value->department) ? $value->department : 'Not Set' ?></td>
                                     <td><?php echo !empty($value->job_title) ? $value->job_title : 'Not Set' ?> </td>
                                     <td class="font-weight-semibold"><?php echo number_format(intval($value->present_salary), 2) ?></td>
 
