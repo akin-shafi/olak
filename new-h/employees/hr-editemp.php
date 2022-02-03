@@ -312,18 +312,20 @@ $select2 = '';
                   <div class="card-body">
                      <div class="form-group">
                         <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee ID</label> </div>
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee</label> </div>
                            <div class="col-md-9">
                               <div class="row">
                                  <div class="col-md-6">
+                                    <label>Company</label>
                                     <select  name="company[company_id]" value="<?php echo $employee->company_id ?>" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
                                        <option label="Company"></option>
                                        <?php foreach (Company::find_by_undeleted() as $value) : ?>
-                                          <option value="<?php echo $value->id ?>" <?php echo $value->company_name == $employee->company ? 'selected' : '' ?>><?php echo ucwords($value->company_name) ?></option>
+                                          <option value="<?php echo $value->company_name ?>" <?php echo $value->company_name == $employee->company ? 'selected' : '' ?>><?php echo ucwords($value->company_name) ?></option>
                                        <?php endforeach; ?>
                                     </select>
                                  </div>
                                  <div class="col-md-6">
+                                    <label>ID</label>
                                     <input  type="text" name="company[employee_number]" value="<?php echo $employee->employee_id ?>" id="employee_number" class="form-control" placeholder="#ID">
                                  </div>
                               </div>

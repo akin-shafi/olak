@@ -16,9 +16,28 @@ if (isset($_GET['q']) && $_GET['q'] == '') {
 $companies = Employee::find_by_company_name('aroma', ['company' => $isCompany]);
 
 $totalSalary = Employee::find_by_company_total_salary();
+
+
+
+
+
 ?>
 
-
+<style type="text/css">
+    #analytic .card:hover{
+        background-color: #063bb3;
+        color: red;
+    }
+    #analytic .card:hover span{
+        color: #FFF !important;
+    }
+    #analytic .card:hover h3{
+        color: #FFF !important;
+    }
+   .current {
+      background-color: #063bb3;
+    }
+</style> 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
       <h4 class="page-title">Employee Salary</h4>
@@ -27,7 +46,7 @@ $totalSalary = Employee::find_by_company_total_salary();
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
          <div class="btn-list mt-3 mt-lg-0">
 
-            <button type="button" class="btn btn-primary me-3" id="addSalary">Add Salary</button>
+            <button type="button" class="btn btn-primary me-3 d-none" id="addSalary">Add Salary</button>
 
 
             <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button>
@@ -38,15 +57,23 @@ $totalSalary = Employee::find_by_company_total_salary();
    </div>
 </div>
 
-<div class="row">
+<div class="row" id="analytic">
    <div class="col-xl-12 col-md-12 col-lg-12">
       <div class="row">
          <?php foreach ($totalSalary as $key => $salary) :
             $companyQuery = $salary->company != '' ? $salary->company : 'not set';
+            
+            // if ($isCompany == $salary->company) {
+            //    $active = 'current';
+            // }else{
+            //    $active = '';
+            // }
+
          ?>
 
             <div class="col-xl-3 col-lg-6 col-md-12">
-               <div class="card">
+               <a href="#" class="">
+               <div class="card <?php //echo $active ?>">
                   <div class="card-body">
                      <a href="<?php echo url_for('payroll/hr-empsalary.php?q=' . strtolower($companyQuery)) ?>">
                         <div class="row">
@@ -70,6 +97,7 @@ $totalSalary = Employee::find_by_company_total_salary();
                      </a>
                   </div>
                </div>
+               </a>
             </div>
 
          <?php endforeach ?>
