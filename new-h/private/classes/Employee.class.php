@@ -163,10 +163,18 @@ class Employee extends DatabaseObject
     return $this->first_name . " " . $this->last_name;
   }
 
-  public static function find_by_company_total_salary()
+  public static function find_by_company_total_salary($options = [])
   {
+    $branch = $options['branch'] ?? false;
+
     $sql = "SELECT company, branch, COUNT(employee_id) AS counts, SUM(present_salary) AS total_salary FROM " . static::$table_name . " ";
-    $sql .= " GROUP BY company";
+
+    if ($branch) :
+      $sql .= " GROUP BY branch";
+    else :
+      $sql .= " GROUP BY company";
+    endif;
+
     return static::find_by_sql($sql);
   }
 

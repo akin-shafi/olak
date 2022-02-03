@@ -15,7 +15,10 @@ if (isset($_GET['q']) && $_GET['q'] == '') {
 
 $companies = Employee::find_by_company_name('aroma', ['company' => $isCompany]);
 
-$totalSalary = Employee::find_by_company_total_salary();
+$totalSalaryByCompany = Employee::find_by_company_total_salary();
+$totalSalaryByBranch = Employee::find_by_company_total_salary(['branch' => true]);
+
+// pre_r($totalSalaryByBranch);
 ?>
 
 <style>
@@ -51,7 +54,7 @@ $totalSalary = Employee::find_by_company_total_salary();
 <div class="row">
    <div class="col-xl-12 col-md-12 col-lg-12">
       <div class="row">
-         <?php foreach ($totalSalary as $key => $salary) :
+         <?php foreach ($totalSalaryByCompany as $key => $salary) :
             $companyQuery = $salary->company != '' ? $salary->company : 'not set'; ?>
 
             <div class="col-xl-3 col-lg-6 col-md-12">
@@ -66,7 +69,7 @@ $totalSalary = Employee::find_by_company_total_salary();
 
                                  <h4 class="mb-0 mt-1 mb-2"><?php echo number_format($salary->total_salary, 2) ?></h4>
                                  <span class="text-muted">
-                                    <span class="<?php echo Employee::TEXT_COLOR[$key] ?> fs-12 mt-2 me-1">
+                                    <span class="<?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'text-white' : Employee::TEXT_COLOR[$key] ?> fs-12 mt-2 me-1">
                                        <i class="feather feather-arrow-up-right me-1 <?php echo Employee::BG_COLOR[$key] . '-transparent' ?>  p-1 brround"></i>
                                        <?php echo $salary->counts ?> Employees</span>
                                  </span>
@@ -88,7 +91,7 @@ $totalSalary = Employee::find_by_company_total_salary();
 
 </div>
 
-<div class="row">
+<div class="row d-none">
    <div class="col-md-12">
       <div class="card">
          <div class="card-header border-0 responsive-header">
