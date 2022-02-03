@@ -7,11 +7,16 @@ include(SHARED_PATH . '/header.php');
 $datatable = '';
 $select2 = '';
 
+$lastMonth = $_GET['q'] ?? '';
 $thisMonth = date('Y-m');
-$employees = Employee::find_by_undeleted();
-$payrolls = Payroll::find_by_created_at($thisMonth);
 
-$config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $thisMonth]);
+$queryByMonth = $lastMonth ? $lastMonth : $thisMonth;
+$employees = Employee::find_by_undeleted();
+$payrolls = Payroll::find_by_created_at($queryByMonth);
+
+// pre_r($queryByMonth);
+
+$config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $queryByMonth]);
 ?>
 
 <div class="page-header d-xl-flex d-block">
@@ -21,7 +26,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
          <?php
-         $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $thisMonth]);
+         $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $queryByMonth]);
          if ($config == true) : ?>
             <button class="btn btn-dark me-3" id="PaySlipDisabled">Payslip Generated</button>
             <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button>
@@ -45,57 +50,26 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
       <div class="card">
          <div class="card-body">
             <div class="row">
-               <div class="col-xl-2 col-md-4 col-sm-12">
+               <!-- <div class="col-xl-3 col-md-4 col-sm-12">
                   <div class="form-group">
-                     <label class="form-label">Filter By Date:</label>
-                     <input type="date" class="form-control" name="by_date" id="byDate">
-                  </div>
-               </div>
-               <!-- <div class="col-md-6 col-lg-3">
-                  <div class="form-group">
-                     <label class="form-label">Month:</label>
-                     <select class="form-control select2" id="isMonth" data-placeholder="Select Month">
-                        <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
-                        <option value="1" <?php echo date('m') == '1' ? 'selected' : '' ?>>January</option>
-                        <option value="2" <?php echo date('m') == '2' ? 'selected' : '' ?>>February</option>
-                        <option value="3" <?php echo date('m') == '3' ? 'selected' : '' ?>>March</option>
-                        <option value="4" <?php echo date('m') == '4' ? 'selected' : '' ?>>April</option>
-                        <option value="5" <?php echo date('m') == '5' ? 'selected' : '' ?>>May</option>
-                        <option value="6" <?php echo date('m') == '6' ? 'selected' : '' ?>>June</option>
-                        <option value="7" <?php echo date('m') == '7' ? 'selected' : '' ?>>July</option>
-                        <option value="8" <?php echo date('m') == '8' ? 'selected' : '' ?>>August</option>
-                        <option value="9" <?php echo date('m') == '9' ? 'selected' : '' ?>>September</option>
-                        <option value="10" <?php echo date('m') == '10' ? 'selected' : '' ?>>October</option>
-                        <option value="11" <?php echo date('m') == '11' ? 'selected' : '' ?>>November</option>
-                        <option value="12" <?php echo date('m') == '12' ? 'selected' : '' ?>>December</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="col-md-6 col-lg-3">
-                  <div class="form-group">
-                     <label class="form-label">Year:</label>
-                     <select class="form-control select2" id="isYear" data-placeholder="Select Year">
-                        <option label="Select Year" data-select2-id="select2-data-75-ehux"></option>
-                        <option value="2024" <?php echo date('Y') == '2024' ? 'selected' : '' ?>>2024</option>
-                        <option value="2023" <?php echo date('Y') == '2023' ? 'selected' : '' ?>>2023</option>
-                        <option value="2022" <?php echo date('Y') == '2022' ? 'selected' : '' ?>>2022</option>
-                        <option value="2021" <?php echo date('Y') == '2021' ? 'selected' : '' ?>>2021</option>
-                        <option value="2020" <?php echo date('Y') == '2020' ? 'selected' : '' ?>>2020</option>
-                        <option value="2019" <?php echo date('Y') == '2019' ? 'selected' : '' ?>>2019</option>
-                        <option value="2018" <?php echo date('Y') == '2018' ? 'selected' : '' ?>>2018</option>
-                        <option value="2017" <?php echo date('Y') == '2017' ? 'selected' : '' ?>>2017</option>
-                        <option value="2016" <?php echo date('Y') == '2016' ? 'selected' : '' ?>>2016</option>
-                        <option value="2015" <?php echo date('Y') == '2015' ? 'selected' : '' ?>>2015</option>
-                        <option value="2014" <?php echo date('Y') == '2014' ? 'selected' : '' ?>>2014</option>
-                        <option value="2013" <?php echo date('Y') == '2013' ? 'selected' : '' ?>>2013</option>
-                        <option value="2012" <?php echo date('Y') == '2012' ? 'selected' : '' ?>>2012</option>
-                        <option value="2011" <?php echo date('Y') == '2011' ? 'selected' : '' ?>>2011</option>
-                        <option value="2019" <?php echo date('Y') == '2019' ? 'selected' : '' ?>>2019</option>
-                        <option value="2010" <?php echo date('Y') == '2010' ? 'selected' : '' ?>>2010</option>
-                     </select>
-
+                     <label class="form-label">Filter By Month:</label>
+                     <input type="month" class="form-control" value="<?php //echo $queryByMonth; 
+                                                                     ?>" name="by_date" id="byDate">
                   </div>
                </div> -->
+
+               <div class="col-md-6 col-lg-3">
+                  <div class="form-group">
+                     <label class="form-label">Month:</label>
+                     <select class="form-control select2" id="byDate" data-placeholder="Select Month">
+                        <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
+                        <?php foreach (Payroll::MONTH as $key => $value) : ?>
+                           <option value="<?php echo $key; ?>" <?php echo $key == date('m', strtotime($queryByMonth)) ? 'selected' : '' ?>>
+                              <?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                  </div>
+               </div>
             </div>
          </div>
          <div class="card-body">

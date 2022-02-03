@@ -56,7 +56,7 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
             <div class="row">
               <div class="col-7">
                 <div class="mt-0 text-start">
-                  <span class="font-weight-semibold">Total Loan Requested</span>
+                  <span class="font-weight-semibold">Total Requested</span>
                   <h3 class="mb-0 mt-1 text-primary"><?php echo $totalLoanRequested ?? 0 ?></h3>
                 </div>
               </div>

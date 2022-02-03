@@ -8,11 +8,14 @@ $id = $loggedInAdmin->id;
 $attendance = EmployeeAttendance::find_by_employee_id($id, ['clock_in' => date('Y-m-d')]);
 $isClockedIn =  isset($attendance->clock_in) && $attendance->clock_in != '00:00:00' ? true : false;
 
-$salaryAdvance = SalaryAdvance::find_by_total_salary_advance_amount();
-$advanceApproval = SalaryAdvanceDetail::find_by_loan_approved(['status' => 1]);
+$lastDate = date('Y-m', strtotime('last month'));
+$thisDate = date('Y-m');
 
-$longTerm = LongTermLoan::find_by_total_long_term_amount();
-$loanApproval = LongTermLoanDetail::find_by_loan_approved(['status' => 1]);
+$salaryAdvance = SalaryAdvance::find_by_total_salary_advance_amount(['current' => $thisDate]);
+$advanceApproval = SalaryAdvanceDetail::find_by_loan_approved(['status' => 1, 'current' => $thisDate]);
+
+$longTerm = LongTermLoan::find_by_total_long_term_amount(['current' => $thisDate]);
+$loanApproval = LongTermLoanDetail::find_by_loan_approved(['status' => 1, 'current' => $thisDate]);
 
 $totalLoanRequest = intval($longTerm->counts) + intval($salaryAdvance->counts);
 $totalLoanValue = intval($longTerm->total_amount) + intval($salaryAdvance->total_amount);
@@ -21,8 +24,14 @@ if ($salaryAdvance->status == 1) {
    $totalLoanApproved = intval($loanApproval->counts) + intval($advanceApproval->counts);
 }
 
+$lastMonthSalary = Payroll::find_by_salary_payable(['month' => $lastDate]);
+$thisMonthSalary = Payroll::find_by_salary_payable(['month' => $thisDate]);
 
-// pre_r($attendance);
+$salaryPayable       = Employee::find_by_total_salary();
+$lastMonthSalaryPaid = intval($lastMonthSalary->present_salary) - intval($lastMonthSalary->salary_advance);
+$thisMonthSalaryPaid = intval($thisMonthSalary->present_salary) - intval($thisMonthSalary->salary_advance);
+
+// pre_r($totalLoanValue);
 
 $page = 'Dashboard';
 $page_title = 'HR Dashboard';
@@ -50,10 +59,9 @@ $datatable = '';
                   <div class="input-group-prepend">
                      <div class="input-group-text"> <i class="feather feather-clock"></i> </div>
                   </div>
-                  <!-- input-group-prepend --> <input id="tpBasic" type="text" placeholder="09:30am" class="form-control input-small ui-timepicker-input" autocomplete="off">
+                  <input id="tpBasic" type="text" placeholder="09:30am" class="form-control input-small ui-timepicker-input" autocomplete="off">
                </div>
             </div>
-            <!-- wd-150 -->
          </div>
          <div class="d-lg-flex d-block">
             <div class="btn-list">
@@ -76,19 +84,44 @@ $datatable = '';
 <div class="row">
    <div class="col-xl-12 col-md-12 col-lg-12">
       <div class="row">
-         <div class="col-xl-4 col-lg-6 col-md-12">
+         <div class="col-xl-3 col-lg-6 col-md-12">
             <div class="card">
                <div class="card-body">
-                  <a href="#">
+                  <a href="<?php echo url_for('payroll/hr-empsalary.php?q=not set') ?>">
+                     <div class="row">
+                        <div class="col-9">
+                           <div class="mt-0 text-start">
+                              <span class="fs-14 font-weight-semibold">Total Salary Payable</span>
+                              <h4 class="mb-0 mt-1 mb-2"><?php echo number_format($salaryPayable->total_salary, 2) ?></h4>
+                              <span class="text-muted">
+                                 <span class="text-purple fs-12 mt-2 me-1">
+                                    <i class="feather feather-arrow-up-right me-1 bg-purple-transparent p-1 brround"></i>
+                                    <?php echo $salaryPayable->counts; ?> Employees</span> <br> General
+                              </span>
+                           </div>
+                        </div>
+                        <div class="col-3">
+                           <div class="icon1 bg-purple my-auto  float-end"><?php echo $currency ?></div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-xl-3 col-lg-6 col-md-12">
+            <div class="card">
+               <div class="card-body">
+                  <a href="<?php echo url_for('payroll/payroll.php?q=' . date('Y-m', strtotime($lastDate))) ?>">
                      <div class="row">
                         <div class="col-9">
                            <div class="mt-0 text-start">
                               <span class="fs-14 font-weight-semibold">Total Salary Paid</span>
-                              <h3 class="mb-0 mt-1 mb-2"><?php echo '0.00' ?></h3>
+                              <h4 class="mb-0 mt-1 mb-2"><?php echo number_format($lastMonthSalaryPaid, 2) ?></h4>
                               <span class="text-muted">
                                  <span class="text-success fs-12 mt-2 me-1">
                                     <i class="feather feather-arrow-up-right me-1 bg-success-transparent p-1 brround"></i>
-                                    0 Person</span> last month
+                                    <?php echo $lastMonthSalary->counts ?> Employees</span> <br> last month
                               </span>
                            </div>
                         </div>
@@ -100,41 +133,43 @@ $datatable = '';
                </div>
             </div>
          </div>
-         <div class="col-xl-4 col-lg-6 col-md-12">
+
+         <div class="col-xl-3 col-lg-6 col-md-12">
             <div class="card">
                <div class="card-body">
                   <div class="row">
                      <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Request</span>
-                           <h3 class="mb-0 mt-1 mb-2"><?php echo number_format($totalLoanValue); ?></h3>
+                           <h4 class="mb-0 mt-1 mb-2"><?php echo $totalLoanValue ? number_format($totalLoanValue) : '0.00'; ?></h4>
                            <span class="text-muted">
                               <span class="text-danger fs-12 mt-2 me-1">
                                  <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i>
-                                 <?php echo $totalLoanRequest; ?> Person</span> this month </span>
+                                 <?php echo $totalLoanRequest; ?> Employees</span> <br> this month </span>
                         </div>
                      </div>
                      <div class="col-3">
-                        <div class="icon1 bg-primary my-auto  float-end"> <?php echo $currency ?> </div>
+                        <div class="icon1 bg-danger my-auto  float-end"> <?php echo $currency ?> </div>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <div class="col-xl-4 col-lg-12 col-md-12">
+
+         <div class="col-xl-3 col-lg-12 col-md-12">
             <div class="card">
                <div class="card-body">
                   <div class="row">
                      <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Approved</span>
-                           <h3 class="mb-0 mt-1  mb-2"><?php echo $totalLoanApproved ?? '0.00' ?></h3>
+                           <h4 class="mb-0 mt-1  mb-2"><?php echo $totalLoanApproved ?? '0.00' ?></h4>
                         </div>
                         <span class="text-muted">
-                           <span class="text-danger fs-12 mt-2 me-1">
-                              <i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>
-                              <?php echo $totalLoanApproved ?? 0 ?> Person
-                           </span> this month </span>
+                           <span class="text-secondary fs-12 mt-2 me-1">
+                              <i class="feather feather-arrow-up-right me-1 bg-secondary-transparent p-1 brround"></i>
+                              <?php echo $totalLoanApproved ?? 0 ?> Employees
+                           </span> <br> this month </span>
                      </div>
                      <div class="col-3">
                         <div class="icon1 bg-secondary brround my-auto  float-end"><?php echo $currency ?></div>
@@ -143,6 +178,7 @@ $datatable = '';
                </div>
             </div>
          </div>
+
          <div class="col-xl-12 col-md-12 col-lg-12">
             <div class="card">
 

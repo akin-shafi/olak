@@ -3,7 +3,7 @@ require_once('../../private/initialize.php');
 
 if (is_get_request()) {
   if (isset($_GET['filter_date'])) {
-    $queryMonth = $_GET['filter_date'];
+    $queryMonth = date('Y-') . $_GET['filter_date'];
 
     $payrolls = Payroll::find_by_created_at(date('Y-m', strtotime($queryMonth)));
 

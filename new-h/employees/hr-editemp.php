@@ -8,8 +8,6 @@ $all = Employee::find_by_undeleted(['order' => 'ASC']);
 $my_id = array_values($all)[0]->id;
 $id = $_GET['id'] ?? $my_id;
 
-
-
 $employee = Employee::find_by_id($id);
 
 
@@ -28,20 +26,23 @@ $select2 = '';
 
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
+
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
       <h4 class="page-title">Edit Employee</h4>
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-center">
-         <!-- <div class="add">Add New Employee</div> -->
          <a href="<?php echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-primary me-3">Add New Employee</a>
-         <select  name="query[employee_id]" class="select2" data-placeholder="Select Employee" id="query_employee">
-            <option label="Select Employee"></option>
-            <?php foreach (Employee::find_by_undeleted() as $value) : ?>
-               <option value="<?php echo $value->id ?>"><?php echo ucwords($value->full_name()) ?></option>
-            <?php endforeach; ?>
-         </select>
+
+         <div class="d-none">
+            <select name="query[employee_id]" class="select2" data-placeholder="Select Employee" id="query_employee">
+               <option label="Select Employee"></option>
+               <?php foreach (Employee::find_by_undeleted() as $value) : ?>
+                  <option value="<?php echo $value->id ?>"><?php echo ucwords($value->full_name()) ?></option>
+               <?php endforeach; ?>
+            </select>
+         </div>
 
          <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right ms-4 d-none">
             <div class="btn-list"> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
@@ -65,7 +66,7 @@ $select2 = '';
             <div class="star-ratings start-ratings-main mb-0 clearfix">
                <div class="stars stars-example-fontawesome star-sm">
                   <div class="br-wrapper br-theme-fontawesome-stars">
-                     <select  id="example-fontawesome" name="rating" style="display: none;">
+                     <select id="example-fontawesome" name="rating" style="display: none;">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -167,7 +168,7 @@ $select2 = '';
          <div class="tab-content">
             <div class="tab-pane active" id="tab5">
                <form id="add_personal_form" enctype="multipart/form-data">
-                  <input type="hidden" name="personalId" value="<?php echo $employee->id ?>" >
+                  <input type="hidden" name="personalId" value="<?php echo $employee->id ?>">
 
                   <div class="card-body">
                      <h4 class="mb-4 font-weight-bold">Basic</h4>
@@ -176,9 +177,9 @@ $select2 = '';
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">User Name</label> </div>
                            <div class="col-md-9">
                               <div class="row">
-                                 <div class="col-md-4"> <input  type="text" name="personal[first_name]" id="first_name" value="<?php echo $employee->first_name; ?>" class="form-control mb-md-0 mb-5" placeholder="First Name"> <span class="text-muted"></span> </div>
-                                 <div class="col-md-4"> <input  type="text" name="personal[last_name]" id="last_name" value="<?php echo $employee->last_name; ?>" class="form-control" placeholder="Last Name"> </div>
-                                 <div class="col-md-4"> <input  type="text" name="personal[other_name]" id="other_name" value="<?php echo $employee->other_name; ?>" class="form-control" placeholder="Middle Name"> </div>
+                                 <div class="col-md-4"> <input type="text" name="personal[first_name]" id="first_name" value="<?php echo $employee->first_name; ?>" class="form-control mb-md-0 mb-5" placeholder="First Name"> <span class="text-muted"></span> </div>
+                                 <div class="col-md-4"> <input type="text" name="personal[last_name]" id="last_name" value="<?php echo $employee->last_name; ?>" class="form-control" placeholder="Last Name"> </div>
+                                 <div class="col-md-4"> <input type="text" name="personal[other_name]" id="other_name" value="<?php echo $employee->other_name; ?>" class="form-control" placeholder="Middle Name"> </div>
                               </div>
                            </div>
                         </div>
@@ -187,25 +188,25 @@ $select2 = '';
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Contact Number</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="personal[phone]" id="phone" value="<?php echo $employee->phone; ?>" class="form-control" placeholder="Phone Number"> </div>
+                           <div class="col-md-9"> <input type="text" name="personal[phone]" id="phone" value="<?php echo $employee->phone; ?>" class="form-control" placeholder="Phone Number"> </div>
                         </div>
                      </div>
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Next of Kin Name</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="personal[kin_name]" id="kin_name" value="<?php echo $employee->kin_name; ?>" class="form-control" placeholder="Next of Kin Name"> </div>
+                           <div class="col-md-9"> <input type="text" name="personal[kin_name]" id="kin_name" value="<?php echo $employee->kin_name; ?>" class="form-control" placeholder="Next of Kin Name"> </div>
                         </div>
                      </div>
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Next of Kin Number</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="personal[kin_phone]" id="kin_phone" value="<?php echo $employee->kin_phone; ?>" class="form-control" placeholder="Contact Number"> </div>
+                           <div class="col-md-9"> <input type="text" name="personal[kin_phone]" id="kin_phone" value="<?php echo $employee->kin_phone; ?>" class="form-control" placeholder="Contact Number"> </div>
                         </div>
                      </div>
                      <div class="form-group ">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Date Of Birth</label> </div>
-                           <div class="col-md-9"> <input  type="date" name="personal[dob]" id="dob" value="<?php echo $employee->dob; ?>" class="form-control" placeholder="DD-MM-YYY"> </div>
+                           <div class="col-md-9"> <input type="date" name="personal[dob]" id="dob" value="<?php echo $employee->dob; ?>" class="form-control" placeholder="DD-MM-YYY"> </div>
                         </div>
                      </div>
                      <div class="form-group ">
@@ -220,7 +221,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Marital Status</label> </div>
                            <div class="col-md-9">
-                              <select  name="personal[marital_status]" id="marital_status" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Status" data-select2-id="select2-data-1-decl" tabindex="-1" aria-hidden="true">
+                              <select name="personal[marital_status]" id="marital_status" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Status" data-select2-id="select2-data-1-decl" tabindex="-1" aria-hidden="true">
                                  <option label="Select" data-select2-id="select2-data-3-omqq"></option>
                                  <option value="Single" <?php echo $employee->marital_status == 'Single' ? 'selected' : '' ?>>Single</option>
                                  <option value="Married" <?php echo $employee->marital_status == 'Married' ? 'selected' : '' ?>>Married</option>
@@ -232,7 +233,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Blood Group</label> </div>
                            <div class="col-md-9">
-                              <select  name="personal[blood_group]" id="blood_group" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Group" data-select2-id="select2-data-4-jt7m" tabindex="-1" aria-hidden="true">
+                              <select name="personal[blood_group]" id="blood_group" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Group" data-select2-id="select2-data-4-jt7m" tabindex="-1" aria-hidden="true">
                                  <option label="Select Group" data-select2-id="select2-data-6-3hhn"></option>
                                  <option value="1" <?php echo $employee->blood_group == 1 ? 'selected' : '' ?>>A+</option>
                                  <option value="2" <?php echo $employee->blood_group == 2 ? 'selected' : '' ?>>B+</option>
@@ -308,7 +309,7 @@ $select2 = '';
 
             <div class="tab-pane" id="tab6">
                <form id="add_employee_company_form">
-                  <input type="hidden" name="companyId" value="<?php echo $employee->id ?>" >
+                  <input type="hidden" name="companyId" value="<?php echo $employee->id ?>">
                   <div class="card-body">
                      <div class="form-group">
                         <div class="row">
@@ -316,8 +317,7 @@ $select2 = '';
                            <div class="col-md-9">
                               <div class="row">
                                  <div class="col-md-6">
-                                    <label>Company</label>
-                                    <select  name="company[company_id]" value="<?php echo $employee->company_id ?>" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
+                                    <select name="company[company_id]" value="<?php echo $employee->company_id ?>" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
                                        <option label="Company"></option>
                                        <?php foreach (Company::find_by_undeleted() as $value) : ?>
                                           <option value="<?php echo $value->company_name ?>" <?php echo $value->company_name == $employee->company ? 'selected' : '' ?>><?php echo ucwords($value->company_name) ?></option>
@@ -325,8 +325,7 @@ $select2 = '';
                                     </select>
                                  </div>
                                  <div class="col-md-6">
-                                    <label>ID</label>
-                                    <input  type="text" name="company[employee_number]" value="<?php echo $employee->employee_id ?>" id="employee_number" class="form-control" placeholder="#ID">
+                                    <input type="text" name="company[employee_number]" value="<?php echo $employee->employee_id ?>" id="employee_number" class="form-control" placeholder="#ID">
                                  </div>
                               </div>
                            </div>
@@ -336,7 +335,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Department</label> </div>
                            <div class="col-md-9">
-                              <select  name="company[department_id]" value="<?php echo $employee->department ?>" id="department_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
+                              <select name="company[department_id]" value="<?php echo $employee->department ?>" id="department_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
                                  <option label="Select Department"></option>
                                  <?php foreach (Department::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->department == $value->department_name ? 'selected' : '' ?>>
@@ -350,7 +349,7 @@ $select2 = '';
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
-                           <div class="col-md-9"> <select  name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
+                           <div class="col-md-9"> <select name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
                                  <option label="Select Branch"></option>
                                  <?php foreach (Branch::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->branch == $value->branch_name ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
@@ -362,7 +361,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
                            <div class="col-md-9">
-                              <select  name="company[job_title_id]" value="<?php echo $employee->job_title_id ?>" id="job_title_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
+                              <select name="company[job_title_id]" value="<?php echo $employee->job_title_id ?>" id="job_title_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
                                  <option label="Select Employment Title"></option>
                                  <?php foreach (Designation::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->job_title == $value->designation_name ? 'selected' : '' ?>>
@@ -375,7 +374,7 @@ $select2 = '';
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Date Of Joining</label> </div>
-                           <div class="col-md-9"> <input  type="date" name="company[date_employed]" value="<?php echo $employee->date_employed ?>" id="date_employed" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYYY" id="dp1642289966078"> </div>
+                           <div class="col-md-9"> <input type="date" name="company[date_employed]" value="<?php echo $employee->date_employed ?>" id="date_employed" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYYY" id="dp1642289966078"> </div>
                         </div>
                      </div>
                      <h4 class="mb-5 mt-7 font-weight-bold">Salary</h4>
@@ -383,7 +382,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employment Type</label> </div>
                            <div class="col-md-9">
-                              <select  name="company[employment_type]" value="<?php echo $employee->employment_type ?>" id="employment_type" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
+                              <select name="company[employment_type]" value="<?php echo $employee->employment_type ?>" id="employment_type" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
                                  <option label="Employee Type"></option>
                                  <?php foreach (EmployeeType::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->employment_type == $value->id ? 'selected' : '' ?>><?php echo ucwords($value->name) ?></option>
@@ -418,18 +417,18 @@ $select2 = '';
 
             <div class="tab-pane" id="tab7">
                <form id="add_bank_form">
-                  <input type="hidden" name="bankId" value="<?php echo $employee->id ?>" >
+                  <input type="hidden" name="bankId" value="<?php echo $employee->id ?>">
                   <div class="card-body">
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Account Number</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="bank[account_number]" value="<?php echo $employee->account_number ?>" id="account_number" class="form-control" placeholder="Number"> </div>
+                           <div class="col-md-9"> <input type="text" name="bank[account_number]" value="<?php echo $employee->account_number ?>" id="account_number" class="form-control" placeholder="Number"> </div>
                         </div>
                      </div>
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Bank Name</label> </div>
-                           <div class="col-md-9"> <input  type="text" name="bank[bank_name]" value="<?php echo $employee->bank_name ?>" id="bank_name" class="form-control" placeholder="Name"> </div>
+                           <div class="col-md-9"> <input type="text" name="bank[bank_name]" value="<?php echo $employee->bank_name ?>" id="bank_name" class="form-control" placeholder="Name"> </div>
                         </div>
                      </div>
 
@@ -443,7 +442,7 @@ $select2 = '';
 
             <div class="tab-pane" id="tab8">
                <form id="add_doc_form">
-                  <input type="hidden" name="documentId" value="<?php echo $employee->id ?>" >
+                  <input type="hidden" name="documentId" value="<?php echo $employee->id ?>">
                   <div class="card-body">
                      <div class="form-group">
                         <div class="row">
@@ -609,7 +608,7 @@ $select2 = '';
          submitForm(EMPLOYEE_URL, docForm);
       });
 
-      $('#query_employee').select2().on("change", async () => {
+      /*$('#query_employee').select2().on("change", async () => {
          let emp_id = $("#query_employee").val()
          let data = await fetch(EMPLOYEE_URL + '?employeeId=' + emp_id)
          let res = await data.json();
@@ -644,7 +643,8 @@ $select2 = '';
          document.querySelector('#bank_name').value = res.data.bank_name ?? '';
 
 
-      });
+      });*/
+
 
    });
 </script>

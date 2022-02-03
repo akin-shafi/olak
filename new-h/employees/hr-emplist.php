@@ -13,13 +13,14 @@ $datatable = '';
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
-         <div class="btn-list"> <a href="hr-addemployee.php" class="btn btn-primary me-3">Add New Employee</a> 
+         <div class="btn-list"> <a href="hr-addemployee.php" class="btn btn-primary me-3">Add New Employee</a>
 
-            <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
+            <button class="btn btn-light d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button>
 
-            <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> 
+            <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button>
 
-            <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+            <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+         </div>
       </div>
    </div>
 </div>
@@ -127,11 +128,8 @@ $datatable = '';
                                  </thead>
                                  <tbody>
                                     <?php $sn = 1;
-                                    foreach (Employee::find_all() as $key => $value) {
-
+                                    foreach (Employee::find_by_undeleted(['order' => 'ASC']) as $key => $value) {
                                        $class = $key % 2 == 0 ? 'even' : 'odd';
-                                       // $image = $value->gender == 'male' ? '../assets/images/users/male.png' : '../assets/images/users/female.png';
-
                                        $image =  '../assets/images/users/male.png';
 
                                     ?>
@@ -150,12 +148,12 @@ $datatable = '';
                                           <td><?php echo $value->company ?></td>
                                           <td><?php echo $value->branch ? $value->branch : 'Not Set'; ?></td>
                                           <td><?php echo $value->department ? $value->department : 'Not Set'; ?></td>
-                                          
+
                                           <td><?php echo $value->phone ? $value->phone : 'Not Set'; ?></td>
                                           <td><?php echo $value->date_employed ? date('Y-m-d', strtotime($value->date_employed)) : 'Not Set'; ?></td>
 
                                           <td>
-                                             <a class="btn btn-primary btn-icon btn-sm" href="<?php echo url_for('employees/hr-editemp.php?id='. $value->id) ?>">
+                                             <a class="btn btn-primary btn-icon btn-sm" href="<?php echo url_for('employees/hr-editemp.php?id=' . $value->id) ?>">
                                                 <i class="feather feather-edit" data-bs-toggle="tooltip" data-original-title="View/Edit" data-bs-original-title="" title=""></i>
                                              </a>
                                              <a class="btn btn-danger btn-icon btn-sm" data-bs-toggle="tooltip" data-original-title="Delete" data-bs-original-title="" title=""><i class="feather feather-trash-2"></i></a>

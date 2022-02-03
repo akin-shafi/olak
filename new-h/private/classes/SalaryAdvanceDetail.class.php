@@ -85,7 +85,7 @@ class SalaryAdvanceDetail extends DatabaseObject
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    $sql .= " AND created_at LIKE'%" . self::$database->escape_string($created_at) . "%'";
+    $sql .= " AND date_requested LIKE'%" . self::$database->escape_string($created_at) . "%'";
     $sql .= "ORDER BY id DESC";
     return static::find_by_sql($sql);
   }
@@ -111,7 +111,7 @@ class SalaryAdvanceDetail extends DatabaseObject
     }
 
     if ($currentMonth) {
-      $sql .= " AND created_at LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
+      $sql .= " AND date_requested LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
     }
 
     $obj_array = static::find_by_sql($sql);
