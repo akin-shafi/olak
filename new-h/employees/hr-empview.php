@@ -16,7 +16,7 @@ $employee = Employee::find_by_id($id);
 if (!empty($employee->photo)) {
    $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
 } else {
-   if ($employee->gender == 'male') {
+   if ($employee->gender == 'Male') {
       $profile_picture = url_for('assets/images/users/male.jpg');
    } else {
       $profile_picture = url_for('assets/images/users/female.jpg');
@@ -28,6 +28,7 @@ $select2 = '';
 
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo url_for('assets/css/viewemp.css')  ?>">
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
       <h4 class="page-title">View Employee</h4>
@@ -36,12 +37,14 @@ $select2 = '';
       <div class="d-flex align-items-center">
          <!-- <div class="add">Add New Employee</div> -->
          <a href="<?php echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-primary me-3">Add New Employee</a>
+         <div class="d-none">
          <select  name="query[employee_id]" class="select2" data-placeholder="Select Employee" id="query_employee">
             <option label="Select Employee"></option>
             <?php foreach (Employee::find_by_undeleted() as $value) : ?>
                <option value="<?php echo $value->id ?>"><?php echo ucwords($value->full_name()) ?></option>
             <?php endforeach; ?>
          </select>
+         </div>
 
          <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right ms-4 d-none">
             <div class="btn-list"> <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
@@ -60,44 +63,64 @@ $select2 = '';
                <div class="profile-view">
                   <div class="profile-img-wrap">
                      <div class="profile-img">
-                        <a href="#"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+                        <a href="#"><img alt="" src="<?php echo $profile_picture ?>"></a>
+                        <!-- <img class="avatar avatar-xxl brround rounded-circle" alt="img" src="<?php //echo $profile_picture; ?>"> -->
                      </div>
                   </div>
                   <div class="profile-basic">
                      <div class="row">
                         <div class="col-md-5">
                            <div class="profile-info-left">
-                              <h3 class="user-name m-t-0 mb-0">John Doe</h3>
-                              <h6 class="text-muted">UI/UX Design Team</h6>
-                              <small class="text-muted">Web Designer</small>
-                              <div class="staff-id">Employee ID : FT-0001</div>
-                              <div class="small doj text-muted">Date of Join : 1st Jan 2013</div>
-                              <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send Message</a></div>
+                              <h3 class="user-name m-t-0 mb-0"><?php echo $employee->full_name() ?? "Not Set" ?></h3>
+                              <div class="staff-id">Employee ID : <?php echo $employee->employee_id ?? "Not Set"; ?></div>
+                              <h6 class="text-muted"><?php echo $employee->company ?? "Not Set"; ?></h6>
+                              <table class="text-muted table table-sm" style="font-size:12px">
+                                 <tr>
+                                    <td>Branch: </td>
+                                    <td><?php echo $employee->branch ?? "Not Set"; ?> </td>
+                                 </tr>
+                                 <tr>
+                                    <td>Department: </td>
+                                    <td><?php echo $employee->department ?? "Not Set"; ?> </td>
+                                 </tr>
+                                 <tr>
+                                    <td>Job Title: </td>
+                                    <td><?php echo $employee->job_title ?? "Not Set"; ?> </td>
+                                 </tr>
+                              </table>
+                             
+                              
+                              <div class="small doj text-muted">Date of Join : <?php echo $employee->date_employed ?? "Not Set"; ?></div>
+                              <!-- <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send Message</a></div> -->
                            </div>
                         </div>
                         <div class="col-md-7">
                            <ul class="personal-info">
                               <li>
                                  <div class="title">Phone:</div>
-                                 <div class="text"><a href="">9876543210</a></div>
+                                 <div class="text"><a href="">(+234) <?php echo $employee->phone ?? "Not Set"; ?></a></div>
                               </li>
                               <li>
                                  <div class="title">Email:</div>
-                                 <div class="text"><a href="">johndoe@example.com</a></div>
+                                 <div class="text"><a href=""><?php echo $employee->email ?? "Not Set"; ?></a></div>
                               </li>
                               <li>
                                  <div class="title">Birthday:</div>
-                                 <div class="text">24th July</div>
+                                 <div class="text"><?php echo $employee->dob ?? "Not Set"; ?></div>
                               </li>
                               <li>
-                                 <div class="title">Address:</div>
-                                 <div class="text">1861 Bayonne Ave, Manchester Township, NJ, 08759</div>
+                                 <div class="title">Present Address:</div>
+                                 <div class="text"><?php echo $employee->present_add ?? "Not Set"; ?></div>
+                              </li>
+                              <li>
+                                 <div class="title">Permanent Address:</div>
+                                 <div class="text"><?php echo $employee->permanent_add ?? "Not Set"; ?></div>
                               </li>
                               <li>
                                  <div class="title">Gender:</div>
-                                 <div class="text">Male</div>
+                                 <div class="text"><?php echo $employee->gender ?? "Not Set"; ?></div>
                               </li>
-                              <li>
+                              <li class="d-none">
                                  <div class="title">Reports to:</div>
                                  <div class="text">
                                     <div class="avatar-box">
@@ -114,7 +137,7 @@ $select2 = '';
                         </div>
                      </div>
                   </div>
-                  <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
+                  <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal" class="edit-icon" href="#"><i class="feather feather-edit"></i></a></div>
                </div>
             </div>
          </div>
@@ -125,8 +148,8 @@ $select2 = '';
          <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
             <ul class="nav nav-tabs nav-tabs-bottom">
                <li class="nav-item"><a href="#emp_profile" data-bs-toggle="tab" class="nav-link active">Profile</a></li>
-               <li class="nav-item"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Projects</a></li>
-               <li class="nav-item"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &amp; Statutory <small class="text-danger">(Admin Only)</small></a></li>
+               <li class="nav-item d-none"><a href="#emp_projects" data-bs-toggle="tab" class="nav-link">Projects</a></li>
+               <li class="nav-item d-none"><a href="#bank_statutory" data-bs-toggle="tab" class="nav-link">Bank &amp; Statutory <small class="text-danger">(Admin Only)</small></a></li>
             </ul>
          </div>
       </div>
@@ -137,40 +160,36 @@ $select2 = '';
             <div class="col-md-6 d-flex">
                <div class="card profile-box flex-fill">
                   <div class="card-body">
-                     <h3 class="card-title">Personal Informations <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#personal_info_modal"><i class="fa fa-pencil"></i></a></h3>
+                     <h3 class="card-title">Other Informations <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#personal_info_modal"><i class="feather feather-edit"></i></a></h3>
                      <ul class="personal-info">
                         <li>
                            <div class="title">Passport No.</div>
-                           <div class="text">9876543210</div>
+                           <div class="text"><?php echo $employee->passport_no ?? "Not Set"; ?></div>
                         </li>
                         <li>
                            <div class="title">Passport Exp Date.</div>
-                           <div class="text">9876543210</div>
+                           <div class="text"><?php echo $employee->passport_exp_date ?? "Not Set"; ?></div>
                         </li>
-                        <li>
-                           <div class="title">Tel</div>
-                           <div class="text"><a href="">9876543210</a></div>
-                        </li>
+                        
                         <li>
                            <div class="title">Nationality</div>
-                           <div class="text">Indian</div>
+                           <div class="text"><?php echo $employee->nationality ?? "Not Set"; ?></div>
                         </li>
                         <li>
                            <div class="title">Religion</div>
-                           <div class="text">Christian</div>
+                           <div class="text"><?php echo $employee->religion ?? "Not Set"; ?></div>
                         </li>
                         <li>
                            <div class="title">Marital status</div>
-                           <div class="text">Married</div>
+                           <div class="text"><?php echo $employee->marital_status ?? "Not Set"; ?></div>
                         </li>
-                        <li>
-                           <div class="title">Employment of spouse</div>
-                           <div class="text">No</div>
-                        </li>
-                        <li>
-                           <div class="title">No. of children</div>
-                           <div class="text">2</div>
-                        </li>
+                        
+                       <?php if ($employee->marital_status == 'Married'): ?>
+                           <li>
+                              <div class="title">No. of children</div>
+                              <div class="text"><?php echo $employee->no_of_children ?? "Not Set"; ?></div>
+                           </li>
+                       <?php endif ?>
                      </ul>
                   </div>
                </div>
@@ -178,38 +197,44 @@ $select2 = '';
             <div class="col-md-6 d-flex">
                <div class="card profile-box flex-fill">
                   <div class="card-body">
-                     <h3 class="card-title">Emergency Contact <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#emergency_contact_modal"><i class="fa fa-pencil"></i></a></h3>
-                     <h5 class="section-title">Primary</h5>
+                     <h3 class="card-title">Kin Information / Emergency Contact <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#emergency_contact_modal"><i class="feather feather-edit"></i></a></h3>
+                     <!-- <h5 class="section-title">Primary</h5> -->
                      <ul class="personal-info">
                         <li>
-                           <div class="title">Name</div>
-                           <div class="text">John Doe</div>
+                           <div class="title">Next of Kin full name</div>
+                           <div class="text"><?php echo $employee->kin_name ?? "Not Set"; ?></div>
                         </li>
                         <li>
-                           <div class="title">Relationship</div>
-                           <div class="text">Father</div>
+                           <div class="title">Relationship with Kin</div>
+                           <div class="text"><?php echo $employee->kin_relationship ?? "Not Set"; ?></div>
                         </li>
                         <li>
-                           <div class="title">Phone </div>
-                           <div class="text">9876543210, 9876543210</div>
+                           <div class="title">Kin Phone Number</div>
+                           <div class="text"><?php echo $employee->kin_phone ?? "Not Set"; ?></div>
+                        </li>
+                        <li>
+                           <div class="title">Kin Email </div>
+                           <div class="text"><?php echo $employee->kin_email ?? "Not Set"; ?></div>
                         </li>
                      </ul>
                      <hr>
-                     <h5 class="section-title">Secondary</h5>
-                     <ul class="personal-info">
-                        <li>
-                           <div class="title">Name</div>
-                           <div class="text">Karen Wills</div>
-                        </li>
-                        <li>
-                           <div class="title">Relationship</div>
-                           <div class="text">Brother</div>
-                        </li>
-                        <li>
-                           <div class="title">Phone </div>
-                           <div class="text">9876543210, 9876543210</div>
-                        </li>
-                     </ul>
+                     <div class="d-none">
+                        <h5 class="section-title">Secondary</h5>
+                        <ul class="personal-info">
+                           <li>
+                              <div class="title">Name</div>
+                              <div class="text"><?php echo $employee->no_of_children ?? "Not Set"; ?></div>
+                           </li>
+                           <li>
+                              <div class="title">Relationship</div>
+                              <div class="text">Brother</div>
+                           </li>
+                           <li>
+                              <div class="title">Phone </div>
+                              <div class="text">9876543210, 9876543210</div>
+                           </li>
+                        </ul>
+                     </div>
                   </div>
                </div>
             </div>
@@ -222,58 +247,33 @@ $select2 = '';
                      <ul class="personal-info">
                         <li>
                            <div class="title">Bank name</div>
-                           <div class="text">ICICI Bank</div>
+                           <div class="text"><?php echo $employee->bank_name ?? "Not Set"; ?></div>
                         </li>
                         <li>
                            <div class="title">Bank account No.</div>
-                           <div class="text">159843014641</div>
+                           <div class="text"><?php echo $employee->account_number ?? "Not Set"; ?></div>
                         </li>
-                        <li>
-                           <div class="title">IFSC Code</div>
-                           <div class="text">ICI24504</div>
-                        </li>
-                        <li>
-                           <div class="title">PAN No</div>
-                           <div class="text">TC000Y56</div>
-                        </li>
+                        
                      </ul>
                   </div>
                </div>
             </div>
-            <div class="col-md-6 d-flex">
+            <div class="col-md-6 ">
                <div class="card profile-box flex-fill">
                   <div class="card-body">
-                     <h3 class="card-title">Family Informations <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#family_info_modal"><i class="fa fa-pencil"></i></a></h3>
-                     <div class="table-responsive">
-                        <table class="table table-nowrap">
-                           <thead>
-                              <tr>
-                                 <th>Name</th>
-                                 <th>Relationship</th>
-                                 <th>Date of Birth</th>
-                                 <th>Phone</th>
-                                 <th></th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <tr>
-                                 <td>Leo</td>
-                                 <td>Brother</td>
-                                 <td>Feb 16th, 2019</td>
-                                 <td>9876543210</td>
-                                 <td class="text-end">
-                                    <div class="dropdown dropdown-action">
-                                       <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
-                                       <div class="dropdown-menu dropdown-menu-right">
-                                          <a href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                          <a href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                       </div>
-                                    </div>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </div>
+                     <h3 class="card-title">Salary Narration</h3>
+                     <ul class="personal-info">
+                        <li>
+                           <div class="title">Annual Salary.</div>
+                           <div class="text"><?php echo $currency .' '.number_format($employee->present_salary * 12) ?? "Not Set"; ?></div>
+                        </li>
+
+                        <li>
+                           <div class="title">Monthly Salary</div>
+                           <div class="text"><?php echo $currency .' '.number_format($employee->present_salary) ?? "Not Set"; ?></div>
+                        </li>
+                        
+                     </ul>
                   </div>
                </div>
             </div>
@@ -282,7 +282,7 @@ $select2 = '';
             <div class="col-md-6 d-flex">
                <div class="card profile-box flex-fill">
                   <div class="card-body">
-                     <h3 class="card-title">Education Informations <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#education_info"><i class="fa fa-pencil"></i></a></h3>
+                     <h3 class="card-title">Education Informations <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#education_info"><i class="feather feather-edit"></i></a></h3>
                      <div class="experience-box">
                         <ul class="experience-list">
                            <li>
@@ -317,7 +317,7 @@ $select2 = '';
             <div class="col-md-6 d-flex">
                <div class="card profile-box flex-fill">
                   <div class="card-body">
-                     <h3 class="card-title">Experience <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#experience_info"><i class="fa fa-pencil"></i></a></h3>
+                     <h3 class="card-title">Experience <a href="#" class="edit-icon" data-bs-toggle="modal" data-bs-target="#experience_info"><i class="feather feather-edit"></i></a></h3>
                      <div class="experience-box">
                         <ul class="experience-list">
                            <li>
@@ -368,7 +368,7 @@ $select2 = '';
                      <div class="dropdown profile-action">
                         <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="feather feather-edit m-r-5"></i> Edit</a>
                            <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                         </div>
                      </div>
@@ -430,7 +430,7 @@ $select2 = '';
                      <div class="dropdown profile-action">
                         <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="feather feather-edit m-r-5"></i> Edit</a>
                            <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                         </div>
                      </div>
@@ -492,7 +492,7 @@ $select2 = '';
                      <div class="dropdown profile-action">
                         <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="feather feather-edit m-r-5"></i> Edit</a>
                            <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                         </div>
                      </div>
@@ -554,7 +554,7 @@ $select2 = '';
                      <div class="dropdown profile-action">
                         <a aria-expanded="false" data-bs-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                           <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="feather feather-edit m-r-5"></i> Edit</a>
                            <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                         </div>
                      </div>

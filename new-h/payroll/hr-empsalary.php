@@ -127,9 +127,11 @@ $totalSalary = Employee::find_by_company_total_salary();
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                           <div class="me-3 mt-0 mt-sm-1 d-block">
-                                             <h6 class="mb-1 fs-14"><?php echo $value->full_name() ?></h6>
-                                             <p class="text-muted mb-0 fs-12"><?php echo strtolower($value->email) ?></p>
-                                             <p class="text-muted mb-0 fs-12">Emp ID: <?php echo  str_pad($value->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
+                                             <a href="<?php echo url_for('employees/hr-empview.php?id='. $value->id) ?>">
+                                                <h6 class="mb-1 fs-14"><?php echo $value->full_name() ?></h6>
+                                                <p class="text-muted mb-0 fs-12"><?php echo strtolower($value->email) ?></p>
+                                                <p class="text-muted mb-0 fs-12">Emp ID: <?php echo  str_pad($value->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
+                                             </a>
                                           </div>
                                        </div>
                                     </td>
@@ -138,8 +140,10 @@ $totalSalary = Employee::find_by_company_total_salary();
                                     <td class="font-weight-semibold"><?php echo number_format(intval($value->present_salary), 2) ?></td>
 
                                     <td class="text-center">
-                                       <a href="#" class="btn btn-outline-primary action-btns viewSalary" data-id="<?php echo $value->id ?>">
+                                       <a href="#" class="btn btn-outline-primary action-btns viewSalary" title="View Salary" data-id="<?php echo $value->id ?>">
                                           <i class="feather feather-eye "></i> </a>
+                                       <a href="<?php echo url_for('employees/hr-editemp.php?id='. $value->id) ?>" class="btn btn-outline-primary action-btns editStaffDetails" title="Edit Staff Details">
+                                          <i class="feather feather-edit "></i> </a>
                                     </td>
                                  </tr>
                               <?php endforeach; ?>
