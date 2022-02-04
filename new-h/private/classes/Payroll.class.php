@@ -85,11 +85,15 @@ class Payroll extends DatabaseObject
   public static function find_by_salary_payable($options = [])
   {
     $lastMonth = $options['month'] ?? false;
+    $payment_status = $options['payment_status'] ?? false;
 
     $sql = "SELECT COUNT(employee_id) AS counts, SUM(present_salary) AS present_salary, SUM(loan) AS loan, SUM(salary_advance) AS salary_advance, SUM(overtime_allowance) AS overtime_allowance, SUM(leave_allowance) AS leave_allowance, SUM(other_allowance) AS other_allowance, SUM(other_deduction) AS other_deduction FROM " . static::$table_name . " ";
 
     if ($lastMonth) {
       $sql .= " WHERE created_at LIKE'%" . self::$database->escape_string($lastMonth) . "%'";
+    }
+    if ($payment_status) {
+      $sql .= " AND payment_status='" . self::$database->escape_string($payment_status) . "'";
     }
 
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";

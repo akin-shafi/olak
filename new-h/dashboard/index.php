@@ -24,7 +24,7 @@ if ($salaryAdvance->status == 1) {
    $totalLoanApproved = intval($loanApproval->counts) + intval($advanceApproval->counts);
 }
 
-$lastMonthSalary = Payroll::find_by_salary_payable(['month' => $lastDate]);
+$lastMonthSalary = Payroll::find_by_salary_payable(['month' => $lastDate, 'payment_status' => 1, ]);
 $thisMonthSalary = Payroll::find_by_salary_payable(['month' => $thisDate]);
 
 $salaryPayable       = Employee::find_by_total_salary();

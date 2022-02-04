@@ -43,7 +43,7 @@ $select2 = '';
          <select class="select2" data-placeholder="Select Employee" id="query_employee">
             <option label="Select Employee"></option>
             <?php foreach ($all as $value) : ?>
-               <option value="<?php echo $value->id ?>"><?php echo ucwords($value->full_name()) ?></option>
+               <option value="<?php echo $value->id ?>" <?php echo $id == $value->id ? 'selected' : '' ?>><?php echo ucwords($value->full_name()) ?></option>
             <?php endforeach; ?>
          </select>
 
