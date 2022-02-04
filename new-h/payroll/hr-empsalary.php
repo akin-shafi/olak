@@ -15,39 +15,35 @@ if (isset($_GET['q']) && $_GET['q'] == '') {
 
 $companies = Employee::find_by_company_name('aroma', ['company' => $isCompany]);
 
-$totalSalaryByCompany = Employee::find_by_company_total_salary();
-$totalSalaryByBranch = Employee::find_by_company_total_salary(['branch' => true]);
+// $totalSalaryByCompany = Employee::find_by_company_total_salary();
+$totalSalaryByBranch = Employee::find_by_company_total_salary($isCompany, ['branch' => true]);
 
 // pre_r($totalSalaryByBranch);
 ?>
 
 <style>
-   /* .active-card {
-      background: rgb(55, 42, 255);
-      background: linear-gradient(30deg, rgba(55, 42, 255, 1) 50%, rgba(7, 23, 168, 1) 50%);
+   #analytic .card:hover {
+      background-color: #063bb3;
+      color: red;
    }
 
-   .active-card-link {
-      color: #fff;
-   } */
+   #analytic .card:hover span {
+      color: #FFF !important;
+   }
 
-    #analytic .card:hover{
-        background-color: #063bb3;
-        color: red;
-    }
-    #analytic .card:hover span{
-        color: #FFF !important;
-    }
-    #analytic .card:hover h4{
-        color: #FFF !important;
-    }
+   #analytic .card:hover h4 {
+      color: #FFF !important;
+   }
+
    .current {
       background-color: #063bb3;
-    }
-    .current span,.current h4{
+   }
+
+   .current span,
+   .current h4 {
       color: #FFF !important;
-    }
-</style> 
+   }
+</style>
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
       <h4 class="page-title">Employee Salary</h4>
@@ -70,24 +66,27 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary(['branch' => true]
 <div class="row" id="analytic">
    <div class="col-xl-12 col-md-12 col-lg-12">
       <div class="row">
-         <?php foreach ($totalSalaryByCompany as $key => $salary) :
-            $companyQuery = $salary->company != '' ? $salary->company : 'not set'; ?>
+         <?php foreach (Company::find_all_company() as $key => $value) :
+            $companyName = !empty($value->company_name) ? $value->company_name : 'not set';
+
+            $totalSalaryByCompany = Employee::find_by_company_total_salary(strtolower($companyName));
+            $companyQuery = $totalSalaryByCompany->company != '' ? $totalSalaryByCompany->company : 'not set'; ?>
 
             <div class="col-xl-3 col-lg-6 col-md-12">
                <div class="card <?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'current' : '' ?>">
-                  <div class="card-body ">
+                  <div class="card-body">
                      <a href="<?php echo url_for('payroll/hr-empsalary.php?q=' . strtolower($companyQuery)) ?>" class="<?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'active-card-link' : '' ?>">
                         <div class="row">
                            <div class="col-9">
                               <div class="mt-0 text-start">
                                  <span class="fs-16 font-weight-semibold">
-                                    <?php echo $salary->company != '' ? ucwords($salary->company) : 'Company not set' ?></span>
+                                    <?php echo $totalSalaryByCompany->company != '' ? ucwords($companyName) : 'Company not set' ?></span>
 
-                                 <h4 class="mb-0 mt-1 mb-2"><?php echo number_format($salary->total_salary, 2) ?></h4>
+                                 <h4 class="mb-0 mt-1 mb-2"><?php echo number_format($totalSalaryByCompany->total_salary, 2) ?></h4>
                                  <span class="text-muted">
                                     <span class="<?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'text-white' : Employee::TEXT_COLOR[$key] ?> fs-12 mt-2 me-1">
                                        <i class="feather feather-arrow-up-right me-1 <?php echo Employee::BG_COLOR[$key] . '-transparent' ?>  p-1 brround"></i>
-                                       <?php echo $salary->counts ?> Employees</span>
+                                       <?php echo $totalSalaryByCompany->counts ?> Employees</span>
                                  </span>
                               </div>
                            </div>
@@ -113,21 +112,40 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary(['branch' => true]
       <div class="card">
          <div class="card-header border-0 responsive-header">
             <h4 class="card-title"><?php echo !empty($companies[0]->company) ? $companies[0]->company : 'Company Not Set'; ?></h4>
-
-            <div class="card-options d-none">
-               <div class="btn-list">
-                  <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-light4 me-2 my-auto"></span>Employees</a> <a href="#" class="btn  btn-outline-light text-dark float-start d-flex my-auto"><span class="dot-label bg-primary me-2 my-auto"></span>Budget</a> <a href="#" class="btn btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false"> Year <i class="feather feather-chevron-down"></i> </a>
-                  <ul class="dropdown-menu dropdown-menu-end" role="menu">
-                     <li><a href="#">Monthly</a></li>
-                     <li><a href="#">Yearly</a></li>
-                     <li><a href="#">Weekly</a></li>
-                  </ul>
-               </div>
-            </div>
          </div>
 
-
          <div class="card-body">
+            <div class="row">
+               <?php foreach ($totalSalaryByBranch as $key => $value) : ?>
+                  <div class="col-xl-3 col-lg-3 col-md-12">
+                     <div class="card shadow">
+                        <div class="card-body p-3">
+                           <!-- <a href="<?php //echo url_for('payroll/hr-empsalary.php?q=' . strtolower($companyQuery)) 
+                                          ?>"> -->
+                           <div class="row">
+                              <div class="col-9">
+                                 <div class="mt-0">
+                                    <span class="fs-14 font-weight-bold">
+                                       <?php echo $value->branch != '' ? ucwords($value->branch) : 'Branch not set' ?></span>
+
+                                    <h6 class="mb-0 mt-1 mb-2"><?php echo number_format($value->total_salary, 2) ?></h6>
+                                    <span class="<?php echo Employee::TEXT_COLOR[$key] ?> fs-12 mt-2 me-1">
+                                       <i class="feather feather-arrow-up-right me-1 <?php echo Employee::BG_COLOR[$key] . '-transparent' ?>  p-1 brround"></i>
+                                       <?php echo $value->counts ?> Employees</span>
+                                 </div>
+                              </div>
+                              <div class="col-3">
+                                 <div class="icon1 <?php echo Employee::BG_COLOR[$key] ?> my-auto  float-end"><?php echo $currency ?></div>
+                              </div>
+                           </div>
+                           <!-- </a> -->
+                        </div>
+                     </div>
+                     </a>
+                  </div>
+               <?php endforeach; ?>
+            </div>
+
             <div class="table-responsive">
                <div id="hr-payroll_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
 

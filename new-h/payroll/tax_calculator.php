@@ -20,7 +20,7 @@ include(SHARED_PATH . '/header.php');
                <div class="form-group">
                   <label class="form-label">Employee Name:</label>
                   <select class="form-control select2 " id="staff_id">
-                     <?php foreach (Employee::find_by_undeleted() as $key => $value) { ?>
+                     <?php foreach (Employee::find_by_undeleted(['order' => 'ASC']) as $key => $value) { ?>
                         <option data-salary="<?php echo $value->present_salary ?>" value="<?php echo $value->id ?>"><?php echo $value->full_name() ?></option>
                      <?php } ?>
                   </select>

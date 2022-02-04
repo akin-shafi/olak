@@ -43,10 +43,18 @@ class Branch extends DatabaseObject
     return $this->errors;
   }
 
+  public static function find_all_branch()
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "ORDER BY branch_name ASC";
+    return static::find_by_sql($sql);
+  }
+
   public static function find_by_branch_name($branch_name)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE branch_name='" . self::$database->escape_string($branch_name) . "'";
+    $sql .= "WHERE branch_name LIKE'%" . self::$database->escape_string($branch_name) . "%'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {

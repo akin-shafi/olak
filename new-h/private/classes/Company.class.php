@@ -34,6 +34,14 @@ class Company extends DatabaseObject
     return $this->errors;
   }
 
+  public static function find_all_company()
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "ORDER BY company_name ASC";
+    return static::find_by_sql($sql);
+  }
+
   public static function find_by_company_name($name)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";

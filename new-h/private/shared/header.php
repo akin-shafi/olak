@@ -98,8 +98,8 @@ $user = $loggedInAdmin;
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Leaves</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leaves.php') ?>">Leave Settings</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leavesapplication.php') ?>">Leave Applications</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('leave/hr-leaves.php') ?>">Leave Settings</a></li>
                               </ul>
                            </li>
 

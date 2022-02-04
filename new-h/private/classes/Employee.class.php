@@ -163,19 +163,32 @@ class Employee extends DatabaseObject
     return $this->first_name . " " . $this->last_name;
   }
 
-  public static function find_by_company_total_salary($options = [])
+  public static function find_by_company_total_salary($companyName, $options = [])
   {
     $branch = $options['branch'] ?? false;
 
     $sql = "SELECT company, branch, COUNT(employee_id) AS counts, SUM(present_salary) AS total_salary FROM " . static::$table_name . " ";
 
-    if ($branch) :
-      $sql .= " GROUP BY branch";
+    if ($companyName == 'not set' || $companyName == '') :
+      $sql .= "WHERE company='' ";
     else :
-      $sql .= " GROUP BY company";
+      if (gettype($companyName) == 'array') return;
+      $sql .= "WHERE company LIKE '%" . self::$database->escape_string($companyName) . "%'";
     endif;
 
-    return static::find_by_sql($sql);
+    if (!$branch) :
+      $obj_array = static::find_by_sql($sql);
+      if (!empty($obj_array)) :
+        return array_shift($obj_array);
+      else :
+        return false;
+      endif;
+
+    else :
+      $sql .= " GROUP BY branch";
+      return static::find_by_sql($sql);
+
+    endif;
   }
 
   public static function find_by_total_salary()
