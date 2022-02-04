@@ -317,6 +317,7 @@ $select2 = '';
                            <div class="col-md-9">
                               <div class="row">
                                  <div class="col-md-6">
+                                    <label class="custom-control-label">Company</label>
                                     <select name="company[company_id]" value="<?php echo $employee->company_id ?>" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
                                        <option label="Company"></option>
                                        <?php foreach (Company::find_by_undeleted() as $value) : ?>
@@ -325,10 +326,22 @@ $select2 = '';
                                     </select>
                                  </div>
                                  <div class="col-md-6">
+                                    <label class="custom-control-label">Employee ID</label>
                                     <input type="text" name="company[employee_number]" value="<?php echo $employee->employee_id ?>" id="employee_number" class="form-control" placeholder="#ID">
                                  </div>
                               </div>
                            </div>
+                        </div>
+                     </div>
+                      <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
+                           <div class="col-md-9"> <select name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
+                                 <option label="Select Branch"></option>
+                                 <?php foreach (Branch::find_by_undeleted() as $value) : ?>
+                                    <option value="<?php echo $value->id ?>" <?php echo $employee->branch == $value->branch_name ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
+                                 <?php endforeach; ?>
+                              </select> </div>
                         </div>
                      </div>
                      <div class="form-group">
@@ -346,17 +359,7 @@ $select2 = '';
                         </div>
                      </div>
 
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
-                           <div class="col-md-9"> <select name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
-                                 <option label="Select Branch"></option>
-                                 <?php foreach (Branch::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->branch == $value->branch_name ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
-                                 <?php endforeach; ?>
-                              </select> </div>
-                        </div>
-                     </div>
+                    
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
