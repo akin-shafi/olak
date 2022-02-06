@@ -80,7 +80,9 @@ $user = $loggedInAdmin;
                         </div>
                         <div class="user-info">
                            <h5 class=" mb-2"><?php echo ucwords($user->full_name()) ?></h5>
-                           <span class="text-muted app-sidebar__user-name text-sm"><?php echo ucwords($user->department) ?></span>
+                           <div class="text-muted app-sidebar__user-name text-sm">Company: <?php echo ucwords($user->company) ?></div>
+                           <div class="text-muted app-sidebar__user-name text-sm">Department: <?php echo ucwords($user->department) ?></div>
+                           <span class="text-muted app-sidebar__user-name text-sm">Job Title: <?php echo ucwords($user->job_title) ?></span>
                         </div>
                      </div>
                   </div>
@@ -91,13 +93,12 @@ $user = $loggedInAdmin;
                         <a class="side-menu__item" data-bs-toggle="slide" href="#"> <i class="feather  feather-users sidemenu_icon"></i> <span class="side-menu__label">Employee <span class="nav-list">Dashboard</span></span><i class="angle fa fa-angle-right"></i> </a>
                         <ul class="slide-menu open">
                            <li class="side-menu-label1"><a href="#">Employee Dashboard</a></li>
-                           <li><a href="<?php echo url_for('dashboard/index.php') ?>" class="slide-item">Dashboard</a></li>
-                           <li><a href="<?php echo url_for('employee-attendance.php') ?>" class="slide-item">Attendance</a></li>
-                           <!-- <li><a href="<?php //echo url_for('employee-leaves.php') 
-                                             ?>" class="slide-item">Apply Leaves </a></li> -->
-                           <li><a href="<?php echo url_for('employee-myleaves.php') ?>" class="slide-item">My Leaves </a></li>
-                           <li><a href="<?php echo url_for('employee-myloans.php') ?>" class="slide-item">My Loans </a></li>
-                           <li><a href="<?php echo url_for('employee-payslips.php') ?>" class="slide-item">Payslips </a></li>
+                           <li><a href="<?php echo url_for('dashboard/') ?>" class="slide-item">Dashboard</a></li>
+                           <li><a href="<?php echo url_for('payslip/salary.php') ?>" class="slide-item">Salary</a></li>
+                           <li><a href="<?php echo url_for('payslip/') ?>" class="slide-item">Payslip</a></li>
+                           <li><a href="<?php echo url_for('attendance/') ?>" class="slide-item">Attendance</a></li>
+                           <li><a href="<?php echo url_for('leave/') ?>" class="slide-item">Leaves </a></li>
+                           <li><a href="<?php echo url_for('loans/') ?>" class="slide-item">Loans </a></li>
                            <li><a href="<?php echo url_for('employee-expenses.php') ?>" class="slide-item">Expenses</a></li>
                         </ul>
                      </li>

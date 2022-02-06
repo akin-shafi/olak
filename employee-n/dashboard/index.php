@@ -2,7 +2,7 @@
 require_once('../private/initialize.php');
 
 $id = $loggedInAdmin->id;
-$employee = Employee::find_by_id($id);
+$employee = Employee::find_by_id($id); 
 
 if ($employee->update_profile == 0 || $employee->update_profile == '') {
    redirect_to('../password_reset.php');
@@ -25,14 +25,14 @@ $datatable = '';
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
-         <a href="#" class="btn btn-primary me-3 mt-3 mt-lg-0 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#leave_modal">Apply Leaves</a>
+         <!-- <a href="#" class="btn btn-primary me-3 mt-3 mt-lg-0 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#leave_modal">Apply Leaves</a> -->
          <div class="d-flex">
             <div class="header-datepicker me-3">
                <div class="input-group">
                   <div class="input-group-prepend">
                      <div class="input-group-text"> <i class="feather feather-calendar"></i> </div>
                   </div>
-                  <input class="form-control fc-datepicker hasDatepicker" placeholder="19 Feb 2020" type="text" id="dp1642632811672">
+                  <input class="form-control fc-datepicker hasDatepicker" readonly placeholder="<?php echo date('d M Y') ?>" type="text" id="date" value="<?php echo date('d M Y') ?>">
                </div>
             </div>
             <div class="header-datepicker me-3">
@@ -41,7 +41,7 @@ $datatable = '';
                      <div class="input-group-text"> <i class="feather feather-clock"></i> </div>
                      <!-- input-group-text -->
                   </div>
-                  <!-- input-group-prepend --> <input id="tpBasic" type="text" placeholder="09:30am" class="form-control input-small ui-timepicker-input" autocomplete="off">
+                  <!-- input-group-prepend --> <input id="tpBasic" type="text" placeholder="09:30am" class="form-control input-small ui-timepicker-input" autocomplete="off" value="<?php echo date('h:i:a') ?>" readonly>
                </div>
             </div>
             <!-- wd-150 -->
@@ -60,18 +60,18 @@ $datatable = '';
             <div class="row">
                <div class="col-7">
                   <div class="mt-0 text-start">
-                     <h5 class="">Completed Projects</h5>
-                     <h3 class="mb-0 mt-auto text-success">51</h3>
+                     <h5 class="">Gross Salary</h5>
+                     <h4 class="mb-0 mt-auto text-success"><?php echo number_format($employee->present_salary, 2) ?></h4>
                   </div>
                </div>
                <div class="col-5">
-                  <div class="icon1 bg-success my-auto  float-end"> <i class="feather feather-file-text"></i> </div>
+                  <div class="icon1 bg-success my-auto  float-end"> <?php echo $currency ?> </div>
                </div>
             </div>
          </div>
       </div>
    </div>
-   <div class="col-xl-3 col-lg-6 col-md-12">
+   <div class="col-xl-3 col-lg-6 col-md-12 d-none">
       <div class="card">
          <div class="card-body">
             <div class="row">
@@ -88,7 +88,7 @@ $datatable = '';
          </div>
       </div>
    </div>
-   <div class="col-xl-3 col-lg-6 col-md-12">
+   <div class="col-xl-3 col-lg-6 col-md-12 d-none">
       <div class="card">
          <div class="card-body">
             <div class="row">
@@ -105,7 +105,7 @@ $datatable = '';
          </div>
       </div>
    </div>
-   <div class="col-xl-3 col-lg-6 col-md-12">
+   <div class="col-xl-3 col-lg-6 col-md-12 d-none">
       <div class="card">
          <div class="card-body">
             <div class="row">
@@ -124,7 +124,7 @@ $datatable = '';
    </div>
 </div>
 
-<div class="row">
+<div class="row d-none">
    <div class="col-xl-8 col-md-12 col-lg-12">
       <div class="card">
          <div class="card-header  border-0 responsive-header">
@@ -232,7 +232,7 @@ $datatable = '';
 </div>
 
 
-<div class="row">
+<div class="row d-none">
    <div class="col-xl-3 col-lg-12 col-md-12">
       <div class="card">
          <div class="p-0">
@@ -369,7 +369,7 @@ $datatable = '';
 </div>
 
 
-<div class="row">
+<div class="row d-none">
    <div class="col-xl-8 col-lg-12 col-md-12">
       <div class="card">
          <div class="card-header  border-bottom-0">

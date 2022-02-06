@@ -1,10 +1,10 @@
 <?php
-require_once('private/initialize.php');
+require_once('../private/initialize.php');
 
 $id = $loggedInAdmin->id;
 $employee = Employee::find_by_id($id);
 
-$employeeInfo = EmployeeDetail::find_by_employee_id($id) ?? '';
+$employeeInfo = Employee::find_by_id($id) ?? '';
 $shortTerm = SalaryAdvance::find_by_employee_id($id, ['requested' => date('Y-m-d')]) ?? '';
 $salary = intval($employee->present_salary);
 // if (!empty($salary)) {
@@ -37,7 +37,7 @@ if (!empty($salary)) {
 
 
 $page = 'Loan';
-$page_title = 'Employee Loan';
+$page_title = 'My Loans';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 ?>

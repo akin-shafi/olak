@@ -100,29 +100,36 @@ if (is_post_request()) {
                            <div class="card-body pt-3">
                               <form id="login" method="POST">
                                  <div class="form-group">
-                                    <label class="form-label">Mail or Username</label>
+                                    <label class="form-label">Email</label>
                                     <div class="input-group mb-4">
-                                       <div class="input-group"> <span class="input-group-text"> <i class="fe fe-mail" aria-hidden="true"></i> </span> <input type="email" name="login[email]" class="form-control" placeholder="Email"> </div>
+                                       <div class="input-group"> 
+                                           <input type="email" name="login[email]" class="form-control" placeholder="Email"> 
+                                          <span class="input-group-text"> <i class="fe fe-mail" aria-hidden="true"></i> </span> 
+                                         
+                                       </div>
                                     </div>
                                  </div>
                                  <div class="form-group">
                                     <label class="form-label">Password</label>
                                     <div class="input-group mb-4">
-                                       <div class="input-group" id="Password-toggle"> <a href="" class="input-group-text"> <i class="fe fe-eye-off" aria-hidden="true"></i> </a> <input name="login[password]" class="form-control" type="password" placeholder="Password"> </div>
+                                       <div class="input-group" id="Password-toggle"> 
+                                          <input name="login[password]" class="form-control" type="password" placeholder="Password"> 
+                                          <a href="" class="input-group-text"> <i class="fe fe-eye-off" aria-hidden="true"></i> </a> 
+                                       </div>
                                     </div>
                                  </div>
-                                 <div class="form-group"> <label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1"> <span class="custom-control-label">Remember me</span> </label> </div>
+                                 <div class="form-group d-none"> <label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1"> <span class="custom-control-label">Remember me</span> </label> </div>
                                  <div class="submit">
                                     <button type="submit" class="btn btn-primary btn-block">Login</button>
                                  </div>
-                                 <div class="text-center mt-3">
+                                 <div class="text-center mt-3 d-none">
                                     <p class="mb-2"><a href="#">Forgot Password</a></p>
                                     <p class="text-dark mb-0">Don't have account?<a class="text-primary ms-1" href="#">Register</a></p>
                                  </div>
                               </form>
                            </div>
-                           <div class="card-body border-top-0 pb-6 pt-2">
-                              <div class="text-center"> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-facebook-line"></i></span> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-instagram-line"></i></span> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-twitter-line"></i></span> </div>
+                           <div class="card-body border-top-0 pb-6 pt-2 ">
+                              <div class="text-center d-none"> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-facebook-line"></i></span> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-instagram-line"></i></span> <span class="avatar brround me-3 bg-primary-transparent text-primary"><i class="ri-twitter-line"></i></span> </div>
                               <a href="../">&leftarrow; Back</a>
                            </div>
                         </div>
