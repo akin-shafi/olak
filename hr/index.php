@@ -1,4 +1,5 @@
 <?php 
-   header("Location: hr-splash.php");
+
+header("Location: login.php");
 die();
-?>
+ ?>
