@@ -141,7 +141,7 @@ if (is_post_request()) {
 
     $args = $_POST['company'];
     $employee = Employee::find_by_id($_POST['companyId']);
-    $company  = Company::find_by_id($args['company_id'])->company_name;
+    $company  = Company::find_by_id($args['company_name'])->company_name;
     $branch   = Branch::find_by_id($args['branch_id'])->branch_name;
     $dep_name = Department::find_by_id($args['department_id'])->department_name;
     $des_name = Designation::find_by_id($args['job_title_id'])->designation_name;
