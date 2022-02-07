@@ -1,7 +1,18 @@
 <?php
 require_login();
 $user = $loggedInAdmin;
+$id = $loggedInAdmin->id;
+$employee = Employee::find_by_id($id);
 
+if (!empty($employee->photo)) {
+   $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
+} else {
+   if ($employee->gender == 'Male') {
+      $profile_picture = url_for('assets/images/users/male.jpg');
+   } else {
+      $profile_picture = url_for('assets/images/users/female.jpg');
+   }
+}
 ?>
 <!DOCTYPE php>
 <php lang="en" dir="ltr">
@@ -72,11 +83,7 @@ $user = $loggedInAdmin;
                   <div class="app-sidebar__user active">
                      <div class="dropdown user-pro-body text-center">
                         <div class="user-pic">
-                           <?php if ($user->photo != '') : ?>
-                              <img src="<?php echo url_for('assets/uploads/profiles/' . $user->photo) ?>" alt="user-img" class="avatar-xxl rounded-circle mb-1">
-                           <?php else : ?>
-                              <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="user-img" class="avatar-xxl rounded-circle mb-1">
-                           <?php endif; ?>
+                           <img src="<?php echo $profile_picture ?>" alt="user-img" class="avatar-xxl rounded-circle mb-1">
                         </div>
                         <div class="user-info">
                            <h5 class=" mb-2"><?php echo ucwords($user->full_name()) ?></h5>
@@ -94,7 +101,7 @@ $user = $loggedInAdmin;
                         <ul class="slide-menu open">
                            <li class="side-menu-label1"><a href="#">Employee Dashboard</a></li>
                            <li><a href="<?php echo url_for('dashboard/') ?>" class="slide-item">Dashboard</a></li>
-                           <li><a href="<?php echo url_for('payslip/salary.php') ?>" class="slide-item">Salary</a></li>
+                           <li><a href="<?php echo url_for('payslip/salary.php') ?>" class="slide-item">Salary Narration</a></li>
                            <li><a href="<?php echo url_for('payslip/') ?>" class="slide-item">Payslip</a></li>
                            <li class="d-none"><a href="<?php echo url_for('attendance/') ?>" class="slide-item">Attendance</a></li>
                            <li><a href="<?php echo url_for('leaves/') ?>" class="slide-item">Leaves </a></li>
@@ -170,7 +177,7 @@ $user = $loggedInAdmin;
                                              <div class="header-dropdown-list message-menu" id="message-menu">
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/1.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/1.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Jack Wright</h6>
@@ -182,7 +189,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/2.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/2.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Lisa Rutherford</h6>
@@ -194,7 +201,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/3.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/3.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Blake Walker</h6>
@@ -206,7 +213,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/4.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/4.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Fiona Morrison</h6>
@@ -218,7 +225,7 @@ $user = $loggedInAdmin;
                                                 </a>
                                                 <a class="dropdown-item border-bottom" href="chat.html">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/6.jpg" style="background: url(<?php echo url_for('assets/images/users/avatar.jpg') ?>) center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/6.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
                                                             <h6 class="mb-1">Stewart Bond</h6>
@@ -234,13 +241,13 @@ $user = $loggedInAdmin;
                                        </div>
                                        <div class="dropdown header-notify"> <a class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right"> <i class="feather feather-bell header-icon"></i> <span class="bg-dot"></span> </a> </div>
                                        <div class="dropdown profile-dropdown">
-                                          <a href="#" class="nav-link pe-1 ps-0 leading-none" data-bs-toggle="dropdown"> <span> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="img" class="avatar avatar-md bradius"> </span> </a>
+                                          <a href="#" class="nav-link pe-1 ps-0 leading-none" data-bs-toggle="dropdown"> <span> <img src="<?php echo $profile_picture ?>" alt="img" class="avatar avatar-md bradius"> </span> </a>
                                           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow animated">
                                              <div class="p-3 text-center border-bottom">
                                                 <a href="profile-1.html" class="text-center user pb-0 font-weight-bold">John Thomson</a>
                                                 <p class="text-center user-semi-title">App Developer</p>
                                              </div>
-                                             <a class="dropdown-item d-flex" href="profile-1.html">
+                                             <a class="dropdown-item d-flex" href="<?php echo url_for('profile/') ?>">
                                                 <i class="feather feather-user me-3 fs-16 my-auto"></i>
                                                 <div class="mt-1">Profile</div>
                                              </a>
