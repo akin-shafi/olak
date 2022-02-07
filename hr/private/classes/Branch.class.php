@@ -2,9 +2,10 @@
 class Branch extends DatabaseObject
 {
   protected static $table_name = "branches";
-  protected static $db_columns = ['id', 'company_id', 'branch_name', 'address', 'city', 'state', 'established_in', 'created_at',  'deleted'];
+  protected static $db_columns = ['id', 'company_name', 'company_id', 'branch_name', 'address', 'city', 'state', 'established_in', 'created_at',  'deleted'];
 
   public $id;
+  public $company_name;
   public $company_id;
   public $branch_name;
   public $address;
@@ -16,6 +17,7 @@ class Branch extends DatabaseObject
 
   public function __construct($args = [])
   {
+    $this->company_name     = $args['company_name'] ?? '';
     $this->company_id     = $args['company_id'] ?? '';
     $this->branch_name    = $args['branch_name'] ?? '';
     $this->address        = $args['address'] ?? '';
@@ -30,7 +32,7 @@ class Branch extends DatabaseObject
   {
     $this->errors = [];
 
-    if (is_blank($this->company_id)) {
+    if (is_blank($this->company_name)) {
       $this->errors[] = "Kindly select a company";
     }
 
@@ -41,10 +43,18 @@ class Branch extends DatabaseObject
     return $this->errors;
   }
 
+  public static function find_all_branch()
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "ORDER BY branch_name ASC";
+    return static::find_by_sql($sql);
+  }
+
   public static function find_by_branch_name($branch_name)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE branch_name='" . self::$database->escape_string($branch_name) . "'";
+    $sql .= "WHERE branch_name LIKE'%" . self::$database->escape_string($branch_name) . "%'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
@@ -52,5 +62,14 @@ class Branch extends DatabaseObject
     } else {
       return false;
     }
+  }
+
+  public static function find_by_company_name($company_name)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE company_name='" . self::$database->escape_string($company_name) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    return $obj_array;
   }
 }

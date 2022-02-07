@@ -210,20 +210,20 @@ function calcPercentage($a, $b)
   }
 }
 
-// function get_array_from_obj($object = [], $attr = '')
-// {
-//   $array = [];
-//   if (is_array($object)) {
-//     foreach ($object as $obj) {
-//       $array[] = $obj->$attr;
-//     }
-//     return $array;
-//   } else {
-//     $array[] = $obj->$attr;
-//   }
+function get_array_from_obj($object = [], $attr = '')
+{
+  $array = [];
+  if (is_array($object)) {
+    foreach ($object as $obj) {
+      $array[] = $obj->$attr;
+    }
+    return $array;
+  } else {
+    $array[] = $obj->$attr;
+  }
 
-//   return $array;
-// }
+  return $array;
+}
 
 
 
@@ -419,6 +419,10 @@ function convert_number_to_words($number)
 
   return $string;
 }
+
+
+
+
 
 
 

@@ -2,378 +2,304 @@
 require_once('../private/initialize.php');
 
 $page = 'Payroll';
-$page_title = 'Payroll Items';
-include(SHARED_PATH . '/admin_header.php');
+$page_title = 'Payroll Settings';
+include(SHARED_PATH . '/header.php');
+$datatable = '';
+$select2 = '';
 ?>
 
-<div class="page-wrapper">
-   <div class="content container-fluid">
-      <div class="page-header">
-         <div class="row align-items-center">
-            <div class="col">
-               <h3 class="page-title">Payroll Items</h3>
-               <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Payroll Items</li>
-               </ul>
-            </div>
-         </div>
-      </div>
-      <div class="page-menu">
-         <div class="row">
-            <div class="col-sm-12">
-               <ul class="nav nav-tabs nav-tabs-bottom">
-                  <li class="nav-item">
-                     <a class="nav-link active" data-bs-toggle="tab" href="#tab_additions">Additions</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" data-bs-toggle="tab" href="#tab_overtime">Overtime</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" data-bs-toggle="tab" href="#tab_deductions">Deductions</a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </div>
-      <div class="tab-content">
-         <div class="tab-pane show active" id="tab_additions">
-            <div class="text-end mb-4 clearfix">
-               <button class="btn btn-primary add-btn" type="button" data-bs-toggle="modal" data-bs-target="#add_addition"><i class="fa fa-plus"></i> Add Addition</button>
-            </div>
-            <div class="payroll-table card">
-               <div class="card-body">
-                  <div class="table-responsive">
-                     <table class="table table-hover table-radius datatable">
-                        <thead>
-                           <tr>
-                              <th>Name</th>
-                              <th>% Based</th>
-                              <th class="text-end">Action</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <?php foreach (PayrollAddition::find_by_undeleted() as $add) : ?>
-                              <tr>
-                                 <th><?php echo ucwords($add->name) ?></th>
-                                 <td><?php echo $add->value ?></td>
-                                 <td class="text-end">
-                                    <div class="dropdown dropdown-action">
-                                       <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                       <div class="dropdown-menu dropdown-menu-right">
-                                          <a class="dropdown-item" href="#" data-id="<?php echo $add->id ?>" id="edit_addition"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                          <a class="dropdown-item" href="#" data-id="<?php echo $add->id ?>" id="delete_addition"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                       </div>
-                                    </div>
-                                 </td>
-                              </tr>
-                           <?php endforeach; ?>
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-            </div>
-         </div>
 
-         <div class="tab-pane" id="tab_overtime">
-            <div class="text-end mb-4 clearfix">
-               <button class="btn btn-primary add-btn" type="button" data-bs-toggle="modal" data-bs-target="#add_overtime"><i class="fa fa-plus"></i> Add Overtime</button>
-            </div>
-            <div class="payroll-table card">
-               <div class="card-body">
-                  <div class="table-responsive">
-                     <table class="table table-hover table-radius datatable">
-                        <thead>
-                           <tr>
-                              <th>Name</th>
-                              <th>Daily (₦)</th>
-                              <th class="text-end">Action</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <?php foreach (PayrollOvertime::find_by_undeleted() as $over) : ?>
-                              <tr>
-                                 <th><?php echo ucwords($over->name) ?></th>
-                                 <td><?php echo $over->value ?></td>
-                                 <td class="text-end">
-                                    <div class="dropdown dropdown-action">
-                                       <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                       <div class="dropdown-menu dropdown-menu-right">
-                                          <a class="dropdown-item" href="#" data-id="<?php echo $over->id ?>" id="edit_overtime"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                          <a class="dropdown-item" href="#" data-id="<?php echo $over->id ?>" id="delete_overtime"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                       </div>
-                                    </div>
-                                 </td>
-                              </tr>
-                           <?php endforeach; ?>
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-            </div>
-         </div>
+<div class="page-header d-xl-flex d-block">
+	<div class="page-leftheader">
+		<h4 class="page-title">Payroll Items</h4>
+	</div>
+	<div class="page-rightheader ms-md-auto">
+		<div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
+			<div class="btn-list mt-3 mt-lg-0"> <button type="button" class="btn btn-primary me-3" id="add_item">Add Item</button>
 
-         <div class="tab-pane" id="tab_deductions">
-            <div class="text-end mb-4 clearfix">
-               <button class="btn btn-primary add-btn" type="button" data-bs-toggle="modal" data-bs-target="#add_deduction"><i class="fa fa-plus"></i> Add Deduction</button>
-            </div>
-            <div class="payroll-table card">
-               <div class="card-body">
-                  <div class="table-responsive">
-                     <table class="table table-hover table-radius datatable">
-                        <thead>
-                           <tr>
-                              <th>Name</th>
-                              <th>Amount (₦)</th>
-                              <th class="text-end">Action</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <?php foreach (PayrollDeduction::find_by_undeleted() as $deduct) : ?>
-                              <tr>
-                                 <th><?php echo ucwords($deduct->name) ?></th>
-                                 <td><?php echo $deduct->value ?></td>
-                                 <td class="text-end">
-                                    <div class="dropdown dropdown-action">
-                                       <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                       <div class="dropdown-menu dropdown-menu-right">
-                                          <a class="dropdown-item" href="#" data-id="<?php echo $deduct->id ?>" id="edit_deduction"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                          <a class="dropdown-item" href="#" data-id="<?php echo $deduct->id ?>" id="delete_deduction"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                       </div>
-                                    </div>
-                                 </td>
-                              </tr>
-                           <?php endforeach; ?>
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+
+				<button class="d-none btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> <button class="d-none btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="d-none btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+			</div>
+		</div>
+	</div>
 </div>
 
-<?php include('inc/modal/all.php');  ?>
-<?php include(SHARED_PATH . '/admin_footer.php');  ?>
 
-<script>
-   const PAYROLL_URL = "inc/salary_script.php";
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header border-bottom-0">
+				<!-- <h3 class="card-title">Tabs Style 2</h3> -->
+			</div>
+			<div class="card-body">
+				<div class="panel panel-primary">
+					<div class=" tab-menu-heading p-0 bg-light">
+						<div class="tabs-menu1 ">
+							<!-- Tabs -->
+							<ul class="nav panel-tabs">
+								<li class=""><a href="#tab1" class="active" data-bs-toggle="tab">Addition</a></li>
+								<li><a href="#tab2" data-bs-toggle="tab" class="">Overtime</a></li>
+								<li><a href="#tab3" data-bs-toggle="tab" class="">Deduction</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="panel-body tabs-menu-body">
+						<div class="tab-content">
+							<div class="tab-pane active" id="tab1">
+								<div class="tab-pane show active" id="tab_additions">
+									<div class="text-end mb-4 clearfix d-none">
+										<button class="btn btn-primary add-btn" type="button" data-bs-toggle="modal" data-bs-target="#add_addition"><i class="fa fa-plus"></i> Add Addition</button>
+									</div>
+									<div class="payroll-table card">
+										<div class="table-responsive">
+											<table class="table table-vcenter text-nowrap table-bordered border-bottom mt-5" id="" role="grid" aria-describedby="hr-payroll_xxinfo">
+												<thead>
+													<tr>
+														<th>Name</th>
+														<!-- <th>Category</th> -->
+														<th>Default(Unit Amount/Percentage)</th>
+														<th class="text-end">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php
+													foreach (PayrollItem::find_by_category(1) as $key => $value) { ?>
+														<tr>
+															<th><?php echo $value->item; ?></th>
+															<td><?php echo $value->amount ?></td>
+															<td class="text-start">
 
-   const additionModal = new bootstrap.Modal(document.querySelector("#add_addition"));
-   const overtimeModal = new bootstrap.Modal(document.querySelector("#add_overtime"));
-   const deductionModal = new bootstrap.Modal(document.querySelector("#add_deduction"));
 
-   const additionForm = document.getElementById("add_addition_form");
-   const deductionForm = document.getElementById("add_deduction_form");
-   const overtimeForm = document.getElementById("add_overtime_form");
+																<a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a>
 
-   const additionBtn = document.querySelector("#addition_btn");
-   const deductionBtn = document.querySelector("#deduction_btn");
-   const overtimeBtn = document.querySelector("#overtime_btn");
+																<a href="#" class="action-btns" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-trash text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
 
 
-   const message = (req, res) => {
-      swal(req + "!", res, {
-         icon: req,
-         buttons: {
-            confirm: {
-               className: (req == 'error') ? 'btn btn-danger' : 'btn btn-success'
-            }
-         }
-      }).then(() => location.reload())
-   }
+															</td>
+														</tr>
+													<?php
+													} ?>
 
-   const deleted = async (url) => {
-      swal({
-         title: 'Are you sure?',
-         text: 'You won\'t be able to reverse this!',
-         icon: 'warning',
-         buttons: {
-            confirm: {
-               text: 'Yes, delete it!',
-               className: 'btn btn-danger'
-            },
-            cancel: {
-               visible: true,
-               className: 'btn btn-secondary'
-            }
-         }
-      }).then(Delete => {
-         if (Delete) {
-            fetch(url)
-               .then(response => response.json()).then(data => {
-                  swal({
-                     title: 'Deleted!',
-                     text: data.message,
-                     icon: 'success',
-                     buttons: {
-                        confirm: {
-                           className: 'btn btn-success'
-                        }
-                     }
-                  }).then(() => location.reload());
-               })
-         } else {
-            swal.close();
-         }
-      })
-   };
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 
-   const submitPayroll = async (url, payload) => {
-      const formData = new FormData(payload);
+							</div>
 
-      const data = await fetch(url, {
-         method: "POST",
-         body: formData,
-      });
+							<!-- Tab 1 End -->
 
-      const response = await data.json();
 
-      if (response.errors) {
-         message('error', response.errors)
-      }
+							<div class="tab-pane " id="tab2">
 
-      if (response.message) {
-         message('success', response.message)
-      }
-   };
+								<div class="payroll-table card">
+									<div class="table-responsive">
+										<table class="table table-vcenter text-nowrap table-bordered border-bottom mt-5" role="grid" aria-describedby="hr-payroll_xxinfo">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Rate</th>
+													<th class="text-end">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th>Normal day OT 1.5x</th>
+													<td>Hourly 1.5</td>
+													<td class="text-end">
+														<div class="dropdown dropdown-action">
+															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+															<div class="dropdown-menu dropdown-menu-right">
+																<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_overtime"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+																<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_overtime"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<th>Public holiday OT 3.0x</th>
+													<td>Hourly 3</td>
+													<td class="text-end">
+														<div class="dropdown dropdown-action">
+															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+															<div class="dropdown-menu dropdown-menu-right">
+																<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_overtime"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+																<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_overtime"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<th>Rest day OT 2.0x</th>
+													<td>Hourly 2</td>
+													<td class="text-end">
+														<div class="dropdown dropdown-action">
+															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+															<div class="dropdown-menu dropdown-menu-right">
+																<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_overtime"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+																<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_overtime"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
 
-   additionForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitPayroll(PAYROLL_URL, additionForm);
-   });
 
-   deductionForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitPayroll(PAYROLL_URL, deductionForm);
-   });
 
-   overtimeForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      submitPayroll(PAYROLL_URL, overtimeForm);
-   });
+							<!-- Tab 2 End -->
+							<div class="tab-pane" id="tab3">
+								<div class="text-end mb-4 clearfix d-none">
+									<button class="btn btn-primary add-btn" type="button" data-bs-toggle="modal" data-bs-target="#add_addition"><i class="fa fa-plus"></i> Add Addition</button>
+								</div>
+								<div class="payroll-table card">
 
-   $('tbody').on('click', '#edit_addition', async function(e) {
-      let id = this.dataset.id
+									<div class="table-responsive">
+										<table class="table table-vcenter text-nowrap table-bordered border-bottom mt-5" id="hr-payroll" role="grid" aria-describedby="hr-payroll_xxinfo">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Default(Unit Amount/Percentage)</th>
+													<th class="text-end">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+												foreach (PayrollItem::find_by_category(3) as $key => $value) { ?>
+													<tr>
+														<th><?php echo $value->item; ?></th>
+														<td><?php echo $value->amount ?></td>
+														<td class="text-start">
 
-      additionForm.id = 'edit_addition_form';
-      const editAdditionForm = document.querySelector("#edit_addition_form");
 
-      let data = await fetch(PAYROLL_URL + "?addId=" + id);
-      let response = await data.json();
+															<a href="hr-editpayroll.html" class="action-btns" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit text-info"></i> </a>
 
-      document.querySelector('#addition_name').value = response.data.name;
-      document.querySelector('#addition_value').value = response.data.value;
+															<a href="#" class="action-btns" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-trash text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
 
-      additionModal.show();
 
-      additionBtn.addEventListener("click", async (e) => {
-         e.preventDefault();
+														</td>
+													</tr>
+												<?php } ?>
 
-         const editFormData = new FormData(editAdditionForm);
-         editFormData.append("update", 1);
-         editFormData.append('editAdding', 1);
-         editFormData.append('addId', id);
+											</tbody>
+										</table>
+									</div>
+								</div>
 
-         let data = await fetch(PAYROLL_URL, {
-            method: "POST",
-            body: editFormData,
-         });
-         let response = await data.json();
+							</div>
 
-         if (response.errors) {
-            message('error', response.errors)
-         } else {
-            message('success', response.message)
-         }
-      });
-   });
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-   $('tbody').on('click', '#edit_deduction', async function(e) {
-      let id = this.dataset.id
 
-      deductionForm.id = 'edit_deduction_form';
-      const editDeductionForm = document.querySelector("#edit_deduction_form");
 
-      let data = await fetch(PAYROLL_URL + "?deductId=" + id);
-      let response = await data.json();
 
-      document.querySelector('#deduction_name').value = response.data.name;
-      document.querySelector('#deduction_value').value = response.data.value;
+<div id="add_addition" class="modal custom-modal fade" role="dialog">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Add Addition</h5>
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form id="add_item_form">
+					<input type="hidden" name="addPayrollItem">
+					<div class="form-group">
+						<label>Name <span class="text-danger">*</span></label>
+						<input class="form-control" type="text" name="item">
+					</div>
+					<div class="form-group">
+						<label>Category <span class="text-danger">*</span></label>
+						<select class="select form-control" name="category">
+							<option>Select a category</option>
+							<?php foreach (PayrollItem::PAYROLL_CATEGORY as $key => $value) : ?>
+								<option value="<?php echo $key ?>"><?php echo $value ?></option>
+							<?php endforeach ?>
+						</select>
 
-      deductionModal.show();
+					</div>
 
-      deductionBtn.addEventListener("click", async (e) => {
-         e.preventDefault();
+					<div class="form-group">
+						<label>Unit Amount/Percentage</label>
+						<div class="input-group">
+							<span class="input-group-text"><?php echo $currency ?></span>
+							<input type="text" class="form-control" name="amount">
+							<span class="input-group-text">.00</span>
+						</div>
+					</div>
+					<!-- <div class="form-group d-none">
+                  <label class="d-block">Assignee</label>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="addition_assignee" id="addition_no_emp" value="option1" checked="">
+                     <label class="form-check-label" for="addition_no_emp">
+                     No assignee
+                     </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="addition_assignee" id="addition_all_emp" value="option2">
+                     <label class="form-check-label" for="addition_all_emp">
+                     All employees
+                     </label>
+                  </div>
+                  <div class="form-check form-check-inline d-none">
+                     <input class="form-check-input" type="radio" name="addition_assignee" id="addition_single_emp" value="option3">
+                     <label class="form-check-label" for="addition_single_emp">
+                     Select Employee
+                     </label>
+                  </div>
+                  <div class="form-group">
+                     <select class="select form-control select2 d-none" name="employee_id">
+                        <option data-select2-id="select2-data-6-3351">Select All</option>
+                        <?php foreach (Employee::find_by_undeleted() as $key => $value) : ?>
+	                        <option value="<?php echo $key ?>"><?php echo Employee::find_by_id($value->id)->full_name() ?></option>
+	                     <?php endforeach ?>
+                     </select>
+                     
+                  </div>
+               </div> -->
+					<div class="submit-section">
+						<button class="btn btn-primary submit-btn">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
-         const editFormData = new FormData(editDeductionForm);
-         editFormData.append("update", 1);
-         editFormData.append('editDeduction', 1);
-         editFormData.append('deductId', id);
 
-         let data = await fetch(PAYROLL_URL, {
-            method: "POST",
-            body: editFormData,
-         });
-         let response = await data.json();
+<?php include(SHARED_PATH . '/footer.php'); ?>
 
-         if (response.errors) {
-            message('error', response.errors)
-         } else {
-            message('success', response.message)
-         }
-      });
-   });
+<script type="text/javascript">
+	$(document).on('click', '#add_item', function() {
+		$('#add_addition').modal('show')
+	});
 
-   $('tbody').on('click', '#edit_overtime', async function(e) {
-      let id = this.dataset.id
-
-      overtimeForm.id = 'edit_overtime_form';
-      const editOvertimeForm = document.querySelector("#edit_overtime_form");
-
-      let data = await fetch(PAYROLL_URL + "?overId=" + id);
-      let response = await data.json();
-
-      document.querySelector('#overtime_name').value = response.data.name;
-      document.querySelector('#overtime_value').value = response.data.value;
-
-      overtimeModal.show();
-
-      overtimeBtn.addEventListener("click", async (e) => {
-         e.preventDefault();
-
-         const editFormData = new FormData(editOvertimeForm);
-         editFormData.append("update", 1);
-         editFormData.append('editOvertime', 1);
-         editFormData.append('overId', id);
-
-         let data = await fetch(PAYROLL_URL, {
-            method: "POST",
-            body: editFormData,
-         });
-         let response = await data.json();
-
-         if (response.errors) {
-            message('error', response.errors)
-         } else {
-            message('success', response.message)
-         }
-      });
-   });
-
-   $(document).on('click', '#delete_addition', function() {
-      let delId = this.dataset.id;
-      deleted(PAYROLL_URL + '?delId=' + delId + '&deleteAddition=1');
-   });
-
-   $(document).on('click', '#delete_deduction', function() {
-      let delId = this.dataset.id;
-      deleted(PAYROLL_URL + '?delId=' + delId + '&deleteDeduction=1');
-   });
-
-   $(document).on('click', '#delete_overtime', function() {
-      let delId = this.dataset.id;
-      deleted(PAYROLL_URL + '?delId=' + delId + '&deleteOvertime=1');
-   });
+	$(document).on('submit', '#add_item_form', function(e) {
+		e.preventDefault()
+		$.ajax({
+			url: '../inc/payroll/payroll_script.php',
+			method: "POST",
+			data: $(this).serialize(),
+			dataType: 'json',
+			success: function(data) {
+				if (data.success == true) {
+					$('#add_addition').modal('hide')
+					successAlert(data.msg);
+				} else {
+					errorAlert(data.msg);
+				}
+			}
+		})
+	})
 </script>
