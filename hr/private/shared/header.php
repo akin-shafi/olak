@@ -1,5 +1,19 @@
 <?php require_login();
 $user = $loggedInAdmin;
+
+$id = $loggedInAdmin->id;
+$employee = Employee::find_by_id($id);
+
+if (!empty($employee->photo)) {
+   $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
+} else {
+   if ($employee->gender == 'Male') {
+      $profile_picture = url_for('assets/images/users/male.jpg');
+   } else {
+      $profile_picture = url_for('assets/images/users/female.jpg');
+   }
+}
+
 ?>
 <!DOCTYPE php>
 <php lang="en" dir="ltr">
@@ -57,7 +71,7 @@ $user = $loggedInAdmin;
                <div class="app-sidebar3 ps ps--active-y is-expanded">
                   <div class="app-sidebar__user active">
                      <div class="dropdown user-pro-body text-center">
-                        <div class="user-pic"> <img src="<?php echo url_for('assets/images/users/avatar.jpg') ?>" alt="user-img" class="avatar-xxl rounded-circle mb-1"> </div>
+                        <div class="user-pic"> <img src="<?php echo $profile_picture ?>" alt="user-img" class="avatar-xxl rounded-circle mb-1"> </div> 
                         <div class="user-info">
                            <h5 class=" mb-2"><?php echo ucwords($user->full_name()) ?></h5>
                            <span class="text-muted app-sidebar__user-name text-sm">
