@@ -45,7 +45,7 @@
    <title>Welcome | IMS </title>
    <!-- <link rel="stylesheet" type="text/css" href="bootstrap.css"> -->
    <link rel="stylesheet" type="text/css" href="<?php echo url_for('../style.css') ?>">
-   <link rel="stylesheet" href="../hr/assets/css/bootstrap.min.css">
+   <link rel="stylesheet" href="../bootstrap.css">
    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png">
 
    <link rel="preconnect" href="https://fonts.googleapis.com">

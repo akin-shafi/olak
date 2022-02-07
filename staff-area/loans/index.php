@@ -98,21 +98,26 @@ $datatable = '';
                            <p class="mb-0 text-muted"><?php echo $period; ?></p>
                         </div>
 
-                        <div class="card-body border border-top-0 border-bottom-0 p-2">
-                           <div class="d-flex justify-content-between mb-3">
-                              <div>
-                                 <span class="d-block">Loan Balance</span>
+                        <?php if ($loan_received != 0) : ?>
+                           <div class="card-body border border-top-0 border-bottom-0 p-2">
+                              <div class="d-flex justify-content-between mb-3">
+                                 <div>
+                                    <span class="d-block">Loan Balance</span>
+                                 </div>
+                                 <div>
+                                    <span class="text-danger"><?php echo round($loan_balance_percentage); ?>%</span>
+                                 </div>
                               </div>
-                              <div>
-                                 <span class="text-danger"><?php echo round($loan_balance_percentage); ?>%</span>
+                              <h3 class="mb-3"><?php echo $currency . " " . number_format($loan_balance, 2) ?></h3>
+                              <div class="progress mb-2" style="height: 5px;">
+                                 <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
+                              <p class="mb-0 text-muted"><?php echo $period; ?></p>
                            </div>
-                           <h3 class="mb-3"><?php echo $currency . " " . number_format($loan_balance, 2) ?></h3>
-                           <div class="progress mb-2" style="height: 5px;">
-                              <div class="progress-bar bg-secondary d-none" role="progressbar" style="width: 100%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                           </div>
-                           <p class="mb-0 text-muted"><?php echo $period; ?></p>
-                        </div>
+                        <?php
+                        endif;
+                        ?>
+
 
                         <div class="card-body border-0 p-2">
                            <div class="d-flex justify-content-between mb-3">
@@ -193,8 +198,10 @@ $datatable = '';
                                        ?>
                                     </td>
 
-
-                                    <td class="text-start d-flex"> <a href="#" class="action-btns1" data-id="<?php echo $loan->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View"> <i class="feather feather-eye  text-primary"></i> </a> <a href="#" class="action-btns1" data-id="<?php echo $loan->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> </td>
+                                    <td class="text-start d-flex">
+                                       <button class="btn btn-sm btn-outline-primary me-2" data-id="<?php echo $loan->id ?>" id="get_advance_detail" data-bs-toggle="modal" data-bs-target="#loan_detail"> <i class="feather feather-eye"></i> </button>
+                                       <button class="btn btn-sm btn-outline-danger" data-id="<?php echo $loan->id ?>" id="delete_loan" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2"></i> </button>
+                                    </td>
                                  </tr>
                               <?php endforeach; ?>
 
@@ -265,7 +272,10 @@ $datatable = '';
                                     </td>
 
 
-                                    <td class="text-start d-flex"> <a href="#" class="action-btns1" data-id="<?php echo $loan->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View"> <i class="feather feather-eye  text-primary"></i> </a> <a href="#" class="action-btns1" data-id="<?php echo $loan->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a> </td>
+                                    <td class="text-start d-flex">
+                                       <button class="btn btn-sm btn-outline-primary me-2" data-id="<?php echo $loan->id ?>" id="get_long_detail" data-bs-toggle="modal" data-bs-target="#loan_detail"> <i class="feather feather-eye"></i> </button>
+                                       <button class="btn btn-sm btn-outline-danger" data-id="<?php echo $loan->id ?>" id="delete_long_loan" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2"></i> </button>
+                                    </td>
                                  </tr>
                               <?php endforeach; ?>
 
@@ -280,6 +290,25 @@ $datatable = '';
       </div>
    </div>
 </div>
+
+<div class="modal fade" id="loan_detail">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Loan Details</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+         </div>
+         <div class="modal-body">
+            <h6>Notes:</h6>
+            <p id="loan_notes"></p>
+         </div>
+         <div class="modal-footer">
+            <div class="ms-auto"> <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</a> </div>
+         </div>
+      </div>
+   </div>
+</div>
+
 
 <div class="modal fade" id="expensemodal">
    <div class="modal-dialog" role="document">
@@ -338,6 +367,43 @@ $datatable = '';
          }).then(() => location.reload());
       };
 
+      const deleted = async (url) => {
+         swal({
+            title: "Are you sure?",
+            text: "You won't be able to reverse this!",
+            icon: "warning",
+            buttons: {
+               confirm: {
+                  text: "Yes, delete it!",
+                  className: "btn btn-danger",
+               },
+               cancel: {
+                  visible: true,
+                  className: "btn btn-secondary",
+               },
+            },
+         }).then((Delete) => {
+            if (Delete) {
+               fetch(url)
+                  .then((res) => res.json())
+                  .then((data) => {
+                     swal({
+                        title: "Deleted!",
+                        text: data.message,
+                        icon: "success",
+                        buttons: {
+                           confirm: {
+                              className: "btn btn-success",
+                           },
+                        },
+                     }).then(() => location.reload());
+                  });
+            } else {
+               swal.close();
+            }
+         });
+      };
+
       const submitForm = async (url, payload) => {
          const formData = new FormData(payload);
 
@@ -364,6 +430,32 @@ $datatable = '';
       loanForm.addEventListener("submit", async (e) => {
          e.preventDefault();
          submitForm(LOAN_URL, loanForm);
+      });
+
+      $(document).on('click', '#get_advance_detail', async function() {
+         let loan_id = this.dataset.id;
+         let data = await fetch(LOAN_URL + '?loan_id=' + loan_id + '&get_note')
+         let res = await data.json();
+
+         $('#loan_notes').html(res.note);
+      })
+
+      $(document).on("click", "#delete_loan", function() {
+         let loan_id = this.dataset.id;
+         deleted(LOAN_URL + "?loan_id=" + loan_id + "&deleted");
+      });
+
+      $(document).on('click', '#get_long_detail', async function() {
+         let loan_id = this.dataset.id;
+         let data = await fetch(LOAN_URL + '?loan_id=' + loan_id + '&get_long_note')
+         let res = await data.json();
+
+         $('#loan_notes').html(res.note);
+      })
+
+      $(document).on("click", "#delete_long_loan", function() {
+         let loan_id = this.dataset.id;
+         deleted(LOAN_URL + "?loan_id=" + loan_id + "&deleteLong");
       });
 
       let isLongTerm = document.getElementById('isLongTerm');

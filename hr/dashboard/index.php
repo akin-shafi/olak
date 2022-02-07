@@ -24,7 +24,7 @@ if ($salaryAdvance->status == 1) {
    $totalLoanApproved = intval($loanApproval->counts) + intval($advanceApproval->counts);
 }
 
-$lastMonthSalary = Payroll::find_by_salary_payable(['month' => $lastDate, 'payment_status' => 1, ]);
+$lastMonthSalary = Payroll::find_by_salary_payable(['month' => $lastDate, 'payment_status' => 1,]);
 $thisMonthSalary = Payroll::find_by_salary_payable(['month' => $thisDate]);
 
 $salaryPayable       = Employee::find_by_total_salary();
@@ -184,7 +184,7 @@ $employee = Employee::find_by_undeleted();
             </div>
          </div>
 
-          <div class="col-xl-6 col-lg-12 col-md-12">
+         <div class="col-xl-6 col-lg-12 col-md-12">
             <div class="card">
                <div class="card-body">
                   <div class="row">
@@ -194,14 +194,14 @@ $employee = Employee::find_by_undeleted();
                            <h4 class="mb-0 mt-1  mb-2"><?php echo number_format($tax_payable, 2) ?? '0.00' ?></h4>
                         </div>
                         <span class="text-muted">
-                           <span class="text-secondary fs-12 mt-2 me-1">
-                              <i class="feather feather-arrow-up-right me-1 bg-secondary-transparent p-1 brround"></i>
+                           <span class="text-dark fs-12 mt-2 me-1">
+                              <i class="feather feather-arrow-up-right me-1 bg-dark-transparent p-1 brround"></i>
                               <?php echo count($employee) ?? 0 ?> Employees
                            </span>
                         </span>
                      </div>
                      <div class="col-3">
-                        <div class="icon1 bg-secondary brround my-auto  float-end"><?php echo $currency ?></div>
+                        <div class="icon1 bg-dark brround my-auto  float-end"><?php echo $currency ?></div>
                      </div>
                   </div>
                </div>
@@ -218,14 +218,14 @@ $employee = Employee::find_by_undeleted();
                            <h4 class="mb-0 mt-1  mb-2"><?php echo number_format($pension_payable, 2) ?? '0.00' ?></h4>
                         </div>
                         <span class="text-muted">
-                           <span class="text-secondary fs-12 mt-2 me-1">
-                              <i class="feather feather-arrow-up-right me-1 bg-secondary-transparent p-1 brround"></i>
+                           <span class="text-primary fs-12 mt-2 me-1">
+                              <i class="feather feather-arrow-up-right me-1 bg-primary-transparent p-1 brround"></i>
                               <?php echo count($employee) ?? 0 ?> Employees
                            </span>
                         </span>
                      </div>
                      <div class="col-3">
-                        <div class="icon1 bg-secondary brround my-auto  float-end"><?php echo $currency ?></div>
+                        <div class="icon1 bg-primary brround my-auto  float-end"><?php echo $currency ?></div>
                      </div>
                   </div>
                </div>
@@ -233,7 +233,7 @@ $employee = Employee::find_by_undeleted();
          </div>
 
 
-        
+
 
          <div class="col-xl-12 col-md-12 col-lg-12">
             <div class="card">
@@ -800,31 +800,31 @@ $employee = Employee::find_by_undeleted();
    </div>
 </div>
 <?php if ($showTable == 1) { ?>
-<div class="table-responsive">
-   <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-payroll" role="grid">
-     
-      <tbody id="get_payroll">
-         <?php
-         $sn = 1;
-         $employee = Employee::find_all();
-         foreach ($employee as $value) :
+   <div class="table-responsive">
+      <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="hr-payroll" role="grid">
 
-            $salary = intval($value->present_salary);
-            $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
-            $monthly_tax = $tax['monthly_tax'];
-            $pension = $tax['pension'];
+         <tbody id="get_payroll">
+            <?php
+            $sn = 1;
+            $employee = Employee::find_all();
+            foreach ($employee as $value) :
 
-         ?>
-            <tr>
-               <td class="salary"><?php echo number_format($salary) ?></td>
-               <td class="monthly_tax"><?php echo  number_format($monthly_tax) ?></td>
-               <td class="pension"><?php echo  number_format($pension) ?></td>
-               
-            </tr>
-         <?php endforeach; ?>
-      </tbody>
-   </table>
-</div>
+               $salary = intval($value->present_salary);
+               $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
+               $monthly_tax = $tax['monthly_tax'];
+               $pension = $tax['pension'];
+
+            ?>
+               <tr>
+                  <td class="salary"><?php echo number_format($salary) ?></td>
+                  <td class="monthly_tax"><?php echo  number_format($monthly_tax) ?></td>
+                  <td class="pension"><?php echo  number_format($pension) ?></td>
+
+               </tr>
+            <?php endforeach; ?>
+         </tbody>
+      </table>
+   </div>
 <?php } ?>
 <?php include(SHARED_PATH . '/footer.php') ?>
 
