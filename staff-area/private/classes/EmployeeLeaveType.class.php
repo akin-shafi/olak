@@ -11,6 +11,17 @@ class EmployeeLeaveType extends DatabaseObject
   public $created_at;
   public $deleted;
 
+  const BG_COLOR = [
+    0 => 'bg-purple',
+    1 => 'bg-primary',
+    2 => 'bg-secondary',
+    3 => 'bg-success',
+    4 => 'bg-danger',
+    5 => 'bg-warning',
+    6 => 'bg-info',
+    7 => 'bg-dark',
+  ];
+
   public function __construct($args = [])
   {
     $this->name             = $args['name'] ?? '';

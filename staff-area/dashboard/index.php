@@ -2,7 +2,7 @@
 require_once('../private/initialize.php');
 
 $id = $loggedInAdmin->id;
-$employee = Employee::find_by_id($id); 
+$employee = Employee::find_by_id($id);
 
 if ($employee->update_profile == 0 || $employee->update_profile == '') {
    redirect_to('../password_reset.php');
@@ -61,7 +61,7 @@ $datatable = '';
                <div class="col-7">
                   <div class="mt-0 text-start">
                      <h5 class="">Gross Salary</h5>
-                     <h4 class="mb-0 mt-auto text-success"><?php echo number_format($employee->present_salary, 2) ?></h4>
+                     <h4 class="mb-0 mt-auto text-success"><?php echo number_format(intval($employee->present_salary), 2) ?></h4>
                   </div>
                </div>
                <div class="col-5">

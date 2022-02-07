@@ -76,9 +76,9 @@ $datatable = '';
                                     <td><?php echo $leave->approved_by != 0 ? date('Y-m-d', strtotime($leave->date_approved)) : 'Not Set' ?></td>
 
                                     <td class="text-start d-flex">
-                                       <a href="#" class="action-btns1" id="view_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye  text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a>
-                                       <a href="#" class="action-btns1" id="delete_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2 text-danger"></i> </a>
-                                       <a href="#" class="action-btns1" id="report_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a>
+                                       <a href="#" class="btn btn-sm btn-outline-primary" id="view_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#leaveapplictionmodal"> <i class="feather feather-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="view" aria-label="view"></i> </a>
+                                       <a href="#" class="btn btn-sm btn-outline-danger mx-2" id="delete_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2"></i> </a>
+                                       <a href="#" class="btn btn-sm btn-outline-warning" id="report_leave" data-id="<?php echo $leave->id ?>" data-bs-toggle="modal" data-bs-target="#reportmodal"> <i class="feather feather-info" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Report" aria-label="Report"></i> </a>
                                     </td>
                                  </tr>
                               <?php endforeach; ?>
@@ -131,7 +131,7 @@ $datatable = '';
 </div>
 
 
-<?php include('inc/modal/all.php') ?>
+<?php include('../inc/modal/all.php') ?>
 <?php include(SHARED_PATH . '/footer.php') ?>
 
 <script src="<?php echo url_for('assets/js/employee/emp-myleaves.js') ?>"></script>
@@ -211,7 +211,7 @@ $datatable = '';
          }
       };
 
-      const LEAVE_URL = "./inc/leave/";
+      const LEAVE_URL = "../inc/leave/";
 
       const leaveForm = document.getElementById("add_leave_form");
 
@@ -233,5 +233,77 @@ $datatable = '';
          let id = this.dataset.id;
          deleted(LEAVE_URL + "?leaveId=" + id + "&deleted");
       });
+   })
+
+   $(function(e) {
+      
+      /*----- Overview ------*/
+      var options = {
+         series: [14, 08, 20, 18],
+         chart: {
+            height: 250,
+            type: 'donut',
+         },
+         dataLabels: {
+            enabled: false
+         },
+
+         legend: {
+            show: false,
+         },
+         stroke: {
+            show: true,
+            width: 0
+         },
+         plotOptions: {
+            pie: {
+               donut: {
+                  size: '85%',
+                  background: 'transparent',
+                  labels: {
+                     show: true,
+                     name: {
+                        show: true,
+                        fontSize: '29px',
+                        color: '#6c6f9a',
+                        offsetY: -10
+                     },
+                     value: {
+                        show: true,
+                        fontSize: '26px',
+                        color: undefined,
+                        offsetY: 16,
+                     },
+                     total: {
+                        show: true,
+                        showAlways: false,
+                        label: 'Total Leaves',
+                        fontSize: '22px',
+                        fontWeight: 600,
+                        color: '#373d3f',
+                        // formatter: function (w) {
+                        //   return w.globals.seriesTotals.reduce((a, b) => {
+                        // 	return a + b
+                        //   }, 0)
+                        // }
+                     }
+
+                  }
+               }
+            }
+         },
+         responsive: [{
+            breakpoint: 480,
+            options: {
+               legend: {
+                  show: false,
+               }
+            }
+         }],
+         labels: ["Casual Leaves", "Sick Leaves", "Gifted Leaves", "Remaining Leaves"],
+         colors: ['#3366ff', '#f7284a', '#fe7f00', '#01c353'],
+      };
+      var chart = new ApexCharts(document.querySelector("#leavesoverview"), options);
+      chart.render();
    })
 </script>

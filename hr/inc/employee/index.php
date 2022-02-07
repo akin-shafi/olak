@@ -140,7 +140,7 @@ if (is_post_request()) {
   if (isset($_POST['company'])) {
 
     $args = $_POST['company'];
-    $employee = Employee::find_by_id($_POST['companyId']);
+    $employee = Employee::find_by_id($_POST['empId']);
     $company  = Company::find_by_id($args['company_id'])->company_name;
     $branch   = Branch::find_by_id($args['branch_id'])->branch_name;
     $dep_name = Department::find_by_id($args['department_id'])->department_name;

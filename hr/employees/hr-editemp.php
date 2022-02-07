@@ -2,7 +2,7 @@
 require_once('../private/initialize.php');
 
 $page = 'Employees';
-$page_title = 'Employees View';
+$page_title = 'Edit Employee';
 include(SHARED_PATH . '/header.php');
 $all = Employee::find_by_undeleted(['order' => 'ASC']);
 $my_id = array_values($all)[0]->id;
@@ -26,7 +26,6 @@ $select2 = '';
 
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
-<input type="text" id="empId" value="<?php echo $id ?>">
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
@@ -302,7 +301,7 @@ $select2 = '';
                   </div>
 
                   <div class="card-footer text-end">
-                     <button type="submit" href="#" class="btn btn-primary">Update</button>
+                     <button type="submit" class="btn btn-primary">Update</button>
                      <a href="#" class="btn btn-danger">Cancel</a>
                   </div>
                </form>
@@ -310,7 +309,7 @@ $select2 = '';
 
             <div class="tab-pane" id="tab6">
                <form id="add_employee_company_form">
-                  <input type="hidden" name="companyId" value="<?php echo $employee->id ?>">
+                  <input type="hidden" name="empId" id="empId" value="<?php echo $id ?>">
                   <div class="card-body">
                      <div class="form-group">
                         <div class="row">
@@ -319,7 +318,7 @@ $select2 = '';
                               <div class="row">
                                  <div class="col-md-6">
                                     <label class="">Company</label>
-                                    <select name="company[company_id]" value="<?php echo $employee->company_id ?>" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
+                                    <select name="company[company_id]" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
                                        <option label="Company"></option>
                                        <?php foreach (Company::find_by_undeleted() as $value) : ?>
                                           <option value="<?php echo $value->id ?>" <?php echo $value->company_name == $employee->company ? 'selected' : '' ?>><?php echo ucwords($value->company_name) ?></option>
@@ -334,7 +333,7 @@ $select2 = '';
                            </div>
                         </div>
                      </div>
-                      <div class="form-group">
+                     <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
                            <div class="col-md-9"> <select name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
@@ -360,7 +359,7 @@ $select2 = '';
                         </div>
                      </div>
 
-                    
+
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
@@ -413,7 +412,7 @@ $select2 = '';
                   </div>
 
                   <div class="card-footer text-end">
-                     <button type="submit" href="#" class="btn btn-primary">Update</button>
+                     <button type="submit" class="btn btn-primary">Update</button>
                      <a href="#" class="btn btn-danger">Cancel</a>
                   </div>
                </form>
@@ -500,7 +499,7 @@ $select2 = '';
                      </div>
 
                      <div class="card-footer text-end">
-                        <button type="submit" href="#" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                         <a href="#" class="btn btn-danger">Cancel</a>
                      </div>
                   </div>
@@ -586,7 +585,7 @@ $select2 = '';
 
       const EMPLOYEE_URL = "../inc/employee/";
       const SETTING_URL = "../inc/setting/";
-      const GET_BRANCH_URL = "./inc/get_empview.php";
+      // const GET_BRANCH_URL = "./inc/get_empview.php";
 
       const personalForm = document.getElementById("add_personal_form");
       const employeeCompForm = document.getElementById("add_employee_company_form");
@@ -600,6 +599,7 @@ $select2 = '';
 
       employeeCompForm.addEventListener("submit", (e) => {
          e.preventDefault();
+         console.log('clicked!');
          submitForm(EMPLOYEE_URL, employeeCompForm);
       });
 
@@ -614,17 +614,17 @@ $select2 = '';
       });
 
 
-      const getBranch = async () => {
-         let emp_id = $('#empId').val();
-         let company = $("#company_id").val()
-         let data = await fetch(GET_BRANCH_URL + '?get_branch_via_company=' + company + '&emp_id=' + emp_id)
-         let res = await data.text();
+      // const getBranch = async () => {
+      //    let emp_id = $('#empId').val();
+      //    let company = $("#company_id").val()
+      //    let data = await fetch(GET_BRANCH_URL + '?get_branch_via_company=' + company + '&emp_id=' + emp_id)
+      //    let res = await data.text();
 
-         $('#get_branch').html(res);
-      }
+      //    $('#get_branch').html(res);
+      // }
 
-      getBranch();
-      $('#company_id').select2().on("change", getBranch);
+      // getBranch();
+      // $('#company_id').select2().on("change", getBranch);
 
 
    });

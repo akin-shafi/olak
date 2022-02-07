@@ -41,6 +41,10 @@ if (is_post_request()) {
 
       $dateDiff = $date_from->diff($date_to)->days;
 
+      if ($args['leave_type'] == '') :
+        exit(json_encode(['errors' => 'Leave type is required!']));
+      endif;
+
       $employeeLeave = EmployeeLeave::find_by_employee_leave_type($employeeId, $args['leave_type']);
       $leaveType = EmployeeLeaveType::find_by_id($args['leave_type']);
 

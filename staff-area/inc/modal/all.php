@@ -124,6 +124,18 @@
   </div>
 </div>
 
+<style>
+  #loan_request input::-webkit-outer-spin-button,
+  #loan_request input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  #loan_request input[type=number] {
+    -moz-appearance: textfield;
+  }
+</style>
 <div id="loan_request" class="modal custom-modal fade select_loan" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -159,8 +171,8 @@
           <div class="row d-none" id="isLongTerm">
             <div class="col-md-6">
               <div class="form-group">
-                <label>Pay-back Duration</label>
-                <input type="text" class="form-control" name="loan[loan_duration]" placeholder="Duration">
+                <label>Pay-back Duration (in month)</label>
+                <input type="number" class="form-control" name="loan[loan_duration]" placeholder="Duration">
               </div>
             </div>
             <div class="col-md-6">

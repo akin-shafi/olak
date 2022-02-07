@@ -96,10 +96,10 @@ $user = $loggedInAdmin;
                            <li><a href="<?php echo url_for('dashboard/') ?>" class="slide-item">Dashboard</a></li>
                            <li><a href="<?php echo url_for('payslip/salary.php') ?>" class="slide-item">Salary</a></li>
                            <li><a href="<?php echo url_for('payslip/') ?>" class="slide-item">Payslip</a></li>
-                           <li><a href="<?php echo url_for('attendance/') ?>" class="slide-item">Attendance</a></li>
-                           <li><a href="<?php echo url_for('leave/') ?>" class="slide-item">Leaves </a></li>
+                           <li class="d-none"><a href="<?php echo url_for('attendance/') ?>" class="slide-item">Attendance</a></li>
+                           <li><a href="<?php echo url_for('leaves/') ?>" class="slide-item">Leaves </a></li>
                            <li><a href="<?php echo url_for('loans/') ?>" class="slide-item">Loans </a></li>
-                           <li><a href="<?php echo url_for('employee-expenses.php') ?>" class="slide-item">Expenses</a></li>
+                           <li class="d-none"><a href="<?php echo url_for('employee-expenses.php') ?>" class="slide-item">Expenses</a></li>
                         </ul>
                      </li>
 
