@@ -26,6 +26,7 @@ $select2 = '';
 
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
+<input type="text" id="empId" value="<?php echo $id ?>">
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
@@ -585,6 +586,7 @@ $select2 = '';
 
       const EMPLOYEE_URL = "../inc/employee/";
       const SETTING_URL = "../inc/setting/";
+      const GET_BRANCH_URL = "./inc/get_empview.php";
 
       const personalForm = document.getElementById("add_personal_form");
       const employeeCompForm = document.getElementById("add_employee_company_form");
@@ -611,42 +613,18 @@ $select2 = '';
          submitForm(EMPLOYEE_URL, docForm);
       });
 
-      /*$('#query_employee').select2().on("change", async () => {
-         let emp_id = $("#query_employee").val()
-         let data = await fetch(EMPLOYEE_URL + '?employeeId=' + emp_id)
-         let res = await data.json();
 
-         console.log(res.data);
+      const getBranch = async () => {
+         let emp_id = $('#empId').val();
+         let company = $("#company_id").val()
+         let data = await fetch(GET_BRANCH_URL + '?get_branch_via_company=' + company + '&emp_id=' + emp_id)
+         let res = await data.text();
 
-         document.querySelector('#first_name').value = res.data.first_name ?? '';
-         document.querySelector('#last_name').value = res.data.last_name ?? '';
-         document.querySelector('#other_name').value = res.data.other_name ?? '';
-         document.querySelector('#phone').value = res.data.phone ?? '';
-         document.querySelector('#kin_name').value = res.data.kin_name ?? '';
-         document.querySelector('#kin_phone').value = res.data.kin_phone ?? '';
-         document.querySelector('#dob').value = res.data.dob ?? '';
-         document.querySelector('#gender').value = res.data.gender ?? '';
-         document.querySelector('#marital_status').value = res.data.marital_status ?? '';
-         document.querySelector('#blood_group').value = res.data.blood_group ?? '';
-         document.querySelector('#present_add').value = res.data.present_add ?? '';
-         document.querySelector('#permanent_add').value = res.data.permanent_add ?? '';
-         document.querySelector('#email').value = res.data.email ?? '';
-         document.querySelector('#notification').value = res.data.notification ?? '';
+         $('#get_branch').html(res);
+      }
 
-         document.querySelector('#company_id').value = res.data.company ?? '';
-         document.querySelector('#employee_number').value = res.data.employee_id ?? '';
-         document.querySelector('#department_id').value = res.data.department ?? '';
-         document.querySelector('#branch_id').value = res.data.branch ?? '';
-         document.querySelector('#job_title_id').value = res.data.job_title ?? '';
-         document.querySelector('#date_employed').value = res.data.date_employed ?? '';
-         document.querySelector('#employment_type').value = res.data.employment_type ?? '';
-         document.querySelector('#present_salary').value = res.data.present_salary ?? '';
-
-         document.querySelector('#account_number').value = res.data.account_number ?? '';
-         document.querySelector('#bank_name').value = res.data.bank_name ?? '';
-
-
-      });*/
+      getBranch();
+      $('#company_id').select2().on("change", getBranch);
 
 
    });

@@ -63,6 +63,7 @@ if (is_post_request()) {
     if (isset($_POST['branchId']) && $_POST['branchId'] != '') {
       $branch = Branch::find_by_id($_POST['branchId']);
       $args = $_POST['branch'];
+      $args['company_name'] = Company::find_by_id($args['company_id'])->company_name;
       $branch->merge_attributes($args);
       $branch->save();
 
@@ -70,6 +71,7 @@ if (is_post_request()) {
       $response['message'] = 'Branch updated successfully';
     } else {
       $args = $_POST['branch'];
+      $args['company_name'] = Company::find_by_id($args['company_id'])->company_name;
       $branch = new Branch($args);
       $branch->save();
 
