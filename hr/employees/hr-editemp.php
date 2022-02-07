@@ -26,7 +26,7 @@ $select2 = '';
 
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
 <link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
-<input type="text" id="empId" value="<?php echo $id ?>">
+<input type="hidden" id="empId" value="<?php echo $id ?>">
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
