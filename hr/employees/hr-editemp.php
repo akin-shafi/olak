@@ -566,10 +566,12 @@ $select2 = '';
 
          if (res.errors) {
             message("error", res.errors);
+
          }
 
          if (res.message) {
             message("success", res.message);
+            window.location.reload(); 
          }
       };
 
