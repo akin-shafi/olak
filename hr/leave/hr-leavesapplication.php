@@ -47,7 +47,7 @@ include(SHARED_PATH . '/header.php');
                      $timeLeft = $dateTo - $currentDate; //? Seconds
                      $daysLeft = round((($timeLeft / 24) / 60) / 60); //? Days
                   ?>
-                     <div class="col-xl-3 col-lg-6 col-md-12">
+                     <div class="col-xl-4 col-lg-6 col-md-12">
                         <div class="card border p-0 shadow-none">
                            <div class="card-header border-0">
                               <h3 class="card-title">Earned Leave Request</h3>
