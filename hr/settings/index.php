@@ -47,7 +47,7 @@ $datatable = '';
 
                   <div class="row">
                     <div class="col-sm-12">
-                      <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="dept-table" role="grid" aria-describedby="hr-table_info">
+                      <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="company-table" role="grid" aria-describedby="hr-table_info">
                         <thead>
                           <tr role="row">
                             <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 24.3576px;">#ID</th>
@@ -70,10 +70,10 @@ $datatable = '';
                               </td>
 
                               <td>
-                                <a class="btn btn-primary btn-icon btn-sm" data-id="<?php echo $company->id ?>" id="edit-dept-btn">
+                                <a class="btn btn-primary btn-icon btn-sm" data-id="<?php echo $company->id ?>" id="edit_company">
                                   <i class="feather feather-edit" data-bs-toggle="tooltip" data-original-title="Edit" data-bs-original-title="" title=""></i>
                                 </a>
-                                <a class="btn btn-danger btn-icon btn-sm" data-id="<?php echo $company->id ?>" id="delete_dept">
+                                <a class="btn btn-danger btn-icon btn-sm" data-id="<?php echo $company->id ?>" id="delete_company">
                                   <i class="feather feather-trash-2"></i>
                                 </a>
                               </td>
@@ -110,7 +110,7 @@ $datatable = '';
 
                   <div class="row">
                     <div class="col-sm-12">
-                      <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="des-table" role="grid" aria-describedby="hr-table_info">
+                      <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="branch-table" role="grid" aria-describedby="hr-table_info">
                         <thead>
                           <tr role="row">
                             <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 24.3576px;">#ID</th>
@@ -131,10 +131,10 @@ $datatable = '';
                               <td><?php echo ucwords($branch->branch_name) ?></td>
 
                               <td>
-                                <a class="btn btn-primary btn-icon btn-sm" data-id="<?php echo $branch->id ?>" id="edit_des">
+                                <a class="btn btn-primary btn-icon btn-sm" data-id="<?php echo $branch->id ?>" id="edit_branch">
                                   <i class="feather feather-edit" data-bs-toggle="tooltip" data-original-title="Edit" data-bs-original-title="" title=""></i>
                                 </a>
-                                <a class="btn btn-danger btn-icon btn-sm" data-id="<?php echo $branch->id ?>" id="delete_des">
+                                <a class="btn btn-danger btn-icon btn-sm" data-id="<?php echo $branch->id ?>" id="delete_branch">
                                   <i class="feather feather-trash-2"></i>
                                 </a>
                               </td>
@@ -171,7 +171,7 @@ $datatable = '';
 
                   <div class="row">
                     <div class="col-sm-12">
-                      <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="des-table" role="grid" aria-describedby="hr-table_info">
+                      <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="eType-table" role="grid" aria-describedby="hr-table_info">
                         <thead>
                           <tr role="row">
                             <th class="border-bottom-0 w-5 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 24.3576px;">#ID</th>
@@ -212,7 +212,8 @@ $datatable = '';
   </div>
 </div>
 
-<?php include('../inc/modal/all.php'); ?>
+<?php //include('../inc/modal/all.php'); 
+?>
 <?php include(SHARED_PATH . '/footer.php'); ?>
 <script src="../../assets/plugins/circle-progress/circle-progress.min.js"></script>
 
@@ -286,15 +287,57 @@ $datatable = '';
       }
     };
 
+    const employeeTypeModal = new bootstrap.Modal(
+      document.querySelector("#employee_type_modal")
+    );
+    const companyModal = new bootstrap.Modal(
+      document.querySelector("#company_modal")
+    );
+    const branchModal = new bootstrap.Modal(
+      document.querySelector("#branch_modal")
+    );
+
+
     const SETTING_URL = "../inc/setting/";
 
     const companyForm = document.getElementById("add_company_form");
+    const companyBtn = document.querySelector("#add_company_btn");
     const branchForm = document.getElementById("add_branch_form");
+    const branchBtn = document.getElementById("add_branch_btn");
     const eTypeForm = document.getElementById("add_eType_form");
+    const eTypeTitle = document.querySelector("#eType-title");
+    const eTypeBtn = document.querySelector("#add_e_type_btn");
 
     companyForm.addEventListener("submit", (e) => {
       e.preventDefault();
       submitForm(SETTING_URL, companyForm);
+    });
+
+    $("#company-table tbody").on("click", "#edit_company", async function() {
+      let id = this.dataset.id;
+
+      let data = await fetch(SETTING_URL + "?companyId=" + id);
+      let response = await data.json();
+
+      document.getElementById("companyId").value = id;
+      document.getElementById("comp_name").value = response.data.company_name;
+      document.getElementById("comp_reg").value = response.data.registration_no;
+
+      companyModal.show();
+
+      companyBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        submitForm(SETTING_URL, companyForm);
+      });
+
+      $("#company_modal").on("hidden.bs.modal", function() {
+        location.reload();
+      });
+    });
+
+    $(document).on("click", "#delete_company", function() {
+      let delId = this.dataset.id;
+      deleted(SETTING_URL + "?companyId=" + delId + "&companyDelete=1");
     });
 
     branchForm.addEventListener("submit", (e) => {
@@ -302,9 +345,69 @@ $datatable = '';
       submitForm(SETTING_URL, branchForm);
     });
 
+    $("#branch-table tbody").on("click", "#edit_branch", async function() {
+      let id = this.dataset.id;
+
+      let data = await fetch(SETTING_URL + "?branchId=" + id);
+      let response = await data.json();
+
+      document.getElementById("branchId").value = id;
+      document.getElementById("company_id").value = response.data.company_id;
+      document.getElementById("branch_name").value = response.data.branch_name;
+      document.getElementById("branch_address").value = response.data.address;
+      document.getElementById("branch_state").value = response.data.state;
+      document.getElementById("branch_city").value = response.data.city;
+      document.getElementById("established_id").value = response.data.established_id;
+
+      branchModal.show();
+
+      branchBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        submitForm(SETTING_URL, branchForm);
+      });
+
+      $("#branch_modal").on("hidden.bs.modal", function() {
+        location.reload();
+      });
+    });
+
+    $(document).on("click", "#delete_branch", function() {
+      let delId = this.dataset.id;
+      deleted(SETTING_URL + "?branchId=" + delId + "&branchDelete=1");
+    });
+
     eTypeForm.addEventListener("submit", (e) => {
       e.preventDefault();
       submitForm(SETTING_URL, eTypeForm);
+    });
+
+    $("#eType-table tbody").on("click", "#edit_eType", async function() {
+      let id = this.dataset.id;
+
+      let data = await fetch(SETTING_URL + "?eTypeId=" + id);
+      let response = await data.json();
+
+      document.getElementById("eTypeId").value = id;
+      document.getElementById("e_name").value = response.data.name;
+
+      eTypeTitle.innerText = "Edit Employee Type";
+      eTypeBtn.innerText = "Update";
+
+      employeeTypeModal.show();
+
+      eTypeBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        submitForm(SETTING_URL, eTypeForm);
+      });
+
+      $("#employee_type_modal").on("hidden.bs.modal", function() {
+        location.reload();
+      });
+    });
+
+    $(document).on("click", "#delete_eType", function() {
+      let delId = this.dataset.id;
+      deleted(SETTING_URL + "?eTypeId=" + delId + "&deleteType=1");
     });
 
   })

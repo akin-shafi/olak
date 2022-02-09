@@ -225,11 +225,46 @@ if (is_get_request()) {
     $response['data'] = $designation;
   }
 
-  if (isset($_GET['deleteDept'])) {
-    Department::deleted($_GET['departmentId']);
+  if (isset($_GET['companyId']) && !isset($_GET['deleted'])) {
+    $company = Company::find_by_id($_GET['companyId']);
 
     http_response_code(200);
-    $response['message'] = 'Department deleted successfully';
+    $response['data'] = $company;
+  }
+
+  if (isset($_GET['companyDelete'])) {
+    Company::deleted($_GET['companyId']);
+
+    http_response_code(200);
+    $response['message'] = 'Company deleted successfully';
+  }
+
+  if (isset($_GET['branchId']) && !isset($_GET['deleted'])) {
+    $branch = Branch::find_by_id($_GET['branchId']);
+
+    http_response_code(200);
+    $response['data'] = $branch;
+  }
+
+  if (isset($_GET['branchDelete'])) {
+    branch::deleted($_GET['branchId']);
+
+    http_response_code(200);
+    $response['message'] = 'Branch deleted successfully';
+  }
+
+  if (isset($_GET['eTypeId']) && !isset($_GET['deleted'])) {
+    $eType = EmployeeType::find_by_id($_GET['eTypeId']);
+
+    http_response_code(200);
+    $response['data'] = $eType;
+  }
+
+  if (isset($_GET['deleteType'])) {
+    EmployeeType::deleted($_GET['eTypeId']);
+
+    http_response_code(200);
+    $response['message'] = 'Employee type deleted successfully';
   }
 
   if (isset($_GET['deleteDes'])) {
