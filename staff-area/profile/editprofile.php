@@ -2,13 +2,13 @@
 require_once('../private/initialize.php');
 
 $page = 'Employees';
-$page_title = 'Edit Employee';
+$page_title = 'Edit My Profile';
 include(SHARED_PATH . '/header.php');
 $all = Employee::find_by_undeleted(['order' => 'ASC']);
-$my_id = array_values($all)[0]->id;
-$id = $_GET['id'] ?? $my_id;
+// $my_id = array_values($all)[0]->id;
+// $id = $_GET['id'] ?? $my_id;
 
-$employee = Employee::find_by_id($id);
+$employee = Employee::find_by_id($loggedInAdmin->id);
 
 
 if (!empty($employee->photo)) {
@@ -24,16 +24,15 @@ if (!empty($employee->photo)) {
 $select2 = '';
 ?>
 
-<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
-<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
+<link rel="stylesheet" href="<?php //echo url_for('assets/plugins/rating/css/ratings.css') ?>">
+<link rel="stylesheet" href="<?php //echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
-      <h4 class="page-title">Edit Employee</h4>
+      <h4 class="page-title"><?php echo $page_title; ?></h4>
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-center">
-         <a href="<?php echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-primary me-3">Add New Employee</a>
 
          <div class="d-none">
             <select name="query[employee_id]" class="select2" data-placeholder="Select Employee" id="query_employee">
@@ -570,8 +569,8 @@ $select2 = '';
          }
       };
 
-      const EMPLOYEE_URL = "../inc/employee/";
-      const SETTING_URL = "../inc/setting/";
+      const EMPLOYEE_URL = "../../hr/inc/employee/";
+      const SETTING_URL = "../../hr/inc/setting/";
       // const GET_BRANCH_URL = "./inc/get_empview.php";
 
       const personalForm = document.getElementById("add_personal_form");

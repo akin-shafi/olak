@@ -22,11 +22,13 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
 
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
-    <div class="btn-group">
-      <h4 class="page-title me-3">Loan Management</h4>
-      <div class="btn text-primary">Long Term</div>
-      <button class="btn text-outline-primary"><a href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a></button>
+     <div class="btn-group">
+      
+      <h4 class="page-title me-3">Long Term Loan |</h4>
+      <h4 class="page-title me-3 text-muted"><a style="text-decoration: underline;" href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a></h4>
     </div>
+
+   
   </div>
   <div class="page-rightheader ms-md-auto">
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
@@ -170,8 +172,8 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
                                 </div>
                               </div>
                             </td>
-                            <td><?php echo number_format($longTerm->amount_requested) ?></td>
-                            <td><?php echo number_format($longTerm->commitment) ?></td>
+                            <td><?php echo number_format(intval($longTerm->amount_requested)) ?></td>
+                            <td><?php echo number_format(intval($longTerm->commitment)) ?></td>
                             <td><?php echo ucwords($loan->commitment_duration) ?></td>
                             <td><?php echo date('Y-m-d', strtotime($loan->created_at)) ?></td>
                             <td><?php echo $loan->date_approved != '0000-00-00' ? date('Y-m-d', strtotime($loan->date_approved)) : 'Not Set' ?></td>

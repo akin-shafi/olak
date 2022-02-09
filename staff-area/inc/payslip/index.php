@@ -19,7 +19,7 @@ if (is_get_request()) :
     if ($calculate_tax == 1) {
       $totalDeduction = $payroll->loan + $payroll->salary_advance + $payroll->other_deduction + $tax['monthly_tax'] + $tax['pension'];
     } else {
-      $totalDeduction = $payroll->loan + $payroll->salary_advance + $payroll->other_deduction;
+      $totalDeduction = intval($payroll->loan) + intval($payroll->salary_advance) + intval($payroll->other_deduction);
     }
     $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
 
@@ -100,8 +100,7 @@ if (is_get_request()) :
                   }
                 ?>
                   <tr>
-                    <td><?php echo ucwords($value->item)
-                        ?></td>
+                    <td><?php echo ucwords($value->item) ?></td>
                     <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
                   </tr>
                 <?php endforeach;
@@ -127,12 +126,17 @@ if (is_get_request()) :
               <?php endif ?>
               <tr>
                 <td>Salary Advance</td>
-                <td class="border-start"><?php echo number_format($payroll->salary_advance) ?></td>
+                <td class="border-start">
+                  <?php 
+                  $payroll = !empty($payroll->salary_advance)  ? $payroll->salary_advance : 0;
+                echo number_format($payroll) ?></td>
               </tr>
 
               <tr>
                 <td>Commitment for (Long Term Loan)</td>
-                <td class="border-start"><?php echo number_format($payroll->loan) ?></td>
+                <td class="border-start"><?php 
+                  $loan = !empty($payroll->loan)  ? $payroll->loan : 0;
+                  echo number_format($loan) ?></td>
               </tr>
 
               <tr class="border-top">

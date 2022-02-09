@@ -59,7 +59,7 @@ $payrolls   = Payroll::find_by_employee_id($employee->id, ['summary' => true]); 
                                  if ($calculate_tax == 1) {
                                     $totalDeduction = $payroll->loan + $payroll->salary_advance + $payroll->other_deduction + $tax['monthly_tax'] + $tax['pension'];
                                  } else {
-                                    $totalDeduction = $payroll->loan + $payroll->salary_advance + $payroll->other_deduction;
+                                    $totalDeduction = intval($payroll->loan) + intval($payroll->salary_advance) + intval($payroll->other_deduction);
                                  }
                                  $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
 
