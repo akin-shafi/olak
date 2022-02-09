@@ -1,15 +1,11 @@
 <?php
 require_once('private/initialize.php');
-$response = [
-  'errors' => null,
-  'message' => ''
-];
 
 $user = $loggedInAdmin;
 
 if (is_post_request()) {
 
-  $employee = Employee::find_by_email($user->email);
+  $employee = Employee::find_by_id($user->id);
 
   $args = $_POST['change'];
   $args['update_profile'] = 1;
@@ -27,8 +23,7 @@ if (is_post_request()) {
   $employee->save();
 
   http_response_code(200);
-  $response['message'] = 'Password reset success!';
-  exit(json_encode(['message' => 'Password reset success!']));
+  exit(json_encode(['message' => 'Profile updated successfully!']));
 
   log_action('Employee Password Changed', "{$employee->full_name()} Update password.", "Updated Password");
   redirect_to(url_for('/dashboard'));
@@ -43,7 +38,7 @@ if (is_post_request()) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Welcome | IMS </title>
   <link rel="stylesheet" type="text/css" href="<?php echo url_for('../style.css') ?>">
-  <link rel="stylesheet" href="../hr/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../bootstrap.css">
   <link rel="shortcut icon" type="image/x-icon" href="../favicon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,7 +54,7 @@ if (is_post_request()) {
       height: auto;
     }
   </style>
-  <div class="container shadow olak bg-white mt-5">
+  <div class="container shadow olak bg-white my-5">
     <header class="welcome pt-3">
       <div class="welcome-box">
         <img src="../images/blue-top-right.png" title="Welcome" alt="Welcome">
@@ -73,22 +68,73 @@ if (is_post_request()) {
           <div class="login-box mt-3">
             <div class="login-header mb-5 text-center">
               <h2 class="custom-blue">Welcome <?php echo $user->full_name() ?></h1>
-                <h5 class="custom-blue">Kindly reset your password</h5>
+                <h5 class="custom-blue">Kindly confirm your details and <strong class="text-danger">RESET YOUR PASSWORD</strong></h5>
             </div>
 
             <div class="login-body">
               <div id="alertMsg"></div>
               <form id="password_reset_form">
-                <div class="form-group mb-3">
-                  <label class="form-label">New Password</label>
-                  <input type="password" name="change[password]" class="form-control" placeholder="password">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="form-label">First Name</label>
+                        <input type="text" name="change[first_name]" class="form-control" value="<?php echo $user->first_name; ?>" placeholder="Enter first name">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" name="change[last_name]" class="form-control" value="<?php echo $user->last_name; ?>" placeholder="Enter last name">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="change[email]" class="form-control" value="<?php echo $user->email; ?>" placeholder="Enter email">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="change[phone]" class="form-control" value="<?php echo $user->phone; ?>" placeholder="Enter phone">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <label class="form-label">New Password <span class="text-danger">*</span></label>
+                        <input type="password" name="change[password]" class="form-control" placeholder="password" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">Confirm New Password <span class="text-danger">*</span></label>
+                        <input type="password" name="change[confirm_password]" class="form-control" placeholder="Confirm New Password" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-label">Present Address</label>
+                        <textarea name="change[present_add]" id="present_add" rows="3" class="form-control" placeholder="Address1"><?php echo $user->present_add ?></textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">Next of Kin Name</label>
+                        <input type="text" name="change[kin_name]" id="kin_name" value="<?php echo $user->kin_name; ?>" class="form-control" placeholder="Next of Kin Name">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">Next of Kin Number</label>
+                        <input type="text" name="change[kin_phone]" id="kin_phone" value="<?php echo $user->kin_phone; ?>" class="form-control" placeholder="Contact Number">
+                      </div>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn bg-custom-blue text-light my-4 w-100" id="submit">
+                    Update your profile</button>
                 </div>
-                <div class="form-group">
-                  <label class="form-label">Confirm New Password</label>
-                  <input type="password" name="change[confirm_password]" class="form-control" placeholder="Confirm New Password">
-                </div>
-                <button type="submit" class="btn bg-custom-blue text-light my-4 w-100" id="submit">
-                  Reset Your Password</button>
               </form>
 
               <div class="text-center">
@@ -107,8 +153,10 @@ if (is_post_request()) {
     </div>
   </div>
 
-  <script src="../hr/assets/js/jquery-3.6.0.min.js"></script>
-  <script src="../hr/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="<?php echo url_for('assets/plugins/jquery/jquery.min.js') ?>"></script>
+  <script src="<?php echo url_for('assets/plugins/bootstrap/js/bootstrap.min.js') ?>"></script>
+  <!-- <script src="<?php //echo url_for('assets/js/bootstrap.bundle.min.js') 
+                    ?>"></script> -->
 </body>
 
 </html>
@@ -123,7 +171,7 @@ if (is_post_request()) {
       setTimeout(() => {
         $('#alertMsg').html('');
         window.location = './dashboard';
-      }, 3000);
+      }, 1500);
     }
 
     const submitForm = async (url, payload) => {

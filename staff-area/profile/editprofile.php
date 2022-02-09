@@ -2,7 +2,7 @@
 require_once('../private/initialize.php');
 
 $page = 'Employees';
-$page_title = 'Edit My Profile';
+$page_title = 'Edit Profile';
 include(SHARED_PATH . '/header.php');
 $all = Employee::find_by_undeleted(['order' => 'ASC']);
 // $my_id = array_values($all)[0]->id;
@@ -24,8 +24,10 @@ if (!empty($employee->photo)) {
 $select2 = '';
 ?>
 
-<link rel="stylesheet" href="<?php //echo url_for('assets/plugins/rating/css/ratings.css') ?>">
-<link rel="stylesheet" href="<?php //echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
+<link rel="stylesheet" href="<?php //echo url_for('assets/plugins/rating/css/ratings.css') 
+                              ?>">
+<link rel="stylesheet" href="<?php //echo url_for('assets/plugins/rating/css/rating-themes.css') 
+                              ?>">
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
@@ -278,6 +280,20 @@ $select2 = '';
                         </div>
                      </div>
 
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Password</label> </div>
+                           <div class="col-md-9"> <input type="password" name="personal[password]" id="password" class="form-control" placeholder="Password"> </div>
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Confirm Password</label> </div>
+                           <div class="col-md-9"> <input type="password" name="personal[confirm_password]" id="c_password" class="form-control" placeholder="Confirm Password"> </div>
+                        </div>
+                     </div>
+
                      <div class="form-group mt-7">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label">Email Notification:</label> </div>
@@ -322,7 +338,7 @@ $select2 = '';
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
-                           <div class="col-md-9"> <select name="company[branch_id]" value="<?php echo $employee->branch_id ?>" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
+                           <div class="col-md-9"> <select name="company[branch_id]" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
                                  <option label="Select Branch"></option>
                                  <?php foreach (Branch::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->branch == $value->branch_name ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
@@ -334,7 +350,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Department</label> </div>
                            <div class="col-md-9">
-                              <select name="company[department_id]" value="<?php echo $employee->department ?>" id="department_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
+                              <select name="company[department_id]" id="department_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
                                  <option label="Select Department"></option>
                                  <?php foreach (Department::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->department == $value->department_name ? 'selected' : '' ?>>
@@ -350,7 +366,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
                            <div class="col-md-9">
-                              <select name="company[job_title_id]" value="<?php echo $employee->job_title_id ?>" id="job_title_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
+                              <select name="company[job_title_id]" id="job_title_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
                                  <option label="Select Employment Title"></option>
                                  <?php foreach (Designation::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->job_title == $value->designation_name ? 'selected' : '' ?>>
@@ -371,7 +387,7 @@ $select2 = '';
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employment Type</label> </div>
                            <div class="col-md-9">
-                              <select name="company[employment_type]" value="<?php echo $employee->employment_type ?>" id="employment_type" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
+                              <select name="company[employment_type]" id="employment_type" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
                                  <option label="Employee Type"></option>
                                  <?php foreach (EmployeeType::find_by_undeleted() as $value) : ?>
                                     <option value="<?php echo $value->id ?>" <?php echo $employee->employment_type == $value->id ? 'selected' : '' ?>><?php echo ucwords($value->name) ?></option>
@@ -383,7 +399,7 @@ $select2 = '';
                      <div class="form-group">
                         <div class="row">
                            <div class="col-md-3"> <label class="form-label mb-0 mt-2">Salary</label> </div>
-                           <div class="col-md-9"> <input type="number" name="company[present_salary]" value="<?php echo $employee->present_salary ?>" id="present_salary" class="form-control" placeholder="e.g 15000"> </div>
+                           <div class="col-md-9"> <input type="number" value="<?php echo $employee->present_salary ?>" id="present_salary" class="form-control" disabled> </div>
                         </div>
                      </div>
                      <div class="form-group mt-7 d-none">
@@ -501,6 +517,8 @@ $select2 = '';
 
 <script>
    $(document).ready(function() {
+      $('.select2').select2();
+
       const message = (req, res) => {
          swal(req + "!", res, {
             icon: req,
@@ -585,7 +603,6 @@ $select2 = '';
 
       employeeCompForm.addEventListener("submit", (e) => {
          e.preventDefault();
-         console.log('clicked!');
          submitForm(EMPLOYEE_URL, employeeCompForm);
       });
 

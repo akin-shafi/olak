@@ -169,6 +169,8 @@ $select2 = '';
             <div class="tab-pane active" id="tab5">
                <form id="add_personal_form" enctype="multipart/form-data">
                   <input type="hidden" name="personalId" value="<?php echo $employee->id ?>">
+                  <input type="hidden" name="personal[password]" readonly>
+                  <input type="hidden" name="personal[confirm_password]" readonly>
 
                   <div class="card-body">
                      <h4 class="mb-4 font-weight-bold">Basic</h4>
@@ -511,7 +513,8 @@ $select2 = '';
                   className: req == "error" ? "btn btn-danger" : "btn btn-success",
                },
             },
-         }).then(() => location.reload());
+         })
+         // .then(() => location.reload());
       };
 
       const deleted = async (url) => {

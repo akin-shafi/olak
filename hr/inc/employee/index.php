@@ -101,9 +101,13 @@ if (is_post_request()) {
 
       $personal->merge_attributes($args);
       $personal->save();
-
-      http_response_code(200);
-      $response['message'] = 'Employee information updated successfully';
+      if ($personal->errors) {
+        http_response_code(401);
+        exit(json_encode(['errors' => $personal->errors[0]]));
+      } else {
+        http_response_code(200);
+        $response['message'] = 'Employee information updated successfully';
+      }
     } else {
       $args = $_POST['personal'];
 
