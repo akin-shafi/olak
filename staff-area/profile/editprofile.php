@@ -12,7 +12,7 @@ $employee = Employee::find_by_id($loggedInAdmin->id);
 
 
 if (!empty($employee->photo)) {
-   $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
+   $profile_picture = '../../hr/assets/uploads/profiles/' . $employee->photo;
 } else {
    if ($employee->gender == 'male') {
       $profile_picture = url_for('assets/images/users/male.jpg');
@@ -588,7 +588,6 @@ $select2 = '';
       };
 
       const EMPLOYEE_URL = "../../hr/inc/employee/";
-      const SETTING_URL = "../../hr/inc/setting/";
       // const GET_BRANCH_URL = "./inc/get_empview.php";
 
       const personalForm = document.getElementById("add_personal_form");

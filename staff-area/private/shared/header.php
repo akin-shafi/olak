@@ -5,7 +5,7 @@ $id = $loggedInAdmin->id;
 $employee = Employee::find_by_id($id);
 
 if (!empty($employee->photo)) {
-   $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
+   $profile_picture = '../../hr/assets/uploads/profiles/' . $employee->photo;
 } else {
    if ($employee->gender == 'Male') {
       $profile_picture = url_for('assets/images/users/male.jpg');
@@ -175,68 +175,20 @@ if (!empty($employee->photo)) {
                                           <a class="nav-link icon" data-bs-toggle="dropdown"> <i class="feather feather-mail header-icon"></i> <span class="badge badge-success side-badge">5</span> </a>
                                           <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow  animated">
                                              <div class="header-dropdown-list message-menu" id="message-menu">
-                                                <a class="dropdown-item border-bottom" href="chat.html">
+                                                <a class="dropdown-item border-bottom" href="#">
                                                    <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/1.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
+                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="../assets/images/users/1.jpg" style="background: <?php echo '../assets/images/users/1.jpg' ?> center center;"></span> </div>
                                                       <div class="d-flex">
                                                          <div class="ps-3">
-                                                            <h6 class="mb-1">Jack Wright</h6>
-                                                            <p class="fs-13 mb-1">All the best your template awesome</p>
-                                                            <div class="small text-muted"> 3 hours ago </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </a>
-                                                <a class="dropdown-item border-bottom" href="chat.html">
-                                                   <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/2.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
-                                                      <div class="d-flex">
-                                                         <div class="ps-3">
-                                                            <h6 class="mb-1">Lisa Rutherford</h6>
-                                                            <p class="fs-13 mb-1">Hey! there I'm available</p>
-                                                            <div class="small text-muted"> 5 hour ago </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </a>
-                                                <a class="dropdown-item border-bottom" href="chat.html">
-                                                   <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/3.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
-                                                      <div class="d-flex">
-                                                         <div class="ps-3">
-                                                            <h6 class="mb-1">Blake Walker</h6>
-                                                            <p class="fs-13 mb-1">Just created a new blog post</p>
-                                                            <div class="small text-muted"> 45 mintues ago </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </a>
-                                                <a class="dropdown-item border-bottom" href="chat.html">
-                                                   <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/4.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
-                                                      <div class="d-flex">
-                                                         <div class="ps-3">
-                                                            <h6 class="mb-1">Fiona Morrison</h6>
-                                                            <p class="fs-13 mb-1">Added new comment on your photo</p>
-                                                            <div class="small text-muted"> 2 days ago </div>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </a>
-                                                <a class="dropdown-item border-bottom" href="chat.html">
-                                                   <div class="d-flex align-items-center">
-                                                      <div class=""> <span class="avatar avatar-md brround align-self-center cover-image" data-image-src="assets/images/users/6.jpg" style="background: <?php echo $profile_picture ?> center center;"></span> </div>
-                                                      <div class="d-flex">
-                                                         <div class="ps-3">
-                                                            <h6 class="mb-1">Stewart Bond</h6>
-                                                            <p class="fs-13 mb-1">Your payment invoice is generated</p>
-                                                            <div class="small text-muted"> 3 days ago </div>
+                                                            <h6 class="mb-1">HR</h6>
+                                                            <p class="fs-13 mb-1">Welcome to Integrated Olak Group <br> of Companies</p>
+                                                            <!-- <div class="small text-muted"> 3 hours ago </div> -->
                                                          </div>
                                                       </div>
                                                    </div>
                                                 </a>
                                              </div>
-                                             <div class=" text-center p-2"> <a href="chat.html" class="">See All Messages</a> </div>
+                                             <div class=" text-center p-2"> <a href="#" class="">See All Messages</a> </div>
                                           </div>
                                        </div>
                                        <div class="dropdown header-notify"> <a class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right"> <i class="feather feather-bell header-icon"></i> <span class="bg-dot"></span> </a> </div>
@@ -255,7 +207,7 @@ if (!empty($employee->photo)) {
                                                 <i class="feather feather-settings me-3 fs-16 my-auto"></i>
                                                 <div class="mt-1">Settings</div>
                                              </a>
-                                             <a class="dropdown-item d-flex" href="chat.html">
+                                             <a class="dropdown-item d-flex" href="#">
                                                 <i class="feather feather-mail me-3 fs-16 my-auto"></i>
                                                 <div class="mt-1">Messages</div>
                                              </a>
