@@ -23,7 +23,9 @@ if (is_get_request()) {
          }
       }
 ?>
-
+      <div class="d-flex justify-content-end py-2">
+         <a class="btn btn-primary btn-sm mb-2" href="<?php echo url_for('employees/hr-editemp.php?id='.$id) ?>">Edit</a>
+      </div>
       <div class="card mb-0">
          <div class="card-body">
             <div class="row">
@@ -61,34 +63,35 @@ if (is_get_request()) {
                               </div>
                            </div>
                            <div class="col-md-7">
-                              <ul class="personal-info">
-                                 <li>
-                                    <div class="title">Phone:</div>
-                                    <div class="text"><a href="">(+234) <?php echo $employee->phone ?? "Not Set"; ?></a></div>
-                                 </li>
-                                 <li>
-                                    <div class="title">Email:</div>
-                                    <div class="text"><a href=""><?php echo $employee->email ?? "Not Set"; ?></a></div>
-                                 </li>
-                                 <li>
-                                    <div class="title">Birthday:</div>
-                                    <div class="text"><?php echo $employee->dob ?? "Not Set"; ?></div>
-                                 </li>
-                                 <li>
-                                    <div class="title">Present Address:</div>
-                                    <div class="text"><?php echo $employee->present_add ?? "Not Set"; ?></div>
-                                 </li>
-                                 <li>
-                                    <div class="title">Permanent Address:</div>
-                                    <div class="text"><?php echo $employee->permanent_add ?? "Not Set"; ?></div>
-                                 </li>
-                                 <li>
-                                    <div class="title">Gender:</div>
-                                    <div class="text"><?php echo $employee->gender ?? "Not Set"; ?></div>
-                                 </li>
-                                 <li class="d-none">
-                                    <div class="title">Reports to:</div>
-                                    <div class="text">
+                              
+                              <table class="personal-info table table-sm">
+                                 <tr>
+                                    <td class="title">Phone:</td>
+                                    <td class="text"><a href="">(+234) <?php echo $employee->phone ?? "Not Set"; ?></a></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="title">Email:</td>
+                                    <td class="text"><a href=""><?php echo $employee->email ?? "Not Set"; ?></a></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="title">Birthday:</td>
+                                    <td class="text"><?php echo $employee->dob ?? "Not Set"; ?></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="title">Present Address:</td>
+                                    <td class="text"><?php echo $employee->present_add ?? "Not Set"; ?></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="title">Permanent Address:</td>
+                                    <td class="text"><?php echo $employee->permanent_add ?? "Not Set"; ?></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="title">Gender:</td>
+                                    <td class="text"><?php echo $employee->gender ?? "Not Set"; ?></td>
+                                 </tr>
+                                 <tr class="d-none">
+                                    <td class="title">Reports to:</td>
+                                    <td class="text">
                                        <div class="avatar-box">
                                           <div class="avatar avatar-xs">
                                              <img src="assets/img/profiles/avatar-16.jpg" alt="">
@@ -97,9 +100,9 @@ if (is_get_request()) {
                                        <a href="profile.html">
                                           Jeffery Lalor
                                        </a>
-                                    </div>
-                                 </li>
-                              </ul>
+                                    </td>
+                                 </tr>
+                              </table>
                            </div>
                         </div>
                      </div>
@@ -232,12 +235,12 @@ if (is_get_request()) {
                         <ul class="personal-info">
                            <li>
                               <div class="title">Annual Salary.</div>
-                              <div class="text"><?php echo $currency . ' ' . number_format($employee->present_salary * 12) ?? "Not Set"; ?></div>
+                              <div class="text"><?php echo $currency . ' ' . number_format(intval($employee->present_salary) * 12) ?? "Not Set"; ?></div>
                            </li>
 
                            <li>
                               <div class="title">Monthly Salary</div>
-                              <div class="text"><?php echo $currency . ' ' . number_format($employee->present_salary) ?? "Not Set"; ?></div>
+                              <div class="text"><?php echo $currency . ' ' . number_format(intval($employee->present_salary), 2) ?? "Not Set"; ?></div>
                            </li>
 
                         </ul>

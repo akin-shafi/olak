@@ -511,7 +511,8 @@ $select2 = '';
                   className: req == "error" ? "btn btn-danger" : "btn btn-success",
                },
             },
-         }).then(() => location.reload());
+         })
+         // .then(() => location.reload());
       };
 
       const deleted = async (url) => {
@@ -563,10 +564,12 @@ $select2 = '';
 
          if (res.errors) {
             message("error", res.errors);
+
          }
 
          if (res.message) {
             message("success", res.message);
+            window.location.reload(); 
          }
       };
 

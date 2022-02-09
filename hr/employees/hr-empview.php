@@ -38,7 +38,7 @@ $select2 = '';
 
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-center">
-         <a href="<?php echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-sm btn-primary me-3">Add New Employee</a>
+         <!-- <a href="<?php //echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-sm btn-primary me-3">Add New Employee</a> -->
 
          <select class="select2" data-placeholder="Select Employee" id="query_employee">
             <option label="Select Employee"></option>
