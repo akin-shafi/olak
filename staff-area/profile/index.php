@@ -32,6 +32,7 @@ $select2 = '';
       <h4 class="page-title">View Employee</h4>
    </div>
 
+   <a class="btn btn-primary" href="<?php echo url_for('profile/editprofile.php') ?>">Edit Profile</a>
   
 </div>
 

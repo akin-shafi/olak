@@ -7,18 +7,24 @@ include(SHARED_PATH . '/header.php');
 $datatable = '';
 ?>
 
+
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
-    <h4 class="page-title">Salary Advance</h4>
+    <div class="btn-group">
+      <h4 class="page-title me-3 text-muted"><a style="text-decoration: underline;" href="<?php echo url_for('loan/hr-loan.php') ?>">Long Term Loan</a> |</h4>
+      <h4 class="page-title me-3">Salary Advance</h4>
+      <!-- <button class="btn text-outline-primary"><a href="<?php echo url_for('loan/hr-loan.php') ?>">Long Term</a></button> -->
+      <!-- <div class="btn text-primary">Salary Advance</div> -->
+      
+    </div>
   </div>
   <div class="page-rightheader ms-md-auto">
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
-
       <div class="btn-list">
-        <a href="<?php echo url_for('loan/hr-loan.php') ?>" class="btn btn-outline-dark"><i class="las la-arrow-left"></i> Long Term</a>
+        <!-- <a href="<?php //echo url_for('loan/hr-loan.php') ?>" class="btn btn-outline-dark"><i class="las la-arrow-left"></i> Long Term</a> -->
         <?php foreach (Configuration::find_all() as $value) :
           if ($value->loan_config == 1) :
-            echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Loan Request</button>';
+            echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Make Request</button>';
           else :
             echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
           endif;
@@ -29,6 +35,8 @@ $datatable = '';
     </div>
   </div>
 </div>
+
+
 
 
 <div class="row">
