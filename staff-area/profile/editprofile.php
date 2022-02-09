@@ -24,12 +24,12 @@ if (!empty($employee->photo)) {
 $select2 = '';
 ?>
 
-<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/ratings.css') ?>">
-<link rel="stylesheet" href="<?php echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
+<link rel="stylesheet" href="<?php //echo url_for('assets/plugins/rating/css/ratings.css') ?>">
+<link rel="stylesheet" href="<?php //echo url_for('assets/plugins/rating/css/rating-themes.css') ?>">
 
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
-      <h4 class="page-title">Edit Employee</h4>
+      <h4 class="page-title"><?php echo $page_title; ?></h4>
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-center">
