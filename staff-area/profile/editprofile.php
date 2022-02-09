@@ -158,9 +158,8 @@ $select2 = '';
             <!-- Tabs -->
             <ul class="nav panel-tabs">
                <li class="ms-4"><a href="#tab5" class="active" data-bs-toggle="tab">Personal Details</a></li>
-               <li><a href="#tab6" data-bs-toggle="tab">Company Details</a></li>
                <li><a href="#tab7" data-bs-toggle="tab">Bank Details</a></li>
-               <li><a href="#tab8" data-bs-toggle="tab">Upload Documents</a></li>
+               <li class="d-none"><a href="#tab8" data-bs-toggle="tab">Upload Documents</a></li>
             </ul>
          </div>
       </div>
@@ -309,117 +308,6 @@ $select2 = '';
                </form>
             </div>
 
-            <div class="tab-pane" id="tab6">
-               <form id="add_employee_company_form">
-                  <input type="hidden" name="empId" id="empId" value="<?php echo $id ?>">
-                  <div class="card-body">
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employee</label> </div>
-                           <div class="col-md-9">
-                              <div class="row">
-                                 <div class="col-md-6">
-                                    <label class="">Company</label>
-                                    <select name="company[company_id]" id="company_id" style="width:100%" class="form-control select2" data-placeholder="Company Name" required>
-                                       <option label="Company"></option>
-                                       <?php foreach (Company::find_by_undeleted() as $value) : ?>
-                                          <option value="<?php echo $value->id ?>" <?php echo $value->company_name == $employee->company ? 'selected' : '' ?>><?php echo ucwords($value->company_name) ?></option>
-                                       <?php endforeach; ?>
-                                    </select>
-                                 </div>
-                                 <div class="col-md-6">
-                                    <label class="">Employee ID</label>
-                                    <input type="text" name="company[employee_number]" value="<?php echo $employee->employee_id ?>" id="employee_number" class="form-control" placeholder="#ID">
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Branch</label> </div>
-                           <div class="col-md-9"> <select name="company[branch_id]" id="branch_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Branch" required>
-                                 <option label="Select Branch"></option>
-                                 <?php foreach (Branch::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->branch == $value->branch_name ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
-                                 <?php endforeach; ?>
-                              </select> </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Department</label> </div>
-                           <div class="col-md-9">
-                              <select name="company[department_id]" id="department_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Department" required>
-                                 <option label="Select Department"></option>
-                                 <?php foreach (Department::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->department == $value->department_name ? 'selected' : '' ?>>
-                                       <?php echo ucwords($value->department_name) ?></option>
-                                 <?php endforeach; ?>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-
-
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Job Title</label> </div>
-                           <div class="col-md-9">
-                              <select name="company[job_title_id]" id="job_title_id" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Select Job Title" required>
-                                 <option label="Select Employment Title"></option>
-                                 <?php foreach (Designation::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->job_title == $value->designation_name ? 'selected' : '' ?>>
-                                       <?php echo ucwords($value->designation_name) ?></option>
-                                 <?php endforeach; ?>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Date Of Joining</label> </div>
-                           <div class="col-md-9"> <input type="date" name="company[date_employed]" value="<?php echo $employee->date_employed ?>" id="date_employed" class="form-control fc-datepicker hasDatepicker" placeholder="DD-MM-YYYY" id="dp1642289966078"> </div>
-                        </div>
-                     </div>
-                     <h4 class="mb-5 mt-7 font-weight-bold">Salary</h4>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Employment Type</label> </div>
-                           <div class="col-md-9">
-                              <select name="company[employment_type]" id="employment_type" style="width:100%" class="form-control custom-select select2 select2-hidden-accessible" data-placeholder="Employee Type" required>
-                                 <option label="Employee Type"></option>
-                                 <?php foreach (EmployeeType::find_by_undeleted() as $value) : ?>
-                                    <option value="<?php echo $value->id ?>" <?php echo $employee->employment_type == $value->id ? 'selected' : '' ?>><?php echo ucwords($value->name) ?></option>
-                                 <?php endforeach; ?>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label mb-0 mt-2">Salary</label> </div>
-                           <div class="col-md-9"> <input type="number" value="<?php echo $employee->present_salary ?>" id="present_salary" class="form-control" disabled> </div>
-                        </div>
-                     </div>
-                     <div class="form-group mt-7 d-none">
-                        <div class="row">
-                           <div class="col-md-3"> <label class="form-label">Status:</label> </div>
-                           <div class="col-md-9">
-                              <label class="custom-switch"> <input type="checkbox" name="company[status]" value="<?php echo $employee->status ?>" id="status" class="custom-switch-input"> <span class="custom-switch-indicator"></span>
-                                 <span class="custom-switch-description">Active/Inactive</span> </label>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="card-footer text-end">
-                     <button type="submit" class="btn btn-primary">Update</button>
-                     <a href="#" class="btn btn-danger">Cancel</a>
-                  </div>
-               </form>
-            </div>
-
             <div class="tab-pane" id="tab7">
                <form id="add_bank_form">
                   <input type="hidden" name="bankId" value="<?php echo $employee->id ?>">
@@ -445,7 +333,7 @@ $select2 = '';
                </form>
             </div>
 
-            <div class="tab-pane" id="tab8">
+            <div class="tab-pane d-none" id="tab8">
                <form id="add_doc_form">
                   <input type="hidden" name="documentId" value="<?php echo $employee->id ?>">
                   <div class="card-body">
@@ -591,7 +479,6 @@ $select2 = '';
       // const GET_BRANCH_URL = "./inc/get_empview.php";
 
       const personalForm = document.getElementById("add_personal_form");
-      const employeeCompForm = document.getElementById("add_employee_company_form");
       const bankForm = document.getElementById("add_bank_form");
       const docForm = document.getElementById("add_doc_form");
 
@@ -600,10 +487,6 @@ $select2 = '';
          submitForm(EMPLOYEE_URL, personalForm);
       });
 
-      employeeCompForm.addEventListener("submit", (e) => {
-         e.preventDefault();
-         submitForm(EMPLOYEE_URL, employeeCompForm);
-      });
 
       bankForm.addEventListener("submit", (e) => {
          e.preventDefault();
