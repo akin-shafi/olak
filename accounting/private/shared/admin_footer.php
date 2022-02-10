@@ -1,37 +1,36 @@
-
 <footer class="main-footer">
   <div class="pull-right d-none d-sm-inline-block">
-    
-                  <div id="floating-container">
-          <div class="circle1 circle-blue1"></div>
-          <div class="floating-menus" style="display:none;">
-                        <div>
-              <a href="http://accufy.originlabsoft.com/admin/invoice/create"> Create new Invoice              <i class="fa fa-file-text-o"></i></a>
-            </div>
-            
-                        <div>
-              <a href="http://accufy.originlabsoft.com/admin/estimate/create"> Create new Estimate              <i class="fa fa-file-text"></i></a>
-            </div>
-            
-                        <div>
-              <a href="http://accufy.originlabsoft.com/admin/bills/create">Create New Bill              <i class="fa fa-file-text-o"></i></a>
-            </div>
-                        
-                        <div>
-              <a href="http://accufy.originlabsoft.com/admin/customer">Add Customer               <i class="fa fa-user-o"></i></a>
-            </div>
-                        
-            <div>
-              <a href="http://accufy.originlabsoft.com/admin/vendor">Add Vendor              <i class="fa ti-user"></i></a>
-            </div>
-          </div>
-          <div class="fab-button">
-            <i class="ti-plus" aria-hidden="true"></i>
-          </div>
+
+    <div id="floating-container">
+      <div class="circle1 circle-blue1"></div>
+      <div class="floating-menus" style="display:none;">
+        <div>
+          <a href="http://accufy.originlabsoft.com/admin/invoice/create"> Create new Invoice <i class="fa fa-file-text-o"></i></a>
         </div>
-          
+
+        <div>
+          <a href="http://accufy.originlabsoft.com/admin/estimate/create"> Create new Estimate <i class="fa fa-file-text"></i></a>
+        </div>
+
+        <div>
+          <a href="http://accufy.originlabsoft.com/admin/bills/create">Create New Bill <i class="fa fa-file-text-o"></i></a>
+        </div>
+
+        <div>
+          <a href="http://accufy.originlabsoft.com/admin/customer">Add Customer <i class="fa fa-user-o"></i></a>
+        </div>
+
+        <div>
+          <a href="http://accufy.originlabsoft.com/admin/vendor">Add Vendor <i class="fa ti-user"></i></a>
+        </div>
+      </div>
+      <div class="fab-button">
+        <i class="ti-plus" aria-hidden="true"></i>
+      </div>
+    </div>
+
   </div>
-  
+
 </footer>
 
 <input type="hidden" class="msg_opps" value="Oops">
@@ -52,7 +51,6 @@
 <input type="hidden" class="msg_confirm_pass_not_match_msg" value="Your Confirm Password doesn't Match">
 <input type="hidden" class="msg_old_password_doesnt_match" value="Your Old Password doesn't Match">
 <input type="hidden" class="msg_inserted" value="Inserted Successfully">
-
 
 <input type="hidden" class="msg_are_you_sure" value="Are you sure?">
 <input type="hidden" class="msg_applied_successfully" value="Applied Successfully">
@@ -76,26 +74,17 @@
 <input type="hidden" class="msg_recurring_date" value="Start date must be lower then the current date">
 <input type="hidden" class="msg_convert_recurring" value="Convert this to a recurring invoice">
 
-
 <div class="control-sidebar-bg"></div>
 </div>
-<!-- ./wrapper -->
-
 
 <input type="hidden" id="success" value="">
 <input type="hidden" id="error" value="">
 <input type="hidden" id="base_url" value="http://accufy.originlabsoft.com/">
 <input type="hidden" id="browser" value="Chrome">
 
-
-
-<!-- jQuery 3 -->
 <script src="<?php echo url_for('assets/admin/js/jquery3.min.js') ?>"></script>
-<!-- popper -->
 <script src="<?php echo url_for('assets/admin/js/popper.min.js') ?>"></script>
-<!-- Bootstrap -->
 <script src="<?php echo url_for('assets/admin/js/bootstrap.min.js') ?>"></script>
-<!-- Custom js -->
 <script src="<?php echo url_for('assets/admin/js/admin.js?var=2.2&time=1638966417') ?>"></script>
 
 <script src="<?php echo url_for('assets/admin/js/pdfmake.min.js') ?>"></script>
@@ -104,7 +93,6 @@
 <script src="<?php echo url_for('assets/admin/js/toast.js') ?>"></script>
 <script src="<?php echo url_for('assets/admin/js/bootstrap-tagsinput.min.js') ?>"></script>
 <script src="<?php echo url_for('assets/admin/js/sweet-alert.min.js') ?>"></script>
-<!-- Datatables-->
 <script src="<?php echo url_for('assets/admin/js/jquery.dataTables.min.js') ?>"></script>
 <script src="<?php echo url_for('assets/admin/js/dataTables.bootstrap.js') ?>"></script>
 <script src="<?php echo url_for('assets/admin/js/validation.js') ?>"></script>
@@ -122,7 +110,6 @@
 <script src="<?php echo url_for('assets/admin/js/jquery.invoice.js') ?>"></script>
 <script src="<?php echo url_for('assets/admin/js/wow.min.js') ?>"></script>
 
-<!-- datatable export buttons -->
 <script src="<?php echo url_for('assets/admin/js/export_buttons/buttons.min.js') ?>"> </script>
 <script src="<?php echo url_for('assets/admin/js/export_buttons/buttons.flash.min.js') ?>"> </script>
 <script src="<?php echo url_for('assets/admin/js/export_buttons/jszip.min.js') ?>"> </script>
@@ -134,205 +121,174 @@
 <script src="<?php echo url_for('assets/admin/js/bootstrap4-toggle.min.js') ?>"> </script>
 <script src="<?php echo url_for('assets/admin/js/summernote.js') ?>"> </script>
 
-
-
-
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-     
+
 <script type="text/javascript">
-$(function() {
-    
-    var $form         = $(".require-validation");
-  $('form.require-validation').bind('submit', function(e) {
-    var $form         = $(".require-validation"),
+  $(function() {
+
+    var $form = $(".require-validation");
+    $('form.require-validation').bind('submit', function(e) {
+      var $form = $(".require-validation"),
         inputSelector = ['input[type=email]', 'input[type=password]',
-                         'input[type=text]', 'input[type=file]',
-                         'textarea'].join(', '),
-        $inputs       = $form.find('.required').find(inputSelector),
+          'input[type=text]', 'input[type=file]',
+          'textarea'
+        ].join(', '),
+        $inputs = $form.find('.required').find(inputSelector),
         $errorMessage = $form.find('div.error'),
-        valid         = true;
-        $errorMessage.addClass('hide');
- 
-        $('.has-error').removeClass('has-error');
-    $inputs.each(function(i, el) {
-      var $input = $(el);
-      if ($input.val() === '') {
-        $input.parent().addClass('has-error');
-        $errorMessage.removeClass('hide');
-        e.preventDefault();
-      }
-    });
-     
-    if (!$form.data('cc-on-file')) {
-      $('.payment_loader').show();
-      $('.payment_btn').prop("disabled", true);
+        valid = true;
+      $errorMessage.addClass('hide');
 
-      e.preventDefault();
-      Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-      Stripe.createToken({
-        number: $('.card-number').val(),
-        cvc: $('.card-cvc').val(),
-        exp_month: $('.card-expiry-month').val(),
-        exp_year: $('.card-expiry-year').val()
-      }, stripeResponseHandler);
-    }
-    
-  });
-      
-  function stripeResponseHandler(status, response) {
-        if (response.error) {
-            $('.payment_loader').hide();
-            $('.payment_btn').prop("disabled", false);
-
-            $('.error')
-            .removeClass('hide')
-            .find('.alert')
-            .text(response.error.message);
-            
-            $.toast({
-              heading: 'Error',
-              text: response.error.message,
-              position: 'top-right',
-              loaderBg:'#fff',
-              icon: 'error',
-              hideAfter: 4500
-            });
-
-        } else {
-            var token = response['id'];
-            $form.find('input[type=text]').empty();
-            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-            $form.get(0).submit();
-            
+      $('.has-error').removeClass('has-error');
+      $inputs.each(function(i, el) {
+        var $input = $(el);
+        if ($input.val() === '') {
+          $input.parent().addClass('has-error');
+          $errorMessage.removeClass('hide');
+          e.preventDefault();
         }
-    }
-     
-});
-</script>
+      });
 
-<!-- datatable export buttons -->
-<script type="text/javascript">
-    $(document).ready(function() {
+      if (!$form.data('cc-on-file')) {
+        $('.payment_loader').show();
+        $('.payment_btn').prop("disabled", true);
 
-        $(function() {
-          $(".ac-textarea").on("keyup input", function(){
-              $(this).css('height', 'auto').css('height', this.scrollHeight+ 
-              (this.offsetHeight - this.clientHeight));
-          });
-        });
+        e.preventDefault();
+        Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+        Stripe.createToken({
+          number: $('.card-number').val(),
+          cvc: $('.card-cvc').val(),
+          exp_month: $('.card-expiry-month').val(),
+          exp_year: $('.card-expiry-year').val()
+        }, stripeResponseHandler);
+      }
 
-        $("#summernote").summernote({
-            height: 100,
-            toolbar: [
-                [ 'style', [ 'style' ] ],
-                [ 'font', [ 'bold', 'italic', 'underline'] ],
-                [ 'fontname', [ 'fontname' ] ],
-                [ 'fontsize', [ 'fontsize' ] ],
-                [ 'color', [ 'color' ] ],
-                [ 'para', [ 'ol', 'ul', 'paragraph'] ],
-                [ 'table', [ 'table' ] ],
-                [ 'insert', [ 'link'] ]
-            ]
-        });
-
-        $('.dt_btn').DataTable( {
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
-        });
     });
+
+    function stripeResponseHandler(status, response) {
+      if (response.error) {
+        $('.payment_loader').hide();
+        $('.payment_btn').prop("disabled", false);
+
+        $('.error')
+          .removeClass('hide')
+          .find('.alert')
+          .text(response.error.message);
+
+        $.toast({
+          heading: 'Error',
+          text: response.error.message,
+          position: 'top-right',
+          loaderBg: '#fff',
+          icon: 'error',
+          hideAfter: 4500
+        });
+
+      } else {
+        var token = response['id'];
+        $form.find('input[type=text]').empty();
+        $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+        $form.get(0).submit();
+
+      }
+    }
+
+  });
 </script>
 
+<script type="text/javascript">
+  $(document).ready(function() {
 
-<!-- high charts js-->
+    $(function() {
+      $(".ac-textarea").on("keyup input", function() {
+        $(this).css('height', 'auto').css('height', this.scrollHeight +
+          (this.offsetHeight - this.clientHeight));
+      });
+    });
 
+    $("#summernote").summernote({
+      height: 100,
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ol', 'ul', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link']]
+      ]
+    });
 
-<script>
-
-
-
+    $('.dt_btn').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+      ]
+    });
+  });
 </script>
-<!-- high charts js end-->
 
 <script src="<?php echo url_for('assets/admin/js/printThis.js') ?>"></script>
-<!-- Color Picker Plugin JavaScript -->
 <script src="<?php echo url_for('assets/admin/plugins/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') ?>"></script>
 
-
-<!-- bt-switch -->
 <script src="<?php echo url_for('assets/admin/js/bootstrap-switch.min.js') ?>"></script>
 <script type="text/javascript">
-$(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
-var radioswitch = function() {
+  $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
+  var radioswitch = function() {
     var bt = function() {
-        $(".radio-switch").on("switch-change", function() {
-            $(".radio-switch").bootstrapSwitch("toggleRadioState")
-        }), $(".radio-switch").on("switch-change", function() {
-            $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
-        }), $(".radio-switch").on("switch-change", function() {
-            $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
-        })
+      $(".radio-switch").on("switch-change", function() {
+        $(".radio-switch").bootstrapSwitch("toggleRadioState")
+      }), $(".radio-switch").on("switch-change", function() {
+        $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
+      }), $(".radio-switch").on("switch-change", function() {
+        $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
+      })
     };
     return {
-        init: function() {
-            bt()
-        }
+      init: function() {
+        bt()
+      }
     }
-}();
-$(document).ready(function() {
+  }();
+  $(document).ready(function() {
     radioswitch.init()
-});
+  });
 </script>
 
-  
-    <!-- Style switcher -->
-    <script src="<?php echo url_for('assets/admin/js/jQuery.style.switcher.js') ?>"></script>
+<script src="<?php echo url_for('assets/admin/js/jQuery.style.switcher.js') ?>"></script>
 
-    <script type="text/javascript">
-      
+<script>
+  ! function(window, document, $) {
+    "use strict";
+    $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
+  }(window, document, jQuery);
 
-          </script>
+  $(document).ready(function() {
+    $('.datatable').dataTable();
+    $('.multiple_select').select2();
+    $('.single_select').select2();
+  });
+</script>
 
-    <script>
-        ! function(window, document, $) {
-            "use strict";
-          $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
-        }(window, document, jQuery);
+<script type="text/javascript">
+  jQuery('.datepicker').datepicker({
+    format: 'yyyy-mm-dd'
+  });
 
-        $(document).ready(function() {
-            $('.datatable').dataTable();
-            $('.multiple_select').select2();
-            $('.single_select').select2();
-        });
-    </script>
+  //colorpicker start
+  $('.colorpicker-default').colorpicker({
+    format: 'hex'
+  });
+  $('.colorpicker-rgba').colorpicker();
+</script>
 
-    <script type="text/javascript">
-      jQuery('.datepicker').datepicker({
-          format: 'yyyy-mm-dd'
-      });
-
-      //colorpicker start
-      $('.colorpicker-default').colorpicker({
-          format: 'hex'
-      });
-      $('.colorpicker-rgba').colorpicker();
-
-    </script>
-
-    <!-- <script>
+<!-- <script>
         CKEDITOR.replace('ckEditor', {
             language: 'en',
             filebrowserImageUploadUrl: "admin/post/upload_ckimage_post?key=kgh764hdj990sghsg46r"
         });
     </script> -->
 
-    
-
-    
-
-    
 </body>
-</html>
-       
 
+</html>
