@@ -1,288 +1,379 @@
-<?php  //require_login(); ?>
+<?php  require_login(); ?>
 <!DOCTYPE html>
-
-<html lang="en" dir="ltr">
-<head>
-  
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="<?php echo url_for('uploads/thumbnail/clou_logo_thumb-100x72.png') ?>">
-
-  <title><?php echo $page ." ". $page_title; ?></title>
-  
-  <!-- Bootstrap 4.0-->
-  <?php //echo url_for('assets/css/icons.min.css') ?>
-  <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/bootstrap.min.css') ?>" >
-  <!-- Bootstrap 4.0-->
-  <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/bootstrap-extend.css') ?>" >
-  <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/font-awesome.min.css') ?>" >
-  <link href="<?php echo url_for('assets/admin/css/toast.css') ?>" rel="stylesheet" />
-  <link href="<?php echo url_for('assets/admin/css/bootstrap-tagsinput.css') ?>" rel="stylesheet" />
-  <link href="<?php echo url_for('assets/admin/css/sweet-alert.css') ?>" rel="stylesheet" />
-  <link href="<?php echo url_for('assets/admin/css/animate.min.css') ?>" rel="stylesheet" />
-  <!-- DataTables -->
-  <link href="<?php echo url_for('assets/admin/js/jquery.dataTables.min.css') ?>" rel="stylesheet" type="text/css" />
-
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/admin_style.css') ?>">
-  <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/skins/theme_2.css') ?>">   
-
-    
-  
-  <link href="<?php echo url_for('assets/admin/css/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
-  <link href="<?php echo url_for('assets/admin/css/icons.css') ?>" rel="stylesheet">
-  <link rel="stylesheet" href="<?php echo url_for('assets/front/css/simple-line-icons.css') ?>">
-  <link rel="stylesheet" href="<?php echo url_for('assets/front/font/flaticon.css') ?>">
-  <link href="<?php echo url_for('assets/admin/css/bootstrap-switch.min.css') ?>" rel="stylesheet">
-  <link href="<?php echo url_for('assets/admin/css/select2.min.css') ?>" rel="stylesheet" />
-  <link href="<?php echo url_for('assets/admin/css/themify.min.css') ?>" rel="stylesheet" />
-  <link href="<?php echo url_for('assets/admin/css/bootstrap4-toggle.min.css') ?>" rel="stylesheet" />
-  <link href="<?php echo url_for('assets/admin/css/summernote.css') ?>" rel="stylesheet" />
-
-
-  <style type="text/css">
-    .radio input[type="radio"],
-    .radio-inline input[type="radio"],
-    .checkbox input[type="checkbox"],
-    .checkbox-inline input[type="checkbox"] {
-      margin-right: -20px !important;
-    }
-
-      </style>
-  
-  <!-- Color picker plugins css -->
-  <link href="<?php echo url_for('assets/admin/plugins/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') ?>" rel="stylesheet">
-
-  <script type="text/javascript">
-   var csrf_token = '35d25f187e62cecfe6992206132448c3';
-   var token_name = 'csrf_test_name'
- </script>
-
-
-</head>
-
-<body class="hold-transition skin-blue-light sidebar-mini">
-
-  <!-- Preloader -->
-    <!-- <div class="preloader">
-      <div class="container text-center"><div class="spinner-llg"></div></div>
-    </div> -->
-  <!-- Preloader -->
-
-  <!-- Site wrapper -->
-  <div class="wrapper">
-
-        <header class="main-header">
-              
-        <a href="#" class="switch_business logo text-centers">
-          <span class="logo-lg">
-            <img width="40px" src="<?php echo url_for('uploads/thumbnail/clou_logo_thumb-100x72.png') ?>" alt="Accufy"> 
-            <span>Datasoft </span>
-          </span> 
-          <span class="buss-arrow pull-right"><i class="icon-arrow-right"></i></span>
-        </a>
-
-        <div class="business_switch_panel animate-ltr" style="display: none;">
-          <div class="buss_switch_panel_header">
-            <img width="30px" src="<?php echo url_for('uploads/thumbnail/clou_logo_thumb-100x72.png') ?>" alt="Accufy"> 
-            <span class="acc">Your Accufy accounts</span>
-            <span class="business_close pull-right">×</span>
-          </div>
-
-          <div class="buss_switch_panel_body">
-            <ul class="switcher_business_menu pb-20">
-                  <li class="business_menu_item ">
-                    <a class="business_menu_item_link" href="<?php echo url_for('admin/profile/switch_business/37924') ?>">
-                      <span class="business-menu_item_label">
-                        Iconic                                              </span>
-                    </a>
-                  </li>
-                  <li class="business_menu_item default">
-                    <a class="business_menu_item_link" href="<?php echo url_for('admin/profile/switch_business/42308') ?>">
-                      <span class="business-menu_item_label">
-                        Datasoft
-                        <span class="is_default pull-right">
-                            <i class="flaticon-checked text-success"></i></span>
-                        </span>
-                    </a>
-                  </li>
-            </ul>
-
-            <div class="seperater"></div>
-
-              <a class="new_business_link" href="<?php echo url_for('admin/business"><i class="icon-briefcase') ?>"></i> <span>Manage business</span></a>
-
-              <a class="new_business_link" href="<?php echo url_for('admin/role_management') ?>"><i class="icon-people"></i> <span>Manage Users</span></a>
-
-              <a class="new_business_link" href="<?php echo url_for('admin/business/invoice_customize') ?>"><i class="fa fa-paint-brush"></i> <span>Invoice Customization</span></a>
-            
-            <a class="new_business_link" href="<?php echo url_for('admin/profile') ?>"><i class="flaticon-user-1"></i> <span>Manage profile</span></a>
-
-            <a class="new_business_link" href="<?php echo url_for('logout.php') ?>"><i class="icon-logout"></i> <span>Sign out</span></a>
-          </div>
-
-          <div class="buss_switch_panel_footer">
-            
-          </div>
-        </div>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+      <meta name="description" content="Smarthr - Bootstrap Admin Template">
+      <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+      <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+      <meta name="robots" content="noindex, nofollow">
+      <title><?php echo $page .' - '. $page_title ?></title>
+      <link rel="shortcut icon" type="image/x-icon" href="<?php echo url_for('assets/img/favicon.png') ?>">
+      <link rel="stylesheet" href="<?php echo url_for('assets/css/bootstrap.min.css') ?>">
+      <link rel="stylesheet" href="<?php echo url_for('assets/css/font-awesome.min.css') ?>">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
       
-      <nav class="navbar navbar-static-top hidden-md">
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-          <span class="sr-only">Toggle navigation</span> 
-        </a>
-      </nav>
+      <link rel="stylesheet" href="<?php echo url_for('assets/css/select2.min.css') ?>">
 
-    </header>
+      <link rel="stylesheet" href="<?php echo url_for('assets/css/bootstrap-datetimepicker.min.css') ?>">
 
-<aside class="main-sidebar">
-   <section class="sidebar mt-10">
-      <ul class="sidebar-menu" data-widget="tree">
-         <li class="<?php echo $page_title == 'User Dashboard' ? 'active' : '' ?>">
-            <a href="<?php echo url_for('dashboard/business.php') ?>">
-            <i class="flaticon-home-1"></i> <span>Dashboard</span>
+      <link rel="stylesheet" href="<?php echo url_for('assets/css/line-awesome.min.css') ?>">
+      <link rel="stylesheet" href="<?php echo url_for('assets/plugins/morris/morris.css') ?>">
+      <link rel="stylesheet" href="<?php echo url_for('assets/css/style.css') ?>">
+    
+   </head>
+   <body>
+      <div class="main-wrapper">
+         <div class="header">
+            <div class="header-left">
+               <a href="#" class="logo">
+               <img src="<?php echo url_for('assets/img/logo-1.png') ?>" width="150" height="auto" alt="">
+               </a>
+            </div>
+            <a id="toggle_btn" href="javascript:void(0);">
+            <span class="bar-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+            </span>
             </a>
-         </li>
-         <li class="">
-            <a href="<?php echo url_for('profile/') ?>">
-            <i class="flaticon-settings-1"></i> <span>Settings</span>
-            </a>
-         </li>
-         <li class="">
-            <a href="<?php echo url_for('payment/user') ?>">
-            <i class="flaticon-save-money"></i> <span> Payment Settings</span>
-            </a>
-         </li>
-         <li class="treeview ">
-            <a href="#"><i class="flaticon-business-cards"></i>
-            <span>Sales</span>
-            <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
-            </a>
-            <ul class="treeview-menu">
-               <li class="">
-                  <a href="<?php echo url_for('customer') ?>">
-                  <i class="flaticon-network"></i> <span>Customers</span>
-                  </a>
+            <div class="page-title-box">
+               <h3>Olak Accounting</h3>
+            </div>
+            <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu">
+               <li class="nav-item">
+                  <div class="top-nav-search">
+                     <a href="javascript:void(0);" class="responsive-search">
+                     <i class="fa fa-search"></i>
+                     </a>
+                     <form action="search.html">
+                        <input class="form-control" type="text" placeholder="Search here">
+                        <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                     </form>
+                  </div>
                </li>
-               <li class="">
-                  <a href="<?php echo url_for('products/') ?>">
-                  <i class="flaticon-box-1"></i> <span>Products & Services</span>
+               <li class="nav-item dropdown has-arrow flag-nav">
+                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+                  <img src="<?php echo url_for('assets/img/flags/us.png') ?>" alt="" height="20"> <span>English</span>
                   </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                     <a href="javascript:void(0);" class="dropdown-item">
+                     <img src="<?php echo url_for('assets/img/flags/us.png') ?>" alt="" height="16"> English
+                     </a>
+                     <a href="javascript:void(0);" class="dropdown-item">
+                     <img src="<?php echo url_for('assets/img/flags/fr.png') ?>" alt="" height="16"> French
+                     </a>
+                     <a href="javascript:void(0);" class="dropdown-item">
+                     <img src="<?php echo url_for('assets/img/flags/es.png') ?>" alt="" height="16"> Spanish
+                     </a>
+                     <a href="javascript:void(0);" class="dropdown-item">
+                     <img src="<?php echo url_for('assets/img/flags/de.png') ?>" alt="" height="16"> German
+                     </a>
+                  </div>
                </li>
-               <li class="">
-                  <a href="<?php echo url_for('estimate') ?>">
-                  <i class="flaticon-contract"></i> <span>Estimates</span>
+               <li class="nav-item dropdown">
+                  <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                  <i class="fa fa-bell-o"></i> <span class="badge rounded-pill">3</span>
                   </a>
+                  <div class="dropdown-menu notifications">
+                     <div class="topnav-dropdown-header">
+                        <span class="notification-title">Notifications</span>
+                        <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                     </div>
+                     <div class="noti-content">
+                        <ul class="notification-list">
+                           <li class="notification-message">
+                              <a href="activities.html">
+                                 <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                    <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-02.jpg') ?>">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                       <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+                                       <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                           <li class="notification-message">
+                              <a href="activities.html">
+                                 <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                    <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-03.jpg') ?>">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                       <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+                                       <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                           <li class="notification-message">
+                              <a href="activities.html">
+                                 <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                    <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-06.jpg') ?>">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                       <p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+                                       <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                           <li class="notification-message">
+                              <a href="activities.html">
+                                 <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                    <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-17.jpg') ?>">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                       <p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+                                       <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                           <li class="notification-message">
+                              <a href="activities.html">
+                                 <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                    <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-13.jpg') ?>">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                       <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+                                       <p class="noti-time"><span class="notification-time">2 days ago</span></p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                     <div class="topnav-dropdown-footer">
+                        <a href="activities.html">View all Notifications</a>
+                     </div>
+                  </div>
                </li>
-               <li class="">
-                  <a href="<?php echo url_for('invoices/') ?>">
-                  <i class="flaticon-approve-invoice"></i> <span>Invoices</span>
+               <li class="nav-item dropdown">
+                  <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                  <i class="fa fa-comment-o"></i> <span class="badge rounded-pill">8</span>
                   </a>
+                  <div class="dropdown-menu notifications">
+                     <div class="topnav-dropdown-header">
+                        <span class="notification-title">Messages</span>
+                        <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                     </div>
+                     <div class="noti-content">
+                        <ul class="notification-list">
+                           <li class="notification-message">
+                              <a href="chat.html">
+                                 <div class="list-item">
+                                    <div class="list-left">
+                                       <span class="avatar">
+                                       <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-09.jpg') ?>">
+                                       </span>
+                                    </div>
+                                    <div class="list-body">
+                                       <span class="message-author">Richard Miles </span>
+                                       <span class="message-time">12:28 AM</span>
+                                       <div class="clearfix"></div>
+                                       <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                           <li class="notification-message">
+                              <a href="chat.html">
+                                 <div class="list-item">
+                                    <div class="list-left">
+                                       <span class="avatar">
+                                       <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-02.jpg') ?>">
+                                       </span>
+                                    </div>
+                                    <div class="list-body">
+                                       <span class="message-author">John Doe</span>
+                                       <span class="message-time">6 Mar</span>
+                                       <div class="clearfix"></div>
+                                       <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                           <li class="notification-message">
+                              <a href="chat.html">
+                                 <div class="list-item">
+                                    <div class="list-left">
+                                       <span class="avatar">
+                                       <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-03.jpg') ?>">
+                                       </span>
+                                    </div>
+                                    <div class="list-body">
+                                       <span class="message-author"> Tarah Shropshire </span>
+                                       <span class="message-time">5 Mar</span>
+                                       <div class="clearfix"></div>
+                                       <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                           <li class="notification-message">
+                              <a href="chat.html">
+                                 <div class="list-item">
+                                    <div class="list-left">
+                                       <span class="avatar">
+                                       <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-05.jpg') ?>">
+                                       </span>
+                                    </div>
+                                    <div class="list-body">
+                                       <span class="message-author">Mike Litorus</span>
+                                       <span class="message-time">3 Mar</span>
+                                       <div class="clearfix"></div>
+                                       <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                           <li class="notification-message">
+                              <a href="chat.html">
+                                 <div class="list-item">
+                                    <div class="list-left">
+                                       <span class="avatar">
+                                       <img alt="" src="<?php echo url_for('assets/img/profiles/avatar-08.jpg') ?>">
+                                       </span>
+                                    </div>
+                                    <div class="list-body">
+                                       <span class="message-author"> Catherine Manseau </span>
+                                       <span class="message-time">27 Feb</span>
+                                       <div class="clearfix"></div>
+                                       <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                    </div>
+                                 </div>
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                     <div class="topnav-dropdown-footer">
+                        <a href="chat.html">View all Messages</a>
+                     </div>
+                  </div>
                </li>
-               <li class="">
-                  <a href="<?php echo url_for('invoice/create/1') ?>">
-                  <i class="flaticon-iterative"></i> <span>Recurring Invoice </span>
+               <li class="nav-item dropdown has-arrow main-drop">
+                  <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                  <span class="user-img"><img src="<?php echo url_for('assets/img/profiles/avatar-21.jpg')?>" alt="">
+                  <span class="status online"></span></span>
+                  <span>Admin</span>
                   </a>
+                  <div class="dropdown-menu">
+                     <a class="dropdown-item" href="profile.html">My Profile</a>
+                     <a class="dropdown-item" href="settings.html">Settings</a>
+                     <a class="dropdown-item" href="<?php echo url_for('logout.php') ?>">Logout</a>
+                  </div>
                </li>
             </ul>
-         </li>
-         <li class="treeview ">
-            <a href="#"><i class="icon-basket"></i>
-            <span>Purchases</span>
-            <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
-            </a>
-            <ul class="treeview-menu">
-               <li class="">
-                  <a href="<?php echo url_for('purchases/bills.php') ?>">
-                  <i class="flaticon-credit-card"></i> <span>Bills</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('purchases/vendor.php') ?>">
-                  <i class="flaticon-group"></i> <span>Vendors</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('purchases/expenses.php') ?>">
-                  <i class="flaticon-bill"></i> <span>Expense</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('purchases/product.php') ?>">
-                  <i class="flaticon-box-1"></i> <span>Products & Services</span>
-                  </a>
-               </li>
-            </ul>
-         </li>
-         <li class="">
-            <a href="<?php echo url_for('category') ?>">
-            <i class="flaticon-folder-1"></i> <span>Categories</span>
-            </a>
-         </li>
-         <li class="">
-            <a href="<?php echo url_for('tax') ?>">
-            <i class="flaticon-tax"></i> <span>Tax</span>
-            </a>
-         </li>
-         <li class="treeview <?php echo $page == 'Reports' ? 'active' : '' ?> ">
-            <a href="#"><i class="icon-pie-chart"></i>
-            <span>Reports</span>
-            <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
-            </a>
-            <ul class="treeview-menu">
-               <li class="<?php echo $page_title == 'Profit & Loss' ? 'active' : '' ?>">
-                  <a href="<?php echo url_for('reports/profit_loss?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
-                  <span>Profit & Loss</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('reports/sales_tax?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
-                  <span>Sales Tax Report</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('reports/customers?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
-                  <span>Income by Customer</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('reports/vendors?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
-                  <span>Purchases by Vendor</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('reports') ?>">
-                  <span> General Reports</span>
-                  </a>
-               </li>
-            </ul>
-         </li>
-         <li class="">
-            <a href="<?php echo url_for('subscription') ?>">
-            <i class="flaticon-time-is-money"></i> <span>Subscription</span>
-            </a>
-         </li>
-         <li class="">
-            <a href="<?php echo url_for('country') ?>">
-            <i class="flaticon-menu-3"></i> <span>Country</span>
-            </a>
-         </li>
-         <li class="">
-            <a href="<?php echo url_for('change_password') ?>">
-            <i class="flaticon-lock-1"></i> <span>Change Password</span>
-            </a>
-         </li>
-         <li class="">
-            <a href="<?php echo url_for('logout.php') ?>">
-            <i class="flaticon-exit"></i> <span>logout</span>
-            </a>
-         </li>
-      </ul>
-      <a href="<?php echo url_for('subscription') ?>" class="btn btn-info upgrade_btn">
-      <i class="fa fa-rocket"></i> <span>Upgrade</span>
-      </a>
-   </section>
-</aside>
+            <div class="dropdown mobile-user-menu">
+               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+               <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="profile.html">My Profile</a>
+                  <a class="dropdown-item" href="settings.html">Settings</a>
+                  <a class="dropdown-item" href="login.html">Logout</a>
+               </div>
+            </div>
+         </div>
+         <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+               <div id="sidebar-menu" class="sidebar-menu">
+                  <ul>
+                     <li class="menu-title">
+                        <span>Main</span>
+                     </li>
+                     <li class="submenu">
+                        <a href="#" class="<?php echo $page == 'Dashboard' ? 'active' : '' ?>"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a class="<?php echo $page_title == 'Home' ? 'active' : '' ?>" href="<?php echo url_for('dashboard/') ?>">Admin Dashboard</a></li>
 
+                           
+                        </ul>
+                     </li>
+                      <li class="submenu">
+                        <a href="#" class=""><i class="la la-files-o"></i> <span> Sales </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a href="<?php echo url_for('sales/estimate.php') ?>">Estimates</a></li>
+                           <li><a href="invoices.html">Invoices</a></li>
+                           <li><a href="payments.html">Payments</a></li>
+                           <li><a href="expenses.html">Expenses</a></li>
+                           <li><a href="provident-fund.html">Provident Fund</a></li>
+                           <li><a href="taxes.html">Taxes</a></li>
+                        </ul>
+                     </li>
+                     <li class="submenu">
+                        <a href="#" class="subdrop"><i class="la la-files-o"></i> <span> Accounting </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: block;">
+                           <li><a href="categories.html">Categories</a></li>
+                           <li><a href="budgets.html">Budgets</a></li>
+                            <li><a href="budget-expenses.html">Budget Expenses</a></li>
+                           <li><a href="budget-revenues.html">Budget Revenues</a></li>
+                        </ul>
+                     </li>
+                     
+                     
+                     <li class="submenu">
+                        <a href="#" class="noti-dot <?php echo $page == "Reports" ? 'active' : '' ?> "><i class="la la-pie-chart"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a href="expense-reports.html"> Expense Report </a></li>
+                           <li><a href="invoice-reports.html"> Invoice Report </a></li>
+                           <li><a href="payments-reports.html"> Payments Report </a></li>
+                           <li><a href="project-reports.html"> Project Report </a></li>
+                           <li><a href="task-reports.html"> Task Report </a></li>
+                           <li><a href="user-reports.html"> User Report </a></li>
+                           <li><a href="employee-reports.html"> Employee Report </a></li>
+                           <li><a href="payslip-reports.html"> Payslip Report </a></li>
+                           <li><a href="attendance-reports.html"> Attendance Report </a></li>
+                           <li><a href="leave-reports.html"> Leave Report </a></li>
+                           <li><a href="daily-reports.html"> Daily Report </a></li>
+                        </ul>
+                     </li>
+                     <li class="submenu">
+                        <a href="#" class="<?php echo $page == "Payroll" ? 'active' : '' ?> "><i class="la la-money"></i> <span> Payroll</span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <?php $employee_array = ['Employee Salary'=> 'salary' , 'Payslip' => 'salary-view', 
+                              'Payroll Items' => 'payroll-items']; ?>
+                           <?php foreach($employee_array as $key => $val){ ?>
+                           <li><a class="<?php echo $page_title == $key ? 'active' : '' ?>" 
+                              href="<?php echo url_for('payroll/'. $val.'.php') ?>"><?php echo $key; ?></a></li>
+                           <?php } ?>
+                           
+                        </ul>
+                     </li>
+                     <li>
+                        <a href="assets.html"><i class="la la-object-ungroup"></i> <span>Assets</span></a>
+                     </li>
+                     
+                    
+
+                     <li>
+                        <a href="users.html"><i class="la la-user-plus"></i> <span>Users</span></a>
+                     </li>
+                     <li>
+                        <a href="settings.html"><i class="la la-cog"></i> <span>Settings</span></a>
+                     </li>
+                     <li class="menu-title">
+                        <span>Pages</span>
+                     </li>
+                     <li class="submenu">
+                        <a href="#"><i class="la la-user"></i> <span> Profile </span> <span class="menu-arrow"></span></a>
+                        <ul style="display: none;">
+                           <li><a href="profile.html"> Employee Profile </a></li>
+                           <li><a href="client-profile.html"> Client Profile </a></li>
+                        </ul>
+                     </li>
+                     
+                  </ul>
+               </div>
+            </div>
+         </div>
+
+
+                </div>     
+                <!-- end page title --> 

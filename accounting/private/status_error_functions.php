@@ -24,9 +24,8 @@ function display_errors($errors=array())
    
     $output = '';
     if (!empty($errors)) {
-       
-        $output .= "<div  class=\"errors alert alert-danger alert-dismissible fade show\">";
-        $output .= "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>"; 
+        $output .= "<div style=\"background: #FFF;\" class=\"errors wow  alert alert-dismissible text-danger animated\">";
+        $output .= "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"; 
         // $output .= "Please fix the following errors:"; 
         $output .= "<ul>";
         foreach ($errors as $error) {
