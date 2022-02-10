@@ -123,6 +123,7 @@ $datatable = '';
                                        <th>Department</th>
                                        <th>Phone No.</th>
                                        <th>Join Date</th>
+                                       <th>Stay Duration</th>
                                        <th>Action</th>
                                     </tr>
                                  </thead>
@@ -131,7 +132,11 @@ $datatable = '';
                                     foreach (Employee::find_by_undeleted(['order' => 'ASC']) as $key => $value) {
                                        $class = $key % 2 == 0 ? 'even' : 'odd';
                                        $image =  '../assets/images/users/male.png';
-
+                                        $start_date  = date("Y-m-d",strtotime($value->date_employed));
+                                        $end_date = date('Y-m-d');
+                                      
+                                        $stay_duration = $value->date_employed ? datediff('yyyy',$start_date,$end_date). "years" : 'Not Set';
+                                        // $stay_duration = $value->date_employed ? time_elapsed_string($start_date, $end_date) : 'Not Set';
                                     ?>
                                        <tr class="<?php echo $class; ?>">
                                           <td><?php echo $sn++; ?></td>
@@ -151,7 +156,7 @@ $datatable = '';
 
                                           <td><?php echo $value->phone ? $value->phone : 'Not Set'; ?></td>
                                           <td><?php echo $value->date_employed ? date('Y-m-d', strtotime($value->date_employed)) : 'Not Set'; ?></td>
-
+                                          <td><?php echo $stay_duration; ?></td>
                                           <td>
                                              <a class="btn btn-primary btn-icon btn-sm" href="<?php echo url_for('employees/hr-editemp.php?id=' . $value->id) ?>">
                                                 <i class="feather feather-edit" data-bs-toggle="tooltip" data-original-title="View/Edit" data-bs-original-title="" title=""></i>

@@ -3,7 +3,7 @@
  
 // Fetch records from database 
 $thisMonth = date('Y-m');
-$allmember = Salary::find_by_created_at($thisMonth);
+$allmember = Payroll::find_by_created_at($thisMonth);
 if(count($allmember) > 0){
     // $delimiter = ",";
     // $fileName = 'search_terms.csv';
@@ -15,7 +15,7 @@ if(count($allmember) > 0){
     // Create a file pointer
     $f = fopen('php://memory', 'w');
 
-    $fields = array('ID', 'FULLNAME', 'NET PAY', 'BASIC', 'HOUSING ALLOWANCE', 'DRESSING ALLOWANCE','TRANSPORT', 'UTILITY', 'OTHERS','SALARY ADV.', 'LOAN REPAYMENT', 'TAKE HOME' );
+    $fields = array('ID', 'FULLNAME', 'GROSS SALARY', 'BASIC', 'HOUSING ALLOWANCE', 'DRESSING ALLOWANCE','TRANSPORT', 'UTILITY', 'OTHERS','SALARY ADV.', 'LOAN REPAYMENT', 'TAKE HOME' );
 
     fputcsv($f, $fields, $delimiter);
 

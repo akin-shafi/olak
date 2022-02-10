@@ -15,6 +15,7 @@ $employees = Employee::find_by_undeleted();
 $payrolls = Payroll::find_by_created_at($queryByMonth);
 
 // pre_r($queryByMonth);
+$calculate_tax = 0;
 
 $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $queryByMonth]);
 ?>
@@ -28,8 +29,8 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          <?php
          $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $queryByMonth]);
          if ($config == true) : ?>
-            <button class="btn btn-dark me-3" id="PaySlipDisabled">Payslip Generated</button>
-            <button class="btn btn-secondary me-3" data-bs-toggle="modal" data-bs-target="#excelmodal"> <i class="las la-file-excel"></i> Download Monthly Excel Report </button>
+            <!-- <button class="btn btn-dark me-3" id="PaySlipDisabled">Payslip Generated</button> -->
+            <a class="btn btn-secondary me-3" href="<?php echo url_for('payroll/exportData.php') ?>"> <i class="las la-file-excel"></i> Download Monthly Excel Report </a>
          <?php else : ?>
             <div id="generating">
                <button class="btn btn-primary me-3" id="genPaySlip">Generate Payslip</button>
@@ -84,8 +85,11 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                  <th class="bg-white">#Emp ID</th>
                                  <th class="bg-white">#Emp Name</th>
                                  <th>(₦) Gross Salary</th>
-                                 <th>(₦) Monthly Tax</th>
-                                 <th>(₦) Pension</th>
+                                 <?php if ($calculate_tax == 1) { ?>
+                                    <th>(₦) Monthly Tax</th>
+                                    <th>(₦) Pension</th>
+                                 <?php } ?>
+                                 
                                  <th>(₦) Salary Advance</th>
                                  <th>(₦) Loan</th>
                                  <th>(₦) Take Home</th>
@@ -105,10 +109,19 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                  $commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
 
                                  $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
-                                 $monthly_tax = $tax['monthly_tax'];
-                                 $pension = $tax['pension'];
+                                 $monthly_tax = intval($tax['monthly_tax']);
+                                 $pension = intval($tax['pension']);
 
-                                 $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested) + intval($monthly_tax) + intval($pension));
+                                 
+
+                                 if ($calculate_tax == 1) {
+                                    $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested) + intval($monthly_tax) + intval($pension));
+                                 }else{
+                                    $take_home = $salary;
+                                 }
+
+                                 // 
+                                 
 
                               ?>
                                  <tr>
@@ -123,11 +136,12 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                        </div>
                                     </td>
                                     <td><?php echo number_format($salary) ?></td>
+                                    <?php if ($calculate_tax == 1) { ?>
                                     <td><?php echo  number_format($monthly_tax) ?></td>
                                     <td><?php echo  number_format($pension) ?></td>
-
+                                    <?php } ?>
                                     <td>
-                                       <?php echo !empty($salary_advance->total_requested) ? number_format($salary_advance->total_requested) : '0.00' ?>
+                                       <?php echo !empty($salary_advance->total_requested) ? number_format(intval($salary_advance->total_requested)) : '0.00' ?>
                                     </td>
                                     <td><?php echo number_format($commitment) ?></td>
                                     <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
@@ -261,7 +275,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 
       const PAYROLL_URL = "../inc/payroll/payroll_script.php";
       const SETTING_URL = "../inc/setting/generate_payslip.php";
-      const SALARY_URL = "./inc/salaryItem.php";
+      const SALARY_URL = "./inc/payrolItem.php";
       const GET_PAYROLL_URL = "./inc/get_payroll.php";
 
       const payrollForm = document.getElementById("add_payroll_narration_form");

@@ -101,7 +101,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
 									</tr>
 								</tbody>
 							</table>
-						</div>
+						</div> 
 						<div class="col-6 table-responsive">
 							<table class="table text-nowrap mb-0 border">
 								<thead>
