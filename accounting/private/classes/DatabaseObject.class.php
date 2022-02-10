@@ -185,41 +185,6 @@ class DatabaseObject {
     // calling $user->delete().
   }
 
-  static public function count_status_by_clientcat($clientcat, $clientId, $status=[]){
-    static::$A = count($status);
-
-    $sql = "SELECT COUNT(*) FROM " . static::$table_name. " ";
-    $sql .= "WHERE clientcat='".self::$database->escape_string($clientcat)."'";
-    $sql .= " AND clientId='".self::$database->escape_string($clientId)."' ";
-    if(static::$A > 1) {
-     
-     $sql .="AND (";
-     for($i = 0; $i < static::$A ; ++$i){
-         
-          $sql .= "status='" . self::$database->escape_string($status[$i]) . "'";
-          
-          if($i == (static::$A-1)){  
-             
-             $sql .=")";
-            continue; }
-
-          $sql .= " OR ";
-      
-     }
-
-
-    } else {
-
-      $sql .="AND status='" . self::$database->escape_string($status[0]) . "'";
-    }
-
-     // echo $sql.'<br>';
-    $result_set = self::$database->query($sql);
-    $row = $result_set->fetch_array();
-    return array_shift($row);
-       
-  }
-
     // Abdulghafar's Query Start from here
     // To remove record from the UI without deleting it from the database
 
@@ -292,5 +257,3 @@ class DatabaseObject {
 }
 
 // INSERT INTO trackers (product_id, riders_id, assign_date) VALUES ('429', '1', '2019-07-29 17:24:37')INSERT INTO trans_manifest (trans_id, seal, source_manifest_no, destination_manifest_no, source_rider_id, destination_rider_id, time_uploaded, airline, source, destination, hubnspoke, m_route) VALUES ('429', '', '20190729172437024', '20190729172437024', '1', '1', '2019-07-29 17:24:37', '0', '25', '25', '0', 'JIBOWU, HEAD OFFICE --> N/A')INSERT INTO trans_track (trans_id, status, time, rider_id, receiver_name, phone, comments, airline, source, destination, updated_by) VALUES ('429', '6', '2019-07-29 17:24:37', '1', '', '', '', ' 0', '25', '25', '24')
-
-?>
