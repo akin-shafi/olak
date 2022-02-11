@@ -2,7 +2,7 @@
 require_once('../private/initialize.php');
 
 $page = 'Payroll';
-$page_title = 'Payroll Items';
+$page_title = 'Employees Salary';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 $select2 = '';
@@ -14,6 +14,7 @@ if (isset($_GET['q']) && $_GET['q'] == '') {
 }
 
 $companies = Employee::find_by_company_name('aroma', ['company' => $isCompany]);
+// pre_r($companies);
 
 // $totalSalaryByCompany = Employee::find_by_company_total_salary();
 $totalSalaryByBranch = Employee::find_by_company_total_salary($isCompany, ['branch' => true]);
@@ -46,7 +47,7 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary($isCompany, ['bran
 </style>
 <div class="page-header d-xl-flex d-block">
    <div class="page-leftheader">
-      <h4 class="page-title">Employee Salary</h4>
+      <h4 class="page-title"><?php echo $page_title ?></h4>
    </div>
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
@@ -156,6 +157,7 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary($isCompany, ['bran
                               <tr role="row">
                                  <th>SN</th>
                                  <th>Emp Name</th>
+                                 <th>Company</th>
                                  <th>Department</th>
                                  <th>Job Title</th>
                                  <th>(₦) Salary</th>
@@ -181,6 +183,7 @@ $totalSalaryByBranch = Employee::find_by_company_total_salary($isCompany, ['bran
                                           </div>
                                        </div>
                                     </td>
+                                    <td><?php echo !empty($value->branch) ? $value->branch : 'Not Set' ?></td>
                                     <td><?php echo !empty($value->department) ? $value->department : 'Not Set' ?></td>
                                     <td><?php echo !empty($value->job_title) ? $value->job_title : 'Not Set' ?> </td>
                                     <td class="font-weight-semibold"><?php echo number_format(intval($value->present_salary), 2) ?></td>

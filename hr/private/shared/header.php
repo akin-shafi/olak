@@ -75,7 +75,7 @@ if (!empty($employee->photo)) {
                         <div class="user-info">
                            <h5 class=" mb-2"><?php echo ucwords($user->full_name()) ?></h5>
                            <span class="text-muted app-sidebar__user-name text-sm">
-                              <?php echo $user->admin_level ? $user->admin_level : 'Not Set' ?></span>
+                              <?php echo $user->admin_level ?Admin::ADMIN_LEVEL[$user->admin_level]  : 'Not Set' ?></span>
                         </div>
                      </div>
                   </div>
@@ -117,6 +117,8 @@ if (!empty($employee->photo)) {
                               </ul>
                            </li>
 
+                           
+
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Payroll</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
@@ -144,6 +146,10 @@ if (!empty($employee->photo)) {
                               </ul>
                            </li>
                            <li class="d-none"><a href="superadmin-role.php" class="slide-item">Role Access</a></li>
+
+                           <li>
+                              <a href="<?php echo url_for('admins/') ?>" class="sub-side-menu__item">Admins</a>
+                           </li>
                         </ul>
                      </li>
 
@@ -265,7 +271,7 @@ if (!empty($employee->photo)) {
                                              <div class="p-3 text-center border-bottom">
                                                 <a href="#" class="text-center user pb-0 font-weight-bold">
                                                    <?php echo ucwords($user->full_name()) ?></a>
-                                                <p class="text-center user-semi-title"><?php echo $user->admin_level ? $user->admin_level : 'Not Set' ?></p>
+                                                <p class="text-center user-semi-title"><?php echo $user->admin_level ? Admin::ADMIN_LEVEL[$user->admin_level] : 'Not Set' ?></p>
                                              </div>
                                              <a class="dropdown-item d-flex" href="#">
                                                 <i class="feather feather-user me-3 fs-16 my-auto"></i>

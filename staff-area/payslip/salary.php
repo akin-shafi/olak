@@ -30,7 +30,7 @@ if ($calculate_tax == 1) {
 	$totalDeduction = $commitment + $salaryAdvance->total_requested + $otherDeduction + $tax['monthly_tax'] + $tax['pension'];
 } else {
 	$totalDeduction = $commitment + $salaryAdvance->total_requested + $otherDeduction;
-}
+} 
 $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
 
 ?>

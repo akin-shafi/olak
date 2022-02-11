@@ -203,11 +203,16 @@
              <h5 class="modal-title">Change Password</h5>
              <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
           </div>
-          <div class="modal-body">
-             <div class="form-group"> <label class="form-label">New Password</label> <input type="password" class="form-control" placeholder="password" value=""> </div>
-             <div class="form-group"> <label class="form-label">Confirm New Password</label> <input type="password" class="form-control" placeholder="password" value=""> </div>
-          </div>
-          <div class="modal-footer"> <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</a> <a href="#" class="btn btn-primary">Confirm</a> </div>
+          <form id="changePassword">
+             <div class="modal-body">
+                <div class="form-group"> <label class="form-label">New Password</label> <input type="password" class="form-control" placeholder="password" value="" name="password"> </div>
+                <div class="form-group"> <label class="form-label">Confirm New Password</label> <input type="password" class="form-control" placeholder="password" value="" name="confirm_password"> </div>
+             </div>
+             <div class="modal-footer"> 
+               <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</a> 
+               <a href="#" class="btn btn-primary" id="confirmP">Confirm</a> 
+             </div>
+         </form>
        </div>
     </div>
  </div>
@@ -306,6 +311,31 @@
 
  <?php endif ?>
 
+<input type="hidden" value="<?php echo url_for('/') ?>" id="path">
+<script type="text/javascript">
+   var path = $("#path").val();
+   $(document).on("click", "#confirmP", function(e) {
+      e.preventDefault();
+      $.ajax({
+            url: path + 'inc/changePassword.php',
+            method:"POST",
+            data: $("#changePassword").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.success == true) {
+                  
+                   $(".changepasswordnmodal").modal('hide');
+                   window.location.href = path + 'logout.php';
+                    // message(data.msg, 'success');
+                }else{
+                    // errorAlert(data.msg);
+                    // $(".error").removeClass('d-none');
+                    // $(".error").html(data.msg);
+                }
+            }
+        })
+   })
+</script>
 
 
  <script type="text/javascript">

@@ -2,33 +2,33 @@
 class Admin extends DatabaseObject
 {
     protected static $table_name = "admin";
-    protected static $db_columns = ['id','first_name','last_name','email','profile_img','hashed_password','admin_level','account_status', 'process_request','created_at','updated_at','created_by','reset_password','deleted'];
+    protected static $db_columns = ['id','first_name','last_name','email','profile_img','hashed_password','admin_level','account_status', 'created_at','updated_at','created_by','reset_password','deleted'];
 
-    public $id;
-    public $first_name;
-    public $last_name;
-    public $email;
-    public $profile_img;
-    public $hashed_password;
-    public $password; 
-    public $confirm_password;
-    protected $password_required = true;
-    public $admin_level;
-    public $account_status;
-    public $process_request;
-    public $created_at ;
-    public $updated_at ;
-    public $created_by;
-    public $reset_password;
-    public $deleted;
+     public $id; 
+     public $first_name; 
+     public $last_name; 
+     public $email; 
+     public $profile_img; 
+     public $hashed_password;
+     public $password; 
+     public $confirm_password;
+     protected $password_required = true; 
+     public $reset_password; 
+     public $admin_level; 
+     public $account_status; 
+     public $company_id; 
+     public $created_at; 
+     public $updated_at; 
+     public $created_by; 
+     public $deleted; 
 
- 
+    
     public $counts;
 
     const ADMIN_LEVEL = [
       1 => 'Super Admin',
-      2 => 'Admin',
-      3 => 'Support',
+      2 => 'Head HR & Admin',
+      3 => 'HRC',
     ];
 
     const ACCOUNT_STATUS = [
@@ -36,29 +36,25 @@ class Admin extends DatabaseObject
       0 => 'Inactive',
     ];
     
-    const PROCESS_REQUEST = [
-      1 => 'Yes',
-      0 => 'No',
-    ];
-
+     
 
     public function __construct($args=[])
     {
-        $this->first_name = $args['first_name'] ?? '';
-        $this->last_name = $args['last_name'] ?? '';
-        $this->email = $args['email'] ?? '';
-        $this->profile_img = $args['profile_img'] ?? '';
-        $this->password = $args['password'] ?? '';
-        $this->confirm_password = $args['confirm_password'] ?? '';
-        // $this->hashed_password = $args['hashed_password'] ?? '';
-        $this->admin_level = $args['admin_level'] ?? '';
-        $this->account_status = $args['account_status'] ?? 1;
-        $this->process_request = $args['process_request'] ?? 0;
-        $this->created_by = $args['created_by'] ?? '';
-        $this->updated_at = $args['updated_at'] ?? date('Y-m-d H:i:s');
-        $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
-        $this->reset_password = $args['reset_password'] ?? 0;
-        $this->deleted = $args['deleted'] ?? '';
+
+         $this->first_name          = $args['first_name'] ?? ''; 
+         $this->last_name           = $args['last_name'] ?? ''; 
+         $this->email               = $args['email'] ?? ''; 
+         $this->profile_img         = $args['profile_img'] ?? ''; 
+         $this->password = $args['password'] ?? '';
+         $this->confirm_password = $args['confirm_password'] ?? ''; 
+         $this->reset_password      = $args['reset_password'] ?? 0; 
+         $this->admin_level         = $args['admin_level'] ?? ''; 
+         $this->account_status      = $args['account_status'] ?? ''; 
+         $this->company_id          = $args['company_id'] ?? ''; 
+         $this->created_at          = $args['created_at'] ?? date('Y-m-d H:i:s'); 
+         $this->updated_at          = $args['updated_at'] ?? date('Y-m-d H:i:s'); 
+         $this->created_by          = $args['created_by'] ?? ''; 
+         $this->deleted             = $args['deleted'] ?? ''; 
     }
 
     public function full_name()

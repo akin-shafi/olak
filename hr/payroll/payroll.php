@@ -143,7 +143,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                     <td>
                                        <?php echo !empty($salary_advance->total_requested) ? number_format(intval($salary_advance->total_requested)) : '0.00' ?>
                                     </td>
-                                    <td><?php echo number_format($commitment) ?></td>
+                                    <td><?php echo !empty($commitment) ? number_format(intval($commitment)) : '0.00' ?></td>
                                     <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
                                     <td>
                                        <span class="badge <?php echo $value->payment_status != 0 ? 'badge-success' : 'badge-danger' ?>">
@@ -273,10 +273,10 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          }
       };
 
-      const PAYROLL_URL = "../inc/payroll/payroll_script.php";
-      const SETTING_URL = "../inc/setting/generate_payslip.php";
-      const SALARY_URL = "./inc/payrolItem.php";
-      const GET_PAYROLL_URL = "./inc/get_payroll.php";
+      const PAYROLL_URL = "inc/payroll/payroll_script.php";
+      const SETTING_URL = "inc/setting/generate_payslip.php";
+      const SALARY_URL = "inc/payrolItem.php";
+      const GET_PAYROLL_URL = "inc/get_payroll.php";
 
       const payrollForm = document.getElementById("add_payroll_narration_form");
       const getSalary = document.getElementById("get_salary");
