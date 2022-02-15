@@ -7,8 +7,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 ?>
 
-<div class="content-wrapper">
-	<section class="content">
+
 		<div class="row">
 			<div class="col-md-6">
 				<div class="box">
@@ -223,8 +222,6 @@ include(SHARED_PATH . '/admin_header.php');
 				</div>
 			</div>
 		</div>
-	</section>
-</div>
-
+	
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>

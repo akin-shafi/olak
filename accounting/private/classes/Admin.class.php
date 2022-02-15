@@ -1,7 +1,7 @@
 <?php
 class Admin extends DatabaseObject
 {
-    protected static $table_name = "admins";
+    protected static $table_name = "admin";
     protected static $db_columns = ['id', 'first_name', 'last_name', 'email', 'profile_img', 'hashed_password', 'reset_password', 'admin_level', 'account_status', 'company_id', 'created_at', 'updated_at', 'created_by', 'deleted'];
 
     public $id;

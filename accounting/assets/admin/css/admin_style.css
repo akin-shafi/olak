@@ -1292,11 +1292,11 @@ body .main-header .navbar .nav > li.search-box > a:hover, body .main-header .nav
     -webkit-animation: ripple .2s linear forwards;
     animation: ripple .2s linear forwards;
 }
-[type=checkbox]:checked, [type=checkbox]:not(:checked) {
+/*[type=checkbox]:checked, [type=checkbox]:not(:checked) {
     position: absolute;
     left: 0px;
     opacity: 0;
-}
+}*/
 [type=checkbox]+label {
     font-weight: 300;
     position: relative;
@@ -8552,6 +8552,7 @@ button.btn.dropdown-toggle::after, .wysihtml5-toolbar .btn.dropdown-toggle::afte
   background-color: #e4e7ea;
   border-color: #e4e7ea;
   color: #fff;
+    
 }
 
 .btn-secondary:hover {
@@ -17360,3 +17361,47 @@ span.addons_badge {
     align-items: center;
     justify-content: center;
 }
+
+.icon1 {
+    height: 55px;
+    width: 55px;
+    line-height: 57px;
+    border-radius: 7px;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+}
+.bg-success {
+    background-color: #0dcd94!important;
+}
+.bg-primary {
+    background-color: #36f!important;
+}
+.bg-secondary {
+    background-color: #fe7f00!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

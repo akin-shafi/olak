@@ -28,7 +28,7 @@ if (is_post_request()) {
       $session->login($admin);
 
       log_action('Admin Login', "{$admin->full_name()} Logged in.", "login");
-      redirect_to(url_for('/dashboard/'));
+      redirect_to(url_for('/dashboard/business.php'));
     } else {
       $errors[] = "Log in not successful.";
     }

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -29,13 +30,14 @@
     font-size: 1rem;
   }
 
-  /* @media (min-width:320px) {
+  @media (min-width:320px) {
     .w-50 {
-      width: 50% !important;
+      width: 100% !important;
     }
-  } */
+  }
 
   @media (min-width:640px) {
+
     .welcome h1 {
       font-size: 1.7rem;
       padding-top: 1rem;
@@ -45,22 +47,26 @@
       width: 100px;
       height: 100px;
     }
-
-    .w-50 {
-      width: 40% !important;
-    }
   }
 
   @media (min-width:970px) {
+
     .w-50 {
-      width: 30% !important;
+      width: 50% !important;
     }
+
   }
 
   @media (min-width:1024px) {
+
     .welcome h1 {
       font-size: 2rem;
     }
+
+    .w-50 {
+      width: 50% !important;
+    }
+
   }
 </style>
 
@@ -68,7 +74,7 @@
   <div class="container shadow olak bg-white">
     <header class="welcome pt-3">
       <h1 class="text-center">
-        Welcome to Olak CRM
+        Welcome to Olak Accounting Admin Centre
       </h1>
 
       <div class="welcome-box">
@@ -78,7 +84,7 @@
     <main class="container grid-container">
 
       <div class="w-50">
-        <img src="../images/crm-splash.png" class="hidden-xs img-fluid d-block m-auto" title="banner balance" alt="banner balance">
+        <img src="../images/accounting-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
       </div>
 
       <a href="./login.php" class="btn btn-lg bg-custom-blue text-light anchor">
@@ -96,4 +102,4 @@
   <!-- <script type="text/javascript" src="pwa.js"></script> -->
 </body>
 
-</html>
+</html>s

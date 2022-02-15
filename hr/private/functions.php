@@ -383,7 +383,7 @@ function time_elapsed_string($datetime, $string, $full = false)
   }
 
   if (!$full) $string = array_slice($string, 0, 1);
-  return $string ? implode(', ', $string) . ' ago' : 'just now';
+  return $string ? implode(', ', $string) . ' ' : 'just now';
 }
 
 function time_diff_string($from, $to, $full = false)

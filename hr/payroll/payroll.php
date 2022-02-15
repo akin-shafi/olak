@@ -33,7 +33,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
             <a class="btn btn-secondary me-3" href="<?php echo url_for('payroll/exportData.php') ?>"> <i class="las la-file-excel"></i> Download Monthly Excel Report </a>
          <?php else : ?>
             <div id="generating">
-               <button class="btn btn-primary me-3" id="genPaySlip">Generate Payslip</button>
+               <button class="btn btn-primary me-3" id="genPaySlip">Compute Salary</button>
             </div>
          <?php endif ?>
 

@@ -1,23 +1,23 @@
 <?php
 
-class DatabaseObject
+class DatabaseObjectHR
 {
 
-  static protected $database;
+  static protected $database_hr;
   static protected $table_name = "";
   static protected $columns = [];
   public $errors = [];
 
   static protected $db_columns;
 
-  static public function set_database($database)
+  static public function set_database($database_hr)
   {
-    self::$database = $database;
+    self::$database_hr = $database_hr;
   }
 
   static public function find_by_sql($sql)
   {
-    $result = self::$database->query($sql);
+    $result = self::$database_hr->query($sql);
     if (!$result) {
       echo $sql;
       exit("Database query failed.");
@@ -44,7 +44,7 @@ class DatabaseObject
   static public function count_all()
   {
     $sql = "SELECT COUNT(*) FROM " . static::$table_name;
-    $result_set = self::$database->query($sql);
+    $result_set = self::$database_hr->query($sql);
     $row = $result_set->fetch_array();
     return array_shift($row);
   }
@@ -52,7 +52,7 @@ class DatabaseObject
   static public function find_by_id($id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE id='" . self::$database->escape_string($id) . "'";
+    $sql .= "WHERE id='" . self::$database_hr->escape_string($id) . "'";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);
@@ -64,7 +64,7 @@ class DatabaseObject
   static public function find_by_email($email)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE client_email='" . self::$database->escape_string($email) . "'";
+    $sql .= "WHERE client_email='" . self::$database_hr->escape_string($email) . "'";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);
@@ -75,7 +75,7 @@ class DatabaseObject
   static public function find_by_code($code)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE code='" . self::$database->escape_string($code) . "'";
+    $sql .= "WHERE code='" . self::$database_hr->escape_string($code) . "'";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);
@@ -123,9 +123,9 @@ class DatabaseObject
 
     // echo $sql."Create";
 
-    $result = self::$database->query($sql);
+    $result = self::$database_hr->query($sql);
     if ($result) {
-      $this->id = self::$database->insert_id;
+      $this->id = self::$database_hr->insert_id;
     }
     return $result;
   }
@@ -145,11 +145,11 @@ class DatabaseObject
 
     $sql = "UPDATE " . static::$table_name . " SET ";
     $sql .= join(', ', $attribute_pairs);
-    $sql .= " WHERE id='" . self::$database->escape_string($this->id) . "' ";
+    $sql .= " WHERE id='" . self::$database_hr->escape_string($this->id) . "' ";
     $sql .= "LIMIT 1";
 
     // echo $sql."Update";
-    $result = self::$database->query($sql);
+    $result = self::$database_hr->query($sql);
     return $result;
   }
 
@@ -189,7 +189,7 @@ class DatabaseObject
   {
     $sanitized = [];
     foreach ($this->attributes() as $key => $value) {
-      $sanitized[$key] = self::$database->escape_string($value);
+      $sanitized[$key] = self::$database_hr->escape_string($value);
     }
     return $sanitized;
   }
@@ -197,9 +197,9 @@ class DatabaseObject
   public function delete()
   {
     $sql = "DELETE FROM " . static::$table_name . " ";
-    $sql .= "WHERE id='" . self::$database->escape_string($this->id) . "' ";
+    $sql .= "WHERE id='" . self::$database_hr->escape_string($this->id) . "' ";
     $sql .= "LIMIT 1";
-    $result = self::$database->query($sql);
+    $result = self::$database_hr->query($sql);
     return $result;
 
     // After deleting, the instance of the object will still
@@ -216,7 +216,7 @@ class DatabaseObject
   public static function find_by_exception($exception)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE exception='" . self::$database->escape_string($exception) . "'";
+    $sql .= "WHERE exception='" . self::$database_hr->escape_string($exception) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "ORDER BY id ASC";
     $obj_array = static::find_by_sql($sql);
@@ -227,20 +227,20 @@ class DatabaseObject
   {
     $sql = "UPDATE " . static::$table_name . " SET ";
     $sql .= "deleted = 1 ";
-    $sql .= " WHERE id='" . self::$database->escape_string($id) . "' ";
+    $sql .= " WHERE id='" . self::$database_hr->escape_string($id) . "' ";
     $sql .= "LIMIT 1";
     // echo $sql;
-    $result = self::$database->query($sql);
+    $result = self::$database_hr->query($sql);
     return $result;
   }
   static public function delete_multiple($id)
   {
     $sql = "UPDATE " . static::$table_name . " SET ";
     $sql .= "deleted = 1 ";
-    $sql .= " WHERE id='" . self::$database->escape_string($id) . "' ";
+    $sql .= " WHERE id='" . self::$database_hr->escape_string($id) . "' ";
     // $sql .= "LIMIT 1";
     // echo $sql;
-    $result = self::$database->query($sql);
+    $result = self::$database_hr->query($sql);
     return $result;
   }
 
@@ -254,9 +254,9 @@ class DatabaseObject
   static public function real_delete_all($id)
   {
     $sql = "DELETE FROM " . static::$table_name . " ";
-    $sql .= "WHERE id='" . self::$database->escape_string($id) . "' ";
+    $sql .= "WHERE id='" . self::$database_hr->escape_string($id) . "' ";
     // $sql .= "LIMIT 1";
-    $result = self::$database->query($sql);
+    $result = self::$database_hr->query($sql);
     return $result;
   }
 
@@ -270,7 +270,7 @@ class DatabaseObject
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
     if ($order) {
-      $sql .= " ORDER BY id " . self::$database->escape_string($order) . " ";
+      $sql .= " ORDER BY id " . self::$database_hr->escape_string($order) . " ";
     } else {
       $sql .= " ORDER BY id DESC ";
     }

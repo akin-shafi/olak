@@ -1,4 +1,16 @@
-<?php  //require_login(); 
+<?php 
+require_login();
+$isActive = 0;
+
+$company = Company::find_by_undeleted(['order' => 'ASC']);
+
+// pre_r($company);
+// if(!empty($user)){
+    
+
+// }else{
+//     redirect_to(url_for('logout.php'));
+// }
 ?>
 <!DOCTYPE html>
 
@@ -15,8 +27,7 @@
 
    <title><?php echo $page . " " . $page_title; ?></title>
 
-   <?php //echo url_for('assets/css/icons.min.css') 
-   ?>
+   <?php //echo url_for('assets/css/icons.min.css') ?>
    <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/bootstrap.min.css') ?>">
    <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/bootstrap-extend.css') ?>">
    <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/font-awesome.min.css') ?>">
@@ -64,7 +75,7 @@
 <body class="hold-transition skin-blue-light sidebar-mini">
 
    <!-- Preloader -->
-   <!-- <div class="preloader">
+  <!--  <div class="preloader">
       <div class="container text-center"><div class="spinner-llg"></div></div>
     </div> -->
    <!-- Preloader -->
@@ -77,7 +88,7 @@
          <a href="#" class="switch_business logo text-centers">
             <span class="logo-lg">
                <img width="40px" src="<?php echo url_for('uploads/thumbnail/clou_logo_thumb-100x72.png') ?>" alt="Accufy">
-               <span>Datasoft </span>
+               <span id="current_company"><?php echo $company_name ?></span>
             </span>
             <span class="buss-arrow pull-right"><i class="icon-arrow-right"></i></span>
          </a>
@@ -85,27 +96,29 @@
          <div class="business_switch_panel animate-ltr" style="display: none;">
             <div class="buss_switch_panel_header">
                <img width="30px" src="<?php echo url_for('uploads/thumbnail/clou_logo_thumb-100x72.png') ?>" alt="Accufy">
-               <span class="acc">Your Accufy accounts</span>
+               <span class="acc">BookMyCash</span>
                <span class="business_close pull-right">×</span>
             </div>
 
             <div class="buss_switch_panel_body">
                <ul class="switcher_business_menu pb-20">
                   <li class="business_menu_item ">
-                     <a class="business_menu_item_link" href="<?php echo url_for('admin/profile/switch_business/37924') ?>">
+                     <a class="business_menu_item_link" href="<?php echo url_for('/'. $page) ?>">
                         <span class="business-menu_item_label">
-                           Iconic </span>
+                           All </span>
                      </a>
                   </li>
-                  <li class="business_menu_item default">
-                     <a class="business_menu_item_link" href="<?php echo url_for('admin/profile/switch_business/42308') ?>">
+                  
+                  <?php foreach ($company as $key => $value) { ?>
+                     
+                  <li class="business_menu_item ">
+                     <a class="business_menu_item_link" href="<?php echo url_for('/'. $page.'/index.php?company_id='.$value->id) ?>" data-companyid="<?php echo $value->id ?>" data-companyname="<?php echo $value->company_name ?>">
                         <span class="business-menu_item_label">
-                           Datasoft
-                           <span class="is_default pull-right">
-                              <i class="flaticon-checked text-success"></i></span>
-                        </span>
+                           <?php echo $value->company_name ?> </span>
                      </a>
                   </li>
+                  
+                  <?php } ?>
                </ul>
 
                <div class="seperater"></div>
@@ -137,6 +150,8 @@
       <aside class="main-sidebar">
          <section class="sidebar mt-10">
             <ul class="sidebar-menu" data-widget="tree">
+               <?php if ($isActive == 1) { ?>
+              
                <li class="<?php echo $page_title == 'User Dashboard' ? 'active' : '' ?>">
                   <a href="<?php echo url_for('dashboard/business.php') ?>">
                      <i class="flaticon-home-1"></i> <span>Dashboard</span>
@@ -271,14 +286,47 @@
                      <i class="flaticon-lock-1"></i> <span>Change Password</span>
                   </a>
                </li>
+               <a href="<?php echo url_for('subscription') ?>" class="btn btn-info upgrade_btn">
+                  <i class="fa fa-rocket"></i> <span>Upgrade</span>
+               </a>
+               <?php } ?>
+
+               <li class="">
+                  <a href="<?php echo url_for('payroll/') ?>">
+                     <i class="flaticon-save-money"></i> <span> Payroll </span>
+                  </a>
+               </li>
+
                <li class="">
                   <a href="<?php echo url_for('logout.php') ?>">
                      <i class="flaticon-exit"></i> <span>logout</span>
                   </a>
                </li>
             </ul>
-            <a href="<?php echo url_for('subscription') ?>" class="btn btn-info upgrade_btn">
-               <i class="fa fa-rocket"></i> <span>Upgrade</span>
-            </a>
+            
          </section>
       </aside>
+
+         <div class="content-wrapper">
+             <section class="content">
+
+               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

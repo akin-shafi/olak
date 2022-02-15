@@ -135,8 +135,8 @@ $datatable = '';
                                         $start_date  = date("Y-m-d",strtotime($value->date_employed));
                                         $end_date = date('Y-m-d');
                                       
-                                        $stay_duration = $value->date_employed ? datediff('yyyy',$start_date,$end_date). "years" : 'Not Set';
-                                        // $stay_duration = $value->date_employed ? time_elapsed_string($start_date, $end_date) : 'Not Set';
+                                        // $stay_duration = $value->date_employed ? datediff('yyyy',$start_date,$end_date). "years" : 'Not Set';
+                                        $stay_duration = $value->date_employed ? time_elapsed_string($start_date, $end_date, true) : 'Not Set';
                                     ?>
                                        <tr class="<?php echo $class; ?>">
                                           <td><?php echo $sn++; ?></td>

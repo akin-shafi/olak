@@ -52,9 +52,13 @@ function my_autoload($class)
 }
 spl_autoload_register('my_autoload');
 
+
+
 $database = db_connect();
-$database_hr = db_connect_hr();
 DatabaseObject::set_database($database);
+
+$database_hr = db_connect_hr();
+DatabaseObjectHR::set_database($database_hr);
 
 
 $session = new Session;

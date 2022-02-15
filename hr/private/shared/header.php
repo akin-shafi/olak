@@ -1,17 +1,22 @@
 <?php require_login();
 $user = $loggedInAdmin;
+// pre_r($user);
+if(!empty($user)){
+    $id = $loggedInAdmin->id;
+    $employee = Employee::find_by_id($id);
+    
+    if (!empty($employee->photo)) {
+       $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
+    } else {
+       if ($employee->gender == 'Male') {
+          $profile_picture = url_for('assets/images/users/male.jpg');
+       } else {
+          $profile_picture = url_for('assets/images/users/female.jpg');
+       }
+    }
 
-$id = $loggedInAdmin->id;
-$employee = Employee::find_by_id($id);
-
-if (!empty($employee->photo)) {
-   $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
-} else {
-   if ($employee->gender == 'Male') {
-      $profile_picture = url_for('assets/images/users/male.jpg');
-   } else {
-      $profile_picture = url_for('assets/images/users/female.jpg');
-   }
+}else{
+    redirect_to(url_for('logout.php'));
 }
 
 ?>
