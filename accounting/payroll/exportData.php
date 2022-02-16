@@ -19,11 +19,9 @@ if(count($allmember) > 0){
     // Create a file pointer
     $f = fopen('php://memory', 'w');
 
-        if ($bank == '1') {  // ACCESS BANK
-            $fields = array('ID', 'FULLNAME', 'COMPANY NAME','BANK NAME', 'ACCOUNT NUMBER', 'SALARY', 'SORT CODE');
-        }else{
-            $fields = array('ID', 'FULLNAME', 'COMPANY NAME','BANK NAME', 'ACCOUNT NUMBER', 'SALARY', 'SORT CODE');
-        }
+       
+        $fields = array('ID', 'FULLNAME', 'COMPANY NAME','BANK NAME', 'ACCOUNT NUMBER', 'SALARY', 'SORT CODE');
+       
 
         fputcsv($f, $fields, $delimiter);
         $sn = 1;
@@ -39,7 +37,7 @@ if(count($allmember) > 0){
             $account_number = $employee->account_number ?? 'Not Set';
             $takehome = $net_salary - ($salary_advance + $loan);
 
-            if ($bank == '1') {  // ACCESS BANK
+            
                 $lineData = array(
                     $sn++, 
                     $full_name,
@@ -51,18 +49,7 @@ if(count($allmember) > 0){
                     $sort_code, 
                     
                 );
-            }else{
-                $lineData = array(
-                    $sn++, 
-                    $full_name,
-                    $company_name,
-                    $bank_name,
-                    $account_number,
-                    $takehome, 
-                    $sort_code, 
-                    
-                );
-            }
+            
             fputcsv($f, $lineData, $delimiter); 
          }
     
