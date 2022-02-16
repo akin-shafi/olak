@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_login();
 $isActive = 0;
 
@@ -6,7 +6,7 @@ $company = Company::find_by_undeleted(['order' => 'ASC']);
 
 // pre_r($company);
 // if(!empty($user)){
-    
+
 
 // }else{
 //     redirect_to(url_for('logout.php'));
@@ -27,7 +27,8 @@ $company = Company::find_by_undeleted(['order' => 'ASC']);
 
    <title><?php echo $page . " " . $page_title; ?></title>
 
-   <?php //echo url_for('assets/css/icons.min.css') ?>
+   <?php //echo url_for('assets/css/icons.min.css') 
+   ?>
    <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/bootstrap.min.css') ?>">
    <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/bootstrap-extend.css') ?>">
    <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/font-awesome.min.css') ?>">
@@ -40,7 +41,7 @@ $company = Company::find_by_undeleted(['order' => 'ASC']);
    <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/admin_style.css') ?>">
    <link rel="stylesheet" href="<?php echo url_for('assets/admin/css/skins/theme_2.css') ?>">
 
-
+   <link href="<?php echo url_for('assets/admin/css/ajax_loader.css') ?>" rel="stylesheet" />
 
    <link href="<?php echo url_for('assets/admin/css/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
    <link href="<?php echo url_for('assets/admin/css/icons.css') ?>" rel="stylesheet">
@@ -75,10 +76,18 @@ $company = Company::find_by_undeleted(['order' => 'ASC']);
 <body class="hold-transition skin-blue-light sidebar-mini">
 
    <!-- Preloader -->
-  <!--  <div class="preloader">
+   <!--  <div class="preloader">
       <div class="container text-center"><div class="spinner-llg"></div></div>
     </div> -->
    <!-- Preloader -->
+
+   <div class="loader" id="ajax_loader" style="display:none;">
+      <div class="strip-holder">
+         <div class="strip-1"></div>
+         <div class="strip-2"></div>
+         <div class="strip-3"></div>
+      </div>
+   </div>
 
    <!-- Site wrapper -->
    <div class="wrapper">
@@ -103,21 +112,21 @@ $company = Company::find_by_undeleted(['order' => 'ASC']);
             <div class="buss_switch_panel_body">
                <ul class="switcher_business_menu pb-20">
                   <li class="business_menu_item ">
-                     <a class="business_menu_item_link" href="<?php echo url_for('/'. $page) ?>">
+                     <a class="business_menu_item_link" href="<?php echo url_for('/' . $page) ?>">
                         <span class="business-menu_item_label">
                            All </span>
                      </a>
                   </li>
-                  
+
                   <?php foreach ($company as $key => $value) { ?>
-                     
-                  <li class="business_menu_item ">
-                     <a class="business_menu_item_link" href="<?php echo url_for('/'. $page.'/index.php?company_id='.$value->id) ?>" data-companyid="<?php echo $value->id ?>" data-companyname="<?php echo $value->company_name ?>">
-                        <span class="business-menu_item_label">
-                           <?php echo $value->company_name ?> </span>
-                     </a>
-                  </li>
-                  
+
+                     <li class="business_menu_item ">
+                        <a class="business_menu_item_link" href="<?php echo url_for('/' . $page . '/index.php?company_id=' . $value->id) ?>" data-companyid="<?php echo $value->id ?>" data-companyname="<?php echo $value->company_name ?>">
+                           <span class="business-menu_item_label">
+                              <?php echo $value->company_name ?> </span>
+                        </a>
+                     </li>
+
                   <?php } ?>
                </ul>
 
@@ -151,144 +160,144 @@ $company = Company::find_by_undeleted(['order' => 'ASC']);
          <section class="sidebar mt-10">
             <ul class="sidebar-menu" data-widget="tree">
                <?php if ($isActive == 1) { ?>
-              
-               <li class="<?php echo $page_title == 'User Dashboard' ? 'active' : '' ?>">
-                  <a href="<?php echo url_for('dashboard/business.php') ?>">
-                     <i class="flaticon-home-1"></i> <span>Dashboard</span>
+
+                  <li class="<?php echo $page_title == 'User Dashboard' ? 'active' : '' ?>">
+                     <a href="<?php echo url_for('dashboard/business.php') ?>">
+                        <i class="flaticon-home-1"></i> <span>Dashboard</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="<?php echo url_for('profile/') ?>">
+                        <i class="flaticon-settings-1"></i> <span>Settings</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="<?php echo url_for('payment/user') ?>">
+                        <i class="flaticon-save-money"></i> <span> Payment Settings</span>
+                     </a>
+                  </li>
+                  <li class="treeview ">
+                     <a href="#"><i class="flaticon-business-cards"></i>
+                        <span>Sales</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
+                     </a>
+                     <ul class="treeview-menu">
+                        <li class="">
+                           <a href="<?php echo url_for('customer') ?>">
+                              <i class="flaticon-network"></i> <span>Customers</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('products/') ?>">
+                              <i class="flaticon-box-1"></i> <span>Products & Services</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('estimate') ?>">
+                              <i class="flaticon-contract"></i> <span>Estimates</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('invoices/') ?>">
+                              <i class="flaticon-approve-invoice"></i> <span>Invoices</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('invoice/create/1') ?>">
+                              <i class="flaticon-iterative"></i> <span>Recurring Invoice </span>
+                           </a>
+                        </li>
+                     </ul>
+                  </li>
+                  <li class="treeview ">
+                     <a href="#"><i class="icon-basket"></i>
+                        <span>Purchases</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
+                     </a>
+                     <ul class="treeview-menu">
+                        <li class="">
+                           <a href="<?php echo url_for('purchases/bills.php') ?>">
+                              <i class="flaticon-credit-card"></i> <span>Bills</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('purchases/vendor.php') ?>">
+                              <i class="flaticon-group"></i> <span>Vendors</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('purchases/expenses.php') ?>">
+                              <i class="flaticon-bill"></i> <span>Expense</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('purchases/product.php') ?>">
+                              <i class="flaticon-box-1"></i> <span>Products & Services</span>
+                           </a>
+                        </li>
+                     </ul>
+                  </li>
+                  <li class="">
+                     <a href="<?php echo url_for('category') ?>">
+                        <i class="flaticon-folder-1"></i> <span>Categories</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="<?php echo url_for('tax') ?>">
+                        <i class="flaticon-tax"></i> <span>Tax</span>
+                     </a>
+                  </li>
+                  <li class="treeview <?php echo $page == 'Reports' ? 'active' : '' ?> ">
+                     <a href="#"><i class="icon-pie-chart"></i>
+                        <span>Reports</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
+                     </a>
+                     <ul class="treeview-menu">
+                        <li class="<?php echo $page_title == 'Profit & Loss' ? 'active' : '' ?>">
+                           <a href="<?php echo url_for('reports/profit_loss?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
+                              <span>Profit & Loss</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('reports/sales_tax?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
+                              <span>Sales Tax Report</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('reports/customers?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
+                              <span>Income by Customer</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('reports/vendors?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
+                              <span>Purchases by Vendor</span>
+                           </a>
+                        </li>
+                        <li class="">
+                           <a href="<?php echo url_for('reports') ?>">
+                              <span> General Reports</span>
+                           </a>
+                        </li>
+                     </ul>
+                  </li>
+                  <li class="">
+                     <a href="<?php echo url_for('subscription') ?>">
+                        <i class="flaticon-time-is-money"></i> <span>Subscription</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="<?php echo url_for('country') ?>">
+                        <i class="flaticon-menu-3"></i> <span>Country</span>
+                     </a>
+                  </li>
+                  <li class="">
+                     <a href="<?php echo url_for('change_password') ?>">
+                        <i class="flaticon-lock-1"></i> <span>Change Password</span>
+                     </a>
+                  </li>
+                  <a href="<?php echo url_for('subscription') ?>" class="btn btn-info upgrade_btn">
+                     <i class="fa fa-rocket"></i> <span>Upgrade</span>
                   </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('profile/') ?>">
-                     <i class="flaticon-settings-1"></i> <span>Settings</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('payment/user') ?>">
-                     <i class="flaticon-save-money"></i> <span> Payment Settings</span>
-                  </a>
-               </li>
-               <li class="treeview ">
-                  <a href="#"><i class="flaticon-business-cards"></i>
-                     <span>Sales</span>
-                     <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
-                  </a>
-                  <ul class="treeview-menu">
-                     <li class="">
-                        <a href="<?php echo url_for('customer') ?>">
-                           <i class="flaticon-network"></i> <span>Customers</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('products/') ?>">
-                           <i class="flaticon-box-1"></i> <span>Products & Services</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('estimate') ?>">
-                           <i class="flaticon-contract"></i> <span>Estimates</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('invoices/') ?>">
-                           <i class="flaticon-approve-invoice"></i> <span>Invoices</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('invoice/create/1') ?>">
-                           <i class="flaticon-iterative"></i> <span>Recurring Invoice </span>
-                        </a>
-                     </li>
-                  </ul>
-               </li>
-               <li class="treeview ">
-                  <a href="#"><i class="icon-basket"></i>
-                     <span>Purchases</span>
-                     <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
-                  </a>
-                  <ul class="treeview-menu">
-                     <li class="">
-                        <a href="<?php echo url_for('purchases/bills.php') ?>">
-                           <i class="flaticon-credit-card"></i> <span>Bills</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('purchases/vendor.php') ?>">
-                           <i class="flaticon-group"></i> <span>Vendors</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('purchases/expenses.php') ?>">
-                           <i class="flaticon-bill"></i> <span>Expense</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('purchases/product.php') ?>">
-                           <i class="flaticon-box-1"></i> <span>Products & Services</span>
-                        </a>
-                     </li>
-                  </ul>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('category') ?>">
-                     <i class="flaticon-folder-1"></i> <span>Categories</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('tax') ?>">
-                     <i class="flaticon-tax"></i> <span>Tax</span>
-                  </a>
-               </li>
-               <li class="treeview <?php echo $page == 'Reports' ? 'active' : '' ?> ">
-                  <a href="#"><i class="icon-pie-chart"></i>
-                     <span>Reports</span>
-                     <span class="pull-right-container"><i class="fa fa-angle-right pull-right"></i></span>
-                  </a>
-                  <ul class="treeview-menu">
-                     <li class="<?php echo $page_title == 'Profit & Loss' ? 'active' : '' ?>">
-                        <a href="<?php echo url_for('reports/profit_loss?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
-                           <span>Profit & Loss</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('reports/sales_tax?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
-                           <span>Sales Tax Report</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('reports/customers?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
-                           <span>Income by Customer</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('reports/vendors?end=2021-12-08&start=2021-01-01&report_type=1') ?>">
-                           <span>Purchases by Vendor</span>
-                        </a>
-                     </li>
-                     <li class="">
-                        <a href="<?php echo url_for('reports') ?>">
-                           <span> General Reports</span>
-                        </a>
-                     </li>
-                  </ul>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('subscription') ?>">
-                     <i class="flaticon-time-is-money"></i> <span>Subscription</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('country') ?>">
-                     <i class="flaticon-menu-3"></i> <span>Country</span>
-                  </a>
-               </li>
-               <li class="">
-                  <a href="<?php echo url_for('change_password') ?>">
-                     <i class="flaticon-lock-1"></i> <span>Change Password</span>
-                  </a>
-               </li>
-               <a href="<?php echo url_for('subscription') ?>" class="btn btn-info upgrade_btn">
-                  <i class="fa fa-rocket"></i> <span>Upgrade</span>
-               </a>
                <?php } ?>
 
                <li class="">
@@ -303,30 +312,9 @@ $company = Company::find_by_undeleted(['order' => 'ASC']);
                   </a>
                </li>
             </ul>
-            
+
          </section>
       </aside>
 
-         <div class="content-wrapper">
-             <section class="content">
-
-               
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <div class="content-wrapper">
+         <section class="content">

@@ -25,6 +25,15 @@ class Payroll extends DatabaseObjectHR
   public $pension;
   public $deleted;
 
+
+  const STATUS = [
+    0 => 'Unpaid',
+    1 => 'Computed',
+    2 => 'New',
+    3 => 'Processing',
+    4 => 'Paid',
+  ];
+
   const MONTH = [
     '01' => 'January',
     '02' => 'February',
@@ -208,36 +217,35 @@ class Payroll extends DatabaseObjectHR
     return $obj;
   }
 
-   public static function sum_of_tax_payable()
+  public static function sum_of_tax_payable()
   {
 
-     $myArr = [];
-     $employee = Employee::find_by_undeleted();
-     foreach ($employee as $value) {
-        $salary = intval($value->present_salary);
-        $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
-        $monthly_tax = $tax['monthly_tax'];
-        array_push($myArr, intval($monthly_tax));
-        intval($myArr);
-     }
-     
-     return  array_sum($myArr);       
-    
+    $myArr = [];
+    $employee = Employee::find_by_undeleted();
+    foreach ($employee as $value) {
+      $salary = intval($value->present_salary);
+      $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
+      $monthly_tax = $tax['monthly_tax'];
+      array_push($myArr, intval($monthly_tax));
+      intval($myArr);
+    }
+
+    return  array_sum($myArr);
   }
 
-   public static function sum_of_pension_payable(){
-     $myArr = [];
-     $employee = Employee::find_by_undeleted();
-     foreach ($employee as $value) {
-        $salary = intval($value->present_salary);
-        $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
-        $pension = $tax['pension'];
-        array_push($myArr, intval($pension));
-        intval($myArr);
-     }
-     
-     return  array_sum($myArr);       
-    
+  public static function sum_of_pension_payable()
+  {
+    $myArr = [];
+    $employee = Employee::find_by_undeleted();
+    foreach ($employee as $value) {
+      $salary = intval($value->present_salary);
+      $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
+      $pension = $tax['pension'];
+      array_push($myArr, intval($pension));
+      intval($myArr);
+    }
+
+    return  array_sum($myArr);
   }
 
   public static function sum_of_take_home($options = [])
@@ -246,46 +254,28 @@ class Payroll extends DatabaseObjectHR
     $company_id = $options['company_id'] ?? '';
     // echo ($company_id);
     $myArr = [];
-    foreach (Payroll::find_by_created_at($month) as $key => $value) { 
+    foreach (Payroll::find_by_created_at($month) as $key => $value) {
       $employee = Employee::find_by_employee_id($value->employee_id);
 
       $cc = $employee->company ?? '';
-      if($company_id != ''){
+      if ($company_id != '') {
         $condition = Company::find_by_company_name($cc)->id == $company_id;
-      }else{
+      } else {
         $condition = 1;
       }
-      
+
 
       if ($condition) {
         $salary = intval($value->present_salary);
         $salary_advance = intval($value->salary_advance);
         $loan = intval($value->loan);
 
-        $takehome = $salary - ( $salary_advance + $loan );
+        $takehome = $salary - ($salary_advance + $loan);
         array_push($myArr, intval($takehome));
         intval($myArr);
-        
       }
+    }
 
-
-      
-     }
-     
-     return  array_sum($myArr); 
+    return  array_sum($myArr);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
