@@ -29,7 +29,16 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          <?php
          $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $queryByMonth]);
          if ($config == true) : ?>
-            <!-- <button class="btn btn-dark me-3" id="PaySlipDisabled">Payslip Generated</button> -->
+            <?php if ($config->visibility != 1) { ?>
+
+               <div id="pushwrap">
+                     <?php //foreach ($payrolls as $value) { ?>
+                        <!-- <input type="hidden" value="<?php //echo $value->employee_id ?>"> -->
+                     <?php //} ?>
+                     <button class="btn btn-dark me-3" id="push">Push to account</button>
+               </div>
+            <?php } ?>
+            
             <a class="btn btn-secondary me-3" href="<?php echo url_for('payroll/exportData.php') ?>"> <i class="las la-file-excel"></i> Download Monthly Excel Report </a>
          <?php else : ?>
             <div id="generating">
@@ -125,7 +134,9 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 
                               ?>
                                  <tr>
-                                    <td class="bg-white"><?php echo $sn++; ?></td>
+                                    <td class="bg-white">
+                                       <?php echo $sn++; ?>
+                                    </td>
                                     <td class="bg-white">
                                        <div class="d-flex">
                                           <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
@@ -146,10 +157,23 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                     <td><?php echo !empty($commitment) ? number_format(intval($commitment)) : '0.00' ?></td>
                                     <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
                                     <td>
-                                       <span class="badge <?php echo $value->payment_status != 0 ? 'badge-success' : 'badge-danger' ?>">
-                                          <?php echo $value->payment_status != 0 ? 'Paid' : 'Unpaid' ?></span>
+                                       <?php 
+                                          $status = $value->payment_status;
+                                          if ($status == 1) {
+                                             $color = 'badge-primary';
+                                          }elseif ($status == 2) {
+                                             $color = 'badge-warning';
+                                          }else{
+                                             $color = 'badge-success';
+                                          }
+                                        ?>
+                                       <span class="badge <?php echo $color ?>">
+                                          <?php echo Payroll::STATUS[$status]; ?>
+                                             
+                                       </span>
                                     </td>
                                     <td class="text-center">
+                                       
                                        <a href="#" class="btn btn-outline-primary action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
                                        <a href="#" class="btn btn-outline-warning action-btns" id="edit_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#payroll_narration" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit"></i> </a>
                                     </td>
@@ -237,6 +261,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
       </div>
    </div>
 </div>
+
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
 
@@ -333,6 +358,28 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                }
             }
          })
+      })
+      $(document).on('click', '#push', function() {
+            let processing = '<button class="btn btn-primary" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...</button>';
+            $("#pushwrap").html(processing);
+            let filterDate = $("#byDate").val()
+            $.ajax({
+               url: 'inc/payroll_script.php',
+               method: "POST",
+               data: {
+                  push: 1,
+                  month: filterDate,
+               },
+               dataType: 'json',
+               success: function(data) {
+                  if (data.success == true) {
+                     message('success', data.msg);
+                     window.location.reload();
+                  } else {
+                     message('error', data.msg);
+                  }
+               }
+            })
       })
 
       $('#byDate').on("change", async () => {

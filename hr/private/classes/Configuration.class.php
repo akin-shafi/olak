@@ -2,11 +2,12 @@
 class Configuration extends DatabaseObject
 {
   protected static $table_name = "configurations";
-  protected static $db_columns = ['id', 'loan_config', 'process_salary', 'process_salary_date'];
+  protected static $db_columns = ['id', 'loan_config', 'process_salary', 'visibility', 'process_salary_date'];
 
   public $id;
   public $loan_config;
   public $process_salary;
+  public $visibility;
   public $process_salary_date;
 
   public $counts;
@@ -14,7 +15,8 @@ class Configuration extends DatabaseObject
   public function __construct($args = [])
   {
     $this->loan_config     = $args['loan_config'] ?? 0;
-    $this->process_salary     = $args['process_salary'] ?? 0;
+    $this->process_salary  = $args['process_salary'] ?? 0;
+    $this->visibility      = $args['visibility'] ?? 0;
     $this->process_salary_date     = $args['process_salary_date'] ?? date('Y-m-d');
   }
 

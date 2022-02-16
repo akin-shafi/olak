@@ -25,6 +25,13 @@ class Payroll extends DatabaseObject
   public $pension;
   public $deleted;
 
+  Const STATUS = [
+    '1' => 'Computed',
+    '2' => 'Sent',
+    '3' => 'Processing',
+    '4' => 'Paid',
+  ];
+
   const MONTH = [
     '01' => 'January',
     '02' => 'February',
