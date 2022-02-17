@@ -46,7 +46,7 @@ if (is_get_request()) {
 		$salaryPayable     = Employee::find_by_total_salary(['company' => $isCompany]);
 		$tax_payable       = Payroll::sum_of_tax_payable();
 
-		pre_r($payrollPayable);
+		// pre_r($payrollPayable);
 
 ?>
 		<style>
