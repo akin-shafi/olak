@@ -222,12 +222,12 @@
       ]
     });
 
-    $('.dt_btn').DataTable({
-      dom: 'Bfrtip',
-      buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print'
-      ]
-    });
+    // $('.dt_btn').DataTable({
+    //   dom: 'Bfrtip',
+    //   buttons: [
+    //     'copy', 'csv', 'excel', 'pdf', 'print'
+    //   ]
+    // });
   });
 </script>
 

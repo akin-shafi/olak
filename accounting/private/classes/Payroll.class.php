@@ -72,7 +72,7 @@ class Payroll extends DatabaseObjectHR
   public static function find_by_employee_id($employee_id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE employee_id='" . self::$database_hr->escape_string($employee_id) . "'";
+    $sql .= "WHERE id='" . self::$database_hr->escape_string($employee_id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
@@ -88,7 +88,6 @@ class Payroll extends DatabaseObjectHR
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= " AND created_at LIKE'%" . self::$database_hr->escape_string($created_at) . "%'";
     $sql .= " ORDER BY id ASC";
-    // echo $sql;
     return static::find_by_sql($sql);
   }
 
@@ -107,7 +106,6 @@ class Payroll extends DatabaseObjectHR
     }
 
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    echo $sql;
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);
@@ -252,7 +250,6 @@ class Payroll extends DatabaseObjectHR
   {
     $month = $options['month'] ?? false;
     $company_id = $options['company_id'] ?? '';
-    // echo ($company_id);
     $myArr = [];
     foreach (Payroll::find_by_created_at($month) as $key => $value) {
       $employee = Employee::find_by_employee_id($value->employee_id);

@@ -194,7 +194,7 @@ class Employee extends DatabaseObjectHR
   public static function find_by_total_salary($options = [])
   {
     $companyName = $options['company'] ?? '';
-    
+
     $sql = "SELECT COUNT(employee_id) AS counts, SUM(present_salary) AS total_salary FROM " . static::$table_name . " ";
 
     if ($companyName != 'All') :
@@ -205,9 +205,6 @@ class Employee extends DatabaseObjectHR
       $sql .= "WHERE company='" . self::$database_hr->escape_string($companyName) . "'";
     endif;
 
-    
-
-    // echo $sql;
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);
@@ -215,7 +212,7 @@ class Employee extends DatabaseObjectHR
       return false;
     }
   }
- 
+
 
   public static function find_by_company_name($name, $options = [])
   {
@@ -233,6 +230,16 @@ class Employee extends DatabaseObjectHR
 
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= " ORDER BY id ASC";
+    return static::find_by_sql($sql);
+  }
+
+  public static function find_by_company_and_branch($company, $branch)
+  {
+    $sql = "SELECT id, employee_id, first_name, last_name, present_salary, company, branch FROM " . static::$table_name . " ";
+    $sql .= "WHERE company LIKE'%" . self::$database_hr->escape_string($company) . "%'";
+    $sql .= " AND branch LIKE'%" . self::$database_hr->escape_string($branch) . "%'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "ORDER BY id DESC";
     return static::find_by_sql($sql);
   }
 

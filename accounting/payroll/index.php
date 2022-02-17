@@ -8,28 +8,18 @@ $lastDate = date('Y-m', strtotime('last month'));
 $thisDate = date('Y-m');
 $month = $_GET['month'] ?? $thisDate;
 
-
 include(SHARED_PATH . '/admin_header.php');
 ?>
 
 <div class="d-flex justify-content-between">
   <h5 class="border-bottom pb-2 text-capitalize"><b><?php echo $page ?></b></h5>
   <form class="form-inline p-2 d-flex justify-content-end" id="find_week">
-
-    <select class="form-control" id="company_id">
-      <option value="">All</option>
-      <?php foreach ($company as $key => $value) { ?>
-        <option value="<?php echo $value->id ?>"><?php echo $value->company_name ?></option>
-      <?php } ?>
-    </select>
-
-    <select class="form-control" id="month">
+    <select class="form-control mr-5" id="month">
       <?php foreach (Payroll::MONTH as $key => $value) { ?>
         <option value="<?php echo date('Y') . "-" . $key ?>" <?php echo date('Y') . "-" . $key == $month ? 'selected' : '' ?>><?php echo $value ?></option>
       <?php } ?>
     </select>
-
-    <input type="button" class="btn btn-sm btn-primary" id="find" value="Find">
+    <input type="button" class="btn btn-sm btn-primary ml-5" id="find" value="Find">
   </form>
 </div>
 
@@ -62,18 +52,16 @@ include(SHARED_PATH . '/admin_header.php');
 <script type="text/javascript">
   $(document).ready(function() {
     let month = $("#month").val();
-    let page = $("#page").val();
-    let selected = $("#company_id");
-    let company_id = selected.val();
+    let key = $("#page").val();
 
     const EXPENDITURE_URL = 'components/action.php';
     const PROCESS = 'components/process.php';
 
-    async function loadPage(page, month, company_id) {
+    async function loadPage(key, month, payload) {
       let args = {
-        fetch_page: page,
-        company_id: company_id,
+        fetch_page: key,
         month: month,
+        params: payload,
       };
       let response;
 
@@ -89,12 +77,16 @@ include(SHARED_PATH . '/admin_header.php');
 
         $('#ajax_loader').hide();
         $("#get_payroll").html(response);
-        $("table").DataTable({
-          order: [0, 'ASC']
-        });
       } catch (error) {
         $('#ajax_loader').hide();
-        console.error(error);
+        let err = JSON.parse(error.responseText);
+        swal({
+          icon: 'error!',
+          title: 'Oops...',
+          timer: 2000,
+          text: err.msg,
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
       }
     }
 
@@ -115,8 +107,7 @@ include(SHARED_PATH . '/admin_header.php');
 
         $('#ajax_loader').hide();
         let month = $("#month").val();
-        let company_id = $("#company_id").val();
-        loadPage(page, month, company_id);
+        loadPage('', month);
       } catch (error) {
         $('#ajax_loader').hide();
         let err = JSON.parse(error.responseText);
@@ -130,29 +121,51 @@ include(SHARED_PATH . '/admin_header.php');
       }
     }
 
-    loadPage(page, month, company_id);
+    loadPage(key, month);
     $(document).on('click', '#find', function(e) {
       e.preventDefault();
-      let company_id = $("#company_id").val();
       let month = $("#month").val();
-      loadPage(page, month, company_id);
+      loadPage(key, month);
+    });
+
+    $(document).on('click', '.query', function(e) {
+      let company = this.dataset.company;
+      let month = $("#month").val();
+      loadPage('company', month, {
+        company
+      });
+    });
+
+    $(document).on('click', '.branchQuery', function(e) {
+      let branch = this.dataset.branch;
+      let company = this.dataset.company;
+      let month = $("#month").val();
+      loadPage('branch', month, {
+        branch,
+        company
+      });
     });
 
     $(document).on('click', '.received', function(e) {
       let month = $("#month").val();
-      let company_id = $("#company_id").val();
       fetchData(PROCESS + '?confirm_receipt', 'GET', month);
-
-      loadPage(page, month, company_id);
+      loadPage(key, month);
     });
 
     $(document).on('click', '.confirm', function(e) {
+      let branch = this.dataset.branch;
+      let company = this.dataset.company;
       let confirmed = [];
       $("input[name='payrollId[]']:checked").each(function(i) {
         confirmed[i] = $(this).val();
       });
 
-      fetchData(PROCESS + '?confirmed_payment', 'GET', confirmed);
+      loadPage('confirmed_payment', month, {
+        confirmed,
+        branch,
+        company,
+      });
+      // fetchData(PROCESS + '?confirmed_payment', 'GET', confirmed);
     });
 
     $(document).on('click', '#selectAll', function(e) {

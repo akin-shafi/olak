@@ -20,7 +20,7 @@ if (is_get_request()) {
 	if (isset($_GET['confirmed_payment'])) {
 		if (empty($_GET['params'])) :
 			http_response_code(404);
-			exit(json_encode(['msg' => 'No record found for this month']));
+			exit(json_encode(['msg' => 'Kindly select at least one record!']));
 		endif;
 
 		$payrollIds = $_GET['params'];

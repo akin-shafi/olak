@@ -17364,9 +17364,9 @@ span.addons_badge {
 
 .icon1 {
     height: 55px;
-    width: 55px;
+    /* width: 55px; */
     line-height: 57px;
-    border-radius: 7px;
+    border-radius: 8px;
     text-align: center;
     font-size: 24px;
     color: #fff;
