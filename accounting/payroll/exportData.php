@@ -3,7 +3,7 @@
 
 // Fetch records from database 
 $thisMonth = $_GET['month'] ?? date('Y-m');
-$allmember = Payroll::find_by_created_at($thisMonth);
+$payrolls = Payroll::find_by_created_at($thisMonth);
 $bank = $_GET['bank'] ?? '1';
 
 $sort_code = $_GET['sort_code'] ?? ''; // Access Bank
@@ -11,7 +11,7 @@ $sort_code = $_GET['sort_code'] ?? ''; // Wema Bank
 $company_name = $_GET['coy'] ?? '1';
 
 
-if (count($allmember) > 0) {
+if (count($payrolls) > 0) {
 
     $delimiter = ",";
     $filename = $company_name . "_salary_for_" . $thisMonth . ".csv";
@@ -25,7 +25,7 @@ if (count($allmember) > 0) {
 
     fputcsv($f, $fields, $delimiter);
     $sn = 1;
-    foreach ($allmember as $value) {
+    foreach ($payrolls as $value) {
         $net_salary = intval($value->present_salary);
         $salary_advance = intval($value->salary_advance);
         $loan = intval($value->loan);

@@ -106,7 +106,7 @@ if (is_get_request()) {
 				<?php endforeach ?>
 			</div>
 
-			<div class="row">
+			<div class="row d-none">
 				<div class="col-xl-4 col-lg-12 col-md-12">
 					<div class="card shadow-lg">
 						<div class="card-body shadow-lg">
@@ -114,8 +114,7 @@ if (is_get_request()) {
 								<div class="col-9">
 									<div class="mt-0 text-start">
 										<span class="fs-14 font-weight-semibold">Sum of Gross Salary</span>
-										<h3 class="mb-0 mt-1  mb-2" id="actual_salary"><?php //echo number_format($salaryPayable->total_salary, 2) 
-																																		?></h3>
+										<h3 class="mb-0 mt-1  mb-2" id="actual_salary"><?php //echo number_format($salaryPayable->total_salary, 2) ?></h3>
 									</div>
 									<span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>For <?php echo $salaryPayable->counts; ?> </span> Employees </span>
 								</div>
@@ -221,10 +220,10 @@ if (is_get_request()) {
 
 											<a target="_blank" href="#" class="btn-success btn"> Pay Salary</a>
 
-											<a target="_blank" href="<?php echo url_for('payroll/exportData.php?bank=' . '1' . '&month=' . $month . '&coy=' . $isCompany . '&sort_code=' . '044140395') ?>" class="btn-warning btn" style="background:orange; color: #FFF;"> Download Excel Report for <?php echo $isCompany ?></a>
+											<a target="_blank" href="<?php echo url_for('payroll/exportData.php?bank=' . '1' . '&month=' . $month . '&coy=' . $isCompany . '&sort_code=' . '044140395' . '&branch=' .$isBranch) ?>" class="btn-warning btn" style="background:orange; color: #FFF;"> Download Excel Report for <?php echo $isCompany ?></a>
 
 										<?php } else { ?>
-											<a target="_blank" href="<?php echo url_for('payroll/exportData.php?bank=' . '2' . '&month=' . $month . '&coy=' . $isCompany . '&sort_code=' . '035141011') ?>" class=" btn" style="background:purple; color: #FFF;">Download Excel Report for <?php echo $isCompany ?></a>
+											<a target="_blank" href="<?php echo url_for('payroll/exportData.php?bank=' . '2' . '&month=' . $month . '&coy=' . $isCompany . '&sort_code=' . '035141011'. '&branch=' .$isBranch) ?>" class=" btn" style="background:purple; color: #FFF;">Download Excel Report for <?php echo $isCompany ?></a>
 										<?php } ?>
 									</div>
 								</div>
@@ -323,99 +322,3 @@ if (is_get_request()) {
 <?php }
 } ?>
 
-<?php
-// Edit Record   
-
-
-// if (isset($_POST['editId'])) {
-//    $editId = $_POST['editId'];
-//    $row = $dbObj->getRecordById($editId);
-//    echo json_encode($row);
-// }
-// // Update Record
-// if (isset($_POST['action']) && $_POST['action'] == "update") {
-//    $id = $_POST['id'];
-//    $name = $_POST['uname'];
-//    $email = $_POST['uemail'];
-//    $username = $_POST['uusername'];
-//    $dob = $_POST['udob'];
-//    $dbObj->updateRecord($id, $name, $email, $username, $dob);
-// }
-// // Edit Record   
-// if (isset($_POST['deleteBtn'])) {
-//    $deleteBtn = $_POST['deleteBtn'];
-//    $dbObj->deleteRecord($deleteBtn);
-// }
-// // Export to excel
-// if (isset($_GET['export']) && $_GET['export'] == 'excel') {
-//    header("Content-type: application/vnd.ms-excel; name='excel'");
-//    header("Content-Disposition: attachment; filename=Payroll.xls");
-//    header("Pragma: no-cache");
-//    header("Expires: 0");
-//    $exportData = $dbObj->displayRecord();
-//    echo'<table border="1">
-//       <tr style="font-weight:bold">
-//           <td>Id</td>
-//           <td>Name</td>
-//           <td>Email</td>
-//           <td>Username</td>
-//           <td>Dob</td>
-//       </tr>';
-//    foreach ($exportData as $export) {
-//    echo'<tr>
-//       <td>'.$export['id'].'</td>
-//       <td>'.$export['name'].'</td>
-//       <td>'.$export['email'].'</td>
-//       <td>'.$export['username'].'</td>
-//       <td>'.date('d-M-Y', strtotime($export['dob'])).'</td>
-//         </tr>';
-//       }      
-//    echo '</table>';
-// }
-?>
-
-<script type="text/javascript">
-	$('.branch-table').DataTable({
-		// dom: 'Bfrtip',
-		// buttons: [
-		// 	'csv', 'excel', 'pdf', 'print'
-		// ],
-		order: [0, 'DESC']
-	});
-
-	function formatToCurrency(amount) {
-		return (amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-	}
-
-	sumOfReturn();
-
-	function sumOfReturn() {
-		var currency = $('#currency').val();
-
-		// Calculate Actual Salary
-		var count1 = [];
-		$('.gross_salary').each(function() {
-			var item1 = $(this).val();
-
-			count1.push(parseInt(item1));
-
-		});
-		const add1 = count1.reduce((a, b) => a + b, 0);
-		var amt1 = formatToCurrency(add1); //"12.35"
-		$("#actual_salary").text(amt1);
-
-
-		//Calculate Take Home
-		var count2 = [];
-		$('.take_home').each(function() {
-			var item2 = $(this).val();
-
-			count2.push(parseInt(item2));
-
-		});
-		const add2 = count2.reduce((a, b) => a + b, 0);
-		var amt2 = formatToCurrency(add2); //"12.35"
-		$("#take_home").text(amt2);
-
-	}
-</script>
