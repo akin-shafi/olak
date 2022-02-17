@@ -69,10 +69,17 @@ class Payroll extends DatabaseObjectHR
   }
 
 
-  public static function find_by_employee_id($employee_id)
+  public static function find_by_employee_id($employee_id, $options = [])
   {
+    $month = $options['month'] ?? false;
+
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE id='" . self::$database_hr->escape_string($employee_id) . "'";
+    $sql .= "WHERE employee_id='" . self::$database_hr->escape_string($employee_id) . "'";
+
+    if ($month) :
+      $sql .= " AND created_at LIKE'%" . self::$database_hr->escape_string($month) . "%'";
+    endif;
+
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {

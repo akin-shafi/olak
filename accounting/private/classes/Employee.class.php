@@ -235,7 +235,7 @@ class Employee extends DatabaseObjectHR
 
   public static function find_by_company_and_branch($company, $branch)
   {
-    $sql = "SELECT id, employee_id, first_name, last_name, present_salary, company, branch FROM " . static::$table_name . " ";
+    $sql = "SELECT id, employee_id, first_name, last_name, present_salary, bank_name, account_number, company, branch FROM " . static::$table_name . " ";
     $sql .= "WHERE company LIKE'%" . self::$database_hr->escape_string($company) . "%'";
     $sql .= " AND branch LIKE'%" . self::$database_hr->escape_string($branch) . "%'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
@@ -283,7 +283,6 @@ class Employee extends DatabaseObjectHR
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "ORDER BY id ASC";
     $obj_array = static::find_by_sql($sql);
-    // return $obj_array;
     if (!empty($obj_array)) {
       return array_shift($obj_array);
     } else {

@@ -1,54 +1,49 @@
 
 <?php require_once('../private/initialize.php');
 
-// Fetch records from database 
-$thisMonth = $_GET['month'] ?? date('Y-m');
-$payrolls = Payroll::find_by_created_at($thisMonth);
-$bank = $_GET['bank'] ?? '1';
+$thisMonth  = $_GET['month'] ?? date('Y-m');
+$bank       = $_GET['bank'] ?? '1';
 
-$sort_code = $_GET['sort_code'] ?? ''; // Access Bank
-$sort_code = $_GET['sort_code'] ?? ''; // Wema Bank
-$company_name = $_GET['coy'] ?? '1';
+$sort_code      = $_GET['sort_code'] ?? ''; // Access Bank
+$company_name   = $_GET['coy'] ?? '1';
+$branch_name    = $_GET['branch'] ?? '';
 
+$employees  = Employee::find_by_company_and_branch(strtolower($company_name), strtolower($branch_name));
 
-if (count($payrolls) > 0) {
+if (count($employees) > 0) {
 
     $delimiter = ",";
-    $filename = $company_name . "_salary_for_" . $thisMonth . ".csv";
+    $filename = $company_name . "_salary_" . date('M_Y', strtotime($thisMonth)) . ".csv";
 
     // Create a file pointer
     $f = fopen('php://memory', 'w');
 
-
-    $fields = array('ID', 'FULL NAME', 'COMPANY NAME', 'BANK NAME', 'ACCOUNT NUMBER', 'SALARY', 'SORT CODE');
-
+    $fields = ['ID', 'FULL NAME', 'COMPANY NAME', 'BRANCH NAME', 'BANK NAME', 'ACCOUNT NUMBER', 'SALARY', 'SORT CODE'];
 
     fputcsv($f, $fields, $delimiter);
+
     $sn = 1;
-    foreach ($payrolls as $value) {
-        $net_salary = intval($value->present_salary);
-        $salary_advance = intval($value->salary_advance);
-        $loan = intval($value->loan);
+    foreach ($employees as $value) {
+        $payroll        = Payroll::find_by_employee_id($value->id, ['month' => $thisMonth]);
+        $gross_salary   = intval($value->present_salary);
+        $salary_advance = intval($payroll->salary_advance);
+        $loan           = intval($payroll->loan);
 
-        $employee = Employee::find_by_employee_id($value->employee_id);
+        $full_name      = isset($value->first_name) ? $value->full_name() : 'Not Set';
+        $bank_name      = $value->bank_name ?? 'Not Set';
+        $account_number = $value->account_number ?? 'Not Set';
+        $takeHome       = $gross_salary - ($salary_advance + $loan);
 
-        $full_name = isset($employee->first_name) ? $employee->full_name() : 'Not Set';
-        $bank_name = $employee->bank_name ?? 'Not Set';
-        $account_number = $employee->account_number ?? 'Not Set';
-        $takehome = $net_salary - ($salary_advance + $loan);
-
-
-        $lineData = array(
+        $lineData = [
             $sn++,
             $full_name,
             $company_name,
+            $branch_name,
             $bank_name,
-
             $account_number,
-            $takehome,
+            $takeHome,
             $sort_code,
-
-        );
+        ];
 
         fputcsv($f, $lineData, $delimiter);
     }

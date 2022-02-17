@@ -59,7 +59,7 @@ if (is_get_request()) {
 				color: #FFF !important;
 			}
 
-			.analytic .card:hover h4 {
+			.analytic .card:hover h5 {
 				color: #FFF !important;
 			}
 
@@ -68,7 +68,7 @@ if (is_get_request()) {
 			}
 
 			.current span,
-			.current h4 {
+			.current h5 {
 				color: #FFF !important;
 			}
 		</style>
@@ -87,7 +87,7 @@ if (is_get_request()) {
 											<div class="mt-0 text-start">
 												<span class="fs-16 font-weight-semibold">
 													<?php echo $totalSalaryByCompany->company != '' ? ucwords($companyName) : 'Not set' ?></span>
-												<h4 class="mb-0 mt-1 mb-2"><?php echo number_format($totalSalaryByCompany->total_salary, 2) ?></h4>
+												<h5 class="mb-0 mt-1 mb-2"><?php echo number_format($totalSalaryByCompany->total_salary, 2) ?></h5>
 												<span class="text-muted">
 													<span class="<?php echo strtolower($isCompany) == strtolower($companyQuery) ? 'text-white' : Employee::TEXT_COLOR[$key] ?> fs-12 mt-2 me-1">
 														<i class="feather feather-arrow-up-right me-1 <?php echo Employee::BG_COLOR[$key] . '-transparent' ?>  p-1 brround"></i>
@@ -106,6 +106,7 @@ if (is_get_request()) {
 				<?php endforeach ?>
 			</div>
 
+			<!-- //! This is not required for now -->
 			<div class="row d-none">
 				<div class="col-xl-4 col-lg-12 col-md-12">
 					<div class="card shadow-lg">
@@ -114,7 +115,8 @@ if (is_get_request()) {
 								<div class="col-9">
 									<div class="mt-0 text-start">
 										<span class="fs-14 font-weight-semibold">Sum of Gross Salary</span>
-										<h3 class="mb-0 mt-1  mb-2" id="actual_salary"><?php //echo number_format($salaryPayable->total_salary, 2) ?></h3>
+										<h3 class="mb-0 mt-1  mb-2" id="actual_salary"><?php //echo number_format($salaryPayable->total_salary, 2) 
+																																		?></h3>
 									</div>
 									<span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>For <?php echo $salaryPayable->counts; ?> </span> Employees </span>
 								</div>
@@ -166,6 +168,7 @@ if (is_get_request()) {
 					</div>
 				<?php } ?>
 			</div>
+			<!-- //! This is not required for now -->
 
 			<div class="card">
 				<div class="card-header border-0 responsive-header">
@@ -183,7 +186,7 @@ if (is_get_request()) {
 													<div class="mt-0">
 														<span class="fs-14 font-weight-bold">
 															<?php echo $value->branch != '' ? ucwords($value->branch) : 'Branch not set' ?></span>
-														<h4 class="mb-0 mt-1 mb-2"><?php echo number_format($value->total_salary, 2) ?></h4>
+														<h5 class="mb-0 mt-1 mb-2"><?php echo number_format($value->total_salary, 2) ?></h5>
 														<span class="<?php echo Employee::TEXT_COLOR[$key] ?> fs-12 mt-2 me-1">
 															<i class="feather feather-arrow-up-right me-1 <?php echo Employee::BG_COLOR[$key] . '-transparent' ?>  p-1 brround"></i>
 															<?php echo $value->counts ?> Employees</span>
@@ -220,10 +223,10 @@ if (is_get_request()) {
 
 											<a target="_blank" href="#" class="btn-success btn"> Pay Salary</a>
 
-											<a target="_blank" href="<?php echo url_for('payroll/exportData.php?bank=' . '1' . '&month=' . $month . '&coy=' . $isCompany . '&sort_code=' . '044140395' . '&branch=' .$isBranch) ?>" class="btn-warning btn" style="background:orange; color: #FFF;"> Download Excel Report for <?php echo $isCompany ?></a>
+											<a target="_blank" href="<?php echo url_for('payroll/exportData.php?bank=' . '1' . '&month=' . $month . '&coy=' . $isCompany . '&sort_code=' . '044140395' . '&branch=' . $isBranch) ?>" class="btn-warning btn" style="background:orange; color: #FFF;"> Download Excel Report for <?php echo $isCompany ?></a>
 
 										<?php } else { ?>
-											<a target="_blank" href="<?php echo url_for('payroll/exportData.php?bank=' . '2' . '&month=' . $month . '&coy=' . $isCompany . '&sort_code=' . '035141011'. '&branch=' .$isBranch) ?>" class=" btn" style="background:purple; color: #FFF;">Download Excel Report for <?php echo $isCompany ?></a>
+											<a target="_blank" href="<?php echo url_for('payroll/exportData.php?bank=' . '2' . '&month=' . $month . '&coy=' . $isCompany . '&sort_code=' . '035141011' . '&branch=' . $isBranch) ?>" class=" btn" style="background:purple; color: #FFF;">Download Excel Report for <?php echo $isCompany ?></a>
 										<?php } ?>
 									</div>
 								</div>
@@ -260,7 +263,7 @@ if (is_get_request()) {
 									$fullName 		= isset($value->first_name) ? $value->full_name() : 'Not Set';
 									$branch 			= isset($value->branch) ? $value->branch : 'Not Set';
 									$employee_id 	= isset($value->employee_id) ? str_pad($value->employee_id, 3, '0', STR_PAD_LEFT) : 'Not Set';
-									$payroll 	= Payroll::find_by_employee_id($value->employee_id);
+									$payroll 	= Payroll::find_by_employee_id($value->id);
 									$status 	= Payroll::STATUS[$payroll->payment_status];
 
 									switch ($status) {
@@ -322,3 +325,9 @@ if (is_get_request()) {
 <?php }
 } ?>
 
+
+<script>
+	$(document).ready(function() {
+		$('.branch-table').dataTable();
+	})
+</script>
