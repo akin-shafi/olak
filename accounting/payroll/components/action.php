@@ -211,7 +211,7 @@ if (is_get_request()) {
 
 							<div class="col-lg-6 col-12">
 								<div class="d-flex justify-content-end ">
-									<div class="btn-group">
+									<div class="">
 										<button type="button" data-company="<?php echo $isCompany ?>" data-branch="<?php echo $isBranch ?>" class="btn btn-info confirm mr-5">Confirm Payment</button>
 										<button type="button" class="btn btn-primary received mr-5 <?php echo $status ? 'd-none' : '' ?>">Payroll Received</button>
 									</div>
