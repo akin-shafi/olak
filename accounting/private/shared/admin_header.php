@@ -305,6 +305,11 @@ $company = Company::find_by_undeleted(['order' => 'ASC']);
                      <i class="flaticon-save-money"></i> <span> Payroll </span>
                   </a>
                </li>
+               <li class="">
+                  <a href="<?php echo url_for('users/') ?>">
+                     <i class="flaticon-user-1"></i> <span> Users </span>
+                  </a>
+               </li>
 
                <li class="">
                   <a href="<?php echo url_for('logout.php') ?>">

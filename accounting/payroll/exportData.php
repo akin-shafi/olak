@@ -18,7 +18,7 @@ if (count($employees) > 0) {
     // Create a file pointer
     $f = fopen('php://memory', 'w');
 
-    $fields = ['ID', 'FULL NAME', 'COMPANY NAME', 'BRANCH NAME', 'BANK NAME', 'ACCOUNT NUMBER', 'SALARY', 'SORT CODE'];
+    $fields = ['STAFF ID NARATION', 'FIRST NAME', 'LAST NAME', 'email', 'PHONE NO', 'BANK', 'BANK CODE', 'ACCOUNT NO', 'AMOUNT'];
 
     fputcsv($f, $fields, $delimiter);
 
@@ -29,20 +29,27 @@ if (count($employees) > 0) {
         $salary_advance = intval($payroll->salary_advance);
         $loan           = intval($payroll->loan);
 
-        $full_name      = isset($value->first_name) ? $value->full_name() : 'Not Set';
-        $bank_name      = $value->bank_name ?? 'Not Set';
+        $staff_id_narration = 'olak012augsal';
+        $firstname      = isset($value->first_name) ? $value->first_name : 'Not Set';
+        $lastname       = isset($value->last_name) ? $value->last_name : 'Not Set';
+        $email          = isset($value->email) ? $value->email : 'Not Set';
+        $phone          = isset($value->phone) ? $value->phone : 'Not Set';
+        // $bank           = $value->bank_name ?? 'Not Set';
+        $bank           = 'B';
+        $bank_code      = isset($value->bank_code) ? $value->bank_code : 0;
         $account_number = $value->account_number ?? 'Not Set';
-        $takeHome       = $gross_salary - ($salary_advance + $loan);
+        $amount         = $gross_salary - ($salary_advance + $loan);
 
         $lineData = [
-            $sn++,
-            $full_name,
-            $company_name,
-            $branch_name,
-            $bank_name,
+            $staff_id_narration,
+            $firstname,
+            $lastname,
+            $email,
+            $phone,
+            $bank,
+            $bank_code,
             $account_number,
-            $takeHome,
-            $sort_code,
+            $amount,
         ];
 
         fputcsv($f, $lineData, $delimiter);
