@@ -256,7 +256,8 @@
  <script src="<?php echo url_for('assets/js/clock.js') ?>"></script>
  <script src="<?php echo url_for('assets/js/custom.js') ?>"></script>
  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
- <script src="<?php echo url_for('assets/switcher/js/switcher.js') ?>"></script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ 
 
  <script>
     $(document).ready(function() {
@@ -337,7 +338,14 @@
    })
 </script>
 
+<?php 
+// $sweetalert = '';
+if (isset($sweetalert)) { ?>
+  
 
+
+ <script src="<?php echo url_for('assets/js/sweetalert2.all.min.js') ?>"></script>
+  <script src="<?php echo url_for('assets/js/sweet.js') ?>"></script>
  <script type="text/javascript">
     function successAlert(msg) {
        Swal.fire({
@@ -390,8 +398,9 @@
           buttonsStyling: !1
        })
     }
- </script>
 
+ </script>
+<?php } ?>
  </body>
 
  </html>

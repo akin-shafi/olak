@@ -102,6 +102,7 @@ $datatable = '';
 
       <div class="row">
          <div class="col-xl-12 col-md-12 col-lg-12">
+            <?php echo display_session_message(); ?>
             <div class="card">
                <div class="card-header  border-0">
                   <h4 class="card-title">Employee List</h4>
@@ -161,7 +162,7 @@ $datatable = '';
                                              <a class="btn btn-primary btn-icon btn-sm" href="<?php echo url_for('employees/hr-editemp.php?id=' . $value->id) ?>">
                                                 <i class="feather feather-edit" data-bs-toggle="tooltip" data-original-title="View/Edit" data-bs-original-title="" title=""></i>
                                              </a>
-                                             <a class="btn btn-danger btn-icon btn-sm" data-bs-toggle="tooltip" data-original-title="Delete" data-bs-original-title="" title=""><i class="feather feather-trash-2"></i></a>
+                                             <a href="<?php echo url_for('employees/delete.php?emp_id='. $value->id) ?>" class="btn btn-danger btn-icon btn-sm" ><i class="feather feather-trash-2"></i></a>
                                           </td>
                                        </tr>
                                     <?php } ?>

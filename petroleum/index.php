@@ -1,3 +1,3 @@
 <?php
-header("Location: petroleum-splash.php");
+header("Location: login.php");
 die();

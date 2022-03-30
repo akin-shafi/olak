@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bebasneue/v8/JTUSjIg69CK48gW7PXoo9Wlhzg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Girassol';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/girassol/v14/JTUUjIo_-DK48laaNB9KxW4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'ZCOOL KuaiLe';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/zcoolkuaile/v15/tssqApdaRQokwFjFJjvM6h2moYb3.ttf) format('truetype');
+}

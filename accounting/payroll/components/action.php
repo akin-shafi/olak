@@ -8,7 +8,7 @@ if (is_get_request()) {
 		$month = $_GET['month'] ?? date('Y-m');
 		$page = $_GET['fetch_page'];
 
-		$monthlyPayroll = Payroll::find_by_created_at($month);
+		$monthlyPayroll = Payroll::find_by_month(['month' => $month, 'payment_status' => 2]);
 
 		if (!empty($monthlyPayroll)) {
 			$payment_status = $monthlyPayroll[0]->payment_status;

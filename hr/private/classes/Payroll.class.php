@@ -2,7 +2,7 @@
 class Payroll extends DatabaseObject
 {
   protected static $table_name = "payroll";
-  protected static $db_columns = ['id', 'employee_id', 'present_salary', 'loan', 'salary_advance', 'overtime_allowance', 'leave_allowance', 'other_allowance', 'other_deduction', 'note', 'present_days', 'payment_status', 'created_at', 'tax', 'pension', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'present_salary', 'loan', 'salary_advance', 'overtime_allowance', 'leave_allowance', 'other_allowance', 'other_deduction', 'note', 'present_days', 'payment_status', 'month', 'created_at', 'tax', 'pension', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -16,6 +16,7 @@ class Payroll extends DatabaseObject
   public $note;
   public $present_days;
   public $payment_status;
+  public $month;
   public $created_at;
 
   public $counts;
@@ -60,6 +61,7 @@ class Payroll extends DatabaseObject
     $this->note                 = $args['note'] ?? '';
     $this->present_days         = $args['present_days'] ?? '';
     $this->payment_status       = $args['payment_status'] ?? 0;
+    $this->month                = $args['month'] ?? date('Y-m-d H:i:s');
     $this->created_at           = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->tax                  = $args['tax'] ?? '';
     $this->pension              = $args['pension'] ?? '';
@@ -80,6 +82,16 @@ class Payroll extends DatabaseObject
     }
   }
 
+  public static function find_by_month($month)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= " AND month LIKE'%" . self::$database->escape_string($month) . "%'";
+    // echo $sql;
+    $sql .= " ORDER BY id DESC";
+    return static::find_by_sql($sql);
+  }
+
   public static function find_by_created_at($created_at)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
@@ -88,6 +100,18 @@ class Payroll extends DatabaseObject
     $sql .= " ORDER BY id DESC";
     return static::find_by_sql($sql);
   }
+
+  // public static function find_by_date($month)
+  // {
+  //   // $sql = "SELECT * FROM " . static::$table_name . " ";
+  //   $sql = "SELECT DATE_FORMAT(process_salary_date,'%Y%m') AS date FROM " . static::$table_name . " ";
+  //   $obj_array = static::find_by_sql($sql);
+  //   if (!empty($obj_array)) {
+  //     return array_shift($obj_array);
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   public static function find_by_salary_payable($options = [])
   {

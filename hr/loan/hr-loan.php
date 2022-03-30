@@ -34,10 +34,11 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
       <div class="btn-list">
         <?php foreach (Configuration::find_all() as $value) :
+          // pre_r($value);
           if ($value->loan_config == 1) :
             echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Loan Request</button>';
           else :
-            echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
+            // echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
           endif;
         endforeach; ?>
 
@@ -239,31 +240,33 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
                 <label>Loan Type</label>
                 <select class="form-control select2 select2-hidden-accessible" name="loan[type]" id="loan_type" required>
                   <option value="">Select Loan Type</option>
-                  <option value="2">Long Term</option>
+                  <option value="2" selected>Long Term</option>
                 </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Amount</label>
-                <input type="number" class="form-control" name="loan[amount]" placeholder="Request Amount" required>
+                <input type="number" class="form-control" name="loan[amount]" id="amount" placeholder="Request Amount" required>
               </div>
             </div>
           </div>
 
-          <div class="row d-none" id="isLongTerm">
-            <div class="col-md-6">
+          <div class="row " id="isLongTerm">
+             <div class="col-md-6">
               <div class="form-group">
-                <label>Pay-back Duration</label>
-                <input type="text" class="form-control" name="loan[loan_duration]" placeholder="Duration">
+                <label>Monthly Deduction(Currency)</label>
+                <input type="number" class="form-control" name="loan[loan_deduction]" id="loan_deduction" placeholder="Deduction Rate">
               </div>
             </div>
+
             <div class="col-md-6">
               <div class="form-group">
-                <label>Monthly Deduction</label>
-                <input type="number" class="form-control" name="loan[loan_deduction]" placeholder="Deduction Rate">
+                <label>Pay-back Duration(In Month)</label>
+                <input type="text" class="form-control" readonly value="0" id="payback_duration" name="loan[loan_duration]" placeholder="Duration">
               </div>
             </div>
+           
           </div>
 
           <div class="form-group">
@@ -377,5 +380,21 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
         isLongTerm.classList.add('d-none')
       }
     });
+
+    $(document).on('input', '#loan_deduction', function() {
+        var amt = $("#amount").val();
+        // var payback_duration = $("#payback_duration").val();
+        var loan_deduction = $(this).val();
+        var payback_duration = amt / loan_deduction;
+        $("#payback_duration").val(payback_duration);
+
+    })
   });
+
+
+
+
+
+
+
 </script>

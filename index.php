@@ -108,7 +108,16 @@
 								</div>
 							</a>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
+							<a href="../invoice_pos">
+								<div class="card bg-custom-blue anchor">
+									<div class="card-body p-3">
+										<h4 class="text-center text-light mb-0">Sale Outlet</h4>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="col-md-6">
 							<a href="staff-area/index.php?id=3">
 								<div class="card bg-custom-blue anchor">
 									<div class="card-body p-3">

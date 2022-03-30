@@ -32,6 +32,22 @@ class Configuration extends DatabaseObject
     }
   }
 
+  
+
+  public static function find_by_date($month)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    // $sql = "SELECT DATE_FORMAT(process_salary_date,'%Y%m') AS date FROM " . static::$table_name . " ";
+    $sql .= "WHERE process_salary_date LIKE'%" . self::$database->escape_string($month) . "%'";
+    
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
   public static function find_by_process_salary($options=[])
   {
     $process_salary = $options['process_salary'] ?? false;

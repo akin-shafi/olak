@@ -131,10 +131,10 @@
                    <th class="bg-white">Action</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody> 
 					<?php 
 						$sn = 1; 
-						foreach (Payroll::find_by_created_at($month) as $key => $value) { 
+						foreach (Payroll::find_by_month(['month' => $month, 'payment_status' => 2]) as $key => $value) { 
 							// pre_r($value);
 						$salary = intval($value->present_salary);
 						$employee = Employee::find_by_id($value->employee_id);
