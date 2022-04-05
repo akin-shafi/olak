@@ -167,9 +167,13 @@ $datatable = '';
             <label>Employees</label>
             <select class="form-control select2 select2-hidden-accessible employeeId" name="loan[employee_id]" id="employee_id" required>
               <option value="">Select Employee</option>
-              <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
+              <?php foreach (Employee::find_by_undeleted() as $employee) : 
+                //pre_r($employee)
+                ?>
                 <option value="<?php echo $employee->id ?>">
-                  <?php echo ucwords($employee->full_name()) ?></option>
+                  <?php echo ucwords($employee->full_name())  ?> (<?php echo  !empty($employee->present_salary) ? number_format(intval($employee->present_salary), 2) : 'Not Set' ?>)
+                    
+                </option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -270,6 +274,9 @@ $datatable = '';
 
       if (res.message) {
         message("success", res.message);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
     };
 
@@ -280,9 +287,7 @@ $datatable = '';
     loanForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       submitForm(EMPLOYEE_URL, loanForm);
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      
     });
 
     $('tbody').on('click', '.status', async function() {
