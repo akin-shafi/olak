@@ -88,7 +88,7 @@ include(SHARED_PATH . '/header.php');
                                  </div>
                                  <small class="text-muted fs-11">
                                     Applied On: <?php echo date('d-m-Y', strtotime($leave->created_at)) ?>
-                                    (<span class="font-weight-semibold"><?php echo time_elapsed_string($leave->created_at) ?></span>)
+                                    (<span class="font-weight-semibold"><?php echo time_elapsed_string($leave->created_at,'') ?></span>)
                                  </small>
                               </div>
 

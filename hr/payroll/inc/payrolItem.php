@@ -8,9 +8,9 @@ $deductions = PayrollItem::find_all_payroll(['category' => 3]);
 $salaryAdvance = SalaryAdvance::find_by_employee_id($employee->employee_id);
 $longTerm = LongTermLoan::find_by_employee_id($employee->employee_id);
 $commitment = $longTerm ? intval($longTerm->commitment) : 0;
-$presentSalary = $employee->present_salary ? $employee->present_salary : 0;
+$presentSalary = isset($employee->present_salary) ? $employee->present_salary : 0;
 
-$salary = Payroll::find_by_employee_id($employee->employee_id);
+$salary = Payroll::find_by_employee_id($empId, ['date' => $_GET['salary_date']]);
 $overtime = $salary->overtime_allowance ?? 0;
 $leave = $salary->leave_allowance ?? 0;
 $otherAllowance = $salary->other_allowance ?? 0;
@@ -72,19 +72,39 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
                </thead>
                <tbody>
                   <?php foreach ($earnings as $value) :
-
                      $amountCalculated = $presentSalary * (intval($value->amount) / 100);
-
                   ?>
-                     <?php //if ($value->addon == 0) : ?>
+                     <?php if ($value->addon == 0) : ?>
                         <tr>
                            <td><?php echo ucwords($value->item) ?></td>
                            <td class="border-start"><?php echo number_format($amountCalculated) ?>
                               <input value="<?php echo $amountCalculated ?>" class="returnValue" type="hidden">
                            </td>
                         </tr>
-                     <?php //endif ?>
+                     <?php endif ?>
                   <?php endforeach ?>
+
+                  <?php if ($overtime != 0 || $leave != 0 || $otherAllowance != 0) : ?>
+                     <tr>
+                        <td>Overtime Allowance</td>
+                        <td class="border-start"><?php echo number_format($overtime) ?>
+                           <input value="<?php echo $overtime ?>" class="returnValue" type="hidden">
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>Leave Allowance</td>
+                        <td class="border-start"><?php echo number_format($leave) ?>
+                           <input value="<?php echo $leave ?>" class="returnValue" type="hidden">
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>Other Allowance</td>
+                        <td class="border-start"><?php echo number_format($otherAllowance) ?>
+                           <input value="<?php echo $otherAllowance ?>" class="returnValue" type="hidden">
+                        </td>
+                     </tr>
+                  <?php endif ?>
+
                   <tr class="border-top">
                      <td class="font-weight-semibold">Total Earnings</td>
                      <td class="font-weight-semibold border-start">
@@ -95,71 +115,78 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
             </table>
          </div>
          <div class="col-6 table-responsive">
-                     <table class="table text-nowrap mb-0 border">
-                        <thead>
-                           <tr>
-                              <th class="fs-18" rowspan="1" colspan="2">Deductions</th>
-                           </tr>
-                           <tr>
-                              <th>Pay Type</th>
-                              <th class="border-start">Amount</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <?php if ($calculate_tax == 1) : ?>
-                              <?php
-                              foreach ($deductions as $value) :
-                                 if ($value->item == 'Tax(PAYE)') {
-                                    $amountCalculated = $tax['monthly_tax'];
-                                 } elseif ($value->item == 'Pension') {
-                                    $amountCalculated = $tax['pension'];
-                                 } else {
-                                    $amountCalculated = $presentSalary * (intval($value->amount) / 100);
-                                 }
-                              ?>
-                                 <tr>
-                                    <td><?php echo ucwords($value->item)
-                                          ?></td>
-                                    <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
-                                 </tr>
-                              <?php endforeach;
-                              ?>
-                           <?php else : ?>
-                              <?php
-                              foreach ($deductions as $value) :
-                                 if ($value->item == 'Tax(PAYE)') {
-                                    $amountCalculated = 0;
-                                 } elseif ($value->item == 'Pension') {
-                                    $amountCalculated = 0;
-                                 } else {
-                                    $amountCalculated = 0;
-                                 }
-                              ?>
-                                 <tr>
-                                    <td><?php echo ucwords($value->item)
-                                          ?></td>
-                                    <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
-                                 </tr>
-                              <?php endforeach;
-                              ?>
-                           <?php endif ?>
-                           <tr class="">
-                              <td>Salary Advance</td>
-                              <td class="border-start"><?php echo number_format($salaryAdvance->total_requested) ?></td>
-                           </tr>
+            <table class="table text-nowrap mb-0 border">
+               <thead>
+                  <tr>
+                     <th class="fs-18" rowspan="1" colspan="2">Deductions</th>
+                  </tr>
+                  <tr>
+                     <th>Pay Type</th>
+                     <th class="border-start">Amount</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <?php if ($calculate_tax == 1) : ?>
+                     <?php
+                     foreach ($deductions as $value) :
+                        if ($value->item == 'Tax(PAYE)') {
+                           $amountCalculated = $tax['monthly_tax'];
+                        } elseif ($value->item == 'Pension') {
+                           $amountCalculated = $tax['pension'];
+                        } else {
+                           $amountCalculated = $presentSalary * (intval($value->amount) / 100);
+                        }
+                     ?>
+                        <tr>
+                           <td><?php echo ucwords($value->item)
+                                 ?></td>
+                           <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
+                        </tr>
+                     <?php endforeach;
+                     ?>
+                  <?php else : ?>
+                     <?php
+                     foreach ($deductions as $value) :
+                        if ($value->item == 'Tax(PAYE)') {
+                           $amountCalculated = 0;
+                        } elseif ($value->item == 'Pension') {
+                           $amountCalculated = 0;
+                        } else {
+                           $amountCalculated = 0;
+                        }
+                     ?>
+                        <tr>
+                           <td><?php echo ucwords($value->item)
+                                 ?></td>
+                           <td class="border-start"><?php echo number_format($amountCalculated) ?></td>
+                        </tr>
+                     <?php endforeach;
+                     ?>
+                  <?php endif ?>
+                  <tr class="">
+                     <td>Salary Advance</td>
+                     <td class="border-start"><?php echo number_format($salaryAdvance->total_requested) ?></td>
+                  </tr>
 
-                           <tr class="">
-                              <td>Commitment for(Long Term Loan)</td>
-                              <td class="border-start"><?php echo number_format($commitment) ?></td>
-                           </tr>
+                  <tr class="">
+                     <td>Commitment for(Long Term Loan)</td>
+                     <td class="border-start"><?php echo number_format($commitment) ?></td>
+                  </tr>
 
-                           <tr class="border-top">
-                              <td class="font-weight-semibold">Total Deduction</td>
-                              <td class="font-weight-semibold border-start"><?php echo number_format(intval($totalDeduction)) ?></td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
+                  <?php if ($otherDeduction != 0) : ?>
+                     <tr>
+                        <td>Other Deductions</td>
+                        <td class="border-start"><?php echo number_format($otherDeduction) ?>
+                        </td>
+                     </tr>
+                  <?php endif ?>
+                  <tr class="border-top">
+                     <td class="font-weight-semibold">Total Deduction</td>
+                     <td class="font-weight-semibold border-start"><?php echo number_format(intval($totalDeduction)) ?></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
 
       </div>
       <div class="mt-4 mb-3 table-responsive">

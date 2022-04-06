@@ -22,25 +22,25 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
 
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
-     <div class="btn-group">
-      
+    <div class="btn-group">
+
       <h4 class="page-title me-3">Long Term Loan |</h4>
       <h4 class="page-title me-3 text-muted"><a style="text-decoration: underline;" href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a></h4>
     </div>
 
-   
+
   </div>
   <div class="page-rightheader ms-md-auto">
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
       <div class="btn-list">
-        <?php foreach (Configuration::find_all() as $value) :
-          // pre_r($value);
-          if ($value->loan_config == 1) :
-            echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Loan Request</button>';
-          else :
-            // echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
-          endif;
-        endforeach; ?>
+        <?php //foreach (Configuration::find_all() as $value) :
+        if (Configuration::find_all()[0]->loan_config == 1) :
+          echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Loan Request</button>';
+        else :
+        // echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
+        endif;
+        //endforeach; 
+        ?>
 
         <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
       </div>
@@ -229,7 +229,7 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
               <option value="">Select Employee</option>
               <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
                 <option value="<?php echo $employee->id ?>">
-                  <?php echo ucwords($employee->full_name()) ?></option>
+                  <?php echo ucwords($employee->full_name())  ?> (<?php echo  !empty($employee->present_salary) ? number_format(intval($employee->present_salary), 2) : 'Not Set' ?>)</option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -253,7 +253,7 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
           </div>
 
           <div class="row " id="isLongTerm">
-             <div class="col-md-6">
+            <div class="col-md-6">
               <div class="form-group">
                 <label>Monthly Deduction(Currency)</label>
                 <input type="number" class="form-control" name="loan[loan_deduction]" id="loan_deduction" placeholder="Deduction Rate">
@@ -266,7 +266,7 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
                 <input type="text" class="form-control" readonly value="0" id="payback_duration" name="loan[loan_duration]" placeholder="Duration">
               </div>
             </div>
-           
+
           </div>
 
           <div class="form-group">
@@ -382,19 +382,12 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
     });
 
     $(document).on('input', '#loan_deduction', function() {
-        var amt = $("#amount").val();
-        // var payback_duration = $("#payback_duration").val();
-        var loan_deduction = $(this).val();
-        var payback_duration = amt / loan_deduction;
-        $("#payback_duration").val(payback_duration);
+      var amt = $("#amount").val();
+      // var payback_duration = $("#payback_duration").val();
+      var loan_deduction = $(this).val();
+      var payback_duration = amt / loan_deduction;
+      $("#payback_duration").val(payback_duration);
 
     })
   });
-
-
-
-
-
-
-
 </script>

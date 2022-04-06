@@ -26,7 +26,7 @@ class Payroll extends DatabaseObject
   public $pension;
   public $deleted;
 
-  Const STATUS = [
+  const STATUS = [
     '1' => 'Computed',
     '2' => 'Sent',
     '3' => 'Processing',
@@ -69,10 +69,19 @@ class Payroll extends DatabaseObject
   }
 
 
-  public static function find_by_employee_id($employee_id)
+  public static function find_by_employee_id($empId, $options = [])
   {
+    $date = $options['date'] ?? false;
+    $setDate = date('Y-' . $date);
+
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
+    $sql .= "WHERE employee_id='" . self::$database->escape_string($empId) . "'";
+
+    if ($date != false) :
+      $sql .= " AND `month`='" . self::$database->escape_string($setDate) . "'";
+    endif;
+
+    echo $sql;
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
@@ -238,35 +247,34 @@ class Payroll extends DatabaseObject
     return $obj;
   }
 
-   public static function sum_of_tax_payable()
+  public static function sum_of_tax_payable()
   {
 
-     $myArr = [];
-     $employee = Employee::find_by_undeleted();
-     foreach ($employee as $value) {
-        $salary = intval($value->present_salary);
-        $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
-        $monthly_tax = $tax['monthly_tax'];
-        array_push($myArr, intval($monthly_tax));
-        intval($myArr);
-     }
-     
-     return  array_sum($myArr);       
-    
+    $myArr = [];
+    $employee = Employee::find_by_undeleted();
+    foreach ($employee as $value) {
+      $salary = intval($value->present_salary);
+      $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
+      $monthly_tax = $tax['monthly_tax'];
+      array_push($myArr, intval($monthly_tax));
+      intval($myArr);
+    }
+
+    return  array_sum($myArr);
   }
 
-   public static function sum_of_pension_payable(){
-     $myArr = [];
-     $employee = Employee::find_by_undeleted();
-     foreach ($employee as $value) {
-        $salary = intval($value->present_salary);
-        $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
-        $pension = $tax['pension'];
-        array_push($myArr, intval($pension));
-        intval($myArr);
-     }
-     
-     return  array_sum($myArr);       
-    
+  public static function sum_of_pension_payable()
+  {
+    $myArr = [];
+    $employee = Employee::find_by_undeleted();
+    foreach ($employee as $value) {
+      $salary = intval($value->present_salary);
+      $tax = Payroll::tax_calculator(['netSalary' => intval($salary)]);
+      $pension = $tax['pension'];
+      array_push($myArr, intval($pension));
+      intval($myArr);
+    }
+
+    return  array_sum($myArr);
   }
 }

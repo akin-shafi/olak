@@ -15,7 +15,7 @@ if (is_post_request()) {
 
 	if (isset($_POST['genPaySlip'])) {
 		$employees = Employee::find_by_undeleted();
-		$month = date('Y-').$_POST['month'].date('-d');
+		$month = date('Y-') . $_POST['month'] . date('-d');
 
 		$config = Configuration::find_by_date($month);
 		// $find_date = Configuration::find_by_date($month);
@@ -30,8 +30,7 @@ if (is_post_request()) {
 			];
 			$config = new Configuration($data);
 			$result = $config->save();
-
-		}else{
+		} else {
 			$status = 'Edit';
 			$data = [
 				'process_salary' => 1,
@@ -40,7 +39,7 @@ if (is_post_request()) {
 			$config->merge_attributes($data);
 			$result = $config->save();
 		}
-		
+
 		if ($result == true) {
 			if ($status == 'New') {
 				foreach ($employees as $value) {
@@ -54,13 +53,13 @@ if (is_post_request()) {
 						'loan' => $commitment,
 						'salary_advance' => $salary_advance->total_requested,
 						'present_days' => $_POST['present_day'],
-						'payment_status' => 1, 
+						'payment_status' => 1,
 					];
 
 					$staff_salary = new Payroll($args);
 					$result = $staff_salary->save();
 				}
-			}else{
+			} else {
 				$payroll = Payroll::find_by_created_at($month);
 				foreach ($payroll as $value) {
 					$find_by_id = Payroll::find_by_id($value->id);
@@ -70,49 +69,45 @@ if (is_post_request()) {
 						'loan' => $commitment,
 						'salary_advance' => $salary_advance->total_requested,
 						'present_days' => $_POST['present_day'],
-						'payment_status' => 1, 
+						'payment_status' => 1,
 					];
 
 					$find_by_id->merge_attributes($data);
 					$result = $find_by_id->save();
-
 				}
 			}
-			
-			
 		} else {
 			http_response_code(404);
 			exit(json_encode(['error' => display_errors($staff_salary->errors)]));
 		}
 	}
-	if ($_POST['push']) {
-			// $month = $_POST['month'] ?? date('Y-m');
-			$month = date('Y-').$_POST['month'];
-			$config = Configuration::find_by_date($month);
-			$data = [
-				'visibility' => 1,
-			];
-			$config->merge_attributes($data);
-			$config->save();
-			// $config = true;
-			
-			if ($config == true) {
-					$payrolls = Payroll::find_by_month($month);
-					foreach($payrolls as $value){
-						$update = Payroll::find_by_id($value->id);
-						$args = [
-							'payment_status' => 2
-						];
 
-						$update->merge_attributes($args);
-						$update->save();
+	if (isset($_POST['push'])) {
+		// $month = $_POST['month'] ?? date('Y-m');
+		$month = date('Y-') . $_POST['month'];
+		$config = Configuration::find_by_date($month);
+		$data = [
+			'visibility' => 1,
+		];
+		$config->merge_attributes($data);
+		$config->save();
+		// $config = true;
 
-					}
+		if ($config == true) {
+			$payrolls = Payroll::find_by_month($month);
+			foreach ($payrolls as $value) {
+				$update = Payroll::find_by_id($value->id);
+				$args = [
+					'payment_status' => 2
+				];
 
-				http_response_code(200);
-				exit(json_encode(['success' => true, 'msg' => 'Pushed Successfully!']));
-
+				$update->merge_attributes($args);
+				$update->save();
 			}
+
+			http_response_code(200);
+			exit(json_encode(['success' => true, 'msg' => 'Pushed Successfully!']));
+		}
 	}
 
 	if (isset($_POST['salary'])) {

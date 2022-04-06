@@ -28,55 +28,51 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
    <div class="page-rightheader ms-md-auto">
 
 
-    
-          <form class="form-inline " id="find_week">
-               <div class="form-group p-1">
-                  <label>Year: </label>
-                  <input type="text" class="form-control" id="compute_year" value="<?php echo date('Y') ?>" readonly>
-               </div>
 
-               <div class=" form-group p-1">
-                  <label>Month: </label>
-                  <select class="form-control " id="compute_month" data-placeholder="Select Month">
-                     <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
-                     <?php foreach (Payroll::MONTH as $key => $value) : ?>
-                        <option 
-                           value="<?php echo $key; ?>" 
-                           <?php echo $key == date('m', strtotime($queryByMonth)) ? 'selected' : '' ?>
-                           <?php echo $key > date('m') ? 'disabled' : '' ?>
-                        >
-                           <?php echo $value; ?></option>
-                     <?php endforeach; ?>
-                  </select>
-               </div>
-               <div class=" form-group p-1">
-                  
-                  <button class="btn btn-primary btn-sm me-3" id="genPaySlip">Compute Salary</button>
-               </div>
-           </form>
-       
+      <form class="form-inline " id="find_week">
+         <div class="form-group p-1">
+            <label>Year: </label>
+            <input type="text" class="form-control" id="compute_year" value="<?php echo date('Y') ?>" readonly>
+         </div>
+
+         <div class=" form-group p-1">
+            <label>Month: </label>
+            <select class="form-control " id="compute_month" data-placeholder="Select Month">
+               <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
+               <?php foreach (Payroll::MONTH as $key => $value) : ?>
+                  <option value="<?php echo $key; ?>" <?php echo $key == date('m', strtotime($queryByMonth)) ? 'selected' : '' ?> <?php echo $key > date('m') ? 'disabled' : '' ?>>
+                     <?php echo $value; ?></option>
+               <?php endforeach; ?>
+            </select>
+         </div>
+         <div class=" form-group p-1">
+
+            <button class="btn btn-primary btn-sm me-3" id="genPaySlip">Compute Salary</button>
+         </div>
+      </form>
+
    </div>
 </div>
 
 <div class="row">
    <div class="col-md-12">
       <div class="card">
-         <div class="card-body" >
-           
-           <div class="d-flex justify-content-between">
-              <div class="w-25">
-                 <div>Filter By Month:</div>
-                 <select class="form-control select2" id="byDate" data-placeholder="Select Month">
+         <div class="card-body">
+
+            <div class="d-flex justify-content-between">
+               <div class="w-25">
+                  <div>Filter By Month:</div>
+                  <select class="form-control select2" id="byDate" data-placeholder="Select Month">
                      <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
                      <?php foreach (Payroll::MONTH as $key => $value) : ?>
                         <option value="<?php echo $key; ?>" <?php echo $key == date('m', strtotime($queryByMonth)) ? 'selected' : '' ?>>
                            <?php echo $value; ?></option>
                      <?php endforeach; ?>
                   </select>
-              </div>
-              <div id="show_filter"></div>
-           </div>
-           
+               </div>
+               <div id="show_filter"></div>
+            </div>
+
          </div>
          <div class="card-body">
             <div class="table-responsive">
@@ -95,7 +91,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                     <th>(₦) Monthly Tax</th>
                                     <th>(₦) Pension</th>
                                  <?php } ?>
-                                 
+
                                  <th>(₦) Salary Advance</th>
                                  <th>(₦) Loan</th>
                                  <th>(₦) Take Home</th>
@@ -118,16 +114,11 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                  $monthly_tax = intval($tax['monthly_tax']);
                                  $pension = intval($tax['pension']);
 
-                                 
-
                                  if ($calculate_tax == 1) {
                                     $take_home = intval($salary) - (intval($commitment) + intval($salary_advance->total_requested) + intval($monthly_tax) + intval($pension));
-                                 }else{
+                                 } else {
                                     $take_home = $salary;
                                  }
-
-                                 // 
-                                 
 
                               ?>
                                  <tr>
@@ -146,8 +137,8 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                     <td><?php echo date('M Y', strtotime($value->month)) ?></td>
                                     <td><?php echo number_format($salary) ?></td>
                                     <?php if ($calculate_tax == 1) { ?>
-                                    <td><?php echo  number_format($monthly_tax) ?></td>
-                                    <td><?php echo  number_format($pension) ?></td>
+                                       <td><?php echo  number_format($monthly_tax) ?></td>
+                                       <td><?php echo  number_format($pension) ?></td>
                                     <?php } ?>
                                     <td>
                                        <?php echo !empty($salary_advance->total_requested) ? number_format(intval($salary_advance->total_requested)) : '0.00' ?>
@@ -155,23 +146,23 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                                     <td><?php echo !empty($commitment) ? number_format(intval($commitment)) : '0.00' ?></td>
                                     <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
                                     <td>
-                                       <?php 
-                                          $status = $value->payment_status;
-                                          if ($status == 1) {
-                                             $color = 'badge-primary';
-                                          }elseif ($status == 2) {
-                                             $color = 'badge-warning';
-                                          }else{
-                                             $color = 'badge-success';
-                                          }
-                                        ?>
+                                       <?php
+                                       $status = $value->payment_status;
+                                       if ($status == 1) {
+                                          $color = 'badge-primary';
+                                       } elseif ($status == 2) {
+                                          $color = 'badge-warning';
+                                       } else {
+                                          $color = 'badge-success';
+                                       }
+                                       ?>
                                        <span class="badge <?php echo $color ?>">
                                           <?php echo Payroll::STATUS[$status]; ?>
-                                             
+
                                        </span>
                                     </td>
                                     <td class="text-center">
-                                       
+
                                        <a href="#" class="btn btn-outline-primary action-btns" id="get_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#viewsalarymodal"> <i class="feather feather-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="View" aria-label="View"></i> </a>
                                        <a href="#" class="btn btn-outline-warning action-btns" id="edit_salary" data-id="<?php echo $value->employee_id ?>" data-bs-toggle="modal" data-bs-target="#payroll_narration" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit"> <i class="feather feather-edit"></i> </a>
                                     </td>
@@ -261,7 +252,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 </div>
 
 
-<input type="" id="eUrl" value="<?php echo url_for('/') ?>">
+<input type="hidden" id="eUrl" value="<?php echo url_for('/') ?>">
 <?php include(SHARED_PATH . '/footer.php'); ?>
 
 <script>
@@ -310,7 +301,9 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 
       $('tbody').on('click', '#get_salary', async function() {
          let empId = this.dataset.id;
-         let data = await fetch(SALARY_URL + '?empId=' + empId + '&salary_data')
+         let filterDate = $("#byDate").val()
+
+         let data = await fetch(SALARY_URL + '?empId=' + empId + '&salary_date=' + filterDate)
          let res = await data.text();
 
          $('#salary_data').html(res);
@@ -336,27 +329,27 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          message('error', 'Payslip already generated for this month. Thank You!');
       })
 
-      function errorOption(title, text){
-           swal({
-              title: title,
-              text: text,
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
+      function errorOption(title, text) {
+         swal({
+               title: title,
+               text: text,
+               icon: "warning",
+               buttons: true,
+               dangerMode: true,
             })
             .then((willDelete) => {
-              if (willDelete) {
-               // successAlert('Salary Updated')
-               updateSalary()
-              } 
-              // else {
-              //   swal("Your imaginary file is safe!");
-              // }
+               if (willDelete) {
+                  // successAlert('Salary Updated')
+                  updateSalary()
+               }
+               // else {
+               //   swal("Your imaginary file is safe!");
+               // }
             });
-        }
+      }
 
-      function check_status(filterYear, filterDate){
-        
+      function check_status(filterYear, filterDate) {
+
          $.ajax({
             url: 'inc/compute_salary.php',
             method: "POST",
@@ -378,10 +371,10 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                }
             }
          })
-   
+
       }
 
-      function computeSalary(){
+      function computeSalary() {
          var filterYear = $("#compute_year").val()
          var filterDate = $("#compute_month").val()
          $.ajax({
@@ -406,7 +399,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          })
       }
 
-      function updateSalary(){
+      function updateSalary() {
          let filterYear = $("#compute_year").val()
          let filterDate = $("#compute_month").val()
          $.ajax({
@@ -431,7 +424,8 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
       var filterYear = $("#compute_year").val()
       var filterDate = $("#compute_month").val()
       load_filter(filterYear, filterDate);
-      function load_filter(filterYear, filterDate){
+
+      function load_filter(filterYear, filterDate) {
          $.ajax({
             url: 'inc/get_payroll.php',
             method: "GET",
@@ -451,76 +445,58 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
          // let processing = '<button class="btn btn-primary" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...</button>';
          let filterYear = $("#compute_year").val()
          let filterDate = $("#compute_month").val()
-         check_status(filterYear,filterDate)
-         
+         check_status(filterYear, filterDate)
+
       })
       $(document).on('click', '#push', function() {
-            // let processing = '<button class="btn btn-primary" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...</button>';
-            // $("#pushwrap").html(processing);
+         // let processing = '<button class="btn btn-primary" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...</button>';
+         // $("#pushwrap").html(processing);
 
-            let filterYear = $("#compute_year").val()
-            let filterDate = $("#byDate").val()
+         let filterYear = $("#compute_year").val()
+         let filterDate = $("#byDate").val()
 
 
-            $.ajax({
-               url: 'inc/payroll_script.php',
-               method: "POST",
-               data: {
-                  push: 1,
-                  month: filterDate,
-               },
-               dataType: 'json',
-               success: function(data) {
-                  if (data.success == true) {
-                     message('success', data.msg);
-                     // window.location.reload();
-                     get_record(filterYear, filterDate)
-                  } else {
-                     message('error', data.msg);
-                  }
+         $.ajax({
+            url: 'inc/payroll_script.php',
+            method: "POST",
+            data: {
+               push: 1,
+               month: filterDate,
+            },
+            dataType: 'json',
+            success: function(data) {
+               if (data.success == true) {
+                  message('success', data.msg);
+                  // window.location.reload();
+                  get_record(filterYear, filterDate)
+               } else {
+                  message('error', data.msg);
                }
-            })
+            }
+         })
       })
 
-      function get_record(filterYear, filterDate){
+      function get_record(filterYear, filterDate) {
          $('tbody#get_payroll').html("<h2 class='text-center'>Processing...</h2>");
          $.ajax({
-               url: 'inc/get_payroll.php',
-               method: "get",
-               data: {
-                  push: 1,
-                  filter_date: filterDate,
-               },
-               // dataType: 'json',
-               success: function(data) {
-                  load_filter(filterYear, filterDate);
-                  $('tbody#get_payroll').html(data);
-               }
+            url: 'inc/get_payroll.php',
+            method: "get",
+            data: {
+               push: 1,
+               filter_date: filterDate,
+            },
+            // dataType: 'json',
+            success: function(data) {
+               load_filter(filterYear, filterDate);
+               $('tbody#get_payroll').html(data);
+            }
          })
       }
 
       $('#byDate').on("change", async () => {
-       
          let filterYear = $("#compute_year").val()
          let filterDate = $("#byDate").val()
          get_record(filterYear, filterDate)
-         
-
-
-         // $('tbody#get_payroll').html("<h2 class='text-center'>Processing...</h2>");
-         // $.ajax({
-         //       url: 'inc/get_payroll.php',
-         //       method: "get",
-         //       data: {
-         //          push: 1,
-         //          filter_date: filterDate,
-         //       },
-         //       // dataType: 'json',
-         //       success: function(data) {
-         //          load_filter(filterYear, filterDate);
-         //          $('tbody#get_payroll').html(data);
-         //       }
-         // })
 
       });
    })

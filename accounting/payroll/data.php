@@ -14,32 +14,32 @@ include(SHARED_PATH . '/admin_header.php');
 <div class="container">
   <div class="row">
     <div class="col-lg-6">
-      <h4>All Customers</h4>  
+      <h4>All Customers</h4>
     </div>
     <div class="col-lg-6">
       <button type="button" class="btn btn-primary m-1 float-right" data-toggle="modal" data-target="#addModal">
-      <i class="fa fa-plus"></i> Add New Record</button>
-      <a href="components/action.php?export=excel" class="btn btn-success m-1 float-right"> <i class="fa fa-download"></i> 
-      Export To Excel</a>
+        <i class="fa fa-plus"></i> Add New Record</button>
+      <a href="components/action.php?export=excel" class="btn btn-success m-1 float-right"> <i class="fa fa-download"></i>
+        Export To Excel</a>
     </div>
   </div><br>
 </div>
 
 <div class="container">
   <div class="box">
-  	<div class="box-body">
-  		<div class="row">
-		    <div class="col-lg-12 col-md-12 col-sm-12">
-		      
-		      <div class="table-responsive" >
-		      	<div id="tableData">
-		        <h3 class="text-center text-success" style="margin-top: 150px;">Loading...</h3>
-		        </div>
-		      </div>
+    <div class="box-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
 
-		    </div>
-		</div>
-  	</div>
+          <div class="table-responsive">
+            <div id="tableData">
+              <h3 class="text-center text-success" style="margin-top: 150px;">Loading...</h3>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- Add Record  Modal -->
@@ -74,7 +74,7 @@ include(SHARED_PATH . '/admin_header.php');
           <div class="form-group float-right">
             <button type="submit" class="btn btn-success" id="submit">Submit</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          </div>  
+          </div>
         </form>
       </div>
     </div>
@@ -113,7 +113,7 @@ include(SHARED_PATH . '/admin_header.php');
           <div class="form-group float-right">
             <button type="submit" class="btn btn-primary" id="update">Update</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          </div>  
+          </div>
         </form>
       </div>
     </div>
@@ -122,53 +122,57 @@ include(SHARED_PATH . '/admin_header.php');
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 <script type="text/javascript">
-  $(document).ready(function(){
-    
-  showAllCustomer();
-  //View Record
-   function showAllCustomer(){
-     $.ajax({
-      url : "components/action.php",
-      type: "POST",
-      data : {action:"view"},
-      success:function(response){
+  $(document).ready(function() {
+
+    showAllCustomer();
+    //View Record
+    function showAllCustomer() {
+      $.ajax({
+        url: "components/action.php",
+        type: "POST",
+        data: {
+          action: "view"
+        },
+        success: function(response) {
           $("#tableData").html(response);
           $("table").DataTable({
-            order:[0, 'DESC']
+            order: [0, 'DESC']
           });
         }
       });
     }
 
     //insert ajax request data
-    $("#submit").click(function(e){
-        if ($("#formData")[0].checkValidity()) {
-          e.preventDefault();
-          $.ajax({
-            url : "components/action.php",
-            type : "POST",
-            data : $("#formData").serialize()+"&action=insert",
-            success:function(response){
-              Swal.fire({
-                icon: 'success',
-                title: 'Customer added successfully',
-              });
-              $("#addModal").modal('hide');
-              $("#formData")[0].reset();
-              showAllCustomer();
-            }
-          });
-        }
+    $("#submit").click(function(e) {
+      if ($("#formData")[0].checkValidity()) {
+        e.preventDefault();
+        $.ajax({
+          url: "components/action.php",
+          type: "POST",
+          data: $("#formData").serialize() + "&action=insert",
+          success: function(response) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Customer added successfully',
+            });
+            $("#addModal").modal('hide');
+            $("#formData")[0].reset();
+            showAllCustomer();
+          }
+        });
+      }
     });
     //Edit Record
-    $("body").on("click", ".editBtn", function(e){
+    $("body").on("click", ".editBtn", function(e) {
       e.preventDefault();
       var editId = $(this).attr('id');
       $.ajax({
-        url : "components/action.php",
-        type : "POST",
-        data : {editId:editId},
-        success:function(response){
+        url: "components/action.php",
+        type: "POST",
+        data: {
+          editId: editId
+        },
+        success: function(response) {
           var data = JSON.parse(response);
           $("#edit-form-id").val(data.id);
           $("#name").val(data.name);
@@ -179,14 +183,14 @@ include(SHARED_PATH . '/admin_header.php');
       });
     });
     //update ajax request data
-    $("#update").click(function(e){
+    $("#update").click(function(e) {
       if ($("#EditformData")[0].checkValidity()) {
         e.preventDefault();
         $.ajax({
-          url : "components/action.php",
-          type : "POST",
-          data : $("#EditformData").serialize()+"&action=update",
-          success:function(response){
+          url: "components/action.php",
+          type: "POST",
+          data: $("#EditformData").serialize() + "&action=update",
+          success: function(response) {
             Swal.fire({
               icon: 'success',
               title: 'Customer updated successfully',
@@ -199,17 +203,19 @@ include(SHARED_PATH . '/admin_header.php');
       }
     });
     //Delete Record
-    $("body").on("click", ".deleteBtn", function(e){
+    $("body").on("click", ".deleteBtn", function(e) {
       e.preventDefault();
       var tr = $(this).closest('tr');
       var deleteBtn = $(this).attr('id');
       if (confirm('Are you sure want to delete this Record')) {
         $.ajax({
-          url : "components/action.php",
-          type : "POST",
-          data : {deleteBtn:deleteBtn},
-          success:function(response){
-            tr.css('background-color','#ff6565');
+          url: "components/action.php",
+          type: "POST",
+          data: {
+            deleteBtn: deleteBtn
+          },
+          success: function(response) {
+            tr.css('background-color', '#ff6565');
             Swal.fire({
               icon: 'success',
               title: 'Customer delete successfully',
@@ -219,7 +225,8 @@ include(SHARED_PATH . '/admin_header.php');
         });
       }
     });
-  }); 
+  });
 </script>
 </body>
+
 </html>

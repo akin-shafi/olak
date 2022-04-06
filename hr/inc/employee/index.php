@@ -178,6 +178,7 @@ if (is_post_request()) {
       $employeeId = $args['employee_id'];
 
       $args['ref_no'] = 'SAL-' . rand(100, 999) . '0' . $employeeId; //? SAL: Salary Advance Loan
+      $args['status'] = 3;
 
       $employee = Employee::find_by_id($employeeId);
 
@@ -220,6 +221,7 @@ if (is_post_request()) {
       } else {
         $args['commitment_duration'] = $args['loan_duration'];
         $args['loan_repayment'] = $args['loan_deduction'];
+        $args['status'] = 3;
 
         $longTerm = new LongTermLoanDetail($args);
         $longTerm->save();

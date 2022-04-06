@@ -15,20 +15,22 @@ $datatable = '';
       <h4 class="page-title me-3">Salary Advance</h4>
       <!-- <button class="btn text-outline-primary"><a href="<?php echo url_for('loan/hr-loan.php') ?>">Long Term</a></button> -->
       <!-- <div class="btn text-primary">Salary Advance</div> -->
-      
+
     </div>
   </div>
   <div class="page-rightheader ms-md-auto">
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
       <div class="btn-list">
-        <!-- <a href="<?php //echo url_for('loan/hr-loan.php') ?>" class="btn btn-outline-dark"><i class="las la-arrow-left"></i> Long Term</a> -->
-        <?php foreach (Configuration::find_all() as $value) :
-          if ($value->loan_config == 1) :
-            echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Make Request</button>';
-          else :
-            echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
-          endif;
-        endforeach; ?>
+        <!-- <a href="<?php //echo url_for('loan/hr-loan.php') 
+                      ?>" class="btn btn-outline-dark"><i class="las la-arrow-left"></i> Long Term</a> -->
+        <?php //foreach (Configuration::find_all() as $value) :
+        if (Configuration::find_all()[0]->loan_config == 1) :
+          echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Make Request</button>';
+        else :
+          echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
+        endif;
+        //endforeach; 
+        ?>
 
         <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
       </div>
@@ -167,12 +169,10 @@ $datatable = '';
             <label>Employees</label>
             <select class="form-control select2 select2-hidden-accessible employeeId" name="loan[employee_id]" id="employee_id" required>
               <option value="">Select Employee</option>
-              <?php foreach (Employee::find_by_undeleted() as $employee) : 
-                //pre_r($employee)
-                ?>
+              <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
                 <option value="<?php echo $employee->id ?>">
                   <?php echo ucwords($employee->full_name())  ?> (<?php echo  !empty($employee->present_salary) ? number_format(intval($employee->present_salary), 2) : 'Not Set' ?>)
-                    
+
                 </option>
               <?php endforeach; ?>
             </select>
@@ -287,7 +287,7 @@ $datatable = '';
     loanForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       submitForm(EMPLOYEE_URL, loanForm);
-      
+
     });
 
     $('tbody').on('click', '.status', async function() {

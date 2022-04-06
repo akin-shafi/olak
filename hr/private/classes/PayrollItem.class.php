@@ -4,7 +4,7 @@
 class PayrollItem extends DatabaseObject
 {
     protected static $table_name = "payroll_item";
-    protected static $db_columns = ['id', 'item', 'addon', 'category', 'amount', 'created_at', 'deleted'];
+    protected static $db_columns = ['id', 'item', 'category', 'addon', 'amount', 'created_at', 'deleted'];
 
     public $id;
     public $item;

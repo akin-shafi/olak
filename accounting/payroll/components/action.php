@@ -47,7 +47,7 @@ if (is_get_request()) {
 		$tax_payable       = Payroll::sum_of_tax_payable();
 
 		// pre_r($payrollPayable);
-
+		$isVisible = false;
 ?>
 		<style>
 			.analytic .card:hover {
@@ -107,67 +107,69 @@ if (is_get_request()) {
 			</div>
 
 			<!-- //! This is not required for now -->
-			<div class="row d-none">
-				<div class="col-xl-4 col-lg-12 col-md-12">
-					<div class="card shadow-lg">
-						<div class="card-body shadow-lg">
-							<div class="row">
-								<div class="col-9">
-									<div class="mt-0 text-start">
-										<span class="fs-14 font-weight-semibold">Sum of Gross Salary</span>
-										<h3 class="mb-0 mt-1  mb-2" id="actual_salary"><?php //echo number_format($salaryPayable->total_salary, 2) 
-																																		?></h3>
-									</div>
-									<span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>For <?php echo $salaryPayable->counts; ?> </span> Employees </span>
-								</div>
-								<div class="col-3">
-									<div class="icon1 bg-success brround my-auto  float-end"> <?php echo $currency ?> </div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xl-4 col-lg-12 col-md-12">
-					<div class="card shadow-lg">
-						<div class="card-body shadow-lg">
-							<div class="row">
-								<div class="col-9">
-									<div class="mt-0 text-start">
-										<span class="fs-14 font-weight-semibold">Actual Payroll Payable | <?php echo date('M Y', strtotime($month)) ?></span>
-										<h3 class="mb-0 mt-1  mb-2" id=""><?php echo number_format($payrollPayable, 2) ?></h3>
-									</div>
-									<span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>For <?php echo $salaryPayable->counts; ?> </span> Employees </span>
-								</div>
-								<div class="col-3">
-									<div class="icon1 bg-primary brround my-auto  float-end"> <?php echo $currency ?> </div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<?php if ($calculate_tax == 1) { ?>
+			<?php if ($isVisible == true) : ?>
+				<div class="row d-none">
 					<div class="col-xl-4 col-lg-12 col-md-12">
-						<div class="card">
-							<div class="card-body container">
+						<div class="card shadow-lg">
+							<div class="card-body shadow-lg">
 								<div class="row">
 									<div class="col-9">
-										<div class="mt-0 text-start ">
-											<span class="fs-14 font-weight-semibold ">Sum of Tax Payable | <?php echo date('M Y', strtotime($month)) ?></span>
-											<h3 class="mb-0 mt-1  mb-2"><?php echo number_format($tax_payable, 2) ?? '0.00' ?></h3>
+										<div class="mt-0 text-start">
+											<span class="fs-14 font-weight-semibold">Sum of Gross Salary</span>
+											<h3 class="mb-0 mt-1  mb-2" id="actual_salary"><?php //echo number_format($salaryPayable->total_salary, 2) 
+																																			?></h3>
 										</div>
-										<span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>For <?php echo count(Employee::find_by_undeleted()) ?? 0 ?> </span> Staff </span>
+										<span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>For <?php echo $salaryPayable->counts; ?> </span> Employees </span>
 									</div>
 									<div class="col-3">
-										<div class="icon1 bg-secondary brround my-auto  float-end"> <?php echo $currency ?> </div>
+										<div class="icon1 bg-success brround my-auto  float-end"> <?php echo $currency ?> </div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				<?php } ?>
-			</div>
+
+					<div class="col-xl-4 col-lg-12 col-md-12">
+						<div class="card shadow-lg">
+							<div class="card-body shadow-lg">
+								<div class="row">
+									<div class="col-9">
+										<div class="mt-0 text-start">
+											<span class="fs-14 font-weight-semibold">Actual Payroll Payable | <?php echo date('M Y', strtotime($month)) ?></span>
+											<h3 class="mb-0 mt-1  mb-2" id=""><?php echo number_format($payrollPayable, 2) ?></h3>
+										</div>
+										<span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>For <?php echo $salaryPayable->counts; ?> </span> Employees </span>
+									</div>
+									<div class="col-3">
+										<div class="icon1 bg-primary brround my-auto  float-end"> <?php echo $currency ?> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<?php if ($calculate_tax == 1) { ?>
+						<div class="col-xl-4 col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-body container">
+									<div class="row">
+										<div class="col-9">
+											<div class="mt-0 text-start ">
+												<span class="fs-14 font-weight-semibold ">Sum of Tax Payable | <?php echo date('M Y', strtotime($month)) ?></span>
+												<h3 class="mb-0 mt-1  mb-2"><?php echo number_format($tax_payable, 2) ?? '0.00' ?></h3>
+											</div>
+											<span class="text-muted"> <span class="text-danger fs-12 mt-2 me-1"><i class="feather feather-arrow-up-right me-1 bg-danger-transparent p-1 brround"></i>For <?php echo count(Employee::find_by_undeleted()) ?? 0 ?> </span> Staff </span>
+										</div>
+										<div class="col-3">
+											<div class="icon1 bg-secondary brround my-auto  float-end"> <?php echo $currency ?> </div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php } ?>
+				</div>
+			<?php endif; ?>
 			<!-- //! This is not required for now -->
 
 			<div class="card">
