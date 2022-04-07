@@ -1,0 +1,523 @@
+/*! Invoice Templates @author: Invoicebus @email: info@invoicebus.com @web: https://invoicebus.com @version: 1.0.0 @updated: 2017-09-07 12:09:32 @license: Invoicebus */
+/* Reset styles */
+
+  @import url("https://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,latin-ext,cyrillic,cyrillic-ext");
+  html, body, div, span, applet, object, iframe,
+  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+  a, abbr, acronym, address, big, cite, code,
+  del, dfn, em, img, ins, kbd, q, s, samp,
+  small, strike, strong, sub, sup, tt, var,
+  b, u, i, center,
+  dl, dt, dd, ol, ul, li,
+  fieldset, form, label, legend,
+  table, caption, tbody, tfoot, thead, tr, th, td,
+  article, aside, canvas, details, embed,
+  figure, figcaption, footer, header, hgroup,
+  menu, nav, output, ruby, section, summary,
+  time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+  }
+
+  html {
+    line-height: 1;
+  }
+
+  ol, ul {
+    list-style: none;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  caption, th, td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+  }
+
+  q, blockquote {
+    quotes: none;
+  }
+  q:before, q:after, blockquote:before, blockquote:after {
+    content: "";
+    content: none;
+  }
+
+  a img {
+    border: none;
+  }
+
+  article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+    display: block;
+  }
+
+  /* Invoice styles */
+  /**
+   * DON'T override any styles for the <html> and <body> tags, as this may break the layout.
+   * Instead wrap everything in one main <div id="container"> element where you may change
+   * something like the font or the background of the invoice
+   */
+  html, body {
+    /* MOVE ALONG, NOTHING TO CHANGE HERE! */
+  }
+
+  /** 
+   * IMPORTANT NOTICE: DON'T USE '!important' otherwise this may lead to broken print layout.
+   * Some browsers may require '!important' in oder to work properly but be careful with it.
+   */
+  .clearfix {
+    display: block;
+    clear: both;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .separator {
+    height: 15px;
+  }
+  .separator.less {
+    height: 10px !important;
+  }
+
+  .container {
+    font: normal 14px/1.4em 'PT Sans', Sans-serif;
+    margin: 0 auto;
+    padding: 50px 65px;
+    /*min-height: 1058px;*/
+    min-height: 900px;
+    position: relative;
+  }
+
+  #memo {
+    min-height: 100px;
+  }
+  #memo .logo {
+    float: left;
+    margin-right: 20px;
+  }
+  #memo .logo img {
+    width: 150px;
+    height: 100px;
+  }
+  #memo .company-info {
+    float: left;
+    margin-top: 8px;
+    max-width: 515px;
+  }
+  #memo .company-info span {
+    color: #020202;
+    display: inline-block;
+    min-width: 15px;
+  }
+  #memo .company-info > span:first-child {
+    color: black;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 1em;
+  }
+  #memo:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  #invoice-info {
+    float: left;
+    margin-top: 50px;
+  }
+  #invoice-info > div {
+    float: left;
+  }
+  #invoice-info > div > span {
+    display: block;
+    min-width: 100px;
+    min-height: 18px;
+    margin-bottom: 3px;
+  }
+  #invoice-info > div:last-child {
+    margin-left: 10px;
+  }
+  #invoice-info:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  #client-info {
+    float: right;
+    margin-top: 9px;
+    margin-right: 30px;
+    min-width: 220px;
+    width: 260px
+  }
+  #client-info > div {
+    margin-bottom: 3px;
+  }
+  #client-info span {
+    display: block;
+  }
+  #client-info .client-name {
+    font-weight: bold;
+  }
+
+  #invoice-title-number {
+    float: left;
+    margin: 30px 0 10px 0;
+  }
+  #invoice-title-number span {
+    display: inline-block;
+    min-width: 15px;
+    line-height: 1em;
+  }
+  #invoice-title-number #title {
+    font-size: 50px;
+    color: #396E00;
+  }
+  #invoice-title-number #number {
+    font-size: 22px;
+  }
+  .ibcl_payment_info1{
+    font-weight: bold;
+    font-size: 16px; text-decoration: underline;
+  }
+  .ibcl_payment_info2, .ibcl_payment_info3, .ibcl_payment_info4{
+    /*font-size: 16px;*/ font-weight: bold;
+  }
+  table {
+    table-layout: fixed;
+  }
+  table th, table td {
+    vertical-align: top;
+    word-break: keep-all;
+    word-wrap: break-word;
+  }
+
+  #items {
+    margin-top: 40px;
+  }
+  #items .first-cell, #items table th:first-child, #items table td:first-child {
+    width: 18px;
+    text-align: right;
+  }
+  #items table {
+    border-collapse: separate;
+    width: 100%;
+  }
+  #items table th span:empty, #items table td span:empty {
+    display: inline-block;
+  }
+  #items table th {
+    font-weight: bold;
+    padding: 10px;
+    text-align: right;
+    border-bottom: 2px solid #898989;
+  }
+  #items table th:nth-child(2) {
+    width: 30%;
+    text-align: left;
+  }
+  #items table th:last-child {
+    text-align: right;
+  }
+  #items table td {
+    border-bottom: 1px solid #C4C4C4;
+    padding: 10px;
+    text-align: right;
+  }
+  #items table td:first-child {
+    text-align: left;
+  }
+  #items table td:nth-child(2) {
+    text-align: left;
+  }
+
+  #sums {
+    float: right;
+    margin-top: 10px;
+    page-break-inside: avoid;
+  }
+  #sums table tr th, #sums table tr td {
+    min-width: 100px;
+    padding: 10px;
+    text-align: right;
+  }
+  #sums table tr th {
+    text-align: left;
+    padding-right: 25px;
+  }
+  #sums table tr.amount-total th {
+    text-transform: uppercase;
+    color: #396E00;
+  }
+  #sums table tr.amount-total th, #sums table tr.amount-total td {
+    font-weight: bold;
+    font-size: 16px;
+    border-top: 2px solid #898989;
+  }
+  #sums table tr:last-child th {
+    text-transform: uppercase;
+    color: #396E00;
+  }
+  #sums table tr:last-child th, #sums table tr:last-child td {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  #terms {
+    margin-top: 30px;
+    page-break-inside: avoid;
+  }
+  #terms > span {
+    font-weight: bold;
+  }
+  #terms > div {
+    color: #396E00;
+    font-size: 16px;
+    min-height: 70px;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .payment-info {
+    color: #020202;
+    font-size: 12px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 440px;
+  }
+  .payment-info div {
+    display: inline-block;
+    min-width: 15px;
+  }
+
+  .bottom-circles {
+    width: 310px;
+    height: 215px;
+    -moz-background-size: 384px auto;
+    -o-background-size: 384px auto;
+    -webkit-background-size: 384px auto;
+    background-size: 384px auto;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+  }
+  .bottom-circles section {
+    position: relative;
+  }
+  .bottom-circles section div {
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+  }
+  .bottom-circles section > div:first-child {
+    background: #396E00;
+    left: 3px;
+    width: 125px;
+    height: 125px;
+    top: 117px;
+  }
+  .bottom-circles section > div:first-child > div {
+    background: #88C213;
+    width: 60px;
+    height: 60px;
+    top: 32px;
+    left: 32px;
+    position: relative;
+  }
+  .bottom-circles section > div:last-child {
+    background: #396E00;
+    right: -65px;
+    width: 280px;
+    height: 280px;
+  }
+  .bottom-circles section > div:last-child > div {
+    background: #88C213;
+    top: 24px;
+    left: 24px;
+    width: 230px;
+    height: 230px;
+  }
+  .bottom-circles section > div:last-child > div > div {
+    background: #396E00;
+    top: 58px;
+    left: 58px;
+    width: 115px;
+    height: 115px;
+  }
+  .bottom-circles section > div:last-child > div > div > div {
+    background: #FFF;
+    top: 12px;
+    left: 12px;
+    width: 90px;
+    height: 90px;
+  }
+
+  .show-mobile {
+    display: none !important;
+  }
+
+  /**
+   * If the printed invoice is not looking as expected you may tune up
+   * the print styles (you can use !important to override styles)
+   */
+  @media print {
+    /* Here goes your print styles */
+    .ib_invoicebus_fineprint {
+      text-align: left;
+      text-indent: 65px;
+    }
+  }
+  .holder{
+    max-width: 920px;
+    /*min-height: 1158px;*/
+    margin: 5px auto 0px auto;
+  }
+  .btn-wrp{
+    width: 100%;
+    /*max-width: 920px;*/
+    /*min-height: 1158px;*/
+    /*margin: 5px auto 0px auto;*/
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: url("data:image/png;base64,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");
+    z-index: 1000;
+    -moz-transition: box-shadow .3s ease-in;
+    -o-transition: box-shadow .3s ease-in;
+    -webkit-transition: box-shadow .3s ease-in;
+    transition: box-shadow .3s ease-in;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .default-btn{
+    float: left;
+    margin-right: 7px;
+    padding: 5px 10px;
+    font: normal 13px/1em "Open Sans","Helvetica Neue",Helvetica,Arial,Sans-serif;
+    border: 1px solid;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+  display: inline-block;
+  margin-bottom: 0;
+  line-height: 20px;
+  color:
+  #333333;
+  text-align: center;
+  text-shadow: 0 1px 1px
+  rgba(255,255,255,0.75);
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color:
+  #f5f5f5;
+  background-repeat: repeat-x;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+  }
+  .float-right{float: right !important;}
+  .float-left{float: left !important;}
+
+  .border {
+    border: 1px solid #dee2e6 !important;
+  }
+
+  .btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .btn-light {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+  }
+
+  .btn-light:hover {
+    color: #212529;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+  }
+
+  .btn-light:focus, .btn-light.focus {
+    box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
+  }
+
+  .btn-light.disabled, .btn-light:disabled {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+  }
+
+  .btn-light:not(:disabled):not(.disabled):active, .btn-light:not(:disabled):not(.disabled).active,
+  .show > .btn-light.dropdown-toggle {
+    color: #212529;
+    background-color: #dae0e5;
+    border-color: #d3d9df;
+  }
+
+  .btn-light:not(:disabled):not(.disabled):active:focus, .btn-light:not(:disabled):not(.disabled).active:focus,
+  .show > .btn-light.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
+  }
+
+  .btn-dark {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+  }
+
+  .btn-dark:hover {
+    color: #fff;
+    background-color: #23272b;
+    border-color: #1d2124;
+  }
+
+  .btn-dark:focus, .btn-dark.focus {
+    box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+  }
+
+  .btn-dark.disabled, .btn-dark:disabled {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+  }
+
+  .btn-dark:not(:disabled):not(.disabled):active, .btn-dark:not(:disabled):not(.disabled).active,
+  .show > .btn-dark.dropdown-toggle {
+    color: #fff;
+    background-color: #1d2124;
+    border-color: #171a1d;
+  }
+
+  .btn-dark:not(:disabled):not(.disabled):active:focus, .btn-dark:not(:disabled):not(.disabled).active:focus,
+  .show > .btn-dark.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+  }

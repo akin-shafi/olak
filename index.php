@@ -109,7 +109,7 @@
 							</a>
 						</div>
 						<div class="col-md-6">
-							<a href="../invoice_pos">
+							<a href="invoice_pos">
 								<div class="card bg-custom-blue anchor">
 									<div class="card-body p-3">
 										<h4 class="text-center text-light mb-0">Sale Outlet</h4>
