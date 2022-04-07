@@ -4,7 +4,6 @@ $page_title = "Invoices";
 require_login();
 
 $invoice_no = $_GET['invoice_no'] ?? '1'; // PHP > 7.0
-$transid = $id; 
 
 $company = CompanyDetails::find_by_id("1");
 $billing = Billing::find_by_invoice_no($invoice_no);
