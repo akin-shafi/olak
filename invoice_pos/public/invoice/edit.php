@@ -13,6 +13,7 @@ $billing = Billing::find_by_invoice_no($invoiceNum);
 $invoices = Invoice::find_by_transid($billing->invoiceNum);
 $clients = Client::find_by_id($billing->client_id);
 
+// pre_r($billing);
 
 $currencies = [
   "NGN", "USD", "CYP", "GHC", "KES", "XEU"
@@ -107,8 +108,7 @@ $service_type = '';
                     </select>
                   </div>
               </div>
-              <!-- <input type="hidden" class="form-control" readonly  name="billing[invoiceNum]" value="<?php //echo date('dHs'); 
-                                                                                                          ?>"> -->
+             
 
               <div class="table-responsive">
                 <section class=" row ">
@@ -118,7 +118,7 @@ $service_type = '';
                       <option value="">Select Client</option>
                       <?php foreach (Client::find_by_undeleted() as $client) { ?>
 
-                        <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?></option>
+                        <option value="<?php echo $client->id ?>" <?php echo $client->id == $billing->client_id ? 'selected' : '' ?>><?php echo $client->full_name(); ?></option>
                       <?php } ?>
                     </select>
 
@@ -128,7 +128,7 @@ $service_type = '';
                     <select required="" class="form-control" name="billing[billingFormat]">
                       <option disabled selected="">Select Format</option>
                       <?php foreach (Billing::BILLING_FORMAT as $result => $value) { ?>
-                        <option value="<?php echo $value; ?>" >
+                        <option value="<?php echo $value; ?>"  <?php echo $value == $billing->billingFormat ? 'selected' : '' ?>>
                           <?php echo $value; ?>
 
                         </option>
@@ -139,14 +139,14 @@ $service_type = '';
 
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Application Date <sup class="error">*</sup></label>
-                    <input required="" type="date" class="form-control" name="billing[start_date]" value="">
+                    <input required="" type="date" class="form-control" name="billing[start_date]" value="<?php echo $billing->start_date ?>">
 
 
                   </div>
 
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Due Date <sup class="error">*</sup></label>
-                    <input required="" type="date" name="billing[due_date]" class="form-control" id="dueDtate" value="">
+                    <input required="" type="date" name="billing[due_date]" class="form-control" id="dueDtate" value="<?php echo $billing->due_date ?>">
 
 
                     <!-- <input type="date" class="form-control" name=""> -->
@@ -173,16 +173,16 @@ $service_type = '';
                           <!-- <th rowspan="1">Total</th> -->
                           <th rowspan="1"></th>
 
-                          <?php foreach(Invoice::find_by_transid($invoiceNum) as $transaction){ ?>
+                          <?php $sn = 1; foreach($invoices as $trans){ ?>
                           <tr class="mtable">
-                            <td><span id="sr_no">1</span></td>
+                            <td><span id="sr_no"><?php echo $sn++ ?></span></td>
                             <td>
                             
                               <select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type1" data-srno="1">
                                 <option disabled selected="">Select Type</option>
                                   <?php foreach (Product::find_by_undeleted() as $result => $value) { ?>
                                     <option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>" 
-                                    	<?php echo $value->id == $transaction->transid ? "selected" : '' ?> >
+                                    	<?php echo $value->id == $trans->service_type ? "selected" : '' ?> >
                                       <?php echo $value->pname; ?>
                                     </option>
                                   <?php } ?>
@@ -190,11 +190,11 @@ $service_type = '';
                             </td>
                            
 
-                            <td><input type="text" required="" name="unit_cost[]" id="unit_cost1" data-srno="1" class="form-control form-control-sm number_only unit_cost" value="" ></td>
+                            <td><input type="text" required="" name="unit_cost[]" id="unit_cost1" data-srno="1" class="form-control form-control-sm number_only unit_cost" value="<?php echo $trans->unit_cost ?>" ></td>
 
-                            <td><input type="text" required="" name="quantity[]" id="quantity1" data-srno="1" class="form-control form-control-sm quantity" value=""></td>
+                            <td><input type="text" required="" name="quantity[]" id="quantity1" data-srno="1" class="form-control form-control-sm quantity" value="<?php echo $trans->quantity ?>"></td>
 
-                            <td><input type="text" required="" name="amount[]" id="amount1" data-srno="1" class="form-control form-control-sm amount" readonly value=""></td>
+                            <td><input type="text" required="" name="amount[]" id="amount1" data-srno="1" class="form-control form-control-sm amount" readonly value="<?php echo $trans->amount ?>"></td>
 
                             <td><button type="button" name="add_row" id="add_row" class="btn btn-success btn-sm">+</button></td>
                           </tr>
@@ -227,9 +227,9 @@ $service_type = '';
                     <table class="table table-bordered">
                       <tr>
                         <td class=""><b>Amount Paid</b></td>
-                        <td class=""><input type="text" class="form-control" id="part_payment" name="billing[part_payment]" required="" value="0"></td>
+                        <td class=""><input type="text" class="form-control" id="part_payment" name="billing[part_payment]" required="" value="<?php echo $billing->part_payment ?>"></td>
                         <td><b>To Balance</b></td>
-                        <td><input type="text" readonly class="form-control" id="balance" name="billing[balance]" value=""></td>
+                        <td><input type="text" readonly class="form-control" id="balance" name="billing[balance]" value="<?php echo !empty($billing->balance) ? $billing->balance : '0' ?>"></td>
                       </tr>
 
                       <tr>
