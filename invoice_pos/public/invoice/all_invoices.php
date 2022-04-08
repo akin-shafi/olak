@@ -66,6 +66,7 @@ $clients = Billing::find_by_undeleted();
 									<th>Start Date</th>
 									<th>Due Date</th>
 									<th>Total Amount</th>
+									<th>Action</th>
 
 								</tr>
 							</thead>
@@ -90,6 +91,18 @@ $clients = Billing::find_by_undeleted();
 										<td><?php echo h(ucwords($client->start_date)); ?></td>
 										<td><?php echo h(ucwords($client->due_date)); ?></td>
 										<td><?php echo h(ucwords($client->total_amount)); ?></td>
+										<td>
+
+								                        <div class="dropdown ">
+								                          <div class="btn-group">
+								                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								                              <i class="feather-more-vertical" title="More Options" style="font-weight: bolder;"></i> More
+								                            </button>
+								                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									                        <a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?id=' . $client->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
+									                             
+									                     </div>
+								                      </td>
 									</tr>
 								<?php } ?>
 							</tbody>
