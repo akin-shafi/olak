@@ -99,7 +99,7 @@ $clients = Billing::find_by_undeleted();
 								                              <i class="feather-more-vertical" title="More Options" style="font-weight: bolder;"></i> More
 								                            </button>
 								                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									                        <a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?id=' . $client->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
+									                        <a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $client->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
 									                             
 									                     </div>
 								                      </td>

@@ -5,7 +5,15 @@ require_once('../../private/initialize.php');
 // print_r(Client::find_all());
 // echo "</pre>";
 require_login();
-$transid = $_GET['id'] ?? '';
+
+$invoiceNum = $_GET['invoiceNum'] ?? '1'; // PHP > 7.0
+
+$billing = Billing::find_by_invoice_no($invoiceNum);
+
+$invoices = Invoice::find_by_transid($billing->invoiceNum);
+$clients = Client::find_by_id($billing->client_id);
+
+
 $currencies = [
   "NGN", "USD", "CYP", "GHC", "KES", "XEU"
 ];
@@ -165,7 +173,7 @@ $service_type = '';
                           <!-- <th rowspan="1">Total</th> -->
                           <th rowspan="1"></th>
 
-                          <?php foreach(Invoice::find_by_transid($transid) as $transaction){ ?>
+                          <?php foreach(Invoice::find_by_transid($invoiceNum) as $transaction){ ?>
                           <tr class="mtable">
                             <td><span id="sr_no">1</span></td>
                             <td>
