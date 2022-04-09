@@ -63,7 +63,7 @@ $isActive = 0;
       <!-- Header start -->
       <header class="header">
          <div class="logo-wrapper">
-            <a href="index.html" class="logo">
+            <a href="index.html" class="logo text-white">
                <!-- <img src="<?php echo url_for('png/logo.png') ?>" alt="Wafi Admin Dashboard" /> -->
                Olak Pet.
             </a>
@@ -168,8 +168,8 @@ $isActive = 0;
                </li>
                <li class="dropdown">
                   <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
-                     <span class="user-name">Zyan Ferris</span>
-                     <span class="avatar">ZF<span class="status busy"></span></span>
+                     <span class="user-name"><?php echo $loggedInAdmin->full_name(); ?></span>
+                     <span class="avatar"><?php echo substr($loggedInAdmin->full_name(), 0, 2); ?><span class="status busy"></span></span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userSettings">
                      <div class="header-profile-actions">
@@ -177,8 +177,8 @@ $isActive = 0;
                            <div class="header-user">
                               <img src="<?php echo url_for('png/user.png') ?>" alt="Admin Template" />
                            </div>
-                           <h5>Zyan Ferris</h5>
-                           <p>Admin</p>
+                           <h5><?php echo $loggedInAdmin->full_name(); ?></h5>
+                           <p><?php echo  Admin::ADMIN_LEVEL[$loggedInAdmin->admin_level]; ?></p>
                         </div>
                         <a href="user-profile.html"><i class="icon-user1"></i> My Profile</a>
                         <a href="account-settings.html"><i class="icon-settings1"></i> Account Settings</a>

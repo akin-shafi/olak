@@ -4,7 +4,7 @@
       ************* -->
 
       <!-- Footer start -->
-      <footer class="main-footer">© Wafi <?php echo date('Y') ?></footer>
+      <footer class="main-footer">© Olak Pet <?php echo date('Y') ?></footer>
       <!-- Footer end -->
 
     </div>
@@ -30,10 +30,10 @@
     <script src="<?php echo url_for('js/custom-daterange.js') ?>"></script>
 
     <!-- Chartist JS -->
-    <script src="<?php echo url_for('js/chartist.min.js') ?>"></script>
-    <script src="<?php echo url_for('js/chartist-tooltip.js') ?>"></script>
-    <script src="<?php echo url_for('js/threshold.js') ?>"></script>
-    <script src="<?php echo url_for('js/bar-chart-orders.js') ?>"></script>
+    <script src="<?php //echo url_for('js/chartist.min.js') ?>"></script>
+    <script src="<?php //echo url_for('js/chartist-tooltip.js') ?>"></script>
+    <script src="<?php //echo url_for('js/threshold.js') ?>"></script>
+    <script src="<?php //echo url_for('js/bar-chart-orders.js') ?>"></script>
 
     <!-- jVector Maps -->
     <script src="<?php echo url_for('js/jquery-jvectormap-2.0.3.min.js') ?>"></script>

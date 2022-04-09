@@ -15,7 +15,7 @@
 define("DB_SERVER", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
-define("DB_NAME", "olak_accounting");
+define("DB_NAME", "petroleum");
 
 define("DB_SERVER_HR", "localhost");
 define("DB_USER_HR", "root");
