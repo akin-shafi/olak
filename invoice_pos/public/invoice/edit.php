@@ -138,7 +138,6 @@ $page_title = 'Edit Invoice'; ?>
                       <td colspan="2">
 
                         <table class="table table-bordered" id="expense-item-table">
-                          <th>SN</th>
                           <th>Item/Service</th>
                           <th>Unit Cost</th>
                           <th>Quantity</th>
@@ -151,9 +150,7 @@ $page_title = 'Edit Invoice'; ?>
                           <?php $sn = 1;
                           foreach ($invoices as $trans) { ?>
                             <tr class="mtable">
-                              <td><span id="sr_no"><?php echo $sn++ ?></span></td>
                               <td>
-
                                 <select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type1" data-srno="<?php echo $sn ?>">
                                   <option disabled selected="">Select Type</option>
                                   <?php foreach (Product::find_by_undeleted() as $result => $value) { ?>
@@ -250,7 +247,6 @@ $page_title = 'Edit Invoice'; ?>
 
       let html_code = '';
       html_code += '<tr id="row_id_' + count + '">';
-      html_code += '<td><span id="sr_no">' + count + '</span></td>';
       html_code += '<td><select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Product::find_by_undeleted() as $result => $value) { ?><option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>"><?php echo $value->pname ?></option><?php } ?></select></td>';
       html_code += '<td><input type="text" required="" name="unit_cost[]"  id="unit_cost' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only unit_cost"></td>';
       html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only quantity" value="<?php echo empty($expRequest->quantity) ? 0 : ''; ?>"></td>';

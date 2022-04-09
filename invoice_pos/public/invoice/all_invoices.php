@@ -9,7 +9,8 @@ $clients = Billing::find_by_undeleted();
 // $admins = Admin::find_by_undeleted();
 
 ?>
-<?php $page = 'Invoice'; $page_title = 'All Invoices'; ?>
+<?php $page = 'Invoice';
+$page_title = 'All Invoices'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- *************
@@ -72,10 +73,10 @@ $clients = Billing::find_by_undeleted();
 							</thead>
 							<tbody>
 								<?php $sn = 0;
-								foreach (Billing::find_by_undeleted() as $client) { 
-								 $customer = Client::find_by_id($client->client_id);
-								 // pre_r();
-								 // pre_r($client->client_id);
+								foreach (Billing::find_by_undeleted() as $client) {
+									$customer = Client::find_by_id($client->client_id);
+									// pre_r();
+									// pre_r($client->client_id);
 								?>
 									<tr>
 										<td><input type="checkbox" name=""></td>
@@ -93,16 +94,18 @@ $clients = Billing::find_by_undeleted();
 										<td><?php echo h(ucwords($client->total_amount)); ?></td>
 										<td>
 
-								                        <div class="dropdown ">
-								                          <div class="btn-group">
-								                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								                              <i class="feather-more-vertical" title="More Options" style="font-weight: bolder;"></i> More
-								                            </button>
-								                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									                        <a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $client->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
-									                             
-									                     </div>
-								                      </td>
+											<div class="dropdown ">
+												<div class="btn-group">
+													<button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														<i class="feather-more-vertical" title="More Options" style="font-weight: bolder;"></i> More
+													</button>
+													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+														<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $client->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
+
+														<a href="#!" class="dropdown-item" id="delete_void" data-id="<?php echo $client->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void </a>
+
+													</div>
+										</td>
 									</tr>
 								<?php } ?>
 							</tbody>
@@ -127,3 +130,40 @@ $clients = Billing::find_by_undeleted();
 
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
+
+<script>
+	$(document).ready(function() {
+		$(document).on('click', '#delete_void', function() {
+			let deleteVoid = this.dataset.id;
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!'
+			}).then((result) => {
+				if (result.value) {
+					$.ajax({
+						url: "inc/index.php",
+						method: "POST",
+						data: {
+							id: deleteVoid,
+							delete_void: 1
+						},
+						dataType: 'json',
+						success: function(data) {
+							Swal.fire(
+								'Deleted!',
+								data.msg,
+								'success'
+							)
+						}
+					});
+				}
+			}).then(() => window.location.reload())
+
+		});
+	})
+</script>

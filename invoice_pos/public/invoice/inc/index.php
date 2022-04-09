@@ -123,8 +123,22 @@ if (is_post_request()) {
 		$result = $billing->save();
 
 		if ($result == true) {
-			$invoice->delete();
+			$invoice::deleted($invoiceId);
 		}
+
+		exit(json_encode(['msg' => 'Invoice record deleted successfully']));
+	}
+
+	if (isset($_POST['delete_void'])) {
+		$invoiceId = $_POST['id'];
+		$billing = Billing::find_by_id($invoiceId);
+
+		$invoices = Invoice::find_by_transid($billing->invoiceNum);
+		foreach ($invoices as $value) {
+			Invoice::deleted($value->id);
+		}
+
+		$billing::deleted($invoiceId);
 
 		exit(json_encode(['msg' => 'Invoice record deleted successfully']));
 	}

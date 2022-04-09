@@ -1,28 +1,29 @@
 <?php
 
-class Billing extends DatabaseObject {
+class Billing extends DatabaseObject
+{
 
   static protected $table_name = "billing";
   static protected $db_columns = [
-   'id',
-   'invoiceNum',
-   'client_id',
-   'billingFormat',
-   'currency',
-   'start_date',
-   'due_date',
-   'total_amount',
-   'tax',
-   'grand_total',
-   'part_payment',
-   'balance',
-   
-   'created_date',
-   'updated_date',
-   'deleted'
-   
-];
- 
+    'id',
+    'invoiceNum',
+    'client_id',
+    'billingFormat',
+    'currency',
+    'start_date',
+    'due_date',
+    'total_amount',
+    'tax',
+    'grand_total',
+    'part_payment',
+    'balance',
+
+    'created_date',
+    'updated_date',
+    'deleted'
+
+  ];
+
   public $id;
   public $invoiceNum;
   public $client_id;
@@ -37,31 +38,35 @@ class Billing extends DatabaseObject {
   public $balance;
 
 
-  
+
   public $created_date;
   public $updated_date;
   public $deleted;
 
-  
+
+
+  public $counts;
+
 
   const BILLING_FORMAT = [
-      1 => 'Prepaid', 
-      2 => 'Postpaid', 
-      // 3 => 'Professionalism', 
-      // 4 => 'Percentage', 
-      // 5 => 'fixed fee', 
-      // 6 => 'Appearance', 
-      // 2 => 'Scaled'
+    1 => 'Prepaid',
+    2 => 'Postpaid',
+    // 3 => 'Professionalism', 
+    // 4 => 'Percentage', 
+    // 5 => 'fixed fee', 
+    // 6 => 'Appearance', 
+    // 2 => 'Scaled'
   ];
 
- 
 
-  public function __construct($args=[]) {
+
+  public function __construct($args = [])
+  {
 
     $this->invoiceNum = $args['invoiceNum'] ?? '';
     $this->client_id = $args['client_id'] ?? '';
-    $this->billingFormat = $args['billingFormat'] ?? ''; 
-    $this->currency = $args['currency'] ?? ''; 
+    $this->billingFormat = $args['billingFormat'] ?? '';
+    $this->currency = $args['currency'] ?? '';
     $this->start_date = $args['start_date'] ?? '';
     $this->due_date = $args['due_date'] ?? '';
     $this->total_amount = $args['total_amount'] ?? '';
@@ -70,16 +75,16 @@ class Billing extends DatabaseObject {
     $this->part_payment = $args['part_payment'] ?? '';
     $this->balance = $args['balance'] ?? '';
 
-  
+
     $this->created_date = $args['created_date'] ?? date('Y-m-d H:i:s');
     $this->updated_date = $args['updated_date'] ?? '';
     $this->deleted = $args['deleted'] ?? '';
-
   }
 
-  protected function validate() {
+  protected function validate()
+  {
     $this->errors = [];
-    
+
     // if(is_blank($this->invoiceNum)) {
     //   $this->errors[] = "Invoice Number cannot be blank.";
     // } 
@@ -90,16 +95,16 @@ class Billing extends DatabaseObject {
     // if(is_blank($this->client_id)) {
     //   $this->errors[] = "Client name cannot be blank.";
     // }
-    if(is_blank($this->billingFormat)) {
+    if (is_blank($this->billingFormat)) {
       $this->errors[] = "Billing Format is required.";
     }
-    if(is_blank($this->currency)) {
+    if (is_blank($this->currency)) {
       $this->errors[] = "currency is required.";
     }
-    if(is_blank($this->start_date)) {
+    if (is_blank($this->start_date)) {
       $this->errors[] = "Application date cannot be blank.";
     }
-    if(is_blank($this->due_date)) {
+    if (is_blank($this->due_date)) {
       $this->errors[] = "Due Date is required.";
     }
     // if(is_blank($this->amount)) {
@@ -108,33 +113,44 @@ class Billing extends DatabaseObject {
 
     return $this->errors;
   }
-  
-  static public function find_by_invoice_no($invoiceNum) {
+
+  static public function find_by_invoice_no($invoiceNum)
+  {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE invoiceNum='" . self::$database->escape_string($invoiceNum) . "'";
     $obj_array = static::find_by_sql($sql);
-    if(!empty($obj_array)) {
+    if (!empty($obj_array)) {
       return array_shift($obj_array);
     } else {
       return false;
     }
   }
-  
-  static public function find_by_invoiceNum($invoiceNum) {
-    $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE invoiceNum = ". self::$database->escape_string($invoiceNum). " " ;
-    // echo $sql;
-  return static::find_by_sql($sql);
+
+  static public function find_by_metrics()
+  {
+    $sql = "SELECT COUNT(*) AS counts, SUM(total_amount) AS total_amount, SUM(grand_total) AS grand_total, SUM(part_payment) AS part_payment, SUM(balance) AS balance FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
   }
 
-  static public function find_due_date(){
+  static public function find_by_invoiceNum($invoiceNum)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE invoiceNum = " . self::$database->escape_string($invoiceNum) . " ";
+    // echo $sql;
+    return static::find_by_sql($sql);
+  }
+
+  static public function find_due_date()
+  {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE due_date <= CURRENT_DATE ";
     $sql .= "AND balance NOT IN(0 OR '') ";
     return static::find_by_sql($sql);
-
   }
-
-  
-
 }
