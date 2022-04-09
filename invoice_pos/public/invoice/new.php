@@ -9,7 +9,8 @@ $admins = Admin::find_all();
 // $admins = Admin::find_by_undeleted();
 
 ?>
-<?php $page = 'Invoice'; $page_title = 'New Invoice'; ?>
+<?php $page = 'Invoice';
+$page_title = 'New Invoice'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- *************

@@ -94,7 +94,8 @@ $service_type = '';
 
 
 ?>
-<?php $page = 'Invoice'; $page_title = 'Billing & Invoicing'; ?>
+<?php $page = 'Invoice';
+$page_title = 'Billing & Invoicing'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 <style type="text/css">
   label {
@@ -120,7 +121,7 @@ $service_type = '';
       </div>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="daterange-container">
-          
+
           <a href="#" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Download CSV">
             <i class="feather-"></i>
           </a>
@@ -144,40 +145,40 @@ $service_type = '';
         <!--col-2 end -->
 
 
-
         <div class="col-lg-10">
-          
+
 
           <section class="  p-3 bg-primary">
-            
-               <div class="text-center">
-                  <label for="wallet">Wallet Balance</label>
-                  <div >
-                    <h1 class="text-success text-center" id="wallet_value" style="font-size: 29px;">0.00</h1>
-                  </div>
-                </div>
-           
+
+            <div class="text-center">
+              <label for="wallet">Wallet Balance</label>
+              <div>
+                <h1 class="text-success text-center" id="wallet_value" style="font-size: 29px;">0.00</h1>
+              </div>
+            </div>
+
             <form action="" method="post" id="expense_form">
               <input type="hidden" value="" name="billing[invoiceNum]">
+              <input type="hidden" value="" name="new_invoice">
               <div class="d-none justify-content-between">
-                  <div class="form-group">
-                    <label for="currency">Currency</label>
-                    <select required="" name="billing[currency]" class="btn">
-                      <?php foreach ($currencies as $currency) { ?>
-                        <option value="<?php echo $currency; ?>"><?php echo $currency; ?></option>
-                      <?php } ?>
+                <div class="form-group">
+                  <label for="currency">Currency</label>
+                  <select required="" name="billing[currency]" class="btn">
+                    <?php foreach ($currencies as $currency) { ?>
+                      <option value="<?php echo $currency; ?>"><?php echo $currency; ?></option>
+                    <?php } ?>
 
-                    </select>
-                  </div>
-                  <div class="form-group ">
-                    <label for="payment_method">Payment Method</label>
-                    <select class="form-control">
-                      <option>Cash</option>
-                      <option>Transfer</option>
-                      <option>POS</option>
-                      <option>Wallet</option>
-                    </select>
-                  </div>
+                  </select>
+                </div>
+                <div class="form-group ">
+                  <label for="payment_method">Payment Method</label>
+                  <select class="form-control">
+                    <option>Cash</option>
+                    <option>Transfer</option>
+                    <option>POS</option>
+                    <option>Wallet</option>
+                  </select>
+                </div>
               </div>
               <!-- <input type="hidden" class="form-control" readonly  name="billing[invoiceNum]" value="<?php //echo date('dHs'); 
                                                                                                           ?>"> -->
@@ -200,7 +201,7 @@ $service_type = '';
                     <select required="" class="form-control" name="billing[billingFormat]">
                       <option disabled selected="">Select Format</option>
                       <?php foreach (Billing::BILLING_FORMAT as $result => $value) { ?>
-                        <option value="<?php echo $value; ?>" >
+                        <option value="<?php echo $value; ?>">
                           <?php echo $value; ?>
 
                         </option>
@@ -226,7 +227,8 @@ $service_type = '';
 
                   <!-- <div class="form-group col-lg-12 col-md-12 ">
                     <label class="label-control">Vehicle <sup class="error">*</sup></label>
-                    <input required="" type="text" name="billing[vehicle]" class="form-control" id="vehicle" value="<?php //echo ($billing->vehicle); ?>">
+                    <input required="" type="text" name="billing[vehicle]" class="form-control" id="vehicle" value="<?php //echo ($billing->vehicle); 
+                                                                                                                    ?>">
                   </div> -->
 
 
@@ -251,19 +253,19 @@ $service_type = '';
                           <tr class="mtable">
                             <td><span id="sr_no">1</span></td>
                             <td>
-                            
+
                               <select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type1" data-srno="1">
                                 <option disabled selected="">Select Type</option>
-                                  <?php foreach (Product::find_by_undeleted() as $result => $value) { ?>
-                                    <option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>">
-                                      <?php echo $value->pname; ?>
-                                    </option>
-                                  <?php } ?>
+                                <?php foreach (Product::find_by_undeleted() as $result => $value) { ?>
+                                  <option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>">
+                                    <?php echo $value->pname; ?>
+                                  </option>
+                                <?php } ?>
                               </select>
                             </td>
-                            
 
-                            <td><input type="text" required="" name="unit_cost[]" id="unit_cost1" data-srno="1" class="form-control form-control-sm number_only unit_cost" value="" ></td>
+
+                            <td><input type="text" required="" name="unit_cost[]" id="unit_cost1" data-srno="1" class="form-control form-control-sm number_only unit_cost" value=""></td>
 
                             <td><input type="text" required="" name="quantity[]" id="quantity1" data-srno="1" class="form-control form-control-sm quantity" value=""></td>
 
@@ -354,11 +356,11 @@ $service_type = '';
 <script>
   $(document).ready(function() {
     var eUrl = $("#eUrl").val()
-    $(document).on('change', '#bank_name', function(){
-        var selected = $("#bank_name").find('option:selected');
-        var data = selected.data("id");
-        // alert(acct_no);
-        $("#acct_no").val(data);
+    $(document).on('change', '#bank_name', function() {
+      var selected = $("#bank_name").find('option:selected');
+      var data = selected.data("id");
+      // alert(acct_no);
+      $("#acct_no").val(data);
     });
 
     var final_total_amt = $('#final_total_amt').text('0.00');
@@ -395,12 +397,12 @@ $service_type = '';
 
     });
 
-    $(document).on('change', '.service_type', function(){
-        var selected = $(this).find('option:selected');
-        var data = selected.data("price");
-        var row_id = $(this).data("srno");
-        $('#unit_cost' + row_id).val(data);
-        cal_final_total(count)
+    $(document).on('change', '.service_type', function() {
+      var selected = $(this).find('option:selected');
+      var data = selected.data("price");
+      var row_id = $(this).data("srno");
+      $('#unit_cost' + row_id).val(data);
+      cal_final_total(count)
     });
 
 
@@ -457,8 +459,8 @@ $service_type = '';
     $(document).on('input', '.unit_cost', function() {
       cal_final_total(count);
     });
-    $(document).on('input', '.quantity', function(){
-        cal_final_total(count);
+    $(document).on('input', '.quantity', function() {
+      cal_final_total(count);
     });
 
     function cal_balance() {
@@ -469,7 +471,7 @@ $service_type = '';
       var balance = new_gtotal - part_payment;
       // console.log(balance);
       $('#balance')[0].value = Number(balance);
-      
+
 
     }
 
@@ -478,85 +480,83 @@ $service_type = '';
     });
 
 
-    $('#expense_form').on('submit', function (e) {
-        e.preventDefault()
-        var count_data = 0;
-        var cus_id  = $(".client_id").val();
-        var grand_totalInput = $("#grand_totalInput").val();
+    $('#expense_form').on('submit', function(e) {
+      e.preventDefault()
+      var count_data = 0;
+      var cus_id = $(".client_id").val();
+      var grand_totalInput = $("#grand_totalInput").val();
 
-        // errorAlert(grand_totalInput)
+      $('.amount').each(function() {
+        count_data = count_data + 1;
+      });
 
-        $('.amount').each(function () {
-            count_data = count_data + 1;
-        });
+      if (count_data > 0) {
 
-        if (count_data > 0) {
+        var form_data = $(this).serialize();
+        var part_payment = $("#part_payment").val();
 
-          var form_data = $(this).serialize();
-          var part_payment = $("#part_payment").val();
-          
-          if (part_payment > 0) {
+        if (part_payment > 0) {
 
-            $.ajax({
-              url:"inc/fetch_wallet.php",
-              method:"POST",
-              data: {
-                fetch_wallet: 1,
-                customer_id: cus_id,
-              },
-              dataType: 'json',
-              success:function (data) {
-                if (Number(data.wallet_balance) > Number(grand_totalInput)) {
-                  submit_form(form_data);
-                }else{
-                  errorAlert("Customer's wallet balance is low")
-                }
+          $.ajax({
+            url: "inc/fetch_wallet.php",
+            method: "POST",
+            data: {
+              fetch_wallet: 1,
+              customer_id: cus_id,
+            },
+            dataType: 'json',
+            success: function(data) {
+              if (Number(data.wallet_balance) > Number(grand_totalInput)) {
+                submit_form(form_data);
+              } else {
+                errorAlert("Customer's wallet balance is low")
               }
-            });
-            // check_wallet()
-            // submit_form(form_data)
-          }else{
-            errorAlert("Enter Amount Paid");
-          }
-
+            }
+          });
+          // check_wallet()
+          // submit_form(form_data)
         } else {
-          errorAlert(count_data);
+          errorAlert("Enter Amount Paid");
         }
-    }); 
+
+      } else {
+        errorAlert(count_data);
+      }
+    });
     // Form Submission
 
-    function submit_form(form_data){
+    function submit_form(form_data) {
       $.ajax({
-        url:"inc/index.php",
-        method:"POST",
-        data:form_data,
+        url: "inc/index.php",
+        method: "POST",
+        data: form_data,
         dataType: 'json',
-        success:function (data) {
+        success: function(data) {
           if (data.success == true) {
             successAlert(data.msg)
             window.location.href = eUrl + '/invoice.php?invoice_no=' + data.invoice_no;
-          }else{
+          } else {
             errorAlert(data.msg)
           }
         }
       });
     }
 
-    $(document).on('change', '.client_id', function(){
-        var cus_id  = $(this).val();
-        // errorAlert(cus_id)
-        $.ajax({
-          url:"inc/fetch_wallet.php",
-          method:"POST",
-          data: {
-            fetch_wallet: 1,
-            customer_id: cus_id,
-          },
-          dataType: 'json',
-          success:function (data) {
-            $("#wallet_value").html("₦ " + data.wallet_balance)
-          }
-        });
+    $(document).on('change', '.client_id', function() {
+      var cus_id = $(this).val();
+      // errorAlert(cus_id)
+      $.ajax({
+        url: "inc/fetch_wallet.php",
+        method: "POST",
+        data: {
+          fetch_wallet: 1,
+          customer_id: cus_id,
+        },
+        dataType: 'json',
+        success: function(data) {
+          $("#wallet_value").html("₦ " + data.wallet_balance)
+        }
+      });
     });
 
     // function check_wallet(){
@@ -599,8 +599,4 @@ $service_type = '';
     console.log($('#famount').val());
 
   }, false);
-
-
-
-
 </script>

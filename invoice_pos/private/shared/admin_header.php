@@ -16,9 +16,6 @@
 
   <!-- Title -->
   <title>InvoicePOS | <?php echo $page_title; ?></title>
-
-
-
   <!-- *************
       ************ Common Css Files *************
       ************ -->
@@ -34,7 +31,7 @@
   <!-- Tempusdominus Bbootstrap 4 -->
   <link rel="stylesheet" href="<?php echo url_for('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css ') ?>">
 
-  <link rel="stylesheet" href="<?php echo url_for('plugins/select2/css/select2.min.css');?>">
+  <link rel="stylesheet" href="<?php echo url_for('plugins/select2/css/select2.min.css'); ?>">
 
   <link rel="stylesheet" href="<?php echo url_for('css/bootstrap-datetimepicker.min.css'); ?>">
 
@@ -48,13 +45,26 @@
   <link rel="stylesheet" href="<?php echo url_for('vendor/datatables/dataTables.bs4.css'); ?>" />
   <link rel="stylesheet" href="<?php echo url_for('vendor/datatables/dataTables.bs4-custom.css'); ?>" />
   <script src="<?php echo url_for('js/jquery.min.js') ?>"></script>
-
-
 </head>
 
 
 <body>
+  <style>
+    body::-webkit-scrollbar {
+      width: 0.8em;
+    }
 
+    body::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background-color: royalblue;
+      outline: 1px solid royalblue;
+      border-radius: 25px;
+    }
+  </style>
   <!-- Loading starts -->
   <!-- <div id="loading-wrapper">
     <div class="spinner-border text-apex-green" role="status">
@@ -173,25 +183,25 @@
       <div class="collapse navbar-collapse" id="retailAdminNavbar">
         <ul class="navbar-nav m-auto">
           <li class="nav-item">
-            <a class="nav-link <?php echo ($page_title == "Dashboard" ) ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard.php') ?>">
+            <a class="nav-link <?php echo ($page_title == "Dashboard") ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard.php') ?>">
               <i class="feather-airplay nav-icon"></i>
               Dashboard
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle <?php echo ($page == "Users" ) ? 'active-page' : '' ?>" href="#" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle <?php echo ($page == "Users") ? 'active-page' : '' ?>" href="#" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="feather-user nav-icon"></i>
               Admins
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New User" ) ? 'active' : '' ?>" href="<?php echo url_for('/admin/new.php') ?>">Add New Admin</a>
+                <a class="dropdown-item <?php echo ($page_title == "Add New User") ? 'active' : '' ?>" href="<?php echo url_for('/admin/new.php') ?>">Add New Admin</a>
               </li>
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "All Users" ) ? 'active' : '' ?>" href="<?php echo url_for('/admin/index.php') ?>">All Users</a>
+                <a class="dropdown-item <?php echo ($page_title == "All Users") ? 'active' : '' ?>" href="<?php echo url_for('/admin/index.php') ?>">All Users</a>
               </li>
-               
-              
+
+
             </ul>
           </li>
 
@@ -202,16 +212,16 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appsDropdown">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New Product" ) ? 'active' : '' ?>" href="<?php echo url_for('products/new.php') ?>">Add New Product</a>
+                <a class="dropdown-item <?php echo ($page_title == "Add New Product") ? 'active' : '' ?>" href="<?php echo url_for('products/new.php') ?>">Add New Product</a>
               </li>
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "All Products" ) ? 'active' : '' ?>" href="<?php echo url_for('products/index.php') ?>">All Products</a>
+                <a class="dropdown-item <?php echo ($page_title == "All Products") ? 'active' : '' ?>" href="<?php echo url_for('products/index.php') ?>">All Products</a>
               </li>
 
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Category" ) ? 'active' : '' ?>" href="<?php echo url_for('product_category/index.php') ?>">Category</a>
+                <a class="dropdown-item <?php echo ($page_title == "Category") ? 'active' : '' ?>" href="<?php echo url_for('product_category/index.php') ?>">Category</a>
               </li>
-             
+
             </ul>
           </li>
 
@@ -222,49 +232,49 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appsDropdown">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New Customer" ) ? 'active' : '' ?>" href="<?php echo url_for('client/new.php') ?>">Add New Customer</a>
+                <a class="dropdown-item <?php echo ($page_title == "Add New Customer") ? 'active' : '' ?>" href="<?php echo url_for('client/new.php') ?>">Add New Customer</a>
               </li>
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "All Customers" ) ? 'active' : '' ?>" href="<?php echo url_for('client/index.php') ?>">All Customer</a>
+                <a class="dropdown-item <?php echo ($page_title == "All Customers") ? 'active' : '' ?>" href="<?php echo url_for('client/index.php') ?>">All Customer</a>
               </li>
               <li>
-                <a class="dropdown-item  d-none<?php echo ($page_title == "Search Vehicle" ) ? 'active' : '' ?>" href="<?php echo url_for('client/vehicle.php') ?>">Search Vehicle</a>
+                <a class="dropdown-item  d-none<?php echo ($page_title == "Search Vehicle") ? 'active' : '' ?>" href="<?php echo url_for('client/vehicle.php') ?>">Search Vehicle</a>
               </li>
             </ul>
           </li>
 
           <li class="nav-item dropdown d-none">
-            <a class="nav-link dropdown-toggle <?php echo ($page == "Wallet" ) ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i  class="feather-gift  nav-icon"></i> 
+            <a class="nav-link dropdown-toggle <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="feather-gift  nav-icon"></i>
               Wallet
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Load Wallet" ) ? 'active' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>">Load Customer's Wallet</a>
+                <a class="dropdown-item <?php echo ($page_title == "Load Wallet") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>">Load Customer's Wallet</a>
               </li>
               <li class="d-none">
-                <a class="dropdown-item <?php echo ($page_title == "Wallet History" ) ? 'active' : '' ?>" href="<?php echo url_for('/wallet/index.php') ?>">Wallet History</a>
+                <a class="dropdown-item <?php echo ($page_title == "Wallet History") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/index.php') ?>">Wallet History</a>
               </li>
-               
-              
+
+
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php echo ($page == "Wallet" ) ? 'active-page' : '' ?>" href="<?php echo url_for('wallet/add.php') ?>">
+            <a class="nav-link <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('wallet/add.php') ?>">
               <i class="feather-gift nav-icon"></i>
               Wallet
             </a>
           </li>
 
-          
+
           <li class="nav-item">
-            <a class="nav-link <?php echo ($page == "Invoice" ) ? 'active-page' : '' ?>" href="<?php echo url_for('invoice/') ?>">
+            <a class="nav-link <?php echo ($page == "Invoice") ? 'active-page' : '' ?>" href="<?php echo url_for('invoice/') ?>">
               <i class="feather-camera nav-icon"></i>
               Billing & Invoices
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php echo ($page_title == "Stock" ) ? 'active-page' : '' ?>" href="<?php echo url_for('stock/') ?>">
+            <a class="nav-link <?php echo ($page_title == "Stock") ? 'active-page' : '' ?>" href="<?php echo url_for('stock/') ?>">
               <i class="feather-shopping-cart nav-icon"></i>
               Stock
             </a>
@@ -272,42 +282,43 @@
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle
-              <?php echo ($page_title == "Add New Booking" || $page_title == "View Bookings" ) ? 'active-page' : '' ?>
+              <?php echo ($page_title == "Add New Booking" || $page_title == "View Bookings") ? 'active-page' : '' ?>
             " href="#" id="formsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="feather-package nav-icon"></i>
               Bookings
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="formsDropdown">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New Booking" ) ? 'active' : '' ?>" href="<?php echo url_for('booking/new.php') ?>">Add New Booking</a>
+                <a class="dropdown-item <?php echo ($page_title == "Add New Booking") ? 'active' : '' ?>" href="<?php echo url_for('booking/new.php') ?>">Add New Booking</a>
               </li>
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "View Bookings" ) ? 'active' : '' ?>" href="<?php echo url_for('booking/') ?>">View Bookings</a>
+                <a class="dropdown-item <?php echo ($page_title == "View Bookings") ? 'active' : '' ?>" href="<?php echo url_for('booking/') ?>">View Bookings</a>
               </li>
-              
+
             </ul>
           </li>
-         
-          
+
+
           <li class="nav-item">
-            <a class="nav-link <?php echo ($page_title == "Terms & Policy" ) ? 'active-page' : '' ?>" href="<?php echo url_for('/others/policy.php') ?>" >
+            <a class="nav-link <?php echo ($page_title == "Terms & Policy") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/policy.php') ?>">
               <i class="feather-pie-chart nav-icon"></i>
               Policies
             </a>
-           
+
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link <?php echo ($page_title == "Export" ) ? 'active-page' : '' ?>" href="<?php echo url_for('/others/export.php') ?>">
+            <a class="nav-link <?php echo ($page_title == "Export") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/export.php') ?>">
               <i class="feather-grid nav-icon"></i>
               Export
             </a>
           </li>
-          
-          <?php //if ($loggedInAdmin->id == 1) { ?>
+
+          <?php //if ($loggedInAdmin->id == 1) { 
+          ?>
 
 
-           <li class="nav-item dropdown">
-           
+          <li class="nav-item dropdown">
+
 
             <a class="nav-link dropdown-toggle
               <?php echo ($page == "Settings") ? 'active-page' : '' ?>
@@ -317,35 +328,36 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="formsDropdown">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "App Setup" ) ? 'active' : '' ?>" href="<?php echo url_for('settings/index.php') ?>">App Setup</a>
+                <a class="dropdown-item <?php echo ($page_title == "App Setup") ? 'active' : '' ?>" href="<?php echo url_for('settings/index.php') ?>">App Setup</a>
               </li>
 
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Company" ) ? 'active' : '' ?>" href="<?php echo url_for('company/') ?>">Company</a>
+                <a class="dropdown-item <?php echo ($page_title == "Company") ? 'active' : '' ?>" href="<?php echo url_for('company/') ?>">Company</a>
               </li>
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Branch" ) ? 'active' : '' ?>" href="<?php echo url_for('branch/') ?>">Branch</a>
+                <a class="dropdown-item <?php echo ($page_title == "Branch") ? 'active' : '' ?>" href="<?php echo url_for('branch/') ?>">Branch</a>
               </li>
 
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Bank" ) ? 'active' : '' ?>" href="<?php echo url_for('bank/') ?>">Bank</a>
+                <a class="dropdown-item <?php echo ($page_title == "Bank") ? 'active' : '' ?>" href="<?php echo url_for('bank/') ?>">Bank</a>
               </li>
-              
+
             </ul>
           </li>
-        <?php //} ?>
-         
+          <?php //} 
+          ?>
+
 
           <li class="nav-item ">
-            <a class="nav-link <?php echo ($page_title == "Help" ) ? 'active-page' : '' ?>" href="<?php echo url_for('/others/help.php') ?>">
+            <a class="nav-link <?php echo ($page_title == "Help") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/help.php') ?>">
               <i class="feather-info nav-icon"></i>
               Help
             </a>
           </li>
 
-          
 
-         
+
+
 
         </ul>
       </div>

@@ -1,56 +1,61 @@
  </div>
  <?php include('../inc/modal/all.php');  ?>
-<footer>
+ <footer>
     <div class="text-white text-center pb-3">
-        &copy; <?php echo date('Y') ?> All-Right Reserved 
+       &copy; <?php echo date('Y') ?> All-Right Reserved
     </div>
-</footer> 
-    <!-- *************
+ </footer>
+ <!-- *************
         ************ Required JavaScript Files *************
       ************* -->
-    <!-- Required jQuery first, then Bootstrap Bundle JS -->
-    <!-- <script src="<?php //echo url_for('js/jquery.min.js') ?>"></script> -->
-    <script src="<?php echo url_for('js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?php echo url_for('js/nav.min.js') ?>">'</script>
-    <script src="<?php echo url_for('js/moment.js') ?>">'</script>
-    <script src="<?php echo url_for('js/bootstrap-datetimepicker.min.js') ?>"></script>
- 
-    <!-- Select2 -->
-    <script src="<?php echo url_for('plugins/select2/js/select2.full.min.js'); ?>"></script>
+ <!-- Required jQuery first, then Bootstrap Bundle JS -->
+ <!-- <script src="<?php //echo url_for('js/jquery.min.js') 
+                     ?>"></script> -->
+ <script src="<?php echo url_for('js/bootstrap.bundle.min.js') ?>"></script>
+ <script src="<?php echo url_for('js/nav.min.js') ?>"></script>
+ <script src="<?php echo url_for('js/moment.js') ?>"></script>
+ <script src="<?php echo url_for('js/bootstrap-datetimepicker.min.js') ?>"></script>
+
+ <!-- Select2 -->
+ <script src="<?php echo url_for('plugins/select2/js/select2.full.min.js'); ?>"></script>
 
 
-    <!-- *************
+ <!-- *************
         ************ Vendor Js Files *************
       ************* -->
-    <!-- Daterange -->
-    <script src="<?php echo url_for('vendor/daterange/daterange.js') ?>"></script>
+ <!-- Daterange -->
+ <script src="<?php echo url_for('vendor/daterange/daterange.js') ?>"></script>
 
-    <!-- Apex Charts -->
-    <!-- <script src="<?php //echo url_for('vendor/apex/apexcharts.min.js') ?>"></script>
-    <script src="<?php //echo url_for('vendor/apex/custom/apexLineChartGradient.js') ?>"></script>
-    <script src="<?php //echo url_for('vendor/apex/custom/apexColumnBasic.js') ?>"></script>
-    <script src="<?php //echo url_for('vendor/apex/custom/apexAllCustomGraphs.js') ?>"></script> -->
+ <!-- Apex Charts -->
+ <!-- <script src="<?php //echo url_for('vendor/apex/apexcharts.min.js') 
+                     ?>"></script>
+    <script src="<?php //echo url_for('vendor/apex/custom/apexLineChartGradient.js') 
+                  ?>"></script>
+    <script src="<?php //echo url_for('vendor/apex/custom/apexColumnBasic.js') 
+                  ?>"></script>
+    <script src="<?php //echo url_for('vendor/apex/custom/apexAllCustomGraphs.js') 
+                  ?>"></script> -->
 
-    <!-- Data Tables -->
-    <script src="<?php echo url_for('vendor/datatables/dataTables.min.js') ?>"></script>
-    <script src="<?php echo url_for('vendor/datatables/dataTables.bootstrap.min.js') ?>"></script>
-    
-    <!-- Custom Data tables -->
-    <script src="<?php echo url_for('vendor/datatables/custom/custom-datatables.js') ?>"></script>
-    <script src="<?php echo url_for('vendor/datatables/custom/fixedHeader.js') ?>"></script>
+ <!-- Data Tables -->
+ <script src="<?php echo url_for('vendor/datatables/dataTables.min.js') ?>"></script>
+ <script src="<?php echo url_for('vendor/datatables/dataTables.bootstrap.min.js') ?>"></script>
 
-    <!-- Main Js Required -->
-    <script src="<?php echo url_for('js/main.js') ?>"></script>
+ <!-- Custom Data tables -->
+ <script src="<?php echo url_for('vendor/datatables/custom/custom-datatables.js') ?>"></script>
+ <script src="<?php echo url_for('vendor/datatables/custom/fixedHeader.js') ?>"></script>
 
-    <script type="text/javascript">
-         $('.select2').select2({
-            theme: "classic",
-            // theme: 'bootstrap4'
-          });
-    </script>
+ <!-- Main Js Required -->
+ <script src="<?php echo url_for('js/main.js') ?>"></script>
 
-    <script src="<?php echo url_for('js/sweetalert2.all.min.js') ?>"></script>
-  <script src="<?php echo url_for('js/sweet.js') ?>"></script>
+ <script type="text/javascript">
+    $('.select2').select2({
+       theme: "classic",
+       // theme: 'bootstrap4'
+    });
+ </script>
+
+ <script src="<?php echo url_for('js/sweetalert2.all.min.js') ?>"></script>
+ <script src="<?php echo url_for('js/sweet.js') ?>"></script>
  <script type="text/javascript">
     function successAlert(msg) {
        Swal.fire({
@@ -103,8 +108,8 @@
           buttonsStyling: !1
        })
     }
-
  </script>
 
-  </body>
-</html>
+ </body>
+
+ </html>

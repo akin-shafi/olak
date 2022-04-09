@@ -24,7 +24,7 @@ $clients = Client::find_by_id($billing->client_id);
    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <style type="text/css">
-   .d-none{
+   .d-none {
       display: none;
    }
 </style>
@@ -51,8 +51,10 @@ $clients = Client::find_by_id($billing->client_id);
             </div>
             <div class="company-info  float-right">
                <span class="ibcl_company_name">
-                  <!-- <img src="<?php //echo url_for('images/glogo.png') ?>" width="25" height="25"> -->
-                  <?php echo $company->company_name; ?></span>
+                  <!-- <img src="<?php //echo url_for('images/glogo.png') 
+                                 ?>" width="25" height="25"> -->
+                  <?php echo $company->company_name; ?>
+               </span>
                <div class="separator less"></div>
                <span class="ibcl_company_address"><?php echo $company->address; ?></span>
                <!-- <span class="ibcl_company_city_zip_state">30000 Bedrock, Cobblestone County</span> -->
@@ -87,7 +89,7 @@ $clients = Client::find_by_id($billing->client_id);
          <section id="client-info">
             <span data-ibcl-id="bill_to_label" class="ibcl_bill_to_label" data-tooltip="tooltip" data-placement="top" title="Enter bill to label">Being bill of Charges For:</span>
             <div>
-               <span class="client-name ibcl_client_name" data-ibcl-id="client_name" data-tooltip="tooltip" data-placement="top" title="Enter client name"><?php  $clients->full_name() ?? 'NOT SET'; ?></span>
+               <span class="client-name ibcl_client_name" data-ibcl-id="client_name" data-tooltip="tooltip" data-placement="top" title="Enter client name"><?php $clients->full_name() ?? 'NOT SET'; ?></span>
             </div>
             <div>
                <span data-ibcl-id="client_address" class="ibcl_client_address" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Enter client address"><?php echo  $clients->address ?? 'NOT SET'; ?></span>
@@ -112,10 +114,10 @@ $clients = Client::find_by_id($billing->client_id);
                      <!-- Dummy cell for the row number and row commands -->
                      <th class="ibcl_item_description_label">Item/Service</th>
                      <th class="ibcl_item_quantity_label">Quantity</th>
-                     <!-- <th class="ibcl_item_price_label">Unit cost</th> -->
+                     <th class="ibcl_item_price_label">Unit cost</th>
                      <!-- <th class="ibcl_item_discount_label">Discount</th> -->
                      <!-- <th class="ibcl_item_tax_label">Tax(5%)</th> -->
-                     <!-- <th class="ibcl_item_line_total_label">Amount</th> -->
+                     <th class="ibcl_item_line_total_label">Subtotal</th>
                   </tr>
                   <?php foreach ($invoices as $invoice) { ?>
                      <tr data-iterate="item">
@@ -133,7 +135,15 @@ $clients = Client::find_by_id($billing->client_id);
                            <span class="ibcl_item_quantity"><?php echo $invoice->quantity; ?></span>
                         </td>
 
-                       
+                        <td>
+                           <span class="show-mobile ibcl_item_quantity_label">Unit Cost</span>
+                           <span class="ibcl_item_quantity"><?php echo number_format($invoice->unit_cost); ?></span>
+                        </td>
+
+                        <td>
+                           <span class="show-mobile ibcl_item_quantity_label">Subtotal</span>
+                           <span class="ibcl_item_quantity"><?php echo number_format($invoice->amount); ?></span>
+                        </td>
                      </tr>
                   <?php } ?>
 
@@ -142,26 +152,26 @@ $clients = Client::find_by_id($billing->client_id);
          </section>
 
          <!-- <div class="acctDetails border"> -->
-         
-            <div class="payment-info" id="part2" style="position: absolute; left: 50; margin-top: 20px">
-               <div class="d-none" style="display: none;">
-                  <div class="ibcl_payment_info1">Account details:</div><br>
-                  <p class="ibcl_payment_info2">Bank Name: <?php echo $company->bank_name; ?> </p>
-                  <div class="ibcl_payment_info3">ACCT Name: <?php echo $company->acct_name; ?> |</div>
-                  <div class="ibcl_payment_info4">ACCT No: <?php echo $company->acct_no ?></div>
-               </div>
 
-               <div class="ibcl_payment_info5"></div>
-               <section id="terms">
-                  <span class="hidden ibcl_terms_label">Terms &amp; Notes</span>
-                  <div class="ibcl_terms">Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?>, We appreciate your patrionage.
-                  </div>
-               </section>
-           
+         <div class="payment-info" id="part2" style="position: absolute; left: 50; margin-top: 20px">
+            <div class="d-none" style="display: none;">
+               <div class="ibcl_payment_info1">Account details:</div><br>
+               <p class="ibcl_payment_info2">Bank Name: <?php echo $company->bank_name; ?> </p>
+               <div class="ibcl_payment_info3">ACCT Name: <?php echo $company->acct_name; ?> |</div>
+               <div class="ibcl_payment_info4">ACCT No: <?php echo $company->acct_no ?></div>
+            </div>
+
+            <div class="ibcl_payment_info5"></div>
+            <section id="terms">
+               <span class="hidden ibcl_terms_label">Terms &amp; Notes</span>
+               <div class="ibcl_terms">Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?>, We appreciate your patrionage.
+               </div>
+            </section>
+
 
          </div>
          <!-- </div> -->
-         
+
          <div class="clearfix"></div>
 
 
