@@ -120,7 +120,7 @@ $billing = Billing::find_by_metrics();
 
             <div class="daily-sales">
               <h6>Assets</h6>
-              <h1>9</h1>
+              <h1>0</h1>
               <p>Total Assets</p>
               <div id="apexColumnBasic3" class="blue-graph"></div>
             </div>
@@ -135,7 +135,7 @@ $billing = Billing::find_by_metrics();
 
 
     <!-- Row start -->
-    <div class="row gutters">
+    <div class="row gutters d-none">
       <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-header">
