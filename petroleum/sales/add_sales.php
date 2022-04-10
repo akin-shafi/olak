@@ -64,7 +64,7 @@ $dpk = '345';
 							 <tr>
 							 	<td>TOTAL STOCK </td>
 							 	<?php $ts = 1; foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id="total_stock<?php echo $ts++ ?>" class="text-right"></td>
+							 		<td  id="total_stock<?php echo $ts++ ?>" class="text-right"></td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
