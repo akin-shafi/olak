@@ -4,7 +4,7 @@ class Invoice extends DatabaseObject
 {
 
   static protected $table_name = 'invoice';
-  static protected $db_columns = ['id', 'transid', 'service_type', 'quantity', 'unit_cost', 'amount', 'created_at', 'created_by', 'updated_at'];
+  static protected $db_columns = ['id', 'transid', 'service_type', 'quantity', 'unit_cost', 'amount', 'created_at', 'created_by', 'updated_at', 'deleted'];
 
   public $id;
   public $transid;
@@ -16,6 +16,7 @@ class Invoice extends DatabaseObject
   public $created_at;
   public $created_by;
   public $updated_at;
+  public $deleted;
 
 
 
@@ -30,6 +31,7 @@ class Invoice extends DatabaseObject
     $this->created_at = $args['created_at'] ?? date("Y-m-d H:i:s");
     $this->created_by = $args['created_by'] ?? '';
     $this->updated_at = $args['updated_at'] ?? '';
+    $this->deleted = $args['deleted'] ?? '';
     // $this->updatedTime = $args['updatedTime'] ?? date("Y-m-d H:i:s");
 
     // Caution: allows private/protected properties to be set
@@ -69,24 +71,11 @@ class Invoice extends DatabaseObject
     return $this->errors;
   }
 
-  static public function find_by_invoiceNum($invoiceNum)
+  static public function find_by_transid($invoiceNum)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE invoiceNum = " . self::$database->escape_string($invoiceNum) . " ";
-    // echo $sql;
-    return static::find_by_sql($sql);
-  }
-
-  static public function find_by_transid($transid)
-  {
-    $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE transid='" . self::$database->escape_string($transid) . "'";
-    $obj_array = static::find_by_sql($sql);
-    // if(!empty($obj_array)) {
-    //   return array_shift($obj_array);
-    // } else {
-    //   return false;
-    // }
+    $sql .= "WHERE transid = " . self::$database->escape_string($invoiceNum) . " ";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     return static::find_by_sql($sql);
   }
 }

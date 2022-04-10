@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="img/fav.png" />
 
     <!-- Title -->
-    <title>Autocraft - Login</title>
+    <title>InvoicePOS - Login</title>
 
     <!-- *************
 			************ Common Css Files *************
