@@ -43,6 +43,9 @@ $isActive = 0;
       <!-- Chartist css -->
       <link rel="stylesheet" href="<?php echo url_for('css/chartist.min.css') ?>"/>
       <link rel="stylesheet" href="<?php echo url_for('css/chartist-custom.css') ?>"/> 
+      <link rel="stylesheet" href="<?php echo url_for('css/datatables.bs4.css') ?>" />
+      <link rel="stylesheet" href="<?php echo url_for('css/datatables.bs4-custom.css') ?>" />
+      <link rel="stylesheet" href="<?php echo url_for('css/buttons.bs.css') ?>" >
 
    </head>
    <body>
