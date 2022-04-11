@@ -50,7 +50,7 @@ $dpk = '345';
 							 <tr>
 							 	<td>OPENING STOCK </td>
 							 	<?php $os = 1; foreach ($array as $key => $value) { ?>
-							 		<td class="text-right">							 			
+							 		<td class="text-right p-0">							 			
 							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $os++ ?>[open_stock]" value="29100" placeholder='0'>
 							 		</td>
 							 	<?php } ?>
@@ -111,7 +111,7 @@ $dpk = '345';
 							 	<td>EXP. SALES VALUE # </td>
 							 	<?php $esp = 1; foreach ($array as $key => $value) { ?>
 							 		<td class="exp_sales_value text-right p-0">
-							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $esp++ ?>[exp_sales_value]" value="" placeholder='0'>
+							 			<input type="text" readonly size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $esp++ ?>[exp_sales_value]" value="" placeholder='0'>
 							 		</td>
 							 	<?php } ?>
 							 </tr>
@@ -119,7 +119,7 @@ $dpk = '345';
 							 	<td>CASH SUBMITTED # </td>
 							 	<?php $cs = 1; foreach ($array as $key => $value) { ?>
 							 		<td class="cash_submitted text-right p-0">
-							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $cs++ ?>[cash_submitted]" value="" placeholder='0'>
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $cs++ ?>[cash_submitted]" value="" placeholder='0'>
 							 		</td>
 							 	<?php } ?>
 							 </tr>
@@ -127,7 +127,7 @@ $dpk = '345';
 							 	<td>TOTAL SALES(LTRS)</td>
 							 	<?php $total_s = 1; foreach ($array as $key => $value) { ?>
 							 		<td class="total_sales text-right p-0">
-							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $total_s++ ?>[total_sales]" value="" placeholder='0'>
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $total_s++ ?>[total_sales]" value="" placeholder='0'>
 							 		</td>
 							 	<?php } ?>
 							 </tr>
@@ -135,7 +135,7 @@ $dpk = '345';
 							 	<td>TOTAL VALUE #</td>
 							 	<?php $total_v = 1; foreach ($array as $key => $value) { ?>
 							 		<td class="total_value text-right p-0">
-							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $total_v++ ?>[total_value]" value="" placeholder='0'>
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $total_v++ ?>[total_value]" value="" placeholder='0'>
 							 		</td>
 							 	<?php } ?>
 							 </tr>
@@ -143,7 +143,7 @@ $dpk = '345';
 							 	<td>GRAND TOTAL VALUE # </td>
 							 	<?php $gtotal_v = 1; foreach ($array as $key => $value) { ?>
 							 		<td class="grand_total text-right p-0">
-							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $gtotal_v++ ?>[grand_total]" value="" placeholder='0'>
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $gtotal_v++ ?>[grand_total]" value="" placeholder='0'>
 							 		</td>
 							 	<?php } ?>
 							 </tr>
