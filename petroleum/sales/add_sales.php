@@ -117,26 +117,34 @@ $dpk = '345';
 							 </tr>
 							 <tr>
 							 	<td>CASH SUBMITTED # </td>
-							 	<?php foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id=""></td>
+							 	<?php $cs = 1; foreach ($array as $key => $value) { ?>
+							 		<td class="cash_submitted text-right p-0">
+							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $cs++ ?>[cash_submitted]" value="" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>TOTAL SALES(LTRS)</td>
-							 	<?php foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id=""></td>
+							 	<?php $total_s = 1; foreach ($array as $key => $value) { ?>
+							 		<td class="total_sales text-right p-0">
+							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $total_s++ ?>[total_sales]" value="" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>TOTAL VALUE #</td>
-							 	<?php foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id=""></td>
+							 	<?php $total_v = 1; foreach ($array as $key => $value) { ?>
+							 		<td class="total_value text-right p-0">
+							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $total_v++ ?>[total_value]" value="" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>GRAND TOTAL VALUE # </td>
-							 	<?php foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id=""></td>
+							 	<?php $gtotal_v = 1; foreach ($array as $key => $value) { ?>
+							 		<td class="grand_total text-right p-0">
+							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $gtotal_v++ ?>[grand_total]" value="" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 						</tbody>
