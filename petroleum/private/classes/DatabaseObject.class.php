@@ -106,7 +106,7 @@ class DatabaseObject {
     $sql .= join("', '", array_values($attributes));
     $sql .= "')";
     
-    echo $sql."Create";
+    // echo $sql."Create";
     
     $result = self::$database->query($sql);
     if($result) {
