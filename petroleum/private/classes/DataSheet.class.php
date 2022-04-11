@@ -2,10 +2,11 @@
 class DataSheet extends DatabaseObjectHR
 {
   protected static $table_name = "data_sheet";
-  protected static $db_columns = ['id','open_stock','new_stock','total_stock,','sales_in_ltr','expected_stock','actual_stock','over_or_short','exp_sales_value','cash_submitted','total_sales','total_value','grand_total_value','company_id','branch_id','created_by','created_at','updated_at','status'];
+  protected static $db_columns = ['id','tank','open_stock','new_stock','total_stock,','sales_in_ltr','expected_stock','actual_stock','over_or_short','exp_sales_value','cash_submitted','total_sales','total_value','grand_total_value','company_id','branch_id','created_by','created_at','updated_at','status'];
 
 
   public $id;
+  public $tank;
   public $open_stock;
   public $new_stock;
   public $total_stock;
@@ -30,6 +31,7 @@ class DataSheet extends DatabaseObjectHR
   public function __construct($args = [])
   {
     // $this->id                   = $args['id'] ?? '';
+    $this->tank                 = $args['tank'] ?? '';
     $this->open_stock           = $args['open_stock'] ?? '';
     $this->new_stock            = $args['new_stock'] ?? '';
     $this->total_stock          = $args['total_stock'] ?? '';

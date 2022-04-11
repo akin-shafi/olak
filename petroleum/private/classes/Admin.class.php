@@ -2,7 +2,7 @@
 class Admin extends DatabaseObject
 {
     protected static $table_name = "admins";
-    protected static $db_columns = ['id','first_name','last_name','email','profile_img','hashed_password','admin_level','account_status', 'created_at','updated_at','created_by','reset_password','deleted'];
+    protected static $db_columns = ['id','first_name','last_name','email','profile_img','hashed_password', 'company_id','branch_id','admin_level','account_status', 'created_at','updated_at','created_by','reset_password','deleted'];
 
      public $id; 
      public $first_name; 
@@ -17,6 +17,7 @@ class Admin extends DatabaseObject
      public $admin_level; 
      public $account_status; 
      public $company_id; 
+     public $branch_id; 
      public $created_at; 
      public $updated_at; 
      public $created_by; 
@@ -51,6 +52,7 @@ class Admin extends DatabaseObject
          $this->admin_level         = $args['admin_level'] ?? ''; 
          $this->account_status      = $args['account_status'] ?? ''; 
          $this->company_id          = $args['company_id'] ?? ''; 
+         $this->branch_id          = $args['branch_id'] ?? ''; 
          $this->created_at          = $args['created_at'] ?? date('Y-m-d H:i:s'); 
          $this->updated_at          = $args['updated_at'] ?? date('Y-m-d H:i:s'); 
          $this->created_by          = $args['created_by'] ?? ''; 

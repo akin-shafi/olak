@@ -17,12 +17,15 @@ if (is_post_request()) {
             "total_sales" 		 => $_POST['tank'.$i]['total_sales'],
             "total_value" 		 => $_POST['tank'.$i]['total_value'],
             "grand_total"  		 => $_POST['tank'.$i]['grand_total'],
+            "company_id"  		 => $loggedInAdmin->company_id,
+            "branch_id"  		 => $loggedInAdmin->branch_id,
+            "created_by"		 => $loggedInAdmin->id,
 		];
 
-		// $dataSheet = new DataSheet($data);
-		// $last_result = $dataSheet->save();
+		$dataSheet = new DataSheet($data);
+		$last_result = $dataSheet->save();
 
-		pre_r($data);
+		// pre_r($data);
 	}
 }
 
