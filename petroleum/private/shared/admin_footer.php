@@ -101,6 +101,22 @@
     <script src="<?php echo url_for('js/raty.js') ?>"></script>  
     <script src="<?php echo url_for('js/raty-custom.js') ?>"></script>
 
+    <!-- Data Tables -->
+    <script src="<?php echo url_for('js/datatables.min.js') ?>"></script>
+    <script src="<?php echo url_for('js/datatables.bootstrap.min.js') ?>"></script>
+    
+    <!-- Custom Data tables -->
+    <script src="<?php echo url_for('js/custom-datatables.js') ?>"></script>
+    <script src="<?php echo url_for('js/fixedheader.js') ?>"></script>
+
+    <!-- Download / CSV / Copy / Print -->
+    <script src="<?php echo url_for('js/buttons.min.js') ?>"></script>
+    <script src="<?php echo url_for('js/jszip.min.js') ?>"></script>
+    <script src="<?php echo url_for('js/pdfmake.min.js') ?>"></script>
+    <script src="<?php echo url_for('js/vfs_fonts.js') ?>"></script>
+    <script src="<?php echo url_for('js/html5.min.js') ?>"></script>
+    <script src="<?php echo url_for('js/buttons.print.min.js') ?>"></script>
+
     <!-- Main Js Required -->
     <script src="<?php echo url_for('js/main.js') ?>"></script>
 
