@@ -1,6 +1,6 @@
 <?php require_once('../../../private/initialize.php');
 
-if (is_post_request()) {
+if (is_post_request()) { 
 
 	if (isset($_POST['new_invoice'])) {
 		$args  = $_POST['billing'] ?? [];
