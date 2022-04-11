@@ -166,20 +166,7 @@ $dpk = '345';
 	    var x = event.charCode || event.keyCode;
 	    if (isNaN(String.fromCharCode(e.which)) && x!=46 || x===32 || x===13 || (x===46 && event.currentTarget.innerText.includes('.'))) e.preventDefault();
 	});
-	$(document).on('keyup', 'td', function(e) {
-		// var eid = $(this)[0].id
-		// var value = $(this).html()
-
-		// var rate = $("#rat"+eid).html()
-		// console.log(rate)
-		// $( this ).closest( "form" )
-		var elem = $(this).closest('tr');
-		// var input = (e.target).closest("tr")
-		// input = elem;
-		
-
-		console.log(elem);
-	})
+	
 
 	$('#data_sheet').on("submit", function(e){ 
 
@@ -192,33 +179,14 @@ $dpk = '345';
                 cache:false,                // To unable request pages to be cached  
                 processData:false,          // To send DOMDocument or non processed data file it is set to false  
                 success: function(data){  
-                     if(data=='Error1')  
-                     {  
-                          alert("Invalid File");  
-                     }  
-                     else if(data == "Error2")  
-                     {  
-                          alert("Please Select File");  
-                     }                           
-                     else if(data == "Success")  
-                     {  
-                          alert("CSV file data has been imported");  
-                          $('#upload_csv_form')[0].reset();
-                     }  
-                     else  
-                     {  
-                         // $('#employee_table').html(data);  
+                     if(data == true){  
+                         successAlert(data.msg); 
+                     }else{  
+                         errorAlert(data.msg);   
                      }  
                 }  
            })  
      });  
 	
-	// alert(char)
-
-	// for (var j = 1; j <= count; j++) {
-	// 	var myString = $()
-	// 	var char = myString.slice(-1);
-
-	// 	quantity = $('#quantity' + j).val();
-	// }
+	
 </script>

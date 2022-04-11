@@ -24,8 +24,11 @@ if (is_post_request()) {
 
 		$dataSheet = new DataSheet($data);
 		$last_result = $dataSheet->save();
-
-		// pre_r($data);
+		if ($last_result == true) {
+			exit(json_encode(['success' => true, 'msg' => 'Submit Successful']));
+		}else{
+			exit(json_encode(['success' => false 'msg' => display_errors($dataSheet->errors)]));
+		}
 	}
 }
 
