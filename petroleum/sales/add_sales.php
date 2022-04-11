@@ -50,53 +50,69 @@ $dpk = '345';
 							 <tr>
 							 	<td>OPENING STOCK </td>
 							 	<?php $os = 1; foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id="open_stock<?php echo $os++ ?>" class="text-right">  29,100.00 </td>
+							 		<td class="text-right">							 			
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $os++ ?>[open_stock]" value="29100" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>NEW STOCK(INFLOW) </td>
 							 	<?php $ns = 1; foreach ($array as $key => $value) { ?>
 							 		<td class="text-right new_stock p-0">
-							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="new_stock" value="" placeholder='0'>
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" 
+							 			name="<?php echo "tank". $ns++ ?>[new_stock]" value="" placeholder='0'>
 							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>TOTAL STOCK </td>
 							 	<?php $ts = 1; foreach ($array as $key => $value) { ?>
-							 		<td  id="total_stock<?php echo $ts++ ?>" class="text-right">
-							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="new_stock" value="" placeholder='0'>
+							 		<td  class="text-right total_stock p-0">
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $ts++ ?>[total_stock]" value="" placeholder='0'>
 							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>SALES(LTRS) </td>
 							 	<?php $sa = 1; foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id="sales<?php echo $sa++ ?>"></td>
+							 		<td  class="text-right sales_in_ltr p-0">
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $sa++ ?>[sales_in_ltr]" value="" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>EXPECTED STOCK(LTRS) </td>
-							 	<?php foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id="" class="expected_stock"></td>
+							 	<?php $es = 1; foreach ($array as $key => $value) { ?>
+							 		
+							 		<td  class="text-right expected_stock p-0">
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $es++ ?>[expected_stock]" value="" placeholder='0'>
+							 		</td>
+
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>ACTUAL STOCK(LTRS) </td>
-							 	<?php foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id=""></td>
+							 	<?php $as = 1; foreach ($array as $key => $value) { ?>
+							 		<!-- <td contenteditable="true" id=""></td> -->
+							 		<td class="actual_stock text-right p-0">
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $as++ ?>[actual_stock]" value="" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
 							 	<td>OVER/SHORT </td>
-							 	<?php foreach ($array as $key => $value) { ?>
-							 		<td contenteditable="true" id=""></td>
+							 	<?php $ov = 1; foreach ($array as $key => $value) { ?>
+							 		<td class="over_or_short text-right p-0">
+							 			<input type="text" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $ov++ ?>[over_or_short]" value="" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr class="bg-light font-weight-bold">
 							 	<td>EXP. SALES VALUE # </td>
-							 	<?php foreach ($array as $key => $value) { ?>
-							 		<td id="" class="font-weight-bold"></td>
+							 	<?php $esp = 1; foreach ($array as $key => $value) { ?>
+							 		<td class="exp_sales_value text-right p-0">
+							 			<input type="hidden" size="12"  style="width: 90%; text-align: right; border: none;" name="<?php echo "tank". $esp++ ?>[exp_sales_value]" value="" placeholder='0'>
+							 		</td>
 							 	<?php } ?>
 							 </tr>
 							 <tr>
