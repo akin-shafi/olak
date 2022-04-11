@@ -68,10 +68,10 @@ class DataSheet extends DatabaseObject
   // }
 
 
-  public static function find_by_company_id($compeany_id)
+  public static function find_by_company_id($company_id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE compeany_id='" . self::$database_hr->escape_string($compeany_id) . "'";
+    $sql .= "WHERE company_id='" . self::$database_hr->escape_string($company_id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "ORDER BY id ASC";
     $obj_array = static::find_by_sql($sql);
