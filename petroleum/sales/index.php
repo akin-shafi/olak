@@ -30,6 +30,18 @@ include(SHARED_PATH . '/admin_header.php');
 											<th class="font-weight-bold text-right">DPK (Tank7)</th>
 										</tr>
 									</thead>
+									<tbody>
+										<tr>
+											<td>Product</td>
+											<td>PMS (Tank1)</td>
+											<td>PMS (Tank2)</td>
+											<td>PMS (Tank3)</td>
+											<td>PMS (Tank4)</td>
+											<td>PMS (Tank5)</td>
+											<td>AGO (Tank6)</td>
+											<td>DPK (Tank7)</td>
+										</tr>
+									</tbody>
 								</table>
 							</div>
 						</div>
