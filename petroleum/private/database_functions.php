@@ -7,12 +7,6 @@ function db_connect()
   return $connection;
 }
 
-function db_connect_hr()
-{
-  $connection = new mysqli(DB_SERVER_HR, DB_USER_HR, DB_PASS_HR, DB_NAME_HR);
-  confirm_db_connect($connection);
-  return $connection;
-}
 
 function confirm_db_connect($connection)
 {

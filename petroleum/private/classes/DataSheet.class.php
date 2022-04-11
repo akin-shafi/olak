@@ -1,8 +1,8 @@
 <?php
-class DataSheet extends DatabaseObjectHR
+class DataSheet extends DatabaseObject
 {
   protected static $table_name = "data_sheet";
-  protected static $db_columns = ['id','tank','open_stock','new_stock','total_stock,','sales_in_ltr','expected_stock','actual_stock','over_or_short','exp_sales_value','cash_submitted','total_sales','total_value','grand_total_value','company_id','branch_id','created_by','created_at','updated_at','status'];
+  protected static $db_columns = ['id','tank','open_stock','new_stock','total_stock','sales_in_ltr','expected_stock','actual_stock','over_or_short','exp_sales_value','cash_submitted','total_sales','total_value','grand_total_value','company_id','branch_id','created_by','created_at','updated_at','deleted'];
 
 
   public $id;
@@ -24,7 +24,7 @@ class DataSheet extends DatabaseObjectHR
   public $created_by;
   public $created_at;
   public $updated_at;
-  public $status;
+  public $deleted;
 
   public $counts;
 

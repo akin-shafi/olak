@@ -52,7 +52,7 @@ class Admin extends DatabaseObject
          $this->admin_level         = $args['admin_level'] ?? ''; 
          $this->account_status      = $args['account_status'] ?? ''; 
          $this->company_id          = $args['company_id'] ?? ''; 
-         $this->branch_id          = $args['branch_id'] ?? ''; 
+         $this->branch_id           = $args['branch_id'] ?? ''; 
          $this->created_at          = $args['created_at'] ?? date('Y-m-d H:i:s'); 
          $this->updated_at          = $args['updated_at'] ?? date('Y-m-d H:i:s'); 
          $this->created_by          = $args['created_by'] ?? ''; 
