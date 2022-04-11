@@ -17,6 +17,62 @@
     <script src="<?php echo url_for('js/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?php echo url_for('js/moment.js') ?>"></script>
 
+    <script src="<?php echo url_for('js/sweetalert2.all.min.js') ?>"></script>
+    <script src="<?php echo url_for('js/sweet.js') ?>"></script>
+    <script type="text/javascript">
+
+    
+       // Alert
+       function confirmAlert(title, msg){
+        $(".msgTitle").html(title);
+        $("#displayMsg").html(msg);
+        $("#confirmModal").modal("show");
+       }
+       function successAlert(msg){
+           Swal.fire({
+             title: msg,
+             type: "success",
+             showCloseButton: !1,
+             focusConfirm: !1,
+             confirmButtonText: '<i class="fa fa-thumbs-up"></i> Ok!',
+             confirmButtonAriaLabel: "Thumbs up, great!",
+             confirmButtonClass: "btn btn-primary",
+             buttonsStyling: !1,
+           });
+       }
+       function successTime(msg){
+         Swal.fire({
+           position: 'bottom-end',
+           type:"success",
+           title:msg,
+           showConfirmButton:!1,
+           timer:1000,
+         })
+       }
+       function errorAlert(msg){
+           Swal.fire({
+             title: msg,
+             type: "error",
+             showCloseButton: !1,
+             timer:1500,
+             showCancelButton: !1,
+             confirmButtonClass: "btn btn-primary",
+             buttonsStyling: !1,
+           });
+       }
+       function errorTime(msg){
+         Swal.fire({
+           position:"center",
+           type:"error",
+           title:msg,
+           showConfirmButton:!1,
+           timer:1500,
+           confirmButtonClass:"btn btn-primary",
+           buttonsStyling:!1
+         })
+       }
+        
+</script>
 
     <!-- *************
       ************ Vendor Js Files *************

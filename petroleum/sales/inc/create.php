@@ -27,7 +27,7 @@ if (is_post_request()) {
 		if ($last_result == true) {
 			exit(json_encode(['success' => true, 'msg' => 'Submit Successful']));
 		}else{
-			exit(json_encode(['success' => false 'msg' => display_errors($dataSheet->errors)]));
+			exit(json_encode(['success' => false, 'msg' => display_errors($dataSheet->errors) ]));
 		}
 	}
 }
