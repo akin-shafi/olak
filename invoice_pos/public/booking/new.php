@@ -127,7 +127,7 @@ if (isset($_POST['bookings'])) {
                         <span class="bold fs-16 text-uppercase" id="plate_no"></span>
 
                         <div class="btn-group float-right">
-                          <div id="select" class="btn btn-primary mr-2 cursor" data-toggle="modal" data-target="#customModal"" >Select</div>
+                          <div id="select" class="btn btn-primary mr-2 cursor" data-toggle="modal" data-target="#customModal" >Select</div>
                           <div  id=" new" class="btn btn-outline-primary cursor" data-toggle="modal" data-target="#customModal2">New</div>
 
                         </div>
@@ -219,10 +219,7 @@ if (isset($_POST['bookings'])) {
                 <th>Action</th>
                 <th>Client</th>
                 <th>Client phone</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Lincence Plate</th>
-                <th>Last Service</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -235,10 +232,7 @@ if (isset($_POST['bookings'])) {
                   <td><span data-dismiss="modal" class="btn btn-sm btn-primary selectClient" id="<?php echo $cli->id; ?>">Select</span></td>
                   <td><?php echo $cli->full_name(); ?></td>
                   <td><?php echo $cli->phone; ?></td>
-                  <td><?php echo $veh->make; ?></td>
-                  <td><?php echo $veh->model; ?></td>
-                  <td><?php echo $veh->plate_no; ?></td>
-                  <td><?php echo $veh->last_service != 0 ? date('dS M, Y', strtotime($veh->last_service)) : 'NOT SET'; ?></td>
+                  
                 </tr>
               <?php } ?>
             </tbody>

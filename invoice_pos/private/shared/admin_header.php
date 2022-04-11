@@ -183,7 +183,7 @@
       <div class="collapse navbar-collapse" id="retailAdminNavbar">
         <ul class="navbar-nav m-auto">
           <li class="nav-item">
-            <a class="nav-link <?php echo ($page_title == "Dashboard") ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard.php') ?>">
+            <a class="nav-link <?php echo ($page_title == "Dashboard") ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard/') ?>">
               <i class="feather-airplay nav-icon"></i>
               Dashboard
             </a>
@@ -280,7 +280,7 @@
             </a>
           </li>
 
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle
               <?php echo ($page_title == "Add New Booking" || $page_title == "View Bookings") ? 'active-page' : '' ?>
             " href="#" id="formsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

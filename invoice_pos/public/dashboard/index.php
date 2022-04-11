@@ -1,6 +1,6 @@
 <?php
 
-require_once('../private/initialize.php');
+require_once('../../private/initialize.php');
 
 require_login();
 
@@ -154,7 +154,7 @@ $billing = Billing::find_by_metrics();
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-none">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Traffic Source</div>
@@ -172,7 +172,7 @@ $billing = Billing::find_by_metrics();
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-none">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Overall Product Rating</div>
@@ -195,7 +195,7 @@ $billing = Billing::find_by_metrics();
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-nones">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Deals</div>
@@ -213,7 +213,7 @@ $billing = Billing::find_by_metrics();
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-nones">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Department Sales</div>
@@ -231,7 +231,7 @@ $billing = Billing::find_by_metrics();
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-nones">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Customers</div>
@@ -254,7 +254,7 @@ $billing = Billing::find_by_metrics();
 
 
     <!-- Row start -->
-    <div class="row gutters">
+    <div class="row gutters  d-none">
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
         <div class="notify info">
           <div class="notify-body">
