@@ -70,7 +70,7 @@ $dpk = '345';
 							<?php $os = 1;
 							foreach ($array as $key => $value) { ?>
 								<td class="text-right p-0">
-									<input type="text" size="12" name="<?php echo "tank" . $os++ ?>[open_stock]" class="open_stock_<?php echo $key ?>" value="29100" placeholder='0'>
+									<input type="text" size="12" name="<?php echo "tank" . $os++ ?>[open_stock]" class="open_stock_<?php echo $key ?>" value="" placeholder='0'>
 								</td>
 							<?php } ?>
 						</tr>
@@ -179,7 +179,7 @@ $dpk = '345';
 					</tbody>
 				</table>
 				<div class="d-flex justify-content-end">
-					<button type="submit" class="btn btn-primary btn-sm">Submit</button>
+					<button type="submit" class="btn btn-primary btn-md">Submit</button>
 				</div>
 			</form>
 		</div>

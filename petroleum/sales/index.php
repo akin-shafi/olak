@@ -3,6 +3,8 @@
 $page = 'Sales';
 $page_title = 'All Sales';
 include(SHARED_PATH . '/admin_header.php');
+
+$array = ['Rate', 'open stock', 'new stock'];
 ?>
 
 
@@ -17,7 +19,7 @@ include(SHARED_PATH . '/admin_header.php');
 					<div class="card-body">
 						<div class="table-container">
 							<div class="table-responsive">
-								<table id="copy-print-csv" class="table custom-table">
+								<table  class="table custom-table">
 									<thead>
 										<tr class="bg-primary text-white ">
 											<th class="font-weight-bold">Product</th>
@@ -32,14 +34,34 @@ include(SHARED_PATH . '/admin_header.php');
 									</thead>
 									<tbody>
 										<tr>
-											<td>Product</td>
-											<td>PMS (Tank1)</td>
-											<td>PMS (Tank2)</td>
-											<td>PMS (Tank3)</td>
-											<td>PMS (Tank4)</td>
-											<td>PMS (Tank5)</td>
-											<td>AGO (Tank6)</td>
-											<td>DPK (Tank7)</td>
+											<td>Rate</td>
+											<td>1</td>
+											<td>2</td>
+											<td>3</td>
+											<td>4</td>
+											<td>5</td>
+											<td>6</td>
+											<td>7</td>
+										</tr>
+										<tr>
+											<td>open stock</td>
+											<td>1</td>
+											<td>2</td>
+											<td>3</td>
+											<td>4</td>
+											<td>5</td>
+											<td>6</td>
+											<td>7</td>
+										</tr>
+										<tr>
+											<td>New stock</td>
+											<td>1</td>
+											<td>2</td>
+											<td>3</td>
+											<td>4</td>
+											<td>5</td>
+											<td>6</td>
+											<td>7</td>
 										</tr>
 									</tbody>
 								</table>
