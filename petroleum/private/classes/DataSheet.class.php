@@ -2,11 +2,10 @@
 class DataSheet extends DatabaseObject
 {
   protected static $table_name = "data_sheet";
-  protected static $db_columns = ['id','tank','open_stock','new_stock','total_stock','sales_in_ltr','expected_stock','actual_stock','over_or_short','exp_sales_value','cash_submitted','total_sales','total_value','grand_total_value','company_id','branch_id','created_by','created_at','updated_at','deleted'];
-
+  protected static $db_columns = ['id', 'product_id', 'open_stock', 'new_stock', 'total_stock', 'sales_in_ltr', 'expected_stock', 'actual_stock', 'over_or_short', 'exp_sales_value', 'cash_submitted', 'total_sales', 'total_value', 'grand_total_value', 'company_id', 'branch_id', 'created_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
-  public $tank;
+  public $product_id;
   public $open_stock;
   public $new_stock;
   public $total_stock;
@@ -28,10 +27,13 @@ class DataSheet extends DatabaseObject
 
   public $counts;
 
+  const PRODUCTS = [1 => 'PMS', 2 => 'AGO', 3 => 'DPK'];
+  const RATES = [1 => '162', 2 => '335', 3 => '345'];
+
   public function __construct($args = [])
   {
     // $this->id                   = $args['id'] ?? '';
-    $this->tank                 = $args['tank'] ?? '';
+    $this->product_id                 = $args['product_id'] ?? '';
     $this->open_stock           = $args['open_stock'] ?? '';
     $this->new_stock            = $args['new_stock'] ?? '';
     $this->total_stock          = $args['total_stock'] ?? '';
@@ -59,6 +61,13 @@ class DataSheet extends DatabaseObject
     return $this->errors;
   }
 
+  static public function find_all_sheet()
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= " ORDER BY product DESC ";
+    return static::find_by_sql($sql);
+  }
   // public static function find_by_company_id()
   // {
   //   $sql = "SELECT * FROM " . static::$table_name . " ";
@@ -68,17 +77,17 @@ class DataSheet extends DatabaseObject
   // }
 
 
-  public static function find_by_company_id($company_id)
-  {
-    $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE company_id='" . self::$database_hr->escape_string($company_id) . "'";
-    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    $sql .= "ORDER BY id ASC";
-    $obj_array = static::find_by_sql($sql);
-    if (!empty($obj_array)) {
-      return array_shift($obj_array);
-    } else {
-      return false;
-    }
-  }
+  // public static function find_by_company_id($company_id)
+  // {
+  //   $sql = "SELECT * FROM " . static::$table_name . " ";
+  //   $sql .= "WHERE company_id='" . self::$database_hr->escape_string($company_id) . "'";
+  //   $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+  //   $sql .= "ORDER BY id ASC";
+  //   $obj_array = static::find_by_sql($sql);
+  //   if (!empty($obj_array)) {
+  //     return array_shift($obj_array);
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }
