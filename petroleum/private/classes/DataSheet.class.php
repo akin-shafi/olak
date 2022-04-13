@@ -26,6 +26,9 @@ class DataSheet extends DatabaseObject
   public $deleted;
 
   public $counts;
+  public $name;
+  public $tank;
+  public $rate;
 
   const PRODUCTS = [1 => 'PMS', 2 => 'AGO', 3 => 'DPK'];
   const RATES = [1 => '162', 2 => '335', 3 => '345'];
@@ -49,7 +52,7 @@ class DataSheet extends DatabaseObject
     $this->company_id           = $args['company_id'] ?? '';
     $this->branch_id            = $args['branch_id'] ?? '';
     $this->created_by           = $args['created_by'] ?? '';
-    $this->created_at           = $args['created_at'] ?? date('Y-m-d H:i:s');
+    $this->created_at           = $args['created_at'] ?? date('Y-m-d');
     $this->updated_at           = $args['updated_at'] ?? '';
     $this->deleted              = $args['deleted'] ?? '';
   }
@@ -61,13 +64,26 @@ class DataSheet extends DatabaseObject
     return $this->errors;
   }
 
-  static public function find_all_sheet()
+  public static function filter_by_date($dateFrom, $dateTo)
   {
-    $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    $sql .= " ORDER BY product DESC ";
+    $sql = "SELECT ds.*, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
+    $sql .= "JOIN products AS pr ON ds.product_id = pr.id ";
+    $sql .= "WHERE ds.created_at >='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND ds.created_at <='" . self::$database->escape_string($dateTo) . "'";
+    $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+    echo $sql;
     return static::find_by_sql($sql);
   }
+
+  public static function get_data_sheets()
+  {
+    $sql = "SELECT ds.*, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
+    $sql .= "JOIN products AS pr ON ds.product_id = pr.id ";
+    $sql .= "AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+    return static::find_by_sql($sql);
+  }
+
+
   // public static function find_by_company_id()
   // {
   //   $sql = "SELECT * FROM " . static::$table_name . " ";

@@ -67,4 +67,96 @@ if (is_get_request()) {
         $product = Product::find_by_id($pId);
         exit(json_encode(['success' => true, 'data' => $product]));
     endif;
+
+    if (isset($_GET['filter'])) :
+        $rangeText = $_GET['rangeText'];
+        $explode = explode('-', $rangeText);
+        $dateFrom = $explode[0];
+        $dateTo = $explode[1];
+        $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
+        $dateConvertTo = date('Y-m-d', strtotime($dateTo));
+
+        $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo);
+?>
+        <thead>
+            <tr class="bg-primary text-white ">
+                <th class="font-weight-bold">Product</th>
+                <?php foreach ($filterDataSheet as $product) : ?>
+                    <th class="font-weight-bold text-right">
+                        <?php echo strtoupper($product->name) . ' (TANK ' . $product->tank . ')'; ?>
+                    </th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="font-weight-bold">
+                <td class="text-uppercase">Created At</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo date('M d, Y', strtotime($data->created_at)); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr class="font-weight-bold">
+                <td class="text-uppercase">Rate</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo number_format($data->rate, 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr>
+                <td class="text-uppercase">open stock</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo number_format($data->open_stock, 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr>
+                <td class="text-uppercase">New stock (Inflow)</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo $data->new_stock != '' ? number_format($data->new_stock, 2) : 0; ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr>
+                <td class="text-uppercase">Total stock</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo number_format(intval($data->total_stock), 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr>
+                <td class="text-uppercase">Sales (Ltr)</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo number_format(intval($data->sales_in_ltr), 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr>
+                <td class="text-uppercase">Expected stock (Ltr)</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo number_format(intval($data->expected_stock), 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr>
+                <td class="text-uppercase">Actual stock (Ltr)</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo number_format(intval($data->actual_stock), 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr>
+                <td class="text-uppercase">Over/Short</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right <?php echo $data->over_or_short < 0 ? 'text-danger' : '' ?>">
+                        <?php echo number_format(intval($data->over_or_short), 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr class="font-weight-bold">
+                <td class="text-uppercase">Expected sales value</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo number_format(intval($data->exp_sales_value), 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+            <tr class="font-weight-bold">
+                <td class="text-uppercase">Cash submitted</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo number_format(intval($data->cash_submitted), 2); ?></td>
+                <?php endforeach; ?>
+            </tr>
+        </tbody>
+<?php
+    endif;
 }

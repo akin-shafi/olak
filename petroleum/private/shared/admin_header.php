@@ -67,7 +67,7 @@ $isActive = 0;
    <!-- Header start -->
    <header class="header">
       <div class="logo-wrapper">
-         <a href="index.html" class="logo text-white">
+         <a href="<?php echo url_for('/dashboard') ?>" class="logo text-white">
             <!-- <img src="<?php echo url_for('png/logo.png') ?>" alt="Wafi Admin Dashboard" /> -->
             Olak Pet.
          </a>
