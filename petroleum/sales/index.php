@@ -68,8 +68,15 @@ $products = Product::find_by_undeleted();
 				rangeText: payload,
 				filter: 1
 			},
+			cache: false,
+			beforeSend: function() {
+				$('.lds-hourglass').removeClass('d-none');
+			},
 			success: function(r) {
 				$('#dataSheet').html(r)
+				setTimeout(() => {
+					$('.lds-hourglass').addClass('d-none');
+				}, 250);
 			}
 		})
 	}
