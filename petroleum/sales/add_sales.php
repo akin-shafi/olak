@@ -63,11 +63,7 @@ include(SHARED_PATH . '/admin_header.php');
 	}
 </style>
 <div class="content-wrapper">
-	<div class="d-flex justify-content-between align-items-center mb-2">
-		<h4 class="mb-0">DAILY TRANSACTION RECORD FOR OLAK PETROLEUM, ILORIN </h4>
-		<button class="btn btn-primary" data-toggle="modal" data-target="#productModel">
-			&plus; Add Product</button>
-	</div>
+	<h4>DAILY TRANSACTION RECORD FOR OLAK PETROLEUM, ILORIN </h4>
 
 	<div class="table-container">
 		<div class="table-responsive">
@@ -87,8 +83,8 @@ include(SHARED_PATH . '/admin_header.php');
 							<th>ACTUAL STOCK (LTRS)</th>
 							<th>OVER/SHORT</th>
 							<th>CASH SUBMITTED #</th>
-							<th>EXP. SALES VALUE #</th>
-							<!-- <th>TOTAL SALES (LTRS)</th>
+							<!-- <th>EXP. SALES VALUE #</th>
+							 <th>TOTAL SALES (LTRS)</th>
 							<th>TOTAL VALUE #</th>
 							<th>GRAND TOTAL VALUE #</th> -->
 							<th></th>
@@ -134,7 +130,7 @@ include(SHARED_PATH . '/admin_header.php');
 							<td>
 								<input type="number" required="" name="cash_submitted[]" id="cash_submitted_1" class="form-control form-control-sm number_only cash_submitted_1">
 							</td>
-							<td>
+							<td class="d-none">
 								<input type="number" required="" name="exp_sales_value[]" id="exp_sales_value_1" class="form-control form-control-sm font-weight-bold number_only exp_sales_value_1" readonly>
 							</td>
 
@@ -170,53 +166,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 </div>
 
-<div class="modal fade" id="productModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-	<div class="modal-dialog modal-md" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Add Product</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-			</div>
-			<form id="product_form">
-				<input type="hidden" name="product_form">
-				<div class="modal-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-4">
-								<div class="mb-3">
-									<div class="form-group">
-										<label for="pName" class="col-form-label">Product Name</label>
-										<input type="text" class="form-control" name="product[name]" id="pName" placeholder="Product Name" required>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="mb-3">
-									<div class="form-group">
-										<label for="pTank" class="col-form-label">Tank Number</label>
-										<input type="text" class="form-control" name="product[tank]" id="pTank" placeholder="Tank Number" required>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="mb-3">
-									<div class="form-group">
-										<label for="pRate" class="col-form-label">Product Rate</label>
-										<input type="text" class="form-control" name="product[rate]" id="pRate" placeholder="Product Rate" required>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Save</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
+
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 
@@ -225,29 +175,6 @@ include(SHARED_PATH . '/admin_header.php');
 		var BACK_URL = './'
 		const PET_URL = 'inc/process.php';
 
-		$('#product_form').on("submit", function(e) {
-			e.preventDefault();
-
-			$.ajax({
-				url: PET_URL,
-				method: "POST",
-				data: new FormData(this),
-				contentType: false,
-				cache: false,
-				processData: false,
-				dataType: 'json',
-				success: function(r) {
-					if (r.success == true) {
-						successAlert(r.msg);
-						setTimeout(() => {
-							window.location.reload()
-						}, 1500);
-					} else {
-						errorAlert(r.msg);
-					}
-				}
-			})
-		});
 
 		$(document).on("change", '.product_id', function(e) {
 			let pId = this.value

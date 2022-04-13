@@ -111,3 +111,10 @@ $products = Product::find_by_undeleted();
 
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
+
+<script>
+	$(document).on('click', ".applyBtn", function(e) {
+		console.log(e);
+		console.log($('.drp-selected').text());
+	})
+</script>
