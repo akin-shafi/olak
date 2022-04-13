@@ -21,7 +21,8 @@ $products = Product::find_by_undeleted();
 				<div class="card-body">
 					<div class="table-container">
 						<div class="table-responsive">
-							<table class="table custom-table table-sm">
+							<!-- <table id="copy-print-csv_wrapper" class="table custom-table table-sm "> -->
+								<table id="" class="table custom-table">
 								<thead>
 									<tr class="bg-primary text-white ">
 										<th class="font-weight-bold">Product</th>
@@ -54,44 +55,44 @@ $products = Product::find_by_undeleted();
 									<tr>
 										<td class="text-uppercase">Total stock</td>
 										<?php foreach ($dataSheets as $data) : ?>
-											<td class="text-right"><?php echo number_format($data->total_stock, 2); ?></td>
+											<td class="text-right"><?php echo number_format(intval($data->total_stock), 2); ?></td>
 										<?php endforeach; ?>
 									</tr>
 									<tr>
 										<td class="text-uppercase">Sales (Ltr)</td>
 										<?php foreach ($dataSheets as $data) : ?>
-											<td class="text-right"><?php echo number_format($data->sales_in_ltr, 2); ?></td>
+											<td class="text-right"><?php echo number_format(intval($data->sales_in_ltr), 2); ?></td>
 										<?php endforeach; ?>
 									</tr>
 									<tr>
 										<td class="text-uppercase">Expected stock (Ltr)</td>
 										<?php foreach ($dataSheets as $data) : ?>
-											<td class="text-right"><?php echo number_format($data->expected_stock, 2); ?></td>
+											<td class="text-right"><?php echo number_format(intval($data->expected_stock), 2); ?></td>
 										<?php endforeach; ?>
 									</tr>
 									<tr>
 										<td class="text-uppercase">Actual stock (Ltr)</td>
 										<?php foreach ($dataSheets as $data) : ?>
-											<td class="text-right"><?php echo number_format($data->actual_stock, 2); ?></td>
+											<td class="text-right"><?php echo number_format(intval($data->actual_stock), 2); ?></td>
 										<?php endforeach; ?>
 									</tr>
 									<tr>
 										<td class="text-uppercase">Over/Short</td>
 										<?php foreach ($dataSheets as $data) : ?>
 											<td class="text-right <?php echo $data->over_or_short < 0 ? 'text-danger' : '' ?>">
-												<?php echo number_format($data->over_or_short, 2); ?></td>
+												<?php echo number_format(intval($data->over_or_short), 2); ?></td>
 										<?php endforeach; ?>
 									</tr>
 									<tr class="font-weight-bold">
 										<td class="text-uppercase">Expected sales value</td>
 										<?php foreach ($dataSheets as $data) : ?>
-											<td class="text-right"><?php echo number_format($data->exp_sales_value, 2); ?></td>
+											<td class="text-right"><?php echo number_format(intval($data->exp_sales_value), 2); ?></td>
 										<?php endforeach; ?>
 									</tr>
 									<tr class="font-weight-bold">
 										<td class="text-uppercase">Cash submitted</td>
 										<?php foreach ($dataSheets as $data) : ?>
-											<td class="text-right"><?php echo number_format($data->cash_submitted, 2); ?></td>
+											<td class="text-right"><?php echo number_format(intval($data->cash_submitted), 2); ?></td>
 										<?php endforeach; ?>
 									</tr>
 								</tbody>
