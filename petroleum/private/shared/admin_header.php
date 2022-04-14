@@ -56,21 +56,37 @@ if ($loggedInAdmin->admin_level == 1) {
 </head>
 
 <body>
-
    <!-- Loading starts -->
    <div id="loading-wrapper" class="d-none">
       <div class="spinner-border" role="status">
          <span class="sr-only">Loading...</span>
       </div>
    </div>
-   <!-- Loading ends -->
+
    <style>
-      .lds-hourglass {
+      .table-responsive::-webkit-scrollbar {
+         width: 0.5em;
+         height: 0.5em;
+      }
+
+      .table-responsive::-webkit-scrollbar-track {
+         box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+         border-radius: 10px;
+      }
+
+      .table-responsive::-webkit-scrollbar-thumb {
+         background-color: #1a8e5f;
+         outline: 1px solid #1a8e5f;
+         border-radius: 25px;
+      }
+
+      .lds-hourglass,
+      .out-of-service {
          display: grid;
          place-items: center;
          width: 100vw;
          height: 100vh;
-         background-color: rgba(0, 0, 0, 0.2);
+         background-color: rgba(0, 0, 0, 0.8);
          transform: translateZ(1px);
          position: fixed;
          top: 0;
@@ -107,13 +123,12 @@ if ($loggedInAdmin->admin_level == 1) {
          }
       }
    </style>
+   <!-- //! Ajax loader -->
    <div class="lds-hourglass d-none"></div>
+   <div class="out-of-service d-none">
+      <h1 style="color:white;text-align:center">Kindly contact the manager for more information!.</h1>
+   </div>
 
-   <!-- *************
-         ************ Header section start *************
-      ************* -->
-
-   <!-- Header start -->
    <header class="header">
       <div class="logo-wrapper">
          <a href="<?php echo url_for('/dashboard') ?>" class="logo text-white">
@@ -125,14 +140,11 @@ if ($loggedInAdmin->admin_level == 1) {
          </a>
       </div>
       <div class="header-items">
-         <!-- Custom search start -->
          <div class="custom-search">
             <input type="text" class="search-query" placeholder="Search here ...">
             <i class="icon-search1"></i>
          </div>
-         <!-- Custom search end -->
 
-         <!-- Header actions start -->
          <ul class="header-actions">
             <li class="dropdown">
                <a href="#" id="notifications" data-toggle="dropdown" aria-haspopup="true">
@@ -245,16 +257,11 @@ if ($loggedInAdmin->admin_level == 1) {
                </a>
             </li>
          </ul>
-         <!-- Header actions end -->
       </div>
    </header>
-   <!-- Header end -->
 
-   <!-- Screen overlay start -->
    <div class="screen-overlay"></div>
-   <!-- Screen overlay end -->
 
-   <!-- Quicklinks box start -->
    <div class="quick-links-box">
       <div class="quick-links-header">
          Quick Links
@@ -371,9 +378,7 @@ if ($loggedInAdmin->admin_level == 1) {
          </div>
       </div>
    </div>
-   <!-- Quicklinks box end -->
 
-   <!-- Quick settings start -->
    <div class="quick-settings-box">
       <div class="quick-settings-header">
          <div class="date-container">Today <span class="date" id="today-date"></span></div>
@@ -433,16 +438,9 @@ if ($loggedInAdmin->admin_level == 1) {
          </div>
       </div>
    </div>
-   <!-- Quick settings end -->
 
-   <!-- *************
-         ************ Header section end *************
-      ************* -->
-
-   <!-- Container fluid start -->
    <div class="container-fluid">
 
-      <!-- Navigation start -->
       <nav class="navbar navbar-expand-lg custom-navbar">
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#WafiAdminNavbar" aria-controls="WafiAdminNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">
@@ -932,14 +930,9 @@ if ($loggedInAdmin->admin_level == 1) {
             </ul>
          </div>
       </nav>
-      <!-- Navigation end -->
 
-      <!-- *************
-            ************ Main container start *************
-         ************* -->
       <div class="main-container">
 
-         <!-- Page header start -->
          <div class="page-header">
             <ol class="breadcrumb">
                <li class="breadcrumb-item"><?php echo $page ?></li>
@@ -965,4 +958,3 @@ if ($loggedInAdmin->admin_level == 1) {
                </li>
             </ul>
          </div>
-         <!-- Page header end -->

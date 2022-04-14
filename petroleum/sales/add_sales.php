@@ -12,22 +12,6 @@ include(SHARED_PATH . '/admin_header.php');
 
 ?>
 <style type="text/css">
-	.table-responsive::-webkit-scrollbar {
-		width: 0.5em;
-		height: 0.5em;
-	}
-
-	.table-responsive::-webkit-scrollbar-track {
-		box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
-		border-radius: 10px;
-	}
-
-	.table-responsive::-webkit-scrollbar-thumb {
-		background-color: #1a8e5f;
-		outline: 1px solid #1a8e5f;
-		border-radius: 25px;
-	}
-
 	th {
 		font-size: 9px;
 		vertical-align: middle;
@@ -64,6 +48,7 @@ include(SHARED_PATH . '/admin_header.php');
 		outline: 1px solid green;
 	}
 </style>
+
 <div class="content-wrapper">
 	<div class="d-flex justify-content-between align-items-center">
 		<h4>DAILY TRANSACTION RECORD FOR <?php echo strtoupper($company->name) ?> </h4>
@@ -380,5 +365,31 @@ include(SHARED_PATH . '/admin_header.php');
 				expSalesValue.val(expSalesTotal);
 			}
 		}
+
+		// ***** Close Of Business CronJob *****
+		const COBCronJob = setInterval(() => {
+			let date = new Date()
+			let hr = date.getHours()
+			if (hr >= 23 || hr <= 6) {
+				$('#data_sheet_form :input').prop('disabled', true)
+				$('.out-of-service').removeClass('d-none');
+			}
+		}, 250)
+
+		setTimeout(() => clearInterval(COBCronJob), 250)
+		// ***** Close Of Business CronJob *****
+
+		// ***** Start Of Business CronJob *****
+		const SOBCronJob = setInterval(() => {
+			let date = new Date()
+			let hr = date.getHours()
+			if (hr >= 7) {
+				$('#data_sheet_form :input').prop('disabled', false)
+				$('.out-of-service').removeClass('d-none'); //! Comment this out!
+			}
+		}, 250)
+
+		setTimeout(() => clearInterval(SOBCronJob), 250)
+		// ***** Start Of Business CronJob *****
 	})
 </script>

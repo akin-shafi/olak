@@ -24,9 +24,7 @@ $products = Product::find_by_undeleted();
 
 ?>
 
-<!-- Content wrapper start -->
 <div class="content-wrapper">
-	<!-- Row start -->
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
@@ -45,10 +43,8 @@ $products = Product::find_by_undeleted();
 
 		</div>
 	</div>
-	<!-- Row end -->
 
 </div>
-<!-- Content wrapper end -->
 
 
 
@@ -56,12 +52,6 @@ $products = Product::find_by_undeleted();
 
 <script>
 	const PET_URL = 'inc/process.php';
-
-	// $(document).on('click', ".applyBtn", function() {
-	// 	let dateRange = $('.drp-selected').text()
-	// 	console.log(dateRange);
-	// })
-
 
 	window.onload = () => {
 		let rangeText = $('.range-text').text()
