@@ -64,22 +64,39 @@ class DataSheet extends DatabaseObject
     return $this->errors;
   }
 
-  public static function filter_by_date($dateFrom, $dateTo)
+  public static function filter_by_date($dateFrom, $dateTo, $option = [])
   {
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
+
     $sql = "SELECT ds.*, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
     $sql .= "JOIN products AS pr ON ds.product_id = pr.id ";
     $sql .= "WHERE ds.created_at >='" . self::$database->escape_string($dateFrom) . "'";
     $sql .= " AND ds.created_at <='" . self::$database->escape_string($dateTo) . "'";
+
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND ds.company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND ds.branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
     $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
-    // echo $sql;
     return static::find_by_sql($sql);
   }
 
-  public static function get_data_sheets()
+  public static function get_data_sheets($option = [])
   {
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
+
     $sql = "SELECT ds.*, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
-    $sql .= "JOIN products AS pr ON ds.product_id = pr.id ";
-    $sql .= "AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+    $sql .= "JOIN products AS pr ON ds.product_id = pr.id";
+    $sql .= " WHERE (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND ds.company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND ds.branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
     return static::find_by_sql($sql);
   }
 

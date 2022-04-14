@@ -80,6 +80,13 @@ if (is_post_request()) {
         $company::deleted($cId);
 
         if ($company == true) :
+            $branches = Branch::find_all_branch(['company_id' => $cId]);
+
+            foreach ($branches as $value) :
+                $branch = Branch::find_by_id($value->id);
+                $branch::deleted($value->id);
+            endforeach;
+
             exit(json_encode(['success' => true, 'msg' => 'Company deleted successfully!']));
         endif;
     }

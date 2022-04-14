@@ -4,9 +4,24 @@ $page = 'Sales';
 $page_title = 'All Sales';
 include(SHARED_PATH . '/admin_header.php');
 
-$array = ['Rate', 'open stock', 'new stock'];
+$company = Company::find_by_user_id($loggedInAdmin->id);
+$branches = Branch::find_all_branch(['company_id' => $company->id]);
+$branchArr = [];
 
-$dataSheets = DataSheet::get_data_sheets();
+foreach ($branches as $value) {
+	array_push($branchArr, $value->id);
+}
+
+if ($loggedInAdmin->admin_level == 1) {
+	$filterDataSheet = DataSheet::get_data_sheets();
+} else {
+	// ! NOTE: The hardcoded value of 1 will be used for access control
+	// ! The hardcoded value of 1 will be generated from $loggedInAdmin->branch_id
+	if (in_array(1, $branchArr)) {
+		$filterDataSheet = DataSheet::get_data_sheets(['company' => $company->id, 'branch' => 1]);
+	}
+}
+
 $products = Product::find_by_undeleted();
 
 ?>

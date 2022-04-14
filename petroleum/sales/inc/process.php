@@ -16,15 +16,9 @@ if (is_post_request()) {
     if (isset($_POST['data_sheet_form'])) {
         $args = $_POST;
 
-        // ! I am thinking of removing the below data from the database
-        // ! **********
-        // ! **********
         $totalSales = 0;        // ! ********** Suggesting we do the 
         $totalValue = 0;        // ! ********** calculations from the list view
         $grandTotalValue = 0;   // ! ********** Think about it
-        // ! **********
-        // ! **********
-        // ! I am thinking of removing the above data from the database
 
         for ($i = 0; $i < count($args['product_id']); $i++) {
             $data = [
@@ -43,8 +37,8 @@ if (is_post_request()) {
                 "total_value"        => $totalValue,
                 "grand_total_value"  => $grandTotalValue,
 
-                "company_id"         => $loggedInAdmin->company_id,
-                "branch_id"          => $loggedInAdmin->branch_id,
+                "company_id"         => $args['company_id'],
+                "branch_id"          => $args['branch_id'],
                 "created_by"         => $loggedInAdmin->id,
             ];
 
@@ -69,6 +63,7 @@ if (is_get_request()) {
     endif;
 
     if (isset($_GET['filter'])) :
+
         $rangeText = $_GET['rangeText'];
         $explode = explode('-', $rangeText);
         $dateFrom = $explode[0];
@@ -76,7 +71,24 @@ if (is_get_request()) {
         $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
         $dateConvertTo = date('Y-m-d', strtotime($dateTo));
 
-        $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo);
+        $company = Company::find_by_user_id($loggedInAdmin->id);
+        $branches = Branch::find_all_branch(['company_id' => $company->id]);
+        $branchArr = [];
+
+        foreach ($branches as $value) {
+            array_push($branchArr, $value->id);
+        }
+
+        if ($loggedInAdmin->admin_level == 1) {
+            $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo);
+        } else {
+            // ! NOTE: The hardcoded value of 1 will be used for access control
+            // ! The hardcoded value of 1 will be generated from $loggedInAdmin->branch_id
+            if (in_array(1, $branchArr)) {
+                $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $company->id, 'branch' => 1]);
+            }
+        }
+
 ?>
         <thead>
             <tr class="bg-primary text-white ">

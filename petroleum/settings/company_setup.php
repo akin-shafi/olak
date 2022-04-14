@@ -1,9 +1,11 @@
 <?php require_once('../private/initialize.php');
+require_login();
 
 $page = 'Settings';
 $page_title = 'Company Setup';
 include(SHARED_PATH . '/admin_header.php');
 
+$ownerId = $loggedInAdmin->full_name();
 $company = Company::find_by_undeleted();
 $branch = Branch::find_by_undeleted();
 
@@ -21,8 +23,9 @@ $branch = Branch::find_by_undeleted();
 
 <div class="content-wrapper">
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary mb-3 mx-3" data-toggle="modal" data-target="#companyModel">
+    <button class="btn btn-primary mb-3 mx-3 <?php echo !empty($company) ? 'd-none' : '' ?>" data-toggle="modal" data-target="#companyModel">
       &plus; Create Company</button>
+
     <?php if (!empty($company)) : ?>
       <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#branchModel">
         &plus; Add Branch</button>
@@ -146,7 +149,19 @@ $branch = Branch::find_by_undeleted();
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="fName" class="col-form-label">Owner's Full Name</label>
-                  <input type="text" class="form-control" name="company[full_name]" id="fName" placeholder="Full name" required>
+                  <input type="text" class="form-control" name="company[full_name]" value="<?php echo ucwords($ownerId) ?>" id="fName" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="cName" class="col-form-label">Company Name</label>
+                  <input type="text" class="form-control" name="company[name]" id="cName" placeholder="Company name" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="regNo" class="col-form-label">Registration Number</label>
+                  <input type="text" class="form-control" name="company[reg_no]" id="regNo" placeholder="Company number" required>
                 </div>
               </div>
               <div class="col-md-6">
@@ -159,18 +174,6 @@ $branch = Branch::find_by_undeleted();
                 <div class="form-group">
                   <label for="phone" class="col-form-label">Company Contact</label>
                   <input type="tel" class="form-control" name="company[phone]" id="phone" placeholder="Company phone number" required>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="cName" class="col-form-label">Company Name</label>
-                  <input type="text" class="form-control" name="company[name]" id="cName" placeholder="Company name" required>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="regNo" class="col-form-label">Registration Number</label>
-                  <input type="text" class="form-control" name="company[reg_no]" id="regNo" placeholder="Company registration number" required>
                 </div>
               </div>
               <div class="col-md-12">

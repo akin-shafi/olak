@@ -2,9 +2,10 @@
 class Company extends DatabaseObject
 {
   protected static $table_name = "companies";
-  protected static $db_columns = ['id', 'full_name', 'email', 'phone', 'name', 'address', 'reg_no', 'logo', 'created_at', 'updated_at', 'deleted'];
+  protected static $db_columns = ['id', 'user_id', 'full_name', 'email', 'phone', 'name', 'address', 'reg_no', 'logo', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
+  public $user_id;
   public $full_name;
   public $email;
   public $phone;
@@ -20,6 +21,7 @@ class Company extends DatabaseObject
 
   public function __construct($args = [])
   {
+    $this->user_id    = $args['user_id'] ?? '';
     $this->full_name  = $args['full_name'] ?? '';
     $this->email      = $args['email'] ?? '';
     $this->phone      = $args['phone'] ?? '';
@@ -59,12 +61,11 @@ class Company extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
-  public static function name($name)
+  public static function find_by_user_id($uId)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE name='" . self::$database_hr->escape_string($name) . "'";
+    $sql .= "WHERE user_id='" . self::$database->escape_string($uId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    $sql .= "ORDER BY id ASC";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);

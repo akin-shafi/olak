@@ -41,10 +41,17 @@ class Branch extends DatabaseObject
     return $this->errors;
   }
 
-  public static function find_all_branch()
+  public static function find_all_branch($option = [])
   {
+    $compId = $option['company_id'] ?? false;
+
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    if (!empty($compId)) {
+      $sql .= "AND company_id='" . self::$database->escape_string($compId) . "'";
+    }
+
     $sql .= "ORDER BY name ASC";
     return static::find_by_sql($sql);
   }

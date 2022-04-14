@@ -5,6 +5,8 @@ $page = 'Sales';
 $page_title = 'Add New Sales';
 
 $products = Product::find_all_product();
+$company = Company::find_by_user_id($loggedInAdmin->id);
+$branches = Branch::find_all_branch(['company_id' => $company->id]);
 
 include(SHARED_PATH . '/admin_header.php');
 
@@ -63,12 +65,24 @@ include(SHARED_PATH . '/admin_header.php');
 	}
 </style>
 <div class="content-wrapper">
-	<h4>DAILY TRANSACTION RECORD FOR OLAK PETROLEUM, ILORIN </h4>
+	<div class="d-flex justify-content-between align-items-center">
+		<h4>DAILY TRANSACTION RECORD FOR <?php echo strtoupper($company->name) ?> </h4>
+		<div class="mb-3">
+			<select class="form-control" name="branch_id" id="sBranch" form="data_sheet_form" required>
+				<option value="">select branch</option>
+				<?php foreach ($branches as $branch) : ?>
+					<option value="<?php echo $branch->id ?>">
+						<?php echo ucwords($branch->name) ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+	</div>
 
 	<div class="table-container">
 		<div class="table-responsive">
 			<form id="data_sheet_form" method="post">
 				<input type="hidden" name="data_sheet_form" readonly>
+				<input type="hidden" name="company_id" value="<?php echo $company->id ?>" readonly>
 
 				<table class="table table-bordered table-sm">
 					<thead>
