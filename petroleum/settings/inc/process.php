@@ -76,7 +76,7 @@ if (is_post_request()) {
 
     if (isset($_POST['delete_company'])) {
         $cId = $_POST['cId'];
-        $company = company::find_by_id($cId);
+        $company = Company::find_by_id($cId);
         $company::deleted($cId);
 
         if ($company == true) :
@@ -90,6 +90,8 @@ if (is_post_request()) {
             exit(json_encode(['success' => true, 'msg' => 'Company deleted successfully!']));
         endif;
     }
+
+
 
 
     // *************** BRANCH
@@ -128,6 +130,91 @@ if (is_post_request()) {
             exit(json_encode(['success' => true, 'msg' => 'Branch deleted successfully!']));
         endif;
     }
+
+
+
+
+    // ************* USERS
+    if (isset($_POST['new_user'])) {
+        $args = $_POST['user'];
+
+        $fileTmpPath = $_FILES['profile']['tmp_name'];
+        $fileName = $_FILES['profile']['name'];
+        $fileSize = $_FILES['profile']['size'];
+        $fileType = $_FILES['profile']['type'];
+        $fileNameExp = explode('.', $fileName);
+        $fileExt = strtolower(end($fileNameExp));
+        $newFileName = md5(time() . $fileName) . '.' . $fileExt;
+        $allowedFileExt = ['jpg', 'png', 'gif', 'jpeg'];
+        $dest_path = $uploadDir . 'profile/' . $newFileName;
+
+        if (isset($fileName) && !empty($fileName)) {
+            if (in_array($fileExt, $allowedFileExt)) {
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    $args['profile_img'] =  $newFileName;
+                } else {
+                    exit(json_encode(['success' => false, 'msg' => 'user profile not uploaded!']));
+                }
+            } else {
+                exit(json_encode(['success' => false, 'msg' => 'Upload failed. Allowed file types: ' . implode(',', $allowedFileExt)]));
+            }
+        }
+
+        $user = new User($args);
+        $user->save();
+
+        if ($user == true) :
+            exit(json_encode(['success' => true, 'msg' => 'user created successfully!']));
+        else :
+            exit(json_encode(['success' => false, 'msg' => display_errors($user->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_user'])) {
+        $uId = $_POST['uId'];
+        $args = $_POST['user'];
+        $user = User::find_by_id($uId);
+
+        $fileTmpPath = $_FILES['profile']['tmp_name'];
+        $fileName = $_FILES['profile']['name'];
+        $fileSize = $_FILES['profile']['size'];
+        $fileType = $_FILES['profile']['type'];
+        $fileNameExp = explode('.', $fileName);
+        $fileExt = strtolower(end($fileNameExp));
+        $newFileName = md5(time() . $fileName) . '.' . $fileExt;
+        $allowedFileExt = ['jpg', 'png', 'gif', 'jpeg'];
+        $dest_path = $uploadDir . 'profile/' . $newFileName;
+
+        if (isset($fileName) && !empty($fileName)) {
+            if (in_array($fileExt, $allowedFileExt)) {
+                unlink($uploadDir . 'profile/' . $user->profile_img);
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    $args['profile_img'] =  $newFileName;
+                } else {
+                    exit(json_encode(['success' => false, 'msg' => 'user profile not uploaded!']));
+                }
+            } else {
+                exit(json_encode(['success' => false, 'msg' => 'Upload failed. Allowed file types: ' . implode(',', $allowedFileExt)]));
+            }
+        }
+
+        $user->merge_attributes($args);
+        $user->save();
+
+        if ($user == true) :
+            exit(json_encode(['success' => true, 'msg' => 'user updated successfully!']));
+        endif;
+    }
+
+    if (isset($_POST['delete_user'])) {
+        $uId = $_POST['uId'];
+        $user = User::find_by_id($uId);
+        $user::deleted($uId);
+
+        if ($user == true) :
+            exit(json_encode(['success' => true, 'msg' => 'user deleted successfully!']));
+        endif;
+    }
 }
 
 
@@ -142,5 +229,11 @@ if (is_get_request()) {
         $bId = $_GET['bId'];
         $branch = Branch::find_by_id($bId);
         exit(json_encode(['success' => true, 'data' => $branch]));
+    endif;
+
+    if (isset($_GET['get_user'])) :
+        $uId = $_GET['uId'];
+        $user = User::find_by_id($uId);
+        exit(json_encode(['success' => true, 'data' => $user]));
     endif;
 }

@@ -82,10 +82,8 @@ if (is_get_request()) {
         if ($loggedInAdmin->admin_level == 1) {
             $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo);
         } else {
-            // ! NOTE: The hardcoded value of 1 will be used for access control
-            // ! The hardcoded value of 1 will be generated from $loggedInAdmin->branch_id
-            if (in_array(1, $branchArr)) {
-                $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $company->id, 'branch' => 1]);
+            if (in_array($loggedInAdmin->branch_id, $branchArr)) {
+                $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $company->id, 'branch' => $loggedInAdmin->branch_id]);
             }
         }
 

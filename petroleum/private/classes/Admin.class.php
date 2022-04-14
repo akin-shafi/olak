@@ -2,61 +2,61 @@
 class Admin extends DatabaseObject
 {
     protected static $table_name = "admins";
-    protected static $db_columns = ['id','first_name','last_name','email','profile_img','hashed_password', 'company_id','branch_id','admin_level','account_status', 'created_at','updated_at','created_by','reset_password','deleted'];
+    protected static $db_columns = ['id', 'first_name', 'last_name', 'email', 'profile_img', 'hashed_password', 'company_id', 'branch_id', 'admin_level', 'account_status', 'created_at', 'updated_at', 'created_by', 'reset_password', 'deleted'];
 
-     public $id; 
-     public $first_name; 
-     public $last_name; 
-     public $email; 
-     public $profile_img; 
-     public $hashed_password;
-     public $password; 
-     public $confirm_password;
-     protected $password_required = true; 
-     public $reset_password; 
-     public $admin_level; 
-     public $account_status; 
-     public $company_id; 
-     public $branch_id; 
-     public $created_at; 
-     public $updated_at; 
-     public $created_by; 
-     public $deleted; 
+    public $id;
+    public $first_name;
+    public $last_name;
+    public $email;
+    public $profile_img;
+    public $hashed_password;
+    public $password;
+    public $confirm_password;
+    protected $password_required = true;
+    public $reset_password;
+    public $admin_level;
+    public $account_status;
+    public $company_id;
+    public $branch_id;
+    public $created_at;
+    public $updated_at;
+    public $created_by;
+    public $deleted;
 
-    
+
     public $counts;
 
     const ADMIN_LEVEL = [
-      1 => 'Super Admin',
-      2 => 'Admin',
-      3 => 'Support',
+        1 => 'Super Admin',
+        2 => 'Admin',
+        3 => 'Support',
     ];
 
     const ACCOUNT_STATUS = [
-      1 => 'Active',
-      0 => 'Inactive',
+        1 => 'Active',
+        0 => 'Inactive',
     ];
-    
-     
 
-    public function __construct($args=[])
+
+
+    public function __construct($args = [])
     {
 
-         $this->first_name          = $args['first_name'] ?? ''; 
-         $this->last_name           = $args['last_name'] ?? ''; 
-         $this->email               = $args['email'] ?? ''; 
-         $this->profile_img         = $args['profile_img'] ?? ''; 
-         $this->password = $args['password'] ?? '';
-         $this->confirm_password = $args['confirm_password'] ?? ''; 
-         $this->reset_password      = $args['reset_password'] ?? 0; 
-         $this->admin_level         = $args['admin_level'] ?? ''; 
-         $this->account_status      = $args['account_status'] ?? ''; 
-         $this->company_id          = $args['company_id'] ?? ''; 
-         $this->branch_id           = $args['branch_id'] ?? ''; 
-         $this->created_at          = $args['created_at'] ?? date('Y-m-d H:i:s'); 
-         $this->updated_at          = $args['updated_at'] ?? date('Y-m-d H:i:s'); 
-         $this->created_by          = $args['created_by'] ?? ''; 
-         $this->deleted             = $args['deleted'] ?? ''; 
+        $this->first_name          = $args['first_name'] ?? '';
+        $this->last_name           = $args['last_name'] ?? '';
+        $this->email               = $args['email'] ?? '';
+        $this->profile_img         = $args['profile_img'] ?? '';
+        $this->password =           $args['password'] ?? '';
+        $this->confirm_password = $args['confirm_password'] ?? '';
+        $this->reset_password      = $args['reset_password'] ?? 0;
+        $this->admin_level         = $args['admin_level'] ?? '';
+        $this->account_status      = $args['account_status'] ?? '';
+        $this->company_id          = $args['company_id'] ?? '';
+        $this->branch_id           = $args['branch_id'] ?? '';
+        $this->created_at          = $args['created_at'] ?? date('Y-m-d H:i:s');
+        $this->updated_at          = $args['updated_at'] ?? date('Y-m-d H:i:s');
+        $this->created_by          = $args['created_by'] ?? '';
+        $this->deleted             = $args['deleted'] ?? '';
     }
 
     public function full_name()
@@ -85,7 +85,7 @@ class Admin extends DatabaseObject
     {
         if ($this->password != '') {
             $this->set_hashed_password();
-        // validate password
+            // validate password
         } else {
             // password not being updated, skip hashing and validation
             $this->password_required = false;
@@ -108,23 +108,23 @@ class Admin extends DatabaseObject
         } elseif (!has_length($this->last_name, array('min' => 2, 'max' => 255))) {
             $this->errors[] = "Last name must be between 2 and 255 characters.";
         }
-    
+
         // if(is_blank($this->image)) {
         //    $this->errors[] = "Kindly Select a image.";
         // }
 
         if (is_blank($this->email)) {
             $this->errors[] = "Email cannot be blank.";
-        }  elseif (!has_valid_email_format($this->email)) {
+        } elseif (!has_valid_email_format($this->email)) {
             $this->errors[] = "Email must be a valid format.";
-        }elseif (!has_unique_email_admin($this->email, $this->id ?? 0)) {
-          $this->errors[] = "Email already exist. Try another.";
+        } elseif (!has_unique_email_admin($this->email, $this->id ?? 0)) {
+            $this->errors[] = "Email already exist. Try another.";
         }
 
         if ($this->password_required) {
             if (is_blank($this->password)) {
                 $this->errors[] = "Password cannot be blank.";
-            } 
+            }
             // elseif (!has_length($this->password, array('min' => 8))) {
             //     $this->errors[] = "Password must contain 8 or more characters";
             // } elseif (!preg_match('/[A-Z]/', $this->password)) {
