@@ -4,7 +4,6 @@ $page = 'Settings';
 $page_title = 'Manage Products';
 include(SHARED_PATH . '/admin_header.php');
 
-$dataSheets = DataSheet::find_by_undeleted();
 $products = Product::find_by_undeleted();
 
 ?>

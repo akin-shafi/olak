@@ -1,93 +1,139 @@
 <?php require_once('../../private/initialize.php');
 
 if (is_post_request()) {
-    if (isset($_POST['new_product'])) {
-        $args = $_POST['product'];
-        $product = new Product($args);
-        $product->save();
+    $uploadDir = '../uploads/';
 
-        if ($product == true) :
-            exit(json_encode(['success' => true, 'msg' => 'Product created successfully!']));
-        else :
-            exit(json_encode(['success' => false, 'msg' => display_errors($product->errors)]));
-        endif;
-    }
+    if (isset($_POST['new_company'])) {
+        $args = $_POST['company'];
 
-    if (isset($_POST['edit_product'])) {
-        $pId = $_POST['pId'];
-        $args = $_POST['product'];
-        $product = Product::find_by_id($pId);
+        $fileTmpPath = $_FILES['logo']['tmp_name'];
+        $fileName = $_FILES['logo']['name'];
+        $fileSize = $_FILES['logo']['size'];
+        $fileType = $_FILES['logo']['type'];
+        $fileNameExp = explode('.', $fileName);
+        $fileExt = strtolower(end($fileNameExp));
+        $newFileName = md5(time() . $fileName) . '.' . $fileExt;
+        $allowedFileExt = ['jpg', 'png', 'gif', 'jpeg'];
+        $dest_path = $uploadDir . $newFileName;
 
-        $product->merge_attributes($args);
-        $product->save();
-
-        if ($product == true) :
-            exit(json_encode(['success' => true, 'msg' => 'Product updated successfully!']));
-        endif;
-    }
-
-    if (isset($_POST['delete_product'])) {
-        $pId = $_POST['pId'];
-        $product = Product::find_by_id($pId);
-        $product::deleted($pId);
-
-        if ($product == true) :
-            exit(json_encode(['success' => true, 'msg' => 'Product deleted successfully!']));
-        endif;
-    }
-
-    if (isset($_POST['data_sheet_form'])) {
-        $args = $_POST;
-
-        // ! I am thinking of removing the below data from the database
-        // ! **********
-        // ! **********
-        $totalSales = 0;        // ! ********** Suggesting we do the 
-        $totalValue = 0;        // ! ********** calculations from the list view
-        $grandTotalValue = 0;   // ! ********** Think about it
-        // ! **********
-        // ! **********
-        // ! I am thinking of removing the above data from the database
-
-        for ($i = 0; $i < count($args['product_id']); $i++) {
-            $data = [
-                "product_id"         => $args['product_id'][$i],
-                "open_stock"         => $args['open_stock'][$i],
-                "new_stock"          => $args['new_stock'][$i],
-                "total_stock"        => $args['total_stock'][$i],
-                "sales_in_ltr"       => $args['sales_in_ltr'][$i],
-                "expected_stock"     => $args['expected_stock'][$i],
-                "actual_stock"       => $args['actual_stock'][$i],
-                "over_or_short"      => $args['over_or_short'][$i],
-                "exp_sales_value"    => $args['exp_sales_value'][$i],
-                "cash_submitted"     => $args['cash_submitted'][$i],
-
-                "total_sales"        => $totalSales,
-                "total_value"        => $totalValue,
-                "grand_total_value"  => $grandTotalValue,
-
-                "company_id"         => $loggedInAdmin->company_id,
-                "branch_id"          => $loggedInAdmin->branch_id,
-                "created_by"         => $loggedInAdmin->id,
-            ];
-
-            $dataSheet = new DataSheet($data);
-            $result = $dataSheet->save();
+        if (isset($fileName) && !empty($fileName)) {
+            if (in_array($fileExt, $allowedFileExt)) {
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    $args['logo'] =  $newFileName;
+                } else {
+                    exit(json_encode(['success' => false, 'msg' => 'Company logo not uploaded!']));
+                }
+            } else {
+                exit(json_encode(['success' => false, 'msg' => 'Upload failed. Allowed file types: ' . implode(',', $allowedFileExt)]));
+            }
         }
 
-        if ($result == true) :
-            exit(json_encode(['success' => true, 'msg' => 'Submit Successful']));
+        $company = new Company($args);
+        $company->save();
+
+        if ($company == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Company created successfully!']));
         else :
-            exit(json_encode(['success' => false, 'msg' => display_errors($dataSheet->errors)]));
+            exit(json_encode(['success' => false, 'msg' => display_errors($company->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_company'])) {
+        $cId = $_POST['cId'];
+        $args = $_POST['company'];
+        $company = Company::find_by_id($cId);
+
+        $fileTmpPath = $_FILES['logo']['tmp_name'];
+        $fileName = $_FILES['logo']['name'];
+        $fileSize = $_FILES['logo']['size'];
+        $fileType = $_FILES['logo']['type'];
+        $fileNameExp = explode('.', $fileName);
+        $fileExt = strtolower(end($fileNameExp));
+        $newFileName = md5(time() . $fileName) . '.' . $fileExt;
+        $allowedFileExt = ['jpg', 'png', 'gif', 'jpeg'];
+        $dest_path = $uploadDir . $newFileName;
+
+        if (isset($fileName) && !empty($fileName)) {
+            if (in_array($fileExt, $allowedFileExt)) {
+                unlink($uploadDir . $company->logo);
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    $args['logo'] =  $newFileName;
+                } else {
+                    exit(json_encode(['success' => false, 'msg' => 'Company logo not uploaded!']));
+                }
+            } else {
+                exit(json_encode(['success' => false, 'msg' => 'Upload failed. Allowed file types: ' . implode(',', $allowedFileExt)]));
+            }
+        }
+
+        $company->merge_attributes($args);
+        $company->save();
+
+        if ($company == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Company updated successfully!']));
+        endif;
+    }
+
+    if (isset($_POST['delete_company'])) {
+        $cId = $_POST['cId'];
+        $company = company::find_by_id($cId);
+        $company::deleted($cId);
+
+        if ($company == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Company deleted successfully!']));
+        endif;
+    }
+
+
+    // *************** BRANCH
+    if (isset($_POST['new_branch'])) {
+        $args = $_POST['branch'];
+
+        $branch = new Branch($args);
+        $branch->save();
+
+        if ($branch == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Branch created successfully!']));
+        else :
+            exit(json_encode(['success' => false, 'msg' => display_errors($branch->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_branch'])) {
+        $bId = $_POST['bId'];
+        $args = $_POST['branch'];
+        $branch = Branch::find_by_id($bId);
+
+        $branch->merge_attributes($args);
+        $branch->save();
+
+        if ($branch == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Branch updated successfully!']));
+        endif;
+    }
+
+    if (isset($_POST['delete_branch'])) {
+        $bId = $_POST['bId'];
+        $branch = Branch::find_by_id($bId);
+        $branch::deleted($bId);
+
+        if ($branch == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Branch deleted successfully!']));
         endif;
     }
 }
 
 
 if (is_get_request()) {
-    if (isset($_GET['get_product'])) :
-        $pId = $_GET['pId'];
-        $product = Product::find_by_id($pId);
-        exit(json_encode(['success' => true, 'data' => $product]));
+    if (isset($_GET['get_company'])) :
+        $cId = $_GET['cId'];
+        $company = Company::find_by_id($cId);
+        exit(json_encode(['success' => true, 'data' => $company]));
+    endif;
+
+    if (isset($_GET['get_branch'])) :
+        $bId = $_GET['bId'];
+        $branch = Branch::find_by_id($bId);
+        exit(json_encode(['success' => true, 'data' => $branch]));
     endif;
 }
