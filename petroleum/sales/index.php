@@ -16,7 +16,7 @@ if ($loggedInAdmin->admin_level == 1) {
 	$filterDataSheet = DataSheet::get_data_sheets();
 } else {
 	if (in_array($loggedInAdmin->branch_id, $branchArr)) {
-		$filterDataSheet = DataSheet::get_data_sheets(['company' => $company->id, 'branch' => $loggedInAdmin->branch_id]);
+		$filterDataSheet = DataSheet::get_data_sheets(['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
 	}
 }
 

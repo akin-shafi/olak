@@ -10,3 +10,6 @@
 2022-04-12 17:44:09 | Admin Login: Idowu Alaba Logged in.
 2022-04-13 17:44:40 | Admin Login: Idowu Alaba Logged in.
 2022-04-14 17:45:49 | Admin Login: Idowu Alaba Logged in.
+2022-04-14 19:53:03 | Logout: Idowu Alaba Logged out.
+2022-04-14 19:55:23 | Admin Login: user@gmail.com Logged in.
+2022-04-14 19:57:05 | Admin Login: user@gmail.com Logged in.

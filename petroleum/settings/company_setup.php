@@ -5,7 +5,12 @@ $page = 'Settings';
 $page_title = 'Company Setup';
 include(SHARED_PATH . '/admin_header.php');
 
-$ownerId = $loggedInAdmin->full_name();
+if ($loggedInAdmin->admin_level == 1) {
+  $ownerId = $loggedInAdmin->full_name();
+} else {
+  $ownerId = $loggedInAdmin->full_name;
+}
+
 $company = Company::find_by_undeleted();
 $branch = Branch::find_by_undeleted();
 

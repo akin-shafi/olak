@@ -5,7 +5,11 @@ $page = 'Settings';
 $page_title = 'Manage Users';
 include(SHARED_PATH . '/admin_header.php');
 
-$ownerId = $loggedInAdmin->full_name();
+if ($loggedInAdmin->admin_level == 1) {
+  $ownerId = $loggedInAdmin->full_name();
+} else {
+  $ownerId = $loggedInAdmin->full_name;
+}
 $company = Company::find_by_user_id($loggedInAdmin->id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
 
@@ -256,6 +260,8 @@ $employees = User::find_by_undeleted();
           $('#aLevel').val(r.data.admin_level)
           $('#bId').val(r.data.branch_id)
           $('#address').val(r.data.address)
+          $('#password').val('')
+          $('#cPass').val('')
         }
       })
     });

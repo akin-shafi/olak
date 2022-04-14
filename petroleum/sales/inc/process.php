@@ -72,7 +72,7 @@ if (is_get_request()) {
         $dateConvertTo = date('Y-m-d', strtotime($dateTo));
 
         $company = Company::find_by_user_id($loggedInAdmin->id);
-        $branches = Branch::find_all_branch(['company_id' => $company->id]);
+        $branches = Branch::find_all_branch(['company_id' => $loggedInAdmin->company_id]);
         $branchArr = [];
 
         foreach ($branches as $value) {
@@ -83,10 +83,9 @@ if (is_get_request()) {
             $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo);
         } else {
             if (in_array($loggedInAdmin->branch_id, $branchArr)) {
-                $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $company->id, 'branch' => $loggedInAdmin->branch_id]);
+                $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
             }
         }
-
 ?>
         <thead>
             <tr class="bg-primary text-white ">
