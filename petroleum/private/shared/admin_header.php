@@ -938,6 +938,18 @@ $fullName = $loggedInAdmin->full_name;
             </ol>
 
             <ul class="app-actions">
+               <li class="d-flex justify-content-center align-items-center">
+                  <!-- <div class="mx-2"> -->
+                  <label for="fBranch" class="form-label text-white">Branch</label>
+                  <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
+                     <option value="">select branch</option>
+                     <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
+                        <option value="<?php echo $branch->id ?>">
+                           <?php echo ucwords($branch->name) ?></option>
+                     <?php endforeach; ?>
+                  </select>
+                  <!-- </div> -->
+               </li>
                <li>
                   <a href="#" id="reportrange">
                      <span class="range-text"></span>

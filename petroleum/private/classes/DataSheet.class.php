@@ -74,12 +74,15 @@ class DataSheet extends DatabaseObject
     $sql .= "WHERE ds.created_at >='" . self::$database->escape_string($dateFrom) . "'";
     $sql .= " AND ds.created_at <='" . self::$database->escape_string($dateTo) . "'";
 
+    if (empty($company) && !empty($branch)) :
+      $sql .= " AND ds.branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
     if (!empty($company) && !empty($branch)) :
       $sql .= " AND ds.company_id='" . self::$database->escape_string($company) . "'";
       $sql .= " AND ds.branch_id='" . self::$database->escape_string($branch) . "'";
     endif;
 
-    echo $sql;
     $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
     return static::find_by_sql($sql);
   }

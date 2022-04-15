@@ -52,21 +52,28 @@ $products = Product::find_by_undeleted();
 	const PET_URL = 'inc/process.php';
 
 	window.onload = () => {
+		let branch = $('#fBranch').val()
 		let rangeText = $('.range-text').text()
-		getDataSheet(rangeText)
+		getDataSheet(branch, rangeText)
 	}
 
 	$(document).on('click', ".daterangepicker", function() {
-		let rangeText = $('.range-text').text()
-		getDataSheet(rangeText)
+		let branch = $('#fBranch').val()
+		if (branch == '') {
+			alert('Kindly select a branch')
+		} else {
+			let rangeText = $('.range-text').text()
+			getDataSheet(branch, rangeText)
+		}
 	})
 
-	const getDataSheet = (payload) => {
+	const getDataSheet = (branch, range) => {
 		$.ajax({
 			url: PET_URL,
 			method: "GET",
 			data: {
-				rangeText: payload,
+				branch: branch,
+				rangeText: range,
 				filter: 1
 			},
 			cache: false,

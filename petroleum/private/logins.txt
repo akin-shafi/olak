@@ -27,3 +27,5 @@
 2022-04-15 13:50:23 | Admin Login: admin@gmail.com Logged in.
 2022-04-15 15:03:52 | Logout: Liberty Gross Logged out.
 2022-04-15 15:04:01 | Admin Login: user@gmail.com Logged in.
+2022-04-15 16:11:22 | Logout: Carlos Decker Logged out.
+2022-04-15 16:11:27 | Admin Login: admin@gmail.com Logged in.
