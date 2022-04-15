@@ -385,7 +385,7 @@ include(SHARED_PATH . '/admin_header.php');
 			let hr = date.getHours()
 			if (hr >= 7) {
 				$('#data_sheet_form :input').prop('disabled', false)
-				// $('.out-of-service').removeClass('d-none'); //! Comment this out!
+				$('.out-of-service').removeClass('d-none'); //! Comment this out!
 			}
 		}, 250)
 
