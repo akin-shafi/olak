@@ -5,16 +5,13 @@ $page = 'Settings';
 $page_title = 'Manage Users';
 include(SHARED_PATH . '/admin_header.php');
 
-if ($loggedInAdmin->admin_level == 1) {
-  $ownerId = $loggedInAdmin->full_name();
-} else {
-  $ownerId = $loggedInAdmin->full_name;
-}
+$ownerId = $loggedInAdmin->full_name;
+
 $company = Company::find_by_user_id($loggedInAdmin->id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
 
-$employees = User::find_by_undeleted();
-// $employees = User::find_all_employee();
+$admins = Admin::find_by_undeleted();
+// $admins = Admin::find_all_employee();
 
 ?>
 <style>
@@ -30,8 +27,10 @@ $employees = User::find_by_undeleted();
 
 <div class="content-wrapper">
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#userModel">
-      &plus; Create User</button>
+    <?php if ($loggedInAdmin->admin_level == 1) : ?>
+      <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#userModel">
+        &plus; Create User</button>
+    <?php endif; ?>
   </div>
 
   <div class="row gutters">
@@ -54,15 +53,21 @@ $employees = User::find_by_undeleted();
                     <th>created_by</th>
                     <th>created_at</th>
                     <th>updated_at</th>
-                    <th>Action</th>
+                    <?php if ($loggedInAdmin->admin_level == 1) : ?>
+                      <th>Action</th>
+                    <?php endif; ?>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <?php foreach ($employees as $data) :
-                    $adminLevel = $data->admin_level != '' ? User::ADMIN_LEVEL[$data->admin_level] : 'Not set';
-                    $createdBy = $data->created_by != '' ? Admin::find_by_id($data->created_by)->full_name() : 'Not set';
-                    $branch = Branch::find_by_id($data->branch_id)->name;
+                  <?php foreach ($admins as $data) :
+                    if ($data->admin_level == 1) continue;
+
+                    $adminLevel = $data->admin_level != '' ? Admin::ADMIN_LEVEL[$data->admin_level] : 'Not set';
+                    $createdBy = $data->created_by != '' ? Admin::find_by_id($data->created_by)->full_name : 'Not set';
+                    if ($data->branch_id != '') :
+                      $branch = Branch::find_by_id($data->branch_id)->name;
+                    endif;
                   ?>
                     <tr>
                       <td>
@@ -71,20 +76,24 @@ $employees = User::find_by_undeleted();
                       <td><?php echo strtoupper($data->full_name); ?></td>
                       <td><?php echo $data->email; ?></td>
                       <td><?php echo $adminLevel; ?></td>
-                      <td><?php echo ucwords($branch); ?></td>
+                      <td><?php echo isset($branch) ? ucwords($branch) : 'Not set'; ?></td>
                       <td><?php echo $data->reset_password != 0 ? '<span class="badge badge-success">Activated</span>' : '<span class="badge badge-warning">Pending</span>'; ?></td>
                       <td><?php echo ucwords($createdBy); ?></td>
                       <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
                       <td><?php echo date('Y-m-d', strtotime($data->updated_at)); ?></td>
-                      <td>
-                        <div class="btn-group">
-                          <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
-                            <i class="icon-edit1"></i></button>
-                          <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
-                            <i class="icon-trash"></i>
-                          </button>
-                        </div>
-                      </td>
+
+                      <?php if ($loggedInAdmin->admin_level == 1) : ?>
+                        <td>
+                          <div class="btn-group">
+                            <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
+                              <i class="icon-edit1"></i></button>
+                            <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
+                              <i class="icon-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      <?php endif; ?>
+
                     </tr>
                   <?php endforeach; ?>
                 </tbody>
@@ -122,7 +131,7 @@ $employees = User::find_by_undeleted();
                   <label for="aLevel" class="col-form-label">Admin Level</label>
                   <select name="user[admin_level]" class="form-control" id="aLevel" required>
                     <option value="">select level</option>
-                    <?php foreach (User::ADMIN_LEVEL as $key => $data) : ?>
+                    <?php foreach (Admin::ADMIN_LEVEL as $key => $data) : ?>
                       <option value="<?php echo $key ?>"><?php echo $data ?></option>
                     <?php endforeach; ?>
                   </select>
@@ -131,8 +140,7 @@ $employees = User::find_by_undeleted();
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="cName" class="col-form-label">Company Name</label>
-                  <input type="hidden" class="form-control" name="user[company_id]" id="cName" value="<?php echo $company->id ?>" readonly>
-                  <input type="text" class="form-control" value="<?php echo $company->name ?>" disabled>
+                  <input type="text" class="form-control" id="cName" value="<?php echo $company->name ?>" disabled>
                 </div>
               </div>
               <div class="col-md-6">
@@ -161,13 +169,13 @@ $employees = User::find_by_undeleted();
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="password" class="col-form-label">Password</label>
-                  <input type="password" class="form-control" name="user[password]" id="password" value="12345" placeholder="12345" required>
+                  <input type="password" class="form-control" name="user[password]" id="password" placeholder="12345">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="cPass" class="col-form-label">Confirm password</label>
-                  <input type="password" class="form-control" name="user[confirm_password]" id="cPass" value="12345" placeholder="12345" required>
+                  <input type="password" class="form-control" name="user[confirm_password]" id="cPass" placeholder="12345">
                 </div>
               </div>
               <div class="col-md-12">
@@ -243,6 +251,8 @@ $employees = User::find_by_undeleted();
     $('.edit-btn').on("click", function() {
       let uId = this.dataset.id
       $('#uId').val(uId)
+      $('#password').val('')
+      $('#cPass').val('')
 
       $.ajax({
         url: USER_URL,
@@ -256,12 +266,10 @@ $employees = User::find_by_undeleted();
           $('#fName').val(r.data.full_name)
           $('#email').val(r.data.email)
           $('#phone').val(r.data.phone)
-          $('#cName').val(r.data.name)
+          // $('#cName').val(r.data.name)
           $('#aLevel').val(r.data.admin_level)
           $('#bId').val(r.data.branch_id)
           $('#address').val(r.data.address)
-          $('#password').val('')
-          $('#cPass').val('')
         }
       })
     });

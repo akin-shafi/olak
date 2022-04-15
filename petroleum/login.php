@@ -20,11 +20,7 @@ if (is_post_request()) {
    }
 
    if (empty($errors)) {
-      if (!empty(Admin::find_by_email($email))) {
-         $admin = Admin::find_by_email($email);
-      } else {
-         $admin = User::find_by_email($email);
-      }
+      $admin = Admin::find_by_email($email);
 
       if ($admin != false && $admin->verify_password($password)) {
          $session->logout(true);
@@ -87,6 +83,11 @@ if (is_post_request()) {
                      <h5>Welcome back,<br />Please Login to your Account.</h5>
 
                      <p>
+                        <?php //if (display_session_message() == true) : ?>
+                           <?php echo display_session_message(); ?>
+                        <?php //endif; ?>
+                     </p>
+                     <p>
                         <?php if ($errors) : ?>
                            <?php echo display_errors($errors); ?>
                         <?php endif; ?>
@@ -108,9 +109,9 @@ if (is_post_request()) {
                         <a class="link" href="forgot-pwd.php">Forgot password?</a>
                      </div>
                      <hr>
-                     <div class="actions align-left d-none">
-                        <span class="additional-link">New here?</span>
-                        <a href="signup.html" class="btn btn-dark">Create an Account</a>
+                     <div class="actions align-left">
+                        <span class="additional-link">Don't have an account?</span>
+                        <a href="<?php echo url_for('signup.php') ?>" class="btn btn-dark">Create Account</a>
                      </div>
                   </div>
                </div>

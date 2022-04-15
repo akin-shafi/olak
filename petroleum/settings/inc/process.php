@@ -32,6 +32,11 @@ if (is_post_request()) {
         $company->save();
 
         if ($company == true) :
+            $updateCompany = Company::find_by_id($company->id);
+            $args = ['user_id' => $loggedInAdmin->id];
+            $updateCompany->merge_attributes($args);
+            $updateCompany->save();
+
             exit(json_encode(['success' => true, 'msg' => 'Company created successfully!']));
         else :
             exit(json_encode(['success' => false, 'msg' => display_errors($company->errors)]));
@@ -160,7 +165,11 @@ if (is_post_request()) {
             }
         }
 
-        $user = new User($args);
+        if ($loggedInAdmin->admin_level == 1) {
+            $args['company_id'] = $loggedInAdmin->company_id;
+        }
+
+        $user = new Admin($args);
         $user->save();
 
         if ($user == true) :
@@ -173,7 +182,7 @@ if (is_post_request()) {
     if (isset($_POST['edit_user'])) {
         $uId = $_POST['uId'];
         $args = $_POST['user'];
-        $user = User::find_by_id($uId);
+        $user = Admin::find_by_id($uId);
 
         $fileTmpPath = $_FILES['profile']['tmp_name'];
         $fileName = $_FILES['profile']['name'];
@@ -208,7 +217,7 @@ if (is_post_request()) {
 
     if (isset($_POST['delete_user'])) {
         $uId = $_POST['uId'];
-        $user = User::find_by_id($uId);
+        $user = Admin::find_by_id($uId);
         $user::deleted($uId);
 
         if ($user == true) :
@@ -233,7 +242,7 @@ if (is_get_request()) {
 
     if (isset($_GET['get_user'])) :
         $uId = $_GET['uId'];
-        $user = User::find_by_id($uId);
+        $user = Admin::find_by_id($uId);
         exit(json_encode(['success' => true, 'data' => $user]));
     endif;
 }

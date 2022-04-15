@@ -5,7 +5,7 @@ $page = 'Sales';
 $page_title = 'Add New Sales';
 
 $products = Product::find_all_product();
-$company = Company::find_by_user_id($loggedInAdmin->id);
+$company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
 
 include(SHARED_PATH . '/admin_header.php');
@@ -385,7 +385,7 @@ include(SHARED_PATH . '/admin_header.php');
 			let hr = date.getHours()
 			if (hr >= 7) {
 				$('#data_sheet_form :input').prop('disabled', false)
-				$('.out-of-service').removeClass('d-none'); //! Comment this out!
+				// $('.out-of-service').removeClass('d-none'); //! Comment this out!
 			}
 		}, 250)
 

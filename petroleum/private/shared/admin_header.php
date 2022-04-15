@@ -2,11 +2,8 @@
 require_login();
 $isActive = 0;
 
-if ($loggedInAdmin->admin_level == 1) {
-   $fullName = $loggedInAdmin->full_name();
-} else {
-   $fullName = $loggedInAdmin->full_name;
-}
+$fullName = $loggedInAdmin->full_name;
+
 ?>
 
 <!doctype html>
@@ -245,8 +242,9 @@ if ($loggedInAdmin->admin_level == 1) {
                         <h5><?php echo $fullName; ?></h5>
                         <p><?php echo  Admin::ADMIN_LEVEL[$loggedInAdmin->admin_level]; ?></p>
                      </div>
-                     <a href="user-profile.html"><i class="icon-user1"></i> My Profile</a>
-                     <a href="account-settings.html"><i class="icon-settings1"></i> Account Settings</a>
+                     <a href="<?php echo '#!' //url_for('/user-profile.php') 
+                              ?>" class=""><i class="icon-user1"></i> My Profile</a>
+                     <a href="account-settings.php"><i class="icon-settings1"></i> Account Settings</a>
                      <a href="<?php echo url_for('/logout.php') ?>"><i class="icon-log-out1"></i> Sign Out</a>
                   </div>
                </div>

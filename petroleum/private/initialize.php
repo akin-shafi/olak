@@ -59,14 +59,10 @@ DatabaseObject::set_database($database);
 
 
 $session = new Session;
-
 if ($session->admin != '') {
-    if (!empty(Admin::find_by_email($session->admin))) {
-        $loggedInAdmin = Admin::find_by_email($session->admin);
-    } else {
-        $loggedInAdmin = User::find_by_email($session->admin);
-    }
+    $loggedInAdmin = Admin::find_by_email($session->admin);
 }
+
 $currency = '₦';
 
   // if (isset($loggedInAdmin->id)) {

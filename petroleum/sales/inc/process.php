@@ -72,19 +72,11 @@ if (is_get_request()) {
         $dateConvertTo = date('Y-m-d', strtotime($dateTo));
 
         $company = Company::find_by_user_id($loggedInAdmin->id);
-        $branches = Branch::find_all_branch(['company_id' => $loggedInAdmin->company_id]);
-        $branchArr = [];
-
-        foreach ($branches as $value) {
-            array_push($branchArr, $value->id);
-        }
 
         if ($loggedInAdmin->admin_level == 1) {
             $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo);
         } else {
-            if (in_array($loggedInAdmin->branch_id, $branchArr)) {
-                $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
-            }
+            $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
         }
 ?>
         <thead>
@@ -98,6 +90,12 @@ if (is_get_request()) {
             </tr>
         </thead>
         <tbody>
+            <tr class="font-weight-bold">
+                <td class="text-uppercase">Branch</td>
+                <?php foreach ($filterDataSheet as $data) : ?>
+                    <td class="text-right"><?php echo Branch::find_by_id($data->branch_id)->name; ?></td>
+                <?php endforeach; ?>
+            </tr>
             <tr class="font-weight-bold">
                 <td class="text-uppercase">Created At</td>
                 <?php foreach ($filterDataSheet as $data) : ?>

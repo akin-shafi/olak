@@ -5,11 +5,8 @@ $page = 'Settings';
 $page_title = 'Company Setup';
 include(SHARED_PATH . '/admin_header.php');
 
-if ($loggedInAdmin->admin_level == 1) {
-  $ownerId = $loggedInAdmin->full_name();
-} else {
-  $ownerId = $loggedInAdmin->full_name;
-}
+$ownerId = $loggedInAdmin->full_name;
+
 
 $company = Company::find_by_undeleted();
 $branch = Branch::find_by_undeleted();
@@ -96,6 +93,7 @@ $branch = Branch::find_by_undeleted();
                 <table class="table custom-table table-sm">
                   <thead>
                     <tr class="bg-primary text-white ">
+                      <th>SN</th>
                       <th>Company Name</th>
                       <th>Branch Name</th>
                       <th>Address</th>
@@ -107,9 +105,11 @@ $branch = Branch::find_by_undeleted();
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach ($branch as $data) :
+                    <?php $sn = 1;
+                    foreach ($branch as $data) :
                       $companyName = Company::find_by_id($data->company_id)->name; ?>
                       <tr>
+                        <td><?php echo $sn++; ?></td>
                         <td><?php echo strtoupper($companyName); ?></td>
                         <td><?php echo ucwords($data->name); ?></td>
                         <td><?php echo ucfirst($data->address); ?></td>
@@ -365,11 +365,14 @@ $branch = Branch::find_by_undeleted();
                 data.msg,
                 'success'
               )
+              setTimeout(() => {
+                window.location.reload()
+              }, 2000);
             }
           });
 
         }
-      }).then(() => window.location.reload())
+      })
 
     });
 
@@ -462,11 +465,13 @@ $branch = Branch::find_by_undeleted();
                 data.msg,
                 'success'
               )
+              setTimeout(() => {
+                window.location.reload()
+              }, 2000);
             }
           });
-
         }
-      }).then(() => window.location.reload())
+      })
 
     });
   })

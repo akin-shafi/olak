@@ -79,6 +79,7 @@ class DataSheet extends DatabaseObject
       $sql .= " AND ds.branch_id='" . self::$database->escape_string($branch) . "'";
     endif;
 
+    echo $sql;
     $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
     return static::find_by_sql($sql);
   }

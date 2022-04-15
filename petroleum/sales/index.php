@@ -23,7 +23,12 @@ if ($loggedInAdmin->admin_level == 1) {
 $products = Product::find_by_undeleted();
 
 ?>
-
+<style>
+	td {
+		min-width: 90px;
+		padding: 0.2rem 0.3rem !important;
+	}
+</style>
 <div class="content-wrapper">
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
