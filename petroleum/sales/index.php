@@ -4,20 +4,13 @@ $page = 'Sales';
 $page_title = 'All Sales';
 include(SHARED_PATH . '/admin_header.php');
 
-$company = Company::find_by_user_id($loggedInAdmin->id);
+$company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
-$branchArr = [];
-
-foreach ($branches as $value) {
-	array_push($branchArr, $value->id);
-}
 
 if ($loggedInAdmin->admin_level == 1) {
 	$filterDataSheet = DataSheet::get_data_sheets();
 } else {
-	if (in_array($loggedInAdmin->branch_id, $branchArr)) {
-		$filterDataSheet = DataSheet::get_data_sheets(['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
-	}
+	$filterDataSheet = DataSheet::get_data_sheets(['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
 }
 
 $products = Product::find_by_undeleted();

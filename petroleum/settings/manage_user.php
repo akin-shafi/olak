@@ -1,13 +1,17 @@
 <?php require_once('../private/initialize.php');
 require_login();
 
+if ($loggedInAdmin->admin_level != 1) {
+  redirect_to('../sales/');
+}
+
 $page = 'Settings';
 $page_title = 'Manage Users';
 include(SHARED_PATH . '/admin_header.php');
 
 $ownerId = $loggedInAdmin->full_name;
 
-$company = Company::find_by_user_id($loggedInAdmin->id);
+$company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
 
 $admins = Admin::find_by_undeleted();
