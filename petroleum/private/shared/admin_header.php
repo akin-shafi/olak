@@ -485,6 +485,9 @@ $fullName = $loggedInAdmin->full_name;
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="appsDropdown">
                      <li>
+                        <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
+                     </li>
+                     <li>
                         <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
                      </li>
                      <li>

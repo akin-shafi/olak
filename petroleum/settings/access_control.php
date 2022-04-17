@@ -6,7 +6,7 @@ if ($loggedInAdmin->admin_level != 1) {
 }
 
 $page = 'Settings';
-$page_title = 'Manage Users';
+$page_title = 'Access Control';
 include(SHARED_PATH . '/admin_header.php');
 
 $ownerId = $loggedInAdmin->full_name;
@@ -24,7 +24,7 @@ $admins = Admin::find_by_undeleted();
   }
 
   td {
-    min-width: 100px;
+    min-width: 10px;
   }
 </style>
 
@@ -46,16 +46,11 @@ $admins = Admin::find_by_undeleted();
             <div class="table-responsive">
               <table class="table custom-table table-sm">
                 <thead>
-                  <tr class="bg-primary text-white ">
-                    <th>profile_img</th>
-                    <th>Full name</th>
-                    <th>Email</th>
-                    <th>Admin level</th>
-                    <th>Branch</th>
-                    <th>Password reset</th>
-                    <th>created_by</th>
-                    <th>created_at</th>
-                    <th>updated_at</th>
+                  <tr class="bg-primary text-white text-center">
+                    <th>SN</th>
+                    <th>User</th>
+                    <th>User Management</th>
+                    <th>Report Management</th>
                     <?php if ($loggedInAdmin->admin_level == 1) : ?>
                       <th>Action</th>
                     <?php endif; ?>
@@ -63,27 +58,16 @@ $admins = Admin::find_by_undeleted();
                 </thead>
 
                 <tbody>
-                  <?php foreach ($admins as $data) :
+                  <?php $sn = 1;
+                  foreach ($admins as $data) :
                     if ($data->admin_level == 1) continue;
-
-                    $adminLevel = $data->admin_level != '' ? Admin::ADMIN_LEVEL[$data->admin_level] : 'Not set';
-                    $createdBy = $data->created_by != '' ? Admin::find_by_id($data->created_by)->full_name : 'Not set';
-                    if ($data->branch_id != '') :
-                      $branch = Branch::find_by_id($data->branch_id)->name;
-                    endif;
+                    $control = AccessControl::find_by_user_id($data->id);
                   ?>
-                    <tr>
-                      <td>
-                        <img class="img-thumbnail" src="<?php echo url_for('settings/uploads/profile/' . $data->profile_img); ?>" width="100" alt="<?php echo ucwords($data->full_name); ?>">
-                      </td>
-                      <td><?php echo strtoupper($data->full_name); ?></td>
-                      <td><?php echo $data->email; ?></td>
-                      <td><?php echo $adminLevel; ?></td>
-                      <td><?php echo isset($branch) ? ucwords($branch) : 'Not set'; ?></td>
-                      <td><?php echo $data->reset_password != 0 ? '<span class="badge badge-success">Activated</span>' : '<span class="badge badge-warning">Pending</span>'; ?></td>
-                      <td><?php echo ucwords($createdBy); ?></td>
-                      <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
-                      <td><?php echo date('Y-m-d', strtotime($data->updated_at)); ?></td>
+                    <tr class="text-center">
+                      <td><?php echo $sn++; ?></td>
+                      <td><?php echo ucwords($data->full_name); ?></td>
+                      <td><?php echo isset($control->users_mgt) ? $control->users_mgt : ''; ?></td>
+                      <td><?php echo isset($control->report_mgt) ? $control->report_mgt : ''; ?></td>
 
                       <?php if ($loggedInAdmin->admin_level == 1) : ?>
                         <td>

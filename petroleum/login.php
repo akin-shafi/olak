@@ -28,7 +28,7 @@ if (is_post_request()) {
 
          $session->login($admin);
 
-         log_action('Admin Login', "{$admin->email} Logged in.", "login");
+         log_action('Admin Login', "{$admin->full_name} Logged in.", "login");
          redirect_to(url_for('/dashboard/'));
       } else {
          $errors[] = "Log in not successful.";
@@ -43,32 +43,23 @@ if (is_post_request()) {
 <html lang="en">
 
 <head>
-   <!-- Required meta tags -->
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-   <!-- Meta -->
    <meta name="description" content="Responsive Bootstrap4 Dashboard Template">
    <meta name="author" content="ParkerThemes">
    <link rel="shortcut icon" href="png/fav.png" />
 
-   <!-- Title -->
    <title>Wafi Admin Template - Login</title>
 
-   <!-- *************
-         ************ Common Css Files *************
-      ************ -->
-   <!-- Bootstrap CSS -->
    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-   <!-- Master CSS -->
    <link rel="stylesheet" href="css/main.css" />
 
 </head>
 
 <body class="authentication">
 
-   <!-- Container start -->
    <div class="container">
 
       <form method="post" action="">>
@@ -83,9 +74,7 @@ if (is_post_request()) {
                      <h5>Welcome back,<br />Please Login to your Account.</h5>
 
                      <p>
-                        <?php //if (display_session_message() == true) : ?>
-                           <?php echo display_session_message(); ?>
-                        <?php //endif; ?>
+                        <?php echo display_session_message(); ?>
                      </p>
                      <p>
                         <?php if ($errors) : ?>
@@ -120,7 +109,6 @@ if (is_post_request()) {
       </form>
 
    </div>
-   <!-- Container end -->
 
 </body>
 
