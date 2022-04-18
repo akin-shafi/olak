@@ -2,7 +2,8 @@
 require_login();
 $isActive = 0;
 
-$fullName = $loggedInAdmin->full_name;
+$user = $loggedInAdmin;
+$fullName = $user->full_name;
 
 ?>
 
@@ -466,7 +467,6 @@ $fullName = $loggedInAdmin->full_name;
                      Sales
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="appsDropdown">
-
                      <li>
                         <a class="dropdown-item" <?php echo $page_title == 'All Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/') ?>">List Sales</a>
                      </li>
@@ -476,14 +476,12 @@ $fullName = $loggedInAdmin->full_name;
                   </ul>
                </li>
 
-
-
                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i class="icon-settings1 nav-icon"></i>
                      Settings
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="appsDropdown">
+                  <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
                      <li>
                         <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
                      </li>
@@ -498,6 +496,19 @@ $fullName = $loggedInAdmin->full_name;
                      </li>
                   </ul>
                </li>
+
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle <?php echo $page == 'Reports' ? 'active-page' : '' ?>" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="icon-pie-chart1 nav-icon"></i>
+                     Reports
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="reportDropdown">
+                     <li>
+                        <a class="dropdown-item <?php echo $page_title == 'Sales Report' ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">Sales Report</a>
+                     </li>
+                  </ul>
+               </li>
+
 
 
 
@@ -941,24 +952,24 @@ $fullName = $loggedInAdmin->full_name;
             </ol>
 
             <ul class="app-actions">
-               <li class="d-flex justify-content-center align-items-center">
-                  <!-- <div class="mx-2"> -->
-                  <label for="fBranch" class="form-label text-white">Branch</label>
-                  <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
-                     <option value="">select branch</option>
-                     <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
-                        <option value="<?php echo $branch->id ?>">
-                           <?php echo ucwords($branch->name) ?></option>
-                     <?php endforeach; ?>
-                  </select>
-                  <!-- </div> -->
-               </li>
-               <li>
-                  <a href="#" id="reportrange">
-                     <span class="range-text"></span>
-                     <i class="icon-chevron-down"></i>
-                  </a>
-               </li>
+               <?php if ($user->admin_level == 1 && $page_title == 'All Sales') : ?>
+                  <li class="d-flex justify-content-center align-items-center">
+                     <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
+                        <option value="">select branch</option>
+                        <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
+                           <option value="<?php echo $branch->id ?>">
+                              <?php echo ucwords($branch->name) ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                     <!-- </div> -->
+                  </li>
+                  <li>
+                     <a href="#" id="reportrange">
+                        <span class="range-text"></span>
+                        <i class="icon-chevron-down"></i>
+                     </a>
+                  </li>
+               <?php endif; ?>
                <li>
                   <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print">
                      <i class="icon-print"></i>

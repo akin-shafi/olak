@@ -29,6 +29,8 @@ class DataSheet extends DatabaseObject
   public $name;
   public $tank;
   public $rate;
+  public $sales_quantity;
+  public $inflow;
 
   const PRODUCTS = [1 => 'PMS', 2 => 'AGO', 3 => 'DPK'];
   const RATES = [1 => '162', 2 => '335', 3 => '345'];
@@ -95,6 +97,24 @@ class DataSheet extends DatabaseObject
     $sql = "SELECT ds.*, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
     $sql .= "JOIN products AS pr ON ds.product_id = pr.id";
     $sql .= " WHERE (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND ds.company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND ds.branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
+    return static::find_by_sql($sql);
+  }
+
+  public static function data_sheet_report($option = [])
+  {
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
+
+    $sql = "SELECT ds.*, SUM(ds.sales_in_ltr) AS sales_quantity, SUM(ds.cash_submitted) AS inflow, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
+    $sql .= "JOIN products AS pr ON ds.product_id = pr.id";
+    $sql .= " WHERE (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+    $sql .= "GROUP BY pr.name";
 
     if (!empty($company) && !empty($branch)) :
       $sql .= " AND ds.company_id='" . self::$database->escape_string($company) . "'";
