@@ -211,7 +211,26 @@ function pre_r($array)
   return $printer;
 }
 
+function is_unique_array($array, $keep_key_assoc = false)
+{
+  $duplicate_keys = [];
+  $tmp = [];
 
+  foreach ($array as $key => $value) {
+    if (is_object($value))
+      $value = (array)$value;
+
+    if (!in_array($value, $tmp))
+      $tmp[] = $value;
+    else
+      $duplicate_keys[] = $key;
+  }
+
+  foreach ($duplicate_keys as $key)
+    unset($array[$key]);
+
+  return $keep_key_assoc ? $array : array_values($array);
+}
 
 
 

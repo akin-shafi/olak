@@ -498,6 +498,18 @@ $fullName = $user->full_name;
                </li>
 
                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle <?php echo $page == 'Expenses' ? 'active-page' : '' ?>" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="icon-attach_money nav-icon"></i>
+                     Expenses
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="expensesDropdown">
+                     <li>
+                        <a class="dropdown-item <?php echo $page_title == 'Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('expenses/') ?>">Record Expenses</a>
+                     </li>
+                  </ul>
+               </li>
+
+               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle <?php echo $page == 'Reports' ? 'active-page' : '' ?>" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i class="icon-pie-chart1 nav-icon"></i>
                      Reports

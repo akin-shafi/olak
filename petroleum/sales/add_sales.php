@@ -218,58 +218,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 			$('#pet-table').append(html_code);
 
-			const totalItem = $('#total_item').val();
-			for (let i = 1; i <= totalItem; i++) {
-				let rate = $('.rate_' + i)
-				let totalSales = $('.total_sales_' + i)
-				let totalValue = $('.total_value_' + i)
-
-				let cashSubmitted = $('.cash_submitted_' + i)
-				let grandTotal = $('.grand_total_' + i)
-
-				let openStock = $('.open_stock_' + i)
-				let newStock = $('.new_stock_' + i)
-				let totalStock = $('.total_stock_' + i)
-
-				let salesInLtr = $('.sales_in_ltr_' + i)
-				let expectedStock = $('.expected_stock_' + i)
-
-				let actualStock = $('.actual_stock_' + i)
-				let overOrShort = $('.over_or_short_' + i)
-
-				let expSalesValue = $('.exp_sales_value_' + i)
-
-				newStock.on('keyup', function() {
-					let openSumTotal = Number(openStock.val()) + Number(newStock.val())
-					totalStock.val(openSumTotal);
-					console.log(totalStock.val());
-				})
-
-				salesInLtr.on('keyup', function() {
-					let expectedTotal = Number(totalStock.val()) - Number(salesInLtr.val())
-					expectedStock.val(expectedTotal);
-
-					let expSalesTotal = Number(rate.val()) * Number(salesInLtr.val())
-					expSalesValue.val(expSalesTotal);
-				})
-
-				actualStock.on('keyup', function() {
-					let overOrShortTotal = Number(actualStock.val()) - Number(expectedStock.val())
-					overOrShort.val(overOrShortTotal);
-				})
-
-
-				// ! This will set the initial calculated result on page load. Thank you!
-				let openSumTotal = Number(openStock.val()) + Number(newStock.val())
-				let expectedTotal = Number(totalStock.val()) - Number(salesInLtr.val())
-				let overOrShortTotal = Number(actualStock.val()) - Number(expectedStock.val())
-				let expSalesTotal = Number(rate.val()) * Number(salesInLtr.val())
-
-				totalStock.val(openSumTotal);
-				expectedStock.val(expectedTotal);
-				overOrShort.val(overOrShortTotal);
-				expSalesValue.val(expSalesTotal);
-			}
+			addSales()
 		});
 
 		$(document).on('click', '.remove_row', function() {
@@ -283,7 +232,6 @@ include(SHARED_PATH . '/admin_header.php');
 			count--;
 			$('#total_item').val(count);
 
-			const totalItem = $('#total_item').val();
 		});
 
 		$('#data_sheet_form').on("submit", function(e) {
@@ -308,9 +256,11 @@ include(SHARED_PATH . '/admin_header.php');
 			})
 		});
 
-
-
 		window.onload = () => {
+			addSales()
+		}
+
+		const addSales = () => {
 			const totalItem = $('#total_item').val();
 
 			for (let i = 1; i <= totalItem; i++) {

@@ -14,7 +14,17 @@ $dateConvertFrom = date('Y-m-d');
 $dateConvertTo = date('Y-m-d');
 
 $filterDataSheet = DataSheet::data_sheet_report();
-// pre_r($filterDataSheet);
+$creditSales = Expense::find_by_expense_type(['expense' => 1]);
+$totalCredit = Expense::get_total_expenses(['expense' => 1])->total_amount;
+
+$operatingExp = Expense::find_by_expense_type(['expense' => 2]);
+$totalOpExp = Expense::get_total_expenses(['expense' => 2])->total_amount;
+
+$nonOpgExp = Expense::find_by_expense_type(['expense' => 3]);
+$totalNonOpExp = Expense::get_total_expenses(['expense' => 3])->total_amount;
+
+$headOfficeExp = Expense::find_by_expense_type(['expense' => 4]);
+$totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
 ?>
 <style>
   th {
@@ -22,7 +32,8 @@ $filterDataSheet = DataSheet::data_sheet_report();
     vertical-align: middle;
   }
 
-  td {
+  .table td {
+    vertical-align: baseline;
     min-width: 50px;
   }
 </style>
@@ -50,21 +61,21 @@ $filterDataSheet = DataSheet::data_sheet_report();
                   <tr class="bg-primary text-white text-center">
                     <th>Date</th>
                     <th>Particulars</th>
-                    <th>Quantity</th>
-                    <th>Rate</th>
-                    <th>Inflow</th>
-                    <th>Credit sales</th>
-                    <th>Outflow</th>
+                    <th>Quantity (LTR)</th>
+                    <th>Rate (<?php echo $currency ?>)</th>
+                    <th>Inflow (<?php echo $currency ?>)</th>
+                    <th>Credit sales (<?php echo $currency ?>)</th>
+                    <th>Outflow (<?php echo $currency ?>)</th>
                     <th>Remarks</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   <tr>
-                    <td rowspan="15"><?php echo date('Y-m-d', strtotime($filterDataSheet[0]->created_at)) ?></td>
+                    <td rowspan="100"><?php echo date('Y-m-d', strtotime($filterDataSheet[0]->created_at)) ?></td>
                   </tr>
                   <tr>
-                    <th colspan="7">
+                    <th colspan="7" class="bg-primary text-white">
                       <h5 class="mb-0">Cash Remittance</h5>
                     </th>
                   </tr>
@@ -117,85 +128,165 @@ $filterDataSheet = DataSheet::data_sheet_report();
                   <?php endforeach; ?>
 
                   <tr>
-                    <th colspan="7">
+                    <th colspan="7" class="bg-secondary text-white">
                       <h5 class="mb-0">Credit sales</h5>
                     </th>
                   </tr>
 
-                  <?php //foreach ($filterDataSheet as $data) : 
+                  <?php foreach ($creditSales as $data) :
+                    $rate = Product::find_by_name($data->product)->rate;
                   ?>
-                  <tr>
-                    <td>
-                      <?php echo 'Kind'; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo '18.51L of PMS'; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo '162'; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo number_format(0); ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo number_format(3000); ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo number_format(3000); ?>
-                    </td>
-                    <td></td>
-                  </tr>
+                    <tr>
+                      <td>
+                        <?php echo ucwords($data->narration); ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo $data->quantity .  'L of ' . $data->product; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($rate); ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($data->amount); ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($data->amount); ?>
+                      </td>
+                      <td></td>
+                    </tr>
+                  <?php endforeach; ?>
                   <tr>
                     <td colspan="5">
                       <h6 class="mb-0">Total</h6>
                     </td>
                     <td class="text-right">
-                      <h6 class="mb-0"> <?php echo number_format(3000); ?></h6>
+                      <h6 class="mb-0"> <?php echo number_format($totalCredit); ?></h6>
                     </td>
                   </tr>
-                  <?php //endforeach; 
-                  ?>
 
                   <tr>
-                    <th colspan="7">
+                    <th colspan="7" class="bg-secondary text-white">
                       <h5 class="mb-0">Operating Expenses</h5>
                     </th>
                   </tr>
 
-                  <?php //foreach ($filterDataSheet as $data) : 
+                  <?php foreach ($operatingExp as $data) :
+                    $rate = !empty($data->product) ? Product::find_by_name($data->product)->rate : '';
                   ?>
-                  <tr>
-                    <td>
-                      <?php echo 'Station use'; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo ''; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo ''; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo ''; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo ''; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo number_format(200); ?>
-                    </td>
-                    <td></td>
-                  </tr>
+                    <tr>
+                      <td>
+                        <?php echo ucwords($data->narration); ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo !empty($data->quantity) ? $data->quantity .  'L of ' . $data->product : ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo !empty($rate) ? number_format($rate) : ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($data->amount); ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($data->amount); ?>
+                      </td>
+                      <td></td>
+                    </tr>
+                  <?php endforeach; ?>
                   <tr>
                     <td colspan="5">
                       <h6 class="mb-0">Total</h6>
                     </td>
                     <td class="text-right">
-                      <h6 class="mb-0"> <?php echo number_format(3000); ?></h6>
+                      <h6 class="mb-0"> <?php echo number_format($totalOpExp); ?></h6>
                     </td>
                     <td></td>
                   </tr>
-                  <?php //endforeach; 
+
+                  <tr>
+                    <th colspan="7" class="bg-secondary text-white">
+                      <h5 class="mb-0">Non-Operating Expenses</h5>
+                    </th>
+                  </tr>
+
+                  <?php foreach ($nonOpgExp as $data) : ?>
+                    <tr>
+                      <td>
+                        <?php echo ucwords($data->narration); ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo !empty($data->quantity) ? $data->quantity .  'L of ' . $data->product : ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($data->amount); ?>
+                      </td>
+                      <td></td>
+                    </tr>
+                  <?php endforeach; ?>
+                  <tr>
+                    <td colspan="5">
+                      <h6 class="mb-0">Total</h6>
+                    </td>
+                    <td class="text-right">
+                      <h6 class="mb-0"> <?php echo number_format($totalNonOpExp); ?></h6>
+                    </td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <th colspan="7" class="bg-secondary text-white">
+                      <h5 class="mb-0">Head Office Expenses</h5>
+                    </th>
+                  </tr>
+
+                  <?php foreach ($headOfficeExp as $data) :
+                    $rate = !empty($data->product) ? Product::find_by_name($data->product)->rate : '';
                   ?>
+                    <tr>
+                      <td>
+                        <?php echo ucwords($data->narration); ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo !empty($data->quantity) ? $data->quantity .  'L of ' . $data->product : ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo !empty($rate) ? number_format($rate) : ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo ''; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($data->amount); ?>
+                      </td>
+                      <td></td>
+                    </tr>
+                  <?php endforeach; ?>
+                  <tr>
+                    <td colspan="5">
+                      <h6 class="mb-0">Total</h6>
+                    </td>
+                    <td class="text-right">
+                      <h6 class="mb-0"> <?php echo number_format($totalHOExp); ?></h6>
+                    </td>
+                    <td></td>
+                  </tr>
 
                 </tbody>
               </table>
