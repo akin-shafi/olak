@@ -160,10 +160,10 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                   <?php endforeach; ?>
                   <tr>
                     <td colspan="5">
-                      <h6 class="mb-0">Total</h6>
+                      <h5 class="mb-0">Total</h5>
                     </td>
                     <td class="text-right">
-                      <h6 class="mb-0"> <?php echo number_format($totalCredit); ?></h6>
+                      <h5 class="mb-0"> <?php echo number_format($totalCredit); ?></h5>
                     </td>
                   </tr>
 
@@ -200,10 +200,10 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                   <?php endforeach; ?>
                   <tr>
                     <td colspan="5">
-                      <h6 class="mb-0">Total</h6>
+                      <h5 class="mb-0">Total</h5>
                     </td>
                     <td class="text-right">
-                      <h6 class="mb-0"> <?php echo number_format($totalOpExp); ?></h6>
+                      <h5 class="mb-0"> <?php echo number_format($totalOpExp); ?></h5>
                     </td>
                     <td></td>
                   </tr>
@@ -239,10 +239,10 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                   <?php endforeach; ?>
                   <tr>
                     <td colspan="5">
-                      <h6 class="mb-0">Total</h6>
+                      <h5 class="mb-0">Total</h5>
                     </td>
                     <td class="text-right">
-                      <h6 class="mb-0"> <?php echo number_format($totalNonOpExp); ?></h6>
+                      <h5 class="mb-0"> <?php echo number_format($totalNonOpExp); ?></h5>
                     </td>
                     <td></td>
                   </tr>
@@ -280,10 +280,10 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                   <?php endforeach; ?>
                   <tr>
                     <td colspan="5">
-                      <h6 class="mb-0">Total</h6>
+                      <h5 class="mb-0">Total</h5>
                     </td>
                     <td class="text-right">
-                      <h6 class="mb-0"> <?php echo number_format($totalHOExp); ?></h6>
+                      <h5 class="mb-0"> <?php echo number_format($totalHOExp); ?></h5>
                     </td>
                     <td></td>
                   </tr>
