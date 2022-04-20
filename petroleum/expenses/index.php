@@ -367,10 +367,6 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
             }
           })
         })
-
-
-        // ! This will set the initial calculated result on page load. Thank you!
-
       }
     }
 

@@ -13,7 +13,16 @@ $user = $loggedInAdmin;
 $dateConvertFrom = date('Y-m-d');
 $dateConvertTo = date('Y-m-d');
 
+$remittance = Remittance::find_by_undeleted(['order' => 'ASC']);
+$additionalRemit = Remittance::get_total_remittance()->total_amount;
+
 $filterDataSheet = DataSheet::data_sheet_report();
+$arr = [];
+foreach ($filterDataSheet as $value) {
+  array_push($arr, $value->inflow);
+}
+$totalCashRemit = array_sum($arr);
+
 $creditSales = Expense::find_by_expense_type(['expense' => 1]);
 $totalCredit = Expense::get_total_expenses(['expense' => 1])->total_amount;
 
@@ -25,7 +34,17 @@ $totalNonOpExp = Expense::get_total_expenses(['expense' => 3])->total_amount;
 
 $headOfficeExp = Expense::find_by_expense_type(['expense' => 4]);
 $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
+
+$transExp = Expense::find_by_expense_type(['expense' => 5]);
+$totalTransExp = Expense::get_total_expenses(['expense' => 5])->total_amount;
+
+$totalSales = intval($additionalRemit) + intval($totalCashRemit);
+$totalExpenses = $totalCredit + $totalOpExp + $totalNonOpExp + $totalHOExp + $totalTransExp;
+$cashToHO = $totalSales - $totalExpenses;
+
+$grandTotal = $totalExpenses + $cashToHO;
 ?>
+
 <style>
   th {
     font-size: 10px;
@@ -33,33 +52,27 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
   }
 
   .table td {
-    vertical-align: baseline;
-    min-width: 50px;
+    vertical-align: middle;
+    min-width: 150px;
   }
 </style>
 
 <div class="content-wrapper">
-  <!-- <div class="d-flex justify-content-end">
-    <?php //if ($loggedInAdmin->admin_level == 1) : 
-    ?>
-      <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#userModel">
-        &plus; Create User</button>
-    <?php //endif; 
-    ?>
-  </div> -->
-
   <div class="row gutters">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
       <div class="card">
         <div class="card-body">
           <div class="table-container">
-            <h3>Cash/Sales Daily Analysis</h3>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="mb-0">Cash/Sales Daily Analysis</h3>
+              <a href="<?php echo '#!'?>" class="btn btn-primary">Summary</a>
+            </div>
             <div class="table-responsive">
               <table class="table custom-table table-sm">
                 <thead>
                   <tr class="bg-primary text-white text-center">
-                    <th>Date</th>
+                    <!-- <th>Date</th> -->
                     <th>Particulars</th>
                     <th>Quantity (LTR)</th>
                     <th>Rate (<?php echo $currency ?>)</th>
@@ -71,12 +84,17 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                 </thead>
 
                 <tbody>
-                  <tr>
-                    <td rowspan="100"><?php echo date('Y-m-d', strtotime($filterDataSheet[0]->created_at)) ?></td>
-                  </tr>
-                  <tr>
-                    <th colspan="7" class="bg-primary text-white">
+                  <!-- <tr>
+                    <td rowspan="100"><?php //echo date('Y-m-d', strtotime($filterDataSheet[0]->created_at)) 
+                                      ?></td>
+                  </tr> -->
+                  <tr class="bg-primary text-white">
+                    <th colspan="6">
                       <h5 class="mb-0">Cash Remittance</h5>
+                    </th>
+                    <th>
+                      <button class="btn btn-info d-block m-auto py-0 px-2" data-toggle="modal" data-target="#salesModel">
+                        &plus; Remit</button>
                     </th>
                   </tr>
                   <?php foreach ($filterDataSheet as $data) : ?>
@@ -94,36 +112,38 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                         <?php echo number_format($data->inflow); ?>
                       </td>
                       <td class="text-right">
-                        <?php echo number_format(0); ?>
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo number_format(0); ?>
+                        <?php echo '-'; ?>
                       </td>
-                      <td></td>
+                      <td>
+                        Data is from the sales reps!
+                      </td>
                     </tr>
                   <?php endforeach; ?>
 
-                  <?php foreach ($filterDataSheet as $data) : ?>
+                  <?php foreach ($remittance as $data) : ?>
                     <tr>
                       <td>
-                        <?php echo 'Surplus on (' . strtoupper($data->name) . ')'; ?>
+                        <?php echo ucwords($data->narration); ?>
                       </td>
                       <td class="text-right">
-                        <?php echo number_format(0); ?>
+                        <?php echo $data->quantity != '' ? number_format(intval($data->quantity)) : '-'; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo number_format(0); ?>
+                        <?php echo $data->rate != '' ? number_format(intval($data->rate)) : '-'; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo number_format(0); ?>
+                        <?php echo number_format(intval($data->amount)); ?>
                       </td>
                       <td class="text-right">
-                        <?php echo number_format(0); ?>
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo number_format(0); ?>
+                        <?php echo '-'; ?>
                       </td>
-                      <td></td>
+                      <td>NOTE: The remit button is used to add exceptional cash inflow that was not captured from the normal sales of the day</td>
                     </tr>
                   <?php endforeach; ?>
 
@@ -147,7 +167,7 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                         <?php echo number_format($rate); ?>
                       </td>
                       <td class="text-right">
-                        <?php echo ''; ?>
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
                         <?php echo number_format($data->amount); ?>
@@ -155,7 +175,9 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                       <td class="text-right">
                         <?php echo number_format($data->amount); ?>
                       </td>
-                      <td></td>
+                      <td>
+                        This is registered from the Expenses page
+                      </td>
                     </tr>
                   <?php endforeach; ?>
                   <tr>
@@ -187,15 +209,17 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                         <?php echo !empty($rate) ? number_format($rate) : ''; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo ''; ?>
+                        <?php echo '-'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
                         <?php echo number_format($data->amount); ?>
                       </td>
-                      <td class="text-right">
-                        <?php echo number_format($data->amount); ?>
+                      <td>
+                        This is registered from the Expenses page
                       </td>
-                      <td></td>
                     </tr>
                   <?php endforeach; ?>
                   <tr>
@@ -223,18 +247,20 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                         <?php echo !empty($data->quantity) ? $data->quantity .  'L of ' . $data->product : ''; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo ''; ?>
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo ''; ?>
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo ''; ?>
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
                         <?php echo number_format($data->amount); ?>
                       </td>
-                      <td></td>
+                      <td>
+                        This is registered from the Expenses page
+                      </td>
                     </tr>
                   <?php endforeach; ?>
                   <tr>
@@ -252,7 +278,6 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                       <h5 class="mb-0">Head Office Expenses</h5>
                     </th>
                   </tr>
-
                   <?php foreach ($headOfficeExp as $data) :
                     $rate = !empty($data->product) ? Product::find_by_name($data->product)->rate : '';
                   ?>
@@ -267,15 +292,17 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                         <?php echo !empty($rate) ? number_format($rate) : ''; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo ''; ?>
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo ''; ?>
+                        <?php echo '-'; ?>
                       </td>
                       <td class="text-right">
                         <?php echo number_format($data->amount); ?>
                       </td>
-                      <td></td>
+                      <td>
+                        This is registered from the Expenses page
+                      </td>
                     </tr>
                   <?php endforeach; ?>
                   <tr>
@@ -288,6 +315,70 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
                     <td></td>
                   </tr>
 
+                  <tr>
+                    <th colspan="7" class="bg-secondary text-white">
+                      <h5 class="mb-0">Transfer</h5>
+                    </th>
+                  </tr>
+
+                  <?php foreach ($transExp as $data) : ?>
+                    <tr>
+                      <td colspan="5">
+                        <?php echo ucwords($data->narration); ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($data->amount); ?>
+                      </td>
+                      <td>
+                        This is registered from the Expenses page
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+
+                  <!-- <tr class="bg-dark">
+                    <td colspan="7"></td>
+                  </tr> -->
+
+                  <tr style="border: 3px solid black">
+                    <td colspan="5" class="font-weight-bold text-uppercase">
+                      <?php echo 'Cash to HEAD OFFICE'; ?>
+                    </td>
+                    <td class="text-right font-weight-bold">
+                      <?php echo number_format($cashToHO); ?>
+                    </td>
+                    <td>
+                      This section of the report is auto-generated! <br><br>
+                      NOTE: Cash to head office = Total sales (<?php echo number_format($totalSales) ?>) - Total expenses (<?php echo number_format($totalExpenses); ?>)
+                    </td>
+                  </tr>
+
+                  <!-- <tr class="bg-dark">
+                    <td colspan="7"></td>
+                  </tr> -->
+
+                  <tr>
+                    <td colspan="3">
+                      <h4 class="mb-0"><?php echo 'Grand Total'; ?></h4>
+                    </td>
+                    <td class="text-right">
+                      <h4 class="mb-0"><?php echo number_format($totalSales); ?></h4>
+                    </td>
+                    <td class="text-right">
+                      <h4 class="mb-0">
+                        <?php echo number_format($totalCredit); ?>
+                      </h4>
+                    </td>
+                    <td class="text-right">
+                      <h4 class="mb-0">
+                        <span class="text-secondary" style="border-bottom: 3px double">
+                          <?php echo number_format($grandTotal); ?></span>
+                      </h4>
+                    </td>
+                    <td>
+                      Since Inflow is equal to Outflow hence, account is balance! <br><br>
+                      NOTE: Grand Total = Cash to head office (<?php echo number_format($cashToHO); ?>) + Sum of expenses (<?php echo number_format($totalExpenses); ?>)
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -300,90 +391,54 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
 
 </div>
 
-<div class="modal fade" id="userModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
+<div class="modal fade" id="salesModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create User</h5>
+        <h5 class="modal-title">Other Cash Remittance</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
-      <form id="user_form" enctype="multipart/form-data">
-        <input type="hidden" name="user[created_by]" value="<?php echo $loggedInAdmin->id ?>" readonly>
-        <div class="modal-body">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="fName" class="col-form-label">Full Name</label>
-                  <input type="text" class="form-control" name="user[full_name]" id="fName" placeholder="Full name">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="aLevel" class="col-form-label">Admin Level</label>
-                  <select name="user[admin_level]" class="form-control" id="aLevel" required>
-                    <option value="">select level</option>
-                    <?php foreach (Admin::ADMIN_LEVEL as $key => $data) : ?>
-                      <option value="<?php echo $key ?>"><?php echo $data ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="cName" class="col-form-label">Company Name</label>
-                  <input type="text" class="form-control" id="cName" value="<?php echo $company->name ?>" disabled>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="regNo" class="col-form-label">Branch</label>
-                  <select name="user[branch_id]" class="form-control" id="bId" required>
-                    <option value="">select branch</option>
-                    <?php foreach ($branches as $data) : ?>
-                      <option value="<?php echo $data->id ?>"><?php echo ucwords($data->name) ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="email" class="col-form-label">Email</label>
-                  <input type="text" class="form-control" name="user[email]" id="email" placeholder="Email" required>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="phone" class="col-form-label">Phone</label>
-                  <input type="tel" class="form-control" name="user[phone]" id="phone" placeholder="Phone number" required>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="password" class="col-form-label">Password</label>
-                  <input type="password" class="form-control" name="user[password]" id="password" placeholder="12345">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="cPass" class="col-form-label">Confirm password</label>
-                  <input type="password" class="form-control" name="user[confirm_password]" id="cPass" placeholder="12345">
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="address" class="col-form-label">Address</label>
-                  <textarea name="user[address]" id="address" class="form-control" placeholder="Contact address" rows="3"></textarea>
-                </div>
-              </div>
-              <div class="col-md-6 m-auto">
-                <div class="form-group">
-                  <label for="avatar" class="col-form-label">Profile Image</label>
-                  <input type="file" class="form-control" name="profile" id="avatar">
-                </div>
-              </div>
-            </div>
+      <form id="remittance_form">
+        <div class="modal-body p-3">
+          <div class="table-responsive">
+            <table class="table custom-table table-sm">
+              <thead>
+                <tr class="bg-primary text-white text-center">
+                  <th>Narration</th>
+                  <th>Quantity (LTR)</th>
+                  <th>Rate</th>
+                  <th>Amount (<?php echo $currency ?>)</th>
+                  <?php if ($loggedInAdmin->admin_level == 1) : ?>
+                    <th>Action</th>
+                  <?php endif; ?>
+                </tr>
+              </thead>
+
+              <tbody id="remit-table">
+                <tr class="text-center">
+                  <td>
+                    <textarea name="narration[]" class="form-control narration_1" id="narration" placeholder="Enter Narration"></textarea>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control quantity_1" id="quantity" name="quantity[]" placeholder="Quantity">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control inpRate_1" id="inpRate" name="rate[]" placeholder="Rate">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control amount_1" id="amount" name="amount[]" placeholder="0,000.00" required>
+                  </td>
+
+                  <td>
+                    <button type="button" class="btn btn-primary d-block m-auto" id="add_row">&plus;</button>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
           </div>
+
+          <input type="hidden" class="form-control" id="total_item" value="1" readonly>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -394,29 +449,29 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
   </div>
 </div>
 
-<input type="hidden" id="uId">
+<input type="hidden" id="remId">
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 
 <script>
   $(document).ready(function() {
-    const USER_URL = 'inc/process.php';
+    const REMIT_URL = 'inc/process.php';
 
-    $('#user_form').on("submit", function(e) {
+    $('#remittance_form').on("submit", function(e) {
       e.preventDefault();
-      let uId = $('#uId').val()
+      let remId = $('#remId').val()
 
       let formData = new FormData(this);
 
-      if (uId == "") {
-        formData.append('new_user', 1)
+      if (remId == "") {
+        formData.append('new_remit', 1)
       } else {
-        formData.append('edit_user', 1)
-        formData.append('uId', uId)
+        formData.append('edit_remit', 1)
+        formData.append('remId', remId)
       }
 
       $.ajax({
-        url: USER_URL,
+        url: REMIT_URL,
         method: "POST",
         data: formData,
         contentType: false,
@@ -441,33 +496,30 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
     });
 
     $('.edit-btn').on("click", function() {
-      let uId = this.dataset.id
-      $('#uId').val(uId)
+      let remId = this.dataset.id
+      $('#remId').val(remId)
       $('#password').val('')
       $('#cPass').val('')
 
       $.ajax({
-        url: USER_URL,
+        url: REMIT_URL,
         method: "GET",
         data: {
-          uId: uId,
-          get_user: 1
+          remId: remId,
+          get_remit: 1
         },
         dataType: 'json',
         success: function(r) {
-          $('#fName').val(r.data.full_name)
-          $('#email').val(r.data.email)
-          $('#phone').val(r.data.phone)
-          // $('#cName').val(r.data.name)
-          $('#aLevel').val(r.data.admin_level)
-          $('#bId').val(r.data.branch_id)
-          $('#address').val(r.data.address)
+          $('#narration').val(r.data.narration)
+          $('#quantity').val(r.data.quantity)
+          $('#inpRate').val(r.data.rate)
+          $('#amount').val(r.data.amount)
         }
       })
     });
 
     $(document).on('click', '.remove-btn', function() {
-      let uId = this.dataset.id;
+      let remId = this.dataset.id;
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -479,11 +531,11 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
       }).then((result) => {
         if (result.value) {
           $.ajax({
-            url: USER_URL,
+            url: REMIT_URL,
             method: "POST",
             data: {
-              uId: uId,
-              delete_user: 1
+              remId: remId,
+              delete_remit: 1
             },
             dataType: 'json',
             success: function(data) {
@@ -499,5 +551,59 @@ $totalHOExp = Expense::get_total_expenses(['expense' => 4])->total_amount;
       }).then(() => window.location.reload())
 
     });
+
+
+    let count = 1;
+    $(document).on('click', '#add_row', function() {
+      count = count + 1;
+      $('#total_item').val(count);
+
+      let html_code = '';
+      html_code += '<tr id="row_id_' + count + '">';
+
+      html_code += '<td><textarea name="narration[]" id="narration" class="form-control narration_' + count + '" placeholder="Enter Narration"></textarea></td>'
+
+      html_code += '<td><input type="text" size="12" name="quantity[]"  class="form-control quantity_' + count + '" placeholder="Quantity"></td>'
+
+      html_code += '<td><input type="text" class="form-control inpRate_' + count + '" name="rate[]" placeholder="Rate" readonly></td>'
+
+      html_code += '<td><input type="text" name="amount[]" class="form-control amount_' + count + '" placeholder="0,000.00" required></td>'
+
+      html_code += '<td><button type="button" id="' + count + '" class="btn btn-secondary d-block m-auto remove_row">X</button></td></tr>'
+
+      $('#remit-table').append(html_code);
+
+      addRow()
+    });
+
+    $(document).on('click', '.remove_row', function() {
+      let row_id = $(this).attr("id");
+      $('#row_id_' + row_id).remove();
+      count--;
+      $('#total_item').val(count);
+    });
+
+    window.onload = () => {
+      addRow()
+    }
+
+    const addRow = () => {
+      const totalItem = $('#total_item').val();
+      for (let i = 1; i <= totalItem; i++) {
+        let iQty = $('.quantity_' + i)
+        let product = $('.product_' + i)
+        let iRate = $('.inpRate_' + i)
+        let amount = $('.amount_' + i)
+
+        iRate.on('input', function() {
+          let inpQty = Number(this.value)
+          let inpRate = Number(iRate.val())
+
+          let inpAmount = inpQty * inpRate
+          amount.val(Math.ceil(inpAmount))
+        })
+      }
+    }
+
   })
 </script>

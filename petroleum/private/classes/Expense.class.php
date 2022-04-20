@@ -18,10 +18,11 @@ class Expense extends DatabaseObject
   public $total_amount;
 
   const EXPENSE_TYPE = [
-    1 => 'credit sales',
-    2 => 'operating',
-    3 => 'non-operating',
-    4 => 'head office',
+    1 => 'Credit sales',
+    2 => 'Operating',
+    3 => 'Non-operating',
+    4 => 'Head office',
+    5 => 'Transfer',
   ];
 
   public function __construct($args = [])
