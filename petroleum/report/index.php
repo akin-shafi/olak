@@ -185,6 +185,7 @@ $grandTotal = $totalExpenses + $cashToHO;
                     <td class="text-right">
                       <h5 class="mb-0"> <?php echo number_format($totalCredit); ?></h5>
                     </td>
+                    <td></td>
                   </tr>
 
                   <tr>
@@ -450,7 +451,7 @@ $grandTotal = $totalExpenses + $cashToHO;
                       ?>
                         <tr>
                           <td>
-                            <?php echo $value == 'Transfer' ? ucfirst($data->narration) : ucwords($value); ?>
+                            <?php echo $value == 'Transfer' && isset($data->narration) ? ucfirst($data->narration) : ucwords($value); ?>
                           </td>
                           <td class="text-right">
                             <?php echo number_format($total); ?>
