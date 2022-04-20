@@ -47,7 +47,7 @@ $grandTotal = $totalExpenses + $cashToHO;
 
 <style>
   th {
-    font-size: 10px;
+    font-size: 12px;
     vertical-align: middle;
   }
 
@@ -64,9 +64,11 @@ $grandTotal = $totalExpenses + $cashToHO;
       <div class="card">
         <div class="card-body">
           <div class="table-container">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h3 class="mb-0">Cash/Sales Daily Analysis</h3>
-              <a href="<?php echo '#!'?>" class="btn btn-primary">Summary</a>
+            <div class="d-flex justify-content-between align-items-center">
+              <h3>Cash/Sales Daily Analysis</h3>
+              <h3>
+                <?php echo date('Y-m-d', strtotime($filterDataSheet[0]->created_at)) ?>
+              </h3>
             </div>
             <div class="table-responsive">
               <table class="table custom-table table-sm">
@@ -84,10 +86,6 @@ $grandTotal = $totalExpenses + $cashToHO;
                 </thead>
 
                 <tbody>
-                  <!-- <tr>
-                    <td rowspan="100"><?php //echo date('Y-m-d', strtotime($filterDataSheet[0]->created_at)) 
-                                      ?></td>
-                  </tr> -->
                   <tr class="bg-primary text-white">
                     <th colspan="6">
                       <h5 class="mb-0">Cash Remittance</h5>
@@ -381,6 +379,104 @@ $grandTotal = $totalExpenses + $cashToHO;
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+
+
+
+          <div class="my-5 w-75 mx-auto">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3>Summary</h3>
+              <h3>
+                <?php echo date('Y-m-d', strtotime($filterDataSheet[0]->created_at)) ?>
+              </h3>
+            </div>
+
+            <div class="row gutters">
+              <div class="col-md-6">
+                <div class="table-responsive">
+                  <table class="table custom-table table-sm">
+                    <thead>
+                      <tr class="bg-primary text-white text-center">
+                        <th>Particulars</th>
+                        <th>Inflow (<?php echo $currency ?>)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <?php echo 'Cash Sales'; ?>
+                        </td>
+                        <td class="text-right">
+                          <?php echo number_format($totalCashRemit); ?>
+                        </td>
+                      </tr>
+                      <?php foreach ($remittance as $data) : ?>
+                        <tr>
+                          <td>
+                            <?php echo $data->narration; ?>
+                          </td>
+                          <td class="text-right">
+                            <?php echo number_format($data->amount); ?>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
+                      <tr>
+                        <td colspan="2" class="text-right">
+                          <h5 class="mb-0"><?php echo number_format($totalSales); ?></h5>
+                        </td>
+                      </tr>
+                      <!-- <tr class="bg-dark">
+                        <td colspan="2"></td>
+                      </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="table-responsive">
+                  <table class="table custom-table table-sm">
+                    <thead>
+                      <tr class="bg-primary text-white text-center">
+                        <th>Particulars</th>
+                        <th>Outflow (<?php echo $currency ?>)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach (Expense::EXPENSE_TYPE as $key => $value) :
+                        $data = Expense::find_by_expense($key);
+                        $total = Expense::get_total_expenses(['expense' => $key])->total_amount;
+                      ?>
+                        <tr>
+                          <td>
+                            <?php echo $value == 'Transfer' ? ucfirst($data->narration) : ucwords($value); ?>
+                          </td>
+                          <td class="text-right">
+                            <?php echo number_format($total); ?>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
+                      <tr>
+                        <td class="font-weight-bold text-uppercase">
+                          <?php echo 'Cash to HEAD OFFICE'; ?>
+                        </td>
+                        <td class="text-right font-weight-bold">
+                          <?php echo number_format($cashToHO); ?>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="text-right">
+                          <h5 class="mb-0"><?php echo number_format($grandTotal); ?></h5>
+                        </td>
+                      </tr>
+                      <!-- <tr class="bg-dark">
+                        <td colspan="2"></td>
+                      </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
 

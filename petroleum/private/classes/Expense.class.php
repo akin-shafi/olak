@@ -38,10 +38,10 @@ class Expense extends DatabaseObject
     $this->deleted      = $args['deleted'] ?? '';
   }
 
-  public static function find_by_product($pId)
+  public static function find_by_expense($expId)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE product='" . self::$database->escape_string($pId) . "'";
+    $sql .= "WHERE expense_type='" . self::$database->escape_string($expId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
