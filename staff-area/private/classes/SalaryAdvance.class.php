@@ -21,11 +21,18 @@ class SalaryAdvance extends DatabaseObject
   }
 
 
-  public static function find_by_employee_id($employee_id)
+  public static function find_by_employee_id($employee_id, $option = [])
   {
+    $isRequested = $option['requested'] ?? false;
+
     $sql = "SELECT *, SUM(total_requested) AS total_loan_received FROM " . static::$table_name . " ";
     $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    if ($isRequested) {
+      $sql .= " AND created_at LIKE'%" . self::$database->escape_string($isRequested) . "%'";
+    }
+
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);

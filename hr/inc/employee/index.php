@@ -332,9 +332,10 @@ if (is_post_request()) {
 if (is_get_request()) {
   if (isset($_GET['employeeId']) && !isset($_GET['deleted'])) {
     $employee = Employee::find_by_id($_GET['employeeId']);
+    $current = date('Y-m');
 
     $accessible_loan_value = intval($employee->present_salary) * 0.4;
-    $salaryAdvance = SalaryAdvance::find_by_employee_id($employee->id);
+    $salaryAdvance = SalaryAdvance::find_by_employee_id($employee->id, ['current' => $current]);
     if (isset($salaryAdvance)) {
       $loan_balance = $accessible_loan_value - intval($salaryAdvance->total_requested);
     }

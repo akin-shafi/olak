@@ -26,7 +26,7 @@ class SalaryAdvanceDetail extends DatabaseObject
     $this->amount           = $args['amount'] ?? '';
     $this->date_requested   = $args['date_requested'] ?? date('Y-m-d H:i:s');
     $this->date_issued      = $args['date_issued'] ?? '';
-    $this->status           = $args['status'] ?? 0;
+    $this->status           = $args['status'] ?? 1;
     $this->file_upload      = $args['file_upload'] ?? '';
     $this->note             = $args['note'] ?? '';
     $this->deleted          = $args['deleted'] ?? '';
@@ -42,6 +42,21 @@ class SalaryAdvanceDetail extends DatabaseObject
     }
 
     return $this->errors;
+  }
+
+  public static function find_by_salary_advance($employee_id, $option = [])
+  {
+    $isRequested = $option['requested'] ?? false;
+
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
+
+    if ($isRequested) {
+      $sql .= " AND date_requested LIKE'%" . self::$database->escape_string($isRequested) . "%'";
+    }
+
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    return static::find_by_sql($sql);
   }
 
   public static function find_by_employee_id($employee_id, $option = [])

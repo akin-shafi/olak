@@ -5,7 +5,7 @@ $id = $loggedInAdmin->id;
 $employee = Employee::find_by_id($id);
 
 $employeeInfo = Employee::find_by_id($id) ?? '';
-$shortTerm = SalaryAdvance::find_by_employee_id($id, ['requested' => date('Y-m-d')]) ?? '';
+$shortTerm = SalaryAdvance::find_by_employee_id($id, ['requested' => date('Y-m')]) ?? '';
 $salary = intval($employee->present_salary);
 // if (!empty($salary)) {
 //    $salaryDeduction = SalaryDeduction::find_by_deductions($salary->id)->total_deductions;
@@ -174,7 +174,8 @@ $datatable = '';
                            </thead>
                            <tbody>
                               <?php $sn = 1;
-                              foreach (SalaryAdvanceDetail::find_by_undeleted() as $loan) : ?>
+                              $dated = date('Y-m');
+                              foreach (SalaryAdvanceDetail::find_by_salary_advance($loggedInAdmin->id, ['requested' => $dated]) as $loan) : ?>
                                  <tr>
                                     <td><?php echo $sn++ ?></td>
                                     <td><?php echo strtoupper($loan->ref_no) ?></td>
@@ -185,10 +186,13 @@ $datatable = '';
                                     <td>
                                        <?php
                                        switch ($loan->status):
-                                          case '0':
+                                          case '1':
                                              echo '<span class="badge badge-warning">Pending</span>';
                                              break;
-                                          case '1':
+                                          case '2':
+                                             echo '<span class="badge badge-warning">Pending</span>';
+                                             break;
+                                          case '3':
                                              echo '<span class="badge badge-success">Approved</span>';
                                              break;
                                           default:

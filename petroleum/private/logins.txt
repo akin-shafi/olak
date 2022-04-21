@@ -42,3 +42,4 @@
 2022-04-21 14:33:29 | Admin Login: Carlos Decker Logged in.
 2022-04-21 15:02:57 | Logout: Carlos Decker Logged out.
 2022-04-21 15:03:11 | Admin Login: Liberty Gross Logged in.
+2022-04-21 19:07:48 | Logout: Liberty Gross Logged out.

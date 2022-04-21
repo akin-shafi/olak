@@ -12,8 +12,9 @@ $datatable = '';
   <div class="page-leftheader">
     <div class="btn-group">
       <h4 class="btn btn-outline-primary">
-        <a href="<?php echo url_for('loan/hr-loan.php') ?>">Long Term Loan</a></h4>
-        <h4 class="btn btn-primary ">Salary Advance</h4>
+        <a href="<?php echo url_for('loan/hr-loan.php') ?>">Long Term Loan</a>
+      </h4>
+      <h4 class="btn btn-primary ">Salary Advance</h4>
     </div>
   </div>
   <div class="page-rightheader ms-md-auto">
@@ -94,7 +95,8 @@ $datatable = '';
                       </thead>
                       <tbody>
                         <?php $sn = 1;
-                        foreach (SalaryAdvanceDetail::find_by_undeleted() as $key => $value) {
+                        $dated = date('Y-m');
+                        foreach (SalaryAdvanceDetail::find_by_created_at($dated) as $key => $value) {
                           $employee = Employee::find_by_id($value->employee_id);
                           $class = $key % 2 == 0 ? 'even' : 'odd';
                           $image =  '../assets/images/users/male.png';
@@ -103,7 +105,7 @@ $datatable = '';
                             <td><?php echo $sn++; ?></td>
                             <td><?php echo $value->ref_no; ?></td>
                             <td>
-                              <a href="<?php echo url_for('employees/hr-empview.php?id=' . $value->id); ?>" class="d-flex">
+                              <a href="<?php echo url_for('employees/hr-empview.php?id=' . $employee->id); ?>" class="d-flex">
                                 <span class="avatar avatar-md brround me-3" style="background-image: url( <?php echo $image ?>)"></span>
 
                                 <div class="me-3 mt-0 mt-sm-1 d-block">
@@ -294,7 +296,6 @@ $datatable = '';
 
       const data = await fetch(EMPLOYEE_URL + '?detailId=' + detailId + '&salary_advance_status=' + loan_status);
       const res = await data.json();
-
       message('success', res.message);
       setTimeout(() => {
         window.location.reload();
