@@ -22,10 +22,14 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
 
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
+   
+
     <div class="btn-group">
 
-      <h4 class="page-title me-3">Long Term Loan |</h4>
-      <h4 class="page-title me-3 text-muted"><a style="text-decoration: underline;" href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a></h4>
+      <h4 class="btn btn-primary">Long Term Loan |</h4>
+        <h4 class="btn btn-outline-primary ">
+          <a href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a>
+        </h4>
     </div>
 
 

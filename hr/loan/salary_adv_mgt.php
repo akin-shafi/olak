@@ -11,11 +11,9 @@ $datatable = '';
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
     <div class="btn-group">
-      <h4 class="page-title me-3 text-muted"><a style="text-decoration: underline;" href="<?php echo url_for('loan/hr-loan.php') ?>">Long Term Loan</a> |</h4>
-      <h4 class="page-title me-3">Salary Advance</h4>
-      <!-- <button class="btn text-outline-primary"><a href="<?php echo url_for('loan/hr-loan.php') ?>">Long Term</a></button> -->
-      <!-- <div class="btn text-primary">Salary Advance</div> -->
-
+      <h4 class="btn btn-outline-primary">
+        <a href="<?php echo url_for('loan/hr-loan.php') ?>">Long Term Loan</a></h4>
+        <h4 class="btn btn-primary ">Salary Advance</h4>
     </div>
   </div>
   <div class="page-rightheader ms-md-auto">
@@ -184,7 +182,7 @@ $datatable = '';
                 <label>Loan Type</label>
                 <select class="form-control select2 select2-hidden-accessible" name="loan[type]" id="loan_type" required>
                   <option value="">Select Loan Type</option>
-                  <option value="1">Salary Advance</option>
+                  <option value="1" selected>Salary Advance</option>
                 </select>
               </div>
             </div>
@@ -196,7 +194,7 @@ $datatable = '';
             </div>
           </div>
 
-          <div class="table-responsive border my-3 d-none" id="isAdvance">
+          <div class="table-responsive border my-3 " id="isAdvance">
             <table class="table table-hover table-sm ">
               <thead class="text-center">
                 <tr>
@@ -323,9 +321,9 @@ $datatable = '';
       dropdownParent: $('.select_loan')
     }).on("change", () => {
       if ($("#loan_type").val() == 2) {
-        isAdvance.classList.add('d-none')
+        // isAdvance.classList.add('d-none')
       } else {
-        isAdvance.classList.remove('d-none')
+        // isAdvance.classList.remove('d-none')
       }
     });
   });
