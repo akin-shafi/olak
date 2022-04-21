@@ -64,16 +64,14 @@ if (is_get_request()) {
 
     if (isset($_GET['filter'])) :
 
-        $branch = $_GET['branch'] != '' ? $_GET['branch'] : '1';
+        $branch = isset($_GET['branch']) && $_GET['branch'] != '' ? $_GET['branch'] : '1';
 
         $rangeText = $_GET['rangeText'];
         $explode = explode('-', $rangeText);
         $dateFrom = $explode[0];
-        $dateTo = $explode[1];
+        $dateTo = $explode[1] ?? '';
         $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
         $dateConvertTo = date('Y-m-d', strtotime($dateTo));
-
-        $company = Company::find_by_id($loggedInAdmin->company_id);
 
         if ($loggedInAdmin->admin_level == 1) {
             $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['branch' => $branch]);

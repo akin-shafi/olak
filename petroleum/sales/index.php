@@ -4,8 +4,9 @@ $page = 'Sales';
 $page_title = 'All Sales';
 include(SHARED_PATH . '/admin_header.php');
 
-$company = Company::find_by_id($loggedInAdmin->company_id);
-$branches = Branch::find_all_branch(['company_id' => $company->id]);
+if ($access->sales_mgt != 1) {
+	redirect_to('../dashboard/');
+}
 
 if ($loggedInAdmin->admin_level == 1) {
 	$filterDataSheet = DataSheet::get_data_sheets();

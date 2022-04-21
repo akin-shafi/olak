@@ -1,27 +1,21 @@
 <?php require_once('../private/initialize.php');
 require_login();
 
-if ($loggedInAdmin->admin_level != 1) {
-  redirect_to('../expenses/');
-}
-
 $page = 'Expenses';
 $page_title = 'Expenses';
 include(SHARED_PATH . '/admin_header.php');
 
-$user = $loggedInAdmin->full_name;
-
 $productObj = Product::find_by_undeleted();
-
 $productArray = [];
 
 foreach ($productObj as $value) {
   array_push($productArray, $value->name);
 }
+$fltDate = date('Y-m-d');
 
 $products = is_unique_array($productArray);
-$expenses = Expense::find_by_undeleted();
-$totalExpenses = Expense::get_total_expenses()->total_amount;
+$expenses = Expense::find_by_expense_type($fltDate);
+$totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
 
 ?>
 <style>
@@ -37,10 +31,8 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
 
 <div class="content-wrapper">
   <div class="d-flex justify-content-end">
-    <?php if ($loggedInAdmin->admin_level == 1) : ?>
-      <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#expenseModel">
-        &plus; Add</button>
-    <?php endif; ?>
+    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#expenseModel">
+      &plus; Add</button>
   </div>
 
   <div class="row gutters">
@@ -48,61 +40,9 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
 
       <div class="card">
         <div class="card-body">
-          <div class="table-container">
-            <div class="d-flex justify-content-between align-items-center">
-              <h3>Incurred Expenses</h3>
-              <h3>Total: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalExpenses) ?></span></h3>
-            </div>
-            <div class="table-responsive">
-              <table class="table custom-table table-sm">
-                <thead>
-                  <tr class="bg-primary text-white text-center">
-                    <th>SN</th>
-                    <th>Expense Type</th>
-                    <th>Narration</th>
-                    <th>Product</th>
-                    <th>Quantity (LTR)</th>
-                    <th>Amount (<?php echo $currency ?>)</th>
-                    <th>Created At</th>
-                    <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                      <th>Action</th>
-                    <?php endif; ?>
-                  </tr>
-                </thead>
+          <div class="table-container" id="expenseReport">
 
-                <tbody>
-                  <?php $sn = 1;
-                  foreach ($expenses as $data) :
-                    $expType = Expense::EXPENSE_TYPE[$data->expense_type];
-                  ?>
-                    <tr>
-                      <td><?php echo $sn++; ?></td>
-                      <td><?php echo ucwords($expType); ?></td>
-                      <td><?php echo ucfirst($data->narration); ?></td>
-                      <td><?php echo $data->product; ?></td>
-                      <td class="text-right"><?php echo $data->quantity; ?></td>
-                      <td class="text-right"><?php echo number_format($data->amount); ?></td>
-                      <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
-
-                      <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                        <td>
-                          <div class="btn-group">
-                            <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#expenseModel">
-                              <i class="icon-edit1"></i></button>
-                            <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
-                              <i class="icon-trash"></i>
-                            </button>
-                          </div>
-                        </td>
-                      <?php endif; ?>
-
-                    </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -120,6 +60,16 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
       <form id="expense_form">
         <div class="modal-body">
           <div class="container">
+            <div class="d-flex justify-content-end align-items-center">
+              <div class="mb-3 ">
+                <select class="form-control" name="branch_id" id="branch_id" required>
+                  <option value="">select branch</option>
+                  <?php foreach (Branch::find_by_undeleted() as $data) : ?>
+                    <option value="<?php echo $data->id ?>"><?php echo ucwords($data->name) ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+            </div>
             <div class="table-responsive">
               <table class="table custom-table table-sm">
                 <thead>
@@ -130,9 +80,7 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
                     <th>Quantity (LTR)</th>
                     <th>Amount (<?php echo $currency ?>)</th>
                     <th>Narration</th>
-                    <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                      <th>Action</th>
-                    <?php endif; ?>
+                    <th>Action</th>
                   </tr>
                 </thead>
 
@@ -234,7 +182,7 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
       })
     });
 
-    $('.edit-btn').on("click", function() {
+    $(document).on("click", '.edit-btn', function() {
       let expId = this.dataset.id
       $('#expId').val(expId)
       $('#password').val('')
@@ -249,6 +197,7 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
         },
         dataType: 'json',
         success: function(r) {
+          $('#branch_id').val(r.data.branch_id)
           $('#expense_type').val(r.data.expense_type)
           $('#product').val(r.data.product)
           $('#quantity').val(r.data.quantity)
@@ -329,6 +278,10 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
 
     window.onload = () => {
       addRow()
+
+      let branch = $('#fBranch').val()
+      let filterDate = $('#filter_date').val()
+      getDataSheet(branch, filterDate)
     }
 
     const addRow = () => {
@@ -368,6 +321,44 @@ $totalExpenses = Expense::get_total_expenses()->total_amount;
           })
         })
       }
+    }
+
+
+
+
+
+
+    $(document).on('change', "#filter_date", function() {
+      let branch = $('#fBranch').val()
+      if (branch == '') {
+        alert('Kindly select a branch')
+        window.location.reload();
+      } else {
+        let filterDate = $('#filter_date').val()
+        getDataSheet(branch, filterDate)
+      }
+    })
+
+    const getDataSheet = (branch, fltDate) => {
+      $.ajax({
+        url: EXPENSE_URL,
+        method: "GET",
+        data: {
+          branch: branch,
+          filterDate: fltDate,
+          filter: 1
+        },
+        cache: false,
+        beforeSend: function() {
+          $('.lds-hourglass').removeClass('d-none');
+        },
+        success: function(r) {
+          $('#expenseReport').html(r)
+          setTimeout(() => {
+            $('.lds-hourglass').addClass('d-none');
+          }, 250);
+        }
+      })
     }
 
   })

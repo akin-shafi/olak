@@ -1,39 +1,25 @@
 <?php require_once('../private/initialize.php');
 require_login();
 
-if ($loggedInAdmin->admin_level != 1) {
-  redirect_to('../sales/');
-}
-
 $page = 'Settings';
 $page_title = 'Access Control';
 include(SHARED_PATH . '/admin_header.php');
 
-$ownerId = $loggedInAdmin->full_name;
-
-$company = Company::find_by_id($loggedInAdmin->company_id);
-$branches = Branch::find_all_branch(['company_id' => $company->id]);
-
+$access = AccessControl::find_by_undeleted();
 $admins = Admin::find_by_undeleted();
 
 ?>
 <style>
   th {
-    font-size: 10px;
+    font-size: 12px;
     vertical-align: middle;
-  }
-
-  td {
-    min-width: 10px;
   }
 </style>
 
 <div class="content-wrapper">
   <div class="d-flex justify-content-end">
-    <?php if ($loggedInAdmin->admin_level == 1) : ?>
-      <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#userModel">
-        &plus; Create User</button>
-    <?php endif; ?>
+    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#userModel">
+      &plus; Add Permission</button>
   </div>
 
   <div class="row gutters">
@@ -42,44 +28,63 @@ $admins = Admin::find_by_undeleted();
       <div class="card">
         <div class="card-body">
           <div class="table-container">
-            <h3>Users</h3>
+            <h3>Access Control Management (Permissions)</h3>
             <div class="table-responsive">
               <table class="table custom-table table-sm">
                 <thead>
                   <tr class="bg-primary text-white text-center">
                     <th>SN</th>
-                    <th>User</th>
-                    <th>User Management</th>
-                    <th>Report Management</th>
-                    <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                      <th>Action</th>
-                    <?php endif; ?>
+                    <th>Users</th>
+                    <th>Role</th>
+                    <th>User Mgt</th>
+                    <th>Product Mgt</th>
+                    <th>Sales Mgt</th>
+                    <th>Expenses Mgt</th>
+                    <th>Report Mgt</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   <?php $sn = 1;
-                  foreach ($admins as $data) :
-                    if ($data->admin_level == 1) continue;
-                    $control = AccessControl::find_by_user_id($data->id);
-                  ?>
-                    <tr class="text-center">
-                      <td><?php echo $sn++; ?></td>
-                      <td><?php echo ucwords($data->full_name); ?></td>
-                      <td><?php echo isset($control->users_mgt) ? $control->users_mgt : ''; ?></td>
-                      <td><?php echo isset($control->report_mgt) ? $control->report_mgt : ''; ?></td>
+                  foreach ($access as $data) :
+                    $user = Admin::find_by_id($data->user_id);
+                    $adminLevel = Admin::ADMIN_LEVEL[$user->admin_level]; ?>
 
-                      <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                        <td>
-                          <div class="btn-group">
-                            <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
-                              <i class="icon-edit1"></i></button>
-                            <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
-                              <i class="icon-trash"></i>
-                            </button>
-                          </div>
-                        </td>
-                      <?php endif; ?>
+                    <tr>
+                      <td><?php echo $sn++; ?></td>
+                      <td><?php echo ucwords($user->full_name); ?></td>
+                      <td><?php echo ucwords($adminLevel); ?></td>
+                      <td class="text-center">
+                        <?php echo $data->users_mgt == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                          : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo $data->product_mgt == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                          : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo $data->sales_mgt == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                          : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo $data->expenses_mgt == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                          : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo $data->report_mgt == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                          : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                      </td>
+
+                      <td>
+                        <div class="btn-group">
+                          <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
+                            <i class="icon-edit1"></i></button>
+                          <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
+                            <i class="icon-trash"></i>
+                          </button>
+                        </div>
+                      </td>
 
                     </tr>
                   <?php endforeach; ?>
@@ -99,84 +104,64 @@ $admins = Admin::find_by_undeleted();
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create User</h5>
+        <h5 class="modal-title">Access Control</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
-      <form id="user_form" enctype="multipart/form-data">
-        <input type="hidden" name="user[created_by]" value="<?php echo $loggedInAdmin->id ?>" readonly>
+      <form id="access_form">
+        <input type="hidden" name="access[created_by]" value="<?php echo $loggedInAdmin->id ?>" readonly>
         <div class="modal-body">
           <div class="container">
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="fName" class="col-form-label">Full Name</label>
-                  <input type="text" class="form-control" name="user[full_name]" id="fName" placeholder="Full name">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="aLevel" class="col-form-label">Admin Level</label>
-                  <select name="user[admin_level]" class="form-control" id="aLevel" required>
-                    <option value="">select level</option>
-                    <?php foreach (Admin::ADMIN_LEVEL as $key => $data) : ?>
-                      <option value="<?php echo $key ?>"><?php echo $data ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="cName" class="col-form-label">Company Name</label>
-                  <input type="text" class="form-control" id="cName" value="<?php echo $company->name ?>" disabled>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="regNo" class="col-form-label">Branch</label>
-                  <select name="user[branch_id]" class="form-control" id="bId" required>
-                    <option value="">select branch</option>
-                    <?php foreach ($branches as $data) : ?>
-                      <option value="<?php echo $data->id ?>"><?php echo ucwords($data->name) ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="email" class="col-form-label">Email</label>
-                  <input type="text" class="form-control" name="user[email]" id="email" placeholder="Email" required>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="phone" class="col-form-label">Phone</label>
-                  <input type="tel" class="form-control" name="user[phone]" id="phone" placeholder="Phone number" required>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="password" class="col-form-label">Password</label>
-                  <input type="password" class="form-control" name="user[password]" id="password" placeholder="12345">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="cPass" class="col-form-label">Confirm password</label>
-                  <input type="password" class="form-control" name="user[confirm_password]" id="cPass" placeholder="12345">
-                </div>
-              </div>
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="address" class="col-form-label">Address</label>
-                  <textarea name="user[address]" id="address" class="form-control" placeholder="Contact address" rows="3"></textarea>
+                  <div class="mb-3">
+                    <label for="staff" class="col-form-label">All Staff</label>
+                    <select class="form-control" name="access[user_id]" id="staff">
+                      <option value="">select staff</option>
+                      <?php foreach ($admins as $admin) : ?>
+                        <option value="<?php echo $admin->id ?>">
+                          <?php echo ucwords($admin->full_name) ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 m-auto">
-                <div class="form-group">
-                  <label for="avatar" class="col-form-label">Profile Image</label>
-                  <input type="file" class="form-control" name="profile" id="avatar">
+
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[users_mgt]" id="userMgt">
+                  <label class="custom-control-label" for="userMgt">User Mgt</label>
                 </div>
               </div>
+
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[product_mgt]" id="proMgt">
+                  <label class="custom-control-label" for="proMgt">Product Mgt</label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[sales_mgt]" id="salMgt">
+                  <label class="custom-control-label" for="salMgt">Sales Mgt</label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[expenses_mgt]" id="expMgt">
+                  <label class="custom-control-label" for="expMgt">Expenses Mgt</label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[report_mgt]" id="report">
+                  <label class="custom-control-label" for="report">Report Mgt</label>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -189,29 +174,29 @@ $admins = Admin::find_by_undeleted();
   </div>
 </div>
 
-<input type="hidden" id="uId">
+<input type="hidden" id="aId">
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 
 <script>
   $(document).ready(function() {
-    const USER_URL = 'inc/process.php';
+    const ACCESS_URL = 'inc/process.php';
 
-    $('#user_form').on("submit", function(e) {
+    $('#access_form').on("submit", function(e) {
       e.preventDefault();
-      let uId = $('#uId').val()
+      let aId = $('#aId').val()
 
       let formData = new FormData(this);
 
-      if (uId == "") {
-        formData.append('new_user', 1)
+      if (aId == "") {
+        formData.append('new_access', 1)
       } else {
-        formData.append('edit_user', 1)
-        formData.append('uId', uId)
+        formData.append('edit_access', 1)
+        formData.append('aId', aId)
       }
 
       $.ajax({
-        url: USER_URL,
+        url: ACCESS_URL,
         method: "POST",
         data: formData,
         contentType: false,
@@ -236,33 +221,38 @@ $admins = Admin::find_by_undeleted();
     });
 
     $('.edit-btn').on("click", function() {
-      let uId = this.dataset.id
-      $('#uId').val(uId)
+      let aId = this.dataset.id
+      $('#aId').val(aId)
       $('#password').val('')
       $('#cPass').val('')
 
       $.ajax({
-        url: USER_URL,
+        url: ACCESS_URL,
         method: "GET",
         data: {
-          uId: uId,
-          get_user: 1
+          aId: aId,
+          get_access: 1
         },
         dataType: 'json',
         success: function(r) {
-          $('#fName').val(r.data.full_name)
-          $('#email').val(r.data.email)
-          $('#phone').val(r.data.phone)
-          // $('#cName').val(r.data.name)
-          $('#aLevel').val(r.data.admin_level)
-          $('#bId').val(r.data.branch_id)
-          $('#address').val(r.data.address)
+          let hasUserPermit = r.data.users_mgt == '1' ? true : false
+          let hasProductPermit = r.data.product_mgt == '1' ? true : false
+          let hasSalesPermit = r.data.sales_mgt == '1' ? true : false
+          let hasExpensesPermit = r.data.expenses_mgt == '1' ? true : false
+          let hasReportPermit = r.data.report_mgt == '1' ? true : false
+
+          $('#staff').val(r.data.user_id)
+          $('#userMgt').prop('checked', hasUserPermit);
+          $('#proMgt').prop('checked', hasProductPermit);
+          $('#salMgt').prop('checked', hasSalesPermit);
+          $('#expMgt').prop('checked', hasExpensesPermit);
+          $('#report').prop('checked', hasReportPermit);
         }
       })
     });
 
     $(document).on('click', '.remove-btn', function() {
-      let uId = this.dataset.id;
+      let aId = this.dataset.id;
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -274,11 +264,11 @@ $admins = Admin::find_by_undeleted();
       }).then((result) => {
         if (result.value) {
           $.ajax({
-            url: USER_URL,
+            url: ACCESS_URL,
             method: "POST",
             data: {
-              uId: uId,
-              delete_user: 1
+              aId: aId,
+              delete_access: 1
             },
             dataType: 'json',
             success: function(data) {

@@ -224,6 +224,62 @@ if (is_post_request()) {
             exit(json_encode(['success' => true, 'msg' => 'user deleted successfully!']));
         endif;
     }
+
+
+
+
+    // *************** ACCESS CONTROL
+    if (isset($_POST['new_access'])) {
+        $args = $_POST['access'];
+
+        $args = [
+            'users_mgt' => isset($args['users_mgt']) ? '1' : '0',
+            'product_mgt' => isset($args['product_mgt']) ? '1' : '0',
+            'sales_mgt' => isset($args['sales_mgt']) ? '1' : '0',
+            'expenses_mgt' => isset($args['expenses_mgt']) ? '1' : '0',
+            'report_mgt' => isset($args['report_mgt']) ? '1' : '0',
+        ];
+
+        $access = new AccessControl($args);
+        $access->save();
+
+        if ($access == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Access control created successfully!']));
+        else :
+            exit(json_encode(['success' => false, 'msg' => display_errors($access->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_access'])) {
+        $aId = $_POST['aId'];
+        $args = $_POST['access'];
+        $access = AccessControl::find_by_id($aId);
+
+        $args = [
+            'users_mgt' => isset($args['users_mgt']) ? '1' : '0',
+            'product_mgt' => isset($args['product_mgt']) ? '1' : '0',
+            'sales_mgt' => isset($args['sales_mgt']) ? '1' : '0',
+            'expenses_mgt' => isset($args['expenses_mgt']) ? '1' : '0',
+            'report_mgt' => isset($args['report_mgt']) ? '1' : '0',
+        ];
+
+        $access->merge_attributes($args);
+        $access->save();
+
+        if ($access == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Access control updated successfully!']));
+        endif;
+    }
+
+    if (isset($_POST['delete_access'])) {
+        $aId = $_POST['aId'];
+        $access = AccessControl::find_by_id($aId);
+        $access::deleted($aId);
+
+        if ($access == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Access control deleted successfully!']));
+        endif;
+    }
 }
 
 
@@ -244,5 +300,11 @@ if (is_get_request()) {
         $uId = $_GET['uId'];
         $user = Admin::find_by_id($uId);
         exit(json_encode(['success' => true, 'data' => $user]));
+    endif;
+
+    if (isset($_GET['get_access'])) :
+        $aId = $_GET['aId'];
+        $access = AccessControl::find_by_id($aId);
+        exit(json_encode(['success' => true, 'data' => $access]));
     endif;
 }

@@ -28,10 +28,19 @@ class Remittance extends DatabaseObject
     $this->deleted      = $args['deleted'] ?? '';
   }
 
-  public static function get_total_remittance()
+  public static function get_all_remittance($dateFrom)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE created_at ='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    return static::find_by_sql($sql);
+  }
+
+  public static function get_total_remittance($dateFrom)
   {
     $sql = "SELECT SUM(amount) AS total_amount FROM " . static::$table_name . " ";
-    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "WHERE created_at ='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {

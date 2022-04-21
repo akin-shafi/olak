@@ -1,5 +1,7 @@
 <?php
 require_login();
+$access = AccessControl::find_by_user_id($loggedInAdmin->id);
+
 $isActive = 0;
 
 $user = $loggedInAdmin;
@@ -11,40 +13,20 @@ $fullName = $user->full_name;
 <html lang="en">
 
 <head>
-   <!-- Required meta tags -->
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-   <!-- Meta -->
    <meta name="description" content="Sandsify Systems">
    <meta name="author" content="Sandsify">
    <link rel="shortcut icon" href="png/fav.png" />
 
-   <!-- Title -->
    <title>Olak Pet. - <?php echo $page_title ?></title>
 
-
-   <!-- *************
-         ************ Common Css Files *************
-      ************ -->
-   <!-- Bootstrap css -->
-
    <link rel="stylesheet" href="<?php echo url_for('css/bootstrap.min.css') ?>">
-
-   <!-- Icomoon Font Icons css -->
    <link rel="stylesheet" href="<?php echo url_for('css/style.css') ?>">
-
-   <!-- Main css -->
    <link rel="stylesheet" href="<?php echo url_for('css/main.css') ?>">
-
-
-   <!-- *************
-         ************ Vendor Css Files *************
-      ************ -->
-   <!-- DateRange css -->
    <link rel="stylesheet" href="<?php echo url_for('css/daterange.css') ?>" />
 
-   <!-- Chartist css -->
    <link rel="stylesheet" href="<?php echo url_for('css/chartist.min.css') ?>" />
    <link rel="stylesheet" href="<?php echo url_for('css/chartist-custom.css') ?>" />
    <link rel="stylesheet" href="<?php echo url_for('css/datatables.bs4.css') ?>" />
@@ -54,7 +36,6 @@ $fullName = $user->full_name;
 </head>
 
 <body>
-   <!-- Loading starts -->
    <div id="loading-wrapper" class="d-none">
       <div class="spinner-border" role="status">
          <span class="sr-only">Loading...</span>
@@ -121,7 +102,7 @@ $fullName = $user->full_name;
          }
       }
    </style>
-   <!-- //! Ajax loader -->
+
    <div class="lds-hourglass d-none"></div>
    <div class="out-of-service d-none">
       <h1 style="color:white;text-align:center">Kindly contact the manager for more information!.</h1>
@@ -467,9 +448,11 @@ $fullName = $user->full_name;
                      Sales
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="appsDropdown">
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'All Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/') ?>">List Sales</a>
-                     </li>
+                     <?php if ($access->sales_mgt == 1) : ?>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'All Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/') ?>">List Sales</a>
+                        </li>
+                     <?php endif; ?>
                      <li>
                         <a class="dropdown-item" <?php echo $page_title == 'Add Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/add_sales.php') ?>">Add Sales</a>
                      </li>
@@ -482,44 +465,54 @@ $fullName = $user->full_name;
                      Settings
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
-                     </li>
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
-                     </li>
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user.php') ?>">Manage Users</a>
-                     </li>
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
-                     </li>
+                     <?php if ($user->admin_level == 1) : ?>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
+                        </li>
+                     <?php endif; ?>
+                     <?php if ($access->users_mgt == 1) : ?>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user.php') ?>">Manage Users</a>
+                        </li>
+                     <?php endif; ?>
+                     <?php if ($access->product_mgt == 1) : ?>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
+                        </li>
+                     <?php endif; ?>
                   </ul>
                </li>
 
-               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle <?php echo $page == 'Expenses' ? 'active-page' : '' ?>" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="icon-attach_money nav-icon"></i>
-                     Expenses
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="expensesDropdown">
-                     <li>
-                        <a class="dropdown-item <?php echo $page_title == 'Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('expenses/') ?>">Record Expenses</a>
-                     </li>
-                  </ul>
-               </li>
+               <?php if ($access->expenses_mgt == 1) : ?>
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle <?php echo $page == 'Expenses' ? 'active-page' : '' ?>" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="icon-attach_money nav-icon"></i>
+                        Expenses
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="expensesDropdown">
+                        <li>
+                           <a class="dropdown-item <?php echo $page_title == 'Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('expenses/') ?>">Record Expenses</a>
+                        </li>
+                     </ul>
+                  </li>
+               <?php endif; ?>
 
-               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle <?php echo $page == 'Reports' ? 'active-page' : '' ?>" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="icon-pie-chart1 nav-icon"></i>
-                     Reports
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="reportDropdown">
-                     <li>
-                        <a class="dropdown-item <?php echo $page_title == 'Sales Report' ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">Sales Report</a>
-                     </li>
-                  </ul>
-               </li>
+               <?php if ($access->report_mgt == 1) : ?>
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle <?php echo $page == 'Reports' ? 'active-page' : '' ?>" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="icon-pie-chart1 nav-icon"></i>
+                        Reports
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="reportDropdown">
+                        <li>
+                           <a class="dropdown-item <?php echo $page_title == 'Sales Report' ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">Sales Report</a>
+                        </li>
+                     </ul>
+                  </li>
+               <?php endif; ?>
 
 
 
@@ -973,7 +966,6 @@ $fullName = $user->full_name;
                               <?php echo ucwords($branch->name) ?></option>
                         <?php endforeach; ?>
                      </select>
-                     <!-- </div> -->
                   </li>
                   <li>
                      <a href="#" id="reportrange">
@@ -981,6 +973,22 @@ $fullName = $user->full_name;
                         <i class="icon-chevron-down"></i>
                      </a>
                   </li>
+               <?php endif; ?>
+               <?php if ($user->admin_level == 1 && ($page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
+                  <div class="d-flex justify-content-center align-items-center">
+                     <li>
+                        <select name="filter_branch" class="form-control form-control-sm" id="fBranch">
+                           <option value="">select branch</option>
+                           <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
+                              <option value="<?php echo $branch->id ?>">
+                                 <?php echo ucwords($branch->name) ?></option>
+                           <?php endforeach; ?>
+                        </select>
+                     </li>
+                     <li class="mx-2">
+                        <input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" id="filter_date">
+                     </li>
+                  </div>
                <?php endif; ?>
                <li>
                   <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print">

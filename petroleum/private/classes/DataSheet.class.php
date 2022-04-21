@@ -106,20 +106,22 @@ class DataSheet extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
-  public static function data_sheet_report($option = [])
+  public static function data_sheet_report($dateFrom, $option = [])
   {
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
 
     $sql = "SELECT ds.*, SUM(ds.sales_in_ltr) AS sales_quantity, SUM(ds.cash_submitted) AS inflow, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
-    $sql .= "JOIN products AS pr ON ds.product_id = pr.id";
-    $sql .= " WHERE (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
-    $sql .= "GROUP BY pr.name";
+    $sql .= "JOIN products AS pr ON ds.product_id = pr.id ";
+    $sql .= "WHERE ds.created_at ='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
 
     if (!empty($company) && !empty($branch)) :
       $sql .= " AND ds.company_id='" . self::$database->escape_string($company) . "'";
       $sql .= " AND ds.branch_id='" . self::$database->escape_string($branch) . "'";
     endif;
+
+    $sql .= " GROUP BY pr.name";
 
     return static::find_by_sql($sql);
   }

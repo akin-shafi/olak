@@ -1,15 +1,9 @@
 <?php require_once('../private/initialize.php');
 require_login();
 
-if ($loggedInAdmin->admin_level != 1) {
-  redirect_to('../sales/');
-}
-
 $page = 'Settings';
 $page_title = 'Manage Users';
 include(SHARED_PATH . '/admin_header.php');
-
-$ownerId = $loggedInAdmin->full_name;
 
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
@@ -56,9 +50,7 @@ $admins = Admin::find_by_undeleted();
                     <th>created_by</th>
                     <th>created_at</th>
                     <th>updated_at</th>
-                    <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                      <th>Action</th>
-                    <?php endif; ?>
+                    <th>Action</th>
                   </tr>
                 </thead>
 
@@ -85,17 +77,15 @@ $admins = Admin::find_by_undeleted();
                       <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
                       <td><?php echo date('Y-m-d', strtotime($data->updated_at)); ?></td>
 
-                      <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                        <td>
-                          <div class="btn-group">
-                            <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
-                              <i class="icon-edit1"></i></button>
-                            <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
-                              <i class="icon-trash"></i>
-                            </button>
-                          </div>
-                        </td>
-                      <?php endif; ?>
+                      <td>
+                        <div class="btn-group">
+                          <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
+                            <i class="icon-edit1"></i></button>
+                          <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
+                            <i class="icon-trash"></i>
+                          </button>
+                        </div>
+                      </td>
 
                     </tr>
                   <?php endforeach; ?>
@@ -124,13 +114,11 @@ $admins = Admin::find_by_undeleted();
           <div class="container">
             <div class="row">
               <div class="col-md-6">
-                <div class="form-group">
-                  <label for="fName" class="col-form-label">Full Name</label>
-                  <input type="text" class="form-control" name="user[full_name]" id="fName" placeholder="Full name">
-                </div>
+                <label for="fName" class="col-form-label">Full Name</label>
+                <input type="text" class="form-control" name="user[full_name]" id="fName" placeholder="Full name">
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
+              <?php if ($loggedInAdmin->admin_level == 1) : ?>
+                <div class="col-md-6">
                   <label for="aLevel" class="col-form-label">Admin Level</label>
                   <select name="user[admin_level]" class="form-control" id="aLevel" required>
                     <option value="">select level</option>
@@ -139,59 +127,43 @@ $admins = Admin::find_by_undeleted();
                     <?php endforeach; ?>
                   </select>
                 </div>
+              <?php endif; ?>
+              <div class="col-md-6">
+                <label for="cName" class="col-form-label">Company Name</label>
+                <input type="text" class="form-control" id="cName" value="<?php echo $company->name ?>" disabled>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
-                  <label for="cName" class="col-form-label">Company Name</label>
-                  <input type="text" class="form-control" id="cName" value="<?php echo $company->name ?>" disabled>
-                </div>
+                <label for="regNo" class="col-form-label">Branch</label>
+                <select name="user[branch_id]" class="form-control" id="bId" required>
+                  <option value="">select branch</option>
+                  <?php foreach ($branches as $data) : ?>
+                    <option value="<?php echo $data->id ?>"><?php echo ucwords($data->name) ?></option>
+                  <?php endforeach; ?>
+                </select>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
-                  <label for="regNo" class="col-form-label">Branch</label>
-                  <select name="user[branch_id]" class="form-control" id="bId" required>
-                    <option value="">select branch</option>
-                    <?php foreach ($branches as $data) : ?>
-                      <option value="<?php echo $data->id ?>"><?php echo ucwords($data->name) ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
+                <label for="email" class="col-form-label">Email</label>
+                <input type="text" class="form-control" name="user[email]" id="email" placeholder="Email" required>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
-                  <label for="email" class="col-form-label">Email</label>
-                  <input type="text" class="form-control" name="user[email]" id="email" placeholder="Email" required>
-                </div>
+                <label for="phone" class="col-form-label">Phone</label>
+                <input type="tel" class="form-control" name="user[phone]" id="phone" placeholder="Phone number" required>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
-                  <label for="phone" class="col-form-label">Phone</label>
-                  <input type="tel" class="form-control" name="user[phone]" id="phone" placeholder="Phone number" required>
-                </div>
+                <label for="password" class="col-form-label">Password</label>
+                <input type="password" class="form-control" name="user[password]" id="password" placeholder="12345">
               </div>
               <div class="col-md-6">
-                <div class="form-group">
-                  <label for="password" class="col-form-label">Password</label>
-                  <input type="password" class="form-control" name="user[password]" id="password" placeholder="12345">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="cPass" class="col-form-label">Confirm password</label>
-                  <input type="password" class="form-control" name="user[confirm_password]" id="cPass" placeholder="12345">
-                </div>
+                <label for="cPass" class="col-form-label">Confirm password</label>
+                <input type="password" class="form-control" name="user[confirm_password]" id="cPass" placeholder="12345">
               </div>
               <div class="col-md-12">
-                <div class="form-group">
-                  <label for="address" class="col-form-label">Address</label>
-                  <textarea name="user[address]" id="address" class="form-control" placeholder="Contact address" rows="3"></textarea>
-                </div>
+                <label for="address" class="col-form-label">Address</label>
+                <textarea name="user[address]" id="address" class="form-control" placeholder="Contact address" rows="2"></textarea>
               </div>
               <div class="col-md-6 m-auto">
-                <div class="form-group">
-                  <label for="avatar" class="col-form-label">Profile Image</label>
-                  <input type="file" class="form-control" name="profile" id="avatar">
-                </div>
+                <label for="avatar" class="col-form-label">Profile Image</label>
+                <input type="file" class="form-control" name="profile" id="avatar">
               </div>
             </div>
           </div>
