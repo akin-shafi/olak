@@ -328,7 +328,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
 
 
 
-    $(document).on('change', "#filter_date", function() {
+    $(document).on('click', "#query", function() {
       let branch = $('#fBranch').val()
       if (branch == '') {
         alert('Kindly select a branch')

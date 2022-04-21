@@ -988,6 +988,9 @@ $fullName = $user->full_name;
                      <li class="mx-2">
                         <input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" id="filter_date">
                      </li>
+                     <li>
+                        <button class="btn btn-primary shadow border-light" id="query"><i class="icon-filter_list"></i> Filter</button>
+                     </li>
                   </div>
                <?php endif; ?>
                <li>

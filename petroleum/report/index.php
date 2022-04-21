@@ -250,7 +250,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 
 
-    $(document).on('change', "#filter_date", function() {
+    $(document).on('click', "#query", function() {
       let branch = $('#fBranch').val()
       if (branch == '') {
         alert('Kindly select a branch')

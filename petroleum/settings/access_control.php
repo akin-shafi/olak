@@ -223,8 +223,8 @@ $admins = Admin::find_by_undeleted();
     $('.edit-btn').on("click", function() {
       let aId = this.dataset.id
       $('#aId').val(aId)
-      $('#password').val('')
-      $('#cPass').val('')
+
+      $('#staff').attr('disabled', true)
 
       $.ajax({
         url: ACCESS_URL,
