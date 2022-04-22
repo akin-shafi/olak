@@ -90,6 +90,7 @@ $datatable = '';
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Loan Type: activate to sort column ascending" style="width: 159.028px;">Loan Type</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Amount: activate to sort column ascending" style="width: 113.663px;">Amount</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Date Requested: activate to sort column ascending" style="width: 94.0799px;">Date Requested</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="hr-table" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 113.663px;">Status</th>
                           <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 64.5833px;">Actions</th>
                         </tr>
                       </thead>
@@ -119,23 +120,46 @@ $datatable = '';
                             <td><?php echo $value->date_requested ? date('M. jS, Y', strtotime($value->date_requested)) : 'Not Set'; ?></td>
 
                             <td>
-                              <div class="d-flex justify-content-center">
-                                <div class="btn-group">
-                                  <?php if (in_array($value->status, [1, 2, 3])) : ?>
-                                    <button class="btn btn-sm <?php echo $value->status == 2 ? 'btn-warning' : 'btn-outline-warning' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="2">
-                                      <i class="feather feather-loader"></i>
-                                      Pending
-                                    </button>
-                                    <button class="btn btn-sm <?php echo $value->status == 3 ? 'btn-success' : 'btn-outline-success' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="3">
-                                      <i class="feather feather-check"></i>
-                                      Approve
-                                    </button>
-                                  <?php endif; ?>
-                                  <button class="btn btn-sm <?php echo $value->status == 4 ? 'btn-danger disabled' : 'btn-outline-danger' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="4">
-                                    <i class="feather feather-delete"></i>
-                                    Reject
+                              <?php switch ($value->status) {
+                                case '2':
+                                  echo '<span class="badge bg-warning">
+                                  <i class="feather feather-loader"></i> Pending</span>';
+                                  break;
+                                case '3':
+                                  echo '<span class="badge bg-success">
+                                  <i class="feather feather-check"></i> Approved</span>';
+                                  break;
+                                case '4':
+                                  echo '<span class="badge bg-danger">
+                                  <i class="feather feather-x-circle"></i> Rejected</span>';
+                                  break;
+
+                                default:
+                                  echo '<span class="badge bg-primary">
+                                  <i class="feather feather-compass"></i> New</span>';
+                                  break;
+                              } ?>
+                            </td>
+                            <td>
+                              <button class="btn btn-outline-primary " type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId">
+                                <?php if (in_array($value->status, [1, 2, 3])) : ?>
+                                  <button class="dropdown-item status" data-id="<?php echo $value->id; ?>" data-status="2">
+                                    <i class="feather feather-loader"></i>
+                                    Pending
                                   </button>
-                                </div>
+                                  <button class="dropdown-item status" data-id="<?php echo $value->id; ?>" data-status="3">
+                                    <i class="feather feather-check"></i>
+                                    Approve
+                                  </button>
+                                <?php endif; ?>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item text-dark status" data-id="<?php echo $value->id; ?>" data-status="4" <?php echo $value->status == 4 ? 'disabled' : '' ?>>
+                                  <i class="feather feather-delete"></i>
+                                  Reject
+                                </button>
                               </div>
                             </td>
                           </tr>
