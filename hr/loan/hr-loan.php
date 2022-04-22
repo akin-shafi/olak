@@ -6,17 +6,13 @@ $page_title = 'Loan Management';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 
-$totalLoanRequested = intval(count(LongTermLoanDetail::find_by_undeleted())) + intval(count(SalaryAdvanceDetail::find_by_undeleted()));
+$totalLoanRequested = intval(count(LongTermLoanDetail::find_by_undeleted()));
 
-$longLoanPending        = LongTermLoanDetail::find_by_loan_approved(['status' => 1])->counts;
-$salaryAdvancePending   = SalaryAdvanceDetail::find_by_loan_approved(['status' => 1])->counts;
-$salaryAdvancePending2  = SalaryAdvanceDetail::find_by_loan_approved(['status' => 2])->counts;
+$longLoanPending  = LongTermLoanDetail::find_by_loan_approved(['status' => 1])->counts;
 
-$longLoanApproved       = LongTermLoanDetail::find_by_loan_approved(['status' => 2])->counts;
-$salaryAdvanceApproved  = SalaryAdvanceDetail::find_by_loan_approved(['status' => 3])->counts;
+$longLoanApproved = LongTermLoanDetail::find_by_loan_approved(['status' => 2])->counts;
 
-$longLoanRejected       = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->counts;
-$salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' => 4])->counts;
+$longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->counts;
 
 ?>
 
@@ -82,7 +78,7 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
               <div class="col-7">
                 <div class="mt-0 text-start">
                   <span class="font-weight-semibold">Total Pending</span>
-                  <h3 class="mb-0 mt-1 text-secondary"><?php echo intval($longLoanPending + $salaryAdvancePending + $salaryAdvancePending2) ?? 0 ?></h3>
+                  <h3 class="mb-0 mt-1 text-secondary"><?php echo intval($longLoanPending) ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
@@ -100,7 +96,7 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
               <div class="col-7">
                 <div class="mt-0 text-start">
                   <span class="font-weight-semibold">Total Approved</span>
-                  <h3 class="mb-0 mt-1 text-success"><?php echo intval($longLoanApproved + $salaryAdvanceApproved) ?? 0 ?></h3>
+                  <h3 class="mb-0 mt-1 text-success"><?php echo intval($longLoanApproved) ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
@@ -118,7 +114,7 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
               <div class="col-7">
                 <div class="mt-0 text-start">
                   <span class="font-weight-semibold">Total Rejected</span>
-                  <h3 class="mb-0 mt-1 text-danger"><?php echo intval($longLoanRejected + $salaryAdvanceRejected) ?? 0 ?></h3>
+                  <h3 class="mb-0 mt-1 text-danger"><?php echo intval($longLoanRejected) ?? 0 ?></h3>
                 </div>
               </div>
               <div class="col-5">
