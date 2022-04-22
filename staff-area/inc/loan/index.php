@@ -31,6 +31,7 @@ if (is_post_request()) {
 
       $accessible_loan_value = intval($employee->present_salary) * 0.4;
       $salaryAdvance = SalaryAdvance::find_by_employee_id($employeeId);
+
       if (isset($salaryAdvance)) {
         $loan_balance = $accessible_loan_value - intval($salaryAdvance->total_requested);
       }
@@ -48,10 +49,10 @@ if (is_post_request()) {
           exit(json_encode(['errors' => $loan->errors]));
         }
 
-        if ($loan) {
-          $advanceDetails = SalaryAdvanceDetail::find_by_employee_id($loan->employee_id, ['requested' => date('Y-m-d')]);
+        if ($loan == true) {
+          $advanceDetail = SalaryAdvanceDetail::find_by_employee_id($loan->employee_id, ['requested' => date('Y-m')]);
           if (!empty($salaryAdvance->employee_id)) {
-            $salaryAdvance->merge_attributes(['total_requested' => $advanceDetails->total_loan_received]);
+            $salaryAdvance->merge_attributes(['total_requested' => $advanceDetail->total_loan_received]);
             $salaryAdvance->save();
           } else {
             $params = [

@@ -22,14 +22,14 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
 
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
-   
+
 
     <div class="btn-group">
 
       <h4 class="btn btn-primary">Long Term Loan |</h4>
-        <h4 class="btn btn-outline-primary ">
-          <a href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a>
-        </h4>
+      <h4 class="btn btn-outline-primary ">
+        <a href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a>
+      </h4>
     </div>
 
 
@@ -168,7 +168,7 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
                             <td><?php echo $sn++ ?></td>
                             <td><?php echo strtoupper($loan->ref_no) ?></td>
                             <td>
-                              <div class="d-flex">
+                              <div class="d-flex align-items-center">
                                 <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                   <h6 class="mb-1 fs-14"><?php echo $employee->first_name ? $employee->full_name() : 'Not Set' ?></h6>
@@ -184,15 +184,15 @@ $salaryAdvanceRejected  = SalaryAdvanceDetail::find_by_loan_approved(['status' =
                             <td><?php echo $loan->date_approved != '0000-00-00' ? date('Y-m-d', strtotime($loan->date_approved)) : 'Not Set' ?></td>
                             <td>
                               <div class="btn-group">
-                                <button class="btn <?php echo $loan->status == 1 ? 'btn-warning' : 'btn-outline-warning' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="1">
+                                <button class="btn btn-sm <?php echo $loan->status == 1 ? 'btn-warning' : 'btn-outline-warning' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="1">
                                   <i class="feather feather-loader"></i>
                                   Pending
                                 </button>
-                                <button class="btn <?php echo $loan->status == 2 ? 'btn-success' : 'btn-outline-success' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="2">
+                                <button class="btn btn-sm <?php echo $loan->status == 2 ? 'btn-success' : 'btn-outline-success' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="2">
                                   <i class="feather feather-check"></i>
                                   Approve
                                 </button>
-                                <button class="btn <?php echo $loan->status == 3 ? 'btn-danger' : 'btn-outline-danger' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="3">
+                                <button class="btn btn-sm <?php echo $loan->status == 3 ? 'btn-danger' : 'btn-outline-danger' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="3">
                                   <i class="feather feather-delete"></i>
                                   Reject
                                 </button>

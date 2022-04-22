@@ -72,6 +72,7 @@ class SalaryAdvanceDetail extends DatabaseObject
       $sql .= " AND date_requested LIKE'%" . self::$database->escape_string($isRequested) . "%'";
     }
 
+    $sql .= " AND status != 4";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
@@ -86,7 +87,7 @@ class SalaryAdvanceDetail extends DatabaseObject
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= " AND date_requested LIKE'%" . self::$database->escape_string($created_at) . "%'";
-    $sql .= "ORDER BY id DESC";
+    $sql .= "ORDER BY employee_id DESC";
     return static::find_by_sql($sql);
   }
 

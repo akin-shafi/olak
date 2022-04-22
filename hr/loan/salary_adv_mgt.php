@@ -96,7 +96,7 @@ $datatable = '';
                       <tbody>
                         <?php $sn = 1;
                         $dated = date('Y-m');
-                        foreach (SalaryAdvanceDetail::find_by_created_at($dated) as $key => $value) {
+                        foreach (SalaryAdvanceDetail::find_by_undeleted() as $key => $value) {
                           $employee = Employee::find_by_id($value->employee_id);
                           $class = $key % 2 == 0 ? 'even' : 'odd';
                           $image =  '../assets/images/users/male.png';
@@ -105,8 +105,8 @@ $datatable = '';
                             <td><?php echo $sn++; ?></td>
                             <td><?php echo $value->ref_no; ?></td>
                             <td>
-                              <a href="<?php echo url_for('employees/hr-empview.php?id=' . $employee->id); ?>" class="d-flex">
-                                <span class="avatar avatar-md brround me-3" style="background-image: url( <?php echo $image ?>)"></span>
+                              <a href="<?php echo url_for('employees/hr-empview.php?id=' . $employee->id); ?>" class="d-flex align-items-center">
+                                <span class="avatar avatar-md brround me-3" style="background-image: url( <?php echo $image ?>);"></span>
 
                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                   <h6 class="mb-1 fs-14"><?php echo $employee->full_name(); ?></h6>
@@ -119,19 +119,23 @@ $datatable = '';
                             <td><?php echo $value->date_requested ? date('M. jS, Y', strtotime($value->date_requested)) : 'Not Set'; ?></td>
 
                             <td>
-                              <div class="btn-group">
-                                <button class="btn <?php echo $value->status == 2 ? 'btn-warning' : 'btn-outline-warning' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="2">
-                                  <i class="feather feather-loader"></i>
-                                  Pending
-                                </button>
-                                <button class="btn <?php echo $value->status == 3 ? 'btn-success' : 'btn-outline-success' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="3">
-                                  <i class="feather feather-check"></i>
-                                  Approve
-                                </button>
-                                <button class="btn <?php echo $value->status == 4 ? 'btn-danger' : 'btn-outline-danger' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="4">
-                                  <i class="feather feather-delete"></i>
-                                  Reject
-                                </button>
+                              <div class="d-flex justify-content-center">
+                                <div class="btn-group">
+                                  <?php if (in_array($value->status, [1, 2, 3])) : ?>
+                                    <button class="btn btn-sm <?php echo $value->status == 2 ? 'btn-warning' : 'btn-outline-warning' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="2">
+                                      <i class="feather feather-loader"></i>
+                                      Pending
+                                    </button>
+                                    <button class="btn btn-sm <?php echo $value->status == 3 ? 'btn-success' : 'btn-outline-success' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="3">
+                                      <i class="feather feather-check"></i>
+                                      Approve
+                                    </button>
+                                  <?php endif; ?>
+                                  <button class="btn btn-sm <?php echo $value->status == 4 ? 'btn-danger disabled' : 'btn-outline-danger' ?> btn-icon status" data-id="<?php echo $value->id; ?>" data-status="4">
+                                    <i class="feather feather-delete"></i>
+                                    Reject
+                                  </button>
+                                </div>
                               </div>
                             </td>
                           </tr>
@@ -290,17 +294,44 @@ $datatable = '';
 
     });
 
-    $('tbody').on('click', '.status', async function() {
+    $('tbody').on('click', '.status', function() {
       let detailId = this.dataset.id;
       let loan_status = this.dataset.status;
 
-      const data = await fetch(EMPLOYEE_URL + '?detailId=' + detailId + '&salary_advance_status=' + loan_status);
+      if (loan_status == 4) {
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this data!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              updateStatus(detailId, loan_status)
+            }
+          });
+      } else {
+        updateStatus(detailId, loan_status)
+      }
+
+    })
+
+    const updateStatus = async (id, status) => {
+      const data = await fetch(EMPLOYEE_URL + '?detailId=' + id + '&salary_advance_status=' + status);
       const res = await data.json();
-      message('success', res.message);
+      if (status == 4) {
+        swal(res.message, {
+          icon: "success",
+        });
+      } else {
+        message('success', res.message)
+      }
+
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
-    })
+      }, 1000);
+    }
 
     $('#employee_id').select2({
       dropdownParent: $('.select_loan')

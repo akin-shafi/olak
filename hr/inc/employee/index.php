@@ -179,6 +179,7 @@ if (is_post_request()) {
 
       $args['ref_no'] = 'SAL-' . rand(100, 999) . '0' . $employeeId; //? SAL: Salary Advance Loan
       $args['status'] = 3;
+      $args['date_issued'] = date('Y-m-d');
 
       $employee = Employee::find_by_id($employeeId);
 
@@ -200,7 +201,7 @@ if (is_post_request()) {
         $loan->save();
 
         if ($loan) {
-          $advanceDetails = SalaryAdvanceDetail::find_by_employee_id($loan->employee_id, ['requested' => date('Y-m-d')]);
+          $advanceDetails = SalaryAdvanceDetail::find_by_employee_id($loan->employee_id, ['requested' => date('Y-m')]);
           if (!empty($salaryAdvance->employee_id)) {
             $salaryAdvance->merge_attributes(['total_requested' => $advanceDetails->total_loan_received]);
             $salaryAdvance->save();
@@ -427,11 +428,22 @@ if (is_get_request()) {
   }
 
   if (isset($_GET['salary_advance_status'])) {
-    $leave = SalaryAdvanceDetail::find_by_id($_GET['detailId']);
+    $salAdDet = SalaryAdvanceDetail::find_by_id($_GET['detailId']);
+    $salAd = SalaryAdvance::find_by_employee_id($salAdDet->employee_id);
     $loan_status = $_GET['salary_advance_status'];
 
     if ($loan_status == 3) :
       $dateIssued = date('Y-m-d');
+    endif;
+
+    if ($loan_status == 4) :
+      $amount = intval($salAd->total_loan_received) - intval($salAdDet->amount);
+      $args = [
+        'total_requested' => $amount,
+      ];
+
+      $salAd->merge_attributes($args);
+      $salAd->save();
     endif;
 
     $args = [
@@ -439,8 +451,8 @@ if (is_get_request()) {
       'date_issued' => $dateIssued ?? '',
     ];
 
-    $leave->merge_attributes($args);
-    $leave->save();
+    $salAdDet->merge_attributes($args);
+    $salAdDet->save();
 
     http_response_code(200);
     $response['message'] = 'Status updated successfully!';
