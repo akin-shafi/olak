@@ -8,28 +8,24 @@ $datatable = '';
 
 $totalLoanRequested = intval(count(LongTermLoanDetail::find_by_undeleted()));
 
-$longLoanPending  = LongTermLoanDetail::find_by_loan_approved(['status' => 1])->counts;
+$longLoanPending  = LongTermLoanDetail::find_by_loan_approved(['status' => 2])->counts;
 
-$longLoanApproved = LongTermLoanDetail::find_by_loan_approved(['status' => 2])->counts;
+$longLoanApproved = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->counts;
 
-$longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->counts;
+$longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->counts;
 
 ?>
 
 <div class="page-header d-xl-flex d-block">
   <div class="page-leftheader">
-
-
     <div class="btn-group">
-
       <h4 class="btn btn-primary">Long Term Loan |</h4>
       <h4 class="btn btn-outline-primary ">
         <a href="<?php echo url_for('loan/salary_adv_mgt.php') ?>">Salary Advance</a>
       </h4>
     </div>
-
-
   </div>
+
   <div class="page-rightheader ms-md-auto">
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
       <div class="btn-list">
@@ -142,16 +138,16 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->
                     <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" role="grid" aria-describedby="emp-attendance_info">
                       <thead>
                         <tr role="row">
-                          <th class="border-bottom-0 sorting_disabled" rowspan="1" colspan="1" aria-label="#ID" style="width: 52.5417px;">SN</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Ref No: activate to sort column ascending" style="width: 169.062px;">Ref No</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Ref No: activate to sort column ascending" style="width: 169.062px;">Emp Name</th>
-
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Amount Requested (₦): activate to sort column ascending" style="width: 120.396px;">Amount Requested (₦)</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Amount Committed (₦): activate to sort column ascending" style="width: 120.396px;">Amount Committed (₦)</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Duration: activate to sort column ascending" style="width: 119.979px;">Duration</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Date Requested: activate to sort column ascending" style="width: 119.979px;">Date Requested</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Date Approved: activate to sort column ascending" style="width: 119.979px;">Date Approved</th>
-                          <th class="border-bottom-0 sorting" tabindex="0" aria-controls="emp-attendance" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 133.708px;">Action</th>
+                          <th class="border-bottom-0 sorting_disabled" aria-label="#ID">SN</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Ref No: activate to sort column ascending">Ref No</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Ref No: activate to sort column ascending">Emp Name</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Amount Requested (₦): activate to sort column ascending">Amount Requested (₦)</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Amount Committed (₦): activate to sort column ascending">Amount Committed (₦)</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Duration: activate to sort column ascending">Duration</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Date Requested: activate to sort column ascending">Date Requested</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Date Approved: activate to sort column ascending">Date Approved</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Status: activate to sort column ascending">Status</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Action: activate to sort column ascending">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -178,17 +174,46 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->
                             <td><?php echo ucwords($loan->commitment_duration) ?></td>
                             <td><?php echo date('Y-m-d', strtotime($loan->created_at)) ?></td>
                             <td><?php echo $loan->date_approved != '0000-00-00' ? date('Y-m-d', strtotime($loan->date_approved)) : 'Not Set' ?></td>
+
                             <td>
-                              <div class="btn-group">
-                                <button class="btn btn-sm <?php echo $loan->status == 1 ? 'btn-warning' : 'btn-outline-warning' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="1">
-                                  <i class="feather feather-loader"></i>
-                                  Pending
-                                </button>
-                                <button class="btn btn-sm <?php echo $loan->status == 2 ? 'btn-success' : 'btn-outline-success' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="2">
-                                  <i class="feather feather-check"></i>
-                                  Approve
-                                </button>
-                                <button class="btn btn-sm <?php echo $loan->status == 3 ? 'btn-danger' : 'btn-outline-danger' ?> btn-icon status" data-id="<?php echo $loan->id; ?>" data-status="3">
+                              <?php switch ($loan->status):
+                                case '2':
+                                  echo '<span class="badge bg-warning">
+                                  <i class="feather feather-loader"></i> Pending</span>';
+                                  break;
+                                case '3':
+                                  echo '<span class="badge bg-success">
+                                  <i class="feather feather-check"></i> Approved</span>';
+                                  break;
+                                case '4':
+                                  echo '<span class="badge bg-danger">
+                                  <i class="feather feather-x-circle"></i> Rejected</span>';
+                                  break;
+
+                                default:
+                                  echo '<span class="badge bg-primary">
+                                  <i class="feather feather-compass"></i> New</span>';
+                                  break;
+                              endswitch; ?>
+                            </td>
+
+                            <td>
+                              <button class="btn btn-outline-primary " type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId">
+                                <?php if (in_array($loan->status, [1, 2, 3])) : ?>
+                                  <button class="dropdown-item status" data-id="<?php echo $loan->id; ?>" data-status="2">
+                                    <i class="feather feather-loader"></i>
+                                    Pending
+                                  </button>
+                                  <button class="dropdown-item status" data-id="<?php echo $loan->id; ?>" data-status="3">
+                                    <i class="feather feather-check"></i>
+                                    Approve
+                                  </button>
+                                <?php endif; ?>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item text-dark status" data-id="<?php echo $loan->id; ?>" data-status="4" <?php echo $loan->status == 4 ? 'disabled' : '' ?>>
                                   <i class="feather feather-delete"></i>
                                   Reject
                                 </button>
@@ -346,14 +371,40 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->
       let detailId = this.dataset.id;
       let loan_status = this.dataset.status;
 
-      const data = await fetch(EMPLOYEE_URL + '?detailId=' + detailId + '&long_term_status=' + loan_status);
-      const res = await data.json();
+      if (loan_status == 4) {
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this data!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              updateStatus(detailId, loan_status)
+            }
+          });
+      } else {
+        updateStatus(detailId, loan_status)
+      }
+    })
 
-      message('success', res.message);
+
+    const updateStatus = async (id, status) => {
+      const data = await fetch(EMPLOYEE_URL + '?detailId=' + id + '&long_term_status=' + status);
+      const res = await data.json();
+      if (status == 4) {
+        swal(res.message, {
+          icon: "success",
+        });
+      } else {
+        message('success', res.message)
+      }
+
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
-    })
+      }, 1000);
+    }
 
     $('#employee_id').select2({
       dropdownParent: $('.select_loan')

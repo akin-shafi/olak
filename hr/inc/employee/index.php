@@ -462,7 +462,7 @@ if (is_get_request()) {
     $leave = LongTermLoanDetail::find_by_id($_GET['detailId']);
     $loan_status = $_GET['long_term_status'];
 
-    if ($loan_status == 2) :
+    if ($loan_status == 3) :
       $dateApproved = date('Y-m-d');
     endif;
 

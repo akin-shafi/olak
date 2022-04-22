@@ -120,7 +120,7 @@ $datatable = '';
                             <td><?php echo $value->date_requested ? date('M. jS, Y', strtotime($value->date_requested)) : 'Not Set'; ?></td>
 
                             <td>
-                              <?php switch ($value->status) {
+                              <?php switch ($value->status):
                                 case '2':
                                   echo '<span class="badge bg-warning">
                                   <i class="feather feather-loader"></i> Pending</span>';
@@ -133,19 +133,18 @@ $datatable = '';
                                   echo '<span class="badge bg-danger">
                                   <i class="feather feather-x-circle"></i> Rejected</span>';
                                   break;
-
                                 default:
                                   echo '<span class="badge bg-primary">
                                   <i class="feather feather-compass"></i> New</span>';
                                   break;
-                              } ?>
+                              endswitch; ?>
                             </td>
                             <td>
                               <button class="btn btn-outline-primary " type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId">
-                                <?php if (in_array($value->status, [1, 2, 3])) : ?>
+                                <?php if (in_array($value->status, [1, 2])) : ?>
                                   <button class="dropdown-item status" data-id="<?php echo $value->id; ?>" data-status="2">
                                     <i class="feather feather-loader"></i>
                                     Pending
