@@ -144,7 +144,7 @@ $datatable = '';
                                 <i class="fas fa-ellipsis-v"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId">
-                                <?php if (in_array($value->status, [1, 2])) : ?>
+                                <?php if (in_array($value->status, [1, 2, 3])) : ?>
                                   <button class="dropdown-item status" data-id="<?php echo $value->id; ?>" data-status="2">
                                     <i class="feather feather-loader"></i>
                                     Pending
