@@ -266,6 +266,17 @@
                   </select>
                 </div>
 
+                <div class="form-group">
+                  <label class="form-label">Leaves Types</label>
+                  <select name="leave[leave_type]" class="select2" data-placeholder="Select Leave Type" id="select-leave">
+                    <option label="select"></option>
+                    <?php foreach (EmployeeLeaveType::find_by_undeleted() as $leaveType) : ?>
+                      <option value="<?php echo $leaveType->id ?>">
+                        <?php echo ucwords($leaveType->name) ?> (<?php echo ucwords($leaveType->duration) ?>)</option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+
                 <div class="leave-content" id="multiple" style="display: block;">
                   <div class="form-group">
                     <label class="form-label">Leave Date Range:</label>
@@ -277,15 +288,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="form-label">Leaves Types</label>
-                  <select name="leave[leave_type]" class="select2" data-placeholder="Select Leave Type" id="select-leave">
-                    <option label="select"></option>
-                    <?php foreach (EmployeeLeaveType::find_by_undeleted() as $leaveType) : ?>
-                      <option value="<?php echo $leaveType->id ?>"><?php echo ucwords($leaveType->name) ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
+
                 <div class="form-group"> <label class="form-label">Reason:</label> <textarea name="leave[reason]" class="form-control" rows="5"></textarea> </div>
               </div>
             </div>

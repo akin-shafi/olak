@@ -46,6 +46,15 @@ class EmployeeLeave extends DatabaseObject
     return $this->errors;
   }
 
+  public static function find_leave_by_year($year)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE created_at LIKE'%" . self::$database->escape_string($year) . "%'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= " ORDER BY id DESC";
+    return static::find_by_sql($sql);
+  }
+
   public static function find_by_employee_id($employee_id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";

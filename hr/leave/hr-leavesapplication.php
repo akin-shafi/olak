@@ -1,7 +1,7 @@
 <?php
 require_once('../private/initialize.php');
-
-$employeeLeave = EmployeeLeave::find_by_undeleted();
+$year = date('Y');
+$employeeLeave = EmployeeLeave::find_leave_by_year($year);
 
 $page = 'Leave';
 $page_title = 'Leave Applications';
@@ -16,11 +16,11 @@ include(SHARED_PATH . '/header.php');
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-end flex-wrap my-auto end-content breadcrumb-end">
          <a href="#" class="btn btn-primary me-3 mt-3 mt-lg-0 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#leave_modal"> Request Leave</a>
-         <div class="btn-list d-none"> 
+         <div class="btn-list">
+            <a href="<?php echo url_for('leave/hr-leavesapplication.php') ?>" class="btn btn-primary"> <i class="feather feather-grid"></i> </a>
 
-            <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
-
-            <button class="btn btn-light" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button> <button class="btn btn-primary" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button> </div>
+            <a href="<?php echo url_for('leave/hr-leavesapplication-list.php') ?>" class="btn btn-light"> <i class="feather feather-list"></i> </a>
+         </div>
       </div>
    </div>
 </div>
@@ -47,10 +47,10 @@ include(SHARED_PATH . '/header.php');
                      $timeLeft = $dateTo - $currentDate; //? Seconds
                      $daysLeft = round((($timeLeft / 24) / 60) / 60); //? Days
                   ?>
-                     <div class="col-xl-4 col-lg-6 col-md-12">
+                     <div class="col-xl-3 col-lg-6 col-md-12">
                         <div class="card border p-0 shadow-none">
                            <div class="card-header border-0">
-                              <h3 class="card-title">Earned Leave Request</h3>
+                              <h3 class="card-title fs-12">Earned Leave Request</h3>
                               <?php if ($leave->approved_by != 0) : ?>
                                  <div class="ms-auto">
                                     <?php if ($daysLeft <= 0) : ?>
@@ -63,12 +63,12 @@ include(SHARED_PATH . '/header.php');
                               <?php endif; ?>
                            </div>
 
-                           <div class="d-flex p-4">
+                           <div class="d-flex p-2">
                               <div>
                                  <div class="avatar avatar-lg brround d-block cover-image" data-image-src="<?php echo url_for('assets/uploads/profiles/' . $employee->photo) ?>" style="background: url(<?php echo url_for('assets/uploads/profiles/' . $employee->photo) ?>) center center;"></div>
                               </div>
                               <div class="ps-3">
-                                 <h5 class="mb-0 mt-2 text-dark fs-18"><?php echo ucwords($employee->full_name()) ?></h5>
+                                 <h5 class="mb-0 mt-2 text-dark fs-12"><?php echo ucwords($employee->full_name()) ?></h5>
                                  <p class="text-muted fs-12 mt-1 mb-0">
                                     <?php echo ucwords($employee->branch) ?>
                                     <span class="my-auto fs-9 font-weight-normal  ms-1 me-1 text-black-20">/</span>
@@ -78,7 +78,7 @@ include(SHARED_PATH . '/header.php');
                                  </p>
                               </div>
                            </div>
-                           <div class="card-body pt-2 bg-light">
+                           <div class="card-body px-2 pt-2 bg-light">
                               <div class="mt-3 mb-3">
                                  <div class="h6 mb-1">
                                     <h4><?php echo ucwords($leaveType->name) ?></h4>
@@ -88,7 +88,7 @@ include(SHARED_PATH . '/header.php');
                                  </div>
                                  <small class="text-muted fs-11">
                                     Applied On: <?php echo date('d-m-Y', strtotime($leave->created_at)) ?>
-                                    (<span class="font-weight-semibold"><?php echo time_elapsed_string($leave->created_at,'') ?></span>)
+                                    (<span class="font-weight-semibold"><?php echo time_elapsed_string($leave->created_at, '') ?></span>)
                                  </small>
                               </div>
 
@@ -105,9 +105,9 @@ include(SHARED_PATH . '/header.php');
                                  </h6>
                               </div>
                            </div>
-                           <div class="p-4">
+                           <div class="p-2">
                               <label class="form-label">Reason:</label>
-                              <p class="text-muted leave-text"><?php echo $leave->reason ? ucfirst($leave->reason) : 'Not Set' ?></p>
+                              <p class="text-muted leave-text mb-0"><?php echo $leave->reason ? ucfirst($leave->reason) : 'Not Set' ?></p>
                            </div>
                            <div class="card-footer p-0 border-top-0">
                               <div class="btn-group w-100 leaves-btns">

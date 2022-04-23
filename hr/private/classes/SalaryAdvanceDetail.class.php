@@ -2,7 +2,7 @@
 class SalaryAdvanceDetail extends DatabaseObject
 {
   protected static $table_name = "salary_advance_details";
-  protected static $db_columns = ['id', 'ref_no', 'employee_id', 'type', 'amount', 'date_requested', 'date_issued', 'status', 'file_upload', 'note', 'deleted'];
+  protected static $db_columns = ['id', 'ref_no', 'employee_id', 'type', 'amount', 'date_requested', 'date_issued', 'created_by', 'status', 'file_upload', 'note', 'deleted'];
 
   public $id;
   public $ref_no;
@@ -11,6 +11,7 @@ class SalaryAdvanceDetail extends DatabaseObject
   public $amount;
   public $date_requested;
   public $date_issued;
+  public $created_by;
   public $status;
   public $file_upload;
   public $note;
@@ -25,6 +26,7 @@ class SalaryAdvanceDetail extends DatabaseObject
     2 => 'In View',
     3 => 'Approved',
     4 => 'Rejected',
+    5 => 'Collected',
   ];
 
   const COLOR = [
@@ -32,6 +34,7 @@ class SalaryAdvanceDetail extends DatabaseObject
     2 => 'text-warning',
     3 => 'text-success',
     4 => 'text-danger',
+    5 => 'text-secondary',
   ];
 
   public function __construct($args = [])
@@ -42,6 +45,7 @@ class SalaryAdvanceDetail extends DatabaseObject
     $this->amount           = $args['amount'] ?? '';
     $this->date_requested   = $args['date_requested'] ?? date('Y-m-d H:i:s');
     $this->date_issued      = $args['date_issued'] ?? '';
+    $this->created_by       = $args['created_by'] ?? '';
     $this->status           = $args['status'] ?? 1;
     $this->file_upload      = $args['file_upload'] ?? '';
     $this->note             = $args['note'] ?? '';

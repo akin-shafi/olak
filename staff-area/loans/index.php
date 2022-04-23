@@ -204,7 +204,8 @@ $datatable = '';
 
                         <td class="text-start d-flex">
                           <button class="btn btn-sm btn-outline-primary me-2" data-id="<?php echo $loan->id ?>" id="get_advance_detail" data-bs-toggle="modal" data-bs-target="#loan_detail"> <i class="feather feather-eye"></i> </button>
-                          <button class="btn btn-sm btn-outline-danger" data-id="<?php echo $loan->id ?>" id="delete_loan" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2"></i> </button>
+                          <!-- <button class="btn btn-sm btn-outline-danger" data-id="<?php //echo $loan->id 
+                                                                                      ?>" id="delete_loan" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2"></i> </button> -->
                         </td>
                       </tr>
                     <?php endforeach; ?>
@@ -286,7 +287,8 @@ $datatable = '';
 
                         <td class="text-start d-flex">
                           <button class="btn btn-sm btn-outline-primary me-2" data-id="<?php echo $loan->id ?>" id="get_long_detail" data-bs-toggle="modal" data-bs-target="#loan_detail"> <i class="feather feather-eye"></i> </button>
-                          <button class="btn btn-sm btn-outline-danger" data-id="<?php echo $loan->id ?>" id="delete_long_loan" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2"></i> </button>
+                          <!-- <button class="btn btn-sm btn-outline-danger" data-id="<?php //echo $loan->id 
+                                                                                      ?>" id="delete_long_loan" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Delete"> <i class="feather feather-trash-2"></i> </button> -->
                         </td>
                       </tr>
                     <?php endforeach; ?>
@@ -452,10 +454,10 @@ $datatable = '';
       $('#loan_notes').html(res.note);
     })
 
-    $(document).on("click", "#delete_loan", function() {
-      let loan_id = this.dataset.id;
-      deleted(LOAN_URL + "?loan_id=" + loan_id + "&deleted");
-    });
+    // $(document).on("click", "#delete_loan", function() {
+    //   let loan_id = this.dataset.id;
+    //   deleted(LOAN_URL + "?loan_id=" + loan_id + "&deleted");
+    // });
 
     $(document).on('click', '#get_long_detail', async function() {
       let loan_id = this.dataset.id;
@@ -465,10 +467,10 @@ $datatable = '';
       $('#loan_notes').html(res.note);
     })
 
-    $(document).on("click", "#delete_long_loan", function() {
-      let loan_id = this.dataset.id;
-      deleted(LOAN_URL + "?loan_id=" + loan_id + "&deleteLong");
-    });
+    // $(document).on("click", "#delete_long_loan", function() {
+    //   let loan_id = this.dataset.id;
+    //   deleted(LOAN_URL + "?loan_id=" + loan_id + "&deleteLong");
+    // });
 
     let isLongTerm = document.getElementById('isLongTerm');
     $('#loan_type').select2({

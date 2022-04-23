@@ -6,12 +6,11 @@ $page_title = 'Loan Management';
 include(SHARED_PATH . '/header.php');
 $datatable = '';
 
-$totalLoanRequested = intval(count(LongTermLoanDetail::find_by_undeleted()));
+$year = date('Y');
+$totalLoanRequested = intval(count(LongTermLoanDetail::find_loan_by_year($year)));
 
 $longLoanPending  = LongTermLoanDetail::find_by_loan_approved(['status' => 2])->counts;
-
 $longLoanApproved = LongTermLoanDetail::find_by_loan_approved(['status' => 3])->counts;
-
 $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->counts;
 
 ?>

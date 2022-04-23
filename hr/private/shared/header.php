@@ -1,22 +1,21 @@
 <?php require_login();
 $user = $loggedInAdmin;
 // pre_r($user);
-if(!empty($user)){
-    $id = $loggedInAdmin->id;
-    $employee = Employee::find_by_id($id);
-    
-    if (!empty($employee->photo)) {
-       $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
-    } else {
-       if ($employee->gender == 'Male') {
-          $profile_picture = url_for('assets/images/users/male.jpg');
-       } else {
-          $profile_picture = url_for('assets/images/users/female.jpg');
-       }
-    }
+if (!empty($user)) {
+   $eId = $loggedInAdmin->id;
+   $employeeStaff = Employee::find_by_id($eId);
 
-}else{
-    redirect_to(url_for('logout.php'));
+   if (!empty($employeeStaff->photo)) {
+      $profile_picture = url_for('assets/uploads/profiles/' . $employeeStaff->photo);
+   } else {
+      if ($employeeStaff->gender == 'Male') {
+         $profile_picture = url_for('assets/images/users/male.jpg');
+      } else {
+         $profile_picture = url_for('assets/images/users/female.jpg');
+      }
+   }
+} else {
+   redirect_to(url_for('logout.php'));
 }
 
 ?>
@@ -76,11 +75,11 @@ if(!empty($user)){
                <div class="app-sidebar3 ps ps--active-y is-expanded">
                   <div class="app-sidebar__user active">
                      <div class="dropdown user-pro-body text-center">
-                        <div class="user-pic"> <img src="<?php echo $profile_picture ?>" alt="user-img" class="avatar-xxl rounded-circle mb-1"> </div> 
+                        <div class="user-pic"> <img src="<?php echo $profile_picture ?>" alt="user-img" class="avatar-xxl rounded-circle mb-1"> </div>
                         <div class="user-info">
                            <h5 class=" mb-2"><?php echo ucwords($user->full_name()) ?></h5>
                            <span class="text-muted app-sidebar__user-name text-sm">
-                              <?php echo $user->admin_level ?Admin::ADMIN_LEVEL[$user->admin_level]  : 'Not Set' ?></span>
+                              <?php echo $user->admin_level ? Admin::ADMIN_LEVEL[$user->admin_level]  : 'Not Set' ?></span>
                         </div>
                      </div>
                   </div>
@@ -122,12 +121,12 @@ if(!empty($user)){
                               </ul>
                            </li>
 
-                           
+
 
                            <li class="sub-slide">
                               <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Payroll</span><i class="sub-angle fa fa-angle-right"></i></a>
                               <ul class="sub-slide-menu">
-                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-empsalary.php?q='. "not set") ?>">Employee Salary</a></li>
+                                 <li><a class="sub-slide-item" href="<?php echo url_for('payroll/hr-empsalary.php?q=' . "not set") ?>">Employee Salary</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll.php') ?>">Payroll</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/tax_calculator.php') ?>">Tax Calculator</a></li>
                                  <li><a class="sub-slide-item" href="<?php echo url_for('payroll/payroll-items.php') ?>">Payroll Settings</a></li>

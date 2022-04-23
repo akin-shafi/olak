@@ -104,7 +104,10 @@ $datatable = '';
                         ?>
                           <tr class="<?php echo $class; ?>">
                             <td><?php echo $sn++; ?></td>
-                            <td><?php echo $value->ref_no; ?></td>
+                            <td>
+                              <a href="<?php echo url_for('loan/receipt.php?id=' . $value->id) ?>">
+                                <?php echo $value->ref_no; ?></a>
+                            </td>
                             <td>
                               <a href="<?php echo url_for('employees/hr-empview.php?id=' . $employee->id); ?>" class="d-flex align-items-center">
                                 <span class="avatar avatar-md brround me-3" style="background-image: url( <?php echo $image ?>);"></span>
@@ -172,6 +175,8 @@ $datatable = '';
 
               </div>
             </div>
+
+            
           </div>
         </div>
       </div>
@@ -180,7 +185,7 @@ $datatable = '';
 
 </div>
 
-
+<!-- //TODO while -->
 <div id="loan_request" class="modal custom-modal fade select_loan" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -191,6 +196,7 @@ $datatable = '';
         </button>
       </div>
       <form id="add_loan_form" class="mb-0">
+        <input type="hidden" name="loan[created_by]" value="<?php echo $loggedInAdmin->id ?>" id="">
         <div class="modal-body">
           <div class="form-group">
             <label>Employees</label>
@@ -308,6 +314,7 @@ $datatable = '';
     };
 
     const EMPLOYEE_URL = "../inc/employee/";
+    const RECEIPT_URL = "./receipt.php";
 
     const loanForm = document.getElementById("add_loan_form");
 
@@ -347,6 +354,8 @@ $datatable = '';
         swal(res.message, {
           icon: "success",
         });
+      } else if (status == 3) {
+        window.location.href = RECEIPT_URL + '?id=' + id
       } else {
         message('success', res.message)
       }
