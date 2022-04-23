@@ -81,7 +81,7 @@ class Payroll extends DatabaseObject
       $sql .= " AND `month`='" . self::$database->escape_string($setDate) . "'";
     endif;
 
-    echo $sql;
+    // echo $sql;
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {

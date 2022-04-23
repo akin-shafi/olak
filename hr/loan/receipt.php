@@ -3,7 +3,7 @@ require_once('../private/initialize.php');
 
 $id = $_GET['id'] ?? '';
 if (empty($id)) {
-  redirect_to('../salary_adv_mgt.php');
+  redirect_to('../loan/salary_adv_mgt.php');
 } else {
   $salAdDet = SalaryAdvanceDetail::find_by_id($id);
   $salAdv = SalaryAdvance::find_by_employee_id($salAdDet->employee_id, ['current' => date('Y-m')]);

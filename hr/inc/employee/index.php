@@ -224,12 +224,12 @@ if (is_post_request()) {
         $args['loan_repayment'] = $args['loan_deduction'];
         $args['status'] = 3;
 
-        $longTerm = new LongTermLoanDetail($args);
-        $longTerm->save();
+        $longTDet = new LongTermLoanDetail($args);
+        $longTDet->save();
 
-        if ($longTerm) {
-          $longDetails = LongTermLoanDetail::find_by_employee_id($longTerm->employee_id);
-          $longLoan = LongTermLoan::find_by_employee_id($longTerm->employee_id);
+        if ($longTDet) {
+          $longDetails = LongTermLoanDetail::find_by_employee_id($longTDet->employee_id);
+          $longLoan = LongTermLoan::find_by_employee_id($longTDet->employee_id);
 
           if (!empty($longLoan->employee_id)) {
             $longLoan->merge_attributes(['amount_paid' => $longDetails->total_loan_refunded]);
@@ -238,7 +238,7 @@ if (is_post_request()) {
             $params = [
               'employee_id' => $args['employee_id'],
               'amount_requested' => $args['amount'],
-              'amount_paid' => $args['loan_deduction'],
+              'amount_paid' => 0,
               'commitment' => $args['loan_deduction'],
             ];
             $longTermLoan = new LongTermLoan($params);

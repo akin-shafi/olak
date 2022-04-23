@@ -31,10 +31,9 @@ if (isset($_POST['computeSalary'])) {
 	$config = new Configuration($data);
 	$result = $config->save();
 
-	// $result = true;
 	if ($result == true) {
 		foreach ($employees as $value) {
-			$salary_advance = SalaryAdvance::find_by_employee_id($value->id);
+			$salary_advance = SalaryAdvance::find_by_employee_id($value->id, ['current' => date('Y-m')]);
 			$salary = intval($value->present_salary);
 			$commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
 
@@ -49,14 +48,12 @@ if (isset($_POST['computeSalary'])) {
 			];
 
 			$staff_salary = new Payroll($args);
-			// pre_r($staff_salary);
 			$result_set = $staff_salary->save();
-			// $result_set = true;
 		}
 		if ($result_set == true) {
 			exit(json_encode(['success' => true, 'msg' => 'Salary Compute Successfully']));
 		} else {
-			exit(json_encode(['success' => false, 'msg' => 'Erorr can not compute salary, Something went wrong']));
+			exit(json_encode(['success' => false, 'msg' => 'Error can not compute salary, Something went wrong']));
 		}
 	} else {
 		http_response_code(404);
