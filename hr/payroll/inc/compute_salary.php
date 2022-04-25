@@ -32,10 +32,18 @@ if (isset($_POST['computeSalary'])) {
 	$result = $config->save();
 
 	if ($result == true) {
-		foreach ($employees as $value) {
+		$empId = [];
+
+		foreach ($employees as $value) :
 			$salary_advance = SalaryAdvance::find_by_employee_id($value->id, ['current' => date('Y-m')]);
+			$empLoan = LongTermLoan::find_by_employee_id($payroll->employee_id);
+
 			$salary = intval($value->present_salary);
 			$commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
+
+			if ($commitment != '0.00') {
+				array_push($empId, $payroll->employee_id);
+			}
 
 			$args = [
 				'employee_id' => $value->id,
@@ -47,17 +55,34 @@ if (isset($_POST['computeSalary'])) {
 				'payment_status' => 1,
 			];
 
-			$staff_salary = new Payroll($args);
-			$result_set = $staff_salary->save();
-		}
-		if ($result_set == true) {
+			$payroll = new Payroll($args);
+			$result = $payroll->save();
+		endforeach;
+
+		if ($result == true) :
+
+			foreach ($empId as $key => $value) :
+				$longLoan = LongTermLoan::find_by_employee_id($value);
+
+				$amountRequested = intval($longLoan->amount_requested);
+				$commitment = intval($longLoan->commitment);
+				$amountPaid = intval($longLoan->amount_paid) + $commitment;
+
+				$args = ['amount_paid' => $amountPaid];
+
+				if ($amountRequested != $amountPaid) :
+					$longLoan->merge_attributes($args);
+					$longLoan->save();
+				endif;
+			endforeach;
+
 			exit(json_encode(['success' => true, 'msg' => 'Salary Compute Successfully']));
-		} else {
+		else :
 			exit(json_encode(['success' => false, 'msg' => 'Error can not compute salary, Something went wrong']));
-		}
+		endif;
 	} else {
 		http_response_code(404);
-		// exit(json_encode(['error' => display_errors($staff_salary->errors)]));
+		// exit(json_encode(['error' => display_errors($payroll->errors)]));
 	}
 }
 
@@ -88,12 +113,12 @@ if (isset($_POST['updateSalary'])) {
 			];
 
 			$find_by_id->merge_attributes($data);
-			$result_set = $find_by_id->save();
+			$result = $find_by_id->save();
 		}
 		exit(json_encode(['success' => true, 'msg' => 'Salary Updated Successfully']));
 	} else {
 		http_response_code(404);
-		exit(json_encode(['error' => display_errors($staff_salary->errors)]));
+		exit(json_encode(['error' => display_errors($payroll->errors)]));
 	}
 }
 

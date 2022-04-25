@@ -19,7 +19,7 @@ class LongTermLoan extends DatabaseObject
   {
     $this->employee_id        = $args['employee_id'] ?? '';
     $this->amount_requested   = $args['amount_requested'] ?? '';
-    $this->amount_paid        = $args['amount_paid'] ?? '';
+    $this->amount_paid        = $args['amount_paid'] ?? 0;
     $this->commitment         = $args['commitment'] ?? '';
     $this->date_requested     = $args['date_requested'] ?? date('Y-m-d H:i:s');
     $this->deleted            = $args['deleted'] ?? '';

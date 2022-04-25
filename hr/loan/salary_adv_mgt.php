@@ -176,7 +176,7 @@ $datatable = '';
               </div>
             </div>
 
-            
+
           </div>
         </div>
       </div>
@@ -185,7 +185,6 @@ $datatable = '';
 
 </div>
 
-<!-- //TODO while -->
 <div id="loan_request" class="modal custom-modal fade select_loan" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

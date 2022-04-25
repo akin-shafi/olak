@@ -177,7 +177,9 @@ if (is_post_request()) {
       $args = $_POST['loan'];
       $employeeId = $args['employee_id'];
 
-      $args['ref_no'] = 'SAL-' . rand(100, 999) . '0' . $employeeId; //? SAL: Salary Advance Loan
+      $prefix = $args['type'] == 1 ? 'SAL-' : 'LTL-';
+
+      $args['ref_no'] = $prefix . rand(100, 999) . '0' . $employeeId; //? SAL: Salary Advance Loan
       $args['status'] = 3;
       $args['date_issued'] = date('Y-m-d');
 
@@ -220,30 +222,31 @@ if (is_post_request()) {
           exit(json_encode(['errors' => $loan->errors]));
         }
       } else {
-        $args['commitment_duration'] = $args['loan_duration'];
-        $args['loan_repayment'] = $args['loan_deduction'];
-        $args['status'] = 3;
+        $longLoan = LongTermLoan::find_by_employee_id($employeeId);
+        $amountRequested = intval($longLoan->amount_requested);
+        $commitment = intval($longLoan->commitment);
+        $amountPaid = intval($longLoan->amount_paid) + $commitment;
 
-        $longTDet = new LongTermLoanDetail($args);
-        $longTDet->save();
+        if (!empty($longLoan->employee_id) && ($amountRequested != $amountPaid)) {
+          exit(json_encode(['errors' => true, 'message' => 'Sorry! You have not pay up the previous loan received!']));
+        }
+        
+        $params = [
+          'employee_id' => $employeeId,
+          'amount_requested' => $args['amount'],
+          'amount_paid' => 0,
+          'commitment' => $args['loan_deduction'],
+        ];
 
-        if ($longTDet) {
-          $longDetails = LongTermLoanDetail::find_by_employee_id($longTDet->employee_id);
-          $longLoan = LongTermLoan::find_by_employee_id($longTDet->employee_id);
+        $longTermLoan = new LongTermLoan($params);
+        $longTermLoan->save();
 
-          if (!empty($longLoan->employee_id)) {
-            $longLoan->merge_attributes(['amount_paid' => $longDetails->total_loan_refunded]);
-            $longLoan->save();
-          } else {
-            $params = [
-              'employee_id' => $args['employee_id'],
-              'amount_requested' => $args['amount'],
-              'amount_paid' => 0,
-              'commitment' => $args['loan_deduction'],
-            ];
-            $longTermLoan = new LongTermLoan($params);
-            $longTermLoan->save();
-          }
+        if ($longTermLoan) {
+          $args['commitment_duration'] = $args['loan_duration'];
+          $args['loan_repayment'] = $args['loan_deduction'];
+
+          $longTDet = new LongTermLoanDetail($args);
+          $longTDet->save();
         }
       }
 

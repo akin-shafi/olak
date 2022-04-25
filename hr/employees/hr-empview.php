@@ -5,7 +5,7 @@ $page = 'Employees';
 $page_title = 'Employees View';
 include(SHARED_PATH . '/header.php');
 $all = Employee::find_by_undeleted(['order' => 'ASC']);
-$my_id = array_values($all)[0]->id;
+$my_id = !empty($all) ?? array_values($all)[0]->id;
 $id = $_GET['id'] ?? $my_id;
 
 
@@ -17,7 +17,7 @@ $experience = EmployeeExperience::find_by_employee_id($id);
 if (!empty($employee->photo)) {
    $profile_picture = url_for('assets/uploads/profiles/' . $employee->photo);
 } else {
-   if ($employee->gender == 'Male') {
+   if (isset($employee->gender) && $employee->gender == 'Male') {
       $profile_picture = url_for('assets/images/users/male.jpg');
    } else {
       $profile_picture = url_for('assets/images/users/female.jpg');
@@ -38,7 +38,8 @@ $select2 = '';
 
    <div class="page-rightheader ms-md-auto">
       <div class="d-flex align-items-center">
-         <!-- <a href="<?php //echo url_for('employees/hr-addemployee.php') ?>" class="btn btn-sm btn-primary me-3">Add New Employee</a> -->
+         <!-- <a href="<?php //echo url_for('employees/hr-addemployee.php') 
+                        ?>" class="btn btn-sm btn-primary me-3">Add New Employee</a> -->
 
          <select class="select2" data-placeholder="Select Employee" id="query_employee">
             <option label="Select Employee"></option>

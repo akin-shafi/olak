@@ -32,12 +32,12 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
     <form class="form-inline " id="find_week">
       <div class="form-group p-1">
         <label>Year: </label>
-        <input type="text" class="form-control" id="compute_year" value="<?php echo date('Y') ?>" readonly>
+        <input type="text" class="form-control ms-1" id="compute_year" value="<?php echo date('Y') ?>" readonly>
       </div>
 
       <div class=" form-group p-1">
         <label>Month: </label>
-        <select class="form-control " id="compute_month" data-placeholder="Select Month">
+        <select class="form-control ms-1" id="compute_month" data-placeholder="Select Month">
           <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
           <?php foreach (Payroll::MONTH as $key => $value) : ?>
             <option value="<?php echo $key; ?>" <?php echo $key == date('m', strtotime($queryByMonth)) ? 'selected' : '' ?> <?php echo $key > date('m') ? 'disabled' : '' ?>>
@@ -93,7 +93,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                       <?php } ?>
 
                       <th>(₦) Salary Advance</th>
-                      <th>(₦) Loan</th>
+                      <th>(₦) Commitment (LTL)</th>
                       <th>(₦) Take Home</th>
                       <th>Status</th>
                       <th class="bg-white">Action</th>
@@ -108,7 +108,9 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                       $salary_advance = SalaryAdvance::find_by_employee_id($value->employee_id, ['current' => date('Y-m')]);
                       $employee = Employee::find_by_id($value->employee_id);
                       $salary = intval($value->present_salary);
+
                       $commitment = isset($empLoan->commitment) ? intval($empLoan->commitment) : '0.00';
+
                       $salAdv = $salary_advance->total_requested != 0 ? intval($salary_advance->total_requested) : 0;
 
                       $tax = Payroll::tax_calculator(['netSalary' => $salary]);
@@ -132,7 +134,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                             <span class="avatar avatar-md brround me-3" style="background-image: url(../../assets/images/users/1.jpg)"></span>
                             <div class="me-3 mt-0 mt-sm-1 d-block">
                               <h6 class="mb-1 fs-14"><?php echo isset($employee->first_name) ? $employee->full_name() : 'Not Set' ?></h6>
-                              <p class="text-muted mb-0 fs-12">Emp ID: <?php echo isset($employee->employee_id) ? str_pad($employee->employee_id, 3, '0', STR_PAD_LEFT) : 'Not Set'; ?></p>
+                              <p class="text-muted mb-0 fs-12">Emp ID: <?php echo isset($employee->id) ? str_pad($employee->id, 3, '0', STR_PAD_LEFT) : 'Not Set'; ?></p>
                             </div>
                           </div>
                         </td>
@@ -361,11 +363,16 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
           month: filterDate,
         },
         dataType: 'json',
+        beforeSend: function() {
+          $('#ajax_loader').show();
+        },
         success: function(data) {
           if (data.success == true) {
+            $('#ajax_loader').hide();
             // Salary already computed
             errorOption(data.msg, data.sub);
           } else {
+            $('#ajax_loader').hide();
             // No Salary Found
             // errorAlert(data.msg)
             computeSalary();
@@ -389,11 +396,16 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
           present_days: 31,
         },
         dataType: 'json',
+        beforeSend: function() {
+          $('#ajax_loader').show();
+        },
         success: function(data) {
           if (data.success == true) {
+            $('#ajax_loader').hide();
             successAlert(data.msg)
             get_record(filterYear, filterDate)
           } else {
+            $('#ajax_loader').hide();
             errorAlert(data.msg);
 
           }
@@ -413,10 +425,15 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
           month: filterDate,
         },
         dataType: 'json',
+        beforeSend: function() {
+          $('#ajax_loader').show();
+        },
         success: function(data) {
           if (data.success == true) {
+            $('#ajax_loader').hide();
             successAlert(data.msg)
           } else {
+            $('#ajax_loader').hide();
             errorAlert(data.msg);
 
           }
@@ -469,7 +486,6 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
         success: function(data) {
           if (data.success == true) {
             message('success', data.msg);
-            // window.location.reload();
             get_record(filterYear, filterDate)
           } else {
             message('error', data.msg);

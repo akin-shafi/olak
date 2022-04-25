@@ -11,7 +11,8 @@ $admin = Admin::find_by_id($id);
       <option value="">Select Role</option>
       <?php foreach (Admin::ADMIN_LEVEL as $key => $value) { ?>
         <?php if ($key != 1) { ?>
-          <option value="<?php echo $key ?>" <?php echo $key == $admin->admin_level ? 'selected' : '' ?>><?php echo $value ?></option>
+          <option value="<?php echo $key ?>" <?php echo $key == $admin->admin_level ? 'selected' : '' ?>>
+            <?php echo $value ?></option>
         <?php } ?>
       <?php } ?>
 

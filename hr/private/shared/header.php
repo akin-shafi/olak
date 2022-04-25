@@ -8,7 +8,7 @@ if (!empty($user)) {
    if (!empty($employeeStaff->photo)) {
       $profile_picture = url_for('assets/uploads/profiles/' . $employeeStaff->photo);
    } else {
-      if ($employeeStaff->gender == 'Male') {
+      if (!empty($employeeStaff->gender) && $employeeStaff->gender == 'Male') {
          $profile_picture = url_for('assets/images/users/male.jpg');
       } else {
          $profile_picture = url_for('assets/images/users/female.jpg');
@@ -60,9 +60,19 @@ if (!empty($user)) {
       <script src="<?php echo url_for('assets/plugins/jquery/jquery.min.js') ?>"></script>
 
       <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+      <link href="<?php echo url_for('assets/css/ajax_loader.css') ?>" rel="stylesheet" />
    </head>
 
    <body class="app sidebar-mini">
+      <div class="loader" id="ajax_loader" style="display:none;">
+         <div class="strip-holder">
+            <div class="strip-1"></div>
+            <div class="strip-2"></div>
+            <div class="strip-3"></div>
+         </div>
+      </div>
+
       <div class="page">
          <div class="page-main is-expanded">
 
