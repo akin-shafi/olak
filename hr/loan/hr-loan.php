@@ -282,17 +282,19 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
           <div class="row " id="isLongTerm">
             <div class="col-md-6">
               <div class="form-group">
+                <label>Monthly Deduction (Currency)</label>
+                <input type="text" class="form-control insert" name="loan[loan_deduction]" id="deduction" placeholder="Deduction Rate">
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="form-group">
                 <label>Pay-back Duration (In Month)</label>
                 <input type="text" class="form-control insert" value="0" id="duration" name="loan[loan_duration]" placeholder="Duration">
               </div>
             </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Monthly Deduction (Currency)</label>
-                <input type="text" class="form-control insert" name="loan[loan_deduction]" id="deduction" placeholder="Deduction Rate">
-              </div>
-            </div>
+            
           </div>
 
           <div class="form-group">
