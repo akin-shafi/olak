@@ -28,12 +28,15 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
   <div class="page-rightheader ms-md-auto">
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
       <div class="btn-list">
+        <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">
+          Loan Request</button>
+
         <?php //foreach (Configuration::find_all() as $value) :
-        if (Configuration::find_all()[0]->loan_config == 1) :
-          echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Loan Request</button>';
-        else :
+        //if (Configuration::find_all()[0]->loan_config == 1) :
+        //echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Loan Request</button>';
+        //else :
         // echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
-        endif;
+        //endif;
         //endforeach; 
         ?>
 
@@ -279,18 +282,17 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
           <div class="row " id="isLongTerm">
             <div class="col-md-6">
               <div class="form-group">
-                <label>Monthly Deduction(Currency)</label>
-                <input type="number" class="form-control" name="loan[loan_deduction]" id="loan_deduction" placeholder="Deduction Rate">
+                <label>Pay-back Duration (In Month)</label>
+                <input type="text" class="form-control insert" value="0" id="duration" name="loan[loan_duration]" placeholder="Duration">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group">
-                <label>Pay-back Duration(In Month)</label>
-                <input type="text" class="form-control" readonly value="0" id="payback_duration" name="loan[loan_duration]" placeholder="Duration">
+                <label>Monthly Deduction (Currency)</label>
+                <input type="text" class="form-control insert" name="loan[loan_deduction]" id="deduction" placeholder="Deduction Rate">
               </div>
             </div>
-
           </div>
 
           <div class="form-group">
@@ -415,9 +417,10 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
       let salary = res.data.present_salary;
       let balance = res.balance;
 
-      document.getElementById('sal').innerText = salary != '' ? numberWithCommas(salary) : 'Not set';
-      document.getElementById('allowable').innerText = numberWithCommas(salary * 0.4);
-      document.getElementById('loan_balance').innerText = balance != '' ? numberWithCommas(balance) : 'Not set'
+
+      // document.getElementById('sal').innerText = salary != '' ? numberWithCommas(salary) : 'Not set';
+      // document.getElementById('allowable').innerText = numberWithCommas(salary * 0.4);
+      // document.getElementById('loan_balance').innerText = balance != '' ? numberWithCommas(balance) : 'Not set'
     });
 
     let isLongTerm = document.getElementById('isLongTerm');
@@ -431,13 +434,21 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
       }
     });
 
-    $(document).on('input', '#loan_deduction', function() {
-      var amt = $("#amount").val();
-      // var payback_duration = $("#payback_duration").val();
-      var loan_deduction = $(this).val();
-      var payback_duration = amt / loan_deduction;
-      $("#payback_duration").val(payback_duration);
-
+    $('#deduction').on('input', function() {
+      let deAmount = Number($(this).val());
+      calculator('duration', deAmount)
     })
+
+    $('#duration').on('input', function() {
+      let durVal = Number($(this).val());
+      calculator('deduction', durVal)
+    })
+
+    const calculator = (elem, divisor) => {
+      let dividend = Number($("#amount").val());
+      let element = '#' + elem
+      let result = dividend / divisor;
+      $(element).val(Math.ceil(result));
+    }
   });
 </script>

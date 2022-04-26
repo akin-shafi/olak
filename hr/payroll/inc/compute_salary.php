@@ -35,15 +35,17 @@ if (isset($_POST['computeSalary'])) {
 		$empId = [];
 
 		foreach ($employees as $value) :
-			$salary_advance = SalaryAdvance::find_by_employee_id($value->id, ['current' => date('Y-m')]);
-			$empLoan = LongTermLoan::find_by_employee_id($payroll->employee_id);
+			$date = $_POST['year'] . "-" . $_POST['month'];
+
+			$salary_advance = SalaryAdvance::find_by_employee_id($value->id, ['current' => $date]);
+			$empLoan = LongTermLoan::find_by_employee_id($value->id);
+
+			if (!empty($empLoan)) {
+				array_push($empId, $value->id);
+			}
 
 			$salary = intval($value->present_salary);
 			$commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
-
-			if ($commitment != '0.00') {
-				array_push($empId, $payroll->employee_id);
-			}
 
 			$args = [
 				'employee_id' => $value->id,
@@ -60,20 +62,20 @@ if (isset($_POST['computeSalary'])) {
 		endforeach;
 
 		if ($result == true) :
-
 			foreach ($empId as $key => $value) :
 				$longLoan = LongTermLoan::find_by_employee_id($value);
 
 				$amountRequested = intval($longLoan->amount_requested);
 				$commitment = intval($longLoan->commitment);
-				$amountPaid = intval($longLoan->amount_paid) + $commitment;
 
+
+				if ($amountRequested == $longLoan->amount_paid) continue;
+
+				$amountPaid = intval($longLoan->amount_paid) + $commitment;
 				$args = ['amount_paid' => $amountPaid];
 
-				if ($amountRequested != $amountPaid) :
-					$longLoan->merge_attributes($args);
-					$longLoan->save();
-				endif;
+				$longLoan->merge_attributes($args);
+				$longLoan->save();
 			endforeach;
 
 			exit(json_encode(['success' => true, 'msg' => 'Salary Compute Successfully']));
@@ -94,32 +96,34 @@ if (isset($_POST['updateSalary'])) {
 
 	$data = [
 		'process_salary' => 1,
-		'process_salary_date' => $date,
+		'process_salary_date' => $date . date("-d"),
 	];
 	$config->merge_attributes($data);
 	$result = $config->save();
 
-	if ($result == true) {
-		$payroll = Payroll::find_by_month($month);
-		foreach ($payroll as $value) {
-			$find_by_id = Payroll::find_by_id($value->id);
-			$args = [
-				'employee_id' => $value->id,
-				'present_salary' => $salary,
-				'loan' => $commitment,
-				'salary_advance' => $salary_advance->total_requested,
-				'present_days' => $_POST['present_day'],
-				'payment_status' => 1,
-			];
+	exit(json_encode(['success' => true, 'msg' => 'Salary Updated Successfully']));
 
-			$find_by_id->merge_attributes($data);
-			$result = $find_by_id->save();
-		}
-		exit(json_encode(['success' => true, 'msg' => 'Salary Updated Successfully']));
-	} else {
-		http_response_code(404);
-		exit(json_encode(['error' => display_errors($payroll->errors)]));
-	}
+	// if ($result == true) {
+	// 	$payroll = Payroll::find_by_month($month);
+	// 	foreach ($payroll as $value) {
+	// 		$find_by_id = Payroll::find_by_id($value->id);
+	// 		$args = [
+	// 			'employee_id' => $value->id,
+	// 			'present_salary' => $salary,
+	// 			'loan' => $commitment,
+	// 			'salary_advance' => $salary_advance->total_requested,
+	// 			'present_days' => $_POST['present_day'],
+	// 			'payment_status' => 1,
+	// 		];
+
+	// 		$find_by_id->merge_attributes($data);
+	// 		$result = $find_by_id->save();
+	// 	}
+	// 	exit(json_encode(['success' => true, 'msg' => 'Salary Updated Successfully']));
+	// } else {
+	// 	http_response_code(404);
+	// 	exit(json_encode(['error' => display_errors($payroll->errors)]));
+	// }
 }
 
 ?>

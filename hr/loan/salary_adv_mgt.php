@@ -20,15 +20,17 @@ $datatable = '';
   <div class="page-rightheader ms-md-auto">
     <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
       <div class="btn-list">
+        <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">
+          Make Request</button>
         <!-- <a href="<?php //echo url_for('loan/hr-loan.php') 
                       ?>" class="btn btn-outline-dark"><i class="las la-arrow-left"></i> Long Term</a> -->
         <?php //foreach (Configuration::find_all() as $value) :
-        if (Configuration::find_all()[0]->loan_config == 1) :
-          echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Make Request</button>';
-        else :
-          echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
-        endif;
-        //endforeach; 
+        //if (Configuration::find_all()[0]->loan_config == 1) :
+        //echo '<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loan_request">Make Request</button>';
+        //else :
+        //echo '<button type="button" class="btn btn-dark me-3" data-bs-toggle="modal" data-bs-target="#loan_request_closed">Loan Request</button>';
+        //endif;
+        ////endforeach; 
         ?>
 
         <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>

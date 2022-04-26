@@ -223,30 +223,37 @@ if (is_post_request()) {
         }
       } else {
         $longLoan = LongTermLoan::find_by_employee_id($employeeId);
-        $amountRequested = intval($longLoan->amount_requested);
-        $commitment = intval($longLoan->commitment);
-        $amountPaid = intval($longLoan->amount_paid) + $commitment;
 
-        if (!empty($longLoan->employee_id) && ($amountRequested != $amountPaid)) {
-          exit(json_encode(['errors' => true, 'message' => 'Sorry! You have not pay up the previous loan received!']));
-        }
-        
-        $params = [
-          'employee_id' => $employeeId,
-          'amount_requested' => $args['amount'],
-          'amount_paid' => 0,
-          'commitment' => $args['loan_deduction'],
-        ];
+        if (empty($longLoan->employee_id)) {
+          $params = [
+            'employee_id' => $employeeId,
+            'amount_requested' => $args['amount'],
+            'amount_paid' => 0,
+            'commitment' => $args['loan_deduction'],
+          ];
 
-        $longTermLoan = new LongTermLoan($params);
-        $longTermLoan->save();
+          $longTermLoan = new LongTermLoan($params);
+          $longTermLoan->save();
 
-        if ($longTermLoan) {
-          $args['commitment_duration'] = $args['loan_duration'];
-          $args['loan_repayment'] = $args['loan_deduction'];
+          if ($longTermLoan) {
+            $args['commitment_duration'] = $args['loan_duration'];
+            $args['loan_repayment'] = $args['loan_deduction'];
 
-          $longTDet = new LongTermLoanDetail($args);
-          $longTDet->save();
+            $longTDet = new LongTermLoanDetail($args);
+            $longTDet->save();
+          }
+
+          http_response_code(201);
+          $response['message'] = 'Employee loan created successfully!';
+        } else {
+          $amountRequested = intval($longLoan->amount_requested);
+          $commitment = intval($longLoan->commitment);
+          $amountPaid = intval($longLoan->amount_paid) + $commitment;
+
+          if (!empty($longLoan->employee_id) && ($amountRequested != $amountPaid)) {
+            http_response_code(404);
+            exit(json_encode(['errors' => 'Sorry! You have not pay up the previous loan received!']));
+          }
         }
       }
 

@@ -65,7 +65,7 @@ if (!empty($user)) {
    </head>
 
    <body class="app sidebar-mini">
-      <div class="loader" id="ajax_loader" style="display:none;">
+      <div class="loaders" id="ajax_loader" style="display:none;">
          <div class="strip-holder">
             <div class="strip-1"></div>
             <div class="strip-2"></div>

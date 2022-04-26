@@ -363,16 +363,11 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
           month: filterDate,
         },
         dataType: 'json',
-        beforeSend: function() {
-          $('#ajax_loader').show();
-        },
         success: function(data) {
           if (data.success == true) {
-            $('#ajax_loader').hide();
             // Salary already computed
             errorOption(data.msg, data.sub);
           } else {
-            $('#ajax_loader').hide();
             // No Salary Found
             // errorAlert(data.msg)
             computeSalary();
@@ -440,6 +435,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
         }
       })
     }
+
     var filterYear = $("#compute_year").val()
     var filterDate = $("#compute_month").val()
     load_filter(filterYear, filterDate);
