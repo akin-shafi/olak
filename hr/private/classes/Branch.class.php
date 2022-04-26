@@ -64,6 +64,28 @@ class Branch extends DatabaseObject
     }
   }
 
+  public static function find_by_company_ids($cId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE company_id='" . self::$database->escape_string($cId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    return static::find_by_sql($sql);
+  }
+
+
+  public static function find_by_company_id($cId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE company_id='" . self::$database->escape_string($cId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
   public static function find_by_company_name($company_name)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
