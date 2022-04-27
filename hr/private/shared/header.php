@@ -65,6 +65,15 @@ if (!empty($user)) {
   </head>
 
   <body class="app sidebar-mini">
+    <style>
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+      }
+    </style>
     <div class="loaders" id="ajax_loader" style="display:none;">
       <div class="strip-holder">
         <div class="strip-1"></div>

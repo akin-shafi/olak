@@ -143,8 +143,7 @@ $datatable = '';
                                   <i class="feather feather-compass"></i> New</span>';
                                   break;
                               endswitch; ?>
-                            </td>
-                            <td>
+
                               <button class="btn btn-outline-primary " type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
                               </button>
@@ -165,6 +164,11 @@ $datatable = '';
                                   Reject
                                 </button>
                               </div>
+                            </td>
+                            <td>
+                              <button data-id="<?php echo $value->id ?>" class="btn btn-outline-info btn-sm" id="editSalaryAdvance">
+                                Edit</button>
+                              <button data-id="<?php echo $value->id ?>" class="btn btn-outline-danger btn-sm deleted">Delete</button>
                             </td>
                           </tr>
                         <?php } ?>
@@ -198,6 +202,8 @@ $datatable = '';
       </div>
       <form id="add_loan_form" class="mb-0">
         <input type="hidden" name="loan[created_by]" value="<?php echo $loggedInAdmin->id ?>" id="">
+        <input type="hidden" name="updatedSalaryAdvance" id="upLoan" readonly>
+
         <div class="modal-body">
           <div class="form-group">
             <label>Employees</label>
@@ -225,7 +231,7 @@ $datatable = '';
             <div class="col-md-6">
               <div class="form-group">
                 <label>Amount</label>
-                <input type="number" class="form-control" name="loan[amount]" placeholder="Request Amount" required>
+                <input type="number" class="form-control" name="loan[amount]" id="amount" placeholder="Request Amount" required>
               </div>
             </div>
           </div>
@@ -249,10 +255,9 @@ $datatable = '';
             </table>
           </div>
 
-
           <div class="form-group">
             <label>Note</label>
-            <textarea name="loan[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
+            <textarea name="loan[note]" class="form-control" id="note" cols="3" placeholder="Notes"></textarea>
           </div>
 
           <div class="form-group">
@@ -262,7 +267,7 @@ $datatable = '';
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-primary">Submit</button>
+          <button class="btn btn-primary" id="short_btn">Submit</button>
         </div>
       </form>
     </div>
@@ -316,14 +321,80 @@ $datatable = '';
 
     const EMPLOYEE_URL = "../inc/employee/";
     const RECEIPT_URL = "./receipt.php";
+    const PROCESS_URL = './inc/process.php';
 
+    const loanModal = new bootstrap.Modal(
+      document.querySelector("#loan_request")
+    );
     const loanForm = document.getElementById("add_loan_form");
+    const shortTitle = document.querySelector("#loan-title");
+    const shortBtn = document.querySelector("#short_btn");
 
     loanForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       submitForm(EMPLOYEE_URL, loanForm);
-
     });
+
+    $("tbody").on("click", "#editSalaryAdvance", async function() {
+      let id = this.dataset.id;
+      $('#upLoan').val(id);
+      let data = await fetch(PROCESS_URL + "?salAdvId=" + id);
+      let res = await data.json();
+
+      $('#employee_id').attr('disabled', true)
+      $('#employee_id').select2({
+        dropdownParent: $('#loan_request')
+      }).val(res.data.employee_id).trigger('change.select2')
+
+      $('#amount').val(res.data.amount)
+      $('#note').val(res.data.note)
+
+      shortTitle.innerText = "Edit Salary Advance";
+      shortBtn.innerText = "Update";
+
+      loanModal.show();
+
+      shortBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        submitForm(PROCESS_URL, loanForm);
+      });
+
+      $("#loan_request").on("hidden.bs.modal", function() {
+        location.reload();
+      });
+    });
+
+    $('tbody').on('click', '.deleted', function() {
+      let salAdvance = this.dataset.id;
+
+      swal({
+          title: "Are you sure?",
+          text: "You will not be able to recover this data!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((del) => {
+          if (del) {
+            $.ajax({
+              url: PROCESS_URL,
+              method: "POST",
+              data: {
+                removeSA: salAdvance
+              },
+              dataType: 'json',
+              success: function(data) {
+                message("success", data.message);
+
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              }
+            })
+          }
+        });
+
+    })
 
     $('tbody').on('click', '.status', function() {
       let detailId = this.dataset.id;

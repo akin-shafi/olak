@@ -2,15 +2,19 @@
 
 $empId = $_GET['empId'] ?? 1;
 $employee = Employee::find_by_id($empId);
-// pre_r($employee);
+$date = !empty($_GET['salary_date']) ? date('Y-') . $_GET['salary_date'] : date('Y-m');
+
+
 $earnings = PayrollItem::find_all_payroll(['category' => 1]);
 $deductions = PayrollItem::find_all_payroll(['category' => 3]);
-$salaryAdvance = SalaryAdvance::find_by_employee_id($employee->employee_id);
-$longTerm = LongTermLoan::find_by_employee_id($employee->employee_id);
+
+$salaryAdvance = SalaryAdvance::find_by_employee_id($empId, ['current' => $date]);
+$longTerm = LongTermLoan::find_by_employee_id($empId, ['requested' => $date]);
+
 $commitment = $longTerm ? intval($longTerm->commitment) : 0;
 $presentSalary = isset($employee->present_salary) ? $employee->present_salary : 0;
 
-$salary = Payroll::find_by_employee_id($empId, ['date' => $_GET['salary_date']]);
+$salary = Payroll::find_by_employee_id($empId, ['date' => $date]);
 $overtime = $salary->overtime_allowance ?? 0;
 $leave = $salary->leave_allowance ?? 0;
 $otherAllowance = $salary->other_allowance ?? 0;
@@ -35,8 +39,6 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
       <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <span aria-text="true">×</span> </button>
    </div>
    <div class="modal-header">
-      <!-- <div> <img src="<?php //echo url_for('assets/images/brand/logo.png')
-                           ?>" class="header-brand-img" alt="Dayonelogo"> </div> -->
       <h1 class="mb-0">Integrated Olak</h1>
       <div class="ms-auto">
          <!-- <div class="font-weight-bold text-md-right mt-3">Date: 01-02-2021</div> -->
@@ -51,7 +53,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
                   <td class="text-end"> <strong>Company:</strong> <span><?php echo $employee->company ?></span> </td>
                </tr>
                <tr>
-                  <td> <strong>Emp ID:</strong> <span><?php echo $employee->employee_id ?></span> </td>
+                  <td> <strong>Emp ID:</strong> <span><?php echo $empId ?></span> </td>
                   <td class="text-end"> <strong>Branch:</strong> <span><?php echo $employee->branch ?></span> </td>
                </tr>
             </tbody>

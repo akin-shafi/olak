@@ -15,7 +15,6 @@ $queryByMonth = !empty($thisMonth) ? $thisMonth : $lastMonth;
 $employees = Employee::find_by_undeleted();
 $payrolls = Payroll::find_by_month($queryByMonth);
 
-// pre_r($queryByMonth);
 $calculate_tax = 0;
 
 $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process_salary_date' => $queryByMonth]);
@@ -63,7 +62,6 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
           <div class="w-25">
             <div>Filter By Month:</div>
             <select class="form-control select2" id="byDate" data-placeholder="Select Month">
-              <option label="Select Month" data-select2-id="select2-data-55-moyh"></option>
               <?php foreach (Payroll::MONTH as $key => $value) : ?>
                 <option value="<?php echo $key; ?>" <?php echo $key == date('m', strtotime($queryByMonth)) ? 'selected' : '' ?>>
                   <?php echo $value; ?></option>
@@ -109,19 +107,25 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                       $employee = Employee::find_by_id($value->employee_id);
                       $salary = intval($value->present_salary);
 
-                      $commitment = isset($empLoan->commitment) ? intval($empLoan->commitment) : '0.00';
+                      $overtime = $value->overtime_allowance ?? 0;
+                      $leave = $value->leave_allowance ?? 0;
+                      $otherAllowance = $value->other_allowance ?? 0;
 
+                      $commitment = isset($empLoan->commitment) ? intval($empLoan->commitment) : '0.00';
                       $salAdv = $salary_advance->total_requested != 0 ? intval($salary_advance->total_requested) : 0;
+                      $otherDeduction = $value->other_deduction ?? 0;
+
+                      $totalAllowance = $overtime + $leave + $otherAllowance + $salary;
+                      $totalDeduction = $commitment + $salAdv + $otherDeduction;
 
                       $tax = Payroll::tax_calculator(['netSalary' => $salary]);
                       $monthly_tax = intval($tax['monthly_tax']);
                       $pension = intval($tax['pension']);
 
-
                       if ($calculate_tax == 1) {
-                        $take_home = $salary - ($commitment + $salAdv + $monthly_tax + $pension);
+                        $take_home = $totalAllowance - ($monthly_tax + $pension + $totalDeduction);
                       } else {
-                        $take_home = $salary - ($commitment + $salAdv);
+                        $take_home = intval($totalAllowance) - intval($totalDeduction);
                       }
 
                     ?>
@@ -207,43 +211,50 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
       </div>
       <form id="add_payroll_narration_form" class="mb-0">
         <input type="hidden" name="salary[employee_id]" id="employee_id" readonly>
-        <div class="modal-body">
-          <div class="form-group">
-            <label>Employees</label>
-            <input type="text" id="employee_name" class="form-control" readonly>
-          </div>
+        <input type="hidden" id="present" disabled>
 
+        <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label>Overtime Allowance <span class="text-danger">*</span></label>
-                <input class="form-control" name="salary[overtime_allowance]" type="number" placeholder="Overtime Allowance">
+                <label>Employees</label>
+                <input type="text" id="employee_name" class="form-control" readonly>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Leave Allowance <span class="text-danger">*</span></label>
-                <input class="form-control" name="salary[leave_allowance]" type="number" placeholder="Leave Allowance">
+                <input class="form-control" name="salary[leave_allowance]" id="leave_allowance" type="number" placeholder="Leave Allowance">
               </div>
             </div>
-
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Overtime Allowance (HRS) <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text">Hrs</span>
+                  <input class="form-control" type="number" id="o_hrs" placeholder="e.g 5">
+                  <span class="input-group-text"><?php echo $currency; ?></span>
+                  <input class="form-control" name="salary[overtime_allowance]" type="number" id="overtime_allowance" placeholder="Overtime Allowance" readonly>
+                </div>
+              </div>
+            </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Other Allowance <span class="text-danger">*</span></label>
-                <input class="form-control" name="salary[other_allowance]" type="number" placeholder="Other Allowance">
+                <input class="form-control" name="salary[other_allowance]" id="other_allowance" type="number" placeholder="Other Allowance">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Other Deduction <span class="text-danger">*</span></label>
-                <input class="form-control" name="salary[other_deduction]" type="number" placeholder="Other Deduction">
+                <input class="form-control" name="salary[other_deduction]" id="other_deduction" type="number" placeholder="Other Deduction">
               </div>
             </div>
           </div>
 
           <div class="form-group">
             <label>Note</label>
-            <textarea name="salary[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
+            <textarea name="salary[note]" id="note" class="form-control" cols="3" placeholder="Notes"></textarea>
           </div>
         </div>
 
@@ -300,8 +311,6 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 
     const payrollForm = document.getElementById("add_payroll_narration_form");
     const getSalary = document.getElementById("get_salary");
-    const editSalary = document.getElementById("edit_salary");
-
 
     $('tbody').on('click', '#get_salary', async function() {
       let empId = this.dataset.id;
@@ -315,11 +324,39 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 
     $('tbody').on('click', '#edit_salary', async function() {
       let empId = this.dataset.id;
-      let data = await fetch(PAYROLL_URL + '?empId=' + empId + '&salary_data')
+      let filterDate = $("#byDate").val()
+
+      let data = await fetch(PAYROLL_URL + '?empId=' + empId + '&date=' + filterDate + '&salary_data')
       let res = await data.json();
-      $('#employee_id').val(res.data.id);
-      $('#employee_name').val(res.data.first_name + ' ' + res.data.last_name);
+      let params = res.data;
+
+      let presentSalary = Number(params.present_salary);
+      $('#present').val(presentSalary)
+
+
+      $('#employee_id').val(params.id);
+      $('#employee_name').val(params.first_name + ' ' + params.last_name);
+
+      $('#overtime_allowance').val(params.overtime_allowance)
+      $('#leave_allowance').val(params.leave_allowance);
+      $('#overtime_allowance').val(params.overtime_allowance);
+      $('#other_allowance').val(params.other_allowance);
+      $('#other_deduction').val(params.other_deduction);
+      $('#note').val(params.note);
     })
+
+    $('#o_hrs').on('input', function() {
+      let pSalary = Number($('#present').val())
+      let oHour = Number(this.value);
+
+      let overtimeAllowance = 0.2 * (oHour * pSalary) / (22 * 8)
+      let oTA = roundToTwo(overtimeAllowance)
+      $('#overtime_allowance').val(oTA)
+    })
+
+    function roundToTwo(params) {
+      return +(Math.round(params + 'e+2') + 'e-2')
+    }
 
     payrollForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -343,12 +380,8 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
         })
         .then((willDelete) => {
           if (willDelete) {
-            // successAlert('Salary Updated')
             updateSalary()
           }
-          // else {
-          //   swal("Your imaginary file is safe!");
-          // }
         });
     }
 
@@ -365,13 +398,9 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
         dataType: 'json',
         success: function(data) {
           if (data.success == true) {
-            // Salary already computed
             errorOption(data.msg, data.sub);
           } else {
-            // No Salary Found
-            // errorAlert(data.msg)
             computeSalary();
-
           }
         }
       })
@@ -457,19 +486,14 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 
     $(document).on('click', '#genPaySlip', function(e) {
       e.preventDefault();
-      // let processing = '<button class="btn btn-primary" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...</button>';
       let filterYear = $("#compute_year").val()
       let filterDate = $("#compute_month").val()
       check_status(filterYear, filterDate)
-
     })
-    $(document).on('click', '#push', function() {
-      // let processing = '<button class="btn btn-primary" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...</button>';
-      // $("#pushwrap").html(processing);
 
+    $(document).on('click', '#push', function() {
       let filterYear = $("#compute_year").val()
       let filterDate = $("#byDate").val()
-
 
       $.ajax({
         url: 'inc/payroll_script.php',
@@ -499,7 +523,6 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
           push: 1,
           filter_date: filterDate,
         },
-        // dataType: 'json',
         success: function(data) {
           load_filter(filterYear, filterDate);
           $('tbody#get_payroll').html(data);

@@ -58,7 +58,7 @@ class LongTermLoanDetail extends DatabaseObject
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE created_at LIKE'%" . self::$database->escape_string($year) . "%'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    $sql .= " ORDER BY id DESC";
+    $sql .= " ORDER BY created_at DESC";
     return static::find_by_sql($sql);
   }
 

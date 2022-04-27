@@ -147,6 +147,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                           <th class="border-bottom-0 sorting" tabindex="0" aria-label="Amount Committed (₦): activate to sort column ascending">Amount Committed (₦)</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-label="Duration: activate to sort column ascending">Duration</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-label="Date Requested: activate to sort column ascending">Date Requested</th>
+                          <th class="border-bottom-0 sorting" tabindex="0" aria-label="Start Deduction: activate to sort column ascending">Start Deduction</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-label="Date Approved: activate to sort column ascending">Date Approved</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-label="Status: activate to sort column ascending">Status</th>
                           <th class="border-bottom-0 sorting" tabindex="0" aria-label="Action: activate to sort column ascending">Action</th>
@@ -154,7 +155,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                       </thead>
                       <tbody>
                         <?php $sn = 1;
-                        foreach (LongTermLoanDetail::find_by_undeleted() as $loan) :
+                        foreach (LongTermLoanDetail::find_loan_by_year(date('Y')) as $loan) :
                           $longTerm = LongTermLoan::find_by_employee_id($loan->employee_id);
                           $employee = Employee::find_by_id($loan->employee_id);
                         ?>
@@ -175,6 +176,9 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                             <td><?php echo number_format(intval($longTerm->commitment)) ?></td>
                             <td><?php echo ucwords($loan->commitment_duration) ?></td>
                             <td><?php echo date('Y-m-d', strtotime($loan->created_at)) ?></td>
+                            <td><?php echo $longTerm->deduction_date != ''
+                                  ? date('Y-m-d', strtotime($longTerm->deduction_date)) : 'Not Set' ?></td>
+
                             <td><?php echo $loan->date_approved != '0000-00-00' ? date('Y-m-d', strtotime($loan->date_approved)) : 'Not Set' ?></td>
 
                             <td>
@@ -197,9 +201,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                                   <i class="feather feather-compass"></i> New</span>';
                                   break;
                               endswitch; ?>
-                            </td>
 
-                            <td>
                               <button class="btn btn-outline-primary " type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
                               </button>
@@ -220,6 +222,12 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                                   Reject
                                 </button>
                               </div>
+                            </td>
+
+                            <td>
+                              <button data-id="<?php echo $loan->id ?>" class="btn btn-outline-info btn-sm" id="editLongLoan">
+                                Edit</button>
+                              <button data-id="<?php echo $loan->id ?>" class="btn btn-outline-danger btn-sm deleted">Delete</button>
                             </td>
                           </tr>
                         <?php endforeach; ?>
@@ -249,19 +257,29 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
         </button>
       </div>
       <form id="add_loan_form" class="mb-0">
+        <input type="hidden" name="updatedLongLoan" id="upLoan" readonly>
         <div class="modal-body">
-          <div class="form-group">
-            <label>Employees</label>
-            <select class="form-control select2 select2-hidden-accessible employeeId" name="loan[employee_id]" id="employee_id" required>
-              <option value="">Select Employee</option>
-              <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
-                <option value="<?php echo $employee->id ?>">
-                  <?php echo ucwords($employee->full_name())  ?> (<?php echo  !empty($employee->present_salary) ? number_format(intval($employee->present_salary), 2) : 'Not Set' ?>)</option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-
           <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Employees</label>
+                <select class="form-control select2 select2-hidden-accessible employeeId" name="loan[employee_id]" id="employee_id" required>
+                  <option value="">Select Employee</option>
+                  <?php foreach (Employee::find_by_undeleted() as $employee) : ?>
+                    <option value="<?php echo $employee->id ?>">
+                      <?php echo ucwords($employee->full_name())  ?> (<?php echo  !empty($employee->present_salary) ? number_format(intval($employee->present_salary), 2) : 'Not Set' ?>)</option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="ded_date" class="form-label">Start Deduction</label>
+                <input type="date" name="loan[deduction_date]" class="form-control" id="ded_date" required>
+              </div>
+            </div>
+
             <div class="col-md-6">
               <div class="form-group">
                 <label>Loan Type</label>
@@ -286,7 +304,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                 <input type="text" class="form-control insert" name="loan[loan_deduction]" id="deduction" placeholder="Deduction Rate">
               </div>
             </div>
-            
+
             <div class="col-md-6">
               <div class="form-group">
                 <label>Pay-back Duration (In Month)</label>
@@ -294,7 +312,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
               </div>
             </div>
 
-            
+
           </div>
 
           <div class="form-group">
@@ -309,7 +327,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-primary">Submit</button>
+          <button class="btn btn-primary" id="loan_btn">Submit</button>
         </div>
       </form>
     </div>
@@ -362,13 +380,83 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
     };
 
     const EMPLOYEE_URL = "../inc/employee/";
+    const PROCESS_URL = './inc/process.php';
 
+    const loanModal = new bootstrap.Modal(
+      document.querySelector("#loan_request")
+    );
     const loanForm = document.getElementById("add_loan_form");
+    const loanTitle = document.querySelector("#loan-title");
+    const loanBtn = document.querySelector("#loan_btn");
 
     loanForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       submitForm(EMPLOYEE_URL, loanForm);
     });
+
+    $("tbody").on("click", "#editLongLoan", async function() {
+      let id = this.dataset.id;
+      $('#upLoan').val(id);
+      let data = await fetch(PROCESS_URL + "?longId=" + id);
+      let res = await data.json();
+
+      $('#employee_id').attr('disabled', true)
+      $('#employee_id').select2({
+        dropdownParent: $('#loan_request')
+      }).val(res.data.employee_id).trigger('change.select2')
+
+      $('#loan_type').val(res.data.type)
+      $('#amount').val(res.data.amount_requested)
+      $('#deduction').val(res.data.commitment)
+      $('#duration').val(res.data.duration)
+      $('#ded_date').val(res.data.deduction_date)
+
+      loanTitle.innerText = "Edit Long Term Loan";
+      loanBtn.innerText = "Update";
+
+      loanModal.show();
+
+      loanBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        submitForm(PROCESS_URL, loanForm);
+      });
+
+      $("#loan_request").on("hidden.bs.modal", function() {
+        location.reload();
+      });
+    });
+
+    $('tbody').on('click', '.deleted', function() {
+      let longLoan = this.dataset.id;
+
+      swal({
+          title: "Are you sure?",
+          text: "You will not be able to recover this data!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((del) => {
+          if (del) {
+            $.ajax({
+              url: PROCESS_URL,
+              method: "POST",
+              data: {
+                removeLL: longLoan
+              },
+              dataType: 'json',
+              success: function(data) {
+                message("success", data.msg);
+
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              }
+            })
+          }
+        });
+
+    })
 
     $('tbody').on('click', '.status', async function() {
       let detailId = this.dataset.id;
@@ -435,6 +523,9 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
         isLongTerm.classList.add('d-none')
       }
     });
+
+
+
 
     $('#deduction').on('input', function() {
       let deAmount = Number($(this).val());

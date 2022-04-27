@@ -2,7 +2,7 @@
 class LongTermLoan extends DatabaseObject
 {
   protected static $table_name = "long_term_loans";
-  protected static $db_columns = ['id', 'employee_id', 'amount_requested', 'amount_paid', 'commitment', 'date_requested', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'amount_requested', 'amount_paid', 'commitment', 'date_requested', 'deduction_date', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -10,6 +10,7 @@ class LongTermLoan extends DatabaseObject
   public $amount_paid;
   public $commitment;
   public $date_requested;
+  public $deduction_date;
   public $deleted;
 
   public $total_amount;
@@ -22,6 +23,7 @@ class LongTermLoan extends DatabaseObject
     $this->amount_paid        = $args['amount_paid'] ?? 0;
     $this->commitment         = $args['commitment'] ?? '';
     $this->date_requested     = $args['date_requested'] ?? date('Y-m-d H:i:s');
+    $this->deduction_date     = $args['deduction_date'] ?? '';
     $this->deleted            = $args['deleted'] ?? '';
   }
 
@@ -37,11 +39,24 @@ class LongTermLoan extends DatabaseObject
   }
 
 
-  public static function find_by_employee_id($employee_id)
+  public static function find_by_employee_id($employee_id, $option = [])
   {
+    $dateRequested = $option['requested'] ?? false;
+    $deductedDate = $option['deduct_date'] ?? false;
+
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE employee_id='" . self::$database->escape_string($employee_id) . "'";
+
+    if ($dateRequested) {
+      $sql .= "AND date_requested LIKE '%" . self::$database->escape_string($dateRequested) . "%'";
+    }
+
+    if ($deductedDate) {
+      $sql .= "AND deduction_date LIKE '%" . self::$database->escape_string($deductedDate) . "%'";
+    }
+
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);
@@ -68,26 +83,26 @@ class LongTermLoan extends DatabaseObject
     }
   }
 
-  public static function find_by_loan_approved($option = [])
-  {
-    $currentMonth = $option['current'] ?? false;
-    $salaryStatus = $option['status'] ?? false;
+  // public static function find_by_loan_approved($option = [])
+  // {
+  //   $currentMonth = $option['current'] ?? false;
+  //   $salaryStatus = $option['status'] ?? false;
 
-    $sql = "SELECT COUNT(*) AS counts FROM " . static::$table_name . " ";
+  //   $sql = "SELECT COUNT(*) AS counts FROM " . static::$table_name . " ";
 
-    if ($currentMonth) {
-      $sql .= " WHERE created_at LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
-    }
+  //   if ($currentMonth) {
+  //     $sql .= " WHERE created_at LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
+  //   }
 
-    if ($salaryStatus == 1) {
-      $sql .= " AND status='" . self::$database->escape_string($salaryStatus) . "'";
-    }
+  //   if ($salaryStatus == 1) {
+  //     $sql .= " AND status='" . self::$database->escape_string($salaryStatus) . "'";
+  //   }
 
-    $obj_array = static::find_by_sql($sql);
-    if (!empty($obj_array)) {
-      return array_shift($obj_array);
-    } else {
-      return false;
-    }
-  }
+  //   $obj_array = static::find_by_sql($sql);
+  //   if (!empty($obj_array)) {
+  //     return array_shift($obj_array);
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }

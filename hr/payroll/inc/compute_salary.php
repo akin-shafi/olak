@@ -32,13 +32,13 @@ if (isset($_POST['computeSalary'])) {
 	$result = $config->save();
 
 	if ($result == true) {
+		$date = $_POST['year'] . "-" . $_POST['month'];
 		$empId = [];
 
 		foreach ($employees as $value) :
-			$date = $_POST['year'] . "-" . $_POST['month'];
 
 			$salary_advance = SalaryAdvance::find_by_employee_id($value->id, ['current' => $date]);
-			$empLoan = LongTermLoan::find_by_employee_id($value->id);
+			$empLoan = LongTermLoan::find_by_employee_id($value->id, ['deduct_date' => $date]);
 
 			if (!empty($empLoan)) {
 				array_push($empId, $value->id);
@@ -63,11 +63,10 @@ if (isset($_POST['computeSalary'])) {
 
 		if ($result == true) :
 			foreach ($empId as $key => $value) :
-				$longLoan = LongTermLoan::find_by_employee_id($value);
+				$longLoan = LongTermLoan::find_by_employee_id($value, ['deduct_date' => $date]);
 
 				$amountRequested = intval($longLoan->amount_requested);
 				$commitment = intval($longLoan->commitment);
-
 
 				if ($amountRequested == $longLoan->amount_paid) continue;
 
@@ -103,27 +102,29 @@ if (isset($_POST['updateSalary'])) {
 
 	exit(json_encode(['success' => true, 'msg' => 'Salary Updated Successfully']));
 
-	// if ($result == true) {
-	// 	$payroll = Payroll::find_by_month($month);
-	// 	foreach ($payroll as $value) {
-	// 		$find_by_id = Payroll::find_by_id($value->id);
-	// 		$args = [
-	// 			'employee_id' => $value->id,
-	// 			'present_salary' => $salary,
-	// 			'loan' => $commitment,
-	// 			'salary_advance' => $salary_advance->total_requested,
-	// 			'present_days' => $_POST['present_day'],
-	// 			'payment_status' => 1,
-	// 		];
+	/* 
+	if ($result == true) {
+		$payroll = Payroll::find_by_month($month);
+		foreach ($payroll as $value) {
+			$find_by_id = Payroll::find_by_id($value->id);
+			$args = [
+				'employee_id' => $value->employee_id,
+				'present_salary' => $salary,
+				'loan' => $commitment,
+				'salary_advance' => $salary_advance->total_requested,
+				'present_days' => $_POST['present_day'],
+				'payment_status' => 1,
+			];
 
-	// 		$find_by_id->merge_attributes($data);
-	// 		$result = $find_by_id->save();
-	// 	}
-	// 	exit(json_encode(['success' => true, 'msg' => 'Salary Updated Successfully']));
-	// } else {
-	// 	http_response_code(404);
-	// 	exit(json_encode(['error' => display_errors($payroll->errors)]));
-	// }
+			$find_by_id->merge_attributes($data);
+			$result = $find_by_id->save();
+		}
+		exit(json_encode(['success' => true, 'msg' => 'Salary Updated Successfully']));
+	} else {
+		http_response_code(404);
+		exit(json_encode(['error' => display_errors($payroll->errors)]));
+	}
+	 */
 }
 
 ?>

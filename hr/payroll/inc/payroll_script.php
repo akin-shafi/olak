@@ -64,7 +64,7 @@ if (is_post_request()) {
 				foreach ($payroll as $value) {
 					$find_by_id = Payroll::find_by_id($value->id);
 					$args = [
-						'employee_id' => $value->id,
+						'employee_id' => $value->employee_id,
 						'present_salary' => $salary,
 						'loan' => $commitment,
 						'salary_advance' => $salary_advance->total_requested,
@@ -83,7 +83,6 @@ if (is_post_request()) {
 	}
 
 	if (isset($_POST['push'])) {
-		// $month = $_POST['month'] ?? date('Y-m');
 		$month = date('Y-') . $_POST['month'];
 		$config = Configuration::find_by_date($month);
 		$data = [
@@ -91,7 +90,6 @@ if (is_post_request()) {
 		];
 		$config->merge_attributes($data);
 		$config->save();
-		// $config = true;
 
 		if ($config == true) {
 			$payrolls = Payroll::find_by_month($month);
@@ -112,15 +110,19 @@ if (is_post_request()) {
 
 	if (isset($_POST['salary'])) {
 		$args = $_POST['salary'];
+
 		if (isset($args['employee_id'])) {
-			$salary = Payroll::find_by_employee_id($args['employee_id']);
+			$date = !empty($_POST['date']) ? date('Y-') . $_POST['date'] : date('Y-m');
+
+			$salary = Payroll::find_by_employee_id($args['employee_id'], ['date' => $date]);
+
 			$salary->merge_attributes($args);
 			$salary->save();
 
-			if ($salary) {
+			if ($salary) :
 				http_response_code(200);
 				$response['message'] = 'Payroll narration updated successfully';
-			}
+			endif;
 		}
 	}
 }
@@ -128,9 +130,25 @@ if (is_post_request()) {
 if (is_get_request()) {
 	if (isset($_GET['salary_data'])) {
 		$employee = Employee::find_by_id($_GET['empId']);
+		$date = !empty($_GET['date']) ? date('Y-') . $_GET['date'] : date('Y-m');
+
+		$payroll = Payroll::find_by_employee_id($employee->id, ['date' => $date]);
+
+		$data = [
+			'id' => $employee->id,
+			'first_name' => $employee->first_name,
+			'last_name' => $employee->last_name,
+			'present_salary' => $employee->present_salary,
+			'overtime_allowance' => $payroll->overtime_allowance,
+			'leave_allowance' => $payroll->leave_allowance,
+			'overtime_allowance' => $payroll->overtime_allowance,
+			'other_allowance' => $payroll->other_allowance,
+			'other_deduction' => $payroll->other_deduction,
+			'note' => $payroll->note,
+		];
 
 		http_response_code(200);
-		exit(json_encode(['data' => $employee]));
+		exit(json_encode(['data' => $data]));
 	}
 }
 

@@ -72,16 +72,14 @@ class Payroll extends DatabaseObject
   public static function find_by_employee_id($empId, $options = [])
   {
     $date = $options['date'] ?? false;
-    $setDate = date('Y-' . $date);
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE employee_id='" . self::$database->escape_string($empId) . "'";
 
     if ($date != false) :
-      $sql .= " AND `month`='" . self::$database->escape_string($setDate) . "'";
+      $sql .= " AND `month`='" . self::$database->escape_string($date) . "'";
     endif;
 
-    // echo $sql;
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
