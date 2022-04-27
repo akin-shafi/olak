@@ -194,7 +194,9 @@ class Employee extends DatabaseObject
   public static function find_by_total_salary()
   {
     $sql = "SELECT COUNT(employee_id) AS counts, SUM(present_salary) AS total_salary FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
+
     if (!empty($obj_array)) {
       return array_shift($obj_array);
     } else {
