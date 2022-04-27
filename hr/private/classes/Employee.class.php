@@ -176,6 +176,8 @@ class Employee extends DatabaseObject
       $sql .= "WHERE company LIKE '%" . self::$database->escape_string($companyName) . "%'";
     endif;
 
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
     if (!$branch) :
       $obj_array = static::find_by_sql($sql);
       if (!empty($obj_array)) :
@@ -203,7 +205,7 @@ class Employee extends DatabaseObject
       return false;
     }
   }
- 
+
 
   public static function find_by_company_name($name, $options = [])
   {
