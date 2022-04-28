@@ -229,6 +229,7 @@ if (is_post_request()) {
             'employee_id' => $employeeId,
             'amount_requested' => $args['amount'],
             'amount_paid' => 0,
+            'deduction_date' => $args['deduction_date'],
             'commitment' => $args['loan_deduction'],
           ];
 
@@ -236,10 +237,16 @@ if (is_post_request()) {
           $longTermLoan->save();
 
           if ($longTermLoan) {
-            $args['commitment_duration'] = $args['loan_duration'];
-            $args['loan_repayment'] = $args['loan_deduction'];
+            $params = [
+              'commitment_duration' => $args['loan_duration'],
+              'loan_repayment' => $args['loan_deduction'],
+              'note' =>  $args['note'],
+              'issued_by' => $loggedInAdmin->id,
+              'date_approved' => date('Y-m-d'),
+            ];
 
-            $longTDet = new LongTermLoanDetail($args);
+
+            $longTDet = new LongTermLoanDetail($params);
             $longTDet->save();
           }
 
@@ -250,9 +257,14 @@ if (is_post_request()) {
           $commitment = intval($longLoan->commitment);
           $amountPaid = intval($longLoan->amount_paid) + $commitment;
 
-          if (!empty($longLoan->employee_id) && ($amountRequested != $amountPaid)) {
+          if (!empty($longLoan->employee_id) && ($amountRequested != $longLoan->amount_paid)) {
             http_response_code(404);
-            exit(json_encode(['errors' => 'Sorry! You have not pay up the previous loan received!']));
+            exit(json_encode([
+              'option' => true,
+              'emp_id' => $longLoan->employee_id,
+              'date_requested' => $longLoan->date_requested,
+              'errors' => 'Sorry! You have not pay up the previous loan received!'
+            ]));
           }
         }
       }

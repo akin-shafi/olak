@@ -38,6 +38,14 @@ class LongTermLoan extends DatabaseObject
     return $this->errors;
   }
 
+  public static function find_loan_by_year($year)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE date_requested LIKE'%" . self::$database->escape_string($year) . "%'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= " ORDER BY date_requested DESC";
+    return static::find_by_sql($sql);
+  }
 
   public static function find_by_employee_id($employee_id, $option = [])
   {
@@ -82,27 +90,4 @@ class LongTermLoan extends DatabaseObject
       return false;
     }
   }
-
-  // public static function find_by_loan_approved($option = [])
-  // {
-  //   $currentMonth = $option['current'] ?? false;
-  //   $salaryStatus = $option['status'] ?? false;
-
-  //   $sql = "SELECT COUNT(*) AS counts FROM " . static::$table_name . " ";
-
-  //   if ($currentMonth) {
-  //     $sql .= " WHERE created_at LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
-  //   }
-
-  //   if ($salaryStatus == 1) {
-  //     $sql .= " AND status='" . self::$database->escape_string($salaryStatus) . "'";
-  //   }
-
-  //   $obj_array = static::find_by_sql($sql);
-  //   if (!empty($obj_array)) {
-  //     return array_shift($obj_array);
-  //   } else {
-  //     return false;
-  //   }
-  // }
 }

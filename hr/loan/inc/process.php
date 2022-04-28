@@ -97,6 +97,50 @@ if (is_post_request()) {
 
     exit(json_encode(['message' => 'Salary advance deleted successful!']));
   }
+
+
+
+
+  // ? LONG TERM LOAN
+  if (isset($_POST['special_loan'])) {
+    $args = $_POST['loan'];
+    $longTermDetailId = $_POST['special_loan'];
+
+    $longTDet = LongTermLoanDetail::find_by_id($longTermDetailId);
+
+    $ref = 'LTL-' . rand(100, 999) . '0' . $longTDet->employee_id;
+
+    $data = [
+      'employee_id' =>  $longTDet->employee_id,
+      'ref_no' =>  $ref,
+      'commitment_duration' => $args['loan_duration'],
+      'loan_repayment' => $args['loan_deduction'],
+      'type' =>  2,
+      'status' =>  3,
+      'note' =>  $args['note'],
+      'issued_by' => $loggedInAdmin->id,
+      'date_approved' => date('Y-m-d H:i:s'),
+    ];
+
+    $longTDet = new LongTermLoanDetail($data);
+    $longTDet->save();
+
+    if ($longTDet) {
+      $longTerm = LongTermLoan::find_by_employee_id($longTDet->employee_id);
+
+      $data = [
+        'amount_requested' => $args['amount'],
+        'amount_paid' => $args['amount_paid'],
+        'commitment' => $args['loan_deduction'],
+        'deduction_date' => $args['deduction_date'],
+      ];
+
+      $longTerm->merge_attributes($data);
+      $longTerm->save();
+    }
+
+    exit(json_encode(['message' => 'Loan reviewed successful!']));
+  }
 }
 
 

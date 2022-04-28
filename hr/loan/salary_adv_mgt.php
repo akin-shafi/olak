@@ -315,7 +315,7 @@ $datatable = '';
         message("success", res.message);
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 1000);
       }
     };
 
@@ -357,10 +357,6 @@ $datatable = '';
       shortBtn.addEventListener("click", async (e) => {
         e.preventDefault();
         submitForm(PROCESS_URL, loanForm);
-      });
-
-      $("#loan_request").on("hidden.bs.modal", function() {
-        location.reload();
       });
     });
 
@@ -430,11 +426,10 @@ $datatable = '';
         window.location.href = RECEIPT_URL + '?id=' + id
       } else {
         message('success', res.message)
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     }
 
     $('#employee_id').select2({
