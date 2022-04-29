@@ -19,6 +19,10 @@ class Expense extends DatabaseObject
 
   public $total_amount;
 
+  public $year;
+  public $month;
+  public $outflow;
+
   const EXPENSE_TYPE = [
     1 => 'Credit sales',
     2 => 'Operating',
@@ -104,6 +108,16 @@ class Expense extends DatabaseObject
     if ($expense != false) {
       $sql .= " AND expense_type='" . self::$database->escape_string($expense) . "'";
     }
+
+    return static::find_by_sql($sql);
+  }
+
+  public static function find_by_metrics()
+  {
+    $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(amount) AS outflow  FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "GROUP BY year(created_at), month(created_at) ";
+    $sql .= "ORDER BY year(created_at), month(created_at) ";
 
     return static::find_by_sql($sql);
   }

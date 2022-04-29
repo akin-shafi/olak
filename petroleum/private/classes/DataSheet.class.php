@@ -32,6 +32,9 @@ class DataSheet extends DatabaseObject
   public $sales_quantity;
   public $inflow;
 
+  public $year;
+  public $month;
+
   const PRODUCTS = [1 => 'PMS', 2 => 'AGO', 3 => 'DPK'];
   const RATES = [1 => '162', 2 => '335', 3 => '345'];
 
@@ -126,20 +129,21 @@ class DataSheet extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
+  public static function find_by_metrics()
+  {
+    $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(cash_submitted) AS inflow  FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "GROUP BY year(created_at), month(created_at) ";
+    $sql .= "ORDER BY year(created_at), month(created_at) ";
 
-  // public static function find_by_company_id()
-  // {
-  //   $sql = "SELECT * FROM " . static::$table_name . " ";
-  //   $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-  //   $sql .= "ORDER BY company_name ASC";
-  //   return static::find_by_sql($sql);
-  // }
+    return static::find_by_sql($sql);
+  }
 
 
   // public static function find_by_company_id($company_id)
   // {
   //   $sql = "SELECT * FROM " . static::$table_name . " ";
-  //   $sql .= "WHERE company_id='" . self::$database_hr->escape_string($company_id) . "'";
+  //   $sql .= "WHERE company_id='" . self::$database->escape_string($company_id) . "'";
   //   $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
   //   $sql .= "ORDER BY id ASC";
   //   $obj_array = static::find_by_sql($sql);

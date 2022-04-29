@@ -70,39 +70,41 @@ if (is_get_request()) {
   endif;
 
 
-
   if (isset($_GET['filter'])) :
+    $metricLabels = [];
+    $metricSeries = [];
 
     $branch = isset($_GET['branch']) && $_GET['branch'] != '' ? $_GET['branch'] : $loggedInAdmin->branch_id;
 
     $dateFrom = $_GET['filterDate'];
-    $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
+    $convertFrom = date('Y-m-d', strtotime($dateFrom));
+    $admComp = $loggedInAdmin->company_id;
 
 
-    $remittance = Remittance::get_all_remittance($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch]);
-    $additionalRemit = Remittance::get_total_remittance($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
+    $remittance = Remittance::get_all_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    $additionalRemit = Remittance::get_total_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch])->total_amount;
 
-    $filterReport = DataSheet::data_sheet_report($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch]);
+    $filterReport = DataSheet::data_sheet_report($convertFrom, ['company' => $admComp, 'branch' => $branch]);
     $arr = [];
     foreach ($filterReport as $value) {
       array_push($arr, $value->inflow);
     }
     $totalCashRemit = array_sum($arr);
 
-    $creditSales = Expense::find_by_expense_type($dateConvertFrom, ['expense' => 1, 'company' => $loggedInAdmin->company_id, 'branch' => $branch]);
-    $totalCredit = Expense::get_total_expenses($dateConvertFrom, ['expense' => 1, 'company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
+    $creditSales = Expense::find_by_expense_type($convertFrom, ['expense' => 1, 'company' => $admComp, 'branch' => $branch]);
+    $totalCredit = Expense::get_total_expenses($convertFrom, ['expense' => 1, 'company' => $admComp, 'branch' => $branch])->total_amount;
 
-    $operatingExp = Expense::find_by_expense_type($dateConvertFrom, ['expense' => 2, 'company' => $loggedInAdmin->company_id, 'branch' => $branch]);
-    $totalOpExp = Expense::get_total_expenses($dateConvertFrom, ['expense' => 2, 'company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
+    $operatingExp = Expense::find_by_expense_type($convertFrom, ['expense' => 2, 'company' => $admComp, 'branch' => $branch]);
+    $totalOpExp = Expense::get_total_expenses($convertFrom, ['expense' => 2, 'company' => $admComp, 'branch' => $branch])->total_amount;
 
-    $nonOpgExp = Expense::find_by_expense_type($dateConvertFrom, ['expense' => 3, 'company' => $loggedInAdmin->company_id, 'branch' => $branch]);
-    $totalNonOpExp = Expense::get_total_expenses($dateConvertFrom, ['expense' => 3, 'company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
+    $nonOpgExp = Expense::find_by_expense_type($convertFrom, ['expense' => 3, 'company' => $admComp, 'branch' => $branch]);
+    $totalNonOpExp = Expense::get_total_expenses($convertFrom, ['expense' => 3, 'company' => $admComp, 'branch' => $branch])->total_amount;
 
-    $headOfficeExp = Expense::find_by_expense_type($dateConvertFrom, ['expense' => 4, 'company' => $loggedInAdmin->company_id, 'branch' => $branch]);
-    $totalHOExp = Expense::get_total_expenses($dateConvertFrom, ['expense' => 4, 'company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
+    $headOfficeExp = Expense::find_by_expense_type($convertFrom, ['expense' => 4, 'company' => $admComp, 'branch' => $branch]);
+    $totalHOExp = Expense::get_total_expenses($convertFrom, ['expense' => 4, 'company' => $admComp, 'branch' => $branch])->total_amount;
 
-    $transExp = Expense::find_by_expense_type($dateConvertFrom, ['expense' => 5, 'company' => $loggedInAdmin->company_id, 'branch' => $branch]);
-    $totalTransExp = Expense::get_total_expenses($dateConvertFrom, ['expense' => 5, 'company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
+    $transExp = Expense::find_by_expense_type($convertFrom, ['expense' => 5, 'company' => $admComp, 'branch' => $branch]);
+    $totalTransExp = Expense::get_total_expenses($convertFrom, ['expense' => 5, 'company' => $admComp, 'branch' => $branch])->total_amount;
 
     $totalSales = intval($additionalRemit) + intval($totalCashRemit);
     $totalExpenses = $totalCredit + $totalOpExp + $totalNonOpExp + $totalHOExp + $totalTransExp;
@@ -117,10 +119,114 @@ if (is_get_request()) {
         <div class="d-flex justify-content-between align-items-center">
           <h3>Cash/Sales Daily Analysis</h3>
           <h3>
-            <?php echo date('Y-m-d', strtotime($dateConvertFrom)) ?>
+            <?php echo date('Y-m-d', strtotime($convertFrom)) ?>
           </h3>
         </div>
-        <div class="table-responsive">
+
+        <div class="mt-4 mb-5">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3>Summary</h3>
+            <a href="#detailed" class="btn btn-secondary">&downarrow; detailed analysis</a>
+          </div>
+
+          <div class="row gutters">
+            <div class="col-md-4">
+              <div class="table-responsive">
+                <table class="table custom-table table-sm">
+                  <thead>
+                    <tr class="bg-primary text-white text-center">
+                      <th>Particulars</th>
+                      <th>Inflow (<?php echo $currency ?>)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <?php echo 'Cash Sales'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo number_format($totalCashRemit); ?>
+                      </td>
+                    </tr>
+                    <?php foreach ($remittance as $data) : ?>
+                      <tr>
+                        <td>
+                          <?php echo $data->narration; ?>
+                        </td>
+                        <td class="text-right">
+                          <?php echo !empty($data->amount) ? number_format($data->amount) : '-'; ?>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                    <tr>
+                      <td colspan="2" class="text-right">
+                        <h5 class="mb-0"><?php echo number_format($totalSales); ?></h5>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="table-responsive">
+                <table class="table custom-table table-sm">
+                  <thead>
+                    <tr class="bg-primary text-white text-center">
+                      <th>Particulars</th>
+                      <th>Outflow (<?php echo $currency ?>)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach (Expense::EXPENSE_TYPE as $key => $value) :
+                      $data = Expense::find_by_expense($key);
+                      $total = Expense::get_total_expenses($convertFrom, ['expense' => $key, 'company' => $admComp, 'branch' => $branch])->total_amount;
+
+                      $nextTotal = !empty($total) ? $total : 0;
+                      array_push($metricLabels, $value);
+                      array_push($metricSeries, $nextTotal);
+                    ?>
+                      <tr>
+                        <td>
+                          <?php echo $value == 'Transfer' && isset($data->narration) ? ucfirst($data->narration) : ucwords($value); ?>
+                        </td>
+                        <td class="text-right">
+                          <?php echo number_format($total); ?>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                    <tr>
+                      <td class="font-weight-bold text-uppercase">
+                        <?php echo 'Cash to HEAD OFFICE'; ?>
+                      </td>
+                      <td class="text-right font-weight-bold">
+                        <?php echo number_format($cashToHO); ?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="text-right">
+                        <h5 class="mb-0"><?php echo number_format($grandTotal); ?></h5>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <?php
+              $impLabel = implode('","',  $metricLabels);
+              $impSeries = implode(',',  $metricSeries);
+
+              $label = '"' . $impLabel . '"';
+              $series = $impSeries;
+              ?>
+              <div id="daily-report"><span class="badge badge-primary ">Chart Analysis</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive" id="detailed">
           <table class="table custom-table table-sm">
             <thead>
               <tr class="bg-primary text-white text-center">
@@ -424,97 +530,112 @@ if (is_get_request()) {
           </table>
         </div>
       </div>
-
-      <div class="my-5 w-75 mx-auto">
-        <div class="d-flex justify-content-between align-items-center">
-          <h3>Summary</h3>
-          <h3>
-            <?php echo date('Y-m-d', strtotime($dateConvertFrom)) ?>
-          </h3>
-        </div>
-
-        <div class="row gutters">
-          <div class="col-md-6">
-            <div class="table-responsive">
-              <table class="table custom-table table-sm">
-                <thead>
-                  <tr class="bg-primary text-white text-center">
-                    <th>Particulars</th>
-                    <th>Inflow (<?php echo $currency ?>)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <?php echo 'Cash Sales'; ?>
-                    </td>
-                    <td class="text-right">
-                      <?php echo number_format($totalCashRemit); ?>
-                    </td>
-                  </tr>
-                  <?php foreach ($remittance as $data) : ?>
-                    <tr>
-                      <td>
-                        <?php echo $data->narration; ?>
-                      </td>
-                      <td class="text-right">
-                        <?php echo !empty($data->amount) ? number_format($data->amount) : '-'; ?>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                  <tr>
-                    <td colspan="2" class="text-right">
-                      <h5 class="mb-0"><?php echo number_format($totalSales); ?></h5>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="table-responsive">
-              <table class="table custom-table table-sm">
-                <thead>
-                  <tr class="bg-primary text-white text-center">
-                    <th>Particulars</th>
-                    <th>Outflow (<?php echo $currency ?>)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach (Expense::EXPENSE_TYPE as $key => $value) :
-                    $data = Expense::find_by_expense($key);
-                    $total = Expense::get_total_expenses($dateConvertFrom, ['expense' => $key, 'company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
-                  ?>
-                    <tr>
-                      <td>
-                        <?php echo $value == 'Transfer' && isset($data->narration) ? ucfirst($data->narration) : ucwords($value); ?>
-                      </td>
-                      <td class="text-right">
-                        <?php echo number_format($total); ?>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                  <tr>
-                    <td class="font-weight-bold text-uppercase">
-                      <?php echo 'Cash to HEAD OFFICE'; ?>
-                    </td>
-                    <td class="text-right font-weight-bold">
-                      <?php echo number_format($cashToHO); ?>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2" class="text-right">
-                      <h5 class="mb-0"><?php echo number_format($grandTotal); ?></h5>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
+
+    <script>
+      function numberWithCommas(params) {
+        return params.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      var options = {
+        plotOptions: {
+          pie: {
+            startAngle: 0,
+            endAngle: 360,
+            expandOnClick: true,
+            offsetX: 0,
+            offsetY: 0,
+            customScale: 1,
+            dataLabels: {
+              offset: 0,
+              minAngleToShowLabel: 10
+            },
+            donut: {
+              size: '65%',
+              background: 'transparent',
+              labels: {
+                show: true,
+                name: {
+                  show: true,
+                  fontSize: '20px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: 600,
+                  color: undefined,
+                  offsetY: -10,
+                  formatter: function(val) {
+                    return val
+                  }
+                },
+                value: {
+                  show: true,
+                  fontSize: '16px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: 400,
+                  color: undefined,
+                  offsetY: 16,
+                  formatter: function(val) {
+                    return numberWithCommas(val)
+                  }
+                },
+                total: {
+                  show: false,
+                  showAlways: false,
+                  label: 'Total',
+                  fontSize: '18px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: 600,
+                  color: '#373d3f',
+                  formatter: function(w) {
+                    return w.globals.seriesTotals.reduce((a, b) => {
+                      return a + b
+                    }, 0)
+                  }
+                }
+              }
+            },
+          }
+        },
+        chart: {
+          width: 400,
+          type: "donut",
+        },
+        labels: [<?php echo $label . ', "Cash H-Office"'; ?>],
+        series: [<?php echo $series . ', ' . $cashToHO; ?>],
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: "top",
+            },
+          },
+        }, ],
+        stroke: {
+          width: 0,
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shadeIntensity: 0.6,
+            inverseColors: false,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [70, 100],
+          },
+        },
+        // colors: ["#A300D6", "#7D02EB", "#5653FE", "#2983FF", "#00B1F2"],
+        // colors: ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0"],
+        // colors: ["#3F51B5", "#03A9F4", "#4CAF50", "#F9CE1D", "#FF9800"],
+        // colors: ["#449DD1", "#F86624", "#EA3546", "#662E9B", "#C5D86D"],
+        colors: ["#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044", "#00B1F2"],
+        // colors: ["#1a8e5f", "#262b31", "#434950", "#63686f", "#868a90"],
+
+      };
+      var chart = new ApexCharts(document.querySelector("#daily-report"), options);
+      chart.render();
+    </script>
 
 <?php endif;
 }

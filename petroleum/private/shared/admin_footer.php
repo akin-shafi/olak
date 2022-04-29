@@ -87,14 +87,27 @@
     <script src="<?php echo url_for('js/custom-daterange.js') ?>"></script>
 
     <!-- Chartist JS -->
-    <script src="<?php //echo url_for('js/chartist.min.js') 
-                  ?>"></script>
+    <script src="<?php echo url_for('js/apexcharts.min.js') ?>"></script>
+    <script src="<?php echo url_for('js/chartist.min.js') ?>"></script>
     <script src="<?php //echo url_for('js/chartist-tooltip.js') 
                   ?>"></script>
     <script src="<?php //echo url_for('js/threshold.js') 
                   ?>"></script>
     <script src="<?php //echo url_for('js/bar-chart-orders.js') 
                   ?>"></script>
+    <script src="<?php //echo url_for('js/bar-chart.js') 
+                  ?>"></script>
+    <script src="<?php echo url_for('js/basic-area-graph-spline.js') ?>"></script>
+    <script src="<?php echo url_for('js/basic-bar-graph.js') ?>"></script>
+    <script src="<?php echo url_for('js/basic-column-graph-rotated-labels.js') ?>"></script>
+    <script src="<?php echo url_for('js/basic-column-graph.js') ?>"></script>
+    <script src="<?php echo url_for('js/basic-donut-graph-gradient.js') ?>"></script>
+
+    <!-- FUNCTIONAL -->
+
+    <script src="<?php echo url_for('js/basic-donut-graph-monochrome-gradient.js') ?>"></script>
+    <script src="<?php echo url_for('js/basic-pie-graph-gradient.js') ?>"></script>
+    <script src="<?php echo url_for('js/basic-pie-graph-monochrome-gradient.js') ?>"></script>
 
     <!-- jVector Maps -->
     <script src="<?php echo url_for('js/jquery-jvectormap-2.0.3.min.js') ?>"></script>
