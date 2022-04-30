@@ -43,9 +43,10 @@ $fullName = $user->full_name;
    </div>
 
    <style>
-      html{
+      html {
          scroll-behavior: smooth;
       }
+
       .table-responsive::-webkit-scrollbar {
          width: 0.5em;
          height: 0.5em;
@@ -957,12 +958,12 @@ $fullName = $user->full_name;
             </ol>
 
             <ul class="app-actions">
-               <?php if ($user->admin_level == 1 && $page_title == 'All Sales') : ?>
+               <?php if ($access->sales_mgt == 1 && $page_title == 'All Sales') : ?>
                   <li class="d-flex justify-content-center align-items-center">
                      <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
                         <option value="">select branch</option>
                         <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
-                           <option value="<?php echo $branch->id ?>">
+                           <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
                               <?php echo ucwords($branch->name) ?></option>
                         <?php endforeach; ?>
                      </select>
@@ -974,13 +975,13 @@ $fullName = $user->full_name;
                      </a>
                   </li>
                <?php endif; ?>
-               <?php if ($user->admin_level == 1 && ($page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
+               <?php if ($access->sales_mgt == 1 && ($page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
                   <div class="d-flex justify-content-center align-items-center">
                      <li>
                         <select name="filter_branch" class="form-control form-control-sm" id="fBranch">
                            <option value="">select branch</option>
                            <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
-                              <option value="<?php echo $branch->id ?>">
+                              <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
                                  <?php echo ucwords($branch->name) ?></option>
                            <?php endforeach; ?>
                         </select>

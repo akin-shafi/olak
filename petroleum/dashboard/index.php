@@ -4,7 +4,7 @@ $page = 'Home';
 $page_title = 'Sales Dashboard';
 include(SHARED_PATH . '/admin_header.php');
 
-if ($access->dashboard != 1) :
+if (empty($access->dashboard) || $access->dashboard != 1) :
 	redirect_to('../sales/');
 endif;
 
@@ -21,12 +21,15 @@ $expenses = Expense::find_by_metrics();
 
 foreach ($sales as $value) {
 	$abrMonth = date('M', strtotime('01-' . $value->month . date('-Y')));
-	array_push($metricSales, $value->inflow);
+	$nextInflow = !empty($value->inflow) ? $value->inflow : 0;
+
+	array_push($metricSales, $nextInflow);
 	array_push($metricMonth, $abrMonth);
 }
 
 foreach ($expenses as $value) {
-	array_push($metricExpenses, $value->outflow);
+	$nextOutflow = !empty($value->outflow) ? $value->outflow : 0;
+	array_push($metricExpenses, $nextOutflow);
 }
 
 for ($i = 0; $i < count($metricSales); $i++) {
