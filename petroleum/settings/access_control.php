@@ -27,7 +27,7 @@ $admins = Admin::find_by_undeleted();
 
       <div class="card">
         <div class="card-body">
-          <div class="table-container">
+          <div class="table-container border-0 shadow">
             <h3>Access Control Management (Permissions)</h3>
             <div class="table-responsive">
               <table class="table custom-table table-sm">

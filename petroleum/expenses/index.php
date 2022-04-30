@@ -40,7 +40,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
 
       <div class="card">
         <div class="card-body">
-          <div class="table-container" id="expenseReport">
+          <div class="table-container border-0 shadow" id="expenseReport">
 
           </div>
         </div>

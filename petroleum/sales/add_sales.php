@@ -63,7 +63,7 @@ include(SHARED_PATH . '/admin_header.php');
 		</div>
 	</div>
 
-	<div class="table-container">
+	<div class="table-container border-0 shadow">
 		<div class="table-responsive">
 			<form id="data_sheet_form" method="post">
 				<input type="hidden" name="data_sheet_form" readonly>

@@ -30,18 +30,20 @@ class DataSheet extends DatabaseObject
   public $tank;
   public $rate;
   public $sales_quantity;
+  public $expected_sales;
   public $inflow;
 
   public $year;
   public $month;
+
+  public $product_name;
 
   const PRODUCTS = [1 => 'PMS', 2 => 'AGO', 3 => 'DPK'];
   const RATES = [1 => '162', 2 => '335', 3 => '345'];
 
   public function __construct($args = [])
   {
-    // $this->id                   = $args['id'] ?? '';
-    $this->product_id                 = $args['product_id'] ?? '';
+    $this->product_id           = $args['product_id'] ?? '';
     $this->open_stock           = $args['open_stock'] ?? '';
     $this->new_stock            = $args['new_stock'] ?? '';
     $this->total_stock          = $args['total_stock'] ?? '';
@@ -114,7 +116,7 @@ class DataSheet extends DatabaseObject
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
 
-    $sql = "SELECT ds.*, SUM(ds.sales_in_ltr) AS sales_quantity, SUM(ds.cash_submitted) AS inflow, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
+    $sql = "SELECT ds.*, SUM(ds.sales_in_ltr) AS sales_quantity, SUM(ds.exp_sales_value) AS expected_sales, SUM(ds.cash_submitted) AS inflow, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
     $sql .= "JOIN products AS pr ON ds.product_id = pr.id ";
     $sql .= "WHERE ds.created_at ='" . self::$database->escape_string($dateFrom) . "'";
     $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
@@ -140,17 +142,42 @@ class DataSheet extends DatabaseObject
   }
 
 
-  // public static function find_by_company_id($company_id)
-  // {
-  //   $sql = "SELECT * FROM " . static::$table_name . " ";
-  //   $sql .= "WHERE company_id='" . self::$database->escape_string($company_id) . "'";
-  //   $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-  //   $sql .= "ORDER BY id ASC";
-  //   $obj_array = static::find_by_sql($sql);
-  //   if (!empty($obj_array)) {
-  //     return array_shift($obj_array);
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  public static function get_sheets()
+  {
+    $date = date('Y');
+
+    $sql = "SELECT product_id, SUM(total_stock) AS total_stock, SUM(sales_in_ltr) AS sales_in_ltr, SUM(expected_stock) AS expected_stock, SUM(actual_stock) AS actual_stock, SUM(over_or_short) AS over_or_short, SUM(exp_sales_value) AS exp_sales_value, SUM(cash_submitted) AS cash_submitted FROM " . static::$table_name . " ";
+
+    $sql .= "WHERE created_at LIKE '%" . self::$database->escape_string($date) . "%'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $sql .= "GROUP BY product_id ";
+    // $sql .= "ORDER BY product_id DESC";
+    return static::find_by_sql($sql);
+  }
+
+
+  public static function get_stock_sheet()
+  {
+    $sql = "SELECT SUM(total_stock) AS total_stock, SUM(sales_in_ltr) AS sales_in_ltr, SUM(expected_stock) AS expected_stock, SUM(actual_stock) AS actual_stock, SUM(over_or_short) AS over_or_short, SUM(exp_sales_value) AS exp_sales_value, SUM(cash_submitted) AS cash_submitted FROM " . static::$table_name . " ";
+    $sql .= "WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function get_top_selling_product()
+  {
+    $sql = "SELECT SUM(ds.sales_in_ltr) AS sales_in_ltr, p.name AS product_name FROM " . static::$table_name . " AS ds ";
+    $sql .= "JOIN products AS p ON ds.product_id = p.id ";
+    $sql .= "WHERE (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+    $sql .= "GROUP BY p.name ";
+    $sql .= "ORDER BY sales_in_ltr DESC";
+
+    return static::find_by_sql($sql);
+  }
 }

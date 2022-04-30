@@ -29,7 +29,7 @@ $products = Product::find_by_undeleted();
 
 			<div class="card">
 				<div class="card-body">
-					<div class="table-container">
+					<div class="table-container border-0 shadow">
 						<div class="table-responsive">
 							<!-- <table id="copy-print-csv_wrapper" class="table custom-table table-sm "> -->
 							<table id="dataSheet" class="table custom-table">

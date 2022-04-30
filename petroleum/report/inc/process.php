@@ -115,7 +115,7 @@ if (is_get_request()) {
 ?>
 
     <div>
-      <div class="table-container">
+      <div class="table-container border-0 shadow">
         <div class="d-flex justify-content-between align-items-center">
           <h3>Cash/Sales Daily Analysis</h3>
           <h3>
