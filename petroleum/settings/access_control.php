@@ -36,6 +36,7 @@ $admins = Admin::find_by_undeleted();
                     <th>SN</th>
                     <th>Users</th>
                     <th>Role</th>
+                    <th>Dashboard</th>
                     <th>User Mgt</th>
                     <th>Product Mgt</th>
                     <th>Sales Mgt</th>
@@ -55,6 +56,10 @@ $admins = Admin::find_by_undeleted();
                       <td><?php echo $sn++; ?></td>
                       <td><?php echo ucwords($user->full_name); ?></td>
                       <td><?php echo ucwords($adminLevel); ?></td>
+                      <td class="text-center">
+                        <?php echo $data->dashboard == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                          : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                      </td>
                       <td class="text-center">
                         <?php echo $data->users_mgt == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
                           : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
@@ -124,6 +129,13 @@ $admins = Admin::find_by_undeleted();
                       <?php endforeach; ?>
                     </select>
                   </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[dashboard]" id="dashMgt">
+                  <label class="custom-control-label" for="dashMgt">Dashboard</label>
                 </div>
               </div>
 
@@ -235,6 +247,7 @@ $admins = Admin::find_by_undeleted();
         },
         dataType: 'json',
         success: function(r) {
+          let hasDashPermit = r.data.dashboard == '1' ? true : false
           let hasUserPermit = r.data.users_mgt == '1' ? true : false
           let hasProductPermit = r.data.product_mgt == '1' ? true : false
           let hasSalesPermit = r.data.sales_mgt == '1' ? true : false
@@ -242,6 +255,7 @@ $admins = Admin::find_by_undeleted();
           let hasReportPermit = r.data.report_mgt == '1' ? true : false
 
           $('#staff').val(r.data.user_id)
+          $('#dashMgt').prop('checked', hasDashPermit);
           $('#userMgt').prop('checked', hasUserPermit);
           $('#proMgt').prop('checked', hasProductPermit);
           $('#salMgt').prop('checked', hasSalesPermit);

@@ -233,6 +233,7 @@ if (is_post_request()) {
         $args = $_POST['access'];
 
         $args = [
+            'dashboard' => isset($args['dashboard']) ? '1' : '0',
             'users_mgt' => isset($args['users_mgt']) ? '1' : '0',
             'product_mgt' => isset($args['product_mgt']) ? '1' : '0',
             'sales_mgt' => isset($args['sales_mgt']) ? '1' : '0',
@@ -256,6 +257,7 @@ if (is_post_request()) {
         $access = AccessControl::find_by_id($aId);
 
         $args = [
+            'dashboard' => isset($args['dashboard']) ? '1' : '0',
             'users_mgt' => isset($args['users_mgt']) ? '1' : '0',
             'product_mgt' => isset($args['product_mgt']) ? '1' : '0',
             'sales_mgt' => isset($args['sales_mgt']) ? '1' : '0',

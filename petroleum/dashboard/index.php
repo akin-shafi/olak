@@ -4,6 +4,11 @@ $page = 'Home';
 $page_title = 'Sales Dashboard';
 include(SHARED_PATH . '/admin_header.php');
 
+if ($access->dashboard != 1) :
+	redirect_to('../sales/');
+endif;
+
+
 $metricProfit = [];
 $metricSales = [];
 $metricExpenses = [];
