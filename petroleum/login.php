@@ -102,6 +102,7 @@ if (is_post_request()) {
                         <span class="additional-link">Don't have an account?</span>
                         <a href="<?php echo url_for('signup.php') ?>" class="btn btn-dark">Create Account</a>
                      </div>
+                     <a href="../">&leftarrow; Back</a>
                   </div>
                </div>
             </div>

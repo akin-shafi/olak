@@ -81,6 +81,7 @@ if (is_post_request()) {
             <div class="m-0 d-none">
               <span class="additional-link">No account? <a href="<?php echo url_for('auth/signup.php'); ?>">Signup Now</a></span>
             </div>
+            <a href="../../../">&leftarrow; Back</a>
           </div>
         </div>
       </div>
@@ -109,4 +110,3 @@ if (is_post_request()) {
   }
 </script>
 <?php include(SHARED_PATH . '/auth_footer.php') ?>
-

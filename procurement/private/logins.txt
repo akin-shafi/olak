@@ -1,0 +1,64 @@
+2022-02-10 15:12:30 | Admin Login: Super Admin Logged in.
+2022-02-10 15:18:25 | Admin Login: Super Admin Logged in.
+2022-02-10 15:58:00 | Admin Login: Super Admin Logged in.
+2022-02-10 15:58:16 | Admin Login: Super Admin Logged in.
+2022-02-16 12:49:34 | Admin Login: Super Admin Logged in.
+2022-02-16 13:16:48 | Admin Login: Super Admin Logged in.
+2022-02-17 14:22:43 | Admin Login: Super Admin Logged in.
+2022-04-12 15:01:56 | Admin Login: Idowu Alaba Logged in.
+2022-04-12 17:25:50 | Admin Login: Idowu Alaba Logged in.
+2022-04-12 17:44:09 | Admin Login: Idowu Alaba Logged in.
+2022-04-13 17:44:40 | Admin Login: Idowu Alaba Logged in.
+2022-04-14 17:45:49 | Admin Login: Idowu Alaba Logged in.
+2022-04-14 19:53:03 | Logout: Idowu Alaba Logged out.
+2022-04-14 19:55:23 | Admin Login: user@gmail.com Logged in.
+2022-04-14 19:57:05 | Admin Login: user@gmail.com Logged in.
+2022-04-14 23:22:35 | Admin Login: admin1@gmail.com Logged in.
+2022-04-15 12:16:47 | Admin Login: admin1@gmail.com Logged in.
+2022-04-15 12:42:21 | Logout:  Logged out.
+2022-04-15 12:43:01 | Admin Login: admin@gmail.com Logged in.
+2022-04-15 13:08:28 | Logout: Liberty Gross Logged out.
+2022-04-15 13:08:34 | Admin Login: user@gmail.com Logged in.
+2022-04-15 13:23:33 | Logout: Carlos Decker Logged out.
+2022-04-15 13:23:39 | Admin Login: admin@gmail.com Logged in.
+2022-04-15 13:36:15 | Logout: Liberty Gross Logged out.
+2022-04-15 13:36:19 | Admin Login: user@gmail.com Logged in.
+2022-04-15 13:50:17 | Logout: Carlos Decker Logged out.
+2022-04-15 13:50:23 | Admin Login: admin@gmail.com Logged in.
+2022-04-15 15:03:52 | Logout: Liberty Gross Logged out.
+2022-04-15 15:04:01 | Admin Login: user@gmail.com Logged in.
+2022-04-15 16:11:22 | Logout: Carlos Decker Logged out.
+2022-04-15 16:11:27 | Admin Login: admin@gmail.com Logged in.
+2022-04-15 17:01:41 | Logout: Liberty Gross Logged out.
+2022-04-15 17:01:48 | Admin Login: user@gmail.com Logged in.
+2022-04-15 18:08:48 | Logout: Carlos Decker Logged out.
+2022-04-15 19:32:33 | Admin Login: admin@gmail.com Logged in.
+2022-04-17 12:42:23 | Admin Login: Liberty Gross Logged in.
+2022-04-18 18:05:17 | Admin Login: Liberty Gross Logged in.
+2022-04-19 12:28:52 | Admin Login: Liberty Gross Logged in.
+2022-04-20 12:29:08 | Admin Login: Liberty Gross Logged in.
+2022-04-21 12:29:25 | Admin Login: Liberty Gross Logged in.
+2022-04-21 14:33:23 | Logout: Liberty Gross Logged out.
+2022-04-21 14:33:29 | Admin Login: Carlos Decker Logged in.
+2022-04-21 15:02:57 | Logout: Carlos Decker Logged out.
+2022-04-21 15:03:11 | Admin Login: Liberty Gross Logged in.
+2022-04-21 19:07:48 | Logout: Liberty Gross Logged out.
+2022-04-26 17:05:03 | Admin Login: Liberty Gross Logged in.
+2022-04-29 12:35:28 | Admin Login: Liberty Gross Logged in.
+2022-04-30 18:35:15 | Logout: Liberty Gross Logged out.
+2022-04-30 18:35:27 | Admin Login: Carlos Decker Logged in.
+2022-04-30 18:36:57 | Admin Login: Liberty Gross Logged in.
+2022-04-30 18:37:24 | Logout: Liberty Gross Logged out.
+2022-04-30 18:37:28 | Admin Login: Carlos Decker Logged in.
+2022-04-30 18:37:54 | Logout: Carlos Decker Logged out.
+2022-04-30 18:37:59 | Admin Login: Liberty Gross Logged in.
+2022-04-30 18:38:46 | Logout: Liberty Gross Logged out.
+2022-04-30 18:38:50 | Admin Login: Carlos Decker Logged in.
+2022-04-30 18:58:31 | Logout: Carlos Decker Logged out.
+2022-04-30 18:58:36 | Admin Login: Liberty Gross Logged in.
+2022-04-30 19:01:41 | Logout: Liberty Gross Logged out.
+2022-04-30 19:01:45 | Admin Login: Carlos Decker Logged in.
+2022-05-01 16:46:31 | Admin Login: Liberty Gross Logged in.
+2022-05-01 17:44:02 | Logout: Liberty Gross Logged out.
+2022-05-04 10:16:53 | Admin Login: Liberty Gross Logged in.
+2022-05-04 10:17:14 | Logout: Liberty Gross Logged out.

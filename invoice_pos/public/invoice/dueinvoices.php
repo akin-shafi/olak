@@ -9,7 +9,8 @@ $due = Billing::find_due_date();
 // $admins = Admin::find_by_undeleted();
 
 ?>
-<?php $page = 'Invoice'; $page_title = 'Due Invoices'; ?>
+<?php $page = 'Invoice';
+$page_title = 'Due Invoices'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- *************
@@ -89,7 +90,7 @@ $due = Billing::find_due_date();
 											</a>
 										</td>
 										<td><?php echo h(ucwords($client->invoiceNum)); ?></td>
-										<td><?php echo h(ucwords($client->client_name)); ?></td>
+										<td><?php echo isset($client->client_name) ? h(ucwords($client->client_name)) : 'Not Set'; ?></td>
 										<td><?php echo h(ucwords($client->billingFormat)); ?></td>
 										<td><?php echo h(ucwords($client->start_date)); ?></td>
 										<td><?php echo h(ucwords($client->due_date)); ?></td>

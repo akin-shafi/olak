@@ -1,6 +1,6 @@
 <?php
 require_once('../private/initialize.php');
- 
+
 $page = 'Employees';
 $page_title = 'Add Employee';
 include(SHARED_PATH . '/header.php');
@@ -17,11 +17,11 @@ include(SHARED_PATH . '/header.php');
    <div class="page-rightheader ms-md-auto d-none">
       <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
          <div class="btn-list">
-            <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button> 
+            <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="E-mail"> <i class="feather feather-mail"></i> </button>
 
             <button class="btn btn-light d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Contact"> <i class="feather feather-phone-call"></i> </button>
 
-             <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
+            <button class="btn btn-primary d-none" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Info"> <i class="feather feather-info"></i> </button>
          </div>
       </div>
    </div>
@@ -46,7 +46,7 @@ include(SHARED_PATH . '/header.php');
 
 
 <div class="row">
-  
+
 
    <div class="col-xl-12 col-md-12 col-lg-12">
       <div class="tab-menu-heading hremp-tabs p-0 ">
@@ -432,7 +432,7 @@ include(SHARED_PATH . '/header.php');
 </div>
 
 <?php include(SHARED_PATH . '/footer.php') ?>
- 
+
 <script>
    $(document).ready(function() {
       const message = (req, res) => {
