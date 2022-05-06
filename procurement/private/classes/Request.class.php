@@ -4,7 +4,7 @@
 class Request extends DatabaseObject
 {
    protected static $table_name = "requests";
-   protected static $db_columns = ['id', 'invoice_no', 'full_name', 'item_name', 'unit', 'quantity', 'status', 'note', 'due_date', 'created_by', 'created_at', 'deleted'];
+   protected static $db_columns = ['id', 'invoice_no', 'full_name', 'company_id', 'branch_id', 'item_name', 'unit', 'quantity', 'status', 'note', 'due_date', 'created_by', 'created_at', 'deleted'];
 
    public $id;
    public $invoice_no;
@@ -18,7 +18,15 @@ class Request extends DatabaseObject
    public $created_by;
    public $created_at;
 
+   public $counts;
    public $deleted;
+
+   public $company_name;
+   public $company_id;
+   public $branch_name;
+   public $branch_id;
+   public $address;
+
 
    const STATUS = [
       1 => 'New',
@@ -40,6 +48,8 @@ class Request extends DatabaseObject
       $this->invoice_no   = $args['invoice_no'] ?? '';
       $this->due_date     = $args['due_date'] ?? '';
       $this->full_name    = $args['full_name'] ?? '';
+      $this->company_id   = $args['company_id'] ?? '';
+      $this->branch_id    = $args['branch_id'] ?? '';
       $this->item_name    = $args['item_name'] ?? '';
       $this->unit         = $args['unit'] ?? '';
       $this->quantity     = $args['quantity'] ?? '';
@@ -98,9 +108,10 @@ class Request extends DatabaseObject
 
    public static function find_all_invoices()
    {
-      $sql = "SELECT * FROM " . static::$table_name . " ";
+      $sql = "SELECT *, COUNT(invoice_no) AS counts FROM " . static::$table_name . " ";
       $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
       $sql .= " GROUP BY invoice_no";
+      $sql .= " ORDER BY id DESC ";
       return static::find_by_sql($sql);
    }
 
@@ -109,6 +120,50 @@ class Request extends DatabaseObject
    {
       $sql = "SELECT * FROM " . static::$table_name . " ";
       $sql .= "WHERE invoice_no ='" . self::$database->escape_string($item) . "'";
+      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $obj_array = static::find_by_sql($sql);
+
+      if (!empty($obj_array)) {
+         return array_shift($obj_array);
+      } else {
+         return false;
+      }
+   }
+
+
+   public static function get_all_companies()
+   {
+      $sql = "SELECT * FROM olak_hr.companies ";
+      $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      return static::find_by_sql($sql);
+   }
+
+   public static function get_all_branches($companyId)
+   {
+      $sql = "SELECT * FROM olak_hr.branches ";
+      $sql .= "WHERE company_id ='" . self::$database->escape_string($companyId) . "'";
+      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      return static::find_by_sql($sql);
+   }
+
+   public static function get_company($bId)
+   {
+      $sql = "SELECT * FROM olak_hr.companies ";
+      $sql .= "WHERE id ='" . self::$database->escape_string($bId) . "'";
+      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $obj_array = static::find_by_sql($sql);
+
+      if (!empty($obj_array)) {
+         return array_shift($obj_array);
+      } else {
+         return false;
+      }
+   }
+
+   public static function get_branch($bId)
+   {
+      $sql = "SELECT * FROM olak_hr.branches ";
+      $sql .= "WHERE id ='" . self::$database->escape_string($bId) . "'";
       $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
       $obj_array = static::find_by_sql($sql);
 

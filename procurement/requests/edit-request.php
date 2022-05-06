@@ -1,13 +1,33 @@
 <?php require_once('../private/initialize.php');
 
 $page = 'Request';
-$page_title = 'Add Requests';
+$page_title = 'Edit Requests';
 include(SHARED_PATH . '/admin_header.php');
 
 $isHidden = false;
 
 $units = Request::UNIT;
+
+if (empty($_GET['invoice_no'])) {
+  redirect_to('../requests');
+}
+
+$invoiceNo = $_GET['invoice_no'];
+
+$invoices = Request::find_by_invoices($invoiceNo);
+$invoice = Request::find_by_invoice($invoiceNo);
+
 $companies = Request::get_all_companies();
+$branches = Request::get_all_branches($invoice->company_id);
+
+
+if (empty($invoice)) {
+  redirect_to('../requests');
+}
+
+$companyName = Request::get_company($invoice->company_id)->company_name;
+$branchName = Request::get_branch($invoice->branch_id)->branch_name;
+
 
 ?>
 
@@ -15,12 +35,6 @@ $companies = Request::get_all_companies();
   .table-sm td,
   .table-sm th {
     padding: 0.5rem !important;
-  }
-
-  .select2-container--bootstrap-5.select2-container--focus .select2-selection,
-  .select2-container--bootstrap-5.select2-container--open .select2-selection,
-  .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field:focus {
-    box-shadow: none !important;
   }
 </style>
 
@@ -32,19 +46,20 @@ $companies = Request::get_all_companies();
         <div class="card">
           <div class="card-header d-flex justify-content-between">
             <div class="header-title">
-              <h4 class="card-title">Add Request</h4>
+              <h4 class="card-title">Edit Request</h4>
             </div>
           </div>
           <div class="card-body">
             <form id="expense_form" data-toggle="validator">
-              <input type="hidden" name="new_request">
+              <input type="hidden" name="edit_request">
+              <input type="hidden" name="invoice_num" value="<?php echo $invoiceNo ?>">
 
               <div class="table-responsive">
                 <section class="d-flex justify-content-between align-items-center">
                   <div class="d-flex">
                     <div class="form-group">
                       <label class="label-control">Your full name <sup class="text-danger">*</sup></label>
-                      <input type="text" class="form-control" name="full_name" placeholder="Enter your full name" data-errors="Please Enter Full Name." required>
+                      <input type="text" class="form-control" name="full_name" value="<?php echo $invoice->full_name ?>" placeholder="Enter your full name" data-errors="Please Enter Full Name." readonly>
                       <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group mx-3">
@@ -52,18 +67,27 @@ $companies = Request::get_all_companies();
                       <select class="form-control select2 company" name="company_id" id="company" required>
                         <option value="">-select a company-</option>
                         <?php foreach ($companies as $value) : ?>
-                          <option value="<?php echo $value->id ?>"><?php echo $value->company_name ?></option>
+                          <option value="<?php echo $value->id ?>" <?php echo $value->id == $invoice->company_id ? 'selected' : '' ?>>
+                            <?php echo $value->company_name ?></option>
                         <?php endforeach; ?>
                       </select>
                     </div>
                     <div class="form-group">
-                      <div id="branch"></div>
+                      <label class="label-control">Branch<sup class="text-danger">*</sup></label>
+                      <select class="form-control select2 company" name="branch_id" id="branch" required>
+                        <option value="">-select a branch-</option>
+                        <?php foreach ($branches as $value) : ?>
+                          <option value="<?php echo $value->id ?>" <?php echo $value->id == $invoice->branch_id ? 'selected' : '' ?>>
+                            <?php echo $value->branch_name ?> </option>
+                        <?php endforeach; ?>
+                      </select>
                     </div>
                   </div>
 
+
                   <div class="form-group">
                     <label class="label-control">Due Date <sup class="text-danger">*</sup></label>
-                    <input type="date" name="due_date" class="form-control" id="dueDtate" data-errors="Please Enter Due Date." required>
+                    <input type="date" name="due_date" value="<?php echo $invoice->due_date ?>" class="form-control" id="dueDtate" data-errors="Please Enter Due Date." required>
                     <div class="help-block with-errors"></div>
                   </div>
                 </section>
@@ -73,37 +97,39 @@ $companies = Request::get_all_companies();
                     <tr class="mtable">
                       <td colspan="2">
                         <table class="table table-sm" id="expense-item-table">
-                          <th>SN</th>
                           <th>Item/Service <sup class="text-danger">*</sup></th>
                           <th>Quantity <sup class="text-danger">*</sup></th>
-                          <th rowspan="1"></th>
+                          <th rowspan="1">
+                            <button type="button" id="add_row" class="btn btn-success">+</button>
+                          </th>
 
-                          <tr class="mtable">
-                            <td><span id="sr_no">1</span></td>
+                          <?php foreach ($invoices as $data) : ?>
+                            <tr class="mtable">
 
-                            <td>
-                              <div class="input-group">
-                                <input type="text" name="item_name[]" id="item_name1" data-srno="1" class="form-control col-8 item_name" placeholder="Item name" data-errors="Please Enter Item Name." required>
+                              <td>
+                                <div class="input-group">
+                                  <input type="text" name="item_name[]" value="<?php echo $data->item_name ?>" id="item_name1" data-srno="1" class="form-control col-8 item_name" placeholder="Item name" data-errors="Please Enter Item Name." required>
+                                  <div class="help-block with-errors"></div>
+
+                                  <select class="form-control col-4" name="unit[]" id="unit">
+                                    <option value="">Unit of measure</option>
+                                    <?php foreach ($units as $key => $value) : ?>
+                                      <option value="<?php echo $key ?>" <?php echo $key == $data->unit ? 'selected' : '' ?>><?php echo $value ?></option>
+                                    <?php endforeach; ?>
+                                  </select>
+                                </div>
+                              </td>
+
+                              <td>
+                                <input type="text" name="quantity[]" value="<?php echo $data->quantity ?>" id="quantity1" data-srno="1" class="form-control quantity" placeholder="1" data-errors="Please Enter Quantity." required>
                                 <div class="help-block with-errors"></div>
+                              </td>
 
-                                <select class="form-control col-4" name="unit[]" id="unit">
-                                  <option value="">Unit of measure</option>
-                                  <?php foreach ($units as $key => $value) : ?>
-                                    <option value="<?php echo $key ?>"><?php echo $value ?></option>
-                                  <?php endforeach; ?>
-                                </select>
-                              </div>
-                            </td>
-
-                            <td>
-                              <input type="text" name="quantity[]" id="quantity1" data-srno="1" class="form-control quantity" placeholder="1" data-errors="Please Enter Quantity." required>
-                              <div class="help-block with-errors"></div>
-                            </td>
-
-                            <td>
-                              <button type="button" id="add_row" class="btn btn-success">+</button>
-                            </td>
-                          </tr>
+                              <td>
+                                <button type="button" class="btn btn-danger delete_request" data-id="<?php echo $data->id; ?>">x</button>
+                              </td>
+                            </tr>
+                          <?php endforeach; ?>
                         </table>
                       </td>
                     </tr>
@@ -121,15 +147,14 @@ $companies = Request::get_all_companies();
 
                       <tr>
                         <td>
-                          <textarea name="note" id="note" class="form-control" rows="3" placeholder="Note"></textarea>
+                          <textarea name="note" id="note" class="form-control" rows="3" placeholder="Note"><?php echo $invoice->note ?></textarea>
                         </td>
                       </tr>
 
                       <tr>
                         <td colspan="4" align="center">
                           <input type="hidden" class="form-control " id="total_item" value="1">
-                          <button type="submit" id="create_request" class="btn btn-primary">Submit Request</button>
-                          <button type="reset" class="btn btn-danger">Reset</button>
+                          <button type="submit" id="create_request" class="btn btn-primary">Update Request</button>
                         </td>
                       </tr>
                     </table>
@@ -162,7 +187,6 @@ $companies = Request::get_all_companies();
 
       let html_code = '';
       html_code += '<tr id="row_id_' + count + '">';
-      html_code += '<td><span id="sr_no">' + count + '</span></td>';
 
       html_code += '<td><div class="input-group"><input type="text" required="" name="item_name[]" id="item_name' + count + '" class="form-control col-8 item_name" placeholder="Item name"><select class="form-control col-4" name="unit[]" id="unit' + count + '"><?php foreach ($units as $key => $value) : ?><option value="<?php echo $key ?>"><?php echo $value ?></option><?php endforeach; ?></select></div></td>';
 
@@ -199,7 +223,7 @@ $companies = Request::get_all_companies();
 
     function submit_form(form_data) {
       $.ajax({
-        url: REQ_URL,
+        url: "./inc/request.php",
         method: "POST",
         data: form_data,
         dataType: 'json',
@@ -214,24 +238,39 @@ $companies = Request::get_all_companies();
       });
     }
 
-    $('.company').select2({
-      theme: 'bootstrap-5'
-    }).on('change', function() {
-      var selected = $(".select2 option:selected").val();
-      console.log(selected);
-      $.ajax({
-        url: REQ_URL,
-        method: "GET",
-        data: {
-          company_id: selected
-        },
-        success: function(data) {
-          console.log(data);
-          $('#branch').html(data)
+    $(document).on('click', '.delete_request', function() {
+      let deleteRow = this.dataset.id;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: REQ_URL,
+            method: "POST",
+            data: {
+              id: deleteRow,
+              delete_request: 1
+            },
+            dataType: 'json',
+            success: function(data) {
+              Swal.fire(
+                'Deleted!',
+                data.message,
+                'success'
+              )
+              setTimeout(() => window.location.reload(), 1000);
+            }
+          });
+
         }
-      });
+      })
+
     });
-
-
   });
 </script>

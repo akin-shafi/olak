@@ -9,6 +9,9 @@ if (empty($invoiceNo)) {
 $invoices = Request::find_by_invoices($invoiceNo);
 $invoice = Request::find_by_invoice($invoiceNo);
 
+$companyName = Request::get_company($invoice->company_id)->company_name;
+$branchName = Request::get_branch($invoice->branch_id)->branch_name;
+
 $page = 'Invoice';
 $page_title = 'User Invoices';
 include(SHARED_PATH . '/admin_header.php');
@@ -40,12 +43,7 @@ include(SHARED_PATH . '/admin_header.php');
             </div>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-sm-12">
-                <img src="<?php echo url_for('png/logo.png'); ?>" class="logo-invoice img-fluid mb-3">
-                <h5 class="mb-0">From, <?php echo ucwords($invoice->full_name) ?></h5>
-              </div>
-            </div>
+            <img src="<?php echo url_for('png/logo.png'); ?>" class="logo-invoice img-fluid mb-3">
 
             <div class="row my-4">
               <div class="col-lg-6">
@@ -56,10 +54,9 @@ include(SHARED_PATH . '/admin_header.php');
                 </p>
               </div>
               <div class="col-lg-6 text-right">
-                <p class="mb-0">PO Box 16122 Collins Street West<br>Victoria 8007 Australia<br>
-                  Phone: +123 456 7890<br>
-                  Email: demo@Server360.com<br>
-                  Web: www.Server360.com
+                <p class="mb-0">Name: <?php echo $invoice->full_name ?><br>
+                  Company: <?php echo $companyName ?><br>
+                  Branch: <?php echo $branchName ?>
                 </p>
               </div>
             </div>
@@ -72,7 +69,7 @@ include(SHARED_PATH . '/admin_header.php');
                     <thead>
                       <tr>
                         <th scope="col">Request ID</th>
-                        <th scope="col">Item name</th>
+                        <th scope="col">Item Name</th>
                         <th class="text-center" scope="col">Quantity</th>
                         <th class="text-center" scope="col">Status</th>
                         <th scope="col">Due Date</th>

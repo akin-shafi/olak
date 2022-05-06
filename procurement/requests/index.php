@@ -7,8 +7,6 @@ include(SHARED_PATH . '/admin_header.php');
 $invoices = Request::find_all_invoices();
 ?>
 
-
-
 <div class="content-page">
   <div class="container-fluid">
     <div class="row">
@@ -72,9 +70,10 @@ $invoices = Request::find_all_invoices();
                   <td><?php echo date('M d, Y', strtotime($data->created_at)) ?></td>
                   <td>
                     <div class="d-flex align-items-center list-action">
-                      <button class="btn btn-sm badge badge-info view-btn mr-2" data-original-title="View" data-invoice="<?php echo $data->invoice_no; ?>" data-toggle="modal" data-target="#view-request"><i class="ri-eye-line mr-0"></i></button>
-                      <button class="btn btn-sm badge bg-success edit-btn mr-2" data-original-title="Edit" data-invoice="<?php echo $data->invoice_no; ?>" data-toggle="modal" data-target="#edit-request"><i class="ri-pencil-line mr-0"></i></button>
-                      <button class="btn btn-sm badge bg-warning mr-2" data-original-title="Delete" data-invoice="<?php echo $data->invoice_no; ?>"><i class="ri-delete-bin-line mr-0"></i></button>
+                      <button class="btn btn-sm badge badge-info view-btn mr-2 position-relative" data-original-title="View" data-invoice="<?php echo $data->invoice_no; ?>" data-toggle="modal" data-target="#view-request"><i class="ri-eye-line mr-0"></i>
+                        <span class="d-flex justify-content-center rounded-circle align-items-center bg-danger text-white p-2" style="width:10px;height:10px;position:absolute;top:-6px;right:-5px"><?php echo $data->counts; ?></span>
+                      </button>
+                      <a href="<?php echo url_for('requests/edit-request.php?invoice_no=' . $data->invoice_no) ?>" class="btn btn-sm badge bg-success mr-2" data-original-title="Edit" data-toggle="tooltip"><i class="ri-pencil-line mr-0"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -139,6 +138,7 @@ $invoices = Request::find_all_invoices();
                       <th class="text-center" scope="col">Status</th>
                       <th scope="col">Due Date</th>
                       <th scope="col">Request Date</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody id="get_request"></tbody>
@@ -173,12 +173,49 @@ $invoices = Request::find_all_invoices();
         method: "GET",
         data: {
           iNo: iNo,
-          get_request: 1
+          get_request: 1,
+          view: 1
         },
         success: function(r) {
           $('#get_request').html(r)
         }
       })
+    });
+
+
+    $(document).on('click', '.delete_request', function() {
+      let deleteRow = this.dataset.id;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: REQ_URL,
+            method: "POST",
+            data: {
+              id: deleteRow,
+              delete_request: 1
+            },
+            dataType: 'json',
+            success: function(data) {
+              Swal.fire(
+                'Deleted!',
+                data.message,
+                'success'
+              )
+              setTimeout(() => window.location.reload(), 1000);
+            }
+          });
+
+        }
+      })
+
     });
   })
 </script>
