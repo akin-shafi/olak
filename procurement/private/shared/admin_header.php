@@ -1,4 +1,10 @@
 <?php // require_login();
+
+if (empty($loggedInAdmin->email)) {
+   redirect_to('../logout.php');
+}
+
+$access = AccessControl::find_by_user_id($loggedInAdmin->id);
 ?>
 
 <!doctype html>
@@ -80,6 +86,36 @@
                         </li>
                      </ul>
                   </li>
+
+                  <li class="<?php echo $page == 'Settings' ? 'active' : '' ?>">
+                     <a href="#settings" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                        <svg class="svg-icon" id="p-dash19" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                        </svg>
+                        <span class="ml-4">Settings</span>
+                        <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <polyline points="10 15 15 20 20 15"></polyline>
+                           <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                        </svg>
+                     </a>
+                     <ul id="settings" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                        <?php if ($access->users_mgt == 1) : ?>
+                           <li class="<?php echo $page_title == 'Manage Users' ? 'active' : '' ?>">
+                              <a href="<?php echo url_for('settings/manage_user.php'); ?>">
+                                 <i class="fas la-minus"></i><span>Manage Users</span>
+                              </a>
+                           </li>
+                        <?php endif; ?>
+                        <?php if ($loggedInAdmin->admin_level == 1) : ?>
+                           <li class="<?php echo $page_title == 'Access Control' ? 'active' : '' ?>">
+                              <a href="<?php echo url_for('settings/access_control.php'); ?>">
+                                 <i class="fas la-minus"></i><span>Access Control</span>
+                              </a>
+                           </li>
+                        <?php endif; ?>
+                     </ul>
+                  </li>
+
                   <li class="d-none <?php echo $page == 'Invoice' ? 'active' : '' ?>">
                      <a href="<?php echo url_for('requests'); ?>" class="svg-icon">
                         <svg class="svg-icon" id="p-dash07" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -134,26 +170,9 @@
                   </button>
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <ul class="navbar-nav ml-auto navbar-list align-items-center">
-                        <li class="nav-item nav-icon dropdown">
-                           <a href="#" class="search-toggle dropdown-toggle btn border add-btn" id="dropdownMenuButton02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <img src="<?php echo url_for('png/flag-01.png') ?>" alt="img-flag" class="img-fluid image-flag mr-2">En
-                           </a>
-                           <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                              <div class="card shadow-none m-0">
-                                 <div class="card-body p-3">
-                                    <a class="iq-sub-card" href="#"><img src="<?php echo url_for('png/flag-02.png') ?>" alt="img-flag" class="img-fluid mr-2">French</a>
-                                    <a class="iq-sub-card" href="#"><img src="<?php echo url_for('png/flag-03.png') ?>" alt="img-flag" class="img-fluid mr-2">Spanish</a>
-                                    <a class="iq-sub-card" href="#"><img src="<?php echo url_for('png/flag-04.png') ?>" alt="img-flag" class="img-fluid mr-2">Italian</a>
-                                    <a class="iq-sub-card" href="#"><img src="<?php echo url_for('png/flag-05.png') ?>" alt="img-flag" class="img-fluid mr-2">German</a>
-                                    <a class="iq-sub-card" href="#"><img src="<?php echo url_for('png/flag-06.png') ?>" alt="img-flag" class="img-fluid mr-2">Japanese</a>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
-                        <li>
-                           <a href="#" class="btn border add-btn shadow-none mx-2 d-none d-md-block" data-toggle="modal" data-target="#new-order"><i class="fas la-plus mr-2"></i>New
-                              Order</a>
-                        </li>
+                        <!-- <li>
+                           <a href="#" class="btn border add-btn shadow-none mx-2 d-none d-md-block" data-toggle="modal" data-target="#new-order"><i class="fas la-plus mr-2"></i>New Order</a>
+                        </li> -->
                         <li class="nav-item nav-icon search-content">
                            <a href="#" class="search-toggle rounded" id="dropdownSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="ri-search-line"></i>
@@ -167,76 +186,7 @@
                               </form>
                            </div>
                         </li>
-                        <li class="nav-item nav-icon dropdown">
-                           <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail">
-                                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                 </path>
-                                 <polyline points="22,6 12,13 2,6"></polyline>
-                              </svg>
-                              <span class="bg-primary"></span>
-                           </a>
-                           <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                              <div class="card shadow-none m-0">
-                                 <div class="card-body p-0 ">
-                                    <div class="cust-title p-3">
-                                       <div class="d-flex align-items-center justify-content-between">
-                                          <h5 class="mb-0">All Messages</h5>
-                                          <a class="badge badge-primary badge-card" href="#">3</a>
-                                       </div>
-                                    </div>
-                                    <div class="px-3 pt-0 pb-0 sub-card">
-                                       <a href="#" class="iq-sub-card">
-                                          <div class="media align-items-center cust-card py-3 border-bottom">
-                                             <div class="">
-                                                <img class="avatar-50 rounded-small" src="<?php echo url_for('jpg/01.jpg') ?>" alt="01">
-                                             </div>
-                                             <div class="media-body ml-3">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                   <h6 class="mb-0">Emma Watson</h6>
-                                                   <small class="text-dark"><b>12 : 47 pm</b></small>
-                                                </div>
-                                                <small class="mb-0">Lorem ipsum dolor sit amet</small>
-                                             </div>
-                                          </div>
-                                       </a>
-                                       <a href="#" class="iq-sub-card">
-                                          <div class="media align-items-center cust-card py-3 border-bottom">
-                                             <div class="">
-                                                <img class="avatar-50 rounded-small" src="<?php echo url_for('jpg/02.jpg') ?>" alt="02">
-                                             </div>
-                                             <div class="media-body ml-3">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                   <h6 class="mb-0">Ashlynn Franci</h6>
-                                                   <small class="text-dark"><b>11 : 30 pm</b></small>
-                                                </div>
-                                                <small class="mb-0">Lorem ipsum dolor sit amet</small>
-                                             </div>
-                                          </div>
-                                       </a>
-                                       <a href="#" class="iq-sub-card">
-                                          <div class="media align-items-center cust-card py-3">
-                                             <div class="">
-                                                <img class="avatar-50 rounded-small" src="<?php echo url_for('jpg/03.jpg') ?>" alt="03">
-                                             </div>
-                                             <div class="media-body ml-3">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                   <h6 class="mb-0">Kianna Carder</h6>
-                                                   <small class="text-dark"><b>11 : 21 pm</b></small>
-                                                </div>
-                                                <small class="mb-0">Lorem ipsum dolor sit amet</small>
-                                             </div>
-                                          </div>
-                                       </a>
-                                    </div>
-                                    <a class="right-ic btn btn-primary btn-block position-relative p-2" href="#" role="button">
-                                       View All
-                                    </a>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
-                        <li class="nav-item nav-icon dropdown">
+                        <!-- <li class="nav-item nav-icon dropdown">
                            <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
                                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -253,6 +203,7 @@
                                           <a class="badge badge-primary badge-card" href="#">3</a>
                                        </div>
                                     </div>
+
                                     <div class="px-3 pt-0 pb-0 sub-card">
                                        <a href="#" class="iq-sub-card">
                                           <div class="media align-items-center cust-card py-3 border-bottom">
@@ -303,24 +254,24 @@
                                  </div>
                               </div>
                            </div>
-                        </li>
+                        </li> -->
                         <li class="nav-item nav-icon dropdown caption-content">
                            <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <img src="<?php echo url_for('png/1.png') ?>" class="img-fluid rounded" alt="user">
+                              <img src="<?php echo url_for('settings/uploads/profile/' . $loggedInAdmin->profile_img); ?>" class="img-fluid rounded" alt="user">
                            </a>
                            <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
                               <div class="card shadow-none m-0">
                                  <div class="card-body p-0 text-center">
                                     <div class="media-body profile-detail text-center">
                                        <img src="<?php echo url_for('jpg/profile-bg.jpg') ?>" alt="profile-bg" class="rounded-top img-fluid mb-4">
-                                       <img src="<?php echo url_for('png/1.png') ?>" alt="profile-img" class="rounded profile-img img-fluid avatar-70">
+                                       <img src="<?php echo url_for('settings/uploads/profile/' . $loggedInAdmin->profile_img); ?>" alt="profile-img" class="rounded profile-img img-fluid avatar-70">
                                     </div>
                                     <div class="p-3">
-                                       <h5 class="mb-1">JoanDuo@property.com</h5>
-                                       <p class="mb-0">Since 10 march, 2020</p>
+                                       <h5 class="mb-1"><?php echo $loggedInAdmin->email; ?></h5>
+                                       <!-- <p class="mb-0">Since 10 march, 2020</p> -->
                                        <div class="d-flex align-items-center justify-content-center mt-3">
-                                          <a href="https://templates.iqonic.design/posdash/html/app/user-profile.html" class="btn border mr-2">Profile</a>
-                                          <a href="auth-sign-in.html" class="btn border">Sign Out</a>
+                                          <!-- <a href="https://templates.iqonic.design/posdash/html/app/user-profile.html" class="btn border mr-2">Profile</a> -->
+                                          <a href="<?php echo url_for('logout.php') ?>" class="btn border">Sign Out</a>
                                        </div>
                                     </div>
                                  </div>

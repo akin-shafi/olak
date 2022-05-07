@@ -96,7 +96,7 @@ $companies = Request::get_all_companies();
                             </td>
 
                             <td>
-                              <input type="text" name="quantity[]" id="quantity1" data-srno="1" class="form-control quantity" placeholder="1" data-errors="Please Enter Quantity." required>
+                              <input type="text" name="quantity[]" id="quantity1" data-srno="1" class="form-control quantity" placeholder="eg. 5" data-errors="Please Enter Quantity." required>
                               <div class="help-block with-errors"></div>
                             </td>
 
@@ -166,7 +166,7 @@ $companies = Request::get_all_companies();
 
       html_code += '<td><div class="input-group"><input type="text" required="" name="item_name[]" id="item_name' + count + '" class="form-control col-8 item_name" placeholder="Item name"><select class="form-control col-4" name="unit[]" id="unit' + count + '"><?php foreach ($units as $key => $value) : ?><option value="<?php echo $key ?>"><?php echo $value ?></option><?php endforeach; ?></select></div></td>';
 
-      html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" class="form-control quantity"></td>';
+      html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" class="form-control quantity"  placeholder="eg. 5"></td>';
 
       html_code += '<td><button type="button" id="' + count + '" class="btn btn-danger remove_row">X</button></td></tr>';
 

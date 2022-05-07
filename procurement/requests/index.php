@@ -7,6 +7,13 @@ include(SHARED_PATH . '/admin_header.php');
 $invoices = Request::find_all_invoices();
 ?>
 
+<style>
+  th,
+  td {
+    font-size: 0.9rem !important;
+  }
+</style>
+
 <div class="content-page">
   <div class="container-fluid">
     <div class="row">
@@ -24,15 +31,9 @@ $invoices = Request::find_all_invoices();
       <div class="col-lg-12">
         <div class="table-responsive rounded mb-3">
           <table class="data-table table mb-0 tbl-server-info">
-            <thead class="bg-white text-uppercase">
+            <thead class="bg-white">
               <tr class="ligth ligth-data">
-                <th>
-                  <div class="checkbox d-inline-block">
-                    <input type="checkbox" class="checkbox-input" id="checkbox1">
-                    <label for="checkbox1" class="mb-0"></label>
-                  </div>
-                </th>
-                <th scope="col">Request ID</th>
+                <th scope="col">Invoice No</th>
                 <th scope="col">Item name</th>
                 <th class="text-center" scope="col">Quantity</th>
                 <th class="text-center" scope="col">Status</th>
@@ -44,13 +45,7 @@ $invoices = Request::find_all_invoices();
             <tbody class="ligth-body">
               <?php foreach ($invoices as $data) : ?>
                 <tr>
-                  <td>
-                    <div class="checkbox d-inline-block">
-                      <input type="checkbox" class="checkbox-input" id="checkbox2">
-                      <label for="checkbox2" class="mb-0"></label>
-                    </div>
-                  </td>
-                  <td><?php echo '00' . $data->id ?></td>
+                  <td><?php echo $data->invoice_no ?></td>
                   <td><?php echo $data->item_name != '' ? $data->item_name : 'Not set' ?></td>
                   <td class="text-center"><?php echo $data->quantity != '' ? $data->quantity : 'Not Set' ?></td>
                   <td class="text-center">
