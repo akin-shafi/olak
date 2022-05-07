@@ -142,7 +142,7 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                   <i class="ri-menu-line wrapper-menu"></i>
                   <a href="index.html" class="header-logo">
                      <img src="<?php echo url_for('/png/logo.png') ?>" class="img-fluid rounded-normal" alt="logo">
-                     <h5 class="logo-title ml-3">POSDash</h5>
+                     <h5 class="logo-title ml-3">OLAK</h5>
 
                   </a>
                </div>
