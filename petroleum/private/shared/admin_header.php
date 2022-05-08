@@ -959,21 +959,26 @@ $fullName = $user->full_name;
 
             <ul class="app-actions">
                <?php if ($access->sales_mgt == 1 && $page_title == 'All Sales') : ?>
-                  <li class="d-flex justify-content-center align-items-center">
-                     <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
-                        <option value="">select branch</option>
-                        <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
-                           <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
-                              <?php echo ucwords($branch->name) ?></option>
-                        <?php endforeach; ?>
-                     </select>
-                  </li>
-                  <li>
-                     <a href="#" id="reportrange">
-                        <span class="range-text"></span>
-                        <i class="icon-chevron-down"></i>
-                     </a>
-                  </li>
+                  <div class="d-flex justify-content-center align-items-center">
+                     <li class="d-flex justify-content-center align-items-center">
+                        <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
+                           <option value="">select branch</option>
+                           <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
+                              <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
+                                 <?php echo ucwords($branch->name) ?></option>
+                           <?php endforeach; ?>
+                        </select>
+                     </li>
+                     <li>
+                        <a href="#" id="reportrange">
+                           <span class="range-text"></span>
+                           <i class="icon-chevron-down"></i>
+                        </a>
+                     </li>
+                     <li>
+                        <button class="btn btn-primary shadow border-light" id="query"><i class="icon-filter_list"></i> Filter</button>
+                     </li>
+                  </div>
                <?php endif; ?>
                <?php if ($access->sales_mgt == 1 && ($page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
                   <div class="d-flex justify-content-center align-items-center">

@@ -85,7 +85,7 @@ $admins = Admin::find_by_undeleted();
                         <div class="btn-group">
                           <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
                             <i class="icon-edit1"></i></button>
-                          <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
+                          <button class="btn btn-danger remove-btn d-none" data-id="<?php echo $data->id; ?>">
                             <i class="icon-trash"></i>
                           </button>
                         </div>

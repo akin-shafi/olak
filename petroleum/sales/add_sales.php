@@ -155,7 +155,7 @@ include(SHARED_PATH . '/admin_header.php');
 				</table>
 
 				<div class="d-flex justify-content-end">
-					<button type="submit" class="btn btn-primary mb-3">Submit</button>
+					<button type="submit" class="btn btn-primary mb-3" id="submit_sales">Submit</button>
 				</div>
 			</form>
 
@@ -236,6 +236,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 		$('#data_sheet_form').on("submit", function(e) {
 			e.preventDefault();
+			$('#submit_sales').attr('disabled', true);
 
 			$.ajax({
 				url: PET_URL,

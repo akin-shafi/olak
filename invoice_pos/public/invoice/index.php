@@ -401,6 +401,8 @@ $page_title = 'Billing & Invoicing'; ?>
 
     $('#expense_form').on('submit', function(e) {
       e.preventDefault()
+      $("#create_request").attr('disabled', true);
+
       var count_data = 0;
       var cus_id = $(".client_id").val();
       var grand_totalInput = $("#grand_totalInput").val();

@@ -273,7 +273,7 @@
               Billing & Invoices
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item d-none">
             <a class="nav-link <?php echo ($page_title == "Stock") ? 'active-page' : '' ?>" href="<?php echo url_for('stock/') ?>">
               <i class="feather-shopping-cart nav-icon"></i>
               Stock
@@ -299,14 +299,14 @@
           </li>
 
 
-          <li class="nav-item">
+          <li class="nav-item d-none">
             <a class="nav-link <?php echo ($page_title == "Terms & Policy") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/policy.php') ?>">
               <i class="feather-pie-chart nav-icon"></i>
               Policies
             </a>
 
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item d-none dropdown">
             <a class="nav-link <?php echo ($page_title == "Export") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/export.php') ?>">
               <i class="feather-grid nav-icon"></i>
               Export
@@ -348,7 +348,7 @@
           ?>
 
 
-          <li class="nav-item ">
+          <li class="nav-item d-none">
             <a class="nav-link <?php echo ($page_title == "Help") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/help.php') ?>">
               <i class="feather-info nav-icon"></i>
               Help

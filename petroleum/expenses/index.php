@@ -129,7 +129,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-primary" id="save_expenses">Save</button>
         </div>
       </form>
     </div>
@@ -146,6 +146,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
 
     $('#expense_form').on("submit", function(e) {
       e.preventDefault();
+      $('#save_expenses').attr('disabled', true)
       let expId = $('#expId').val()
 
       let formData = new FormData(this);

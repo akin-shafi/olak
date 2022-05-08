@@ -58,7 +58,7 @@ $products = Product::find_by_undeleted();
 		getDataSheet(branch, rangeText)
 	}
 
-	$(document).on('click', ".daterangepicker", function() {
+	$(document).on('click', "#query", function() {
 		let branch = $('#fBranch').val()
 		if (branch == '') {
 			alert('Kindly select a branch')

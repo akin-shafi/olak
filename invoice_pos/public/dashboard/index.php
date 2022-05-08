@@ -91,7 +91,7 @@ $billing = Billing::find_by_metrics();
     <!-- Row end -->
 
     <!-- Row start -->
-    <div class="row gutters justify-content-center">
+    <div class="row gutters justify-content-center d-none">
       <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12">
 
         <!-- Row start -->
