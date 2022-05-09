@@ -197,7 +197,7 @@ if (is_get_request()) {
                     <?php endforeach; ?>
                     <tr>
                       <td class="font-weight-bold text-uppercase">
-                        <?php echo 'Cash to HEAD OFFICE'; ?>
+                        <?php echo 'EXPECTED Cash to Head Office'; ?>
                       </td>
                       <td class="text-right font-weight-bold">
                         <?php echo number_format($cashToHO); ?>
@@ -492,14 +492,14 @@ if (is_get_request()) {
 
               <tr style="border: 3px solid black">
                 <td colspan="5" class="font-weight-bold text-uppercase">
-                  <?php echo 'Cash to HEAD OFFICE'; ?>
+                  <?php echo 'Expected Cash to Head Office'; ?>
                 </td>
                 <td class="text-right font-weight-bold">
                   <?php echo number_format($cashToHO); ?>
                 </td>
                 <td>
                   This section of the report is auto-generated! <br><br>
-                  NOTE: Cash to head office = Total sales (<?php echo number_format($totalSales) ?>) - Total expenses (<?php echo number_format($totalExpenses); ?>)
+                  NOTE: Expected Cash to Head Office = Total sales (<?php echo number_format($totalSales) ?>) - Total expenses (<?php echo number_format($totalExpenses); ?>)
                 </td>
               </tr>
 
@@ -523,7 +523,7 @@ if (is_get_request()) {
                 </td>
                 <td>
                   Since Inflow is equal to Outflow hence, account is balance! <br><br>
-                  NOTE: Grand Total = Cash to head office (<?php echo number_format($cashToHO); ?>) + Sum of expenses (<?php echo number_format($totalExpenses); ?>)
+                  NOTE: Grand Total = Expected Cash to Head Office (<?php echo number_format($cashToHO); ?>) + Sum of expenses (<?php echo number_format($totalExpenses); ?>)
                 </td>
               </tr>
             </tbody>
@@ -599,7 +599,7 @@ if (is_get_request()) {
           width: 400,
           type: "donut",
         },
-        labels: [<?php echo $label . ', "Cash H-Office"'; ?>],
+        labels: [<?php echo $label . ', "Expected Cash"'; ?>],
         series: [<?php echo $series . ', ' . $cashToHO; ?>],
         responsive: [{
           breakpoint: 480,

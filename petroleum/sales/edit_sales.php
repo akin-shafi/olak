@@ -96,9 +96,7 @@ include(SHARED_PATH . '/admin_header.php');
 							 <th>TOTAL SALES (LTRS)</th>
 							<th>TOTAL VALUE #</th>
 							<th>GRAND TOTAL VALUE #</th> -->
-							<th>
-								<button type="button" class="btn btn-light d-block m-auto" id="add_row">&plus;</button>
-							</th>
+							<th></th>
 						</tr>
 					</thead>
 
@@ -217,8 +215,6 @@ include(SHARED_PATH . '/admin_header.php');
 			})
 		}
 
-
-
 		$('#edit_sheet_form').on("submit", function(e) {
 			e.preventDefault();
 			$('#submit_sales').attr('disabled', true);
@@ -243,8 +239,6 @@ include(SHARED_PATH . '/admin_header.php');
 				}
 			})
 		});
-
-
 
 		$(document).on('click', '.remove-btn', function() {
 			let tankId = this.dataset.id;
@@ -277,60 +271,10 @@ include(SHARED_PATH . '/admin_header.php');
 							}, 1000);
 						}
 					});
-
 				}
 			})
 
 		});
-
-
-
-
-
-
-
-
-		let count = 1;
-		$(document).on('click', '#add_row', function() {
-			count = count + 1;
-			$('#total_item').val(count);
-
-			let html_code = '';
-			html_code += '<tr id="row_id_' + count + '">';
-			html_code += '<td><select class="form-control form-control-sm product_id" required="" name="product_id[]"><option>Select</option><?php foreach ($products as $pro) { ?><option value="<?php echo $pro->id; ?>"><?php echo strtoupper($pro->name) . ' (TANK ' . $pro->tank . ')'; ?></option><?php } ?></select></td>';
-			html_code += '<td><input type="number" size="12" class="form-control form-control-sm rate_' + count + '" placeholder="0" readonly></td>';
-			html_code += '<td><input type="number" required="" name="open_stock[]" class="form-control form-control-sm number_only open_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="new_stock[]" class="form-control form-control-sm number_only new_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="total_stock[]" class="form-control form-control-sm number_only total_stock_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="sales_in_ltr[]" class="form-control form-control-sm number_only sales_in_ltr_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="expected_stock[]" class="form-control form-control-sm number_only expected_stock_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="actual_stock[]" class="form-control form-control-sm number_only actual_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="over_or_short[]" class="form-control form-control-sm number_only over_or_short_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="cash_submitted[]" class="form-control form-control-sm number_only cash_submitted_' + count + '"></td>'
-
-			html_code += '<td class="d-none"><input type="number" required="" name="exp_sales_value[]" class="form-control form-control-sm number_only exp_sales_value_' + count + '" readonly></td>'
-
-			html_code += '<td><button type="button" id="' + count + '" class="btn btn-secondary d-block m-auto remove_row">X</button></td></tr>';
-
-			$('#pet-table').append(html_code);
-
-			addSales()
-		});
-
-		$(document).on('click', '.remove_row', function() {
-
-			let row_id = $(this).attr("id");
-			let total_item_amount = $('#amount' + row_id).val();
-			let final_amount = $('#final_total_amt').text();
-			let result_amount = parseFloat(final_amount) - parseFloat(total_item_amount);
-			$('#final_total_amt').text(result_amount);
-			$('#row_id_' + row_id).remove();
-			count--;
-			$('#total_item').val(count);
-
-		});
-
-
 
 		const addSales = () => {
 			const totalItem = $('#total_item').val();

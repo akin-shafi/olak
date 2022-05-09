@@ -87,36 +87,8 @@ if (is_post_request()) {
 
                 $editTank->merge_attributes($data);
                 $editTank->save();
-            else :
-                $data = [
-                    "product_id"         => $args['product_id'][$i],
-                    "open_stock"         => $args['open_stock'][$i],
-                    "new_stock"          => $args['new_stock'][$i],
-                    "total_stock"        => $args['total_stock'][$i],
-                    "sales_in_ltr"       => $args['sales_in_ltr'][$i],
-                    "expected_stock"     => $args['expected_stock'][$i],
-                    "actual_stock"       => $args['actual_stock'][$i],
-                    "over_or_short"      => $args['over_or_short'][$i],
-                    "exp_sales_value"    => $args['exp_sales_value'][$i],
-                    "cash_submitted"     => $args['cash_submitted'][$i],
-
-                    "total_sales"        => $totalSales,
-                    "total_value"        => $totalValue,
-                    "grand_total_value"  => $grandTotalValue,
-
-                    "company_id"         => $args['company_id'],
-                    "branch_id"          => $args['branch_id'],
-                    "created_by"         => $loggedInAdmin->id,
-                ];
-
-                $dataSheet = new DataSheet($data);
-                $dataSheet->save();
             endif;
         }
-
-        if (isset($dataSheet->errors)) :
-            exit(json_encode(['success' => false, 'msg' => 'Error updating tank!']));
-        endif;
         exit(json_encode(['success' => true, 'msg' => 'Tank updated successfully!']));
     }
 

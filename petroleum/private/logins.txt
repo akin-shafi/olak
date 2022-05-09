@@ -68,3 +68,4 @@
 2022-05-07 19:10:07 | Admin Login: Liberty Gross Logged in.
 2022-05-08 15:07:17 | Admin Login: Liberty Gross Logged in.
 2022-05-09 12:39:41 | Admin Login: Liberty Gross Logged in.
+2022-05-09 16:58:49 | Logout: Liberty Gross Logged out.
