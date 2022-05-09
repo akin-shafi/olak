@@ -16,9 +16,9 @@ if (is_post_request()) {
     if (isset($_POST['data_sheet_form'])) {
         $args = $_POST;
 
-        $totalSales = 0;        // ! ********** Suggesting we do the 
-        $totalValue = 0;        // ! ********** calculations from the list view
-        $grandTotalValue = 0;   // ! ********** Think about it
+        $totalSales = 0;
+        $totalValue = 0;
+        $grandTotalValue = 0;
 
         for ($i = 0; $i < count($args['product_id']); $i++) {
             $data = [
@@ -50,6 +50,84 @@ if (is_post_request()) {
             exit(json_encode(['success' => true, 'msg' => 'Submit Successful']));
         else :
             exit(json_encode(['success' => false, 'msg' => display_errors($dataSheet->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_sheet_form'])) {
+        $args = $_POST;
+        $totalSales = 0;
+        $totalValue = 0;
+        $grandTotalValue = 0;
+
+
+        for ($i = 0; $i < count($args['product_id']); $i++) {
+            $data = [
+                "product_id"         => $args['product_id'][$i],
+                "open_stock"         => $args['open_stock'][$i],
+                "new_stock"          => $args['new_stock'][$i],
+                "total_stock"        => $args['total_stock'][$i],
+                "sales_in_ltr"       => $args['sales_in_ltr'][$i],
+                "expected_stock"     => $args['expected_stock'][$i],
+                "actual_stock"       => $args['actual_stock'][$i],
+                "over_or_short"      => $args['over_or_short'][$i],
+                "exp_sales_value"    => $args['exp_sales_value'][$i],
+                "cash_submitted"     => $args['cash_submitted'][$i],
+
+                "total_sales"        => $totalSales,
+                "total_value"        => $totalValue,
+                "grand_total_value"  => $grandTotalValue,
+
+                "company_id"         => $args['company_id'],
+                "branch_id"          => $args['branch_id'],
+                "created_by"         => $loggedInAdmin->id,
+            ];
+
+            if (!empty(DataSheet::find_by_sheet_id($args['tankId']))) :
+                $editTank = DataSheet::find_by_sheet_id($args['tankId']);
+
+                $editTank->merge_attributes($data);
+                $editTank->save();
+            else :
+                $data = [
+                    "product_id"         => $args['product_id'][$i],
+                    "open_stock"         => $args['open_stock'][$i],
+                    "new_stock"          => $args['new_stock'][$i],
+                    "total_stock"        => $args['total_stock'][$i],
+                    "sales_in_ltr"       => $args['sales_in_ltr'][$i],
+                    "expected_stock"     => $args['expected_stock'][$i],
+                    "actual_stock"       => $args['actual_stock'][$i],
+                    "over_or_short"      => $args['over_or_short'][$i],
+                    "exp_sales_value"    => $args['exp_sales_value'][$i],
+                    "cash_submitted"     => $args['cash_submitted'][$i],
+
+                    "total_sales"        => $totalSales,
+                    "total_value"        => $totalValue,
+                    "grand_total_value"  => $grandTotalValue,
+
+                    "company_id"         => $args['company_id'],
+                    "branch_id"          => $args['branch_id'],
+                    "created_by"         => $loggedInAdmin->id,
+                ];
+
+                $dataSheet = new DataSheet($data);
+                $dataSheet->save();
+            endif;
+        }
+
+        if (isset($dataSheet->errors)) :
+            exit(json_encode(['success' => false, 'msg' => 'Error updating tank!']));
+        endif;
+        exit(json_encode(['success' => true, 'msg' => 'Tank updated successfully!']));
+    }
+
+
+    if (isset($_POST['delete_tank'])) {
+        $tankId = $_POST['tankId'];
+        $tank = DataSheet::find_by_id($tankId);
+        $tank::deleted($tankId);
+
+        if ($tank == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Tank record deleted successfully!']));
         endif;
     }
 }
@@ -84,7 +162,11 @@ if (is_get_request()) {
                 <th class="font-weight-bold">Product</th>
                 <?php foreach ($filterDataSheet as $product) : ?>
                     <th class="font-weight-bold text-right">
-                        <?php echo strtoupper($product->name) . ' (TANK ' . $product->tank . ')'; ?>
+                        <p><?php echo strtoupper($product->name) . ' (TANK ' . $product->tank . ')'; ?></p>
+                        <div class="btn-group">
+                            <a href="<?php echo url_for('sales/edit_sales.php?sheet_id=' . $product->id) ?>" class="btn btn-sm btn-warning"><i class="icon-edit"></i></a>
+                            <button data-id="<?php echo $product->id ?>" class="btn btn-sm btn-secondary remove-btn"><i class="icon-delete"></i></button>
+                        </div>
                     </th>
                 <?php endforeach; ?>
             </tr>

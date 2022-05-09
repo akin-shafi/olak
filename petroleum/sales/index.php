@@ -89,4 +89,43 @@ $products = Product::find_by_undeleted();
 			}
 		})
 	}
+
+
+
+	$(document).on('click', '.remove-btn', function() {
+		let tankId = this.dataset.id;
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+					url: PET_URL,
+					method: "POST",
+					data: {
+						tankId: tankId,
+						delete_tank: 1
+					},
+					dataType: 'json',
+					success: function(data) {
+						Swal.fire(
+							'Deleted!',
+							data.msg,
+							'success'
+						)
+						setTimeout(() => {
+							window.location.reload()
+						}, 1000);
+					}
+				});
+
+			}
+		})
+
+	});
 </script>

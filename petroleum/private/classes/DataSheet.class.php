@@ -91,6 +91,8 @@ class DataSheet extends DatabaseObject
     endif;
 
     $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+
+    echo $sql;
     return static::find_by_sql($sql);
   }
 
@@ -109,6 +111,20 @@ class DataSheet extends DatabaseObject
     endif;
 
     return static::find_by_sql($sql);
+  }
+
+  public static function find_by_sheet_id($sheetId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE id='" . self::$database->escape_string($sheetId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
   }
 
   public static function data_sheet_report($dateFrom, $option = [])
@@ -142,13 +158,14 @@ class DataSheet extends DatabaseObject
   }
 
 
-  public static function get_sheets()
+  public static function get_sheets($bId)
   {
     $date = date('Y');
 
     $sql = "SELECT product_id, SUM(total_stock) AS total_stock, SUM(sales_in_ltr) AS sales_in_ltr, SUM(expected_stock) AS expected_stock, SUM(actual_stock) AS actual_stock, SUM(over_or_short) AS over_or_short, SUM(exp_sales_value) AS exp_sales_value, SUM(cash_submitted) AS cash_submitted FROM " . static::$table_name . " ";
 
     $sql .= "WHERE created_at LIKE '%" . self::$database->escape_string($date) . "%'";
+    $sql .= " AND branch_id='" . self::$database->escape_string($bId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
     $sql .= "GROUP BY product_id ";
@@ -170,13 +187,21 @@ class DataSheet extends DatabaseObject
     }
   }
 
-  public static function get_top_selling_product()
+  public static function get_top_selling_product($bId)
   {
+    $date = date('Y');
+
     $sql = "SELECT SUM(ds.sales_in_ltr) AS sales_in_ltr, p.name AS product_name FROM " . static::$table_name . " AS ds ";
     $sql .= "JOIN products AS p ON ds.product_id = p.id ";
-    $sql .= "WHERE (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+
+
+    $sql .= "WHERE ds.created_at LIKE '%" . self::$database->escape_string($date) . "%'";
+    $sql .= " AND ds.branch_id='" . self::$database->escape_string($bId) . "'";
+
+    $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+
     $sql .= "GROUP BY p.name ";
-    $sql .= "ORDER BY sales_in_ltr DESC";
+    // $sql .= "ORDER BY sales_in_ltr DESC";
 
     return static::find_by_sql($sql);
   }

@@ -94,14 +94,14 @@ if (is_post_request()) {
                         </div>
                         <input type="submit" class="btn btn-primary" value="Login" />
                      </div>
-                     <div class="forgot-pwd">
+                     <!-- <div class="forgot-pwd">
                         <a class="link" href="forgot-pwd.php">Forgot password?</a>
-                     </div>
+                     </div> -->
                      <hr>
-                     <div class="actions align-left">
+                     <!-- <div class="actions align-left">
                         <span class="additional-link">Don't have an account?</span>
                         <a href="<?php echo url_for('signup.php') ?>" class="btn btn-dark">Create Account</a>
-                     </div>
+                     </div> -->
                      <a href="../">&leftarrow; Back</a>
                   </div>
                </div>
