@@ -103,7 +103,7 @@
           type: "error",
           title: msg,
           showConfirmButton: !1,
-          timer: 1500,
+          timer: 5000,
           confirmButtonClass: "btn btn-primary",
           buttonsStyling: !1
        })

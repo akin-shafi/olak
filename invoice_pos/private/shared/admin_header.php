@@ -5,41 +5,29 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Meta -->
   <meta name="description" content="Responsive Bootstrap4 Dashboard Template">
   <meta name="author" content="ParkerThemes">
   <link rel="shortcut icon" href="<?php echo url_for('img/fav.png'); ?>" />
 
-  <!-- Title -->
   <title>InvoicePOS | <?php echo $page_title; ?></title>
-  <!-- *************
-      ************ Common Css Files *************
-      ************ -->
-  <!-- Bootstrap css -->
   <link rel="stylesheet" href="<?php echo url_for('css/bootstrap.min.css'); ?>">
 
-  <!-- Icomoon Font Icons css -->
   <link rel="stylesheet" type="text/css" href="<?php echo url_for('fonts/style.css'); ?>">
 
-  <!-- Main css -->
   <link rel="stylesheet" href="<?php echo url_for('css/main.css'); ?>">
   <link rel="stylesheet" href="<?php echo url_for('css/feather.css'); ?>">
-  <!-- Tempusdominus Bbootstrap 4 -->
   <link rel="stylesheet" href="<?php echo url_for('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css ') ?>">
 
   <link rel="stylesheet" href="<?php echo url_for('plugins/select2/css/select2.min.css'); ?>">
 
   <link rel="stylesheet" href="<?php echo url_for('css/bootstrap-datetimepicker.min.css'); ?>">
 
+  <link rel="stylesheet" href="<?php echo url_for('css/ajax-loader.css'); ?>">
 
-  <!-- *************
-      ************ Vendor Css Files *************
-      ************ -->
-  <!-- Datepickers css -->
+
   <link rel="stylesheet" href="<?php echo url_for('vendor/daterange/daterange.css'); ?>" />
 
   <link rel="stylesheet" href="<?php echo url_for('vendor/datatables/dataTables.bs4.css'); ?>" />
@@ -71,25 +59,24 @@
       <span class="sr-only">Loading...</span>
     </div>
   </div> -->
-  <!-- Loading ends -->
+
+  <div class="ajax-wrap d-none">
+    <div class="lds-circle">
+      <div></div>
+    </div>
+  </div>
 
   <div class="container">
 
 
-    <!-- *************
-        ************ Header section start *************
-        ************* -->
 
 
-    <!-- Header start -->
     <header class="header">
-      <!-- Row start -->
       <div class="row gutters">
         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6">
-          <a href="<?php echo url_for('dashboard.php')?>" class="logo">InvoicePOS</a>
+          <a href="<?php echo url_for('dashboard.php') ?>" class="logo">InvoicePOS</a>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-6 col-sm-6 col-6">
-          <!-- Header actions start -->
           <ul class="header-actions">
             <li class="dropdown d-none d-sm-block">
               <a href="#" id="notifications" data-toggle="dropdown" aria-haspopup="true">
@@ -162,16 +149,12 @@
               </div>
             </li>
           </ul>
-          <!-- Header actions end -->
         </div>
       </div>
-      <!-- Row end -->
     </header>
-    <!-- Header end -->
 
 
 
-    <!-- Navigation start -->
     <nav class="navbar navbar-expand-lg custom-navbar">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#retailAdminNavbar" aria-controls="retailAdminNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon">
@@ -208,16 +191,15 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle <?php echo ($page == "Product") ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="feather-package nav-icon"></i>
-              All Products
+              Products
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appsDropdown">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New Product") ? 'active' : '' ?>" href="<?php echo url_for('products/new.php') ?>">Add New Product</a>
-              </li>
-              <li>
                 <a class="dropdown-item <?php echo ($page_title == "All Products") ? 'active' : '' ?>" href="<?php echo url_for('products/index.php') ?>">All Products</a>
               </li>
-
+              <li>
+                <a class="dropdown-item <?php echo ($page_title == "Add New Product") ? 'active' : '' ?>" href="<?php echo url_for('products/new.php') ?>">Add Product</a>
+              </li>
               <li>
                 <a class="dropdown-item <?php echo ($page_title == "Category") ? 'active' : '' ?>" href="<?php echo url_for('product_category/index.php') ?>">Category</a>
               </li>
@@ -273,7 +255,7 @@
               Billing & Invoices
             </a>
           </li>
-          <li class="nav-item d-none">
+          <li class="nav-item">
             <a class="nav-link <?php echo ($page_title == "Stock") ? 'active-page' : '' ?>" href="<?php echo url_for('stock/') ?>">
               <i class="feather-shopping-cart nav-icon"></i>
               Stock
@@ -355,20 +337,13 @@
             </a>
           </li>
 
-
-
-
-
         </ul>
       </div>
     </nav>
-    <!-- Navigation end -->
 
 
 
-    <!-- Search bar start -->
     <div class="search-container ">
-      <!-- Row start -->
       <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7 col-sm-8 col-12">
 
@@ -379,9 +354,7 @@
 
         </div>
       </div>
-      <!-- Row end -->
     </div>
-    <!-- Search bar end -->
 
 
     <!-- *************
