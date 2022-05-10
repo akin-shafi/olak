@@ -5,7 +5,7 @@ $page = 'Settings';
 $page_title = 'Access Control';
 include(SHARED_PATH . '/admin_header.php');
 
-$access = AccessControl::find_by_undeleted();
+$access = AccessControl::find_by_undeleted(['order' => 'ASC']);
 $admins = Admin::find_by_undeleted();
 
 ?>
@@ -86,13 +86,13 @@ $admins = Admin::find_by_undeleted();
                   </td>
 
                   <td>
-                    <div class="btn-group">
-                      <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
-                        <i class="fa fa-edit"></i></button>
-                      <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </div>
+                    <!-- <div class="btn-group"> -->
+                    <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
+                      <i class="fa fa-edit"></i></button>
+                    <button class="btn btn-danger remove-btn d-none" data-id="<?php echo $data->id; ?>">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                    <!-- </div> -->
                   </td>
 
                 </tr>
@@ -124,9 +124,10 @@ $admins = Admin::find_by_undeleted();
                     <label for="staff" class="col-form-label">All Staff</label>
                     <select class="form-control" name="access[user_id]" id="staff">
                       <option value="">select staff</option>
-                      <?php foreach ($admins as $admin) : ?>
+                      <?php foreach ($admins as $admin) :
+                        $adminLevel = Admin::ADMIN_LEVEL[$admin->admin_level] ?>
                         <option value="<?php echo $admin->id ?>">
-                          <?php echo ucwords($admin->full_name) ?></option>
+                          <?php echo ucwords($admin->full_name) . ' (' . $adminLevel . ')' ?></option>
                       <?php endforeach; ?>
                     </select>
                   </div>

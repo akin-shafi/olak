@@ -99,10 +99,17 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                         </svg>
                      </a>
                      <ul id="settings" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                        <?php if ($access->users_mgt == 1) : ?>
+                        <?php if (isset($access->users_mgt) && $access->users_mgt == 1) : ?>
                            <li class="<?php echo $page_title == 'Manage Users' ? 'active' : '' ?>">
                               <a href="<?php echo url_for('settings/manage_user.php'); ?>">
                                  <i class="fas la-minus"></i><span>Manage Users</span>
+                              </a>
+                           </li>
+                        <?php endif; ?>
+                        <?php if (isset($access->users_mgt) && $access->users_mgt == 1) : ?>
+                           <li class="<?php echo $page_title == 'Company Setup' ? 'active' : '' ?>">
+                              <a href="<?php echo url_for('settings/company.php'); ?>">
+                                 <i class="fas la-minus"></i><span>Company Setup</span>
                               </a>
                            </li>
                         <?php endif; ?>

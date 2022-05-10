@@ -274,15 +274,15 @@ if (is_post_request()) {
         endif;
     }
 
-    if (isset($_POST['delete_access'])) {
-        $aId = $_POST['aId'];
-        $access = AccessControl::find_by_id($aId);
-        $access::deleted($aId);
+    // if (isset($_POST['delete_access'])) {
+    //     $aId = $_POST['aId'];
+    //     $access = AccessControl::find_by_id($aId);
+    //     $access::deleted($aId);
 
-        if ($access == true) :
-            exit(json_encode(['success' => true, 'msg' => 'Access control deleted successfully!']));
-        endif;
-    }
+    //     if ($access == true) :
+    //         exit(json_encode(['success' => true, 'msg' => 'Access control deleted successfully!']));
+    //     endif;
+    // }
 }
 
 

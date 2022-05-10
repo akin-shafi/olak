@@ -34,11 +34,12 @@ class AccessControl extends DatabaseObject
     $this->deleted      = $args['deleted'] ?? '';
   }
 
-  public static function find_by_user_id($user_id)
+  public static function find_by_user_id($uId)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE user_id='" . self::$database->escape_string($user_id) . "'";
+    $sql .= "WHERE user_id='" . self::$database->escape_string($uId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);

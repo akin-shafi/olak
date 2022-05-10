@@ -5,12 +5,9 @@ $page = 'Settings';
 $page_title = 'Manage Users';
 include(SHARED_PATH . '/admin_header.php');
 
-$companyName = Request::get_company($loggedInAdmin->company_id)->company_name;
-$branchName = Request::get_branch($loggedInAdmin->branch_id)->branch_name;
 
-$admins = Admin::find_by_undeleted();
-$companies = Request::get_all_companies();
-$branches = Request::get_all_branches($loggedInAdmin->company_id);
+$admins = Admin::find_by_undeleted(['order'=>'ASC']);
+$companies = Company::find_by_undeleted();
 
 
 ?>
@@ -68,24 +65,21 @@ $branches = Request::get_all_branches($loggedInAdmin->company_id);
                     <?php foreach ($admins as $data) :
                       // if ($data->admin_level == 1) continue;
 
-                      $company_name = Request::get_company($data->company_id)->company_name;
-                      $branch_name = Request::get_branch($data->branch_id)->branch_name;
+                      $company_name = Company::find_by_id($data->company_id)->name;
+                      $branch_name = Branch::find_by_id($data->branch_id)->name;
                       $adminLevel = $data->admin_level != '' ? Admin::ADMIN_LEVEL[$data->admin_level] : 'Not set';
+                      $imgUrl = !empty($data->profile_img) ? $data->profile_img : 'pro.png';
                       $createdBy = $data->created_by != '' ? Admin::find_by_id($data->created_by)->full_name : 'Not set';
                     ?>
                       <tr>
                         <td>
-                          <img class="rounded-circle shadow" src="<?php echo url_for('settings/uploads/profile/' . $data->profile_img); ?>" width="40" height="40" alt="<?php echo ucwords($data->full_name); ?>">
+                          <img class="rounded-circle shadow" src="<?php echo url_for('settings/uploads/profile/' . $imgUrl); ?>" width="40" height="40" alt="<?php echo ucwords($data->full_name); ?>">
                         </td>
-                        <td><?php echo strtoupper($data->full_name); ?></td>
+                        <td><?php echo ucwords($data->full_name); ?></td>
                         <td><?php echo $data->email; ?></td>
                         <td><?php echo $adminLevel; ?></td>
                         <td><?php echo isset($company_name) ? ucwords($company_name) : 'Not set'; ?></td>
                         <td><?php echo isset($branch_name) ? ucwords($branch_name) : 'Not set'; ?></td>
-                        <!-- <td><?php //echo $data->reset_password != 0 ? '<span class="badge badge-success">Activated</span>' : '<span class="badge badge-warning">Pending</span>'; 
-                                  ?></td> -->
-                        <!-- <td><?php //echo ucwords($createdBy); 
-                                  ?></td> -->
                         <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
                         <td><?php echo date('Y-m-d', strtotime($data->updated_at)); ?></td>
 
@@ -147,9 +141,9 @@ $branches = Request::get_all_branches($loggedInAdmin->company_id);
                 <select class="form-control company" name="user[company_id]" id="company" required>
                   <option value="">select a company</option>
                   <?php foreach ($companies as $value) :
-                    $company_name = $value->company_name != '' ? $value->company_name : 'Not Set'
+                    $company_name = $value->name != '' ? $value->name : 'Not Set'
                   ?>
-                    <option value="<?php echo $value->id ?>" <?php echo $value->company_name == '' ? 'disabled' : '' ?>>
+                    <option value="<?php echo $value->id ?>" <?php echo $value->name == '' ? 'disabled' : '' ?>>
                       <?php echo $company_name ?></option>
                   <?php endforeach; ?>
                 </select>
@@ -291,11 +285,15 @@ $branches = Request::get_all_branches($loggedInAdmin->company_id);
                 data.msg,
                 'success'
               )
+
+              setTimeout(() => {
+                window.location.reload()
+              }, 1000);
             }
           });
 
         }
-      }).then(() => window.location.reload())
+      })
 
     });
 
