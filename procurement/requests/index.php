@@ -36,7 +36,7 @@ $invoices = Request::find_all_invoices();
                 <th scope="col">Invoice No</th>
                 <th scope="col">Item name</th>
                 <th class="text-center" scope="col">Quantity</th>
-                <th class="text-center" scope="col">Status</th>
+                <!-- <th class="text-center" scope="col">Status</th> -->
                 <th scope="col">Due Date</th>
                 <th scope="col">Request Date</th>
                 <th scope="col">Action</th>
@@ -50,27 +50,14 @@ $invoices = Request::find_all_invoices();
                   <td><?php echo $data->invoice_no ?></td>
                   <td><?php echo $data->item_name != '' ? $data->item_name : 'Not set' ?></td>
                   <td class="text-center"><?php echo $data->quantity != '' ? $data->quantity . ' [' . $unit . ']' : 'Not Set' ?></td>
-                  <td class="text-center">
-                    <?php switch ($data->status) {
-                      case '2':
-                        echo '<span class="badge badge-success">Unpaid</span>';
-                        break;
-                      case '3':
-                        echo '<span class="badge badge-danger">Unpaid</span>';
-                        break;
-                      default:
-                        echo '<span class="badge badge-primary">New</span>';
-                        break;
-                    } ?>
-                  </td>
                   <td><?php echo date('M d, Y', strtotime($data->due_date)) ?></td>
                   <td><?php echo date('M d, Y', strtotime($data->created_at)) ?></td>
                   <td>
                     <div class="d-flex align-items-center list-action">
-                      <button class="btn btn-sm badge badge-info view-btn mr-2 position-relative" data-original-title="View" data-invoice="<?php echo $data->invoice_no; ?>" data-toggle="modal" data-target="#view-request"><i class="ri-eye-line mr-0"></i>
+                      <button class="btn btn-sm badge badge-info view-btn mr-2 position-relative" data-invoice="<?php echo $data->invoice_no; ?>" data-toggle="modal" data-target="#view-request"><i class="ri-eye-line mr-0"></i>
                         <span class="d-flex justify-content-center rounded-circle align-items-center bg-danger text-white p-2" style="width:10px;height:10px;position:absolute;top:-6px;right:-5px"><?php echo $data->counts; ?></span>
                       </button>
-                      <a href="<?php echo url_for('requests/edit-request.php?invoice_no=' . $data->invoice_no) ?>" class="btn btn-sm badge bg-success mr-2" data-original-title="Edit" data-toggle="tooltip"><i class="ri-pencil-line mr-0"></i></a>
+                      <a href="<?php echo url_for('requests/edit-request.php?invoice_no=' . $data->invoice_no) ?>" class="btn btn-sm badge bg-success mr-2"><i class="ri-pencil-line mr-0"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -154,6 +141,7 @@ $invoices = Request::find_all_invoices();
     </div>
   </div>
 
+
 </div>
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
@@ -214,5 +202,24 @@ $invoices = Request::find_all_invoices();
       })
 
     });
+
+
+    $('tbody').on('click', '.status', function() {
+      let invoiceId = this.dataset.id;
+      let request_status = this.dataset.status;
+
+      updateStatus(invoiceId, request_status)
+    })
+
+
+    const updateStatus = async (id, status) => {
+      const data = await fetch(REQ_URL + '?invoiceId=' + id + '&request_status=' + status);
+      const res = await data.json();
+      successAlert(res.message)
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
   })
 </script>

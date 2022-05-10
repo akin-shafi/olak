@@ -42,6 +42,10 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
          appearance: none;
          margin: 0;
       }
+
+      .dropdown-toggle:after {
+         content: none
+      }
    </style>
 
    <div class="wrapper">

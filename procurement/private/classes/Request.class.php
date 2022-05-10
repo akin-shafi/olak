@@ -34,6 +34,12 @@ class Request extends DatabaseObject
       3 => 'Rejected',
    ];
 
+   const COLOR = [
+      1 => 'primary',
+      2 => 'success',
+      3 => 'danger',
+   ];
+
    const UNIT = [
       1 => 'Gram(s) (g)',
       2 => 'Kilogram(s) (KG)',

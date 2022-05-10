@@ -104,29 +104,41 @@ if (is_get_request()) {
           <td><?php echo $request->item_name != '' ? $request->item_name : 'Not set' ?></td>
           <td class="text-center"><?php echo $request->quantity != '' ? $request->quantity . ' [' . $unit . ']' : 'Not Set' ?></td>
           <td class="text-center">
-            <?php switch ($request->status) {
-              case '2':
-                echo '<span class="badge badge-success">Unpaid</span>';
-                break;
-              case '3':
-                echo '<span class="badge badge-danger">Unpaid</span>';
-                break;
-              default:
-                echo '<span class="badge badge-primary">New</span>';
-                break;
-            } ?>
+            <?php foreach (Request::STATUS as $key => $value) :
+              $color = Request::COLOR[$key];
+
+              if ($key == $request->status) :
+            ?>
+                <span class="badge badge-<?php echo $color; ?>">
+                  <?php echo $value ?>
+                </span>
+            <?php endif;
+            endforeach; ?>
           </td>
           <td><?php echo date('M d, Y', strtotime($request->due_date)) ?></td>
           <td><?php echo date('M d, Y', strtotime($request->created_at)) ?></td>
           <td>
-            <button class="btn btn-sm badge bg-warning mr-2 delete_request" data-original-title="Delete" data-id="<?php echo $request->id; ?>"><i class="ri-delete-bin-line mr-0"></i></button>
+            <div class="dropdown">
+              <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v mr-0"></i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <?php foreach (Request::STATUS as $key => $value) : ?>
+                  <button class="dropdown-item status" data-id="<?php echo $request->id; ?>" data-status="<?php echo $key; ?>">
+                    <?php echo $value; ?>
+                  </button>
+                <?php endforeach; ?>
+
+                <button class="dropdown-item text-center text-white delete_request" data-id="<?php echo $request->id; ?>" style="background-color: red;"><i class="ri-delete-bin-line mr-0"></i>Delete</button>
+              </div>
+            </div>
+
           </td>
         </tr>
       <?php endforeach;
       ?>
       <tr>
         <td colspan="7"><?php echo $request->note != '' ? $request->note : 'Message not set' ?></td>
-
       </tr>
     <?php endif;
   endif;
@@ -142,4 +154,18 @@ if (is_get_request()) {
       <?php endforeach; ?>
     </select>
 <?php endif;
+
+  if (isset($_GET['request_status'])) :
+    $invoiceId = $_GET['invoiceId'];
+    $status = $_GET['request_status'];
+
+    $request = Request::find_by_id($invoiceId);
+
+    $args = ['status' => $status];
+
+    $request->merge_attributes($args);
+    $request->save();
+
+    exit(json_encode(['message' => 'Status updated successfully']));
+  endif;
 }
