@@ -92,7 +92,7 @@ $requests = Request::find_by_undeleted();
             <div class="d-flex align-items-top justify-content-between">
               <div class="">
                 <p class="mb-0">Income</p>
-                <h5>$ 98,7800 K</h5>
+                <h5><?php echo $currency; ?> 98,7800 K</h5>
               </div>
               <div class="card-header-toolbar d-flex align-items-center">
                 <div class="dropdown">
@@ -115,7 +115,7 @@ $requests = Request::find_by_undeleted();
             <div class="d-flex align-items-top justify-content-between">
               <div class="">
                 <p class="mb-0">Expenses</p>
-                <h5>$ 45,8956 K</h5>
+                <h5><?php echo $currency; ?> 45,8956 K</h5>
               </div>
               <div class="card-header-toolbar d-flex align-items-center">
                 <div class="dropdown">
@@ -166,7 +166,7 @@ $requests = Request::find_by_undeleted();
                   <div class="progress-value text-secondary">46%</div>
                 </div>
                 <div class="progress-value ml-3 pr-5 border-right">
-                  <h5>$12,6598</h5>
+                  <h5><?php echo $currency; ?>12,6598</h5>
                   <p class="mb-0">Average Orders</p>
                 </div>
               </div>
@@ -181,7 +181,7 @@ $requests = Request::find_by_undeleted();
                   <div class="progress-value text-primary">46%</div>
                 </div>
                 <div class="progress-value ml-3">
-                  <h5>$59,8478</h5>
+                  <h5><?php echo $currency; ?>59,8478</h5>
                   <p class="mb-0">Top Orders</p>
                 </div>
               </div>

@@ -3,14 +3,14 @@
 $invoiceNo = $_GET['invoice_no'] ?? '';
 
 if (empty($invoiceNo)) {
-  redirect_to('../requests/');
+  redirect_to('./requests');
 }
 
 $invoices = Request::find_by_invoices($invoiceNo);
 $invoice = Request::find_by_invoice($invoiceNo);
 
-$companyName = Request::get_company($invoice->company_id)->company_name;
-$branchName = Request::get_branch($invoice->branch_id)->branch_name;
+$companyName = Company::find_by_id($invoice->company_id)->name;
+$branchName = Branch::find_by_id($invoice->branch_id)->name;
 
 $page = 'Invoice';
 $page_title = 'User Invoices';

@@ -17,17 +17,13 @@ $invoiceNo = $_GET['invoice_no'];
 $invoices = Request::find_by_invoices($invoiceNo);
 $invoice = Request::find_by_invoice($invoiceNo);
 
-$companies = Request::get_all_companies();
-$branches = Request::get_all_branches($invoice->company_id);
+$companies = Company::find_by_undeleted();
+$branches = Branch::find_all_branch();
 
 
 if (empty($invoice)) {
   redirect_to('../requests');
 }
-
-$companyName = Request::get_company($invoice->company_id)->company_name;
-$branchName = Request::get_branch($invoice->branch_id)->branch_name;
-
 
 ?>
 
@@ -68,7 +64,7 @@ $branchName = Request::get_branch($invoice->branch_id)->branch_name;
                         <option value="">-select a company-</option>
                         <?php foreach ($companies as $value) : ?>
                           <option value="<?php echo $value->id ?>" <?php echo $value->id == $invoice->company_id ? 'selected' : '' ?>>
-                            <?php echo $value->company_name ?></option>
+                            <?php echo $value->name ?></option>
                         <?php endforeach; ?>
                       </select>
                     </div>
@@ -78,7 +74,7 @@ $branchName = Request::get_branch($invoice->branch_id)->branch_name;
                         <option value="">-select a branch-</option>
                         <?php foreach ($branches as $value) : ?>
                           <option value="<?php echo $value->id ?>" <?php echo $value->id == $invoice->branch_id ? 'selected' : '' ?>>
-                            <?php echo $value->branch_name ?> </option>
+                            <?php echo $value->name ?> </option>
                         <?php endforeach; ?>
                       </select>
                     </div>
@@ -105,7 +101,6 @@ $branchName = Request::get_branch($invoice->branch_id)->branch_name;
 
                           <?php foreach ($invoices as $data) : ?>
                             <tr class="mtable">
-
                               <td>
                                 <div class="input-group">
                                   <input type="text" name="item_name[]" value="<?php echo $data->item_name ?>" id="item_name1" data-srno="1" class="form-control col-8 item_name" placeholder="Item name" data-errors="Please Enter Item Name." required>
@@ -121,7 +116,7 @@ $branchName = Request::get_branch($invoice->branch_id)->branch_name;
                               </td>
 
                               <td>
-                                <input type="text" name="quantity[]" value="<?php echo $data->quantity ?>" id="quantity1" data-srno="1" class="form-control quantity" placeholder="1" data-errors="Please Enter Quantity." required>
+                                <input type="number" name="quantity[]" value="<?php echo $data->quantity ?>" id="quantity1" data-srno="1" class="form-control quantity" placeholder="1" data-errors="Please Enter Quantity." required>
                                 <div class="help-block with-errors"></div>
                               </td>
 

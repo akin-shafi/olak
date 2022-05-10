@@ -145,32 +145,4 @@ class Request extends DatabaseObject
       $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
       return static::find_by_sql($sql);
    }
-
-   public static function get_company($bId)
-   {
-      $sql = "SELECT * FROM olak_hr.companies ";
-      $sql .= "WHERE id ='" . self::$database->escape_string($bId) . "'";
-      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      $obj_array = static::find_by_sql($sql);
-
-      if (!empty($obj_array)) {
-         return array_shift($obj_array);
-      } else {
-         return false;
-      }
-   }
-
-   public static function get_branch($bId)
-   {
-      $sql = "SELECT * FROM olak_hr.branches ";
-      $sql .= "WHERE id ='" . self::$database->escape_string($bId) . "'";
-      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      $obj_array = static::find_by_sql($sql);
-
-      if (!empty($obj_array)) {
-         return array_shift($obj_array);
-      } else {
-         return false;
-      }
-   }
 }

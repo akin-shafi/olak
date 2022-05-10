@@ -43,11 +43,13 @@ $invoices = Request::find_all_invoices();
               </tr>
             </thead>
             <tbody class="ligth-body">
-              <?php foreach ($invoices as $data) : ?>
+              <?php foreach ($invoices as $data) :
+                $unit = Request::UNIT[$data->unit];
+              ?>
                 <tr>
                   <td><?php echo $data->invoice_no ?></td>
                   <td><?php echo $data->item_name != '' ? $data->item_name : 'Not set' ?></td>
-                  <td class="text-center"><?php echo $data->quantity != '' ? $data->quantity : 'Not Set' ?></td>
+                  <td class="text-center"><?php echo $data->quantity != '' ? $data->quantity . ' [' . $unit . ']' : 'Not Set' ?></td>
                   <td class="text-center">
                     <?php switch ($data->status) {
                       case '2':

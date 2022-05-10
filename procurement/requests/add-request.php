@@ -7,7 +7,7 @@ include(SHARED_PATH . '/admin_header.php');
 $isHidden = false;
 
 $units = Request::UNIT;
-$companies = Request::get_all_companies();
+$companies = Company::find_by_undeleted();
 
 ?>
 
@@ -52,7 +52,7 @@ $companies = Request::get_all_companies();
                       <select class="form-control select2 company" name="company_id" id="company" required>
                         <option value="">-select a company-</option>
                         <?php foreach ($companies as $value) : ?>
-                          <option value="<?php echo $value->id ?>"><?php echo $value->company_name ?></option>
+                          <option value="<?php echo $value->id ?>"><?php echo $value->name ?></option>
                         <?php endforeach; ?>
                       </select>
                     </div>
@@ -96,7 +96,7 @@ $companies = Request::get_all_companies();
                             </td>
 
                             <td>
-                              <input type="text" name="quantity[]" id="quantity1" data-srno="1" class="form-control quantity" placeholder="eg. 5" data-errors="Please Enter Quantity." required>
+                              <input type="number" name="quantity[]" id="quantity1" data-srno="1" class="form-control quantity" placeholder="eg. 5" data-errors="Please Enter Quantity." required>
                               <div class="help-block with-errors"></div>
                             </td>
 
@@ -218,7 +218,6 @@ $companies = Request::get_all_companies();
       theme: 'bootstrap-5'
     }).on('change', function() {
       var selected = $(".select2 option:selected").val();
-      console.log(selected);
       $.ajax({
         url: REQ_URL,
         method: "GET",
@@ -226,7 +225,6 @@ $companies = Request::get_all_companies();
           company_id: selected
         },
         success: function(data) {
-          console.log(data);
           $('#branch').html(data)
         }
       });

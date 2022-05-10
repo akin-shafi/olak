@@ -34,6 +34,16 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
       </div>
    </div> -->
 
+   <style>
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button {
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         appearance: none;
+         margin: 0;
+      }
+   </style>
+
    <div class="wrapper">
 
       <div class="iq-sidebar  sidebar-default ">

@@ -97,11 +97,12 @@ if (is_get_request()) {
 
     if (isset($_GET['view'])) :
       foreach ($requests as $request) :
+        $unit = Request::UNIT[$request->unit];
 ?>
         <tr>
           <td><?php echo '00' . $request->id ?></td>
           <td><?php echo $request->item_name != '' ? $request->item_name : 'Not set' ?></td>
-          <td class="text-center"><?php echo $request->quantity != '' ? $request->quantity : 'Not Set' ?></td>
+          <td class="text-center"><?php echo $request->quantity != '' ? $request->quantity . ' [' . $unit . ']' : 'Not Set' ?></td>
           <td class="text-center">
             <?php switch ($request->status) {
               case '2':
@@ -131,13 +132,13 @@ if (is_get_request()) {
   endif;
 
   if (isset($_GET['company_id'])) :
-    $branches = Request::get_all_branches($_GET['company_id']);
+    $branches = Branch::find_all_branch(['company_id' => $_GET['company_id']]);
     ?>
     <label class="label-control">Branch<sup class="text-danger">*</sup></label>
     <select class="form-control select2" name="branch_id">
       <option value="">-select branch-</option>
       <?php foreach ($branches as $value) : ?>
-        <option value="<?php echo $value->id ?>"><?php echo $value->branch_name ?></option>
+        <option value="<?php echo $value->id ?>"><?php echo $value->name ?></option>
       <?php endforeach; ?>
     </select>
 <?php endif;
