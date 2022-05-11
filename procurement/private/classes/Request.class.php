@@ -4,29 +4,28 @@
 class Request extends DatabaseObject
 {
    protected static $table_name = "requests";
-   protected static $db_columns = ['id', 'invoice_no', 'full_name', 'company_id', 'branch_id', 'item_name', 'unit', 'quantity', 'status', 'note', 'due_date', 'created_by', 'created_at', 'deleted'];
+   protected static $db_columns = ['id', 'invoice_no', 'grand_total', 'full_name', 'company_id', 'branch_id', 'vendor_img', 'status', 'note', 'due_date', 'created_by', 'created_at', 'deleted'];
 
    public $id;
    public $invoice_no;
-   public $due_date;
+   public $grand_total;
    public $full_name;
-   public $item_name;
-   public $unit;
-   public $quantity;
+   public $company_id;
+   public $branch_id;
+   public $vendor_img;
    public $status;
    public $note;
+   public $due_date;
    public $created_by;
    public $created_at;
 
    public $counts;
    public $deleted;
 
-   public $company_name;
-   public $company_id;
-   public $branch_name;
-   public $branch_id;
-   public $address;
-
+   public $item_name;
+   public $quantity;
+   public $unit_price;
+   public $request_id;
 
    const STATUS = [
       1 => 'New',
@@ -34,33 +33,17 @@ class Request extends DatabaseObject
       3 => 'Rejected',
    ];
 
-   const COLOR = [
-      1 => 'primary',
-      2 => 'success',
-      3 => 'danger',
-   ];
-
-   const UNIT = [
-      1 => 'Gram(s) (g)',
-      2 => 'Kilogram(s) (KG)',
-      3 => 'Tonne(s) (t)',
-      4 => 'Litre(s) (l)',
-      5 => 'Barrel(s) (bbl)',
-      6 => 'Gallon(s) (gl)',
-   ];
-
    public function __construct($args = [])
    {
       $this->invoice_no   = $args['invoice_no'] ?? '';
-      $this->due_date     = $args['due_date'] ?? '';
+      $this->grand_total  = $args['grand_total'] ?? '';
       $this->full_name    = $args['full_name'] ?? '';
       $this->company_id   = $args['company_id'] ?? '';
       $this->branch_id    = $args['branch_id'] ?? '';
-      $this->item_name    = $args['item_name'] ?? '';
-      $this->unit         = $args['unit'] ?? '';
-      $this->quantity     = $args['quantity'] ?? '';
-      $this->status       = $args['status'] ?? '1';
+      $this->vendor_img   = $args['vendor_img'] ?? '';
+      $this->status       = $args['status'] ?? 1;
       $this->note         = $args['note'] ?? '';
+      $this->due_date     = $args['due_date'] ?? '';
       $this->created_by   = $args['created_by'] ?? '';
       $this->created_at   = $args['created_at'] ?? date('Y-m-d H:i:s');
       $this->deleted      = $args['deleted'] ?? '';
@@ -75,52 +58,25 @@ class Request extends DatabaseObject
          $this->errors[] = "Full name is required.";
       }
 
-      if (is_blank($this->item_name)) {
-         $this->errors[] = "Item name is required.";
+      if (is_blank($this->due_date)) {
+         $this->errors[] = "Due date is required.";
       }
 
       return $this->errors;
    }
 
+   // SELECT  FROM `requests` AS req ;
+
    static public function find_all_requests()
    {
-      $sql = "SELECT * FROM " . static::$table_name . " ";
-      $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      $sql .= " ORDER BY name DESC ";
+      $sql = "SELECT req.id, req.invoice_no, req.grand_total, req.full_name, req.branch_id, req.vendor_img, req.status, req.note, req.due_date, req.created_by, req.created_at, det.item_name, SUM(det.quantity) AS quantity, sum( det.unit_price) AS unit_price, COUNT(det.request_id) AS counts FROM " . static::$table_name . " AS req ";
+      $sql .= "JOIN request_details AS det ON req.id = det.request_id ";
+      $sql .= "WHERE (req.deleted IS NULL OR req.deleted = 0 OR req.deleted = '') ";
+      $sql .= "GROUP BY req.invoice_no ";
+      $sql .= "ORDER BY req.id DESC ";
+
       return static::find_by_sql($sql);
    }
-
-   public static function find_by_item($item)
-   {
-      $sql = "SELECT * FROM " . static::$table_name . " ";
-      $sql .= "WHERE item_name LIKE'%" . self::$database->escape_string($item) . "%'";
-      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      $obj_array = static::find_by_sql($sql);
-
-      if (!empty($obj_array)) {
-         return array_shift($obj_array);
-      } else {
-         return false;
-      }
-   }
-
-   public static function find_by_invoices($item)
-   {
-      $sql = "SELECT * FROM " . static::$table_name . " ";
-      $sql .= "WHERE invoice_no ='" . self::$database->escape_string($item) . "'";
-      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      return static::find_by_sql($sql);
-   }
-
-   public static function find_all_invoices()
-   {
-      $sql = "SELECT *, COUNT(invoice_no) AS counts FROM " . static::$table_name . " ";
-      $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      $sql .= " GROUP BY invoice_no";
-      $sql .= " ORDER BY id DESC ";
-      return static::find_by_sql($sql);
-   }
-
 
    public static function find_by_invoice($item)
    {
@@ -134,21 +90,5 @@ class Request extends DatabaseObject
       } else {
          return false;
       }
-   }
-
-
-   public static function get_all_companies()
-   {
-      $sql = "SELECT * FROM olak_hr.companies ";
-      $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      return static::find_by_sql($sql);
-   }
-
-   public static function get_all_branches($companyId)
-   {
-      $sql = "SELECT * FROM olak_hr.branches ";
-      $sql .= "WHERE company_id ='" . self::$database->escape_string($companyId) . "'";
-      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      return static::find_by_sql($sql);
    }
 }

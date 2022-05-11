@@ -4,7 +4,7 @@ $page = 'Request';
 $page_title = 'List Requests';
 include(SHARED_PATH . '/admin_header.php');
 
-$invoices = Request::find_all_invoices();
+$requests = Request::find_all_requests();
 ?>
 
 <style>
@@ -34,30 +34,64 @@ $invoices = Request::find_all_invoices();
             <thead class="bg-white">
               <tr class="ligth ligth-data">
                 <th scope="col">Invoice No</th>
-                <th scope="col">Item name</th>
-                <th class="text-center" scope="col">Quantity</th>
-                <!-- <th class="text-center" scope="col">Status</th> -->
+                <th scope="col">Processed By</th>
+                <th scope="col">Branch</th>
+                <th scope="col">Total Qty</th>
+                <th scope="col">Grand Total</th>
+                <th scope="col">Status</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Request Date</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody class="ligth-body">
-              <?php foreach ($invoices as $data) :
-                $unit = Request::UNIT[$data->unit];
-              ?>
+              <?php foreach ($requests as $data) :
+                $branch = Branch::find_by_id($data->branch_id)->name; ?>
                 <tr>
                   <td><?php echo $data->invoice_no ?></td>
-                  <td><?php echo $data->item_name != '' ? $data->item_name : 'Not set' ?></td>
-                  <td class="text-center"><?php echo $data->quantity != '' ? $data->quantity . ' [' . $unit . ']' : 'Not Set' ?></td>
+                  <td><?php echo $data->full_name ?></td>
+                  <td><?php echo $branch ?></td>
+                  <td class="text-center">
+                    <?php echo $data->quantity != '' ? number_format($data->quantity) : 'Not Set' ?>
+                  </td>
+                  <td><?php echo number_format(intval($data->grand_total)) ?></td>
+                  <td class="text-center">
+                    <?php foreach (Request::STATUS as $key => $value) :
+                      $color = RequestDetail::COLOR[$key];
+
+                      if ($key == $data->status) :
+                    ?>
+                        <span class="badge badge-<?php echo $color; ?>">
+                          <?php echo $value ?>
+                        </span>
+                    <?php endif;
+                    endforeach; ?>
+                  </td>
                   <td><?php echo date('M d, Y', strtotime($data->due_date)) ?></td>
                   <td><?php echo date('M d, Y', strtotime($data->created_at)) ?></td>
                   <td>
                     <div class="d-flex align-items-center list-action">
-                      <button class="btn btn-sm badge badge-info view-btn mr-2 position-relative" data-invoice="<?php echo $data->invoice_no; ?>" data-toggle="modal" data-target="#view-request"><i class="ri-eye-line mr-0"></i>
+                      <button class="btn btn-sm badge badge-info view-btn mr-2 position-relative" data-invoice="<?php echo $data->invoice_no; ?>" data-toggle="modal" data-target="#view-request">
+                        <i class="ri-eye-line mr-0"></i>
                         <span class="d-flex justify-content-center rounded-circle align-items-center bg-danger text-white p-2" style="width:10px;height:10px;position:absolute;top:-6px;right:-5px"><?php echo $data->counts; ?></span>
                       </button>
+
                       <a href="<?php echo url_for('requests/edit-request.php?invoice_no=' . $data->invoice_no) ?>" class="btn btn-sm badge bg-success mr-2"><i class="ri-pencil-line mr-0"></i></a>
+
+                      <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v mr-0"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <?php foreach (Request::STATUS as $key => $value) : ?>
+                            <button class="dropdown-item status" data-id="<?php echo $data->id; ?>" data-status="<?php echo $key; ?>">
+                              <?php echo $value; ?>
+                            </button>
+                          <?php endforeach; ?>
+
+                          <button class="dropdown-item text-center text-white delete_request" data-id="<?php echo $data->id; ?>" style="background-color: red;"><i class="ri-delete-bin-line mr-0"></i>Delete</button>
+                        </div>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -119,10 +153,8 @@ $invoices = Request::find_all_invoices();
                       <th scope="col">Request ID</th>
                       <th scope="col">Item name</th>
                       <th class="text-center" scope="col">Quantity</th>
-                      <th class="text-center" scope="col">Status</th>
-                      <th scope="col">Due Date</th>
-                      <th scope="col">Request Date</th>
-                      <th>Action</th>
+                      <th class="text-center" scope="col">Unit Price</th>
+                      <th class="text-center" scope="col">Amount</th>
                     </tr>
                   </thead>
                   <tbody id="get_request"></tbody>
