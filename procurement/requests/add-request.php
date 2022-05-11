@@ -256,7 +256,6 @@ $branches = Branch::find_all_branch();
         unitPrice.on('input', function() {
           let subTotal = Number(qty.val()) * Number(unitPrice.val())
           amount.val(subTotal);
-          console.log(amount.val())
 
           calTotal();
         })

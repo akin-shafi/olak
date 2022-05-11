@@ -65,8 +65,6 @@ class Request extends DatabaseObject
       return $this->errors;
    }
 
-   // SELECT  FROM `requests` AS req ;
-
    static public function find_all_requests()
    {
       $sql = "SELECT req.id, req.invoice_no, req.grand_total, req.full_name, req.branch_id, req.vendor_img, req.status, req.note, req.due_date, req.created_by, req.created_at, det.item_name, SUM(det.quantity) AS quantity, sum( det.unit_price) AS unit_price, COUNT(det.request_id) AS counts FROM " . static::$table_name . " AS req ";

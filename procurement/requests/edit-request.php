@@ -252,7 +252,6 @@ if (empty($invoice)) {
     }
 
     const addSales = () => {
-
       let unitPrice = document.querySelectorAll('.unit_price')
 
       unitPrice.forEach(elem => {
@@ -263,18 +262,12 @@ if (empty($invoice)) {
           let price = parseInt(tRow.find('.unit_price').val(), 10)
           let subTotal = qty * price
 
-          console.log(qty);
-          console.log(price);
-          console.log(subTotal);
-
           tRow.find('.amount').val(subTotal)
           calTotal();
         })
       });
 
     }
-
-
 
     const calTotal = () => {
       const grandTotal = $('#grand_total')

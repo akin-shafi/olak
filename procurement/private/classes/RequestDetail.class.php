@@ -78,18 +78,4 @@ class RequestDetail extends DatabaseObject
       $sql .= " ORDER BY id DESC ";
       return static::find_by_sql($sql);
    }
-
-   // public static function find_by_request_id($item)
-   // {
-   //    $sql = "SELECT * FROM " . static::$table_name . " ";
-   //    $sql .= "WHERE request_id ='" . self::$database->escape_string($item) . "'";
-   //    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-   //    $obj_array = static::find_by_sql($sql);
-
-   //    if (!empty($obj_array)) {
-   //       return array_shift($obj_array);
-   //    } else {
-   //       return false;
-   //    }
-   // }
 }
