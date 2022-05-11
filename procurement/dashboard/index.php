@@ -41,8 +41,8 @@ $monthCat = '"' . $monthlyCategory . '"';
 $seriesW = $weekSeries;
 $seriesM = $monthlySeries;
 
-pre_r($monthlySeries);
-pre_r($monthCat);
+// pre_r($monthlySeries);
+// pre_r($monthCat);
 // pre_r($weeklyExp);
 // pre_r($seriesW);
 

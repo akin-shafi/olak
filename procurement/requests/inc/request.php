@@ -150,9 +150,16 @@ if (is_post_request()) {
 
   if (isset($_POST['delete_request'])) {
     $requestId = $_POST['id'];
-    $invoice = Request::find_by_id($requestId);
+    $request = Request::find_by_id($requestId);
 
-    $invoice::deleted($requestId);
+    $result = $request::deleted($requestId);
+
+    if ($result == true) {
+      $requestDetails = RequestDetail::find_by_requests($requestId);
+      foreach ($requestDetails as $value) {
+        RequestDetail::find_by_id($value->id)::deleted($value->id);
+      }
+    }
 
     exit(json_encode(['message' => 'Request record deleted successfully']));
   }
