@@ -10,6 +10,41 @@ if (empty($access->dashboard) || $access->dashboard != 1) :
 endif;
 
 $requests = Request::find_by_undeleted();
+$expenses = Request::find_by_expenses();
+$weekly = Request::get_weekly_expenses();
+$monthly = Request::get_monthly_expenses();
+
+$weeklyExp = [20, 25, 55];
+$monthlyExp = [];
+$months = [];
+
+foreach ($weekly as $value) {
+  array_push($weeklyExp, $value->grand_total);
+}
+
+foreach ($monthly as $value) {
+  $abrMonth = date('M', strtotime('01-' . $value->month . date('-Y')));
+  $amount = !empty($value->grand_total) ? $value->grand_total : 0;
+
+  array_push($monthlyExp, $amount);
+  array_push($months, $abrMonth);
+}
+
+// $weekLabel = implode('","',  $weeklyExp);
+$weekSeries = implode(',',  $weeklyExp);
+$monthlyCategory = implode('","',  $months);
+$monthlySeries = implode(',',  $monthlyExp);
+
+
+// $label = '"' . $impLabel . '"';
+$monthCat = '"' . $monthlyCategory . '"';
+$seriesW = $weekSeries;
+$seriesM = $monthlySeries;
+
+pre_r($monthlySeries);
+pre_r($monthCat);
+// pre_r($weeklyExp);
+// pre_r($seriesW);
 
 ?>
 
@@ -87,12 +122,12 @@ $requests = Request::find_by_undeleted();
         </div>
       </div>
       <div class="col-lg-4">
-        <div class="card card-block card-stretch card-height-helf">
+        <div class="card card-block card-stretch card-height-helf d-none">
           <div class="card-body">
             <div class="d-flex align-items-top justify-content-between">
               <div class="">
                 <p class="mb-0">Income</p>
-                <h5><?php echo $currency; ?> 98,7800 K</h5>
+                <h5><?php echo $currency; ?> 0.00</h5>
               </div>
               <div class="card-header-toolbar d-flex align-items-center">
                 <div class="dropdown">
@@ -114,23 +149,11 @@ $requests = Request::find_by_undeleted();
           <div class="card-body">
             <div class="d-flex align-items-top justify-content-between">
               <div class="">
-                <p class="mb-0">Expenses</p>
-                <h5><?php echo $currency; ?> 45,8956 K</h5>
-              </div>
-              <div class="card-header-toolbar d-flex align-items-center">
-                <div class="dropdown">
-                  <span class="dropdown-toggle dropdown-bg btn" id="dropdownMenuButton004" data-toggle="dropdown">
-                    This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                  </span>
-                  <div class="dropdown-menu dropdown-menu-right shadow-none" aria-labelledby="dropdownMenuButton004">
-                    <a class="dropdown-item" href="#">Year</a>
-                    <a class="dropdown-item" href="#">Month</a>
-                    <a class="dropdown-item" href="#">Week</a>
-                  </div>
-                </div>
+                <p class="font-weight-bold mb-0">Weekly Expenses (<?php echo date('Y') ?>)</p>
+                <h5 class="text-secondary"><?php echo $currency; ?> <?php echo number_format($expenses->grand_total) ?></h5>
               </div>
             </div>
-            <div id="layout1-chart-4" class="layout-chart-2"></div>
+            <div id="weeklyExpenses" class="layout-chart-2"></div>
           </div>
         </div>
       </div>
@@ -138,24 +161,12 @@ $requests = Request::find_by_undeleted();
         <div class="card card-block card-stretch">
           <div class="card-header d-flex justify-content-between">
             <div class="header-title">
-              <h4 class="card-title">Order Summary</h4>
-            </div>
-            <div class="card-header-toolbar d-flex align-items-center">
-              <div class="dropdown">
-                <span class="dropdown-toggle dropdown-bg btn" id="dropdownMenuButton005" data-toggle="dropdown">
-                  This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                </span>
-                <div class="dropdown-menu dropdown-menu-right shadow-none" aria-labelledby="dropdownMenuButton005">
-                  <a class="dropdown-item" href="#">Year</a>
-                  <a class="dropdown-item" href="#">Month</a>
-                  <a class="dropdown-item" href="#">Week</a>
-                </div>
-              </div>
+              <h4 class="card-title">Request Summary (<?php echo date('Y') ?>)</h4>
             </div>
           </div>
 
           <div class="card-body">
-            <div id="layout1-chart-5"></div>
+            <div id="monthlyExpenses"></div>
           </div>
         </div>
       </div>
@@ -334,6 +345,162 @@ $requests = Request::find_by_undeleted();
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 <script>
+  $(document).ready(function() {
+    if (jQuery("#weeklyExpenses").length) {
+      options = {
+        series: [{
+          name: "Requests",
+          data: [<?php echo $seriesW; ?>],
+        }, ],
+        colors: ["#32BDEA"],
+        chart: {
+          height: 150,
+          type: "line",
+          zoom: {
+            enabled: false,
+          },
+          dropShadow: {
+            enabled: true,
+            color: "#000",
+            top: 12,
+            left: 1,
+            blur: 2,
+            opacity: 0.2,
+          },
+          toolbar: {
+            show: false,
+          },
+          sparkline: {
+            enabled: true,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "smooth",
+          width: 3,
+        },
+        title: {
+          text: "",
+          align: "left",
+        },
+        grid: {
+          row: {
+            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+            opacity: 0.5,
+          },
+        },
+        xaxis: {
+          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        },
+      };
+      const chart = new ApexCharts(
+        document.querySelector("#weeklyExpenses"),
+        options
+      );
+      chart.render();
+      const body = document.querySelector("body");
+      if (body.classList.contains("dark")) {
+        apexChartUpdate(chart, {
+          dark: true,
+        });
+      }
+
+      document.addEventListener("ChangeColorMode", function(e) {
+        apexChartUpdate(chart, e.detail);
+      });
+    }
+
+
+    if (jQuery("#monthlyExpenses").length) {
+      options = {
+        series: [{
+            name: "Total Request",
+            data: [<?php echo $seriesM; ?>],
+          },
+          // {
+          //   name: "Total Rejected",
+          //   data: [76, 72, 76, 85, 74, 69, 80, 68, 78, 85, 77, 55],
+          // },
+        ],
+        chart: {
+          type: "bar",
+          height: 300,
+        },
+        colors: ["#32BDEA"],
+        // colors: ["#32BDEA", "#FF7E41"],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "40%",
+            endingShape: "rounded",
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          show: true,
+          width: 3,
+          colors: ["transparent"],
+        },
+        xaxis: {
+          categories: [<?php echo $monthCat; ?>],
+          labels: {
+            minWidth: 0,
+            maxWidth: 0,
+          },
+        },
+        yaxis: {
+          show: true,
+          labels: {
+            minWidth: 20,
+            maxWidth: 20,
+          },
+        },
+        fill: {
+          opacity: 1,
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return "<?php echo $currency; ?> " + numberWithCommas(val);
+            },
+          },
+        },
+      };
+      const chart = new ApexCharts(
+        document.querySelector("#monthlyExpenses"),
+        options
+      );
+      chart.render();
+      const body = document.querySelector("body");
+      if (body.classList.contains("dark")) {
+        apexChartUpdate(chart, {
+          dark: true,
+        });
+      }
+
+      document.addEventListener("ChangeColorMode", function(e) {
+        apexChartUpdate(chart, e.detail);
+      });
+    }
+
+
+
+  })
+
+
+
+
+
+
+
+
+
+
+
   const day = new Date();
   const hr = day.getHours();
   let greet = '';

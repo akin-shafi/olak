@@ -27,6 +27,10 @@ class Request extends DatabaseObject
    public $unit_price;
    public $request_id;
 
+   public $year;
+   public $month;
+   public $week;
+
    const STATUS = [
       1 => 'New',
       2 => 'Approved',
@@ -88,5 +92,40 @@ class Request extends DatabaseObject
       } else {
          return false;
       }
+   }
+
+   public static function find_by_expenses()
+   {
+      $sql = "SELECT SUM(grand_total) AS grand_total FROM " . static::$table_name . " ";
+      $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $obj_array = static::find_by_sql($sql);
+
+      if (!empty($obj_array)) {
+         return array_shift($obj_array);
+      } else {
+         return false;
+      }
+   }
+
+
+   public static function get_weekly_expenses()
+   {
+      $sql = "SELECT SUM(grand_total) AS grand_total, CONCAT ( STR_TO_DATE(CONCAT(YEARWEEK(created_at, 2), ' Sunday'), '%X%V %W'), ',', STR_TO_DATE(CONCAT(YEARWEEK(created_at, 2), ' Sunday'), '%X%V %W') + INTERVAL 6 DAY ) AS week FROM " . static::$table_name . " ";
+      $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $sql .= "GROUP BY YEARWEEK(created_at, 2) ";
+      $sql .= "ORDER BY YEARWEEK(created_at, 2) ";
+
+      return static::find_by_sql($sql);
+   }
+
+
+   public static function get_monthly_expenses()
+   {
+      $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(grand_total) AS grand_total  FROM " . static::$table_name . " ";
+      $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $sql .= "GROUP BY year(created_at), month(created_at) ";
+      $sql .= "ORDER BY year(created_at), month(created_at) ";
+
+      return static::find_by_sql($sql);
    }
 }
