@@ -92,7 +92,7 @@
         <img src="../images/factory-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
       </div>
 
-      <a href="./login.php" class="btn btn-lg bg-custom-blue text-light anchor">
+      <a href="./soon" class="btn btn-lg bg-custom-blue text-light anchor">
         Click <strong>HERE</strong> to Continue
       </a>
     </main>

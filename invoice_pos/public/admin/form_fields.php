@@ -8,14 +8,14 @@ $company_id = 1;
 ?>
 
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label">First Name</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right">First Name</label>
   <div class="col-lg-9">
     <input class="form-control" type="text" name="admin[first_name]" value="<?php echo h($admin->first_name); ?>">
   </div>
 </div>
 
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right">Last name</label>
   <div class="col-lg-9">
     <input class="form-control" type="text" name="admin[last_name]" value="<?php echo h($admin->last_name); ?>">
   </div>
@@ -23,20 +23,20 @@ $company_id = 1;
 
 
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label"> Phone Number</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right"> Phone Number</label>
   <div class="col-lg-9">
     <input class="form-control" type="text" name="admin[phone]" value="<?php echo h($admin->phone); ?>">
   </div>
 </div>
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label">Email</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right">Email</label>
   <div class="col-lg-9">
     <input class="form-control" type="text" name="admin[email]" value="<?php echo h($admin->email); ?>">
   </div>
 </div>
 
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label">Admin Level</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right">Admin Level</label>
   <div class="col-lg-9">
     <!-- <input class="form-control" type="text" name="admin[admin_level]" value="<?php //echo h($admin->admin_level); ?>"> -->
      <select name="admin[admin_level]" id="admin_level" class="form-control">
@@ -67,21 +67,21 @@ $company_id = 1;
 </div>
 
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label">Password</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right">Password</label>
   <div class="col-lg-9">
     <input class="form-control" type="password" name="admin[password]" value="<?php echo h($admin->password); ?>">
   </div>
 </div>
 
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label">Confirm Password</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right">Confirm Password</label>
   <div class="col-lg-9">
     <input class="form-control" type="password" name="admin[confirm_password]">
   </div>
 </div>
 
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label">Company</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right">Company</label>
   <div class="col-lg-9">
     
     <select name="admin[company_id]" class="form-control" id="company_id" required>
@@ -95,7 +95,7 @@ $company_id = 1;
 </div>
 
 <div class="form-group row">
-  <label class="col-lg-3 col-form-label form-control-label">Branch</label>
+  <label class="col-lg-3 col-form-label form-control-label text-right">Branch</label>
   <div class="col-lg-9">
 
     <select name="admin[branch_id]" class="form-control" id="branch_id" required>

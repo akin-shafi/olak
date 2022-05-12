@@ -117,6 +117,7 @@ if (is_post_request()) {
                                     </p> -->
                                  </form>
                               </div>
+                              <a href="<?php echo url_for('../') ?>">&leftarrow; Back</a>
                            </div>
                            <div class="col-lg-5 content-right">
                               <img src="png/01-2.png" class="img-fluid image-right" alt="">

@@ -178,3 +178,5 @@
 2022-05-08 14:44:32 | Login: Administrator Admin Logged in.
 2022-05-09 16:59:59 | Login: Administrator Admin Logged in.
 2022-05-11 14:14:41 | Login: Administrator Admin Logged in.
+2022-05-12 11:24:33 | Login: Administrator Admin Logged in.
+2022-05-12 11:30:24 | Logout: Administrator Admin Logged out.
