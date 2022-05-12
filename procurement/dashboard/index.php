@@ -392,24 +392,16 @@ $seriesM = $monthlySeries;
           },
         },
         xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          categories: [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+          ],
         },
       };
-      const chart = new ApexCharts(
+      const lineChart = new ApexCharts(
         document.querySelector("#weeklyExpenses"),
         options
       );
-      chart.render();
-      const body = document.querySelector("body");
-      if (body.classList.contains("dark")) {
-        apexChartUpdate(chart, {
-          dark: true,
-        });
-      }
-
-      document.addEventListener("ChangeColorMode", function(e) {
-        apexChartUpdate(chart, e.detail);
-      });
+      lineChart.render();
     }
 
 
@@ -426,26 +418,30 @@ $seriesM = $monthlySeries;
         ],
         chart: {
           type: "bar",
-          height: 300,
+          height: 350,
+          toolbar: {
+            show: false,
+          },
         },
         colors: ["#32BDEA"],
         // colors: ["#32BDEA", "#FF7E41"],
         plotOptions: {
           bar: {
-            horizontal: false,
-            columnWidth: "40%",
+            columnWidth: "10%",
             endingShape: "rounded",
+            distributed: true,
           },
         },
         dataLabels: {
           enabled: false,
         },
         stroke: {
-          show: true,
+          show: false,
           width: 3,
           colors: ["transparent"],
         },
         xaxis: {
+          type: 'category',
           categories: [<?php echo $monthCat; ?>],
           labels: {
             minWidth: 0,
@@ -454,9 +450,28 @@ $seriesM = $monthlySeries;
         },
         yaxis: {
           show: true,
+          tickAmount: 6,
           labels: {
-            minWidth: 20,
-            maxWidth: 20,
+            show: true,
+            minWidth: 0,
+            maxWidth: 160,
+            formatter: (val) => {
+              return "<?php echo $currency; ?> " + numberWithCommas(val)
+            },
+          },
+          axisBorder: {
+            show: true,
+            color: '#78909C',
+            offsetX: 0,
+            offsetY: 0
+          },
+          axisTicks: {
+            show: true,
+            borderType: 'solid',
+            color: '#78909C',
+            width: 6,
+            offsetX: 0,
+            offsetY: 0
           },
         },
         fill: {
@@ -470,21 +485,11 @@ $seriesM = $monthlySeries;
           },
         },
       };
-      const chart = new ApexCharts(
+      const barChart = new ApexCharts(
         document.querySelector("#monthlyExpenses"),
         options
       );
-      chart.render();
-      const body = document.querySelector("body");
-      if (body.classList.contains("dark")) {
-        apexChartUpdate(chart, {
-          dark: true,
-        });
-      }
-
-      document.addEventListener("ChangeColorMode", function(e) {
-        apexChartUpdate(chart, e.detail);
-      });
+      barChart.render();
     }
 
 

@@ -48,7 +48,11 @@ $requests = Request::find_all_requests();
               <?php foreach ($requests as $data) :
                 $branch = Branch::find_by_id($data->branch_id)->name; ?>
                 <tr>
-                  <td><?php echo $data->invoice_no ?></td>
+                  <td>
+                    <a href="<?php echo url_for('invoice.php?invoice_no=' . $data->invoice_no) ?>">
+                      <?php echo $data->invoice_no ?>
+                    </a>
+                  </td>
                   <td><?php echo $data->full_name ?></td>
                   <td><?php echo $branch ?></td>
                   <td class="text-center">
