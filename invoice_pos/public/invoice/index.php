@@ -1,9 +1,6 @@
 <?php
-
 require_once('../../private/initialize.php');
-// echo "<pre>";
-// print_r(Client::find_all());
-// echo "</pre>";
+
 require_login();
 
 $currencies = [
@@ -11,6 +8,10 @@ $currencies = [
 ];
 
 $service_type = '';
+
+$company = Company::find_by_id($loggedInAdmin->company_id);
+$branch = Branch::find_by_id($loggedInAdmin->branch_id);
+
 
 ?>
 <?php $page = 'Invoice';
@@ -76,7 +77,10 @@ $page_title = 'Billing & Invoicing'; ?>
               </div>
             </div>
 
-            <form action="" method="post" id="expense_form">
+            <form id="expense_form">
+              <input type="hidden" name="billing[company_id]" value="<?php echo ucwords($company->id) ?>" readonly>
+              <input type="hidden" name="billing[branch_id]" value="<?php echo ucwords($branch->id) ?>" readonly>
+
               <input type="hidden" value="" name="billing[invoiceNum]">
               <input type="hidden" value="" name="new_invoice">
               <div class="d-none justify-content-between">
@@ -103,7 +107,19 @@ $page_title = 'Billing & Invoicing'; ?>
                                                                                                           ?>"> -->
 
               <div class="table-responsive">
-                <section class=" row ">
+                <div class="d-flex">
+                  <div class="form-group mr-3">
+                    <label class="label-control">Company <sup class="error">*</sup></label>
+                    <input type="text" class="form-control" value="<?php echo ucwords($company->company_name) ?>" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="label-control">Branch <sup class="error">*</sup></label>
+                    <input type="text" class="form-control" value="<?php echo ucwords($branch->branch_name) ?>" readonly>
+                  </div>
+                </div>
+
+                <section class="row">
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Client Name <sup class="error">*</sup></label>
                     <select required="" class="form-control client_id" name="billing[client_id]">
@@ -143,16 +159,8 @@ $page_title = 'Billing & Invoicing'; ?>
 
                     <!-- <input type="date" class="form-control" name=""> -->
                   </div>
-
-                  <!-- <div class="form-group col-lg-12 col-md-12 ">
-                    <label class="label-control">Vehicle <sup class="error">*</sup></label>
-                    <input required="" type="text" name="billing[vehicle]" class="form-control" id="vehicle" value="<?php //echo ($billing->vehicle); 
-                                                                                                                    ?>">
-                  </div> -->
-
-
-
                 </section>
+
                 <!--row end   -->
                 <table class="table table-bordered">
                   <tbody>

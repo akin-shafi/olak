@@ -6,6 +6,8 @@ class Billing extends DatabaseObject
   static protected $table_name = "billing";
   static protected $db_columns = [
     'id',
+    'company_id',
+    'branch_id',
     'invoiceNum',
     'client_id',
     'billingFormat',
@@ -25,6 +27,8 @@ class Billing extends DatabaseObject
   ];
 
   public $id;
+  public $company_id;
+  public $branch_id;
   public $invoiceNum;
   public $client_id;
   public $billingFormat;
@@ -62,7 +66,8 @@ class Billing extends DatabaseObject
 
   public function __construct($args = [])
   {
-
+    $this->company_id = $args['company_id'] ?? '';
+    $this->branch_id = $args['branch_id'] ?? '';
     $this->invoiceNum = $args['invoiceNum'] ?? '';
     $this->client_id = $args['client_id'] ?? '';
     $this->billingFormat = $args['billingFormat'] ?? '';
@@ -114,6 +119,16 @@ class Billing extends DatabaseObject
     return $this->errors;
   }
 
+  // WHERE company_id = 1 AND branch_id = 2
+
+  static public function find_by_filtering($company_id, $branch_id)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE company_id = " . self::$database->escape_string($company_id) . " ";
+    $sql .= "AND branch_id = " . self::$database->escape_string($branch_id) . " ";
+    return static::find_by_sql($sql);
+  }
+
   static public function find_by_invoice_no($invoiceNum)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
@@ -142,7 +157,6 @@ class Billing extends DatabaseObject
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE invoiceNum = " . self::$database->escape_string($invoiceNum) . " ";
-    // echo $sql;
     return static::find_by_sql($sql);
   }
 

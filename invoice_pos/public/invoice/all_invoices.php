@@ -4,44 +4,60 @@ require_once('../../private/initialize.php');
 
 require_login();
 
-// Find all undeleted admins
 $clients = Billing::find_by_undeleted();
-// $admins = Admin::find_by_undeleted();
+$companies = Company::find_by_undeleted();
+// $branches = Branch::find_by_company_id($companyId);
 
 ?>
 <?php $page = 'Invoice';
 $page_title = 'All Invoices'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
-<!-- *************
-        ************ Main container start *************
-        ************* -->
 <div class="main-container">
-	<!-- Page header start -->
 	<div class="page-title">
 		<div class="row gutters">
 			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 				<h5 class="title">All Invoices</h5>
 			</div>
 			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-				<div class="daterange-container">
-					<div class="date-range">
-						<div id="reportrange">
-							<i class="feather-calendar cal"></i>
-							<span class="range-text">Jan 20, 2020 - Feb 18, 2020</span>
-							<i class="feather-chevron-down arrow"></i>
-						</div>
+
+				<div class="d-flex justify-content-end align-items-center">
+					<div class="btn-group">
+						<select class="form-control mr-2" id="company">
+							<option value="">Select company</option>
+							<?php foreach ($companies as $company) : ?>
+								<option value="<?php echo $company->id ?>">
+									<?php echo ucwords($company->company_name) ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
 					</div>
-					<a href="#" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Download CSV">
-						<i class="feather-download"></i>
-					</a>
+
+					<div class="btn-group" id="get_branch">
+						<select class="form-control" id="branch">
+							<option value="">Select branch</option>
+						</select>
+						<button class="btn btn-primary query">
+							<i class="feather-filter"></i></button>
+					</div>
+
+					<!-- <div class="daterange-container">
+						<div class="date-range">
+							<div id="reportrange">
+								<i class="feather-calendar cal"></i>
+								<span class="range-text">Jan 20, 2020 - Feb 18, 2020</span>
+								<i class="feather-chevron-down arrow"></i>
+							</div>
+						</div>
+						<a href="#" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Download CSV">
+							<i class="feather-download"></i>
+						</a>
+					</div> -->
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Page header end -->
 
-	<!-- Content wrapper start -->
 	<div class="content-wrapper">
 
 		<section class="">
@@ -51,65 +67,9 @@ $page_title = 'All Invoices'; ?>
 				<div class="col-lg-2 ">
 					<?php include('sideNav.php'); ?>
 				</div>
-				<!--col-2 end -->
 
 				<div class="col-lg-10">
-					<div class="table-responsive">
-						<table id="rowSelection" class=" table table-striped table-hover responsive nowrap" style="width:100%">
-							<thead>
-								<tr class="border-bottom bg-primary">
-									<th><i class="uk-icon-square"></i></th>
-									<th>S/N</th>
-									<th>Action</th>
-									<th>Invoice No.</th>
-									<th>Client Name</th>
-									<th>Billing Format</th>
-									<th>Start Date</th>
-									<th>Due Date</th>
-									<th>Total Amount</th>
-									<th>Action</th>
-
-								</tr>
-							</thead>
-							<tbody>
-								<?php $sn = 0;
-								foreach (Billing::find_by_undeleted() as $client) {
-									$customer = Client::find_by_id($client->client_id);
-									// pre_r();
-									// pre_r($client->client_id);
-								?>
-									<tr>
-										<td><input type="checkbox" name=""></td>
-										<td><?php echo ++$sn; ?></td>
-										<td>
-											<a href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($client->invoiceNum))); ?>">
-												<i class="feather-file-text fs-18" title="view"></i> Invoice
-											</a>
-										</td>
-										<td><?php echo h(ucwords($client->invoiceNum)); ?></td>
-										<td><?php echo $customer->full_name(); ?></td>
-										<td><?php echo h(ucwords($client->billingFormat)); ?></td>
-										<td><?php echo h(ucwords($client->start_date)); ?></td>
-										<td><?php echo h(ucwords($client->due_date)); ?></td>
-										<td><?php echo h(ucwords($client->total_amount)); ?></td>
-										<td>
-
-											<div class="dropdown ">
-												<div class="btn-group">
-													<button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-														<i class="feather-more-vertical" title="More Options" style="font-weight: bolder;"></i> More
-													</button>
-													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-														<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $client->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
-
-														<a href="#!" class="dropdown-item" id="delete_void" data-id="<?php echo $client->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void </a>
-
-													</div>
-										</td>
-									</tr>
-								<?php } ?>
-							</tbody>
-						</table>
+					<div class="table-responsive" id="complete_filter">
 
 					</div>
 					<!-- <div class="btn-group">
@@ -120,19 +80,63 @@ $page_title = 'All Invoices'; ?>
 		</section>
 
 	</div>
-	<!-- Content wrapper end -->
 
 
 </div>
-<!-- *************
-        ************ Main container end *************
-        ************* -->
 
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
 
 <script>
 	$(document).ready(function() {
+		const FILTER_URL = "inc/filter.php";
+
+		$('#company').on('change', function() {
+			let companyId = this.value;
+			getBranches(companyId)
+		})
+
+		function getBranches(params) {
+			$.ajax({
+				url: FILTER_URL,
+				method: "GET",
+				data: {
+					comp_id: params
+				},
+				success: function(r) {
+					$('#get_branch').html(r);
+				}
+			});
+		}
+
+		$(document).on('click', '.query', function() {
+			let companyId = $('#company').val()
+			let branchId = $('#branch').val()
+
+			if ((companyId == '') || (branchId == '')) {
+				errorAlert('Company and branch is required!')
+				return
+			}
+
+			completeFilter(companyId, branchId)
+		})
+
+		function completeFilter(companyId, branchId) {
+			$.ajax({
+				url: FILTER_URL,
+				method: "GET",
+				data: {
+					companyId: companyId,
+					branchId: branchId,
+					complete_filter: 1
+				},
+				success: function(r) {
+					$('#complete_filter').html(r);
+				}
+			});
+		}
+		completeFilter()
+
 		$(document).on('click', '#delete_void', function() {
 			let deleteVoid = this.dataset.id;
 			Swal.fire({
