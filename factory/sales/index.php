@@ -9,20 +9,15 @@ if ($access->sales_mgt != 1) {
 }
 
 if ($loggedInAdmin->admin_level == 1) {
-	$filterDataSheet = DataSheet::get_data_sheets();
+	$filterDataSheet = StockPhaseOne::get_data_sheets();
 } else {
-	$filterDataSheet = DataSheet::get_data_sheets(['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
+	$filterDataSheet = StockPhaseOne::get_data_sheets(['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
 }
 
 $products = Product::find_by_undeleted();
 
 ?>
-<style>
-	td {
-		min-width: 90px;
-		padding: 0.2rem 0.3rem !important;
-	}
-</style>
+
 <div class="content-wrapper">
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -30,11 +25,9 @@ $products = Product::find_by_undeleted();
 			<div class="card">
 				<div class="card-body">
 					<div class="table-container border-0 shadow">
-						<div class="table-responsive">
+						<div class="table-responsive" id="dataSheet">
 							<!-- <table id="copy-print-csv_wrapper" class="table custom-table table-sm "> -->
-							<table id="dataSheet" class="table custom-table">
 
-							</table>
 						</div>
 					</div>
 				</div>

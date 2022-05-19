@@ -461,19 +461,26 @@ $fullName = $user->full_name;
                   </ul>
                </li>
 
-               <?php if ($access->expenses_mgt == 1) : ?>
+               <!--
+               <?php //if ($access->expenses_mgt == 1) : 
+               ?>
                   <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle <?php echo $page == 'Expenses' ? 'active-page' : '' ?>" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <a class="nav-link dropdown-toggle <?php //echo $page == 'Expenses' ? 'active-page' : '' 
+                                                         ?>" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="icon-attach_money nav-icon"></i>
                         Expenses
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="expensesDropdown">
                         <li>
-                           <a class="dropdown-item <?php echo $page_title == 'Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('expenses/') ?>">Record Expenses</a>
+                           <a class="dropdown-item <?php //echo $page_title == 'Expenses' ? 'active-page' : '' 
+                                                   ?>" href="<?php //echo url_for('expenses/') 
+                                                               ?>">Record Expenses</a>
                         </li>
                      </ul>
                   </li>
-               <?php endif; ?>
+               <?php //endif; 
+               ?>
+               -->
 
                <?php if ($access->report_mgt == 1) : ?>
                   <li class="nav-item dropdown">
@@ -511,7 +518,13 @@ $fullName = $user->full_name;
                      <?php endif; ?>
                      <?php if ($access->product_mgt == 1) : ?>
                         <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Manage Categories' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_category.php') ?>">Manage Categories</a>
+                        </li>
+                        <li>
                            <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Manage Gauges' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_gauge.php') ?>">Manage Gauges</a>
                         </li>
                      <?php endif; ?>
                   </ul>

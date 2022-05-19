@@ -13,41 +13,34 @@ if (is_post_request()) {
         endif;
     }
 
-    if (isset($_POST['data_sheet_form'])) {
+    if (isset($_POST['factory_form'])) {
         $args = $_POST;
-
-        $totalSales = 0;
-        $totalValue = 0;
-        $grandTotalValue = 0;
 
         for ($i = 0; $i < count($args['product_id']); $i++) {
             $data = [
-                "product_id"         => $args['product_id'][$i],
-                "open_stock"         => $args['open_stock'][$i],
-                "new_stock"          => $args['new_stock'][$i],
-                "total_stock"        => $args['total_stock'][$i],
-                "sales_in_ltr"       => $args['sales_in_ltr'][$i],
-                "expected_stock"     => $args['expected_stock'][$i],
-                "actual_stock"       => $args['actual_stock'][$i],
-                "over_or_short"      => $args['over_or_short'][$i],
-                "exp_sales_value"    => $args['exp_sales_value'][$i],
-                "cash_submitted"     => $args['cash_submitted'][$i],
-
-                "total_sales"        => $totalSales,
-                "total_value"        => $totalValue,
-                "grand_total_value"  => $grandTotalValue,
-
-                "company_id"         => $args['company_id'],
-                "branch_id"          => $args['branch_id'],
-                "created_by"         => $loggedInAdmin->id,
+                'product_id'        => $args['product_id'][$i],
+                'category_id'       => $args['category_id'][$i],
+                'gauge_id'          => $args['gauge_id'][$i],
+                'open_stock'        => $args['open_stock'][$i],
+                'production'        => $args['production'][$i],
+                'return_inward'     => $args['return_inward'][$i],
+                'total_production'  => $args['total_stock'][$i],
+                'sales'             => $args['sales'][$i],
+                'imported'          => $args['imported'][$i],
+                'local'             => $args['local'][$i],
+                'total_sales'       => $args['total_sales'][$i],
+                'closing_stock'     => $args['closing_stock'][$i],
+                'company_id'        => $args['company_id'],
+                'branch_id'         => $args['branch_id'],
+                "created_by"        => $loggedInAdmin->id,
             ];
 
-            $dataSheet = new DataSheet($data);
-            $result = $dataSheet->save();
+            $stockPhase = new StockPhaseOne($data);
+            $result = $stockPhase->save();
         }
 
         if ($result == true) :
-            exit(json_encode(['success' => true, 'msg' => 'Submit Successful']));
+            exit(json_encode(['success' => true, 'msg' => 'Submitted Successfully!']));
         else :
             exit(json_encode(['success' => false, 'msg' => display_errors($dataSheet->errors)]));
         endif;
@@ -62,28 +55,25 @@ if (is_post_request()) {
 
         for ($i = 0; $i < count($args['product_id']); $i++) {
             $data = [
-                "product_id"         => $args['product_id'][$i],
-                "open_stock"         => $args['open_stock'][$i],
-                "new_stock"          => $args['new_stock'][$i],
-                "total_stock"        => $args['total_stock'][$i],
-                "sales_in_ltr"       => $args['sales_in_ltr'][$i],
-                "expected_stock"     => $args['expected_stock'][$i],
-                "actual_stock"       => $args['actual_stock'][$i],
-                "over_or_short"      => $args['over_or_short'][$i],
-                "exp_sales_value"    => $args['exp_sales_value'][$i],
-                "cash_submitted"     => $args['cash_submitted'][$i],
-
-                "total_sales"        => $totalSales,
-                "total_value"        => $totalValue,
-                "grand_total_value"  => $grandTotalValue,
-
-                "company_id"         => $args['company_id'],
-                "branch_id"          => $args['branch_id'],
-                "created_by"         => $loggedInAdmin->id,
+                'product_id'        => $args['product_id'][$i],
+                'category_id'       => $args['category_id'][$i],
+                'gauge_id'          => $args['gauge_id'][$i],
+                'open_stock'        => $args['open_stock'][$i],
+                'production'        => $args['production'][$i],
+                'return_inward'     => $args['return_inward'][$i],
+                'total_production'  => $args['total_stock'][$i],
+                'sales'             => $args['sales'][$i],
+                'imported'          => $args['imported'][$i],
+                'local'             => $args['local'][$i],
+                'total_sales'       => $args['total_sales'][$i],
+                'closing_stock'     => $args['closing_stock'][$i],
+                'company_id'        => $args['company_id'][$i],
+                'branch_id'         => $args['branch_id'][$i],
+                "created_by"        => $loggedInAdmin->id,
             ];
 
-            if (!empty(DataSheet::find_by_sheet_id($args['tankId']))) :
-                $editTank = DataSheet::find_by_sheet_id($args['tankId']);
+            if (!empty(StockPhaseOne::find_by_id($args['tankId']))) :
+                $editTank = StockPhaseOne::find_by_id($args['tankId']);
 
                 $editTank->merge_attributes($data);
                 $editTank->save();
@@ -95,7 +85,7 @@ if (is_post_request()) {
 
     if (isset($_POST['delete_tank'])) {
         $tankId = $_POST['tankId'];
-        $tank = DataSheet::find_by_id($tankId);
+        $tank = StockPhaseOne::find_by_id($tankId);
         $tank::deleted($tankId);
 
         if ($tank == true) :
@@ -123,101 +113,120 @@ if (is_get_request()) {
         $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
         $dateConvertTo = date('Y-m-d', strtotime($dateTo));
 
+        $groupByCategory = StockPhaseOne::group_by_category();
+        $fullGroup = StockPhaseOne::group_by_product();
+
         if ($loggedInAdmin->admin_level == 1) {
-            $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['branch' => $branch]);
+            $filterDataSheet = StockPhaseOne::filter_by_date($dateConvertFrom, $dateConvertTo, ['branch' => $branch]);
         } else {
-            $filterDataSheet = DataSheet::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
+            $filterDataSheet = StockPhaseOne::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
         }
+
 ?>
-        <thead>
-            <tr class="bg-primary text-white ">
-                <th class="font-weight-bold">Product</th>
-                <?php foreach ($filterDataSheet as $product) : ?>
-                    <th class="font-weight-bold text-right">
-                        <p><?php echo strtoupper($product->name) . ' (TANK ' . $product->tank . ')'; ?></p>
-                        <div class="btn-group">
-                            <a href="<?php echo url_for('sales/edit_sales.php?sheet_id=' . $product->id) ?>" class="btn btn-sm btn-warning"><i class="icon-edit"></i></a>
-                            <button data-id="<?php echo $product->id ?>" class="btn btn-sm btn-secondary remove-btn"><i class="icon-delete"></i></button>
-                        </div>
-                    </th>
-                <?php endforeach; ?>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="font-weight-bold">
-                <td class="text-uppercase">Branch</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo Branch::find_by_id($data->branch_id)->name; ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr class="font-weight-bold">
-                <td class="text-uppercase">Created At</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo date('M d, Y', strtotime($data->created_at)); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr class="font-weight-bold">
-                <td class="text-uppercase">Rate</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo number_format($data->rate, 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <td class="text-uppercase">open stock</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo number_format($data->open_stock, 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <td class="text-uppercase">New stock (Inflow)</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo $data->new_stock != '' ? number_format($data->new_stock, 2) : 0; ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <td class="text-uppercase">Total stock</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo number_format(intval($data->total_stock), 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <td class="text-uppercase">Sales (Ltr)</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo number_format(intval($data->sales_in_ltr), 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <td class="text-uppercase">Expected stock (Ltr)</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo number_format(intval($data->expected_stock), 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <td class="text-uppercase">Actual stock (Ltr)</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo number_format(intval($data->actual_stock), 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <td class="text-uppercase">Over/Short</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right <?php echo $data->over_or_short < 0 ? 'text-danger' : '' ?>">
-                        <?php echo number_format(intval($data->over_or_short), 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr class="font-weight-bold">
-                <td class="text-uppercase">Expected sales value</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo number_format(intval($data->exp_sales_value), 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr class="font-weight-bold">
-                <td class="text-uppercase">Cash submitted</td>
-                <?php foreach ($filterDataSheet as $data) : ?>
-                    <td class="text-right"><?php echo number_format(intval($data->cash_submitted), 2); ?></td>
-                <?php endforeach; ?>
-            </tr>
-        </tbody>
+        <style>
+            /* th {
+                text-transform: capitalize !important;
+                text-align: center;
+            } */
+
+            td {
+                min-width: 100px !important;
+                padding: 0.3rem 0.4rem !important;
+            }
+        </style>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr class="text-center border uppercase">
+                    <th rowspan="2"></th>
+                    <?php foreach ($groupByCategory as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name; ?>
+                        <th colspan="6" style="font-size:20px;color:<?php echo strtolower($categoryName) ?> ;"><?php echo strtoupper($categoryName) ?></th>
+                    <?php endforeach; ?>
+                </tr>
+                <tr class="text-center border capitalize">
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $productName = Product::find_by_id($data->product_id)->name; ?>
+                        <th style="color:<?php echo strtolower($categoryName) ?> ;"><?php echo strtoupper($productName) ?></th>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">Opening Stock</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->open_stock, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">New Stock</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->production, 2); ?></td>
+                    <?php endforeach; ?>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">Return Inward</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->return_inward, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">Total</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->total_production, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">Sales</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->sales, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">Imported</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->imported, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">Local</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->local, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">Total Sales</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->total_sales, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold text-uppercase">Closing Stock</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = Category::find_by_id($data->category_id)->name;
+                    ?>
+                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->closing_stock, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+            </tbody>
+        </table>
+
 <?php
     endif;
 }

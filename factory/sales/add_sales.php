@@ -1,10 +1,11 @@
 <?php require_once('../private/initialize.php');
-$hide = true;
 
 $page = 'Sales';
 $page_title = 'Add New Sales';
 
-$products = Product::find_all_product();
+$categories = Category::find_all_categories();
+$products = Product::find_all_products();
+$gauges = Gauge::find_all_gauges();
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
 
@@ -53,7 +54,7 @@ include(SHARED_PATH . '/admin_header.php');
 	<div class="d-flex justify-content-between align-items-center">
 		<h4>DAILY TRANSACTION RECORD FOR <?php echo strtoupper($company->name) ?> </h4>
 		<div class="mb-3">
-			<select class="form-control" name="branch_id" id="sBranch" form="data_sheet_form" required>
+			<select class="form-control" name="branch_id" id="sBranch" form="factory_form" required>
 				<option value="">select branch</option>
 				<?php foreach ($branches as $branch) : ?>
 					<option value="<?php echo $branch->id ?>">
@@ -65,87 +66,88 @@ include(SHARED_PATH . '/admin_header.php');
 
 	<div class="table-container border-0 shadow">
 		<div class="table-responsive">
-			<form id="data_sheet_form" method="post">
-				<input type="hidden" name="data_sheet_form" readonly>
+			<form id="factory_form" method="post">
+				<input type="hidden" name="factory_form" readonly>
 				<input type="hidden" name="company_id" value="<?php echo $company->id ?>" readonly>
 
 				<table class="table table-bordered table-sm">
 					<thead>
 						<tr class="bg-primary text-white text-center">
+							<th>CATEGORY</th>
 							<th>PRODUCT NAME</th>
-							<th>PRODUCT RATE</th>
+							<th>GAUGE</th>
 							<th>OPENING STOCK</th>
-							<th>NEW STOCK (INFLOW)</th>
+							<th>NEW STOCK</th>
+							<th>RETURN INWARD</th>
 							<th>TOTAL STOCK</th>
-							<th>SALES (LTRS)</th>
-							<th>EXPECTED STOCK (LTRS)</th>
-							<th>ACTUAL STOCK (LTRS)</th>
-							<th>OVER/SHORT</th>
-							<th>CASH SUBMITTED #</th>
-							<!-- <th>EXP. SALES VALUE #</th>
-							 <th>TOTAL SALES (LTRS)</th>
-							<th>TOTAL VALUE #</th>
-							<th>GRAND TOTAL VALUE #</th> -->
-							<th></th>
+							<th>SALES</th>
+							<th>IMPORTED</th>
+							<th>LOCAL</th>
+							<th>TOTAL SALES</th>
+							<th>CLOSING STOCK</th>
+							<th style="font-size:14px"><sup>&plus;</sup>/<sub>&minus;</sub></th>
 						</tr>
 					</thead>
 
-					<tbody id="pet-table">
+					<tbody id="factory-table">
 						<tr class="border-0">
 							<td>
-								<select name="product_id[]" class="form-control form-control-sm product_id">
-									<option>select product</option>
-									<?php foreach ($products as $product) : ?>
-										<option value="<?php echo $product->id; ?>">
-											<?php echo strtoupper($product->name) . ' (TANK ' . $product->tank . ')'; ?>
+								<select name="category_id[]" class="form-control form-control-sm category_id" required>
+									<option>select category</option>
+									<?php foreach ($categories as $category) : ?>
+										<option value="<?php echo $category->id; ?>">
+											<?php echo ucwords($category->name); ?>
 										</option>
 									<?php endforeach; ?>
 								</select>
 							</td>
 							<td>
-								<input type="number" size="12" class="form-control form-control-sm rate_1" placeholder='0' readonly>
+								<select name="product_id[]" class="form-control form-control-sm product_id" required>
+									<option>select product</option>
+									<?php foreach ($products as $product) : ?>
+										<option value="<?php echo $product->id; ?>">
+											<?php echo ucwords($product->name); ?>
+										</option>
+									<?php endforeach; ?>
+								</select>
 							</td>
 							<td>
-								<input type="number" required="" name="open_stock[]" id="open_stock_1" class="form-control form-control-sm number_only open_stock_1">
+								<select name="gauge_id[]" class="form-control form-control-sm gauge_id" required>
+									<option>select gauge</option>
+									<?php foreach ($gauges as $gauge) : ?>
+										<option value="<?php echo $gauge->id; ?>">
+											<?php echo number_format($gauge->value, 2); ?>
+										</option>
+									<?php endforeach; ?>
+								</select>
 							</td>
 							<td>
-								<input type="number" required="" name="new_stock[]" id="new_stock_1" class="form-control form-control-sm number_only new_stock_1">
+								<input type="text" required name="open_stock[]" class="form-control form-control-sm open_stock actions">
 							</td>
 							<td>
-								<input type="number" required="" name="total_stock[]" id="total_stock_1" class="form-control form-control-sm number_only total_stock_1" readonly>
+								<input type="text" required name="production[]" class="form-control form-control-sm production actions">
 							</td>
 							<td>
-								<input type="number" required="" name="sales_in_ltr[]" id="sales_in_ltr_1" class="form-control form-control-sm number_only sales_in_ltr_1">
+								<input type="text" required name="return_inward[]" class="form-control form-control-sm return_inward actions">
 							</td>
 							<td>
-								<input type="number" required="" name="expected_stock[]" id="expected_stock_1" class="form-control form-control-sm number_only expected_stock_1" readonly>
+								<input type="text" required name="total_stock[]" class="form-control form-control-sm total_stock" readonly>
 							</td>
 							<td>
-								<input type="number" required="" name="actual_stock[]" id="actual_stock_1" class="form-control form-control-sm number_only actual_stock_1">
+								<input type="text" required name="sales[]" class="form-control form-control-sm sales actions">
 							</td>
 							<td>
-								<input type="number" required="" name="over_or_short[]" id="over_or_short_1" class="form-control form-control-sm number_only over_or_short_1" readonly>
+								<input type="text" required name="imported[]" class="form-control form-control-sm imported actions">
 							</td>
 							<td>
-								<input type="number" required="" name="cash_submitted[]" id="cash_submitted_1" class="form-control form-control-sm number_only cash_submitted_1">
+								<input type="text" required name="local[]" class="form-control form-control-sm local actions">
 							</td>
-							<td class="d-none">
-								<input type="number" required="" name="exp_sales_value[]" id="exp_sales_value_1" class="form-control form-control-sm font-weight-bold number_only exp_sales_value_1" readonly>
+							<td>
+								<input type="text" required name="total_sales[]" class="form-control form-control-sm total_sales" readonly>
 							</td>
-
-
-
-							<?php if ($hide == false) : ?>
-								<td class="d-none">
-									<input type="number" required="" name="total_sales[]" id="total_sales_1" class="form-control form-control-sm number_only total_sales_1" readonly>
-								</td>
-								<td class="d-none">
-									<input type="number" required="" name="total_value[]" id="total_value_1" class="form-control form-control-sm number_only total_value_1" readonly>
-								</td>
-								<td class="d-none">
-									<input type="number" required="" name="grand_total[]" id="grand_total_1" class="form-control form-control-sm number_only grand_total_1" readonly>
-								</td>
-							<?php endif; ?>
+							<td>
+								<input type="text" required name="closing_stock[]" class="form-control form-control-sm font-weight-bold closing_stock" readonly>
+							</td>
 
 							<td>
 								<button type="button" class="btn btn-primary d-block m-auto" id="add_row">&plus;</button>
@@ -153,6 +155,21 @@ include(SHARED_PATH . '/admin_header.php');
 						</tr>
 					</tbody>
 				</table>
+
+				<div class="d-flex justify-content-end align-items-center font-weight-bold mb-2">
+					<p class="mr-3">Total Stock:</p>
+					<div>
+						<p class="mr-3" id="grandStock"></p>
+						<input type="hidden" class="form-control form-control-sm" id="grand_stock" name="grand_stock" readonly>
+					</div>
+				</div>
+				<div class="d-flex justify-content-end align-items-center font-weight-bold mb-3">
+					<p class="mr-3">Total Sales:</p>
+					<div>
+						<p class="mr-3" id="grandSale"></p>
+						<input type="hidden" class="form-control form-control-sm" id="grand_sales" name="grand_sales" readonly>
+					</div>
+				</div>
 
 				<div class="d-flex justify-content-end">
 					<button type="submit" class="btn btn-primary mb-3" id="submit_sales">Submit</button>
@@ -172,27 +189,7 @@ include(SHARED_PATH . '/admin_header.php');
 <script type="text/javascript">
 	$(document).ready(function() {
 		var BACK_URL = './'
-		const PET_URL = 'inc/process.php';
-
-
-		$(document).on("change", '.product_id', function(e) {
-			let pId = this.value
-
-			$.ajax({
-				url: PET_URL + '?pId=' + pId + '&get_product',
-				method: "GET",
-				dataType: 'json',
-				success: function(r) {
-					if (r.success == true) {
-						if (r.data != false) {
-							e.target.offsetParent.nextElementSibling.firstElementChild.value = r.data.rate
-						} else {
-							e.target.offsetParent.nextElementSibling.firstElementChild.value = ''
-						}
-					}
-				}
-			})
-		});
+		const FACTORY_URL = 'inc/process.php';
 
 		let count = 1;
 		$(document).on('click', '#add_row', function() {
@@ -201,24 +198,30 @@ include(SHARED_PATH . '/admin_header.php');
 
 			let html_code = '';
 			html_code += '<tr id="row_id_' + count + '">';
-			html_code += '<td><select class="form-control form-control-sm product_id" required="" name="product_id[]"><option>Select</option><?php foreach ($products as $pro) { ?><option value="<?php echo $pro->id; ?>"><?php echo strtoupper($pro->name) . ' (TANK ' . $pro->tank . ')'; ?></option><?php } ?></select></td>';
-			html_code += '<td><input type="number" size="12" class="form-control form-control-sm rate_' + count + '" placeholder="0" readonly></td>';
-			html_code += '<td><input type="number" required="" name="open_stock[]" class="form-control form-control-sm number_only open_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="new_stock[]" class="form-control form-control-sm number_only new_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="total_stock[]" class="form-control form-control-sm number_only total_stock_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="sales_in_ltr[]" class="form-control form-control-sm number_only sales_in_ltr_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="expected_stock[]" class="form-control form-control-sm number_only expected_stock_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="actual_stock[]" class="form-control form-control-sm number_only actual_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="over_or_short[]" class="form-control form-control-sm number_only over_or_short_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="cash_submitted[]" class="form-control form-control-sm number_only cash_submitted_' + count + '"></td>'
+			html_code += '<td><select class="form-control form-control-sm category_id" name="category_id[]" required><option>Select</option><?php foreach ($categories as $cat) { ?><option value="<?php echo $cat->id; ?>"><?php echo ucwords($cat->name); ?></option><?php } ?></select></td>';
 
-			html_code += '<td class="d-none"><input type="number" required="" name="exp_sales_value[]" class="form-control form-control-sm number_only exp_sales_value_' + count + '" readonly></td>'
+			html_code += '<td><select class="form-control form-control-sm product_id" name="product_id[]" required><option>Select</option><?php foreach ($products as $pro) { ?><option value="<?php echo $pro->id; ?>"><?php echo ucwords($pro->name); ?></option><?php } ?></select></td>';
+
+			html_code += '<td><select class="form-control form-control-sm gauge_id" name="gauge_id[]" required><option>Select</option><?php foreach ($gauges as $gauge) { ?><option value="<?php echo $gauge->id; ?>"><?php echo number_format($gauge->value, 2); ?></option><?php } ?></select></td>';
+
+			html_code += '<td><input type="text" required name="open_stock[]" class="form-control form-control-sm open_stock actions"></td>'
+
+			html_code += '<td><input type="text" required name="production[]" class="form-control form-control-sm production actions"></td>'
+			html_code += '<td><input type="text" required name="return_inward[]" class="form-control form-control-sm return_inward actions"></td>'
+			html_code += '<td><input type="text" required name="total_stock[]" class="form-control form-control-sm total_stock" readonly></td>'
+			html_code += '<td><input type="text" required name="sales[]" class="form-control form-control-sm sales actions"></td>'
+			html_code += '<td><input type="text" required name="imported[]" class="form-control form-control-sm imported actions"></td>'
+			html_code += '<td><input type="text" required name="local[]" class="form-control form-control-sm local actions"></td>'
+
+			html_code += '<td><input type="text" required name="total_sales[]" class="form-control form-control-sm total_sales" readonly></td>'
+
+			html_code += '<td><input type="text" required name="closing_stock[]" class="form-control form-control-sm closing_stock" readonly></td>'
 
 			html_code += '<td><button type="button" id="' + count + '" class="btn btn-secondary d-block m-auto remove_row">X</button></td></tr>';
 
-			$('#pet-table').append(html_code);
+			$('#factory-table').append(html_code);
 
-			addSales()
+			addStock()
 		});
 
 		$(document).on('click', '.remove_row', function() {
@@ -234,12 +237,12 @@ include(SHARED_PATH . '/admin_header.php');
 
 		});
 
-		$('#data_sheet_form').on("submit", function(e) {
+		$('#factory_form').on("submit", function(e) {
 			e.preventDefault();
-			$('#submit_sales').attr('disabled', true);
+			// $('#submit_sales').attr('disabled', true);
 
 			$.ajax({
-				url: PET_URL,
+				url: FACTORY_URL,
 				method: "POST",
 				data: new FormData(this),
 				contentType: false,
@@ -258,71 +261,100 @@ include(SHARED_PATH . '/admin_header.php');
 		});
 
 		window.onload = () => {
-			addSales()
+			addStock()
 		}
 
-		const addSales = () => {
-			const totalItem = $('#total_item').val();
+		const addStock = () => {
+			let actions = document.querySelectorAll('.actions')
 
-			for (let i = 1; i <= totalItem; i++) {
-				let rate = $('.rate_' + i)
-				let totalSales = $('.total_sales_' + i)
-				let totalValue = $('.total_value_' + i)
+			actions.forEach(elem => {
+				elem.addEventListener('input', function() {
+					let tRow = $(this).closest('#factory-table tr');
 
-				let cashSubmitted = $('.cash_submitted_' + i)
-				let grandTotal = $('.grand_total_' + i)
+					// ********** STOCK
+					let openStock = parseFloat(tRow.find('.open_stock').val())
+					let newStock = parseFloat(tRow.find('.production').val())
+					let returnInward = parseFloat(tRow.find('.return_inward').val())
 
-				let openStock = $('.open_stock_' + i)
-				let newStock = $('.new_stock_' + i)
-				let totalStock = $('.total_stock_' + i)
+					let resultStock = openStock + newStock - returnInward
 
-				let salesInLtr = $('.sales_in_ltr_' + i)
-				let expectedStock = $('.expected_stock_' + i)
+					parseFloat(tRow.find('.total_stock').val(resultStock))
+					// ********** STOCK END
 
-				let actualStock = $('.actual_stock_' + i)
-				let overOrShort = $('.over_or_short_' + i)
 
-				let expSalesValue = $('.exp_sales_value_' + i)
+					// ********** SALES
+					let sales = parseFloat(tRow.find('.sales').val())
+					let imported = parseFloat(tRow.find('.imported').val())
+					let local = parseFloat(tRow.find('.local').val())
 
-				newStock.on('keyup', function() {
-					let openSumTotal = Number(openStock.val()) + Number(newStock.val())
-					totalStock.val(openSumTotal);
-					console.log(totalStock.val());
+					let resultSales = sales + imported + local
+
+					parseFloat(tRow.find('.total_sales').val(resultSales))
+					// ********** SALES END
+
+					// ********** CLOSING STOCK
+					let closingStock = resultStock - resultSales
+					parseFloat(tRow.find('.closing_stock').val(closingStock))
+					// ********** CLOSING STOCK
+
+					calTotal();
 				})
-
-				salesInLtr.on('keyup', function() {
-					let expectedTotal = Number(totalStock.val()) - Number(salesInLtr.val())
-					expectedStock.val(expectedTotal);
-
-					let expSalesTotal = Number(rate.val()) * Number(salesInLtr.val())
-					expSalesValue.val(expSalesTotal);
-				})
-
-				actualStock.on('keyup', function() {
-					let overOrShortTotal = Number(actualStock.val()) - Number(expectedStock.val())
-					overOrShort.val(overOrShortTotal);
-				})
-
-
-				// ! This will set the initial calculated result on page load. Thank you!
-				let openSumTotal = Number(openStock.val()) + Number(newStock.val())
-				let expectedTotal = Number(totalStock.val()) - Number(salesInLtr.val())
-				let overOrShortTotal = Number(actualStock.val()) - Number(expectedStock.val())
-				let expSalesTotal = Number(rate.val()) * Number(salesInLtr.val())
-
-				totalStock.val(openSumTotal);
-				expectedStock.val(expectedTotal);
-				overOrShort.val(overOrShortTotal);
-				expSalesValue.val(expSalesTotal);
-			}
+			});
 		}
+
+		const calTotal = () => {
+			// ********** STOCK
+			const grandStockTotal = $('#grand_stock')
+			const grandStock = $('#grandStock')
+			let totalStock = 0;
+			let stockAmount = $('.total_stock')
+
+			stockAmount.each((i, el) => {
+				if (el.value == '') return;
+				totalStock += parseFloat(el.value);
+			})
+			$('#grandStock').text(numberWithCommas(totalStock));
+			grandStockTotal.val(totalStock);
+			// ********** STOCK END
+
+
+			// ********** SALES
+			const grandSalesTotal = $('#grand_sales')
+			const grandSale = $('#grandSale')
+			let totalSales = 0;
+			let salesAmount = $('.total_sales')
+
+			salesAmount.each((i, el) => {
+				if (el.value == '') return;
+				totalSales += parseFloat(el.value);
+			})
+			$('#grandSale').text(numberWithCommas(totalSales));
+			grandSalesTotal.val(totalSales);
+			// ********** STOCK
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		// ***** Close Of Business CronJob *****
 		const COBCronJob = setInterval(() => {
 			let date = new Date()
 			let hr = date.getHours()
 			if (hr >= 23 || hr <= 6) {
-				$('#data_sheet_form :input').prop('disabled', true)
+				$('#factory_form :input').prop('disabled', true)
 				$('.out-of-service').removeClass('d-none');
 			}
 		}, 250)
@@ -335,7 +367,7 @@ include(SHARED_PATH . '/admin_header.php');
 			let date = new Date()
 			let hr = date.getHours()
 			if (hr >= 7) {
-				$('#data_sheet_form :input').prop('disabled', false)
+				$('#factory_form :input').prop('disabled', false)
 				// $('.out-of-service').removeClass('d-none'); //! Comment this out!
 			}
 		}, 250)

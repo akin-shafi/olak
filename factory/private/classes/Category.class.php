@@ -1,7 +1,7 @@
 <?php
-class Product extends DatabaseObject
+class Category extends DatabaseObject
 {
-  protected static $table_name = "products";
+  protected static $table_name = "categories";
   protected static $db_columns = ['id', 'name', 'created_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
@@ -27,13 +27,13 @@ class Product extends DatabaseObject
     $this->errors = [];
 
     if (is_blank($this->name)) {
-      $this->errors[] = "Product name is required.";
+      $this->errors[] = "Category name is required.";
     }
 
     return $this->errors;
   }
 
-  static public function find_all_products()
+  static public function find_all_categories()
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";

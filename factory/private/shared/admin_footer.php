@@ -138,6 +138,20 @@
     <!-- Main Js Required -->
     <script src="<?php echo url_for('js/main.js') ?>"></script>
 
+    <script>
+      $('.dataTable').DataTable({
+        'iDisplayLength': 10,
+        "language": {
+          "lengthMenu": "Display _MENU_ Records Per Page",
+          "info": "Showing Page _PAGE_ of _PAGES_",
+        }
+      });
+
+      function numberWithCommas(params) {
+        return params.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+    </script>
+
     </body>
 
     </html>

@@ -3,15 +3,15 @@
 if (is_get_request()) {
   if (isset($_GET['filter'])) :
     $branchId = $_GET['branch'];
-    $dataSheets = DataSheet::get_sheets($branchId);
+    $dataSheets = StockPhaseOne::get_sheets($branchId);
 
 
     $metricTopProductName = [];
     $metricTopProductValue = [];
-    $topSelling = DataSheet::get_top_selling_product($branchId);
+    $topSelling = StockPhaseOne::get_top_selling_product($branchId);
     foreach ($topSelling as $value) {
       array_push($metricTopProductName, $value->product_name);
-      array_push($metricTopProductValue, $value->sales_in_ltr);
+      array_push($metricTopProductValue, $value->total_sales);
     }
     $impLabel = implode('","',  $metricTopProductName);
     $impSeries = implode(',',  $metricTopProductValue);
@@ -30,11 +30,11 @@ if (is_get_request()) {
                 <tr class="bg-primary text-white ">
                   <th>SN</th>
                   <th>Product (Tank)</th>
-                  <th>In Stock (LTR)</th>
-                  <th>Sales (LTR)</th>
-                  <th>Expected Stock (LTR)</th>
-                  <th>Actual Stock (LTR)</th>
-                  <th>Over/Short (LTR)</th>
+                  <th>In Stock</th>
+                  <th>Sales</th>
+                  <th>Expected Stock</th>
+                  <th>Actual Stock</th>
+                  <th>Over/Short</th>
                   <th>Expected Sales (<?php echo $currency; ?>)</th>
                   <th>Cash Remitted (<?php echo $currency; ?>)</th>
                   <th>Over/Short (<?php echo $currency; ?>)</th>
@@ -52,7 +52,7 @@ if (is_get_request()) {
                     <td><?php echo $sn++; ?></td>
                     <td><?php echo ucwords($product->name) . ' (' . $product->tank . ')'; ?></td>
                     <td><?php echo number_format($data->total_stock); ?></td>
-                    <td><?php echo number_format($data->sales_in_ltr); ?></td>
+                    <td><?php echo number_format($data->total_sales); ?></td>
                     <td><?php echo number_format($data->expected_stock); ?></td>
                     <td><?php echo number_format($data->actual_stock); ?></td>
                     <td>

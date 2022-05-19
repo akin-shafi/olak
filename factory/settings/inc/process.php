@@ -228,6 +228,135 @@ if (is_post_request()) {
 
 
 
+    // *************** PRODUCTS
+    if (isset($_POST['new_product'])) {
+        $args = $_POST['product'];
+        $args['created_by'] = $loggedInAdmin->id;
+
+        $product = new Product($args);
+        $product->save();
+
+        if ($product == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Product created successfully!']));
+        else :
+            exit(json_encode(['success' => false, 'msg' => display_errors($product->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_product'])) {
+        $pId = $_POST['pId'];
+        $args = $_POST['product'];
+        $args['updated_at'] = date('Y-m-d H:i:s');
+
+        $product = Product::find_by_id($pId);
+
+        $product->merge_attributes($args);
+        $product->save();
+
+        if ($product == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Product updated successfully!']));
+        endif;
+    }
+
+    if (isset($_POST['delete_product'])) {
+        $pId = $_POST['pId'];
+        $product = Product::find_by_id($pId);
+        $product::deleted($pId);
+
+        if ($product == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Product deleted successfully!']));
+        endif;
+    }
+
+
+
+
+    // *************** GAUGES
+    if (isset($_POST['new_gauge'])) {
+        $args = $_POST['gauge'];
+        $args['created_by'] = $loggedInAdmin->id;
+
+        $gauge = new Gauge($args);
+        $gauge->save();
+
+        if ($gauge == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Gauge created successfully!']));
+        else :
+            exit(json_encode(['success' => false, 'msg' => display_errors($gauge->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_gauge'])) {
+        $gId = $_POST['gId'];
+        $args = $_POST['gauge'];
+        $args['updated_at'] = date('Y-m-d H:i:s');
+
+        $gauge = Gauge::find_by_id($gId);
+
+        $gauge->merge_attributes($args);
+        $gauge->save();
+
+        if ($gauge == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Gauge updated successfully!']));
+        endif;
+    }
+
+    if (isset($_POST['delete_gauge'])) {
+        $gId = $_POST['gId'];
+        $gauge = Gauge::find_by_id($gId);
+        $gauge::deleted($gId);
+
+        if ($gauge == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Gauge deleted successfully!']));
+        endif;
+    }
+
+
+
+
+    // *************** CATEGORIES
+    if (isset($_POST['new_category'])) {
+        $args = $_POST['category'];
+        $args['created_by'] = $loggedInAdmin->id;
+
+        $category = new Category($args);
+        $category->save();
+
+        if ($category == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Category created successfully!']));
+        else :
+            exit(json_encode(['success' => false, 'msg' => display_errors($category->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_category'])) {
+        $cId = $_POST['cId'];
+        $args = $_POST['category'];
+        $args['updated_at'] = date('Y-m-d H:i:s');
+
+        $category = Category::find_by_id($cId);
+
+        $category->merge_attributes($args);
+        $category->save();
+
+        if ($category == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Category updated successfully!']));
+        endif;
+    }
+
+    if (isset($_POST['delete_category'])) {
+        $cId = $_POST['cId'];
+        $category = Category::find_by_id($cId);
+        $category::deleted($cId);
+
+        if ($category == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Category deleted successfully!']));
+        endif;
+    }
+
+
+
+
     // *************** ACCESS CONTROL
     if (isset($_POST['new_access'])) {
         $args = $_POST['access'];
@@ -273,16 +402,6 @@ if (is_post_request()) {
             exit(json_encode(['success' => true, 'msg' => 'Access control updated successfully!']));
         endif;
     }
-
-    // if (isset($_POST['delete_access'])) {
-    //     $aId = $_POST['aId'];
-    //     $access = AccessControl::find_by_id($aId);
-    //     $access::deleted($aId);
-
-    //     if ($access == true) :
-    //         exit(json_encode(['success' => true, 'msg' => 'Access control deleted successfully!']));
-    //     endif;
-    // }
 }
 
 
@@ -303,6 +422,24 @@ if (is_get_request()) {
         $uId = $_GET['uId'];
         $user = Admin::find_by_id($uId);
         exit(json_encode(['success' => true, 'data' => $user]));
+    endif;
+
+    if (isset($_GET['get_category'])) :
+        $cId = $_GET['cId'];
+        $category = Category::find_by_id($cId);
+        exit(json_encode(['success' => true, 'data' => $category]));
+    endif;
+
+    if (isset($_GET['get_product'])) :
+        $pId = $_GET['pId'];
+        $product = Product::find_by_id($pId);
+        exit(json_encode(['success' => true, 'data' => $product]));
+    endif;
+
+    if (isset($_GET['get_gauge'])) :
+        $gId = $_GET['gId'];
+        $gauge = Gauge::find_by_id($gId);
+        exit(json_encode(['success' => true, 'data' => $gauge]));
     endif;
 
     if (isset($_GET['get_access'])) :
