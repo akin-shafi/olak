@@ -1,3 +1,3 @@
 <?php 
-   header("Location: account-splash.php");
+   header("Location: crm-splash.php");
 die();

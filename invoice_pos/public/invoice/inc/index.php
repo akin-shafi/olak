@@ -1,6 +1,6 @@
 <?php require_once('../../../private/initialize.php');
 
-if (is_post_request()) { 
+if (is_post_request()) {
 
 	if (isset($_POST['new_invoice'])) {
 		$args  = $_POST['billing'] ?? [];
@@ -19,9 +19,9 @@ if (is_post_request()) {
 			];
 			$billing->merge_attributes($data);
 			$result_set = $billing->save();
+
 			// $result_set = true;
 			if ($result_set == true) {
-				// $_POST['transid'] = $new_id; 
 				$service_type  = $_POST['service_type'];
 				$quantity     = $_POST['quantity'];
 				$unit_cost    = $_POST['unit_cost'];
@@ -44,8 +44,9 @@ if (is_post_request()) {
 				if ($last_result == true) {
 					exit(json_encode(['success' => true, 'msg' => 'Invoice Generated Successfully', 'invoice_no' => $invoice_no]));
 				}
+			} else {
+				exit(json_encode(['success' => false, 'msg' => $billing->errors]));
 			}
-			// redirect_to(url_for('invoice/all_invoices.php'));
 		}
 	}
 

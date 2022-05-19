@@ -18,7 +18,7 @@ class Branch extends DatabaseObject
 
   public function __construct($args = [])
   {
-   
+
     $this->company_id     = $args['company_id'] ?? '';
     $this->branch_name    = $args['branch_name'] ?? '';
     $this->address        = $args['address'] ?? '';
@@ -65,12 +65,11 @@ class Branch extends DatabaseObject
     }
   }
 
-  public static function find_by_company_name($company_name)
+  public static function find_by_company_id($cId)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE company_name='" . self::$database->escape_string($company_name) . "'";
+    $sql .= "WHERE company_id='" . self::$database->escape_string($cId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    $obj_array = static::find_by_sql($sql);
-    return $obj_array;
+    return static::find_by_sql($sql);
   }
 }

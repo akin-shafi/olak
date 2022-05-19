@@ -1,6 +1,5 @@
-<?php if (!isset($page_title)) {
-  $page_title = 'User Area';
-} ?>
+<?php if (!isset($page_title)) $page_title = 'User Area'; ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -26,7 +25,6 @@
   <link rel="stylesheet" href="<?php echo url_for('css/bootstrap-datetimepicker.min.css'); ?>">
 
   <link rel="stylesheet" href="<?php echo url_for('css/ajax-loader.css'); ?>">
-
 
   <link rel="stylesheet" href="<?php echo url_for('vendor/daterange/daterange.css'); ?>" />
 
@@ -68,13 +66,10 @@
 
   <div class="container">
 
-
-
-
     <header class="header">
       <div class="row gutters">
         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6">
-          <a href="<?php echo url_for('dashboard.php') ?>" class="logo">InvoicePOS</a>
+          <a href="<?php echo url_for('/dashboard') ?>" class="logo">InvoicePOS</a>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-6 col-sm-6 col-6">
           <ul class="header-actions">
@@ -152,8 +147,6 @@
         </div>
       </div>
     </header>
-
-
 
     <nav class="navbar navbar-expand-lg custom-navbar">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#retailAdminNavbar" aria-controls="retailAdminNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -329,7 +322,6 @@
           <?php //} 
           ?>
 
-
           <li class="nav-item d-none">
             <a class="nav-link <?php echo ($page_title == "Help") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/help.php') ?>">
               <i class="feather-info nav-icon"></i>
@@ -341,9 +333,7 @@
       </div>
     </nav>
 
-
-
-    <div class="search-container ">
+    <!-- <div class="search-container ">
       <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7 col-sm-8 col-12">
 
@@ -354,9 +344,4 @@
 
         </div>
       </div>
-    </div>
-
-
-    <!-- *************
-        ************ Header section end *************
-        ************* -->
+    </div> -->

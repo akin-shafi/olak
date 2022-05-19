@@ -55,7 +55,8 @@
  </script>
 
  <script src="<?php echo url_for('js/sweetalert2.all.min.js') ?>"></script>
- <script src="<?php echo url_for('js/sweet.js') ?>"></script>
+ <!-- <script src="<?php //echo url_for('js/sweet.js') 
+                     ?>"></script> -->
  <script type="text/javascript">
     function successAlert(msg) {
        Swal.fire({
@@ -90,7 +91,7 @@
           title: msg,
           type: "error",
           showCloseButton: !1,
-          timer: 1500,
+          timer: 3000,
           showCancelButton: !1,
           confirmButtonClass: "btn btn-primary",
           buttonsStyling: !1,
