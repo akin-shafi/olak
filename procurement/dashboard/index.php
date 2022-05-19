@@ -14,7 +14,7 @@ $expenses = Request::find_by_expenses();
 $weekly = Request::get_weekly_expenses();
 $monthly = Request::get_monthly_expenses();
 
-$weeklyExp = [20, 25, 55];
+$weeklyExp = [];
 $monthlyExp = [];
 $months = [];
 
@@ -41,9 +41,9 @@ $monthCat = '"' . $monthlyCategory . '"';
 $seriesW = $weekSeries;
 $seriesM = $monthlySeries;
 
-// pre_r($monthlySeries);
-// pre_r($monthCat);
+// pre_r($weekly);
 // pre_r($weeklyExp);
+// pre_r($seriesM);
 // pre_r($seriesW);
 
 ?>
@@ -149,8 +149,8 @@ $seriesM = $monthlySeries;
           <div class="card-body">
             <div class="d-flex align-items-top justify-content-between">
               <div class="">
-                <p class="font-weight-bold mb-0">Weekly Expenses (<?php echo date('Y') ?>)</p>
-                <h5 class="text-secondary"><?php echo $currency; ?> <?php echo number_format($expenses->grand_total) ?></h5>
+                <p class="font-weight-bold mb-0">Weekly Expenses (<?php echo date('M, Y') ?>)</p>
+                <h5 class="text-secondary"><?php echo $currency; ?> <?php echo number_format(array_sum($weeklyExp)) ?></h5>
               </div>
             </div>
             <div id="weeklyExpenses" class="layout-chart-2"></div>
@@ -392,9 +392,7 @@ $seriesM = $monthlySeries;
           },
         },
         xaxis: {
-          categories: [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-          ],
+          categories: ["Week 1", "Week 2", "Week 3", "Week 4"],
         },
       };
       const lineChart = new ApexCharts(

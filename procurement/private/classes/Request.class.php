@@ -110,9 +110,12 @@ class Request extends DatabaseObject
 
    public static function get_weekly_expenses()
    {
-      $sql = "SELECT SUM(grand_total) AS grand_total, CONCAT ( STR_TO_DATE(CONCAT(YEARWEEK(created_at, 2), ' Sunday'), '%X%V %W'), ',', STR_TO_DATE(CONCAT(YEARWEEK(created_at, 2), ' Sunday'), '%X%V %W') + INTERVAL 6 DAY ) AS week FROM " . static::$table_name . " ";
+      $date = date('Y-m');
+
+      $sql = "SELECT grand_total, CONCAT ( STR_TO_DATE(CONCAT(YEARWEEK(created_at, 2), ' Sunday'), '%X%V %W'), ',', STR_TO_DATE(CONCAT(YEARWEEK(created_at, 2), ' Sunday'), '%X%V %W') + INTERVAL 6 DAY ) AS week FROM " . static::$table_name . " ";
       $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-      $sql .= "GROUP BY YEARWEEK(created_at, 2) ";
+      $sql .= "AND created_at LIKE '%" . self::$database->escape_string($date) . "%'";
+      $sql .= " GROUP BY YEARWEEK(created_at, 2) ";
       $sql .= "ORDER BY YEARWEEK(created_at, 2) ";
 
       return static::find_by_sql($sql);

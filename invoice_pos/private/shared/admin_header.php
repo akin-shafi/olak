@@ -69,7 +69,7 @@
     <header class="header">
       <div class="row gutters">
         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6">
-          <a href="<?php echo url_for('dashboard.php') ?>" class="logo">InvoicePOS</a>
+          <a href="<?php echo url_for('/dashboard') ?>" class="logo">InvoicePOS</a>
         </div>
         <div class="col-xl-8 col-lg-8 col-md-6 col-sm-6 col-6">
           <ul class="header-actions">

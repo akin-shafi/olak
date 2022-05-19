@@ -100,7 +100,7 @@
 							</a>
 						</div>
 						<div class="col-md-6">
-							<a href="crm/index.php?id=3">
+							<a href="crm/index.php">
 								<div class="card bg-custom-blue anchor animate__animated animate__fadeInUp animate__delay-1.5s">
 									<div class="card-body p-3">
 										<h4 class="text-center text-light mb-0">CRM</h4>

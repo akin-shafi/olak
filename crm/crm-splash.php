@@ -84,7 +84,7 @@
     <main class="container grid-container">
 
       <div class="w-50">
-        <img src="../images/accounting-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
+        <img src="../images/crm-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
       </div>
 
       <a href="./login.php" class="btn btn-lg bg-custom-blue text-light anchor">
