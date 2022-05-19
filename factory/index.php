@@ -1,3 +1,3 @@
 <?php
-header("Location: factory-splash.php");
+header("Location: login.php");
 die();

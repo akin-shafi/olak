@@ -1,16 +1,17 @@
 <?php
 require_once('private/initialize.php');
+
+
 $errors = [];
 $email = '';
 $password = '';
+
 if (is_post_request()) {
-   // $clients = $_POST['clients'] ?? '';
    $login = $_POST['login'] ?? '';
 
    $email = $login['email'] ?? '';
    $password = $login['password'] ?? '';
 
-   // Validations
    if (is_blank($email)) {
       $errors[] = "Email cannot be blank.";
    }
@@ -18,118 +19,100 @@ if (is_post_request()) {
       $errors[] = "Password cannot be blank.";
    }
 
-
-   // if there were no errors, try to login
    if (empty($errors)) {
       $admin = Admin::find_by_email($email);
 
-
-      // test if admin found and password is correct
       if ($admin != false && $admin->verify_password($password)) {
-         // Logged out Customer and riders before login in Admin
-         $session->logout(true); //for admin logout
-         $session->logout('', true); //for Riders logout
+         $session->logout(true);
+         $session->logout('', true);
 
-         // Mark admin as logged in
          $session->login($admin);
 
-         //for logging actions in the log file
-         log_action('Admin Login', "{$admin->full_name()} Logged in.", "login");
-         redirect_to(url_for('/dashboard/hr-dashboard.php'));
+         log_action('Admin Login', "{$admin->full_name} Logged in.", "login");
+         redirect_to(url_for('/dashboard/'));
       } else {
-         // email not found or password does not match
          $errors[] = "Log in not successful.";
       }
-      // end
    }
 } else {
    $admin = new Admin;
 }
 ?>
-<!DOCTYPE html>
-<html>
+
+<!doctype html>
+<html lang="en">
 
 <head>
-   <meta charset="utf-8" />
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>Welcome | IMS </title>
-   <link rel="stylesheet" type="text/css" href="bootstrap.css">
-   <link rel="stylesheet" type="text/css" href="<?php echo url_for('../style.css') ?>">
-   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-   <link rel="shortcut icon" type="image/x-icon" href="../favicon.png">
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;500&display=swap" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;500&family=Poppins:wght@200;300;500&display=swap" rel="stylesheet">
+   <meta name="description" content="Responsive Bootstrap4 Dashboard Template">
+   <meta name="author" content="ParkerThemes">
+   <link rel="shortcut icon" href="png/fav.png" />
+
+   <title>Wafi Admin Template - Login</title>
+
+   <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+   <link rel="stylesheet" href="css/main.css" />
 
 </head>
 
-<body>
-   <style>
-      .grid-container {
-         height: auto;
-      }
-   </style>
-   <div class="container shadow olak bg-white mt-5">
-      <header class="welcome pt-3">
-         <div class="welcome-box">
-            <img src="../images/blue-top-right.png" title="Welcome" alt="Welcome">
-         </div>
-      </header>
+<body class="authentication">
 
-      <main class="container grid-container">
-         <div class="row">
+   <div class="container">
 
-            <aside class="col-md-6 grid aside-left">
-               <div class="login-box mt-3">
-                  <div class="login-header mb-5 text-center">
-                     <h2 class="custom-blue">Login to Your Account</h1>
-                        <h5 class="custom-blue">Your Own Digital HR Tool</h5>
-                  </div>
+      <form method="post" action="">>
+         <div class="row justify-content-md-center">
+            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+               <div class="login-screen">
+                  <div class="login-box">
+                     <a href="#" class="login-logo">
+                        <!-- <img src="png/logo-dark.png" alt="Wafi Admin Dashboard" /> -->
+                        Olak Pet.
+                     </a>
+                     <h5>Welcome back,<br />Please Login to your Account.</h5>
 
-                  <div class="login-body">
-                     <form id="loginform" method="post">
+                     <p>
+                        <?php echo display_session_message(); ?>
+                     </p>
+                     <p>
                         <?php if ($errors) : ?>
                            <?php echo display_errors($errors); ?>
                         <?php endif; ?>
-
-                        <div class="mb-3">
-                           <label for="email" class="form-label custom-blue">Email Address</label>
-                           <input type="email" class="form-control" name="login[email]" id="email" placeholder="Enter your email">
-                        </div>
-                        <div class="mb-2">
-                           <label for="password" class="form-label custom-blue">Password</label>
-                           <input type="password" class="form-control" name="login[password]" id="password" placeholder="Enter your password">
-                        </div>
-                        <a href="#" class="custom-blue float-end text-decoration-none">Forgot password?</a>
-                        <button type="submit" class="btn bg-custom-blue text-light my-4 w-100" id="submit">Login to your account</button>
-                     </form>
-
-                     <div class="text-center">
-                        <a href="../" class="text-decoration-none">&leftarrow; Back</a>
+                     </p>
+                     <div class="form-group">
+                        <input type="text" name="login[email]" class="form-control" placeholder="Email Address">
                      </div>
+                     <div class="form-group">
+                        <input type="password" name="login[password]" class="form-control" placeholder="Password" />
+                     </div>
+                     <div class="actions mb-4 ">
+                        <div class="custom-control custom-checkbox d-none">
+                           <input type="checkbox" class="custom-control-input" id="remember_pwd">
+                           <label class="custom-control-label" for="remember_pwd">Remember me</label>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Login" />
+                     </div>
+                     <!-- <div class="forgot-pwd">
+                        <a class="link" href="forgot-pwd.php">Forgot password?</a>
+                     </div> -->
+                     <hr>
+                     <!-- <div class="actions align-left">
+                        <span class="additional-link">Don't have an account?</span>
+                        <a href="<?php echo url_for('signup.php') ?>" class="btn btn-dark">Create Account</a>
+                     </div> -->
+                     <a href="../">&leftarrow; Back</a>
                   </div>
                </div>
-
-
-            </aside>
-
-            <aside class="col-md-6 grid aside-right">
-               <img src="../images/hr-splash.png" class="hidden-xs img-fluid" title="banner balance" alt="banner balance">
-            </aside>
+            </div>
          </div>
-      </main>
-      <div class="d-flex justify-content-end align-items-center pb-4">
-         <a href="#" class="custom-blue text-decoration-none">Developed by <strong>Sandsify Systems</strong></a>
-      </div>
+      </form>
+
    </div>
 
-
-   <script src="assets/js/jquery-3.6.0.min.js"></script>
-   <script src="assets/js/bootstrap.bundle.min.js"></script>
-   <!-- <script type="text/javascript" src="pwa.js"></script> -->
 </body>
+
+<!-- Mirrored from bootstrap.gallery/wafi-admin/dashboard-v2/topbar/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 09 Mar 2022 05:44:21 GMT -->
 
 </html>
