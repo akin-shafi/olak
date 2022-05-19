@@ -1,0 +1,92 @@
+<IfModule mod_rewrite.c>
+ 
+    RewriteEngine on
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+ErrorDocument 404 404.php
+
+RewriteRule    ^/?$ index.php?  [NC,L]
+
+#RewriteRule    ^dash/?$ dash.php?  [NC,L]
+RewriteRule    ^dashboard/?$ dashboard/index.php?  [NC,L]
+RewriteRule    ^pos/?$ pos/index.php?  [NC,L]
+RewriteRule    ^pos/open_register?$ pos/open_register.php?  [NC,L]
+RewriteRule    ^pos/close_register?$ pos/close_register.php?  [NC,L]
+RewriteRule    ^reports/today_sale?$ reports/today_sale.php?  [NC,L]
+RewriteRule    ^pos/thanks?$ pos/thanks.php?  [NC,L]
+RewriteRule    ^pos/view_bill?$ pos/view_bill.php?  [NC,L]
+RewriteRule    ^pos/draft?$ pos/draft.php?  [NC,L]
+
+RewriteRule    ^products/?$ products/index.php?  [NC,L]
+RewriteRule    ^products/add?$ products/add.php?  [NC,L]
+RewriteRule    ^products/print_barcodes?$ products/print_barcodes.php?  [NC,L]
+RewriteRule    ^stock/?$ stock/index.php?  [NC,L]
+RewriteRule    ^stock/list?$ stock/list.php?  [NC,L] 
+RewriteRule    ^stock/exportData.php?$ stock/exportData.php?  [NC,L]
+#RewriteRule    ^stock/exportItemData.php?$ stock/exportItemData.php?  [NC,L]
+
+RewriteRule    ^goods/?$ goods/index.php?  [NC,L]
+RewriteRule    ^goods/add?$ goods/add.php?  [NC,L]
+
+RewriteRule    ^warehouse/?$ warehouse/index.php?  [NC,L]
+RewriteRule    ^warehouse/pod?$ warehouse/pod.php?  [NC,L]
+RewriteRule    ^warehouse/category/?$ warehouse/category/index.php?  [NC,L]
+RewriteRule    ^warehouse/report/?$ warehouse/report/index.php?  [NC,L]
+RewriteRule    ^warehouse/report/today?$ warehouse/report/today.php?  [NC,L]
+
+RewriteRule    ^sales/?$ sales/index.php?  [NC,L]
+RewriteRule    ^sales/opened?$ sales/opened.php?  [NC,L]
+RewriteRule    ^return/?$ return/index.php?  [NC,L]
+RewriteRule    ^pricing/?$ pricing/index.php?  [NC,L]
+
+RewriteRule    ^purchases/?$ purchases/list_purchases.php?  [NC,L]
+RewriteRule    ^purchases/add?$ purchases/add_purchases.php?  [NC,L]
+
+RewriteRule    ^shift/?$ shift/index.php?  [NC,L]
+RewriteRule    ^shift/?$ shift/schedule.php?  [NC,L]
+
+
+RewriteRule    ^expenses/?$ purchases/list_expenses.php?  [NC,L]
+RewriteRule    ^expenses/add?$ purchases/add_expenses.php?  [NC,L]
+
+RewriteRule    ^users/?$ users/index.php?  [NC,L]
+RewriteRule    ^users/edit?$ users/edit.php?  [NC,L]
+RewriteRule    ^users/add?$ users/add.php?  [NC,L]
+
+RewriteRule    ^customers/?$ customers/index.php?  [NC,L]
+RewriteRule    ^customers/add?$ customers/add.php?  [NC,L]
+
+RewriteRule    ^categories/?$ categories/index.php?  [NC,L]
+RewriteRule    ^categories/add?$ categories/add.php?  [NC,L]
+
+RewriteRule    ^suppliers/?$ suppliers/index.php?  [NC,L]
+RewriteRule    ^suppliers/add?$ suppliers/add.php?  [NC,L]
+
+RewriteRule    ^inspection/?$ inspection/index.php?  [NC,L]
+RewriteRule    ^inspection/all_scanned?$ inspection/all_scanned.php?  [NC,L]
+
+
+RewriteRule    ^pos/?$ pos/index.php?  [NC,L]
+RewriteRule    ^settings/?$ settings/index.php?  [NC,L]
+RewriteRule    ^settings/stores?$ settings/stores.php?  [NC,L]
+RewriteRule    ^settings/add_store?$ settings/add_store.php?  [NC,L]
+RewriteRule    ^settings/store/select_store?$ settings/store/select_store.php?  [NC,L]
+RewriteRule    ^settings/access?$ settings/access_control.php?  [NC,L]
+
+
+RewriteRule    ^reports/daily_sales?$ reports/daily_sales.php?  [NC,L]
+RewriteRule    ^reports/registers?$ reports/registers.php?  [NC,L]
+RewriteRule    ^reports/ledger?$ reports/ledger.php?  [NC,L]
+
+RewriteRule    ^gift_card/?$ gift_card/index.php?  [NC,L]
+RewriteRule    ^menu/?$ menu/index.php?  [NC,L]
+
+ 
+
+RewriteRule    ^logout/?$ logout.php  [NC,L] 
+RewriteRule    ^login/?$ login.php  [NC,L] 
+RewriteRule ^page([0-9]+)$ index.php?page=$1 [NC,L]
+RewriteRule ^([a-zA-Z0-9]+)$ index.php?page=$1
+RewriteRule ^([a-zA-Z0-9]+)/$ index.php?page=$1
+     
+</IfModule>
