@@ -65,7 +65,7 @@ class StockPhaseOne extends DatabaseObject
 
   public static function find_by_metrics()
   {
-    $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(total_sales) AS inflow  FROM " . static::$table_name . " ";
+    $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(total_production) AS total_production, SUM(total_sales) AS total_sales  FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "GROUP BY year(created_at), month(created_at) ";
     $sql .= "ORDER BY year(created_at), month(created_at) ";
@@ -90,13 +90,14 @@ class StockPhaseOne extends DatabaseObject
   {
     $date = date('Y');
 
-    $sql = "SELECT product_id, SUM(total_production) AS total_production, SUM(total_sales) AS total_sales, SUM(return_inward) AS return_inward FROM " . static::$table_name . " ";
+    $sql = "SELECT *, SUM(total_production) AS total_production, SUM(total_sales) AS total_sales, SUM(return_inward) AS return_inward, SUM(closing_stock) AS closing_stock FROM " . static::$table_name . " ";
 
     $sql .= "WHERE created_at LIKE '%" . self::$database->escape_string($date) . "%'";
     $sql .= " AND branch_id='" . self::$database->escape_string($bId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
     $sql .= "GROUP BY product_id ";
+
     return static::find_by_sql($sql);
   }
 
@@ -104,9 +105,8 @@ class StockPhaseOne extends DatabaseObject
   {
     $date = date('Y');
 
-    $sql = "SELECT SUM(ph.total_sales) AS total_sales, p.name AS product_name FROM " . static::$table_name . " AS ph ";
+    $sql = "SELECT SUM(ph.total_production) AS total_production, SUM(ph.total_sales) AS total_sales, p.name AS product_name FROM " . static::$table_name . " AS ph ";
     $sql .= "JOIN products AS p ON ph.product_id = p.id ";
-
 
     $sql .= "WHERE ph.created_at LIKE '%" . self::$database->escape_string($date) . "%'";
     $sql .= " AND ph.branch_id='" . self::$database->escape_string($bId) . "'";

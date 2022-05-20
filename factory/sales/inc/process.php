@@ -52,7 +52,7 @@ if (is_post_request()) {
         $stockPhase = StockPhaseOne::find_by_category_id($args['catId']);
 
         for ($i = 0; $i < count($stockPhase); $i++) {
-            $editStock = StockPhaseOne::find_by_product_id($stockPhase[$i]->product_id);
+            $editStock = StockPhaseOne::find_by_id($stockPhase[$i]->id);
 
             $data = [
                 'product_id'        => $args['product_id'][$i],
@@ -134,8 +134,10 @@ if (is_get_request()) {
                 <tr class="text-center">
                     <th rowspan="2"><?php echo $dateFrom . ' - ' . $dateTo ?></th>
                     <?php foreach ($groupByCategory as $data) :
-                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name); ?>
-                        <th colspan="6" style="border:1px solid <?php echo $categoryName ?>; font-size:18px">
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
+                    ?>
+                        <th colspan="6" style="border:1px solid <?php echo $color ?>; font-size:18px">
                             <?php echo strtoupper($categoryName) ?><br>
 
                             <div class="btn-group">
@@ -149,8 +151,10 @@ if (is_get_request()) {
                 <tr class="text-center border">
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
-                        $productName = Product::find_by_id($data->product_id)->name; ?>
-                        <th style="border:1px solid <?php echo $categoryName ?>;font-size: 12px;">
+                        $productName = Product::find_by_id($data->product_id)->name;
+                        $color = str_merger($categoryName) ?? $categoryName;
+                    ?>
+                        <th style="border:1px solid <?php echo $color ?>;font-size: 12px;">
                             <?php echo strtoupper($productName) ?></th>
                     <?php endforeach; ?>
                 </tr>
@@ -160,71 +164,89 @@ if (is_get_request()) {
                     <td class="font-weight-bold text-uppercase text-format">Opening Stock</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->open_stock, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;">
+                            <?php echo number_format($data->open_stock, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
                     <td class="font-weight-bold text-uppercase text-format">New Stock</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->production, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;">
+                            <?php echo number_format($data->production, 2); ?></td>
                     <?php endforeach; ?>
                 <tr>
                     <td class="font-weight-bold text-uppercase text-format">Return Inward</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->return_inward, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;">
+                            <?php echo number_format($data->return_inward, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
                     <td class="font-weight-bold text-uppercase text-format">Total Stock</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;font-weight:bold"><?php echo number_format($data->total_production, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;font-weight:bold">
+                            <?php echo number_format($data->total_production, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
                     <td class="font-weight-bold text-uppercase text-format">Sales</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->sales, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;">
+                            <?php echo number_format($data->sales, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
                     <td class="font-weight-bold text-uppercase text-format">Imported</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->imported, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;">
+                            <?php echo number_format($data->imported, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
                     <td class="font-weight-bold text-uppercase text-format">Local</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->local, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;">
+                            <?php echo number_format($data->local, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
                     <td class="font-weight-bold text-uppercase text-format">Total Sales</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;font-weight:bold"><?php echo number_format($data->total_sales, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;font-weight:bold">
+                            <?php echo number_format($data->total_sales, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
                     <td class="font-weight-bold text-uppercase text-format">Closing Stock</td>
                     <?php foreach ($fullGroup as $data) :
                         $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                        $color = str_merger($categoryName) ?? $categoryName;
                     ?>
-                        <td style="border:1px solid <?php echo $categoryName ?>;font-weight:bold"><?php echo number_format($data->closing_stock, 2); ?></td>
+                        <td style="border:1px solid <?php echo $color ?>;font-weight:bold">
+                            <?php echo number_format($data->closing_stock, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
             </tbody>

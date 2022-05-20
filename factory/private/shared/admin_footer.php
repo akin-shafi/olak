@@ -148,7 +148,8 @@
       });
 
       function numberWithCommas(params) {
-        return params.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        let to2dp = +(Math.round(params + "e+2") + "e-2")
+        return to2dp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
     </script>
 

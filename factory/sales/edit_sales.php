@@ -20,7 +20,6 @@ $branches = Branch::find_all_branch(['company_id' => $company->id]);
 
 include(SHARED_PATH . '/admin_header.php');
 
-
 ?>
 <style type="text/css">
 	th {
@@ -192,7 +191,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 		$('#edit_factory_form').on("submit", function(e) {
 			e.preventDefault();
-			$('#submit_sales').attr('disabled', true);
+			// $('#submit_sales').attr('disabled', true);
 
 			let formData = new FormData(this);
 
@@ -334,7 +333,7 @@ include(SHARED_PATH . '/admin_header.php');
 			let date = new Date()
 			let hr = date.getHours()
 			if (hr >= 23 || hr <= 6) {
-				$('#edit_factory_form :input').prop('disabled', true)
+				$('#edit_sheet_form :input').prop('disabled', true)
 				$('.out-of-service').removeClass('d-none');
 			}
 		}, 250)
@@ -347,8 +346,8 @@ include(SHARED_PATH . '/admin_header.php');
 			let date = new Date()
 			let hr = date.getHours()
 			if (hr >= 7) {
-				$('#edit_factory_form :input').prop('disabled', false)
-				$('.out-of-service').removeClass('d-none'); //! Comment this out!
+				$('#edit_sheet_form :input').prop('disabled', false)
+				// $('.out-of-service').removeClass('d-none'); //! Comment this out!
 			}
 		}, 250)
 

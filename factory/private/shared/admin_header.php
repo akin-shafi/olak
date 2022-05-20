@@ -483,7 +483,7 @@ $fullName = $user->full_name;
                -->
 
                <?php if ($access->report_mgt == 1) : ?>
-                  <li class="nav-item dropdown">
+                  <li class="nav-item dropdown d-none">
                      <a class="nav-link dropdown-toggle <?php echo $page == 'Reports' ? 'active-page' : '' ?>" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="icon-pie-chart1 nav-icon"></i>
                         Reports
