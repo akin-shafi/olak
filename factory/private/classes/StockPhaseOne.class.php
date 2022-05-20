@@ -137,46 +137,48 @@ class StockPhaseOne extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
-  public static function group_by_category()
+  public static function group_by_category($from, $to, $branch)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "AND branch_id ='" . self::$database->escape_string($branch) . "'";
+    $sql .= " AND created_at >='" . self::$database->escape_string($from) . "'";
+    $sql .= " AND created_at <='" . self::$database->escape_string($to) . "'";
     $sql .= " GROUP BY category_id";
+
     return static::find_by_sql($sql);
   }
 
-  public static function group_by_product()
+  public static function group_by_product($from, $to, $branch)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "AND branch_id ='" . self::$database->escape_string($branch) . "'";
+    $sql .= " AND created_at >='" . self::$database->escape_string($from) . "'";
+    $sql .= " AND created_at <='" . self::$database->escape_string($to) . "'";
     $sql .= " GROUP BY category_id, product_id";
     return static::find_by_sql($sql);
   }
 
-  public static function filter_by_date($dateFrom, $dateTo, $option = [])
+  public static function find_by_category_id($categoryId)
   {
-    $company = $option['company'] ?? false;
-    $branch = $option['branch'] ?? false;
-
-    $sql = "SELECT ph.*, cat.name AS category_name, ga.value AS gauge_value, pr.name AS product_name FROM " . static::$table_name . " AS ph ";
-    $sql .= "JOIN categories AS cat ON ph.category_id = cat.id ";
-    $sql .= "JOIN gauges AS ga ON ph.gauge_id = ga.id ";
-    $sql .= "JOIN products AS pr ON ph.product_id = pr.id ";
-    $sql .= "WHERE ph.created_at >='" . self::$database->escape_string($dateFrom) . "'";
-    $sql .= " AND ph.created_at <='" . self::$database->escape_string($dateTo) . "'";
-
-    if (empty($company) && !empty($branch)) :
-      $sql .= " AND ph.branch_id='" . self::$database->escape_string($branch) . "'";
-    endif;
-
-    if (!empty($company) && !empty($branch)) :
-      $sql .= " AND ph.company_id='" . self::$database->escape_string($company) . "'";
-      $sql .= " AND ph.branch_id='" . self::$database->escape_string($branch) . "'";
-    endif;
-
-    $sql .= " AND (ph.deleted IS NULL OR ph.deleted = 0 OR ph.deleted = '') ";
-
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE category_id ='" . self::$database->escape_string($categoryId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     return static::find_by_sql($sql);
+  }
+
+  public static function find_by_product_id($productId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE product_id ='" . self::$database->escape_string($productId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
   }
 
   public static function data_sheet_report($dateFrom, $option = [])

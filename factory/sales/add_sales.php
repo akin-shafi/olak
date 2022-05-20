@@ -231,6 +231,7 @@ include(SHARED_PATH . '/admin_header.php');
 			let final_amount = $('#final_total_amt').text();
 			let result_amount = parseFloat(final_amount) - parseFloat(total_item_amount);
 			$('#final_total_amt').text(result_amount);
+
 			$('#row_id_' + row_id).remove();
 			count--;
 			$('#total_item').val(count);
@@ -239,7 +240,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 		$('#factory_form').on("submit", function(e) {
 			e.preventDefault();
-			// $('#submit_sales').attr('disabled', true);
+			$('#submit_sales').attr('disabled', true);
 
 			$.ajax({
 				url: FACTORY_URL,

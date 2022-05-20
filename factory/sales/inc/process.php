@@ -46,14 +46,14 @@ if (is_post_request()) {
         endif;
     }
 
-    if (isset($_POST['edit_sheet_form'])) {
+    if (isset($_POST['edit_factory_form'])) {
         $args = $_POST;
-        $totalSales = 0;
-        $totalValue = 0;
-        $grandTotalValue = 0;
 
+        $stockPhase = StockPhaseOne::find_by_category_id($args['catId']);
 
-        for ($i = 0; $i < count($args['product_id']); $i++) {
+        for ($i = 0; $i < count($stockPhase); $i++) {
+            $editStock = StockPhaseOne::find_by_product_id($stockPhase[$i]->product_id);
+
             $data = [
                 'product_id'        => $args['product_id'][$i],
                 'category_id'       => $args['category_id'][$i],
@@ -67,29 +67,26 @@ if (is_post_request()) {
                 'local'             => $args['local'][$i],
                 'total_sales'       => $args['total_sales'][$i],
                 'closing_stock'     => $args['closing_stock'][$i],
-                'company_id'        => $args['company_id'][$i],
-                'branch_id'         => $args['branch_id'][$i],
+                'company_id'        => $args['company_id'],
+                'branch_id'         => $args['branch_id'],
                 "created_by"        => $loggedInAdmin->id,
+                'updated_at'        => date('Y-m-d H:i:s'),
             ];
 
-            if (!empty(StockPhaseOne::find_by_id($args['tankId']))) :
-                $editTank = StockPhaseOne::find_by_id($args['tankId']);
-
-                $editTank->merge_attributes($data);
-                $editTank->save();
-            endif;
+            $editStock->merge_attributes($data);
+            $editStock->save();
+            // pre_r($editStock);
         }
-        exit(json_encode(['success' => true, 'msg' => 'Tank updated successfully!']));
+        exit(json_encode(['success' => true, 'msg' => 'Stock updated successfully!']));
     }
 
+    if (isset($_POST['delete_stock'])) {
+        $stockId = $_POST['stockId'];
+        $stock = StockPhaseOne::find_by_id($stockId);
+        $stock::deleted($stockId);
 
-    if (isset($_POST['delete_tank'])) {
-        $tankId = $_POST['tankId'];
-        $tank = StockPhaseOne::find_by_id($tankId);
-        $tank::deleted($tankId);
-
-        if ($tank == true) :
-            exit(json_encode(['success' => true, 'msg' => 'Tank record deleted successfully!']));
+        if ($stock == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Stock record deleted successfully!']));
         endif;
     }
 }
@@ -110,118 +107,124 @@ if (is_get_request()) {
         $explode = explode('-', $rangeText);
         $dateFrom = $explode[0];
         $dateTo = $explode[1] ?? '';
-        $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
-        $dateConvertTo = date('Y-m-d', strtotime($dateTo));
+        $convertFrom = date('Y-m-d', strtotime($dateFrom));
+        $convertTo = date('Y-m-d', strtotime($dateTo));
 
-        $groupByCategory = StockPhaseOne::group_by_category();
-        $fullGroup = StockPhaseOne::group_by_product();
-
-        if ($loggedInAdmin->admin_level == 1) {
-            $filterDataSheet = StockPhaseOne::filter_by_date($dateConvertFrom, $dateConvertTo, ['branch' => $branch]);
-        } else {
-            $filterDataSheet = StockPhaseOne::filter_by_date($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
-        }
-
+        $groupByCategory = StockPhaseOne::group_by_category($convertFrom, $convertTo, $branch);
+        $fullGroup = StockPhaseOne::group_by_product($convertFrom, $convertTo, $branch);
 ?>
         <style>
-            /* th {
-                text-transform: capitalize !important;
-                text-align: center;
-            } */
+            tr {
+                text-align: end;
+            }
 
-            td {
-                min-width: 100px !important;
-                padding: 0.3rem 0.4rem !important;
+            th {
+                vertical-align: middle !important;
+            }
+
+            .text-format {
+                min-width: 140px !important;
+                text-align: start;
+                font-size: 12px;
             }
         </style>
 
         <table class="table table-bordered table-hover table-striped">
             <thead>
-                <tr class="text-center border uppercase">
-                    <th rowspan="2"></th>
+                <tr class="text-center">
+                    <th rowspan="2"><?php echo $dateFrom . ' - ' . $dateTo ?></th>
                     <?php foreach ($groupByCategory as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name; ?>
-                        <th colspan="6" style="font-size:20px;color:<?php echo strtolower($categoryName) ?> ;"><?php echo strtoupper($categoryName) ?></th>
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name); ?>
+                        <th colspan="6" style="border:1px solid <?php echo $categoryName ?>; font-size:18px">
+                            <?php echo strtoupper($categoryName) ?><br>
+
+                            <div class="btn-group">
+                                <a href="<?php echo url_for('sales/edit_sales.php?category_id=' . $data->category_id) ?>" class="btn btn-sm btn-warning"><i class="icon-edit"></i></a>
+                                <button data-id="<?php echo $data->category_id ?>" class="btn btn-sm btn-secondary remove-btn"><i class="icon-delete"></i></button>
+                            </div>
+                        </th>
+
                     <?php endforeach; ?>
                 </tr>
-                <tr class="text-center border capitalize">
+                <tr class="text-center border">
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                         $productName = Product::find_by_id($data->product_id)->name; ?>
-                        <th style="color:<?php echo strtolower($categoryName) ?> ;"><?php echo strtoupper($productName) ?></th>
+                        <th style="border:1px solid <?php echo $categoryName ?>;font-size: 12px;">
+                            <?php echo strtoupper($productName) ?></th>
                     <?php endforeach; ?>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="font-weight-bold text-uppercase">Opening Stock</td>
+                    <td class="font-weight-bold text-uppercase text-format">Opening Stock</td>
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                     ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->open_stock, 2); ?></td>
+                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->open_stock, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
-                    <td class="font-weight-bold text-uppercase">New Stock</td>
+                    <td class="font-weight-bold text-uppercase text-format">New Stock</td>
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                     ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->production, 2); ?></td>
+                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->production, 2); ?></td>
                     <?php endforeach; ?>
                 <tr>
-                    <td class="font-weight-bold text-uppercase">Return Inward</td>
+                    <td class="font-weight-bold text-uppercase text-format">Return Inward</td>
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                     ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->return_inward, 2); ?></td>
-                    <?php endforeach; ?>
-                </tr>
-                <tr>
-                    <td class="font-weight-bold text-uppercase">Total</td>
-                    <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
-                    ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->total_production, 2); ?></td>
+                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->return_inward, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
-                    <td class="font-weight-bold text-uppercase">Sales</td>
+                    <td class="font-weight-bold text-uppercase text-format">Total Stock</td>
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                     ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->sales, 2); ?></td>
+                        <td style="border:1px solid <?php echo $categoryName ?>;font-weight:bold"><?php echo number_format($data->total_production, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
-                    <td class="font-weight-bold text-uppercase">Imported</td>
+                    <td class="font-weight-bold text-uppercase text-format">Sales</td>
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                     ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->imported, 2); ?></td>
+                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->sales, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
-                    <td class="font-weight-bold text-uppercase">Local</td>
+                    <td class="font-weight-bold text-uppercase text-format">Imported</td>
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                     ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->local, 2); ?></td>
+                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->imported, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
-                    <td class="font-weight-bold text-uppercase">Total Sales</td>
+                    <td class="font-weight-bold text-uppercase text-format">Local</td>
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                     ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->total_sales, 2); ?></td>
+                        <td style="border:1px solid <?php echo $categoryName ?>;"><?php echo number_format($data->local, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
-                    <td class="font-weight-bold text-uppercase">Closing Stock</td>
+                    <td class="font-weight-bold text-uppercase text-format">Total Sales</td>
                     <?php foreach ($fullGroup as $data) :
-                        $categoryName = Category::find_by_id($data->category_id)->name;
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
                     ?>
-                        <td style="color:<?php echo $categoryName ?>"><?php echo number_format($data->closing_stock, 2); ?></td>
+                        <td style="border:1px solid <?php echo $categoryName ?>;font-weight:bold"><?php echo number_format($data->total_sales, 2); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold text-uppercase text-format">Closing Stock</td>
+                    <?php foreach ($fullGroup as $data) :
+                        $categoryName = strtolower(Category::find_by_id($data->category_id)->name);
+                    ?>
+                        <td style="border:1px solid <?php echo $categoryName ?>;font-weight:bold"><?php echo number_format($data->closing_stock, 2); ?></td>
                     <?php endforeach; ?>
                 </tr>
             </tbody>
