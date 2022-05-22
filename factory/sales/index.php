@@ -8,11 +8,8 @@ if ($access->sales_mgt != 1) {
 	redirect_to('../dashboard/');
 }
 
-if ($loggedInAdmin->admin_level == 1) {
-	$filterDataSheet = StockPhaseOne::get_data_sheets();
-} else {
-	$filterDataSheet = StockPhaseOne::get_data_sheets(['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
-}
+$phase = (isset($_GET['phase']) && $_GET['phase'] == 2) ? 'process_two.php' : 'process_one.php';
+
 
 $products = Product::find_by_undeleted();
 
@@ -25,6 +22,18 @@ $products = Product::find_by_undeleted();
 			<div class="card">
 				<div class="card-body">
 					<div class="table-container border-0 shadow">
+
+						<div class="text-center my-3">
+							<div class="btn-group" role="group">
+								<a href="<?php echo url_for('/sales/?phase=1') ?>" class="btn btn-outline-info">
+									Phase One Sales</a>
+								<a class="btn btn-dark text-white">
+									&LeftArrowRightArrow;</a=>
+									<a href="<?php echo url_for('/sales/?phase=2') ?>" class="btn btn-outline-info">
+										Phase Two Sales</a>
+							</div>
+						</div>
+
 						<div class="table-responsive" id="dataSheet">
 							<!-- <table id="copy-print-csv_wrapper" class="table custom-table table-sm "> -->
 
@@ -43,7 +52,7 @@ $products = Product::find_by_undeleted();
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 <script>
-	const PET_URL = 'inc/process.php';
+	const PHASE_URL = 'inc/<?php echo $phase; ?>';
 
 	window.onload = () => {
 		let branch = $('#fBranch').val()
@@ -63,7 +72,7 @@ $products = Product::find_by_undeleted();
 
 	const getDataSheet = (branch, range) => {
 		$.ajax({
-			url: PET_URL,
+			url: PHASE_URL,
 			method: "GET",
 			data: {
 				branch: branch,
@@ -86,7 +95,7 @@ $products = Product::find_by_undeleted();
 
 
 	$(document).on('click', '.remove-btn', function() {
-		let tankId = this.dataset.id;
+		let stockId = this.dataset.id;
 		Swal.fire({
 			title: 'Are you sure?',
 			text: "You won't be able to revert this!",
@@ -98,11 +107,11 @@ $products = Product::find_by_undeleted();
 		}).then((result) => {
 			if (result.value) {
 				$.ajax({
-					url: PET_URL,
+					url: PHASE_URL,
 					method: "POST",
 					data: {
-						tankId: tankId,
-						delete_tank: 1
+						stockId: stockId,
+						delete_stock: 1
 					},
 					dataType: 'json',
 					success: function(data) {

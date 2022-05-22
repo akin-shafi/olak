@@ -1,24 +1,21 @@
 <?php
-class StockPhaseOne extends DatabaseObject
+class MaterialPhaseOne extends DatabaseObject
 {
-  protected static $table_name = "stock_phase_one";
-  protected static $db_columns = ['id', 'product_id', 'category_id', 'gauge_id', 'open_stock', 'production', 'return_inward', 'total_production', 'sales', 'imported', 'local', 'total_sales', 'closing_stock', 'company_id', 'branch_id', 'created_by', 'created_at', 'updated_at', 'deleted'];
+  protected static $table_name = "material_phase_one";
+  protected static $db_columns = ['id', 'type', 'raw_category_id', 'raw_group_id', 'open_stock', 'inflow', 'total_stock', 'outflow', 'closing_stock', 'company_id', 'branch_id', 'remarks', 'created_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
-  public $product_id;
-  public $category_id;
-  public $gauge_id;
+  public $type;
+  public $raw_group_id;
+  public $raw_category_id;
   public $open_stock;
-  public $production;
-  public $return_inward;
-  public $total_production;
-  public $sales;
-  public $imported;
-  public $local;
-  public $total_sales;
+  public $inflow;
+  public $total_stock;
+  public $outflow;
   public $closing_stock;
   public $company_id;
   public $branch_id;
+  public $remarks;
   public $created_by;
   public $created_at;
   public $updated_at;
@@ -29,30 +26,30 @@ class StockPhaseOne extends DatabaseObject
   public $year;
   public $month;
 
-  public $inflow;
   public $product_name;
   public $category_name;
-  public $gauge_value;
+
+  const TYPE = [
+    '1' => 'Net Weight',
+    '2' => 'Number of coils',
+  ];
 
   public function __construct($args = [])
   {
-    $this->product_id       = $args['product_id'] ?? '';
-    $this->category_id      = $args['category_id'] ?? '';
-    $this->gauge_id         = $args['gauge_id'] ?? '';
+    $this->type             = $args['type'] ?? '';
+    $this->raw_group_id     = $args['raw_group_id'] ?? '';
+    $this->raw_category_id  = $args['raw_category_id'] ?? '';
     $this->open_stock       = $args['open_stock'] ?? '';
-    $this->production       = $args['production'] ?? '';
-    $this->return_inward    = $args['return_inward'] ?? '';
-    $this->total_production = $args['total_production'] ?? '';
-    $this->sales            = $args['sales'] ?? '';
-    $this->imported         = $args['imported'] ?? '';
-    $this->local            = $args['local'] ?? '';
-    $this->total_sales      = $args['total_sales'] ?? '';
+    $this->inflow           = $args['inflow'] ?? '';
+    $this->total_stock      = $args['total_stock'] ?? '';
+    $this->outflow          = $args['outflow'] ?? '';
     $this->closing_stock    = $args['closing_stock'] ?? '';
     $this->company_id       = $args['company_id'] ?? '';
     $this->branch_id        = $args['branch_id'] ?? '';
+    $this->remarks          = $args['remarks'] ?? '';
     $this->created_by       = $args['created_by'] ?? '';
     $this->created_at       = $args['created_at'] ?? date('Y-m-d');
-    $this->updated_at       = $args['updated_at'] ?? '';
+    $this->updated_at       = $args['updated_at'] ?? date('Y-m-d H:i:s');
     $this->deleted          = $args['deleted'] ?? '';
   }
 
@@ -60,12 +57,15 @@ class StockPhaseOne extends DatabaseObject
   {
     $this->errors = [];
 
+    if (is_blank($this->open_stock)) {
+      $this->errors[] = "Open stock is required.";
+    }
     return $this->errors;
   }
 
   public static function find_by_metrics()
   {
-    $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(total_production) AS total_production, SUM(total_sales) AS total_sales  FROM " . static::$table_name . " ";
+    $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(inflow) AS inflow, SUM(total_stock) AS total_stock  FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $sql .= "GROUP BY year(created_at), month(created_at) ";
     $sql .= "ORDER BY year(created_at), month(created_at) ";
@@ -75,7 +75,7 @@ class StockPhaseOne extends DatabaseObject
 
   public static function get_stock_sheet()
   {
-    $sql = "SELECT SUM(total_production) AS total_production, SUM(total_sales) AS total_sales, SUM(return_inward) AS return_inward FROM " . static::$table_name . " ";
+    $sql = "SELECT SUM(inflow) AS inflow, SUM(total_stock) AS total_stock, SUM(outflow) AS outflow FROM " . static::$table_name . " ";
     $sql .= "WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
     $obj_array = static::find_by_sql($sql);
@@ -90,13 +90,13 @@ class StockPhaseOne extends DatabaseObject
   {
     $date = date('Y');
 
-    $sql = "SELECT *, SUM(total_production) AS total_production, SUM(total_sales) AS total_sales, SUM(return_inward) AS return_inward, SUM(closing_stock) AS closing_stock FROM " . static::$table_name . " ";
+    $sql = "SELECT *, SUM(inflow) AS inflow, SUM(total_stock) AS total_stock, SUM(outflow) AS outflow, SUM(closing_stock) AS closing_stock FROM " . static::$table_name . " ";
 
     $sql .= "WHERE created_at LIKE '%" . self::$database->escape_string($date) . "%'";
     $sql .= " AND branch_id='" . self::$database->escape_string($bId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
-    $sql .= "GROUP BY product_id ";
+    $sql .= "GROUP BY raw_group_id ";
 
     return static::find_by_sql($sql);
   }
@@ -105,8 +105,8 @@ class StockPhaseOne extends DatabaseObject
   {
     $date = date('Y');
 
-    $sql = "SELECT SUM(ph.total_production) AS total_production, SUM(ph.total_sales) AS total_sales, p.name AS product_name FROM " . static::$table_name . " AS ph ";
-    $sql .= "JOIN products AS p ON ph.product_id = p.id ";
+    $sql = "SELECT SUM(ph.inflow) AS inflow, SUM(ph.total_stock) AS total_stock, p.name AS product_name FROM " . static::$table_name . " AS ph ";
+    $sql .= "JOIN products AS p ON ph.raw_group_id = p.id ";
 
     $sql .= "WHERE ph.created_at LIKE '%" . self::$database->escape_string($date) . "%'";
     $sql .= " AND ph.branch_id='" . self::$database->escape_string($bId) . "'";
@@ -123,10 +123,9 @@ class StockPhaseOne extends DatabaseObject
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
 
-    $sql = "SELECT ph.*, cat.name AS category_name, ga.value AS gauge_value, pr.name AS product_name FROM " . static::$table_name . " AS ph ";
-    $sql .= "JOIN categories AS cat ON ph.category_id = cat.id ";
-    $sql .= "JOIN gauges AS ga ON ph.gauge_id = ga.id ";
-    $sql .= "JOIN products AS pr ON ph.product_id = pr.id ";
+    $sql = "SELECT ph.*, cat.name AS category_name, gr.name AS group_name FROM " . static::$table_name . " AS ph ";
+    $sql .= "JOIN categories AS cat ON ph.raw_category_id = cat.id ";
+    $sql .= "JOIN groups AS gr ON ph.raw_group_id = gr.id ";
     $sql .= "WHERE (ph.deleted IS NULL OR ph.deleted = 0 OR ph.deleted = '') ";
 
     if (!empty($company) && !empty($branch)) :
@@ -144,7 +143,7 @@ class StockPhaseOne extends DatabaseObject
     $sql .= "AND branch_id ='" . self::$database->escape_string($branch) . "'";
     $sql .= " AND created_at >='" . self::$database->escape_string($from) . "'";
     $sql .= " AND created_at <='" . self::$database->escape_string($to) . "'";
-    $sql .= " GROUP BY category_id";
+    $sql .= " GROUP BY raw_category_id";
 
     return static::find_by_sql($sql);
   }
@@ -156,22 +155,22 @@ class StockPhaseOne extends DatabaseObject
     $sql .= "AND branch_id ='" . self::$database->escape_string($branch) . "'";
     $sql .= " AND created_at >='" . self::$database->escape_string($from) . "'";
     $sql .= " AND created_at <='" . self::$database->escape_string($to) . "'";
-    $sql .= " GROUP BY category_id, product_id";
+    $sql .= " GROUP BY raw_category_id, raw_group_id";
     return static::find_by_sql($sql);
   }
 
   public static function find_by_category_id($categoryId)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= " WHERE category_id ='" . self::$database->escape_string($categoryId) . "'";
+    $sql .= " WHERE raw_category_id ='" . self::$database->escape_string($categoryId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     return static::find_by_sql($sql);
   }
 
-  public static function find_by_product_id($productId)
+  public static function raw_group_id($productId)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= " WHERE product_id ='" . self::$database->escape_string($productId) . "'";
+    $sql .= " WHERE raw_group_id ='" . self::$database->escape_string($productId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
@@ -186,8 +185,8 @@ class StockPhaseOne extends DatabaseObject
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
 
-    $sql = "SELECT ph.*, SUM(ph.total_sales) AS inflow, pr.name AS product_name FROM " . static::$table_name . " AS ph ";
-    $sql .= "JOIN products AS pr ON ph.product_id = pr.id ";
+    $sql = "SELECT ph.*, SUM(ph.total_stock) AS inflow, pr.name AS product_name FROM " . static::$table_name . " AS ph ";
+    $sql .= "JOIN products AS pr ON ph.raw_group_id = pr.id ";
     $sql .= "WHERE ph.created_at ='" . self::$database->escape_string($dateFrom) . "'";
     $sql .= " AND (ph.deleted IS NULL OR ph.deleted = 0 OR ph.deleted = '') ";
 

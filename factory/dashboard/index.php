@@ -47,6 +47,10 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 		vertical-align: middle;
 		text-align: center;
 	}
+
+	#branch_query {
+		min-width: 150px;
+	}
 </style>
 
 

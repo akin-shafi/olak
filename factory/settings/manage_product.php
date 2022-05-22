@@ -26,6 +26,7 @@ $products = Product::find_by_undeleted();
                 <thead>
                   <tr class="bg-primary text-white ">
                     <th>SN</th>
+                    <th>Product Type</th>
                     <th>Product Name</th>
                     <th>Created By</th>
                     <th>Updated At</th>
@@ -40,9 +41,11 @@ $products = Product::find_by_undeleted();
                     $exp = explode(' ', $createdBy);
                     $firstName = $exp[0];
                     $initials = substr($exp[1], 0, 1);
+                    $type = Product::PRODUCT_TYPE[$data->product_type];
                   ?>
                     <tr>
                       <td><?php echo $sn++; ?></td>
+                      <td><?php echo ucwords($type); ?></td>
                       <td><?php echo ucwords($data->name); ?></td>
                       <td><?php echo ucwords($firstName . ' ' . $initials . '.'); ?></td>
                       <td><?php echo date('Y-m-d (h:i:s a)', strtotime($data->updated_at)); ?></td>
@@ -82,6 +85,17 @@ $products = Product::find_by_undeleted();
           <div class="container">
             <div class="row">
               <div class="col-md-12">
+                <div class="mb-3">
+                  <div class="form-group">
+                    <label for="pType" class="col-form-label">Product Type</label>
+                    <select name="product[product_type]" class="form-control" id="pType">
+                      <option value="">select type</option>
+                      <?php foreach (Product::PRODUCT_TYPE as $key => $type) : ?>
+                        <option value="<?php echo $key ?>"><?php echo $type ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
                 <div class="mb-3">
                   <div class="form-group">
                     <label for="pName" class="col-form-label">Product Name</label>
@@ -157,6 +171,7 @@ $products = Product::find_by_undeleted();
         },
         dataType: 'json',
         success: function(r) {
+          $('#pType').val(r.data.product_type)
           $('#pName').val(r.data.name)
         }
       })

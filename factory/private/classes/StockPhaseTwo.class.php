@@ -53,4 +53,155 @@ class StockPhaseTwo extends DatabaseObject
 
     return $this->errors;
   }
+
+  public static function find_by_metrics()
+  {
+    $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(total_production) AS total_production, SUM(total_sales) AS total_sales  FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "GROUP BY year(created_at), month(created_at) ";
+    $sql .= "ORDER BY year(created_at), month(created_at) ";
+
+    return static::find_by_sql($sql);
+  }
+
+  public static function get_stock_sheet()
+  {
+    $sql = "SELECT SUM(total_production) AS total_production, SUM(total_sales) AS total_sales, SUM(return_inward) AS return_inward FROM " . static::$table_name . " ";
+    $sql .= "WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function get_sheets($bId)
+  {
+    $date = date('Y');
+
+    $sql = "SELECT *, SUM(total_production) AS total_production, SUM(total_sales) AS total_sales, SUM(return_inward) AS return_inward, SUM(closing_stock) AS closing_stock FROM " . static::$table_name . " ";
+
+    $sql .= "WHERE created_at LIKE '%" . self::$database->escape_string($date) . "%'";
+    $sql .= " AND branch_id='" . self::$database->escape_string($bId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $sql .= "GROUP BY product_id ";
+
+    return static::find_by_sql($sql);
+  }
+
+  public static function get_top_selling_product($bId)
+  {
+    $date = date('Y');
+
+    $sql = "SELECT SUM(ph.total_production) AS total_production, SUM(ph.total_sales) AS total_sales, p.name AS product_name FROM " . static::$table_name . " AS ph ";
+    $sql .= "JOIN products AS p ON ph.product_id = p.id ";
+
+    $sql .= "WHERE ph.created_at LIKE '%" . self::$database->escape_string($date) . "%'";
+    $sql .= " AND ph.branch_id='" . self::$database->escape_string($bId) . "'";
+
+    $sql .= " AND (ph.deleted IS NULL OR ph.deleted = 0 OR ph.deleted = '') ";
+
+    $sql .= "GROUP BY p.name ";
+
+    return static::find_by_sql($sql);
+  }
+
+  public static function get_data_sheets($option = [])
+  {
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
+
+    $sql = "SELECT ph.*, cat.name AS category_name, ga.value AS gauge_value, pr.name AS product_name FROM " . static::$table_name . " AS ph ";
+    $sql .= "JOIN categories AS cat ON ph.category_id = cat.id ";
+    $sql .= "JOIN gauges AS ga ON ph.gauge_id = ga.id ";
+    $sql .= "JOIN products AS pr ON ph.product_id = pr.id ";
+    $sql .= "WHERE (ph.deleted IS NULL OR ph.deleted = 0 OR ph.deleted = '') ";
+
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND ph.company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND ph.branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
+    return static::find_by_sql($sql);
+  }
+
+  public static function group_by_category($from, $to, $branch)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "AND branch_id ='" . self::$database->escape_string($branch) . "'";
+    $sql .= " AND created_at >='" . self::$database->escape_string($from) . "'";
+    $sql .= " AND created_at <='" . self::$database->escape_string($to) . "'";
+    $sql .= " GROUP BY category_id";
+
+    return static::find_by_sql($sql);
+  }
+
+  public static function group_by_product($from, $to, $branch)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "AND branch_id ='" . self::$database->escape_string($branch) . "'";
+    $sql .= " AND created_at >='" . self::$database->escape_string($from) . "'";
+    $sql .= " AND created_at <='" . self::$database->escape_string($to) . "'";
+    // $sql .= " GROUP BY category_id, product_id";
+    return static::find_by_sql($sql);
+  }
+
+  public static function find_by_category_id($categoryId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE category_id ='" . self::$database->escape_string($categoryId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    return static::find_by_sql($sql);
+  }
+
+  public static function find_by_product_id($productId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE product_id ='" . self::$database->escape_string($productId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function data_sheet_report($dateFrom, $option = [])
+  {
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
+
+    $sql = "SELECT ph.*, SUM(ph.total_sales) AS inflow, pr.name AS product_name FROM " . static::$table_name . " AS ph ";
+    $sql .= "JOIN products AS pr ON ph.product_id = pr.id ";
+    $sql .= "WHERE ph.created_at ='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND (ph.deleted IS NULL OR ph.deleted = 0 OR ph.deleted = '') ";
+
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND ph.company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND ph.branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
+    $sql .= " GROUP BY pr.name";
+
+    return static::find_by_sql($sql);
+  }
+
+  public static function find_by_branch_id($branchId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE branch_id ='" . self::$database->escape_string($branchId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
 }

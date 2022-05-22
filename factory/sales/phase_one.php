@@ -2,9 +2,10 @@
 
 $page = 'Sales';
 $page_title = 'Add New Sales';
+$phase = 'Phase One';
 
 $categories = Category::find_all_categories();
-$products = Product::find_all_products();
+$products = Product::find_all_products(2);
 $gauges = Gauge::find_all_gauges();
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
@@ -52,7 +53,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 <div class="content-wrapper">
 	<div class="d-flex justify-content-between align-items-center">
-		<h4>DAILY TRANSACTION RECORD FOR <?php echo strtoupper($company->name) ?> </h4>
+		<h4>DAILY STOCK FOR <?php echo strtoupper($phase) ?> </h4>
 		<div class="mb-3">
 			<select class="form-control" name="branch_id" id="sBranch" form="factory_form" required>
 				<option value="">select branch</option>
@@ -93,7 +94,7 @@ include(SHARED_PATH . '/admin_header.php');
 						<tr class="border-0">
 							<td>
 								<select name="category_id[]" class="form-control form-control-sm category_id" required>
-									<option>select category</option>
+									<option value="">select category</option>
 									<?php foreach ($categories as $category) : ?>
 										<option value="<?php echo $category->id; ?>">
 											<?php echo ucwords($category->name); ?>
@@ -103,7 +104,7 @@ include(SHARED_PATH . '/admin_header.php');
 							</td>
 							<td>
 								<select name="product_id[]" class="form-control form-control-sm product_id" required>
-									<option>select product</option>
+									<option value="">select product</option>
 									<?php foreach ($products as $product) : ?>
 										<option value="<?php echo $product->id; ?>">
 											<?php echo ucwords($product->name); ?>
@@ -113,7 +114,7 @@ include(SHARED_PATH . '/admin_header.php');
 							</td>
 							<td>
 								<select name="gauge_id[]" class="form-control form-control-sm gauge_id" required>
-									<option>select gauge</option>
+									<option value="">select gauge</option>
 									<?php foreach ($gauges as $gauge) : ?>
 										<option value="<?php echo $gauge->id; ?>">
 											<?php echo number_format($gauge->value, 2); ?>
@@ -182,14 +183,13 @@ include(SHARED_PATH . '/admin_header.php');
 
 </div>
 
-
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		var BACK_URL = './'
-		const FACTORY_URL = 'inc/process.php';
+		var BACK_URL = './?phase=1'
+		const FACTORY_URL = 'inc/process_one.php';
 
 		let count = 1;
 		$(document).on('click', '#add_row', function() {
@@ -198,11 +198,11 @@ include(SHARED_PATH . '/admin_header.php');
 
 			let html_code = '';
 			html_code += '<tr id="row_id_' + count + '">';
-			html_code += '<td><select class="form-control form-control-sm category_id" name="category_id[]" required><option>Select</option><?php foreach ($categories as $cat) { ?><option value="<?php echo $cat->id; ?>"><?php echo ucwords($cat->name); ?></option><?php } ?></select></td>';
+			html_code += '<td><select class="form-control form-control-sm category_id" name="category_id[]" required><option value="">Select category</option><?php foreach ($categories as $cat) { ?><option value="<?php echo $cat->id; ?>"><?php echo ucwords($cat->name); ?></option><?php } ?></select></td>';
 
-			html_code += '<td><select class="form-control form-control-sm product_id" name="product_id[]" required><option>Select</option><?php foreach ($products as $pro) { ?><option value="<?php echo $pro->id; ?>"><?php echo ucwords($pro->name); ?></option><?php } ?></select></td>';
+			html_code += '<td><select class="form-control form-control-sm product_id" name="product_id[]" required><option value="">Select product</option><?php foreach ($products as $pro) { ?><option value="<?php echo $pro->id; ?>"><?php echo ucwords($pro->name); ?></option><?php } ?></select></td>';
 
-			html_code += '<td><select class="form-control form-control-sm gauge_id" name="gauge_id[]" required><option>Select</option><?php foreach ($gauges as $gauge) { ?><option value="<?php echo $gauge->id; ?>"><?php echo number_format($gauge->value, 2); ?></option><?php } ?></select></td>';
+			html_code += '<td><select class="form-control form-control-sm gauge_id" name="gauge_id[]" required><option value="">Select gauge</option><?php foreach ($gauges as $gauge) { ?><option value="<?php echo $gauge->id; ?>"><?php echo number_format($gauge->value, 2); ?></option><?php } ?></select></td>';
 
 			html_code += '<td><input type="text" required name="open_stock[]" class="form-control form-control-sm open_stock actions"></td>'
 
@@ -355,8 +355,8 @@ include(SHARED_PATH . '/admin_header.php');
 			let date = new Date()
 			let hr = date.getHours()
 			if (hr >= 23 || hr <= 6) {
-				$('#factory_form :input').prop('disabled', true)
-				$('.out-of-service').removeClass('d-none');
+				// $('#factory_form :input').prop('disabled', true)
+				// $('.out-of-service').removeClass('d-none');
 			}
 		}, 250)
 

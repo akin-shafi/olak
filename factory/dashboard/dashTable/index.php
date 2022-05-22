@@ -109,7 +109,7 @@ if (is_get_request()) {
     series: [{
         name: 'Production',
         data: [<?php echo $seriesProduct ?>],
-        fillColor: '#EB8C87',
+        fillColor: '#2E294E',
       },
       {
         name: 'Sales',
@@ -120,7 +120,7 @@ if (is_get_request()) {
     xaxis: {
       categories: [<?php echo $label ?>],
     },
-    colors: ['#0093FB', '#00E396'],
+    colors: ['#2E294E', '#00E396'],
     tooltip: {
       y: {
         formatter: function(val) {

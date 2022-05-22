@@ -8,8 +8,8 @@ $catId = $_GET['category_id'] ?? '';
 
 if (empty($catId)) redirect_to('../sales/');
 
-$stockOne = StockPhaseOne::find_by_category_id($catId);
-if (empty($stockOne)) redirect_to('../sales/');
+$stockTwo = StockPhaseTwo::find_by_category_id($catId);
+if (empty($stockTwo)) redirect_to('../sales/');
 
 $categories = Category::find_all_categories();
 $products = Product::find_all_products();
@@ -57,6 +57,11 @@ include(SHARED_PATH . '/admin_header.php');
 	input:focus {
 		outline: 1px solid green;
 	}
+
+	.remarks {
+		width: 30%;
+		min-width: 120px;
+	}
 </style>
 
 <div class="content-wrapper">
@@ -65,9 +70,10 @@ include(SHARED_PATH . '/admin_header.php');
 		<div class="mb-3">
 			<select class="form-control" name="branch_id" id="sBranch" form="edit_factory_form" required>
 				<option value="">select branch</option>
-				<?php foreach ($stockOne as $stock) :
-					$branch = Branch::find_by_id($stock->branch_id) ?>
-					<option value="<?php echo $branch->id ?>" <?php echo $branch->id == $stock->branch_id ? 'selected' : ''; ?>>
+				<?php foreach ($branches as $branch) :
+					$stock = StockPhaseTwo::find_by_branch_id($branch->id);
+					$stockBranchId = isset($stock->branch_id) ? $stock->branch_id : '' ?>
+					<option value="<?php echo $branch->id ?>" <?php echo $branch->id == $stockBranchId ? 'selected' : ''; ?>>
 						<?php echo ucwords($branch->name) ?></option>
 				<?php endforeach; ?>
 			</select>
@@ -89,23 +95,20 @@ include(SHARED_PATH . '/admin_header.php');
 							<th>GAUGE</th>
 							<th>OPENING STOCK</th>
 							<th>NEW STOCK</th>
-							<th>RETURN INWARD</th>
+							<th>TRANSFER</th>
 							<th>TOTAL STOCK</th>
 							<th>SALES</th>
-							<th>IMPORTED</th>
-							<th>LOCAL</th>
-							<th>TOTAL SALES</th>
 							<th>CLOSING STOCK</th>
 							<th style="font-size:14px"><sup>&plus;</sup>/<sub>&minus;</sub></th>
 						</tr>
 					</thead>
 
-					<tbody id="factory-table">
-						<?php foreach ($stockOne as $stock) : ?>
+					<tbody id="phase-table">
+						<?php foreach ($stockTwo as $stock) : ?>
 							<tr class="border-0">
 								<td>
 									<select name="category_id[]" class="form-control form-control-sm category_id" required>
-										<option>select category</option>
+										<option value="">select category</option>
 										<?php foreach ($categories as $category) : ?>
 											<option value="<?php echo $category->id; ?>" <?php echo $category->id == $stock->category_id ? 'selected' : ''; ?>>
 												<?php echo ucwords($category->name); ?>
@@ -115,7 +118,7 @@ include(SHARED_PATH . '/admin_header.php');
 								</td>
 								<td>
 									<select name="product_id[]" class="form-control form-control-sm product_id" required>
-										<option>select product</option>
+										<option value="">select product</option>
 										<?php foreach ($products as $product) : ?>
 											<option value="<?php echo $product->id; ?>" <?php echo $product->id == $stock->product_id ? 'selected' : ''; ?>>
 												<?php echo ucwords($product->name); ?>
@@ -125,7 +128,7 @@ include(SHARED_PATH . '/admin_header.php');
 								</td>
 								<td>
 									<select name="gauge_id[]" class="form-control form-control-sm gauge_id" required>
-										<option>select gauge</option>
+										<option value="">select gauge</option>
 										<?php foreach ($gauges as $gauge) : ?>
 											<option value="<?php echo $gauge->id; ?>" <?php echo $gauge->id == $stock->gauge_id ? 'selected' : ''; ?>>
 												<?php echo number_format($gauge->value, 2); ?>
@@ -134,31 +137,22 @@ include(SHARED_PATH . '/admin_header.php');
 									</select>
 								</td>
 								<td>
-									<input type="text" required name="open_stock[]" value="<?php echo $stock->open_stock ?>" class="form-control form-control-sm open_stock actions">
+									<input type="text" required name="open_stock[]" value="<?php echo $stock->open_stock; ?>" class="form-control form-control-sm open_stock actions">
 								</td>
 								<td>
-									<input type="text" required name="production[]" value="<?php echo $stock->production ?>" class="form-control form-control-sm production actions">
+									<input type="text" required name="production[]" value="<?php echo $stock->production; ?>" class="form-control form-control-sm production actions">
 								</td>
 								<td>
-									<input type="text" required name="return_inward[]" value="<?php echo $stock->return_inward ?>" class="form-control form-control-sm return_inward actions">
+									<input type="text" required name="transfer[]" value="<?php echo $stock->transfer; ?>" class="form-control form-control-sm transfer actions">
 								</td>
 								<td>
-									<input type="text" required name="total_stock[]" value="<?php echo $stock->total_production ?>" class="form-control form-control-sm total_stock" readonly>
+									<input type="text" required name="total_stock[]" value="<?php echo $stock->total_production; ?>" class="form-control form-control-sm total_stock" readonly>
 								</td>
 								<td>
-									<input type="text" required name="sales[]" value="<?php echo $stock->sales ?>" class="form-control form-control-sm sales actions">
+									<input type="text" required name="sales[]" value="<?php echo $stock->sales; ?>" class="form-control form-control-sm sales actions">
 								</td>
 								<td>
-									<input type="text" required name="imported[]" value="<?php echo $stock->imported ?>" class="form-control form-control-sm imported actions">
-								</td>
-								<td>
-									<input type="text" required name="local[]" value="<?php echo $stock->local ?>" class="form-control form-control-sm local actions">
-								</td>
-								<td>
-									<input type="text" required name="total_sales[]" value="<?php echo $stock->total_sales ?>" class="form-control form-control-sm total_sales" readonly>
-								</td>
-								<td>
-									<input type="text" required name="closing_stock[]" value="<?php echo $stock->closing_stock ?>" class="form-control form-control-sm font-weight-bold closing_stock" readonly>
+									<input type="text" required name="closing_stock[]" value="<?php echo $stock->closing_stock; ?>" class="form-control form-control-sm font-weight-bold closing_stock" readonly>
 								</td>
 
 								<td>
@@ -168,6 +162,24 @@ include(SHARED_PATH . '/admin_header.php');
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+
+				<div class="d-flex justify-content-between align-items-center font-weight-bold mb-3">
+					<textarea name="remarks" class="form-control remarks" id="remarks" placeholder="Remarks"><?php echo $stockTwo[0]->remarks; ?></textarea>
+					<div class="font-weight-bold">
+						<div class="d-flex justify-content-end mb-2">
+							<p class="mr-3">Total Stock:</p>
+							<div>
+								<p class="mr-3" id="grandStock"></p>
+								<input type="hidden" class="form-control form-control-sm" id="grand_stock" name="grand_stock" readonly>
+							</div>
+						</div>
+						<div class="d-flex justify-content-end">
+							<p class="mr-3">Total Sales:</p>
+							<p class="mr-3" id="grandSale"></p>
+							<input type="hidden" class="form-control form-control-sm" id="grand_sales" name="grand_sales" readonly>
+						</div>
+					</div>
+				</div>
 
 				<div class="d-flex justify-content-end">
 					<button type="submit" class="btn btn-primary mb-3" id="submit_sales">Update</button>
@@ -186,8 +198,8 @@ include(SHARED_PATH . '/admin_header.php');
 
 <script>
 	$(document).ready(function() {
-		var BACK_URL = './'
-		const FACTORY_URL = 'inc/process.php';
+		var BACK_URL = './?phase=2'
+		const FACTORY_URL = 'inc/process_two.php';
 
 		$('#edit_factory_form').on("submit", function(e) {
 			e.preventDefault();
@@ -264,9 +276,9 @@ include(SHARED_PATH . '/admin_header.php');
 					// ********** STOCK
 					let openStock = parseFloat(tRow.find('.open_stock').val())
 					let newStock = parseFloat(tRow.find('.production').val())
-					let returnInward = parseFloat(tRow.find('.return_inward').val())
+					let transfer = parseFloat(tRow.find('.transfer').val())
 
-					let resultStock = openStock + newStock - returnInward
+					let resultStock = openStock + newStock - transfer
 
 					parseFloat(tRow.find('.total_stock').val(resultStock))
 					// ********** STOCK END
@@ -274,10 +286,8 @@ include(SHARED_PATH . '/admin_header.php');
 
 					// ********** SALES
 					let sales = parseFloat(tRow.find('.sales').val())
-					let imported = parseFloat(tRow.find('.imported').val())
-					let local = parseFloat(tRow.find('.local').val())
 
-					let resultSales = sales + imported + local
+					let resultSales = sales
 
 					parseFloat(tRow.find('.total_sales').val(resultSales))
 					// ********** SALES END
