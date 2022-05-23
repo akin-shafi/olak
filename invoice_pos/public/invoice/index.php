@@ -13,7 +13,7 @@ $company = Company::find_by_id($loggedInAdmin->company_id);
 $branch = Branch::find_by_id($loggedInAdmin->branch_id);
 
 
-?>
+?> 
 <?php $page = 'Invoice';
 $page_title = 'Billing & Invoicing'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
