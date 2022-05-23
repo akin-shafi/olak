@@ -9,55 +9,35 @@ if (empty($access->dashboard) || $access->dashboard != 1) :
 endif;
 
 
-$metricProfit = [];
+$metricProduct = [];
 $metricSales = [];
-$metricExpenses = [];
 $metricMonth = [];
 
 
-$sales = DataSheet::find_by_metrics();
-$expenses = Expense::find_by_metrics();
+$phaseOneMetrics = StockPhaseOne::find_by_metrics();
 
-foreach ($sales as $value) {
+foreach ($phaseOneMetrics as $value) {
 	$abrMonth = date('M', strtotime('01-' . $value->month . date('-Y')));
-	$nextInflow = !empty($value->inflow) ? $value->inflow : 0;
+	$tSales = !empty($value->total_sales) ? floatval($value->total_sales) : 0;
+	$tProduct = !empty($value->total_production) ? floatval($value->total_production) : 0;
 
-	array_push($metricSales, $nextInflow);
+	array_push($metricProduct, $tProduct);
+	array_push($metricSales, $tSales);
 	array_push($metricMonth, $abrMonth);
 }
 
-foreach ($expenses as $value) {
-	$nextOutflow = !empty($value->outflow) ? $value->outflow : 0;
-	array_push($metricExpenses, $nextOutflow);
-}
-
-for ($i = 0; $i < count($metricSales); $i++) {
-	$sal = intval($metricSales[$i]);
-	$exp = intval($metricExpenses[$i]);
-	$pro = $sal - $exp;
-	array_push($metricProfit, $pro);
-}
-
+$impProduct = implode(',',  $metricProduct);
 $impSales = implode(',',  $metricSales);
-$impExpenses = implode(',',  $metricExpenses);
-$impProfit = implode(',',  $metricProfit);
-
 $impMonth = implode('","',  $metricMonth);
 
-$inflow = $impSales;
-$outflow = $impExpenses;
-$profit = $impProfit;
+$pieProduction = $impProduct;
+$pieSales = $impSales;
 $month = '"' . $impMonth . '"';
-
-$pieProfit = array_sum($metricProfit);
-$pieSales = array_sum($metricSales);
-$pieExpenses = array_sum($metricExpenses);
 
 $admins = Admin::find_by_undeleted();
 $products = Product::find_by_undeleted();
-$stockSheet = DataSheet::get_stock_sheet();
-
-
+$stockSheet = StockPhaseOne::get_stock_sheet();
+$inStock = floatval($stockSheet->total_production) - floatval($stockSheet->total_sales);
 
 $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 ?>
@@ -65,8 +45,11 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 <style>
 	th {
 		vertical-align: middle;
-		font-size: 10px !important;
 		text-align: center;
+	}
+
+	#branch_query {
+		min-width: 150px;
 	}
 </style>
 
@@ -76,12 +59,12 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 
 	<div class="card">
 		<div class="card-body">
-			<h3>Welcome to Olak Petroleum</h3>
+			<h3>Welcome to Olak Factory</h3>
 
 			<div class="row gutters">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4">
 					<div class="row gutters">
-						<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
 							<div class="info-tiles border-0 shadow-sm">
 								<a href="<?php echo url_for('/settings/manage_user.php') ?>">
 									<div class="info-icon">
@@ -94,59 +77,36 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 								</a>
 							</div>
 						</div>
-						<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
 							<div class="info-tiles border-0 shadow-sm">
 								<div class="info-icon secondary">
 									<i class="icon-archive"></i>
 								</div>
 								<div class="stats-detail">
-									<h5><?php echo number_format($stockSheet->total_stock); ?> (LTR)</h5>
+									<h5><?php echo number_format($stockSheet->total_production); ?></h5>
 									<p>Total Stock</p>
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
 							<div class="info-tiles border-0 shadow-sm">
 								<div class="info-icon">
 									<i class="icon-check_circle"></i>
 								</div>
 								<div class="stats-detail">
-									<h5><?php echo number_format($stockSheet->sales_in_ltr); ?> (LTR)</h5>
+									<h5><?php echo number_format($stockSheet->total_sales); ?></h5>
 									<p>Stock Sales</p>
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
-							<div class="info-tiles border-0 shadow-sm">
-								<div class="info-icon secondary">
-									<i class="icon-shopping_basket"></i>
-								</div>
-								<div class="stats-detail">
-									<h5><?php echo number_format($stockSheet->expected_stock); ?> (LTR)</h5>
-									<p>Expected Stock</p>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
-							<div class="info-tiles border-0 shadow-sm">
-								<div class="info-icon">
-									<i class="icon-watch_later"></i>
-								</div>
-								<div class="stats-detail">
-									<h5><?php echo number_format($stockSheet->actual_stock); ?> (LTR)</h5>
-									<p>Actual Stock</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
 							<div class="info-tiles border-0 shadow-sm">
 								<div class="info-icon">
 									<i class="icon-layers2"></i>
 								</div>
 								<div class="stats-detail">
-									<h5><?php echo number_format($stockSheet->over_or_short); ?> (LTR)</h5>
-									<p>Over/Short</p>
+									<h5><?php echo number_format($inStock); ?></h5>
+									<p>In-Stock</p>
 								</div>
 							</div>
 						</div>

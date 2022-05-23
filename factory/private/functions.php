@@ -232,7 +232,13 @@ function is_unique_array($array, $keep_key_assoc = false)
   return $keep_key_assoc ? $array : array_values($array);
 }
 
-
+function str_merger($string)
+{
+  $exp = explode(' ', $string);
+  $imp = '';
+  if (count($exp) > 1)
+    return $imp = implode('', $exp);
+}
 
 
 

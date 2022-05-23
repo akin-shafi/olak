@@ -3,41 +3,47 @@
 if (is_get_request()) {
   if (isset($_GET['filter'])) :
     $branchId = $_GET['branch'];
-    $dataSheets = DataSheet::get_sheets($branchId);
-
+    $dataSheets = StockPhaseOne::get_sheets($branchId);
 
     $metricTopProductName = [];
-    $metricTopProductValue = [];
-    $topSelling = DataSheet::get_top_selling_product($branchId);
+    $metricTopProduction = [];
+    $metricTopSales = [];
+    $topSelling = StockPhaseOne::get_top_selling_product($branchId);
     foreach ($topSelling as $value) {
-      array_push($metricTopProductName, $value->product_name);
-      array_push($metricTopProductValue, $value->sales_in_ltr);
+      array_push($metricTopProductName, ucwords($value->product_name));
+      array_push($metricTopProduction, number_format($value->total_production, 2));
+      array_push($metricTopSales, number_format($value->total_sales, 2));
     }
     $impLabel = implode('","',  $metricTopProductName);
-    $impSeries = implode(',',  $metricTopProductValue);
+    $impSeriesSales = implode(',',  $metricTopSales);
+    $impSeriesPro = implode(',',  $metricTopProduction);
 
     $label = '"' . $impLabel . '"';
-    $series = $impSeries;
+    $seriesSales = $impSeriesSales;
+    $seriesProduct = $impSeriesPro;
 
 ?>
 
     <div class="row gutters">
-      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12 mb-5">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-5">
+        <div class="shadow-sm p-3">
+          <h4 class="card-title text-uppercase">Top Selling Product</h4>
+          <div id="consolidated-sBar"></div>
+        </div>
+      </div>
+
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-5">
         <div class="shadow-sm p-3">
           <div class="table-responsive">
-            <table class="table custom-table table-sm">
+            <table class="table custom-table">
               <thead>
                 <tr class="bg-primary text-white ">
                   <th>SN</th>
-                  <th>Product (Tank)</th>
-                  <th>In Stock (LTR)</th>
-                  <th>Sales (LTR)</th>
-                  <th>Expected Stock (LTR)</th>
-                  <th>Actual Stock (LTR)</th>
-                  <th>Over/Short (LTR)</th>
-                  <th>Expected Sales (<?php echo $currency; ?>)</th>
-                  <th>Cash Remitted (<?php echo $currency; ?>)</th>
-                  <th>Over/Short (<?php echo $currency; ?>)</th>
+                  <th>Product</th>
+                  <th>Total Production</th>
+                  <th>Total Sales</th>
+                  <th>Return Inward</th>
+                  <th>Closing Stock</th>
                 </tr>
               </thead>
 
@@ -46,27 +52,21 @@ if (is_get_request()) {
                 $sn = 1;
                 foreach ($dataSheets as $data) :
                   $product = Product::find_by_id($data->product_id);
-                  $lagInCash = intval($data->cash_submitted) - intval($data->exp_sales_value);
+                  $category = Category::find_by_id($data->category_id);
+                  $gauge = Gauge::find_by_id($data->gauge_id);
+                  $lagInCash = $data->return_inward;
                 ?>
                   <tr>
                     <td><?php echo $sn++; ?></td>
-                    <td><?php echo ucwords($product->name) . ' (' . $product->tank . ')'; ?></td>
-                    <td><?php echo number_format($data->total_stock); ?></td>
-                    <td><?php echo number_format($data->sales_in_ltr); ?></td>
-                    <td><?php echo number_format($data->expected_stock); ?></td>
-                    <td><?php echo number_format($data->actual_stock); ?></td>
+                    <td><?php echo ucwords($product->name); ?></td>
+                    <td><?php echo number_format($data->total_production, 2); ?></td>
+                    <td><?php echo number_format($data->total_sales, 2); ?></td>
                     <td>
-                      <span class="<?php echo $data->over_or_short < 0 ? 'text-danger' : 'text-dark' ?>">
-                        <?php echo number_format($data->over_or_short); ?>
+                      <span class="<?php echo $data->return_inward < 0 ? 'text-danger' : 'text-dark' ?>">
+                        <?php echo number_format($data->return_inward, 2); ?>
                       </span>
                     </td>
-                    <td><?php echo number_format($data->exp_sales_value); ?></td>
-                    <td><?php echo number_format($data->cash_submitted); ?></td>
-                    <td>
-                      <span class="<?php echo $lagInCash < 0 ? 'text-danger' : 'text-dark' ?>">
-                        <?php echo number_format($lagInCash); ?>
-                      </span>
-                    </td>
+                    <td><?php echo number_format($data->closing_stock, 2); ?></td>
                   </tr>
                 <?php endforeach; ?>
                 <tr>
@@ -77,13 +77,6 @@ if (is_get_request()) {
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
-
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-        <div class="shadow-sm p-3">
-          <h4 class="card-title text-uppercase">Top Selling Product</h4>
-          <div id="consolidated-sBar"></div>
         </div>
       </div>
     </div>
@@ -97,37 +90,58 @@ if (is_get_request()) {
   var sBarOptions = {
     chart: {
       type: 'bar',
+      height: 350,
+      stacked: true,
+      stackType: "100%"
     },
     plotOptions: {
       bar: {
         horizontal: true,
-        barHeight: '35%',
       }
     },
     dataLabels: {
       enabled: true
     },
+    stroke: {
+      width: 1,
+      colors: ['#fff']
+    },
     series: [{
-      name: 'Sales',
-      data: [<?php echo $series ?>]
-    }],
+        name: 'Production',
+        data: [<?php echo $seriesProduct ?>],
+        fillColor: '#2E294E',
+      },
+      {
+        name: 'Sales',
+        data: [<?php echo $seriesSales ?>],
+        strokeColor: '#C23829',
+      }
+    ],
     xaxis: {
       categories: [<?php echo $label ?>],
     },
+    colors: ['#2E294E', '#00E396'],
     tooltip: {
       y: {
         formatter: function(val) {
-          return "<?php echo $currency; ?> " + numberWithCommas(val)
+          return numberWithCommas(val)
         }
       }
     },
-    theme: {
-      monochrome: {
-        enabled: true,
-        color: '#1a8e5f',
-        shadeIntensity: 0.1
-      },
+    fill: {
+      opacity: 1
     },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'center',
+      offsetX: 40
+    }
+    // theme: {
+    //   monochrome: {
+    //     enabled: true,
+    //     color: '#1a8e5f',
+    //   },
+    // },
   }
   var sBarChart = new ApexCharts(
     document.querySelector("#consolidated-sBar"),

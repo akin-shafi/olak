@@ -19,7 +19,7 @@ define("SHARED_PATH", PRIVATE_PATH . '/shared');
 // * Use same document root as webserver
 // * Can set a hardcoded value:
 
-define("WWW_ROOT", '/olak/petroleum');
+define("WWW_ROOT", '/olak/factory');
 
 // define("WWW_ROOT", '');
 // * Can dynamically find everything in URL up to "/public"

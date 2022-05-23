@@ -24,14 +24,11 @@
       colors: ['transparent']
     },
     series: [{
-      name: 'Net Profit',
-      data: [<?php echo $profit; ?>]
+      name: 'Production',
+      data: [<?php echo $pieProduction; ?>]
     }, {
-      name: 'Revenue',
-      data: [<?php echo $inflow; ?>]
-    }, {
-      name: 'Expenses Incurred',
-      data: [<?php echo $outflow; ?>]
+      name: 'Sales',
+      data: [<?php echo $pieSales; ?>]
     }],
     xaxis: {
       categories: [<?php echo $month; ?>],
@@ -57,7 +54,7 @@
         opacity: 0.5
       },
     },
-    colors: ["#1B998B", "#2E294E", "#D7263D", "#F46036", "#E2C044"],
+    colors: ["#2E294E", "#00E396", "#D7263D", "#F46036", "#E2C044"],
   }
   var barChart = new ApexCharts(
     document.querySelector("#consolidated-bar"),
@@ -129,8 +126,8 @@
       width: 400,
       type: 'donut',
     },
-    labels: ['Profit', 'Revenue', 'Expenses'],
-    series: [<?php echo $pieProfit; ?>, <?php echo $pieSales; ?>, <?php echo $pieExpenses; ?>],
+    labels: ['Production', 'Sales'],
+    series: [<?php echo $pieProduction; ?>, <?php echo $pieSales; ?>],
     responsive: [{
       breakpoint: 480,
       options: {
@@ -148,7 +145,7 @@
     fill: {
       type: 'gradient',
     },
-    colors: ['#1a8e5f', '#2E294E', '#D7263D', '#63686f', '#868a90'],
+    colors: ['#2E294E', '#00E396', '#D7263D', '#63686f', '#868a90'],
   }
   var pieChart = new ApexCharts(
     document.querySelector("#consolidated-pie"),
