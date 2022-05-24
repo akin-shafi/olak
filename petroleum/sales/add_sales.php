@@ -103,47 +103,47 @@ include(SHARED_PATH . '/admin_header.php');
 								</select>
 							</td>
 							<td>
-								<input type="number" size="12" class="form-control form-control-sm rate_1" placeholder='0' readonly>
+								<input type="text" size="12" class="form-control form-control-sm rate_1" placeholder='0' readonly>
 							</td>
 							<td>
-								<input type="number" required="" name="open_stock[]" id="open_stock_1" class="form-control form-control-sm number_only open_stock_1">
+								<input type="text" required="" name="open_stock[]" id="open_stock_1" class="form-control form-control-sm open_stock_1">
 							</td>
 							<td>
-								<input type="number" required="" name="new_stock[]" id="new_stock_1" class="form-control form-control-sm number_only new_stock_1">
+								<input type="text" required="" name="new_stock[]" id="new_stock_1" class="form-control form-control-sm new_stock_1">
 							</td>
 							<td>
-								<input type="number" required="" name="total_stock[]" id="total_stock_1" class="form-control form-control-sm number_only total_stock_1" readonly>
+								<input type="text" required="" name="total_stock[]" id="total_stock_1" class="form-control form-control-sm total_stock_1" readonly>
 							</td>
 							<td>
-								<input type="number" required="" name="sales_in_ltr[]" id="sales_in_ltr_1" class="form-control form-control-sm number_only sales_in_ltr_1">
+								<input type="text" required="" name="sales_in_ltr[]" id="sales_in_ltr_1" class="form-control form-control-sm sales_in_ltr_1">
 							</td>
 							<td>
-								<input type="number" required="" name="expected_stock[]" id="expected_stock_1" class="form-control form-control-sm number_only expected_stock_1" readonly>
+								<input type="text" required="" name="expected_stock[]" id="expected_stock_1" class="form-control form-control-sm expected_stock_1" readonly>
 							</td>
 							<td>
-								<input type="number" required="" name="actual_stock[]" id="actual_stock_1" class="form-control form-control-sm number_only actual_stock_1">
+								<input type="text" required="" name="actual_stock[]" id="actual_stock_1" class="form-control form-control-sm actual_stock_1">
 							</td>
 							<td>
-								<input type="number" required="" name="over_or_short[]" id="over_or_short_1" class="form-control form-control-sm number_only over_or_short_1" readonly>
+								<input type="text" required="" name="over_or_short[]" id="over_or_short_1" class="form-control form-control-sm over_or_short_1" readonly>
 							</td>
 							<td>
-								<input type="number" required="" name="cash_submitted[]" id="cash_submitted_1" class="form-control form-control-sm number_only cash_submitted_1">
+								<input type="text" required="" name="cash_submitted[]" id="cash_submitted_1" class="form-control form-control-sm cash_submitted_1">
 							</td>
 							<td class="d-none">
-								<input type="number" required="" name="exp_sales_value[]" id="exp_sales_value_1" class="form-control form-control-sm font-weight-bold number_only exp_sales_value_1" readonly>
+								<input type="text" required="" name="exp_sales_value[]" id="exp_sales_value_1" class="form-control form-control-sm font-weight-bold exp_sales_value_1" readonly>
 							</td>
 
 
 
 							<?php if ($hide == false) : ?>
 								<td class="d-none">
-									<input type="number" required="" name="total_sales[]" id="total_sales_1" class="form-control form-control-sm number_only total_sales_1" readonly>
+									<input type="text" required="" name="total_sales[]" id="total_sales_1" class="form-control form-control-sm total_sales_1" readonly>
 								</td>
 								<td class="d-none">
-									<input type="number" required="" name="total_value[]" id="total_value_1" class="form-control form-control-sm number_only total_value_1" readonly>
+									<input type="text" required="" name="total_value[]" id="total_value_1" class="form-control form-control-sm total_value_1" readonly>
 								</td>
 								<td class="d-none">
-									<input type="number" required="" name="grand_total[]" id="grand_total_1" class="form-control form-control-sm number_only grand_total_1" readonly>
+									<input type="text" required="" name="grand_total[]" id="grand_total_1" class="form-control form-control-sm grand_total_1" readonly>
 								</td>
 							<?php endif; ?>
 
@@ -202,17 +202,17 @@ include(SHARED_PATH . '/admin_header.php');
 			let html_code = '';
 			html_code += '<tr id="row_id_' + count + '">';
 			html_code += '<td><select class="form-control form-control-sm product_id" required="" name="product_id[]"><option>Select</option><?php foreach ($products as $pro) { ?><option value="<?php echo $pro->id; ?>"><?php echo strtoupper($pro->name) . ' (TANK ' . $pro->tank . ')'; ?></option><?php } ?></select></td>';
-			html_code += '<td><input type="number" size="12" class="form-control form-control-sm rate_' + count + '" placeholder="0" readonly></td>';
-			html_code += '<td><input type="number" required="" name="open_stock[]" class="form-control form-control-sm number_only open_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="new_stock[]" class="form-control form-control-sm number_only new_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="total_stock[]" class="form-control form-control-sm number_only total_stock_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="sales_in_ltr[]" class="form-control form-control-sm number_only sales_in_ltr_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="expected_stock[]" class="form-control form-control-sm number_only expected_stock_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="actual_stock[]" class="form-control form-control-sm number_only actual_stock_' + count + '"></td>'
-			html_code += '<td><input type="number" required="" name="over_or_short[]" class="form-control form-control-sm number_only over_or_short_' + count + '" readonly></td>'
-			html_code += '<td><input type="number" required="" name="cash_submitted[]" class="form-control form-control-sm number_only cash_submitted_' + count + '"></td>'
+			html_code += '<td><input type="text" size="12" class="form-control form-control-sm rate_' + count + '" placeholder="0" readonly></td>';
+			html_code += '<td><input type="text" required="" name="open_stock[]" class="form-control form-control-sm open_stock_' + count + '"></td>'
+			html_code += '<td><input type="text" required="" name="new_stock[]" class="form-control form-control-sm new_stock_' + count + '"></td>'
+			html_code += '<td><input type="text" required="" name="total_stock[]" class="form-control form-control-sm total_stock_' + count + '" readonly></td>'
+			html_code += '<td><input type="text" required="" name="sales_in_ltr[]" class="form-control form-control-sm sales_in_ltr_' + count + '"></td>'
+			html_code += '<td><input type="text" required="" name="expected_stock[]" class="form-control form-control-sm expected_stock_' + count + '" readonly></td>'
+			html_code += '<td><input type="text" required="" name="actual_stock[]" class="form-control form-control-sm actual_stock_' + count + '"></td>'
+			html_code += '<td><input type="text" required="" name="over_or_short[]" class="form-control form-control-sm over_or_short_' + count + '" readonly></td>'
+			html_code += '<td><input type="text" required="" name="cash_submitted[]" class="form-control form-control-sm cash_submitted_' + count + '"></td>'
 
-			html_code += '<td class="d-none"><input type="number" required="" name="exp_sales_value[]" class="form-control form-control-sm number_only exp_sales_value_' + count + '" readonly></td>'
+			html_code += '<td class="d-none"><input type="text" required="" name="exp_sales_value[]" class="form-control form-control-sm exp_sales_value_' + count + '" readonly></td>'
 
 			html_code += '<td><button type="button" id="' + count + '" class="btn btn-secondary d-block m-auto remove_row">X</button></td></tr>';
 

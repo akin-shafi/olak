@@ -137,6 +137,43 @@ if (is_post_request()) {
     }
 
 
+    // *************** PRODUCT
+    if (isset($_POST['new_product'])) {
+        $args = $_POST['product'];
+
+        $product = new Product($args);
+        $product->save();
+
+        if ($product == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Product created successfully!']));
+        else :
+            exit(json_encode(['success' => false, 'msg' => display_errors($product->errors)]));
+        endif;
+    }
+
+    if (isset($_POST['edit_product'])) {
+        $pId = $_POST['pId'];
+        $args = $_POST['product'];
+        $product = Product::find_by_id($pId);
+
+        $product->merge_attributes($args);
+        $product->save();
+
+        if ($product == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Product updated successfully!']));
+        endif;
+    }
+
+    if (isset($_POST['delete_product'])) {
+        $pId = $_POST['pId'];
+        $product = Product::find_by_id($pId);
+        $product::deleted($pId);
+
+        if ($product == true) :
+            exit(json_encode(['success' => true, 'msg' => 'Product deleted successfully!']));
+        endif;
+    }
+
 
 
     // ************* USERS
@@ -303,6 +340,12 @@ if (is_get_request()) {
         $uId = $_GET['uId'];
         $user = Admin::find_by_id($uId);
         exit(json_encode(['success' => true, 'data' => $user]));
+    endif;
+
+    if (isset($_GET['get_product'])) :
+        $pId = $_GET['pId'];
+        $product = Product::find_by_id($pId);
+        exit(json_encode(['success' => true, 'data' => $product]));
     endif;
 
     if (isset($_GET['get_access'])) :

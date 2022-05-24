@@ -472,10 +472,10 @@ $fullName = $user->full_name;
                            <a class="dropdown-item" <?php echo $page_title == 'Material Dashboard' ? 'active-page' : '' ?> href="<?php echo url_for('/materials') ?>">List Materials</a>
                         </li>
                         <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Material Category' ? 'active-page' : '' ?> href="<?php echo url_for('materials/category.php') ?>">Add Category</a>
+                           <a class="dropdown-item" <?php echo $page_title == 'Material Category' ? 'active-page' : '' ?> href="<?php echo url_for('materials/category.php') ?>">Manage Category</a>
                         </li>
                         <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Material Group' ? 'active-page' : '' ?> href="<?php echo url_for('materials/group.php') ?>">Add Group</a>
+                           <a class="dropdown-item" <?php echo $page_title == 'Material Group' ? 'active-page' : '' ?> href="<?php echo url_for('materials/group.php') ?>">Manage Group</a>
                         </li>
                      <?php endif; ?>
                   </ul>

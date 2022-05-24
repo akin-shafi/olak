@@ -63,6 +63,26 @@ class MaterialPhaseOne extends DatabaseObject
     return $this->errors;
   }
 
+  public static function find_by_group_id($groupId, $type)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE raw_group_id='" . self::$database->escape_string($groupId) . "'";
+    $sql .= " AND type='" . self::$database->escape_string($type) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "ORDER BY id DESC ";
+    return static::find_by_sql($sql);
+  }
+
+  public static function find_by_type()
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "GROUP BY type ";
+    $sql .= "ORDER BY id ASC ";
+    return static::find_by_sql($sql);
+  }
+
+
   public static function find_by_metrics()
   {
     $sql = "SELECT year(created_at) AS year, month(created_at) AS month, SUM(inflow) AS inflow, SUM(total_stock) AS total_stock  FROM " . static::$table_name . " ";

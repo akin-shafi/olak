@@ -30,4 +30,18 @@ class MaterialGroup extends DatabaseObject
 
     return $this->errors;
   }
+
+  public static function find_by_group_id($groupId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE id='" . self::$database->escape_string($groupId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
 }

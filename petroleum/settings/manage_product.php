@@ -67,7 +67,7 @@ $products = Product::find_by_undeleted();
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Product</h5>
+        <h5 class="modal-title title">Add Product</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <form id="product_form">
@@ -155,6 +155,8 @@ $products = Product::find_by_undeleted();
     $('.edit-btn').on("click", function() {
       let pId = this.dataset.id
       $('#pId').val(pId)
+      $('.title').text('Edit Product')
+
 
       $.ajax({
         url: PET_URL,
@@ -165,6 +167,7 @@ $products = Product::find_by_undeleted();
         },
         dataType: 'json',
         success: function(r) {
+          console.log(r)
           $('#pName').val(r.data.name)
           $('#pTank').val(r.data.tank)
           $('#pRate').val(r.data.rate)
