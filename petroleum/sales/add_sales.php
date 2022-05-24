@@ -51,12 +51,13 @@ include(SHARED_PATH . '/admin_header.php');
 
 <div class="content-wrapper">
 	<div class="d-flex justify-content-between align-items-center">
-		<h4>DAILY TRANSACTION RECORD FOR <?php echo strtoupper($company->name) ?> </h4>
+		<h4>DAILY TRANSACTION RECORD FOR <?php  echo Branch::find_by_id($loggedInAdmin->branch_id)->name; ?> </h4>
 		<div class="mb-3">
+			<!-- <input type="" name=""> -->
 			<select class="form-control" name="branch_id" id="sBranch" form="data_sheet_form" required>
 				<option value="">select branch</option>
 				<?php foreach ($branches as $branch) : ?>
-					<option value="<?php echo $branch->id ?>">
+					<option value="<?php echo $branch->id ?>" <?php echo $loggedInAdmin->branch_id == $branch->id ? 'selected' : '' ?>>
 						<?php echo ucwords($branch->name) ?></option>
 				<?php endforeach; ?>
 			</select>
