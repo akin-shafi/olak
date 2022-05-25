@@ -42,6 +42,7 @@ $admins = Admin::find_by_undeleted();
                     <th>Sales Mgt</th>
                     <th>Expenses Mgt</th>
                     <th>Report Mgt</th>
+                    <th>Settings Mgt</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -78,6 +79,10 @@ $admins = Admin::find_by_undeleted();
                       </td>
                       <td class="text-center">
                         <?php echo $data->report_mgt == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                          : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                      </td>
+                      <td class="text-center">
+                        <?php echo $data->settings == 1 ? '<span class="bg-primary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
                           : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
                       </td>
 
@@ -174,6 +179,13 @@ $admins = Admin::find_by_undeleted();
                 </div>
               </div>
 
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[settings]" id="settings">
+                  <label class="custom-control-label" for="settings">Settings Mgt</label>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -253,6 +265,7 @@ $admins = Admin::find_by_undeleted();
           let hasSalesPermit = r.data.sales_mgt == '1' ? true : false
           let hasExpensesPermit = r.data.expenses_mgt == '1' ? true : false
           let hasReportPermit = r.data.report_mgt == '1' ? true : false
+          let hasSettings = r.data.settings == '1' ? true : false
 
           $('#staff').val(r.data.user_id)
           $('#dashMgt').prop('checked', hasDashPermit);
@@ -261,6 +274,7 @@ $admins = Admin::find_by_undeleted();
           $('#salMgt').prop('checked', hasSalesPermit);
           $('#expMgt').prop('checked', hasExpensesPermit);
           $('#report').prop('checked', hasReportPermit);
+          $('#settings').prop('checked', hasSettings);
         }
       })
     });

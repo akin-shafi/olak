@@ -30,6 +30,7 @@ class Admin extends DatabaseObject
         2 => 'Compliance',
         3 => 'Manager',
         4 => 'Supervisor',
+        5 => 'General Manager',
     ];
 
     const STATUS = [

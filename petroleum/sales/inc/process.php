@@ -279,7 +279,7 @@ if (is_get_request()) {
          <?php endif; ?>
 
          <tr class="font-weight-bold">
-            <td class="text-uppercase">Cash submitted</td>
+            <td class="text-uppercase">Remittance</td>
             <?php foreach ($filterDataSheet as $data) : ?>
                <td class="text-right"><?php echo number_format(intval($data->cash_submitted), 2); ?></td>
             <?php endforeach; ?>

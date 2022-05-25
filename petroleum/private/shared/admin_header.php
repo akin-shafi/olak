@@ -1,5 +1,10 @@
 <?php
 require_login();
+
+if (!isset($loggedInAdmin->id) || empty($loggedInAdmin)) {
+   redirect_to('../logout.php');
+}
+
 $access = AccessControl::find_by_user_id($loggedInAdmin->id);
 
 $isActive = 0;
@@ -433,33 +438,36 @@ $fullName = $user->full_name;
          </button>
          <div class="collapse navbar-collapse" id="WafiAdminNavbar">
             <ul class="navbar-nav">
-               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle <?php echo $page == 'Home' ? 'active-page' : '' ?>" href="#" id="dashboardsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="icon-devices_other nav-icon"></i>
-                     Dashboard
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="dashboardsDropdown">
-                     <li>
-                        <a class="dropdown-item <?php echo $page_title == 'Sales Dashboard' ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard/') ?>">Sales Dashboard</a>
-                     </li>
-                  </ul>
-               </li>
-               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle <?php echo $page == 'Sales' ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="icon-package nav-icon"></i>
-                     Sales
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="appsDropdown">
-                     <?php if ($access->sales_mgt == 1) : ?>
+               <?php if ($access->dashboard == 1) : ?>
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle <?php echo $page == 'Home' ? 'active-page' : '' ?>" href="#" id="dashboardsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="icon-devices_other nav-icon"></i>
+                        Dashboard
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="dashboardsDropdown">
+                        <li>
+                           <a class="dropdown-item <?php echo $page_title == 'Sales Dashboard' ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard/') ?>">Sales Dashboard</a>
+                        </li>
+                     </ul>
+                  </li>
+               <?php endif; ?>
+
+               <?php if ($access->sales_mgt == 1) : ?>
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle <?php echo $page == 'Sales' ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="icon-package nav-icon"></i>
+                        Sales
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="appsDropdown">
                         <li>
                            <a class="dropdown-item" <?php echo $page_title == 'All Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/') ?>">List Sales</a>
                         </li>
-                     <?php endif; ?>
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Add Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/add_sales.php') ?>">Add Sales</a>
-                     </li>
-                  </ul>
-               </li>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Add Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/add_sales.php') ?>">Add Sales</a>
+                        </li>
+                     </ul>
+                  </li>
+               <?php endif; ?>
 
                <?php if ($access->expenses_mgt == 1) : ?>
                   <li class="nav-item dropdown">
@@ -469,7 +477,7 @@ $fullName = $user->full_name;
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="expensesDropdown">
                         <li>
-                           <a class="dropdown-item <?php echo $page_title == 'Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('expenses/') ?>">Record Expenses</a>
+                           <a class="dropdown-item <?php echo $page_title == 'Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('expenses/') ?>">Manage Expenses</a>
                         </li>
                      </ul>
                   </li>
@@ -490,33 +498,34 @@ $fullName = $user->full_name;
                <?php endif; ?>
 
 
-               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="icon-settings1 nav-icon"></i>
-                     Settings
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                     <?php if ($user->admin_level == 1) : ?>
-                        <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
-                        </li>
-                        <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
-                        </li>
-                     <?php endif; ?>
-                     <?php if ($access->users_mgt == 1) : ?>
-                        <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user.php') ?>">Manage Users</a>
-                        </li>
-                     <?php endif; ?>
-                     <?php if ($access->product_mgt == 1) : ?>
-                        <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
-                        </li>
-                     <?php endif; ?>
-                  </ul>
-               </li>
-
+               <?php if ($access->settings == 1) : ?>
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="icon-settings1 nav-icon"></i>
+                        Settings
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+                        <?php if ($user->admin_level == 1) : ?>
+                           <li>
+                              <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
+                           </li>
+                           <li>
+                              <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
+                           </li>
+                        <?php endif; ?>
+                        <?php if ($access->users_mgt == 1) : ?>
+                           <li>
+                              <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user.php') ?>">Manage Users</a>
+                           </li>
+                        <?php endif; ?>
+                        <?php if ($access->product_mgt == 1) : ?>
+                           <li>
+                              <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
+                           </li>
+                        <?php endif; ?>
+                     </ul>
+                  </li>
+               <?php endif; ?>
 
 
 

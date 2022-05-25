@@ -294,6 +294,7 @@ if (is_post_request()) {
         'sales_mgt'     => isset($args['sales_mgt']) ? '1' : '0',
         'expenses_mgt'  => isset($args['expenses_mgt']) ? '1' : '0',
         'report_mgt'    => isset($args['report_mgt']) ? '1' : '0',
+        'settings'      => isset($args['settings']) ? '1' : '0',
       ];
 
       $access = new AccessControl($args);
@@ -309,12 +310,13 @@ if (is_post_request()) {
     $access = AccessControl::find_by_id($aId);
 
     $args = [
-      'dashboard' => isset($args['dashboard']) ? '1' : '0',
-      'users_mgt' => isset($args['users_mgt']) ? '1' : '0',
-      'product_mgt' => isset($args['product_mgt']) ? '1' : '0',
-      'sales_mgt' => isset($args['sales_mgt']) ? '1' : '0',
-      'expenses_mgt' => isset($args['expenses_mgt']) ? '1' : '0',
-      'report_mgt' => isset($args['report_mgt']) ? '1' : '0',
+      'dashboard'     => isset($args['dashboard']) ? '1' : '0',
+      'users_mgt'     => isset($args['users_mgt']) ? '1' : '0',
+      'product_mgt'   => isset($args['product_mgt']) ? '1' : '0',
+      'sales_mgt'     => isset($args['sales_mgt']) ? '1' : '0',
+      'expenses_mgt'  => isset($args['expenses_mgt']) ? '1' : '0',
+      'report_mgt'    => isset($args['report_mgt']) ? '1' : '0',
+      'settings'      => isset($args['settings']) ? '1' : '0',
     ];
 
     $access->merge_attributes($args);

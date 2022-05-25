@@ -31,8 +31,10 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
 
 <div class="content-wrapper">
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#expenseModel">
-      &plus; Add</button>
+    <?php if ($loggedInAdmin->admin_level != 3) : ?>
+      <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#expenseModel">
+        &plus; Add Expenses</button>
+    <?php endif; ?>
   </div>
 
   <div class="row gutters">
