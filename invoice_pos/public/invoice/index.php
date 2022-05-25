@@ -181,7 +181,7 @@ $page_title = 'Billing & Invoicing'; ?>
                             <td><span id="sr_no">1</span></td>
                             <td>
 
-                              <select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type1" data-srno="1">
+                              <select class="form-control form-control-sm service_type select2" required="" name="service_type[]" id="service_type1" data-srno="1">
                                 <option disabled selected="">Select Type</option>
                                 <?php foreach (Product::find_by_undeleted() as $result => $value) { ?>
                                   <option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>">

@@ -41,18 +41,6 @@ $page_title = 'All Invoices'; ?>
 							<i class="feather-filter"></i></button>
 					</div>
 
-					<!-- <div class="daterange-container">
-						<div class="date-range">
-							<div id="reportrange">
-								<i class="feather-calendar cal"></i>
-								<span class="range-text">Jan 20, 2020 - Feb 18, 2020</span>
-								<i class="feather-chevron-down arrow"></i>
-							</div>
-						</div>
-						<a href="#" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Download CSV">
-							<i class="feather-download"></i>
-						</a>
-					</div> -->
 				</div>
 			</div>
 		</div>
@@ -83,13 +71,19 @@ $page_title = 'All Invoices'; ?>
 
 
 </div>
-
+<input type="hidden" id="company_id" value="<?php echo $loggedInAdmin->company_id ?>">
+<input type="hidden" id="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
 
 <script>
 	$(document).ready(function() {
 		const FILTER_URL = "inc/filter.php";
+
+		var cId = $('#companyId').val();
+		var bId = $('#branchId').val();
+
+		completeFilter(cId, bId)
 
 		$('#company').on('change', function() {
 			let companyId = this.value;

@@ -68,7 +68,7 @@ if (is_post_request()) {
                   <div class="login-box">
                      <a href="#" class="login-logo">
                         <!-- <img src="png/logo-dark.png" alt="Wafi Admin Dashboard" /> -->
-                        Olak Pet.
+                        Olak Factory.
                      </a>
                      <h5>Welcome back,<br />Please Login to your Account.</h5>
 
