@@ -63,14 +63,15 @@ $admins = Admin::find_by_undeleted();
                     if ($data->branch_id != '') :
                       $branch = Branch::find_by_id($data->branch_id)->name;
                     endif;
+                    $imgUrl = !empty($data->profile_img) ? $data->profile_img : 'olak.png';
                   ?>
                     <tr>
                       <td>
-                        <img class="img-thumbnail" src="<?php echo url_for('settings/uploads/profile/' . $data->profile_img); ?>" width="100" alt="<?php echo ucwords($data->full_name); ?>">
+                        <img class="avatar rounded-circle" src="<?php echo url_for('settings/uploads/profile/' . $imgUrl); ?>" width="100" alt="<?php echo ucwords($data->full_name); ?>">
                       </td>
                       <td><?php echo strtoupper($data->full_name); ?></td>
                       <td><?php echo $data->email; ?></td>
-                      <td><?php echo $adminLevel; ?></td>
+                      <td><span class="badge badge-primary"><?php echo $adminLevel; ?></span></td>
                       <td><?php echo isset($branch) ? ucwords($branch) : 'Not set'; ?></td>
                       <td><?php echo $data->reset_password != 0 ? '<span class="badge badge-success">Activated</span>' : '<span class="badge badge-warning">Pending</span>'; ?></td>
                       <td><?php echo ucwords($createdBy); ?></td>
@@ -210,15 +211,14 @@ $admins = Admin::find_by_undeleted();
           $('.lds-hourglass').removeClass('d-none');
         },
         success: function(r) {
-          if (r.success == true) {
-            successAlert(r.msg);
-            setTimeout(() => {
-              $('.lds-hourglass').addClass('d-none');
-              window.location.reload()
-            }, 250);
-          } else {
-            errorAlert(r.msg);
-          }
+          successAlert(r.msg);
+          setTimeout(() => {
+            $('.lds-hourglass').addClass('d-none');
+            window.location.reload()
+          }, 250);
+        },
+        error: function(e) {
+          errorAlert(e.responseJSON.msg[0]);
         }
       })
     });

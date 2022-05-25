@@ -12,7 +12,7 @@ $stockOne = StockPhaseOne::find_by_category_id($catId);
 if (empty($stockOne)) redirect_to('../sales/');
 
 $categories = Category::find_all_categories();
-$products = Product::find_all_products();
+$products = Product::find_by_undeleted();
 $gauges = Gauge::find_all_gauges();
 
 $company = Company::find_by_id($loggedInAdmin->company_id);

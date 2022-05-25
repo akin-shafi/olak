@@ -25,13 +25,24 @@ class AccessControl extends DatabaseObject
     $this->dashboard    = $args['dashboard'] ?? '';
     $this->users_mgt    = $args['users_mgt'] ?? '';
     $this->product_mgt  = $args['product_mgt'] ?? '';
-    $this->sales_mgt  = $args['sales_mgt'] ?? '';
+    $this->sales_mgt    = $args['sales_mgt'] ?? '';
     $this->expenses_mgt = $args['expenses_mgt'] ?? '';
     $this->report_mgt   = $args['report_mgt'] ?? '';
 
     $this->created_by   = $args['created_by'] ?? '';
     $this->created_at   = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted      = $args['deleted'] ?? '';
+  }
+
+  protected function validate()
+  {
+    $this->errors = [];
+
+    if (is_blank($this->user_id)) {
+      $this->errors[] = "Kindly select a staff";
+    }
+
+    return $this->errors;
   }
 
   public static function find_by_user_id($user_id)

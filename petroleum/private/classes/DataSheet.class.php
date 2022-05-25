@@ -2,7 +2,7 @@
 class DataSheet extends DatabaseObject
 {
   protected static $table_name = "data_sheet";
-  protected static $db_columns = ['id', 'product_id', 'open_stock', 'new_stock', 'total_stock', 'sales_in_ltr', 'expected_stock', 'actual_stock', 'over_or_short', 'exp_sales_value', 'cash_submitted', 'total_sales', 'total_value', 'grand_total_value', 'company_id', 'branch_id', 'created_by', 'created_at', 'updated_at', 'deleted'];
+  protected static $db_columns = ['id', 'product_id', 'open_stock', 'new_stock', 'total_stock', 'sales_in_ltr', 'expected_stock', 'actual_stock', 'over_or_short', 'exp_sales_value', 'cash_submitted', 'total_sales', 'total_value', 'grand_total_value', 'company_id', 'branch_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $product_id;
@@ -21,6 +21,7 @@ class DataSheet extends DatabaseObject
   public $company_id;
   public $branch_id;
   public $created_by;
+  public $updated_by;
   public $created_at;
   public $updated_at;
   public $deleted;
@@ -59,6 +60,7 @@ class DataSheet extends DatabaseObject
     $this->company_id           = $args['company_id'] ?? '';
     $this->branch_id            = $args['branch_id'] ?? '';
     $this->created_by           = $args['created_by'] ?? '';
+    $this->updated_by           = $args['updated_by'] ?? '';
     $this->created_at           = $args['created_at'] ?? date('Y-m-d');
     $this->updated_at           = $args['updated_at'] ?? '';
     $this->deleted              = $args['deleted'] ?? '';
@@ -92,7 +94,7 @@ class DataSheet extends DatabaseObject
 
     $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
 
-    echo $sql;
+    // echo $sql;
     return static::find_by_sql($sql);
   }
 
@@ -111,6 +113,27 @@ class DataSheet extends DatabaseObject
     endif;
 
     return static::find_by_sql($sql);
+  }
+
+  public static function find_by_product_id($productId, $option = [])
+  {
+    $date = $option['date'] ?? false;
+
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE product_id='" . self::$database->escape_string($productId) . "'";
+
+    if (isset($date)) {
+      $sql .= " AND created_at LIKE'%" . self::$database->escape_string($date) . "%'";
+    }
+
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
   }
 
   public static function find_by_sheet_id($sheetId)

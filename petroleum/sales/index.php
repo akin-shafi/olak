@@ -93,7 +93,7 @@ $products = Product::find_by_undeleted();
 
 
 	$(document).on('click', '.remove-btn', function() {
-		let tankId = this.dataset.id;
+		let dataSheetId = this.dataset.id;
 		Swal.fire({
 			title: 'Are you sure?',
 			text: "You won't be able to revert this!",
@@ -108,7 +108,7 @@ $products = Product::find_by_undeleted();
 					url: PET_URL,
 					method: "POST",
 					data: {
-						tankId: tankId,
+						dataSheetId: dataSheetId,
 						delete_tank: 1
 					},
 					dataType: 'json',

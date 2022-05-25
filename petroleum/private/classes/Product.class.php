@@ -29,6 +29,15 @@ class Product extends DatabaseObject
         return static::find_by_sql($sql);
     }
 
+    static public function grouped_products()
+    {
+        $sql = "SELECT * FROM " . static::$table_name . " ";
+        $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+        $sql .= " GROUP BY name";
+        $sql .= " ORDER BY name DESC ";
+        return static::find_by_sql($sql);
+    }
+
     public static function find_by_name($name)
     {
         $sql = "SELECT * FROM " . static::$table_name . " ";

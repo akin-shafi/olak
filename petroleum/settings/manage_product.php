@@ -6,6 +6,7 @@ $page_title = 'Manage Products';
 include(SHARED_PATH . '/admin_header.php');
 
 $products = Product::find_by_undeleted();
+$groupedProducts = Product::grouped_products();
 
 ?>
 
@@ -20,11 +21,30 @@ $products = Product::find_by_undeleted();
 
       <div class="card">
         <div class="card-body">
+
+          <div class="d-flex justify-content-end align-items-center">
+            <div class="is_check_box d-none">
+              <select name="checked" class="form-control selected" id="">
+                <option value="">select product</option>
+                <?php foreach ($groupedProducts as $product) : ?>
+                  <option value="<?php echo $product->id ?>"><?php echo strtoupper($product->name) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+
+            <div class="is_edit">
+              <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#productModel">
+                <i class="icon-edit1"></i> Edit Product</button>
+            </div>
+          </div>
+
+
           <div class="table-container border-0 shadow">
             <div class="table-responsive">
               <table class="table custom-table table-sm">
                 <thead>
                   <tr class="bg-primary text-white ">
+                    <th></th>
                     <th>Product Name</th>
                     <th>Product Tank</th>
                     <th>Product Rate</th>
@@ -33,17 +53,18 @@ $products = Product::find_by_undeleted();
 
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="product-table">
                   <?php foreach ($products as $data) : ?>
                     <tr>
+                      <td>
+                        <input type="checkbox" class="selected" name="checked[]" data-id="<?php echo $data->id; ?>" value="<?php echo $data->id; ?>">
+                      </td>
                       <td><?php echo strtoupper($data->name); ?></td>
                       <td><?php echo $data->tank; ?></td>
                       <td><?php echo number_format($data->rate, 2); ?></td>
                       <td><?php echo date('d-m-Y', strtotime($data->created_at)); ?></td>
                       <td>
                         <div class="btn-group">
-                          <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#productModel">
-                            <i class="icon-edit1"></i></button>
                           <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
                             <i class="icon-trash"></i>
                           </button>
@@ -85,8 +106,8 @@ $products = Product::find_by_undeleted();
               <div class="col-md-4">
                 <div class="mb-3">
                   <div class="form-group">
-                    <label for="pTank" class="col-form-label">Tank Number</label>
-                    <input type="text" class="form-control" name="product[tank]" id="pTank" placeholder="Tank Number" required>
+                    <label for="pTank" class="col-form-label hide">Tank Number</label>
+                    <input type="text" class="form-control hide" name="product[tank]" id="pTank" placeholder="Tank Number">
                   </div>
                 </div>
               </div>
@@ -110,7 +131,7 @@ $products = Product::find_by_undeleted();
   </div>
 </div>
 
-<input type="hidden" id="pId">
+<input type="text" id="pId">
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 
@@ -120,6 +141,8 @@ $products = Product::find_by_undeleted();
 
     $('#product_form').on("submit", function(e) {
       e.preventDefault();
+      let checked = getChecked()
+
       let pId = $('#pId').val()
 
       let formData = new FormData(this);
@@ -128,7 +151,7 @@ $products = Product::find_by_undeleted();
         formData.append('new_product', 1)
       } else {
         formData.append('edit_product', 1)
-        formData.append('pId', pId)
+        formData.append('pId', checked)
       }
 
       $.ajax({
@@ -148,29 +171,6 @@ $products = Product::find_by_undeleted();
           } else {
             errorAlert(r.msg);
           }
-        }
-      })
-    });
-
-    $('.edit-btn').on("click", function() {
-      let pId = this.dataset.id
-      $('#pId').val(pId)
-      $('.title').text('Edit Product')
-
-
-      $.ajax({
-        url: PET_URL,
-        method: "GET",
-        data: {
-          pId: pId,
-          get_product: 1
-        },
-        dataType: 'json',
-        success: function(r) {
-          console.log(r)
-          $('#pName').val(r.data.name)
-          $('#pTank').val(r.data.tank)
-          $('#pRate').val(r.data.rate)
         }
       })
     });
@@ -208,5 +208,49 @@ $products = Product::find_by_undeleted();
       }).then(() => window.location.reload())
 
     });
+
+
+    function getChecked() {
+      var tempArray = []
+      $('.selected').each(function() {
+        if ($(this).is(':checked')) {
+          let checked = ($(this).val())
+
+          tempArray.push(checked)
+        }
+      })
+
+      return tempArray;
+    }
+
+    $('.edit-btn').on("click", function() {
+      $('.title').text('Edit Product')
+
+      let checked = getChecked()
+      console.log(checked);
+
+      let pId = this.dataset.id = checked[0]
+      $('#pId').val(checked[0])
+      $('.hide').hide()
+
+      $.ajax({
+        url: PET_URL,
+        method: "GET",
+        data: {
+          pId: pId,
+          ids: checked,
+          get_product: 1
+        },
+        dataType: 'json',
+        success: function(r) {
+          console.log(r)
+          $('#pName').val(r.data.name)
+          $('#pRate').val(r.data.rate)
+        }
+      })
+    });
+
+
+
   })
 </script>

@@ -7,6 +7,7 @@ $page_title = 'Add New Sales';
 $products = Product::find_all_product();
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
+$adminLevel = $loggedInAdmin->admin_level;
 
 include(SHARED_PATH . '/admin_header.php');
 
@@ -51,10 +52,11 @@ include(SHARED_PATH . '/admin_header.php');
 
 <div class="content-wrapper">
 	<div class="d-flex justify-content-between align-items-center">
-		<h4>DAILY TRANSACTION RECORD FOR <?php  echo Branch::find_by_id($loggedInAdmin->branch_id)->name; ?> </h4>
+		<h4 class="text-uppercase">Daily transaction record for <?php echo Branch::find_by_id($loggedInAdmin->branch_id)->name; ?> </h4>
 		<div class="mb-3">
 			<!-- <input type="" name=""> -->
-			<select class="form-control" name="branch_id" id="sBranch" form="data_sheet_form" required>
+			<input type="hidden" name="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>" form="data_sheet_form" readonly>
+			<select class="form-control" disabled>
 				<option value="">select branch</option>
 				<?php foreach ($branches as $branch) : ?>
 					<option value="<?php echo $branch->id ?>" <?php echo $loggedInAdmin->branch_id == $branch->id ? 'selected' : '' ?>>
@@ -75,18 +77,24 @@ include(SHARED_PATH . '/admin_header.php');
 						<tr class="bg-primary text-white text-center">
 							<th>PRODUCT NAME</th>
 							<th>PRODUCT RATE</th>
-							<th>OPENING STOCK</th>
-							<th>NEW STOCK (INFLOW)</th>
-							<th>TOTAL STOCK</th>
-							<th>SALES (LTRS)</th>
-							<th>EXPECTED STOCK (LTRS)</th>
-							<th>ACTUAL STOCK (LTRS)</th>
-							<th>OVER/SHORT</th>
-							<th>CASH SUBMITTED #</th>
-							<!-- <th>EXP. SALES VALUE #</th>
-							 <th>TOTAL SALES (LTRS)</th>
-							<th>TOTAL VALUE #</th>
-							<th>GRAND TOTAL VALUE #</th> -->
+
+							<?php if (in_array($adminLevel, [1, 2, 3])) : ?>
+								<th>OPENING STOCK</th>
+								<th>NEW STOCK (INFLOW)</th>
+								<th>TOTAL STOCK</th>
+							<?php endif; ?>
+
+							<?php if (in_array($adminLevel, [1, 2, 4])) : ?>
+								<th>SALES (LTRS)</th>
+								<th>EXPECTED STOCK (LTRS)</th>
+								<th>ACTUAL STOCK (LTRS)</th>
+								<th>OVER/SHORT</th>
+								<th>CASH SUBMITTED #</th>
+								<!-- <th>EXP. SALES VALUE #</th>
+							 	<th>TOTAL SALES (LTRS)</th>
+								<th>TOTAL VALUE #</th>
+								<th>GRAND TOTAL VALUE #</th> -->
+							<?php endif; ?>
 							<th></th>
 						</tr>
 					</thead>
@@ -104,34 +112,47 @@ include(SHARED_PATH . '/admin_header.php');
 								</select>
 							</td>
 							<td>
-								<input type="text" size="12" class="form-control form-control-sm rate_1" placeholder='0' readonly>
+								<input type="text" size="12" class="form-control form-control-sm rate" placeholder='0' readonly>
 							</td>
-							<td>
-								<input type="text" required="" name="open_stock[]" id="open_stock_1" class="form-control form-control-sm open_stock_1">
-							</td>
-							<td>
-								<input type="text" required="" name="new_stock[]" id="new_stock_1" class="form-control form-control-sm new_stock_1">
-							</td>
-							<td>
-								<input type="text" required="" name="total_stock[]" id="total_stock_1" class="form-control form-control-sm total_stock_1" readonly>
-							</td>
-							<td>
-								<input type="text" required="" name="sales_in_ltr[]" id="sales_in_ltr_1" class="form-control form-control-sm sales_in_ltr_1">
-							</td>
-							<td>
-								<input type="text" required="" name="expected_stock[]" id="expected_stock_1" class="form-control form-control-sm expected_stock_1" readonly>
-							</td>
-							<td>
-								<input type="text" required="" name="actual_stock[]" id="actual_stock_1" class="form-control form-control-sm actual_stock_1">
-							</td>
-							<td>
-								<input type="text" required="" name="over_or_short[]" id="over_or_short_1" class="form-control form-control-sm over_or_short_1" readonly>
-							</td>
-							<td>
-								<input type="text" required="" name="cash_submitted[]" id="cash_submitted_1" class="form-control form-control-sm cash_submitted_1">
-							</td>
+							<?php if (in_array($adminLevel, [1, 2, 3])) : ?>
+								<td>
+									<input type="hidden" name="input_dipping" readonly>
+									<input type="text" required="" name="open_stock[]" class="form-control form-control-sm opening open_new">
+								</td>
+								<td>
+									<input type="text" required="" name="new_stock[]" class="form-control form-control-sm new_stock open_new">
+								</td>
+								<td>
+									<input type="text" required="" name="total_stock[]" class="form-control form-control-sm total_stock" readonly>
+								</td>
+							<?php endif; ?>
+
+
+
+							<?php if (in_array($adminLevel, [1, 2, 4])) : ?>
+								<td class="d-none">
+									<input type="hidden" name="input_sales" readonly>
+									<input type="hidden" class="form-control form-control-sm total_stock" readonly>
+								</td>
+								<td>
+									<input type="text" required="" name="sales_in_ltr[]" class="form-control form-control-sm sales">
+								</td>
+								<td>
+									<input type="text" required="" name="expected_stock[]" class="form-control form-control-sm expected_stock" readonly>
+								</td>
+								<td>
+									<input type="text" required="" name="actual_stock[]" class="form-control form-control-sm actual_stock">
+								</td>
+								<td>
+									<input type="text" required="" name="over_or_short[]" class="form-control form-control-sm over_short" readonly>
+								</td>
+								<td>
+									<input type="text" required="" name="cash_submitted[]" class="form-control form-control-sm cash_submitted">
+								</td>
+							<?php endif; ?>
+
 							<td class="d-none">
-								<input type="text" required="" name="exp_sales_value[]" id="exp_sales_value_1" class="form-control form-control-sm font-weight-bold exp_sales_value_1" readonly>
+								<input type="text" required="" name="exp_sales_value[]" class="form-control form-control-sm font-weight-bold exp_sales_value" readonly>
 							</td>
 
 
@@ -179,21 +200,85 @@ include(SHARED_PATH . '/admin_header.php');
 		$(document).on("change", '.product_id', function(e) {
 			let pId = this.value
 
+			let tRow = $(this).closest('#pet-table tr');
+			let rate = tRow.find('.rate')
+			let totalStock = tRow.find('.total_stock')
+
 			$.ajax({
 				url: PET_URL + '?pId=' + pId + '&get_product',
 				method: "GET",
 				dataType: 'json',
 				success: function(r) {
-					if (r.success == true) {
-						if (r.data != false) {
-							e.target.offsetParent.nextElementSibling.firstElementChild.value = r.data.rate
-						} else {
-							e.target.offsetParent.nextElementSibling.firstElementChild.value = ''
-						}
+					if (isNaN(rate)) {
+						rate.val(r.data.product.rate)
+						totalStock.val(r.data.sale.total_stock)
 					}
+				},
+				error: function(e) {
+					errorAlert(e.responseJSON.error)
 				}
 			})
 		});
+
+		window.onload = () => {
+			addSales()
+		}
+
+		const addSales = () => {
+
+
+			let openNew = document.querySelectorAll('.open_new')
+			openNew.forEach(sale => {
+				sale.addEventListener('input', function() {
+					let tRow = $(this).closest('#pet-table tr');
+
+					let openingStock = parseFloat(tRow.find('.opening').val(), 10)
+					let newStock = parseFloat(tRow.find('.new_stock').val(), 10)
+
+					let total = openingStock + newStock
+					let totalStock = parseFloat(tRow.find('.total_stock').val(total), 10)
+
+					if (isNaN(total)) {
+						parseFloat(tRow.find('.total_stock').val(openingStock), 10)
+					} else {
+						parseFloat(tRow.find('.total_stock').val(total), 10)
+					}
+
+				})
+			});
+
+
+			let sales = document.querySelectorAll('.sales')
+			sales.forEach(sale => {
+				sale.addEventListener('input', function() {
+					let tRow = $(this).closest('#pet-table tr');
+
+					let totalStock = parseFloat(tRow.find('.total_stock').val(), 10)
+					let salesInLtr = parseFloat(tRow.find('.sales').val(), 10)
+					let rate = parseFloat(tRow.find('.rate').val(), 10)
+
+					let expectedTotal = totalStock - salesInLtr
+					parseFloat(tRow.find('.expected_stock').val(expectedTotal), 10)
+
+					let expSalesTotal = rate * salesInLtr
+					parseFloat(tRow.find('.exp_sales_value').val(expSalesTotal), 10)
+				})
+			});
+
+
+			let actual = document.querySelectorAll('.actual_stock')
+			actual.forEach(stock => {
+				stock.addEventListener('input', function() {
+					let tRow = $(this).closest('#pet-table tr');
+
+					let actualStock = parseFloat(tRow.find('.actual_stock').val(), 10)
+					let expectedStock = parseFloat(tRow.find('.expected_stock').val(), 10)
+
+					let overOrShortTotal = actualStock - expectedStock
+					parseFloat(tRow.find('.over_short').val(overOrShortTotal), 10)
+				})
+			});
+		}
 
 		let count = 1;
 		$(document).on('click', '#add_row', function() {
@@ -203,17 +288,25 @@ include(SHARED_PATH . '/admin_header.php');
 			let html_code = '';
 			html_code += '<tr id="row_id_' + count + '">';
 			html_code += '<td><select class="form-control form-control-sm product_id" required="" name="product_id[]"><option>Select</option><?php foreach ($products as $pro) { ?><option value="<?php echo $pro->id; ?>"><?php echo strtoupper($pro->name) . ' (TANK ' . $pro->tank . ')'; ?></option><?php } ?></select></td>';
-			html_code += '<td><input type="text" size="12" class="form-control form-control-sm rate_' + count + '" placeholder="0" readonly></td>';
-			html_code += '<td><input type="text" required="" name="open_stock[]" class="form-control form-control-sm open_stock_' + count + '"></td>'
-			html_code += '<td><input type="text" required="" name="new_stock[]" class="form-control form-control-sm new_stock_' + count + '"></td>'
-			html_code += '<td><input type="text" required="" name="total_stock[]" class="form-control form-control-sm total_stock_' + count + '" readonly></td>'
-			html_code += '<td><input type="text" required="" name="sales_in_ltr[]" class="form-control form-control-sm sales_in_ltr_' + count + '"></td>'
-			html_code += '<td><input type="text" required="" name="expected_stock[]" class="form-control form-control-sm expected_stock_' + count + '" readonly></td>'
-			html_code += '<td><input type="text" required="" name="actual_stock[]" class="form-control form-control-sm actual_stock_' + count + '"></td>'
-			html_code += '<td><input type="text" required="" name="over_or_short[]" class="form-control form-control-sm over_or_short_' + count + '" readonly></td>'
-			html_code += '<td><input type="text" required="" name="cash_submitted[]" class="form-control form-control-sm cash_submitted_' + count + '"></td>'
+			html_code += '<td><input type="text" size="12" class="form-control form-control-sm rate" placeholder="0" readonly></td>';
 
-			html_code += '<td class="d-none"><input type="text" required="" name="exp_sales_value[]" class="form-control form-control-sm exp_sales_value_' + count + '" readonly></td>'
+			<?php if (in_array($adminLevel, [1, 2, 3])) : ?>
+				html_code += '<td><input type="text" required="" name="open_stock[]" class="form-control form-control-sm opening open_new"></td>'
+				html_code += '<td><input type="text" required="" name="new_stock[]" class="form-control form-control-sm new_stock open_new"></td>'
+				html_code += '<td><input type="text" required="" name="total_stock[]" class="form-control form-control-sm total_stock" readonly></td>'
+			<?php endif; ?>
+
+			<?php if (in_array($adminLevel, [1, 2, 4])) : ?>
+				html_code += '<td class="d-none"><input type="hidden" class="form-control form-control-sm total_stock" readonly></td>'
+				html_code += '<td><input type="text" required="" name="sales_in_ltr[]" class="form-control form-control-sm sales"></td>'
+				html_code += '<td><input type="text" required="" name="expected_stock[]" class="form-control form-control-sm expected_stock" readonly></td>'
+				html_code += '<td><input type="text" required="" name="actual_stock[]" class="form-control form-control-sm actual_stock"></td>'
+				html_code += '<td><input type="text" required="" name="over_or_short[]" class="form-control form-control-sm over_short" readonly></td>'
+				html_code += '<td><input type="text" required="" name="cash_submitted[]" class="form-control form-control-sm cash_submitted"></td>'
+			<?php endif; ?>
+
+
+			html_code += '<td class="d-none"><input type="text" required="" name="exp_sales_value[]" class="form-control form-control-sm exp_sales_value" readonly></td>'
 
 			html_code += '<td><button type="button" id="' + count + '" class="btn btn-secondary d-block m-auto remove_row">X</button></td></tr>';
 
@@ -258,73 +351,19 @@ include(SHARED_PATH . '/admin_header.php');
 			})
 		});
 
-		window.onload = () => {
-			addSales()
-		}
-
-		const addSales = () => {
-			const totalItem = $('#total_item').val();
-
-			for (let i = 1; i <= totalItem; i++) {
-				let rate = $('.rate_' + i)
-				let totalSales = $('.total_sales_' + i)
-				let totalValue = $('.total_value_' + i)
-
-				let cashSubmitted = $('.cash_submitted_' + i)
-				let grandTotal = $('.grand_total_' + i)
-
-				let openStock = $('.open_stock_' + i)
-				let newStock = $('.new_stock_' + i)
-				let totalStock = $('.total_stock_' + i)
-
-				let salesInLtr = $('.sales_in_ltr_' + i)
-				let expectedStock = $('.expected_stock_' + i)
-
-				let actualStock = $('.actual_stock_' + i)
-				let overOrShort = $('.over_or_short_' + i)
-
-				let expSalesValue = $('.exp_sales_value_' + i)
-
-				newStock.on('keyup', function() {
-					let openSumTotal = Number(openStock.val()) + Number(newStock.val())
-					totalStock.val(openSumTotal);
-					console.log(totalStock.val());
-				})
-
-				salesInLtr.on('keyup', function() {
-					let expectedTotal = Number(totalStock.val()) - Number(salesInLtr.val())
-					expectedStock.val(expectedTotal);
-
-					let expSalesTotal = Number(rate.val()) * Number(salesInLtr.val())
-					expSalesValue.val(expSalesTotal);
-				})
-
-				actualStock.on('keyup', function() {
-					let overOrShortTotal = Number(actualStock.val()) - Number(expectedStock.val())
-					overOrShort.val(overOrShortTotal);
-				})
 
 
-				// ! This will set the initial calculated result on page load. Thank you!
-				let openSumTotal = Number(openStock.val()) + Number(newStock.val())
-				let expectedTotal = Number(totalStock.val()) - Number(salesInLtr.val())
-				let overOrShortTotal = Number(actualStock.val()) - Number(expectedStock.val())
-				let expSalesTotal = Number(rate.val()) * Number(salesInLtr.val())
 
-				totalStock.val(openSumTotal);
-				expectedStock.val(expectedTotal);
-				overOrShort.val(overOrShortTotal);
-				expSalesValue.val(expSalesTotal);
-			}
-		}
+
+
 
 		// ***** Close Of Business CronJob *****
 		const COBCronJob = setInterval(() => {
 			let date = new Date()
 			let hr = date.getHours()
 			if (hr >= 23 || hr <= 6) {
-				$('#data_sheet_form :input').prop('disabled', true)
-				$('.out-of-service').removeClass('d-none');
+				// $('#data_sheet_form :input').prop('disabled', true)
+				// $('.out-of-service').removeClass('d-none');
 			}
 		}, 250)
 

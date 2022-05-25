@@ -219,15 +219,15 @@ $admins = Admin::find_by_undeleted();
           $('.lds-hourglass').removeClass('d-none');
         },
         success: function(r) {
-          if (r.success == true) {
-            successAlert(r.msg);
-            setTimeout(() => {
-              $('.lds-hourglass').addClass('d-none');
-              window.location.reload()
-            }, 250);
-          } else {
-            errorAlert(r.msg);
-          }
+          successAlert(r.msg);
+          setTimeout(() => {
+            $('.lds-hourglass').addClass('d-none');
+            window.location.reload()
+          }, 250);
+        },
+        error: function(e) {
+          errorAlert(e.responseJSON.msg);
+          $('.lds-hourglass').addClass('d-none');
         }
       })
     });
