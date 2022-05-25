@@ -152,12 +152,14 @@ if (is_post_request()) {
   }
 
   if (isset($_POST['edit_product'])) {
-    $pId = $_POST['pId'];
     $args = $_POST['product'];
-    $product = Product::find_by_id($pId);
+    $products = Product::find_by_names($args['name']);
 
-    $product->merge_attributes($args);
-    $product->save();
+    foreach ($products as $value) :
+      $product = Product::find_by_id($value->id);
+      $product->merge_attributes($args);
+      $product->save();
+    endforeach;
 
     if ($product == true) :
       exit(json_encode(['success' => true, 'msg' => 'Product updated successfully!']));

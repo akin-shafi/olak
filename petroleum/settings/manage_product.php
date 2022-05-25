@@ -24,7 +24,7 @@ $groupedProducts = Product::grouped_products();
 
           <div class="d-flex justify-content-end align-items-center">
             <div class="is_check_box d-none">
-              <select name="checked" class="form-control selected" id="">
+              <select name="checked" class="form-control selected">
                 <option value="">select product</option>
                 <?php foreach ($groupedProducts as $product) : ?>
                   <option value="<?php echo $product->id ?>"><?php echo strtoupper($product->name) ?></option>
@@ -33,8 +33,8 @@ $groupedProducts = Product::grouped_products();
             </div>
 
             <div class="is_edit">
-              <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#productModel">
-                <i class="icon-edit1"></i> Edit Product</button>
+              <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#productModalEdit">
+                <i class="icon-edit1"></i> Edit Rate</button>
             </div>
           </div>
 
@@ -44,7 +44,6 @@ $groupedProducts = Product::grouped_products();
               <table class="table custom-table table-sm">
                 <thead>
                   <tr class="bg-primary text-white ">
-                    <th></th>
                     <th>Product Name</th>
                     <th>Product Tank</th>
                     <th>Product Rate</th>
@@ -56,9 +55,9 @@ $groupedProducts = Product::grouped_products();
                 <tbody id="product-table">
                   <?php foreach ($products as $data) : ?>
                     <tr>
-                      <td>
+                      <!-- <td>
                         <input type="checkbox" class="selected" name="checked[]" data-id="<?php echo $data->id; ?>" value="<?php echo $data->id; ?>">
-                      </td>
+                      </td> -->
                       <td><?php echo strtoupper($data->name); ?></td>
                       <td><?php echo $data->tank; ?></td>
                       <td><?php echo number_format($data->rate, 2); ?></td>
@@ -106,8 +105,8 @@ $groupedProducts = Product::grouped_products();
               <div class="col-md-4">
                 <div class="mb-3">
                   <div class="form-group">
-                    <label for="pTank" class="col-form-label hide">Tank Number</label>
-                    <input type="text" class="form-control hide" name="product[tank]" id="pTank" placeholder="Tank Number">
+                    <label for="pTank" class="col-form-label">Tank Number</label>
+                    <input type="text" class="form-control" name="product[tank]" id="pTank" placeholder="Tank Number">
                   </div>
                 </div>
               </div>
@@ -131,6 +130,50 @@ $groupedProducts = Product::grouped_products();
   </div>
 </div>
 
+<div class="modal fade" id="productModalEdit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title title">Edit Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+      </div>
+      <form id="edit_product_form">
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <div class="form-group">
+                    <label for="editName" class="col-form-label">Product Name</label>
+                    <select name="product[name]" class="form-control" id="pId">
+                      <option value="">select product</option>
+                      <?php foreach ($groupedProducts as $product) : ?>
+                        <option><?php echo strtoupper($product->name) ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <div class="form-group">
+                    <label for="pRate" class="col-form-label">Product Rate</label>
+                    <input type="text" class="form-control" name="product[rate]" id="pRate" placeholder="Product Rate" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <input type="text" id="pId">
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
@@ -141,19 +184,24 @@ $groupedProducts = Product::grouped_products();
 
     $('#product_form').on("submit", function(e) {
       e.preventDefault();
-      let checked = getChecked()
-
-      let pId = $('#pId').val()
 
       let formData = new FormData(this);
+      formData.append('new_product', 1)
 
-      if (pId == "") {
-        formData.append('new_product', 1)
-      } else {
-        formData.append('edit_product', 1)
-        formData.append('pId', checked)
-      }
+      saveData(formData)
+    });
 
+    $('#edit_product_form').on("submit", function(e) {
+      e.preventDefault();
+
+      let formData = new FormData(this);
+      formData.append('edit_product', 1)
+
+      saveData(formData)
+    });
+
+
+    function saveData(formData) {
       $.ajax({
         url: PET_URL,
         method: "POST",
@@ -173,7 +221,9 @@ $groupedProducts = Product::grouped_products();
           }
         }
       })
-    });
+    }
+
+
 
     $(document).on('click', '.remove-btn', function() {
       let pId = this.dataset.id;
@@ -210,28 +260,28 @@ $groupedProducts = Product::grouped_products();
     });
 
 
-    function getChecked() {
-      var tempArray = []
-      $('.selected').each(function() {
-        if ($(this).is(':checked')) {
-          let checked = ($(this).val())
+    // function getChecked() {
+    //   var tempArray = []
+    //   $('.selected').each(function() {
+    //     if ($(this).is(':checked')) {
+    //       let checked = ($(this).val())
 
-          tempArray.push(checked)
-        }
-      })
+    //       tempArray.push(checked)
+    //     }
+    //   })
 
-      return tempArray;
-    }
+    //   return tempArray;
+    // }
 
     $('.edit-btn').on("click", function() {
       $('.title').text('Edit Product')
 
-      let checked = getChecked()
+      // let checked = getChecked()
       console.log(checked);
 
-      let pId = this.dataset.id = checked[0]
-      $('#pId').val(checked[0])
-      $('.hide').hide()
+      // let pId = this.dataset.id = checked[0]
+      // $('#pId').val(checked[0])
+      // $('.hide').hide()
 
       $.ajax({
         url: PET_URL,

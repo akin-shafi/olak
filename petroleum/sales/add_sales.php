@@ -341,12 +341,13 @@ include(SHARED_PATH . '/admin_header.php');
 				processData: false,
 				dataType: 'json',
 				success: function(r) {
-					if (r.success == true) {
-						successAlert(r.msg);
-						window.location.href = BACK_URL
-					} else {
-						errorAlert(r.msg);
-					}
+					successAlert(r.msg);
+					window.location.href = BACK_URL
+					$('#submit_sales').attr('disabled', false);
+				},
+				error: function(e) {
+					errorAlert(e.responseJSON.error)
+					$('#submit_sales').attr('disabled', false);
 				}
 			})
 		});
