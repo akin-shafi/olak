@@ -22,20 +22,30 @@ if (is_post_request()) {
 
 
       if (isset($_POST['input_dipping'])) {
+
+
          for ($i = 0; $i < count($args['product_id']); $i++) {
-            $data = [
-               "product_id"         => $args['product_id'][$i],
-               "open_stock"         => $args['open_stock'][$i],
-               "new_stock"          => $args['new_stock'][$i],
-               "total_stock"        => $args['total_stock'][$i],
+            $product = DataSheet::find_by_product_id($args['product_id'][$i], ['date' => date('Y-m-d')]);
 
-               "company_id"         => $args['company_id'],
-               "branch_id"          => $args['branch_id'],
-               "created_by"         => $loggedInAdmin->id,
-            ];
+            if (isset($product->product_id) && ($product->product_id == $args['product_id'][$i])) :
+               http_response_code(404);
+               exit(json_encode(['error' => '!']));
+            else :
 
-            $dataSheet = new DataSheet($data);
-            $result = $dataSheet->save();
+               $data = [
+                  "product_id"         => $args['product_id'][$i],
+                  "open_stock"         => $args['open_stock'][$i],
+                  "new_stock"          => $args['new_stock'][$i],
+                  "total_stock"        => $args['total_stock'][$i],
+
+                  "company_id"         => $args['company_id'],
+                  "branch_id"          => $args['branch_id'],
+                  "created_by"         => $loggedInAdmin->id,
+               ];
+
+               $dataSheet = new DataSheet($data);
+               $result = $dataSheet->save();
+            endif;
          }
       }
 
@@ -171,7 +181,7 @@ if (is_get_request()) {
       }
 ?>
       <thead>
-         <tr class="bg-primary text-white ">
+         <tr class="bg-primary text-white">
             <th class="font-weight-bold">Product</th>
             <?php foreach ($filterDataSheet as $product) : ?>
                <th class="font-weight-bold text-right">
@@ -189,19 +199,19 @@ if (is_get_request()) {
          </tr>
       </thead>
       <tbody>
-         <tr class="font-weight-bold">
+         <!-- <tr class="font-weight-bold bg-primary text-white">
             <td class="text-uppercase">Branch</td>
-            <?php foreach ($filterDataSheet as $data) : ?>
-               <td class="text-right"><?php echo Branch::find_by_id($data->branch_id)->name; ?></td>
-            <?php endforeach; ?>
-         </tr>
-         <tr class="font-weight-bold">
+            <?php //foreach ($filterDataSheet as $data) : ?>
+               <td class="text-right"><?php //echo Branch::find_by_id($data->branch_id)->name; ?></td>
+            <?php //endforeach; ?>
+         </tr> -->
+         <tr class="font-weight-bold bg-primary text-white">
             <td class="text-uppercase">Created At</td>
             <?php foreach ($filterDataSheet as $data) : ?>
                <td class="text-right"><?php echo date('M d, Y', strtotime($data->created_at)); ?></td>
             <?php endforeach; ?>
          </tr>
-         <tr class="font-weight-bold">
+         <tr class="font-weight-bold bg-primary text-white">
             <td class="text-uppercase">Rate</td>
             <?php foreach ($filterDataSheet as $data) : ?>
                <td class="text-right"><?php echo number_format($data->rate, 2); ?></td>
@@ -231,7 +241,7 @@ if (is_get_request()) {
 
 
 
-         <?php if (in_array($adminLevel, [1, 2, 4])) : ?>
+         <?php if (in_array($adminLevel, [1, 2, 3, 4])) : ?>
             <tr>
                <td class="text-uppercase">Sales (Ltr)</td>
                <?php foreach ($filterDataSheet as $data) : ?>
@@ -269,7 +279,7 @@ if (is_get_request()) {
          <?php endif; ?>
 
          <tr class="font-weight-bold">
-            <td class="text-uppercase">Cash submitted</td>
+            <td class="text-uppercase">Remittance</td>
             <?php foreach ($filterDataSheet as $data) : ?>
                <td class="text-right"><?php echo number_format(intval($data->cash_submitted), 2); ?></td>
             <?php endforeach; ?>

@@ -51,4 +51,12 @@ class Product extends DatabaseObject
             return false;
         }
     }
+
+    public static function find_by_names($name)
+    {
+        $sql = "SELECT * FROM " . static::$table_name . " ";
+        $sql .= "WHERE name='" . self::$database->escape_string($name) . "'";
+        $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+        return static::find_by_sql($sql);
+    }
 }

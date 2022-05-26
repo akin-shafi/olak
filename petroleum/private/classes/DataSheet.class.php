@@ -93,8 +93,9 @@ class DataSheet extends DatabaseObject
     endif;
 
     $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+    $sql .= " ORDER BY pr.id, ds.created_at";
 
-    // echo $sql;
+    echo $sql;
     return static::find_by_sql($sql);
   }
 
