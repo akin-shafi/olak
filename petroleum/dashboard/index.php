@@ -78,7 +78,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 		<div class="card-body">
 			<h3>Welcome to Olak Petroleum</h3>
 
-			<div class="row gutters">
+			<div class="row gutters d-none">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4">
 					<div class="row gutters">
 						<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
@@ -184,20 +184,6 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 									<h4 class="card-title">January - <?php echo date('F, Y'); ?></h4>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-12">
-					<div class="d-flex justify-content-between align-items-center shadow-sm p-2 mb-2">
-						<h4 class="mb-0 text-uppercase">Product Sales Summary for the year <?php echo date('Y'); ?></h4>
-						<div class="btn-group">
-							<select class="form-control" name="branch_query" id="branch_query">
-								<?php foreach ($branches as $branch) : ?>
-									<option value="<?php echo $branch->id ?>"><?php echo $branch->name ?></option>
-								<?php endforeach; ?>
-							</select>
-							<button class="btn btn-sm btn-primary" id="filter_branch"><i class="icon-search"></i></button>
 						</div>
 					</div>
 				</div>
@@ -395,6 +381,22 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 					</div>
 				</div> -->
 
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="d-flex justify-content-between align-items-center shadow-sm p-2 mb-2">
+						<h4 class="mb-0 text-uppercase">Product Sales Summary for the month of (<?php echo date('M, Y'); ?>)</h4>
+						<div class="btn-group">
+							<select class="form-control" name="branch_query" id="branch_query">
+								<?php foreach ($branches as $branch) : ?>
+									<option value="<?php echo $branch->id ?>"><?php echo $branch->name ?></option>
+								<?php endforeach; ?>
+							</select>
+							<button class="btn btn-sm btn-primary" id="filter_branch"><i class="icon-search"></i></button>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div id="salesReport">

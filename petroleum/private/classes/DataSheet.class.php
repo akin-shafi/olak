@@ -184,7 +184,7 @@ class DataSheet extends DatabaseObject
 
   public static function get_sheets($bId)
   {
-    $date = date('Y');
+    $date = date('Y-m');
 
     $sql = "SELECT product_id, SUM(total_stock) AS total_stock, SUM(sales_in_ltr) AS sales_in_ltr, SUM(expected_stock) AS expected_stock, SUM(actual_stock) AS actual_stock, SUM(over_or_short) AS over_or_short, SUM(exp_sales_value) AS exp_sales_value, SUM(cash_submitted) AS cash_submitted FROM " . static::$table_name . " ";
 
@@ -213,9 +213,9 @@ class DataSheet extends DatabaseObject
 
   public static function get_top_selling_product($bId)
   {
-    $date = date('Y');
+    $date = date('Y-m');
 
-    $sql = "SELECT SUM(ds.sales_in_ltr) AS sales_in_ltr, p.name AS product_name FROM " . static::$table_name . " AS ds ";
+    $sql = "SELECT SUM(ds.sales_in_ltr) AS sales_in_ltr, SUM(ds.exp_sales_value) AS exp_sales_value, SUM(ds.cash_submitted) AS cash_submitted, SUM(ds.over_or_short) AS over_or_short, p.name AS product_name FROM " . static::$table_name . " AS ds ";
     $sql .= "JOIN products AS p ON ds.product_id = p.id ";
 
 
@@ -227,6 +227,7 @@ class DataSheet extends DatabaseObject
     $sql .= "GROUP BY p.name ";
     // $sql .= "ORDER BY sales_in_ltr DESC";
 
+    // echo $sql;
     return static::find_by_sql($sql);
   }
 }
