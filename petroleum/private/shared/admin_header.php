@@ -967,10 +967,10 @@ $fullName = $user->full_name;
             </ol>
 
             <ul class="app-actions">
-               <?php if ($access->sales_mgt == 1 && $access->filtering == 1 && $page_title == 'All Sales') : ?>
+               <?php if ($access->sales_mgt == 1 && $page_title == 'All Sales') : ?>
                   <div class="d-flex justify-content-center align-items-center">
                      <li class="d-flex justify-content-center align-items-center">
-                        <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
+                        <select name="filter_branch" class="form-control form-control-sm mx-2" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
                            <option value="">select branch</option>
                            <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
                               <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
@@ -992,7 +992,7 @@ $fullName = $user->full_name;
                <?php if ($access->sales_mgt == 1 && ($page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
                   <div class="d-flex justify-content-center align-items-center">
                      <li>
-                        <select name="filter_branch" class="form-control form-control-sm" disabled id="fBranch">
+                        <select name="filter_branch" class="form-control form-control-sm" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
                            <option value="">select branch</option>
                            <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
                               <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
