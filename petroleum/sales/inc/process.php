@@ -193,7 +193,7 @@ if (is_get_request()) {
                   <div class="btn-group">
                      <a href="<?php echo url_for('sales/edit_sales.php?sheet_id=' . $product->id) ?>" class="btn btn-sm btn-warning"><i class="icon-edit"></i></a>
 
-                     <?php if (in_array($adminLevel, [1, 2])) : ?>
+                     <?php if (in_array($adminLevel, [1, 2, 5, 6, 7, 8])) : ?>
                         <button data-id="<?php echo $product->id ?>" class="btn btn-sm btn-secondary remove-btn"><i class="icon-delete"></i></button>
                      <?php endif; ?>
 

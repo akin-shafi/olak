@@ -358,30 +358,30 @@ include(SHARED_PATH . '/admin_header.php');
 
 
 
-		// ***** Close Of Business CronJob *****
-		const COBCronJob = setInterval(() => {
-			let date = new Date()
-			let hr = date.getHours()
-			if (hr >= 23 || hr <= 6) {
-				$('#data_sheet_form :input').prop('disabled', true)
-				$('.out-of-service').removeClass('d-none');
-			}
-		}, 250)
+		// // ***** Close Of Business CronJob *****
+		// const COBCronJob = setInterval(() => {
+		// 	let date = new Date()
+		// 	let hr = date.getHours()
+		// 	if (hr >= 23 || hr <= 6) {
+		// 		$('#data_sheet_form :input').prop('disabled', true)
+		// 		$('.out-of-service').removeClass('d-none');
+		// 	}
+		// }, 250)
 
-		setTimeout(() => clearInterval(COBCronJob), 250)
-		// ***** Close Of Business CronJob *****
+		// setTimeout(() => clearInterval(COBCronJob), 250)
+		// // ***** Close Of Business CronJob *****
 
-		// ***** Start Of Business CronJob *****
-		const SOBCronJob = setInterval(() => {
-			let date = new Date()
-			let hr = date.getHours()
-			if (hr >= 7) {
-				$('#data_sheet_form :input').prop('disabled', false)
-				// $('.out-of-service').removeClass('d-none'); //! Comment this out!
-			}
-		}, 250)
+		// // ***** Start Of Business CronJob *****
+		// const SOBCronJob = setInterval(() => {
+		// 	let date = new Date()
+		// 	let hr = date.getHours()
+		// 	if (hr >= 7) {
+		// 		$('#data_sheet_form :input').prop('disabled', false)
+		// 		// $('.out-of-service').removeClass('d-none'); //! Comment this out!
+		// 	}
+		// }, 250)
 
-		setTimeout(() => clearInterval(SOBCronJob), 250)
-		// ***** Start Of Business CronJob *****
+		// setTimeout(() => clearInterval(SOBCronJob), 250)
+		// // ***** Start Of Business CronJob *****
 	})
 </script>
