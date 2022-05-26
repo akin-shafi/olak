@@ -967,10 +967,10 @@ $fullName = $user->full_name;
             </ol>
 
             <ul class="app-actions">
-               <?php if ($access->sales_mgt == 1 && $page_title == 'All Sales') : ?>
+               <?php if ($access->sales_mgt == 1 && $access->filtering == 1 && $page_title == 'All Sales') : ?>
                   <div class="d-flex justify-content-center align-items-center">
                      <li class="d-flex justify-content-center align-items-center">
-                        <select name="filter_branch" class="form-control form-control-sm mx-2" disabled id="fBranch">
+                        <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
                            <option value="">select branch</option>
                            <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
                               <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
