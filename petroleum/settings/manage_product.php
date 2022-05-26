@@ -12,8 +12,12 @@ $groupedProducts = Product::grouped_products();
 
 <div class="content-wrapper">
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#productModel">
-      &plus; Add Product</button>
+    <div class="btn-group">
+      <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#productModel">
+        &plus; Add Product</button>
+      <button class="btn btn-warning mb-3 edit-btn" data-toggle="modal" data-target="#productModalEdit">
+        <i class="icon-edit1"></i> Edit Rate</button>
+    </div>
   </div>
 
   <div class="row gutters">
@@ -33,8 +37,13 @@ $groupedProducts = Product::grouped_products();
             </div>
 
             <div class="is_edit">
-              <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#productModalEdit">
-                <i class="icon-edit1"></i> Edit Rate</button>
+              <select name="filter_branch" class="form-control form-control-sm" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
+                <option value="">select branch</option>
+                <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
+                  <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
+                    <?php echo ucwords($branch->name) ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div>
 

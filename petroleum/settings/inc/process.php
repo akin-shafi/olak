@@ -140,6 +140,7 @@ if (is_post_request()) {
   // *************** PRODUCT
   if (isset($_POST['new_product'])) {
     $args = $_POST['product'];
+    $args['branch_id'] = $loggedInAdmin->branch_id;
 
     $product = new Product($args);
     $product->save();

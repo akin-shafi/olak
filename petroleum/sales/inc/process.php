@@ -27,7 +27,11 @@ if (is_post_request()) {
          for ($i = 0; $i < count($args['product_id']); $i++) {
             $product = DataSheet::find_by_product_id($args['product_id'][$i], ['date' => date('Y-m-d')]);
 
-            if (isset($product->product_id) && ($product->product_id == $args['product_id'][$i])) :
+            if (
+               isset($product->product_id)
+               && ($product->product_id == $args['product_id'][$i])
+               && ($product->branch_id == $loggedInAdmin->branch_id)
+            ) :
                http_response_code(404);
                exit(json_encode(['error' => '!']));
             else :
@@ -201,9 +205,12 @@ if (is_get_request()) {
       <tbody>
          <!-- <tr class="font-weight-bold bg-primary text-white">
             <td class="text-uppercase">Branch</td>
-            <?php //foreach ($filterDataSheet as $data) : ?>
-               <td class="text-right"><?php //echo Branch::find_by_id($data->branch_id)->name; ?></td>
-            <?php //endforeach; ?>
+            <?php //foreach ($filterDataSheet as $data) : 
+            ?>
+               <td class="text-right"><?php //echo Branch::find_by_id($data->branch_id)->name; 
+                                       ?></td>
+            <?php //endforeach; 
+            ?>
          </tr> -->
          <tr class="font-weight-bold bg-primary text-white">
             <td class="text-uppercase">Created At</td>
