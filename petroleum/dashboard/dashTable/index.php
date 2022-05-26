@@ -28,7 +28,9 @@ if (is_get_request()) {
     </style>
     <div class="row gutters">
 
-      <?php foreach ($topSelling as $pro) : ?>
+      <?php foreach ($topSelling as $pro) :
+        $lagInCash = intval($pro->cash_submitted) - intval($pro->exp_sales_value);
+      ?>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
           <ul class="list-group list-group-flush shadow px-2">
             <li class="list-group-item border-left-0 border-right-0 text-right">
@@ -71,8 +73,8 @@ if (is_get_request()) {
                   </p>
                 </div>
                 <div class="right">
-                  <h6 class="text-uppercase">Over/Short: <?php echo strtoupper($pro->product_name) ?></h6>
-                  <h2 class="mb-0"><?php echo number_format($pro->over_or_short); ?></h2>
+                  <h6 class="text-uppercase">Difference: <?php echo strtoupper($pro->product_name) ?></h6>
+                  <h2 class="mb-0"><?php echo number_format($lagInCash); ?></h2>
                 </div>
               </div>
             </li>
@@ -97,7 +99,7 @@ if (is_get_request()) {
                   <th>Over/Short (LTR)</th>
                   <th>Expected Sales (<?php echo $currency; ?>)</th>
                   <th>Cash Remitted (<?php echo $currency; ?>)</th>
-                  <th>Over/Short (<?php echo $currency; ?>)</th>
+                  <th>Difference (<?php echo $currency; ?>)</th>
                 </tr>
               </thead>
 
