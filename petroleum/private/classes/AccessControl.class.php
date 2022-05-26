@@ -2,7 +2,7 @@
 class AccessControl extends DatabaseObject
 {
   protected static $table_name = "access_control";
-  protected static $db_columns = ['id', 'user_id', 'dashboard', 'users_mgt', 'product_mgt', 'sales_mgt', 'expenses_mgt', 'report_mgt', 'settings', 'created_by', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'user_id', 'dashboard', 'users_mgt', 'product_mgt', 'sales_mgt', 'expenses_mgt', 'report_mgt', 'settings', 'filtering', 'created_by', 'created_at', 'deleted'];
 
   public $id;
   public $user_id;
@@ -13,6 +13,7 @@ class AccessControl extends DatabaseObject
   public $expenses_mgt;
   public $report_mgt;
   public $settings;
+  public $filtering;
 
   public $created_by;
   public $created_at;
@@ -23,13 +24,14 @@ class AccessControl extends DatabaseObject
   public function __construct($args = [])
   {
     $this->user_id      = $args['user_id'] ?? '';
-    $this->dashboard    = $args['dashboard'] ?? '0';
-    $this->users_mgt    = $args['users_mgt'] ?? '0';
-    $this->product_mgt  = $args['product_mgt'] ?? '0';
-    $this->sales_mgt    = $args['sales_mgt'] ?? '0';
-    $this->expenses_mgt = $args['expenses_mgt'] ?? '0';
-    $this->report_mgt   = $args['report_mgt'] ?? '0';
-    $this->settings     = $args['settings'] ?? '0';
+    $this->dashboard    = $args['dashboard'] ?? 0;
+    $this->users_mgt    = $args['users_mgt'] ?? 0;
+    $this->product_mgt  = $args['product_mgt'] ?? 0;
+    $this->sales_mgt    = $args['sales_mgt'] ?? 0;
+    $this->expenses_mgt = $args['expenses_mgt'] ?? 0;
+    $this->report_mgt   = $args['report_mgt'] ?? 0;
+    $this->settings     = $args['settings'] ?? 0;
+    $this->filtering     = $args['filtering'] ?? 0;
 
     $this->created_by   = $args['created_by'] ?? '';
     $this->created_at   = $args['created_at'] ?? date('Y-m-d H:i:s');

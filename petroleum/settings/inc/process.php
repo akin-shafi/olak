@@ -295,6 +295,7 @@ if (is_post_request()) {
         'expenses_mgt'  => isset($args['expenses_mgt']) ? '1' : '0',
         'report_mgt'    => isset($args['report_mgt']) ? '1' : '0',
         'settings'      => isset($args['settings']) ? '1' : '0',
+        'filtering'     => isset($args['filtering']) ? '1' : '0',
       ];
 
       $access = new AccessControl($args);
@@ -317,6 +318,7 @@ if (is_post_request()) {
       'expenses_mgt'  => isset($args['expenses_mgt']) ? '1' : '0',
       'report_mgt'    => isset($args['report_mgt']) ? '1' : '0',
       'settings'      => isset($args['settings']) ? '1' : '0',
+      'filtering'     => isset($args['filtering']) ? '1' : '0',
     ];
 
     $access->merge_attributes($args);
