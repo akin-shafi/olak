@@ -11,6 +11,9 @@ $billing = Billing::find_by_invoice_no($invoice_no);
 $invoices = Invoice::find_by_transid($billing->invoiceNum);
 $clients = Client::find_by_id($billing->client_id);
 
+$today = date('Y-m-d');
+$due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($today)));
+
 
 ?>
 <!DOCTYPE html>
@@ -32,7 +35,13 @@ $clients = Client::find_by_id($billing->client_id);
    <div class=" btn-wrp">
       <div class="holder">
          <a href="<?php echo url_for('invoice/all_invoices.php') ?>" class="default-btn">
-            << Back</a> <button class="default-btn" id="cmd" style="float: right;"><i class="fa fa-print"></i> Print</button>
+            << Back</a> 
+            <button class="default-btn" id="cmd" style="" ><i class="fa fa-download"></i> Download Reciept</button>
+            <button class="default-btn" id="save" style="" ><i class="fa fa-download"></i> Save Reciept</button>
+
+            <button class="default-btn" id="print" style="float: right;" i><i class="fa fa-print"></i> Print Reciept</button>
+            <button class="default-btn" id="printBoth" style="float: right;" i><i class="fa fa-print"></i> Print Reciept & WayBill</button>
+            
       </div>
    </div>
    <div class="separator"></div>
@@ -42,6 +51,7 @@ $clients = Client::find_by_id($billing->client_id);
 <body>
 
    <section class="body" id="content">
+      <?php //pre_r($billing); ?>
       <div class="container">
          <section id="memo">
             <div class="logo">
@@ -51,8 +61,6 @@ $clients = Client::find_by_id($billing->client_id);
             </div>
             <div class="company-info  float-right">
                <span class="ibcl_company_name">
-                  <!-- <img src="<?php //echo url_for('images/glogo.png') 
-                                 ?>" width="25" height="25"> -->
                   <?php echo $company->company_name; ?>
                </span>
                <div class="separator less"></div>
@@ -64,7 +72,7 @@ $clients = Client::find_by_id($billing->client_id);
             </div>
          </section>
          <section id="invoice-title-number">
-            <span id="title" class="ibcl_invoice_title">WAYBILL</span>
+            <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase;">Receipt</span>
             <div class="separator"></div>
             <span id="number" class="ibcl_invoice_number">#<?php echo $billing->invoiceNum ?? '00000'; ?></span>
          </section>
@@ -73,13 +81,12 @@ $clients = Client::find_by_id($billing->client_id);
             <div>
                <span data-ibcl-id="issue_date_label" class="ibcl_issue_date_label" data-tooltip="tooltip" data-placement="top" title="Enter issue date label">Issue Date: </span>
                <span data-ibcl-id="due_date_label" class="ibcl_due_date_label" data-tooltip="tooltip" data-placement="top" title="Enter invoice due date label">Due Date:</span>
-               <!-- <span data-ibcl-id="net_term_label" class="ibcl_net_term_label" data-tooltip="tooltip" data-placement="top" title="Enter net days label">Net:</span> -->
                <span data-ibcl-id="currency_label" class="ibcl_currency_label" data-tooltip="tooltip" data-placement="top" title="Enter invoice currency label">Currency:</span>
                <!-- <span data-ibcl-id="po_number_label" class="ibcl_po_number_label" data-tooltip="tooltip" data-placement="top" title="Enter P.O. label">Contact No. #</span> -->
             </div>
             <div>
-               <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo $billing->start_date ?? '00/00/00'; ?></span>
-               <span data-ibcl-id="due_date" class="ibcl_due_date" data-tooltip="tooltip" data-placement="top" title="Select invoice due date" data-date="12/07/2019"><?php echo $billing->due_date ?? '00/00/00'; ?></span>
+               <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo $billing->created_date ?? '00/00/00'; ?></span>
+               <span data-ibcl-id="due_date" class="ibcl_due_date" data-tooltip="tooltip" data-placement="top" title="Select invoice due date" data-date="12/07/2019"><?php echo $due_date ?? '00/00/00'; ?></span>
                <!-- <span data-ibcl-id="net_term" class="ibcl_net_term" data-tooltip="tooltip" data-placement="top" title="Enter invoice net days">21</span> -->
                <span data-ibcl-id="currency" class="ibcl_currency" data-tooltip="tooltip" data-placement="top" title="Enter invoice currency"><?php echo $billing->currency ?? 'NGN'; ?></span>
 
@@ -89,16 +96,17 @@ $clients = Client::find_by_id($billing->client_id);
          <section id="client-info">
             <span data-ibcl-id="bill_to_label" class="ibcl_bill_to_label" data-tooltip="tooltip" data-placement="top" title="Enter bill to label">Being bill of Charges For:</span>
             <div>
-               <span class="client-name ibcl_client_name" data-ibcl-id="client_name" data-tooltip="tooltip" data-placement="top" title="Enter client name"><?php $clients->full_name() ?? 'NOT SET'; ?></span>
+              <span class="client-name ibcl_client_name" data-ibcl-id="client_name" data-tooltip="tooltip" data-placement="top" title="Enter client name"> <strong>Name: </strong>  <?php
+               echo $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?></span>
             </div>
             <div>
-               <span data-ibcl-id="client_address" class="ibcl_client_address" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Enter client address"><?php echo  $clients->address ?? 'NOT SET'; ?></span>
+               <span data-ibcl-id="client_address" class="ibcl_client_address" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Enter client address"><strong>Address:</strong> <?php echo  $clients->address ?? 'NOT SET'; ?></span>
             </div>
             <div>
-               <span data-ibcl-id="client_phone_fax" class="ibcl_client_phone_fax" data-tooltip="tooltip" data-placement="top" title="Enter client pnone &amp; fax"><?php echo  $clients->phone ?? 'NOT SET'; ?></span>
+               <span data-ibcl-id="client_phone_fax" class="ibcl_client_phone_fax" data-tooltip="tooltip" data-placement="top" title="Enter client pnone &amp; fax"><strong>Phone:</strong> <?php echo  $clients->phone ?? 'NOT SET'; ?></span>
             </div>
             <div>
-               <span data-ibcl-id="client_email" class="ibcl_client_email" data-tooltip="tooltip" data-placement="top" title="Enter client email"><?php echo $clients->email; ?></span>
+               <span data-ibcl-id="client_email" class="ibcl_client_email" data-tooltip="tooltip" data-placement="top" title="Enter client email"><strong>Email:</strong> <?php echo $clients->email; ?></span>
             </div>
             <div>
                <span data-ibcl-id="client_other" class="ibcl_client_other" data-tooltip="tooltip" data-placement="top" title="Enter other client info">Attn: Find details attached below</span>
@@ -163,44 +171,89 @@ $clients = Client::find_by_id($billing->client_id);
 
             <div class="ibcl_payment_info5"></div>
             <section id="terms">
-               <span class="hidden ibcl_terms_label">Terms &amp; Notes</span>
+               <span class="hidden ibcl_terms_label">Terms Notes</span>
                <div class="ibcl_terms">Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?>, We appreciate your patrionage.
                </div>
+
+
             </section>
+
+            <div>
+               <h3>Terms  Notes:</h3>
+               <p>This receipt is valid for <?php echo $billing->due_date ?>days Only. Hence all goods/items stated above must by collected on or before 
+                  <b><?php echo date('D jS F, Y', strtotime($due_date)) ?></b>
+               </p>
+            </div>
 
 
          </div>
          <!-- </div> -->
 
+         <section id="sums">
+            <table cellspacing="0" cellpadding="0">
+               <tbody>
+                  <tr>
+                     <th data-ibcl-id="amount_subtotal_label" class="ibcl_amount_subtotal_label" data-tooltip="tooltip" data-placement="top" title="Enter subtotal label">Subtotal:</th>
+                     <td data-ibcl-id="amount_subtotal" class="ibcl_amount_subtotal" data-tooltip="tooltip" data-placement="top" title=""><?php echo $billing->currency ?? 'NOT SET'; ?> <?php echo $billing->total_amount ?? 'NOT SET'; ?></td>
+                  </tr>
+                  <tr>
+                     <th data-ibcl-id="amount_subtotal_label" class="ibcl_amount_subtotal_label" data-tooltip="tooltip" data-placement="top" title="Enter subtotal label">Tax(5%):</th>
+                     <td data-ibcl-id="amount_subtotal" class="ibcl_amount_subtotal" data-tooltip="tooltip" data-placement="top" title=""><?php echo $billing->currency ?? 'NOT SET'; ?>
+                        <?php echo $billing->tax ? $billing->tax : '0.00'; ?></td>
+                  </tr>
+                  <tr data-iterate="tax" style="display: none;">
+                     <th data-ibcl-id="tax_name" class="ibcl_tax_name" data-tooltip="tooltip" data-placement="top" title="Enter tax label">Tax:</th>
+                     <td data-ibcl-id="tax_value" class="ibcl_tax_value" data-tooltip="tooltip" data-placement="top" title=""></td>
+                  </tr>
+                  <tr class="amount-total">
+                     <th data-ibcl-id="amount_total_label" class="ibcl_amount_total_label" data-tooltip="tooltip" data-placement="top" title="Enter total label">Total:</th>
+                     <td data-ibcl-id="amount_total" class="ibcl_amount_total" data-tooltip="tooltip" data-placement="top" title=""><?php echo $billing->currency; ?> <?php echo $billing->grand_total ?: '0.00'; ?></td>
+                  </tr>
+                  <!-- You can use attribute data-hide-on-quote="true" to hide specific information on quotes.
+                     For example Invoicebus doesn't need amount paid and amount due on quotes  -->
+                  <tr data-hide-on-quote="true">
+                     <th data-ibcl-id="amount_paid_label" class="ibcl_amount_paid_label" data-tooltip="tooltip" data-placement="top" title="Enter amount paid label">Paid:</th>
+                     <td data-ibcl-id="amount_paid" class="ibcl_amount_paid add_currency_left" data-tooltip="tooltip" data-placement="top" title="Enter amount paid" data-currency="<?php echo $billing->currency; ?> "><?php echo $billing->part_payment ?: '0.00'; ?></td>
+                  </tr>
+                  <tr data-hide-on-quote="true">
+                     <th data-ibcl-id="amount_due_label" class="ibcl_amount_due_label" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Enter amount due label">Balance:</th>
+                     <td data-ibcl-id="amount_due" class="ibcl_amount_due" data-tooltip="tooltip" data-placement="top" title=""><?php echo $billing->currency; ?> <?php echo $billing->balance ?: '0.00'; ?></td>
+                  </tr>
+               </tbody>
+            </table>
+         </section>
          <div class="clearfix"></div>
+
 
 
       </div>
       <!-- <div id="editor"></div> -->
    </section>
-
+   <input type="hidden" id="url" value="<?php echo  $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?>">
    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
    <script src="es6-promise.auto.min.js"></script>
-   <script type="text/javascript" src="<?php echo url_for('js/pdfmaker/jspdf.min.js') ?>"></script>
-   <script type="text/javascript" src="<?php echo url_for('js/pdfmaker/html2canvas.min.js') ?>"></script>
-   <script type="text/javascript" src="<?php echo url_for('js/pdfmaker/html2pdf.js') ?>"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+   
 
 
-
+   
    <script type="text/javascript">
+      $('#print').click(function() {
+         window.print() 
+      })
       $('#cmd').click(function() {
          download();
       });
 
       function download() {
          // Get the element.
+         var url = $('#url').val();
          var element = document.getElementById('content');
          // Generate the PDF.
-
          html2pdf().from(element).set({
             margin: 0,
-            filename: '<?php echo  $clients->client_name; ?>-invoice.pdf',
+            filename: url+'-invoice.pdf',
             // image:        { type: 'jpeg', quality: 0.98 },
             html2canvas: {
                scale: 2
@@ -215,6 +268,39 @@ $clients = Client::find_by_id($billing->client_id);
 
          }).save();
       }
+      $(document).on('click', '#save', function() {
+         save()
+      });
+
+      function save() {
+            var url = $('#url').val();
+
+            var element = document.getElementById('content');
+            var opt = {
+              image:        { type: 'jpeg', quality: 0.98 },
+              html2canvas:  { scale: 3 },
+              jsPDF:        { unit: 'cm', format: 'letter', orientation: 'landscape' }
+            };
+
+            html2pdf().from(element).set(opt).toPdf().output('datauristring').then(function (pdfAsString) {
+                // The PDF has been converted to a Data URI string and passed to this function.
+                // Use pdfAsString however you like (send as email, etc)!
+
+            var arr = pdfAsString.split(',');
+            pdfAsString= arr[1];    
+
+                    // var data = new FormData();
+                    // data.append("data" , pdfAsString);
+                    // var xhr = new XMLHttpRequest();
+                    // xhr.open( 'post', 'upload.php', true ); //Post the Data URI to php Script to save to server
+                    // xhr.send(data);
+
+                    // })
+
+            e.preventDefault();  //stop the browser from following
+                window.location.href = 'inc/'+url+'-invoice.pdf';
+      })
+   }
    </script>
 
 </body>

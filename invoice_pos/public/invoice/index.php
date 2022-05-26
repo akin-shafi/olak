@@ -13,6 +13,7 @@ $company = Company::find_by_id($loggedInAdmin->company_id);
 $branch = Branch::find_by_id($loggedInAdmin->branch_id);
 
 
+
 ?> 
 <?php $page = 'Invoice';
 $page_title = 'Billing & Invoicing'; ?>
@@ -103,17 +104,16 @@ $page_title = 'Billing & Invoicing'; ?>
                   </select>
                 </div>
               </div>
-              <!-- <input type="hidden" class="form-control" readonly  name="billing[invoiceNum]" value="<?php //echo date('dHs'); 
-                                                                                                          ?>"> -->
+              <!-- <input type="hidden" class="form-control" readonly  name="billing[invoiceNum]" value="<?php //echo date('dHs');  ?>"> -->
 
               <div class="table-responsive">
                 <div class="d-flex">
-                  <div class="form-group mr-3">
+                  <div class="form-group mr-3 d-none">
                     <label class="label-control">Company <sup class="error">*</sup></label>
                     <input type="text" class="form-control" value="<?php echo ucwords($company->company_name) ?>" readonly>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group d-none">
                     <label class="label-control">Branch <sup class="error">*</sup></label>
                     <input type="text" class="form-control" value="<?php echo ucwords($branch->branch_name) ?>" readonly>
                   </div>
@@ -122,21 +122,24 @@ $page_title = 'Billing & Invoicing'; ?>
                 <section class="row">
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Client Name <sup class="error">*</sup></label>
-                    <select required="" class="form-control client_id" name="billing[client_id]">
+                    <div class="btn-group">
+                    <select required class="form-control client_id" name="billing[client_id]">
                       <option value="">Select Client</option>
                       <?php foreach (Client::find_by_undeleted() as $client) { ?>
 
                         <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?></option>
                       <?php } ?>
                     </select>
+                    <a href="<?php echo url_for('client/new.php') ?>" class="btn btn-success btn-sm">+</a>
+                    </div>
 
                   </div>
                   <div class="form-group col-lg-3 col-md-3 ">
-                    <label class="label-control">Billing Format <sup class="error">*</sup></label>
-                    <select required="" class="form-control" name="billing[billingFormat]">
-                      <option disabled selected="">Select Format</option>
-                      <?php foreach (Billing::BILLING_FORMAT as $result => $value) { ?>
-                        <option value="<?php echo $value; ?>">
+                    <label class="label-control">Payment Method <sup class="error">*</sup></label>
+                    <select required class="form-control payment_method" name="billing[billingFormat]">
+                      <option value="">Payment Method</option>
+                      <?php foreach (Billing::PAYMENT_METHOD as $key => $value) { ?>
+                        <option value="<?php echo $key; ?>">
                           <?php echo $value; ?>
 
                         </option>
@@ -146,22 +149,11 @@ $page_title = 'Billing & Invoicing'; ?>
                   </div>
 
                   <div class="form-group col-lg-3 col-md-3 ">
-                    <label class="label-control">Application Date <sup class="error">*</sup></label>
-                    <input required="" type="date" class="form-control" name="billing[start_date]" value="">
-
-
+                    <label class="label-control">Due Date <?php //echo $due_date; ?><sup class="error">*</sup></label>
+                    <input required="" type="text" name="billing[due_date]" class="form-control" id="dueDtate" value="30">
                   </div>
 
-                  <div class="form-group col-lg-3 col-md-3 ">
-                    <label class="label-control">Due Date <sup class="error">*</sup></label>
-                    <input required="" type="date" name="billing[due_date]" class="form-control" id="dueDtate" value="">
-
-
-                    <!-- <input type="date" class="form-control" name=""> -->
-                  </div>
                 </section>
-
-                <!--row end   -->
                 <table class="table table-bordered">
                   <tbody>
 
@@ -248,34 +240,17 @@ $page_title = 'Billing & Invoicing'; ?>
 
                     </table>
 
-                    <!-- <tr>
-                             <td colspan="2"></td>
-                          </tr> -->
-
                   </tbody>
                 </table>
               </div>
             </form>
-          </section>
-          <!--form end -->
-
-
+          </section><!--form end -->
         </div><!-- col-10 end -->
-
-
-
       </div><!-- row end -->
     </section>
-
-
-  </div>
-  <!-- Content wrapper end -->
-
-
+  </div><!-- Content wrapper end -->
 </div>
-<!-- *************
-        ************ Main container end *************
-        ************* -->
+
 <input type="hidden" value="<?php echo url_for('invoice/') ?>" id="eUrl">
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
@@ -300,8 +275,7 @@ $page_title = 'Billing & Invoicing'; ?>
       var html_code = '';
       html_code += '<tr id="row_id_' + count + '">';
       html_code += '<td><span id="sr_no">' + count + '</span></td>';
-      // html_code += '<td><input type="text" name="service_type[]" id="service_type'+count+'" class="form-control input-sm"></td>';
-      html_code += '<td><select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Product::find_by_undeleted() as $result => $value) { ?><option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>"><?php echo $value->pname ?></option><?php } ?></select></td>';
+      html_code += '<td><select class="form-control form-control-sm service_type select2" required="" name="service_type[]" id="service_type' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Product::find_by_undeleted() as $result => $value) { ?><option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>"><?php echo $value->pname ?></option><?php } ?></select></td>';
       html_code += '<td><input type="text" required="" name="unit_cost[]"  id="unit_cost' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only unit_cost"></td>';
       html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only quantity" value="<?php echo empty($expRequest->quantity) ? 0 : ''; ?>"></td>';
       html_code += '<td><input type="text" required="" name="amount[]" id="amount' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only amount" readonly></td>';
@@ -465,29 +439,48 @@ $page_title = 'Billing & Invoicing'; ?>
             successAlert(data.msg)
             window.location.href = eUrl + '/invoice.php?invoice_no=' + data.invoice_no;
           } else {
-            errorAlert(data.msg)
+            alert(data.msg)
           }
         }
       });
     }
 
-    $(document).on('change', '.client_id', function() {
-      var cus_id = $(this).val();
-      // errorAlert(cus_id)
-      $.ajax({
-        url: "inc/fetch_wallet.php",
-        method: "POST",
-        data: {
-          fetch_wallet: 1,
-          customer_id: cus_id,
-        },
-        dataType: 'json',
-        success: function(data) {
-          $("#wallet_value").html("₦ " + data.wallet_balance)
+    $(document).on('change', '.payment_method', function() {
+       var payment_method = $(this).val();
+       var cus_id = $(".client_id").val();
+
+       if (payment_method == 1) {
+          check_wallet(cus_id)
+        }else{
+          $("#wallet_value").html("0.00")
         }
-      });
     });
 
+    $(document).on('change', '.client_id', function() {
+       var cus_id = $(this).val();
+       var payment_method = $(".payment_method").val();
+
+       if (payment_method == 1) {
+          check_wallet(cus_id)
+        }else{
+          $("#wallet_value").html("0.00")
+        }
+    });
+
+    function check_wallet(cus_id) {
+        $.ajax({
+          url: "inc/fetch_wallet.php",
+          method: "POST",
+          data: {
+            fetch_wallet: 1,
+            customer_id: cus_id,
+          },
+          dataType: 'json',
+          success: function(data) {
+            $("#wallet_value").html("₦ " + data.wallet_balance)
+          }
+        });
+    }
     // function check_wallet(){
     //   var cus_id  = $("#client_id").val();
     //   var grand_totalInput = $("#grand_totalInput").val();

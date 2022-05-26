@@ -80,10 +80,7 @@ $page_title = 'All Invoices'; ?>
 	$(document).ready(function() {
 		const FILTER_URL = "inc/filter.php";
 
-		var cId = $('#companyId').val();
-		var bId = $('#branchId').val();
-
-		completeFilter(cId, bId)
+		
 
 		$('#company').on('change', function() {
 			let companyId = this.value;
@@ -129,7 +126,11 @@ $page_title = 'All Invoices'; ?>
 				}
 			});
 		}
-		completeFilter()
+		var cId = $('#companyId').val();
+		var bId = $('#branchId').val();
+
+		completeFilter(cId, bId)
+		// completeFilter()
 
 		$(document).on('click', '#delete_void', function() {
 			let deleteVoid = this.dataset.id;

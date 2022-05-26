@@ -1040,25 +1040,30 @@ include(SHARED_PATH . '/pos-header.php');
                if (product_price != "") {
                   if(product_quantity > 0)
                   {
-                     $.ajax({
-                        url:"cart/action.php",
-                        method:"POST",
-                        data:{
-                           product_id: product_id, 
-                           product_name: product_name, 
-                           product_price: product_price, 
-                           product_quantity: product_quantity,
-                           product_tax: product_tax, 
-                           product_discount: product_discount, 
-                           stockUnit: stockUnit, 
-                           action:action
-                        },
-                        success:function(data)
-                        {
-                           
-                           load_cart_data();
-                        }
-                     });
+                     if(stockUnit >= product_quantity  )
+                     {
+                        $.ajax({
+                           url:"cart/action.php",
+                           method:"POST",
+                           data:{
+                              product_id: product_id, 
+                              product_name: product_name, 
+                              product_price: product_price, 
+                              product_quantity: product_quantity,
+                              product_tax: product_tax, 
+                              product_discount: product_discount, 
+                              stockUnit: stockUnit, 
+                              action:action
+                           },
+                           success:function(data)
+                           {
+                              
+                              load_cart_data();
+                           }
+                        });
+                     }else{
+                        errorAlert("Error you can't over sell");
+                     }
                   }
                   else
                   {

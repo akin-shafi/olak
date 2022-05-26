@@ -30,7 +30,7 @@ class Client extends DatabaseObject {
     $this->created_by = $args['created_by'] ?? '';
     $this->created_at = $args['created_at'] ?? date('Y-m-d H:m:s');
     $this->deleted = $args['deleted'] ?? NULL;
-  }
+  } 
 
 
   protected function validate() {

@@ -51,6 +51,10 @@ class Billing extends DatabaseObject
 
   public $counts;
 
+  const PAYMENT_METHOD = [
+    1 => 'Wallet',
+    2 => 'Cash',
+  ];
 
   const BILLING_FORMAT = [
     1 => 'Prepaid',
@@ -90,28 +94,18 @@ class Billing extends DatabaseObject
   {
     $this->errors = [];
 
-    // if(is_blank($this->invoiceNum)) {
-    //   $this->errors[] = "Invoice Number cannot be blank.";
-    // } 
-    // elseif (!has_unique_invoiceNum($this->invoiceNum, $this->id ?? 0)) {
-    //   $this->errors[] = "invoiceNum generated already.";
-    // }
-
-    // if(is_blank($this->client_id)) {
-    //   $this->errors[] = "Client name cannot be blank.";
-    // }
     if (is_blank($this->billingFormat)) {
       $this->errors[] = "Billing Format is required.";
     }
     if (is_blank($this->currency)) {
       $this->errors[] = "currency is required.";
     }
-    if (is_blank($this->start_date)) {
-      $this->errors[] = "Application date cannot be blank.";
-    }
-    if (is_blank($this->due_date)) {
-      $this->errors[] = "Due Date is required.";
-    }
+    // if (is_blank($this->start_date)) {
+    //   $this->errors[] = "Application date cannot be blank.";
+    // }
+    // if (is_blank($this->due_date)) {
+    //   $this->errors[] = "Due Date is required.";
+    // }
     // if(is_blank($this->amount)) {
     //   $this->errors[] = "Amount cannot be blank.";
     // }

@@ -11,8 +11,7 @@ if (is_post_request()) {
 
 		if ($result == true) {
 			$rand = rand(10, 100);
-			// $new_id = $billing->id;
-			$new_id = 1;
+			$new_id = $billing->id;
 			$invoice_no = "1" . str_pad($new_id, 3, "0", STR_PAD_LEFT) . $rand;
 			$data = [
 				'invoiceNum' => $invoice_no,
@@ -29,7 +28,7 @@ if (is_post_request()) {
 
 				for ($i = 0; $i < count($amount); $i++) {
 					$dataDesc = [
-						"transid" 			=> $invoice_no,
+						"transid" 		=> $invoice_no,
 						"service_type"  => $service_type[$i],
 						"quantity"      => $quantity[$i],
 						"unit_cost"     => $unit_cost[$i],
