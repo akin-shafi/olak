@@ -245,7 +245,7 @@
           <li class="nav-item">
             <a class="nav-link <?php echo ($page == "Invoice") ? 'active-page' : '' ?>" href="<?php echo url_for('invoice/') ?>">
               <i class="feather-camera nav-icon"></i>
-              Billing & Invoices
+              Billing & Receipts
             </a>
           </li>
           <li class="nav-item">

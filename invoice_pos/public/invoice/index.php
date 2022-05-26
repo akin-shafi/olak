@@ -2,7 +2,6 @@
 require_once('../../private/initialize.php');
 
 require_login();
-
 $currencies = [
   "NGN", "USD", "CYP", "GHC", "KES", "XEU"
 ];
@@ -16,7 +15,7 @@ $branch = Branch::find_by_id($loggedInAdmin->branch_id);
 
 ?> 
 <?php $page = 'Invoice';
-$page_title = 'Billing & Invoicing'; ?>
+$page_title = 'Billing & Receipts'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 <style type="text/css">
   label {
@@ -68,7 +67,7 @@ $page_title = 'Billing & Invoicing'; ?>
 
         <div class="col-lg-10">
 
-
+          
           <section class="  p-3 bg-primary">
 
             <div class="text-center">

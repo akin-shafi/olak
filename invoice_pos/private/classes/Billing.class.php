@@ -8,6 +8,8 @@ class Billing extends DatabaseObject
     'id',
     'company_id',
     'branch_id',
+    'status',
+    'waybill_no',
     'invoiceNum',
     'client_id',
     'billingFormat',
@@ -29,6 +31,8 @@ class Billing extends DatabaseObject
   public $id;
   public $company_id;
   public $branch_id;
+  public $status;
+  public $waybill_no;
   public $invoiceNum;
   public $client_id;
   public $billingFormat;
@@ -59,11 +63,11 @@ class Billing extends DatabaseObject
   const BILLING_FORMAT = [
     1 => 'Prepaid',
     2 => 'Postpaid',
-    // 3 => 'Professionalism', 
-    // 4 => 'Percentage', 
-    // 5 => 'fixed fee', 
-    // 6 => 'Appearance', 
-    // 2 => 'Scaled'
+  ];
+
+  const STATUS = [
+    1 => 'In Progress',
+    2 => 'Delivered',
   ];
 
 
@@ -72,6 +76,8 @@ class Billing extends DatabaseObject
   {
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';
+    $this->status = $args['status'] ?? 1;
+    $this->waybill_no = $args['waybill_no'] ?? 1;
     $this->invoiceNum = $args['invoiceNum'] ?? '';
     $this->client_id = $args['client_id'] ?? '';
     $this->billingFormat = $args['billingFormat'] ?? '';
