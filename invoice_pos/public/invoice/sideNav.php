@@ -7,13 +7,13 @@ $due = Billing::find_due_date();
   <div class="rounded  left-list">
     <a class="<?php if ($page_title == 'New Invoice') {
                 echo 'active';
-              } ?>" href="<?php echo url_for('/invoice/index.php') ?>">Add New Invoice</a>
+              } ?>" href="<?php echo url_for('/invoice/index.php') ?>">Add New Receipts</a>
     <a class="<?php if ($page_title == 'All Invoices') {
                 echo 'active';
-              } ?>" href="<?php echo url_for('/invoice/all_invoices.php') ?>">All Invoices <span class="float-right fs-12"><?php echo Count($clients) ?></span></a>
+              } ?>" href="<?php echo url_for('/invoice/all_invoices.php') ?>">All Receipts <span class="float-right fs-12"><?php echo Count($clients) ?></span></a>
     <a class="<?php if ($page_title == 'Due Invoices') {
                 echo 'active';
-              } ?>" href="<?php echo url_for('/invoice/dueinvoices.php') ?>">Due Invoices <span class="float-right fs-12">
+              } ?>" href="<?php echo url_for('/invoice/dueinvoices.php') ?>">Due Receipts <span class="float-right fs-12">
         <?php echo Count($due) ?>
       </span></a>
     <a class="<?php if ($page_title == 'Cleared') {

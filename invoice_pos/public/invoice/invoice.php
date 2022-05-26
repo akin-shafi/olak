@@ -36,11 +36,12 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
       <div class="holder">
          <a href="<?php echo url_for('invoice/all_invoices.php') ?>" class="default-btn">
             << Back</a> 
-            <button class="default-btn" id="cmd" style="" ><i class="fa fa-download"></i> Download Reciept</button>
-            <button class="default-btn" id="save" style="" ><i class="fa fa-download"></i> Save Reciept</button>
+            <!-- <button class="default-btn" id="cmd" style="" ><i class="fa fa-download"></i> Download Reciept</button> -->
+            <!-- <button class="default-btn" id="save" style="" ><i class="fa fa-download"></i> Save Reciept</button> -->
 
+            <a href="<?php echo url_for('/invoice/waybill.php?invoice_no='. $invoice_no) ?>" class="default-btn" id="printBoth" style="float: ;" >Process Waybill</a>
             <button class="default-btn" id="print" style="float: right;" i><i class="fa fa-print"></i> Print Reciept</button>
-            <button class="default-btn" id="printBoth" style="float: right;" i><i class="fa fa-print"></i> Print Reciept & WayBill</button>
+            
             
       </div>
    </div>
@@ -268,39 +269,39 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
          }).save();
       }
-      $(document).on('click', '#save', function() {
-         save()
-      });
+      // $(document).on('click', '#save', function() {
+      //    save()
+      // });
 
-      function save() {
-            var url = $('#url').val();
+      // function save() {
+      //       var url = $('#url').val();
 
-            var element = document.getElementById('content');
-            var opt = {
-              image:        { type: 'jpeg', quality: 0.98 },
-              html2canvas:  { scale: 3 },
-              jsPDF:        { unit: 'cm', format: 'letter', orientation: 'landscape' }
-            };
+      //       var element = document.getElementById('content');
+      //       var opt = {
+      //         image:        { type: 'jpeg', quality: 0.98 },
+      //         html2canvas:  { scale: 3 },
+      //         jsPDF:        { unit: 'cm', format: 'letter', orientation: 'landscape' }
+      //       };
 
-            html2pdf().from(element).set(opt).toPdf().output('datauristring').then(function (pdfAsString) {
-                // The PDF has been converted to a Data URI string and passed to this function.
-                // Use pdfAsString however you like (send as email, etc)!
+      //       html2pdf().from(element).set(opt).toPdf().output('datauristring').then(function (pdfAsString) {
+      //           // The PDF has been converted to a Data URI string and passed to this function.
+      //           // Use pdfAsString however you like (send as email, etc)!
 
-            var arr = pdfAsString.split(',');
-            pdfAsString= arr[1];    
+      //       var arr = pdfAsString.split(',');
+      //       pdfAsString= arr[1];    
 
-                    // var data = new FormData();
-                    // data.append("data" , pdfAsString);
-                    // var xhr = new XMLHttpRequest();
-                    // xhr.open( 'post', 'upload.php', true ); //Post the Data URI to php Script to save to server
-                    // xhr.send(data);
+      //               // var data = new FormData();
+      //               // data.append("data" , pdfAsString);
+      //               // var xhr = new XMLHttpRequest();
+      //               // xhr.open( 'post', 'upload.php', true ); //Post the Data URI to php Script to save to server
+      //               // xhr.send(data);
 
-                    // })
+      //               // })
 
-            e.preventDefault();  //stop the browser from following
-                window.location.href = 'inc/'+url+'-invoice.pdf';
-      })
-   }
+      //       e.preventDefault();  //stop the browser from following
+      //           window.location.href = 'inc/'+url+'-invoice.pdf';
+      // })
+   // }
    </script>
 
 </body>
