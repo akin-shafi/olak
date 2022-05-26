@@ -123,7 +123,7 @@ $fullName = $user->full_name;
             <!-- <img src="<?php echo url_for('png/logo.png') ?>" alt="Wafi Admin Dashboard" /> -->
             Olak Pet.
          </a>
-         <a href="#" class="quick-links-btn" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quick Links">
+         <a href="#" class="quick-links-btn d-none" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quick Links">
             <i class="icon-menu1"></i>
          </a>
       </div>
@@ -134,7 +134,7 @@ $fullName = $user->full_name;
          </div>
 
          <ul class="header-actions">
-            <li class="dropdown">
+            <li class="dropdown d-none">
                <a href="#" id="notifications" data-toggle="dropdown" aria-haspopup="true">
                   <i class="icon-box"></i>
                </a>
@@ -170,7 +170,7 @@ $fullName = $user->full_name;
                   </ul>
                </div>
             </li>
-            <li class="dropdown">
+            <li class="dropdown d-none">
                <a href="#" id="notifications" data-toggle="dropdown" aria-haspopup="true">
                   <i class="icon-bell"></i>
                   <span class="count-label">8</span>
@@ -241,7 +241,7 @@ $fullName = $user->full_name;
                </div>
             </li>
             <li>
-               <a href="#" class="quick-settings-btn" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick Settings">
+               <a href="#" class="quick-settings-btn d-none" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick Settings">
                   <i class="icon-list"></i>
                </a>
             </li>

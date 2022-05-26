@@ -23,10 +23,11 @@ class Product extends DatabaseObject
         $this->deleted      = $args['deleted'] ?? '';
     }
 
-    static public function find_all_product()
+    static public function find_all_product($bId)
     {
         $sql = "SELECT * FROM " . static::$table_name . " ";
-        $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+        $sql .= "WHERE branch_id='" . self::$database->escape_string($bId) . "'";
+        $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
         $sql .= " ORDER BY name DESC ";
         return static::find_by_sql($sql);
     }
@@ -54,10 +55,11 @@ class Product extends DatabaseObject
         }
     }
 
-    public static function find_by_names($name)
+    public static function find_by_names($name, $bId)
     {
         $sql = "SELECT * FROM " . static::$table_name . " ";
         $sql .= "WHERE name='" . self::$database->escape_string($name) . "'";
+        $sql .= " AND branch_id='" . self::$database->escape_string($bId) . "'";
         $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
         return static::find_by_sql($sql);
     }

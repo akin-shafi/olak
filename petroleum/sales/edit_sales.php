@@ -9,7 +9,7 @@ $sheetId = $_GET['sheet_id'] ?? '';
 if (empty($sheetId)) redirect_to('../sales/');
 
 
-$products = Product::find_all_product();
+$products = Product::find_all_product($loggedInAdmin->branch_id);
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
 
