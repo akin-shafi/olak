@@ -154,7 +154,7 @@ if (is_post_request()) {
 
   if (isset($_POST['edit_product'])) {
     $args = $_POST['product'];
-    $products = Product::find_by_names($args['name']);
+    $products = Product::find_by_names($args['name'], $loggedInAdmin->branch_id);
 
     foreach ($products as $value) :
       $product = Product::find_by_id($value->id);

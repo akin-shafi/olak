@@ -4,7 +4,7 @@ $hide = true;
 $page = 'Sales';
 $page_title = 'Add New Sales';
 
-$products = Product::find_all_product();
+$products = Product::find_all_product($loggedInAdmin->branch_id);
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
 $adminLevel = $loggedInAdmin->admin_level;
@@ -363,8 +363,8 @@ include(SHARED_PATH . '/admin_header.php');
 			let date = new Date()
 			let hr = date.getHours()
 			if (hr >= 23 || hr <= 6) {
-				// $('#data_sheet_form :input').prop('disabled', true)
-				// $('.out-of-service').removeClass('d-none');
+				$('#data_sheet_form :input').prop('disabled', true)
+				$('.out-of-service').removeClass('d-none');
 			}
 		}, 250)
 
