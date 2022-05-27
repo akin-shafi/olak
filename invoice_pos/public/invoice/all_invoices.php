@@ -71,8 +71,8 @@ $page_title = 'All Invoices'; ?>
 
 
 </div>
-<input type="hidden" id="company_id" value="<?php echo $loggedInAdmin->company_id ?>">
-<input type="hidden" id="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
+<input type="text" id="company_id" value="<?php echo $loggedInAdmin->company_id ?>">
+<input type="text" id="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
 

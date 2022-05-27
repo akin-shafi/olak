@@ -5,7 +5,7 @@ require_once('../../private/initialize.php');
 require_login();
 
 $billing = Billing::find_by_metrics();
-
+$page = '';
 ?>
 <?php $page_title = 'Dashboard'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>

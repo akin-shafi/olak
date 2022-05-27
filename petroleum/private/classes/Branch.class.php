@@ -56,6 +56,8 @@ class Branch extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
+  
+
   public static function find_by_company_id($cId)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";

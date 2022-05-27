@@ -20,12 +20,12 @@
 define("DB_SERVER", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
-define("DB_NAME", "restaurant");
+define("DB_NAME", "hoteliap_restaurant");
 
 define("DB_SERVER2", "localhost");
 define("DB_USER2", "root");
 define("DB_PASS2", "");
-define("DB_NAME2", "lincense");
+define("DB_NAME2", "hoteliap_lincense");
 
 
 

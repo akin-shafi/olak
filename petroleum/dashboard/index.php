@@ -79,7 +79,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 			<h3>Welcome to Olak Petroleum</h3>
 
 			<div class="row gutters">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4 d-none">
 					<div class="row gutters">
 						<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
 							<div class="info-tiles border-0 shadow-sm">
@@ -153,7 +153,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 					</div>
 				</div>
 
-				<div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12 mb-5">
+				<div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12 mb-5 d-none">
 					<div class="shadow-sm">
 						<div id="consolidated-bar">
 							<div class="card text-center text-uppercase border-0">
@@ -176,7 +176,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 					</div>
 				</div>
 
-				<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-5">
+				<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-5 d-none">
 					<div class="shadow-sm h-100">
 						<div id="consolidated-pie">
 							<div class="card text-center text-uppercase border-0">

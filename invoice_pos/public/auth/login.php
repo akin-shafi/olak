@@ -33,7 +33,7 @@ if (is_post_request()) {
       // ? for logging actions in the log file
       log_action('Login', "{$admin->full_name()} Logged in.", "login");
 
-      redirect_to(url_for('dashboard/'));
+      redirect_to(url_for('auth/redirect.php'));
     } else {
       // $email not found or password does not match
       $errors[] = "Log in was unsuccessful.";

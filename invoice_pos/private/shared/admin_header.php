@@ -158,6 +158,8 @@
       </button>
       <div class="collapse navbar-collapse" id="retailAdminNavbar">
         <ul class="navbar-nav m-auto">
+          <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) { ?>
+            
           <li class="nav-item">
             <a class="nav-link <?php echo ($page_title == "Dashboard") ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard/') ?>">
               <i class="feather-airplay nav-icon"></i>
@@ -180,7 +182,9 @@
 
             </ul>
           </li>
+          <?php } ?>
 
+          <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle <?php echo ($page == "Product") ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="feather-package nav-icon"></i>
@@ -199,7 +203,9 @@
 
             </ul>
           </li>
+           <?php } ?>
 
+           <?php if (in_array($loggedInAdmin->admin_level, [1,4])) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle <?php echo ($page == "Customer") ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="feather-users nav-icon"></i>
@@ -217,6 +223,7 @@
               </li>
             </ul>
           </li>
+          <?php } ?>
 
           <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -234,27 +241,34 @@
 
             </ul>
           </li>
+          
+          <?php //print_r($loggedInAdmin) ?>
+          <?php if (in_array($loggedInAdmin->admin_level, [1,5])) { ?>
+            
           <li class="nav-item">
             <a class="nav-link <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('wallet/add.php') ?>">
               <i class="feather-gift nav-icon"></i>
-              Wallet
+              Wallet 
             </a>
           </li>
+          <?php } ?>
 
-
+          <?php if (in_array($loggedInAdmin->admin_level, [1,4])) { ?>
           <li class="nav-item">
             <a class="nav-link <?php echo ($page == "Invoice") ? 'active-page' : '' ?>" href="<?php echo url_for('invoice/') ?>">
               <i class="feather-camera nav-icon"></i>
               Billing & Receipts
             </a>
           </li>
+          <?php } ?>
+          <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) { ?>
           <li class="nav-item">
             <a class="nav-link <?php echo ($page_title == "Stock") ? 'active-page' : '' ?>" href="<?php echo url_for('stock/') ?>">
               <i class="feather-shopping-cart nav-icon"></i>
               Stock
             </a>
           </li>
-
+          <?php } ?>
           <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle
               <?php echo ($page_title == "Add New Booking" || $page_title == "View Bookings") ? 'active-page' : '' ?>
@@ -291,7 +305,7 @@
           <?php //if ($loggedInAdmin->id == 1) { 
           ?>
 
-
+          <?php if (in_array($loggedInAdmin->admin_level, [1])) { ?>
           <li class="nav-item dropdown">
 
 
@@ -319,8 +333,7 @@
 
             </ul>
           </li>
-          <?php //} 
-          ?>
+          <?php } ?>
 
           <li class="nav-item d-none">
             <a class="nav-link <?php echo ($page_title == "Help") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/help.php') ?>">

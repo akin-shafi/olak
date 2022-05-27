@@ -6,17 +6,17 @@
 // 3. Unique credentials if working with multiple developers
 
 
-define("DB_SERVER", "localhost");
-define("DB_USER", "hoteliap_ambiance_user");
-define("DB_PASS", "Akinshafi@91");
-define("DB_NAME", "hoteliap_petroleum");
-
-
 // define("DB_SERVER", "localhost");
-// define("DB_USER", "root");
-// define("DB_PASS", "");
-// // define("DB_NAME", "petroleum");
-// define("DB_NAME", "olak_petroleum");
+// define("DB_USER", "hoteliap_ambiance_user");
+// define("DB_PASS", "Akinshafi@91");
+// define("DB_NAME", "hoteliap_petroleum");
+
+
+define("DB_SERVER", "localhost");
+define("DB_USER", "root");
+define("DB_PASS", "");
+// define("DB_NAME", "petroleum");
+define("DB_NAME", "olak_petroleum");
 
 // define("DB_SERVER_HR", "localhost");
 // define("DB_USER_HR", "root");

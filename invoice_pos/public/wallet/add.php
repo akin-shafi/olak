@@ -60,7 +60,7 @@ if (is_post_request()) {
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-3 col-3 ">
         <div class="daterange-container">
 
-          <a href="#" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Download CSV">
+          <a href="<?php echo url_for('/wallet/') ?>" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="wallet List">
             <i class="feather-file-text"></i>
           </a>
         </div>
