@@ -4,11 +4,19 @@ $page = 'Sales';
 $page_title = 'All Sales';
 include(SHARED_PATH . '/admin_header.php'); 
 // $today = date('Y-m-d');
-$today = '2022-5-21';
+$today = date('Y-m-d', strtotime('2022-5-26'));
 
-$datasheet = DataSheet::data_sheet_report($today);
+// $datasheet = DataSheet::data_sheet_report($today, ['company'=>$loggedInAdmin->company_id, 'branch'=>$loggedInAdmin->branch_id]);
+$datasheet = DataSheet::data_sheet_report($today, ['company'=>$loggedInAdmin->company_id, 'branch'=>'2']);
 
-pre_r($datasheet);
+$remit = [];
+
+foreach($datasheet as $data):
+	array_push($remit,$data->cash_submitted);
+endforeach;
+
+$remitted = array_sum($remit);
+// pre_r($datasheet);
 ?>
 
 <!-- Content wrapper start -->
@@ -39,7 +47,8 @@ pre_r($datasheet);
 				<tbody>
 					<tr>
 						<td>12 May 2022</td>
-						<td>5,89040,0 <input type="hidden" id="" value="5890400"></td>
+						<td> <?php echo number_format($remitted,2); ?>
+						<input type="hidden" id="" value="5890400"></td>
 						<td>
 							<button class="btn btn-primary btn-sm" id="manage">Manage</button>
 

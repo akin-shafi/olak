@@ -50,7 +50,7 @@ if (is_post_request()) {
    <meta name="author" content="ParkerThemes">
    <link rel="shortcut icon" href="png/fav.png" />
 
-   <title>Wafi Admin Template - Login</title>
+   <title>Pet - Login</title>
 
    <link rel="stylesheet" href="css/bootstrap.min.css" />
 

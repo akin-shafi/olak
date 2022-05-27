@@ -1,9 +1,20 @@
 <?php
 require_login();
 
+$close_time = date('H:i', strtotime('23:00'));
+$work_hour = date('H:i', strtotime('07:00'));
+$current_time = date('H:i');
+
+// echo $close_time;
+
 if (!isset($loggedInAdmin->id) || empty($loggedInAdmin)) {
    redirect_to('../logout.php');
 }
+
+if (in_array($loggedInAdmin->admin_level, [1, 2, 3 ,4]) && ($current_time >= $close_time || $current_time <= $work_hour)) {
+      redirect_to('../message.php');
+}
+
 
 $access = AccessControl::find_by_user_id($loggedInAdmin->id);
 
@@ -465,6 +476,11 @@ $fullName = $user->full_name;
                         <li>
                            <a class="dropdown-item" <?php echo $page_title == 'Add Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/add_sales.php') ?>">Add Sales</a>
                         </li>
+                         <?php if (in_array($loggedInAdmin->admin_level, [1,3])) : ?>
+                           <li>
+                              <a class="dropdown-item" <?php echo $page_title == 'Manage Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/manage_sales.php') ?>">Manage Sales</a>
+                           </li>
+                        <?php endif ?>
                      </ul>
                   </li>
                <?php endif; ?>
