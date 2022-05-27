@@ -2,21 +2,19 @@
 
 $page = 'Sales';
 $page_title = 'All Sales';
-include(SHARED_PATH . '/admin_header.php'); 
-// $today = date('Y-m-d');
-$today = date('Y-m-d', strtotime('2022-5-26'));
+include(SHARED_PATH . '/admin_header.php');
+$today = date('Y-m-d');
 
-// $datasheet = DataSheet::data_sheet_report($today, ['company'=>$loggedInAdmin->company_id, 'branch'=>$loggedInAdmin->branch_id]);
-$datasheet = DataSheet::data_sheet_report($today, ['company'=>$loggedInAdmin->company_id, 'branch'=>'2']);
+$datasheet = DataSheet::data_sheet_report($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
 
 $remit = [];
 
-foreach($datasheet as $data):
-	array_push($remit,$data->cash_submitted);
+foreach ($datasheet as $data) :
+	array_push($remit, $data->cash_submitted);
 endforeach;
 
 $remitted = array_sum($remit);
-// pre_r($datasheet);
+// pre_r($remitted);
 ?>
 
 <!-- Content wrapper start -->
@@ -46,9 +44,10 @@ $remitted = array_sum($remit);
 				</thead>
 				<tbody>
 					<tr>
-						<td>12 May 2022</td>
-						<td> <?php echo number_format($remitted,2); ?>
-						<input type="hidden" id="" value="5890400"></td>
+						<td><?php echo date('M d, Y') ?></td>
+						<td> <?php echo number_format($remitted, 2); ?>
+							<input type="hidden" id="" value="5890400">
+						</td>
 						<td>
 							<button class="btn btn-primary btn-sm" id="manage">Manage</button>
 
@@ -69,49 +68,82 @@ $remitted = array_sum($remit);
 <!-- Modal -->
 
 
-<div class="modal fade show" id="expenseModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-modal="true" style="display: ;">
-  <div class="modal-dialog modal-md" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Manage Sales</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-      </div>
-      <form id="expense_form">
-        <div class="modal-body">
-          <div class="container">
-           <table class="table">
-	           	 <tr>
-	            	<td>Credit Sales</td>
-	            	<td><input type="text" class="form-control" name=""></td>
-	            </tr>
-	            <tr>
-	            	<td>Cash Sales</td>
-	            	<td><input type="text" class="form-control" name=""></td>
-	            </tr>
-	            <tr>
-	            	<td>POS </td>
-	            	<td><input type="text" class="form-control" name=""></td>
-	            </tr>
-	            <tr>
-	            	<td>Transfer </td>
-	            	<td><input type="text"  class="form-control"name=""></td>
-	            </tr>
-           </table>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="save_expenses">Save</button>
-        </div>
-      </form>
-    </div>
-  </div>
+<div class="modal fade show" id="expenseModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-modal="true">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Manage Sales</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+			</div>
+			<form id="cash_flow_form">
+				<input type="hidden" name="cash_flow">
+				<div class="modal-body">
+					<div class="container">
+						<table class="table">
+							<tr>
+								<td>Credit Sales</td>
+								<td><input type="text" name="flow[credit_sales]" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>Cash Sales</td>
+								<td><input type="text" name="flow[cash_sales]" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>POS </td>
+								<td><input type="text" name="flow[pos]" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>Transfer </td>
+								<td><input type="text" name="flow[transfer]" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>Narration </td>
+								<td>
+									<textarea name="flow[narration]" class="form-control"></textarea>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" id="save_expenses">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 <script type="text/javascript">
-	$(document).on('click', '#manage', function() {
-		$('#expenseModel').modal('show');
+	$(document).ready(function() {
+		const BACK_URL = '<?php echo url_for('report/') ?>'
+		const PET_URL = 'inc/process.php';
+
+		$(document).on('click', '#manage', function() {
+			$('#expenseModel').modal('show');
+		})
+
+		$('#cash_flow_form').on("submit", function(e) {
+			e.preventDefault();
+
+			$.ajax({
+				url: PET_URL,
+				method: "POST",
+				data: new FormData(this),
+				contentType: false,
+				cache: false,
+				processData: false,
+				dataType: 'json',
+				success: function(r) {
+					successAlert(r.msg);
+					window.location.href = BACK_URL
+				},
+				error: function(e) {
+					errorAlert(e.responseJSON.error)
+				}
+			})
+		});
 	})
 </script>

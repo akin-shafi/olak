@@ -6,11 +6,12 @@ if (is_post_request()) {
   if (isset($_POST['new_expense'])) {
     $args = $_POST;
 
-    for ($i = 0; $i < count($args['title']); $i++) {
+    for ($i = 0; $i < count($args['expense_type']); $i++) {
       $data = [
         "company_id"    => $loggedInAdmin->company_id,
         "branch_id"     => $args['branch_id'],
-        "title"         => $args['title'][$i],
+        "expense_type"  => $args['expense_type'][$i],
+        "product"       => $args['product'][$i],
         "quantity"      => $args['quantity'][$i],
         "amount"        => $args['amount'][$i],
         "narration"     => $args['narration'][$i],
@@ -34,10 +35,11 @@ if (is_post_request()) {
     $args = $_POST;
     $expense = Expense::find_by_id($expId);
 
-    for ($i = 0; $i < count($args['title']); $i++) {
+    for ($i = 0; $i < count($args['expense_type']); $i++) {
       $data = [
         "branch_id"     => $args['branch_id'],
-        "title"         => $args['title'][$i],
+        "expense_type"  => $args['expense_type'][$i],
+        "product"       => $args['product'][$i],
         "quantity"      => $args['quantity'][$i],
         "amount"        => $args['amount'][$i],
         "narration"     => $args['narration'][$i],
@@ -87,54 +89,55 @@ if (is_get_request()) {
     $dateFrom = $_GET['filterDate'];
     $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
 
-    $expenses = Expense::find_by_expenses($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch]);
+    $expenses = Expense::find_by_expense_type($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch]);
     $totalExpenses = Expense::get_total_expenses($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
 
 ?>
 
     <div>
       <div class="d-flex justify-content-between align-items-center">
-        <h3>Incurred Expenses (<?php echo date('d-m-Y') ?>)</h3>
+        <h3>Incurred Expenses</h3>
         <h3>Total: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalExpenses) ?></span></h3>
       </div>
 
       <div class="table-responsive">
-        <table class="table custom-table table-sm dataTable">
+        <table class="table custom-table table-sm">
           <thead>
             <tr class="bg-primary text-white text-center">
               <th>SN</th>
-              <th>Title</th>
-              <th>Quantity</th>
-              <th>Amount (<?php echo $currency ?>)</th>
+              <th>Expense Type</th>
               <th>Narration</th>
-              <!-- <th>Created At</th> -->
-              <!-- <th>Action</th> -->
+              <th>Product</th>
+              <th>Quantity (LTR)</th>
+              <th>Amount (<?php echo $currency ?>)</th>
+              <th>Created At</th>
+              <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
             <?php $sn = 1;
-            foreach ($expenses as $data) : ?>
+            foreach ($expenses as $data) :
+              $expType = Expense::EXPENSE_TYPE[$data->expense_type];
+            ?>
               <tr>
                 <td><?php echo $sn++; ?></td>
-                <td><?php echo ucwords($data->title); ?></td>
+                <td><?php echo ucwords($expType); ?></td>
+                <td><?php echo ucfirst($data->narration); ?></td>
+                <td><?php echo $data->product; ?></td>
                 <td class="text-right"><?php echo $data->quantity; ?></td>
                 <td class="text-right"><?php echo number_format($data->amount); ?></td>
-                <td><?php echo ucfirst($data->narration); ?></td>
-                <!-- <td><?php //echo date('Y-m-d', strtotime($data->created_at)); 
-                          ?></td> -->
+                <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
 
-                <!-- <td>
+                <td>
                   <div class="btn-group">
-                    <button class="btn btn-warning edit-btn" data-id="<?php //echo $data->id; 
-                                                                      ?>" data-toggle="modal" data-target="#expenseModel">
+                    <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#expenseModel">
                       <i class="icon-edit1"></i></button>
-                    <button class="btn btn-danger remove-btn" data-id="<?php //echo $data->id; 
-                                                                        ?>">
+                    <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
                       <i class="icon-trash"></i>
                     </button>
                   </div>
-                </td> -->
+                </td>
 
               </tr>
             <?php endforeach; ?>

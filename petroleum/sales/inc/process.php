@@ -13,6 +13,23 @@ if (is_post_request()) {
       endif;
    }
 
+   if (isset($_POST['cash_flow'])) {
+      $args = $_POST['flow'];
+      $args['company_id'] = $loggedInAdmin->company_id;
+      $args['branch_id'] = $loggedInAdmin->branch_id;
+      $args['created_by'] = $loggedInAdmin->id;
+
+      $cashFlow = new CashFlow($args);
+      $cashFlow->save();
+
+      if ($cashFlow == true) :
+         exit(json_encode(['success' => true, 'msg' => 'Cash flow created successfully!']));
+      else :
+         exit(json_encode(['success' => false, 'msg' => display_errors($cashFlow->errors)]));
+      endif;
+   }
+
+
    if (isset($_POST['data_sheet_form'])) {
       $args = $_POST;
 
@@ -191,11 +208,16 @@ if (is_get_request()) {
                <th class="font-weight-bold text-right">
                   <p><?php echo strtoupper($product->name) . ' (TANK ' . $product->tank . ')'; ?></p>
                   <div class="btn-group">
-                     <a href="<?php echo url_for('sales/edit_sales.php?sheet_id=' . $product->id) ?>" class="btn btn-sm btn-warning"><i class="icon-edit"></i></a>
-
                      <?php if (in_array($adminLevel, [1, 2, 5, 6, 7, 8])) : ?>
-                        <button data-id="<?php echo $product->id ?>" class="btn btn-sm btn-secondary remove-btn"><i class="icon-delete"></i></button>
+                        <a href="<?php echo url_for('sales/edit_sales.php?sheet_id=' . $product->id) ?>" class="btn btn-sm btn-warning"><i class="icon-edit"></i></a>
                      <?php endif; ?>
+
+                     <?php //if (in_array($adminLevel, [1, 2, 5, 6, 7, 8])) : 
+                     ?>
+                     <!-- <button data-id="<?php //echo $product->id 
+                                             ?>" class="btn btn-sm btn-secondary remove-btn"><i class="icon-delete"></i></button> -->
+                     <?php //endif; 
+                     ?>
 
                   </div>
                </th>
@@ -276,7 +298,7 @@ if (is_get_request()) {
             </tr>
          <?php endif; ?>
 
-         <?php if (in_array($adminLevel, [1, 2])) : ?>
+         <?php if (in_array($adminLevel, [1, 2, 3, 5])) : ?>
             <tr class="font-weight-bold">
                <td class="text-uppercase">Expected sales value</td>
                <?php foreach ($filterDataSheet as $data) : ?>

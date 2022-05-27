@@ -19,7 +19,6 @@ if (is_post_request()) {
       $remit->save();
     }
 
-
     if ($remit == true) :
       exit(json_encode(['success' => true, 'msg' => 'Sales remitted successfully!']));
     else :
@@ -76,61 +75,69 @@ if (is_get_request()) {
 
     $branch = isset($_GET['branch']) && $_GET['branch'] != '' ? $_GET['branch'] : $loggedInAdmin->branch_id;
 
-    $dateFrom = $_GET['filterDate'];
+    $dateFrom = $_GET['filterDate'] ?? date('Y-m-d');
     $convertFrom = date('Y-m-d', strtotime($dateFrom));
     $admComp = $loggedInAdmin->company_id;
 
+    $expenses = Expense::find_by_expenses($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    $cashFlow = CashFlow::find_by_cash_flow($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    $today = date('Y-m-d');
 
-    $remittance = Remittance::get_all_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch]);
-    $additionalRemit = Remittance::get_total_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch])->total_amount;
+    $datasheet = DataSheet::data_sheet_report($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
 
-    $filterReport = DataSheet::data_sheet_report($convertFrom, ['company' => $admComp, 'branch' => $branch]);
-    $arr = [];
-    foreach ($filterReport as $value) {
-      array_push($arr, $value->inflow);
-    }
-    $totalCashRemit = array_sum($arr);
+    $remit = [];
 
-    $creditSales = Expense::find_by_expense_type($convertFrom, ['expense' => 1, 'company' => $admComp, 'branch' => $branch]);
-    $totalCredit = Expense::get_total_expenses($convertFrom, ['expense' => 1, 'company' => $admComp, 'branch' => $branch])->total_amount;
+    foreach ($datasheet as $data) :
+      array_push($remit, $data->cash_submitted);
+    endforeach;
 
-    $operatingExp = Expense::find_by_expense_type($convertFrom, ['expense' => 2, 'company' => $admComp, 'branch' => $branch]);
-    $totalOpExp = Expense::get_total_expenses($convertFrom, ['expense' => 2, 'company' => $admComp, 'branch' => $branch])->total_amount;
+    $remitted = array_sum($remit);
+    // pre_r($remitted);
 
-    $nonOpgExp = Expense::find_by_expense_type($convertFrom, ['expense' => 3, 'company' => $admComp, 'branch' => $branch]);
-    $totalNonOpExp = Expense::get_total_expenses($convertFrom, ['expense' => 3, 'company' => $admComp, 'branch' => $branch])->total_amount;
+    // $remittance = Remittance::get_all_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    // $additionalRemit = Remittance::get_total_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch])->total_amount;
 
-    $headOfficeExp = Expense::find_by_expense_type($convertFrom, ['expense' => 4, 'company' => $admComp, 'branch' => $branch]);
-    $totalHOExp = Expense::get_total_expenses($convertFrom, ['expense' => 4, 'company' => $admComp, 'branch' => $branch])->total_amount;
+    // $filterReport = DataSheet::data_sheet_report($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    // $arr = [];
+    // foreach ($filterReport as $value) {
+    //   array_push($arr, $value->inflow);
+    // }
+    // $totalCashRemit = array_sum($arr);
 
-    $transExp = Expense::find_by_expense_type($convertFrom, ['expense' => 5, 'company' => $admComp, 'branch' => $branch]);
-    $totalTransExp = Expense::get_total_expenses($convertFrom, ['expense' => 5, 'company' => $admComp, 'branch' => $branch])->total_amount;
+    // $totalCredit = Expense::get_total_expenses($convertFrom, ['expense' => 1, 'company' => $admComp, 'branch' => $branch])->total_amount;
 
-    $totalSales = intval($additionalRemit) + intval($totalCashRemit);
-    $totalExpenses = $totalCredit + $totalOpExp + $totalNonOpExp + $totalHOExp + $totalTransExp;
-    $cashToHO = $totalSales - $totalExpenses;
+    // $totalTransExp = Expense::get_total_expenses($convertFrom, ['expense' => 5, 'company' => $admComp, 'branch' => $branch])->total_amount;
 
-    $grandTotal = $totalExpenses + $cashToHO;
+    // $totalSales = intval($additionalRemit) + intval($totalCashRemit);
+    // $totalExpenses = $totalCredit + $totalOpExp + $totalNonOpExp + $totalHOExp + $totalTransExp;
+    // $cashToHO = $totalSales - $totalExpenses;
+
+    // $grandTotal = $totalExpenses + $cashToHO;
 
 ?>
+    <style>
+      .tds {
+        width: 50%;
+        min-width: 600px !important;
+      }
+    </style>
 
     <div>
       <div class="table-container border-0 shadow">
         <div class="d-flex justify-content-between align-items-center">
-          <h3>Cash/Sales Daily Analysis</h3>
+          <h3>Summary</h3>
           <h3>
-            <?php echo date('Y-m-d', strtotime($convertFrom)) ?>
+            Date:
+            <?php echo date('d-m-Y', strtotime($convertFrom)) ?>
           </h3>
         </div>
 
         <div class="mt-4 mb-5">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3>Summary</h3>
-            <a href="#detailed" class="btn btn-secondary">&downarrow; detailed analysis</a>
-          </div>
 
           <div class="row gutters">
-            <div class="col-md-4">
+            <div class="col-md-12">
+              <h3 class="text-uppercase text-right">Remittance: <?php echo $currency . ' ' . number_format($remitted, 2); ?></h3>
+
               <div class="table-responsive">
                 <table class="table custom-table table-sm">
                   <thead>
@@ -141,393 +148,87 @@ if (is_get_request()) {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
+                      <td class="tds font-weight-bold">
+                        <?php echo 'Narration'; ?>
+                      </td>
+                      <td colspan="2">
+                        <p class="mb-0">
+                          <?php echo isset($cashFlow->narration)
+                            ? ucfirst($cashFlow->narration) : 'Narration not set'; ?></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">
+                        <?php echo 'Credit Sales'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo isset($cashFlow->credit_sales)
+                          ? number_format($cashFlow->credit_sales) : '0.00'; ?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">
                         <?php echo 'Cash Sales'; ?>
                       </td>
                       <td class="text-right">
-                        <?php echo number_format($totalCashRemit); ?>
+                        <?php echo isset($cashFlow->cash_sales)
+                          ? number_format($cashFlow->cash_sales) : '0.00'; ?>
                       </td>
                     </tr>
-                    <?php foreach ($remittance as $data) : ?>
-                      <tr>
-                        <td>
-                          <?php echo $data->narration; ?>
-                        </td>
-                        <td class="text-right">
-                          <?php echo !empty($data->amount) ? number_format($data->amount) : '-'; ?>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
                     <tr>
-                      <td colspan="2" class="text-right">
-                        <h5 class="mb-0"><?php echo number_format($totalSales); ?></h5>
+                      <td class="font-weight-bold">
+                        <?php echo 'P.O.S'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo isset($cashFlow->pos)
+                          ? number_format($cashFlow->pos) : '0.00'; ?>
                       </td>
                     </tr>
+                    <tr>
+                      <td class="font-weight-bold">
+                        <?php echo 'Transfer'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo isset($cashFlow->transfer)
+                          ? number_format($cashFlow->transfer) : '0.00'; ?>
+                      </td>
+                    </tr>
+
                   </tbody>
                 </table>
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-12 mt-4">
               <div class="table-responsive">
                 <table class="table custom-table table-sm">
                   <thead>
-                    <tr class="bg-primary text-white text-center">
+                    <tr class="bg-secondary text-white text-center">
                       <th>Particulars</th>
+                      <th>Narration</th>
                       <th>Outflow (<?php echo $currency ?>)</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach (Expense::EXPENSE_TYPE as $key => $value) :
-                      $data = Expense::find_by_expense($key);
-                      $total = Expense::get_total_expenses($convertFrom, ['expense' => $key, 'company' => $admComp, 'branch' => $branch])->total_amount;
-
-                      $nextTotal = !empty($total) ? $total : 0;
-                      array_push($metricLabels, $value);
-                      array_push($metricSeries, $nextTotal);
-                    ?>
+                    <?php foreach ($expenses as $expense) : ?>
                       <tr>
                         <td>
-                          <?php echo $value == 'Transfer' && isset($data->narration) ? ucfirst($data->narration) : ucwords($value); ?>
+                          <?php echo isset($expense->title) ? ucfirst($expense->title) : 'Not set' ?>
                         </td>
-                        <td class="text-right">
-                          <?php echo number_format($total); ?>
+                        <td>
+                          <?php echo isset($expense->narration) ? ucfirst($expense->narration) : 'Not set' ?>
+                        </td>
+                        <td class="text-center">
+                          <?php echo isset($expense->amount) ? number_format($expense->amount) : '0.00'; ?>
                         </td>
                       </tr>
                     <?php endforeach; ?>
-                    <tr>
-                      <td class="font-weight-bold text-uppercase">
-                        <?php echo 'EXPECTED Cash to Head Office'; ?>
-                      </td>
-                      <td class="text-right font-weight-bold">
-                        <?php echo number_format($cashToHO); ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="text-right">
-                        <h5 class="mb-0"><?php echo number_format($grandTotal); ?></h5>
-                      </td>
-                    </tr>
+
                   </tbody>
                 </table>
               </div>
             </div>
-
-            <div class="col-md-4">
-              <?php
-              $impLabel = implode('","',  $metricLabels);
-              $impSeries = implode(',',  $metricSeries);
-
-              $label = '"' . $impLabel . '"';
-              $series = $impSeries;
-              ?>
-              <div id="daily-report"><span class="badge badge-primary ">Chart Analysis</span></div>
-            </div>
           </div>
-        </div>
-
-        <div class="table-responsive" id="detailed">
-          <table class="table custom-table table-sm">
-            <thead>
-              <tr class="bg-primary text-white text-center">
-                <!-- <th>Date</th> -->
-                <th>Particulars</th>
-                <th>Quantity (LTR)</th>
-                <th>Rate (<?php echo $currency ?>)</th>
-                <th>Inflow (<?php echo $currency ?>)</th>
-                <th>Credit sales (<?php echo $currency ?>)</th>
-                <th>Outflow (<?php echo $currency ?>)</th>
-                <th>Remarks</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr class="bg-primary text-white">
-                <th colspan="6">
-                  <h5 class="mb-0">Cash Remittance</h5>
-                </th>
-                <th>
-                  <button class="btn btn-info d-block m-auto py-0 px-2" data-toggle="modal" data-target="#salesModel">
-                    &plus; Remit</button>
-                </th>
-              </tr>
-              <?php foreach ($filterReport as $data) : ?>
-                <tr>
-                  <td>
-                    <?php echo 'Cash Sales (' . strtoupper($data->name) . ')'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->sales_quantity); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->rate); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->inflow); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td>
-                    Data is from the sales reps!
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-
-              <?php foreach ($remittance as $data) : ?>
-                <tr>
-                  <td>
-                    <?php echo ucwords($data->narration); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo $data->quantity != '' ? number_format(intval($data->quantity)) : '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo $data->rate != '' ? number_format(intval($data->rate)) : '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format(intval($data->amount)); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td>NOTE: The remit button is used to add exceptional cash inflow that was not captured from the normal sales of the day</td>
-                </tr>
-              <?php endforeach; ?>
-
-              <tr>
-                <th colspan="7" class="bg-secondary text-white">
-                  <h5 class="mb-0">Credit sales</h5>
-                </th>
-              </tr>
-
-              <?php foreach ($creditSales as $data) :
-                $rate = Product::find_by_name($data->product)->rate;
-              ?>
-                <tr>
-                  <td>
-                    <?php echo ucwords($data->narration); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo $data->quantity .  'L of ' . $data->product; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($rate); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->amount); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->amount); ?>
-                  </td>
-                  <td>
-                    This is registered from the Expenses page
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-              <tr>
-                <td colspan="5">
-                  <h5 class="mb-0">Total</h5>
-                </td>
-                <td class="text-right">
-                  <h5 class="mb-0"> <?php echo number_format($totalCredit); ?></h5>
-                </td>
-                <td></td>
-              </tr>
-
-              <tr>
-                <th colspan="7" class="bg-secondary text-white">
-                  <h5 class="mb-0">Operating Expenses</h5>
-                </th>
-              </tr>
-
-              <?php foreach ($operatingExp as $data) :
-                $rate = !empty($data->product) ? Product::find_by_name($data->product)->rate : '';
-              ?>
-                <tr>
-                  <td>
-                    <?php echo ucwords($data->narration); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo !empty($data->quantity) ? $data->quantity .  'L of ' . $data->product : ''; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo !empty($rate) ? number_format($rate) : ''; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->amount); ?>
-                  </td>
-                  <td>
-                    This is registered from the Expenses page
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-              <tr>
-                <td colspan="5">
-                  <h5 class="mb-0">Total</h5>
-                </td>
-                <td class="text-right">
-                  <h5 class="mb-0"> <?php echo number_format($totalOpExp); ?></h5>
-                </td>
-                <td></td>
-              </tr>
-
-              <tr>
-                <th colspan="7" class="bg-secondary text-white">
-                  <h5 class="mb-0">Non-Operating Expenses</h5>
-                </th>
-              </tr>
-
-              <?php foreach ($nonOpgExp as $data) : ?>
-                <tr>
-                  <td>
-                    <?php echo ucwords($data->narration); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo !empty($data->quantity) ? $data->quantity .  'L of ' . $data->product : ''; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->amount); ?>
-                  </td>
-                  <td>
-                    This is registered from the Expenses page
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-              <tr>
-                <td colspan="5">
-                  <h5 class="mb-0">Total</h5>
-                </td>
-                <td class="text-right">
-                  <h5 class="mb-0"> <?php echo number_format($totalNonOpExp); ?></h5>
-                </td>
-                <td></td>
-              </tr>
-
-              <tr>
-                <th colspan="7" class="bg-secondary text-white">
-                  <h5 class="mb-0">Head Office Expenses</h5>
-                </th>
-              </tr>
-              <?php foreach ($headOfficeExp as $data) :
-                $rate = !empty($data->product) ? Product::find_by_name($data->product)->rate : '';
-              ?>
-                <tr>
-                  <td>
-                    <?php echo ucwords($data->narration); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo !empty($data->quantity) ? $data->quantity .  'L of ' . $data->product : ''; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo !empty($rate) ? number_format($rate) : ''; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo '-'; ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->amount); ?>
-                  </td>
-                  <td>
-                    This is registered from the Expenses page
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-              <tr>
-                <td colspan="5">
-                  <h5 class="mb-0">Total</h5>
-                </td>
-                <td class="text-right">
-                  <h5 class="mb-0"> <?php echo number_format($totalHOExp); ?></h5>
-                </td>
-                <td></td>
-              </tr>
-
-              <tr>
-                <th colspan="7" class="bg-secondary text-white">
-                  <h5 class="mb-0">Transfer</h5>
-                </th>
-              </tr>
-
-              <?php foreach ($transExp as $data) : ?>
-                <tr>
-                  <td colspan="5">
-                    <?php echo ucwords($data->narration); ?>
-                  </td>
-                  <td class="text-right">
-                    <?php echo number_format($data->amount); ?>
-                  </td>
-                  <td>
-                    This is registered from the Expenses page
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-
-              <tr style="border: 3px solid black">
-                <td colspan="5" class="font-weight-bold text-uppercase">
-                  <?php echo 'Expected Cash to Head Office'; ?>
-                </td>
-                <td class="text-right font-weight-bold">
-                  <?php echo number_format($cashToHO); ?>
-                </td>
-                <td>
-                  This section of the report is auto-generated! <br><br>
-                  NOTE: Expected Cash to Head Office = Total sales (<?php echo number_format($totalSales) ?>) - Total expenses (<?php echo number_format($totalExpenses); ?>)
-                </td>
-              </tr>
-
-              <tr>
-                <td colspan="3">
-                  <h4 class="mb-0"><?php echo 'Grand Total'; ?></h4>
-                </td>
-                <td class="text-right">
-                  <h4 class="mb-0"><?php echo number_format($totalSales); ?></h4>
-                </td>
-                <td class="text-right">
-                  <h4 class="mb-0">
-                    <?php echo number_format($totalCredit); ?>
-                  </h4>
-                </td>
-                <td class="text-right">
-                  <h4 class="mb-0">
-                    <span class="text-secondary" style="border-bottom: 3px double">
-                      <?php echo number_format($grandTotal); ?></span>
-                  </h4>
-                </td>
-                <td>
-                  Since Inflow is equal to Outflow hence, account is balance! <br><br>
-                  NOTE: Grand Total = Expected Cash to Head Office (<?php echo number_format($cashToHO); ?>) + Sum of expenses (<?php echo number_format($totalExpenses); ?>)
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>

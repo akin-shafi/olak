@@ -98,7 +98,7 @@ if (is_get_request()) {
                   <th>Actual Stock (LTR)</th>
                   <th>Over/Short (LTR)</th>
                   <th>Expected Sales (<?php echo $currency; ?>)</th>
-                  <th>Cash Remitted (<?php echo $currency; ?>)</th>
+                  <th>Remittance (<?php echo $currency; ?>)</th>
                   <th>Difference (<?php echo $currency; ?>)</th>
                 </tr>
               </thead>
