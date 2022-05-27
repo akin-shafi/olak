@@ -3,20 +3,18 @@
 $page = 'Sales';
 $page_title = 'All Sales';
 include(SHARED_PATH . '/admin_header.php');
-// $today = date('Y-m-d');
-$today = date('Y-m-d', strtotime('2022-5-26'));
+$today = date('Y-m-d');
 
-// $datasheet = DataSheet::data_sheet_report($today, ['company'=>$loggedInAdmin->company_id, 'branch'=>$loggedInAdmin->branch_id]);
-$datasheet = DataSheet::data_sheet_report($today, ['company'=>$loggedInAdmin->company_id, 'branch'=>'2']);
+$datasheet = DataSheet::data_sheet_report($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
 
 $remit = [];
 
-foreach($datasheet as $data):
-	array_push($remit,$data->cash_submitted);
+foreach ($datasheet as $data) :
+	array_push($remit, $data->cash_submitted);
 endforeach;
 
 $remitted = array_sum($remit);
-// pre_r($datasheet);
+// pre_r($remitted);
 ?>
 
 <!-- Content wrapper start -->
@@ -46,9 +44,10 @@ $remitted = array_sum($remit);
 				</thead>
 				<tbody>
 					<tr>
-						<td>12 May 2022</td>
-						<td> <?php echo number_format($remitted,2); ?>
-						<input type="hidden" id="" value="5890400"></td>
+						<td><?php echo date('M d, Y') ?></td>
+						<td> <?php echo number_format($remitted, 2); ?>
+							<input type="hidden" id="" value="5890400">
+						</td>
 						<td>
 							<button class="btn btn-primary btn-sm" id="manage">Manage</button>
 
@@ -97,6 +96,12 @@ $remitted = array_sum($remit);
 								<td>Transfer </td>
 								<td><input type="text" name="flow[transfer]" class="form-control"></td>
 							</tr>
+							<tr>
+								<td>Narration </td>
+								<td>
+									<textarea name="flow[narration]" class="form-control"></textarea>
+								</td>
+							</tr>
 						</table>
 					</div>
 				</div>
@@ -113,7 +118,7 @@ $remitted = array_sum($remit);
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 <script type="text/javascript">
 	$(document).ready(function() {
-		const BACK_URL = './'
+		const BACK_URL = '<?php echo url_for('report/') ?>'
 		const PET_URL = 'inc/process.php';
 
 		$(document).on('click', '#manage', function() {

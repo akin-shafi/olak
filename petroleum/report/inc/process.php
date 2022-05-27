@@ -80,7 +80,19 @@ if (is_get_request()) {
     $admComp = $loggedInAdmin->company_id;
 
     $expenses = Expense::find_by_expenses($convertFrom, ['company' => $admComp, 'branch' => $branch]);
-    $cashFlows = CashFlow::find_by_cash_flow($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    $cashFlow = CashFlow::find_by_cash_flow($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    $today = date('Y-m-d');
+
+    $datasheet = DataSheet::data_sheet_report($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
+
+    $remit = [];
+
+    foreach ($datasheet as $data) :
+      array_push($remit, $data->cash_submitted);
+    endforeach;
+
+    $remitted = array_sum($remit);
+    // pre_r($remitted);
 
     // $remittance = Remittance::get_all_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch]);
     // $additionalRemit = Remittance::get_total_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch])->total_amount;
@@ -103,13 +115,20 @@ if (is_get_request()) {
     // $grandTotal = $totalExpenses + $cashToHO;
 
 ?>
+    <style>
+      .tds {
+        width: 50%;
+        min-width: 600px !important;
+      }
+    </style>
 
     <div>
       <div class="table-container border-0 shadow">
         <div class="d-flex justify-content-between align-items-center">
           <h3>Summary</h3>
           <h3>
-            <?php echo date('Y-m-d', strtotime($convertFrom)) ?>
+            Date:
+            <?php echo date('d-m-Y', strtotime($convertFrom)) ?>
           </h3>
         </div>
 
@@ -117,6 +136,8 @@ if (is_get_request()) {
 
           <div class="row gutters">
             <div class="col-md-12">
+              <h3 class="text-uppercase text-right">Remittance: <?php echo $currency . ' ' . number_format($remitted, 2); ?></h3>
+
               <div class="table-responsive">
                 <table class="table custom-table table-sm">
                   <thead>
@@ -127,18 +148,52 @@ if (is_get_request()) {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
-                        <?php echo 'Cash Sales'; ?>
+                      <td class="tds font-weight-bold">
+                        <?php echo 'Narration'; ?>
                       </td>
-                      <td class="text-right">
-                        <?php echo number_format(20000); ?>
+                      <td colspan="2">
+                        <p class="mb-0">
+                          <?php echo isset($cashFlow->narration)
+                            ? ucfirst($cashFlow->narration) : 'Narration not set'; ?></p>
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="2" class="text-right">
-                        <h5 class="mb-0"><?php echo number_format(20000); ?></h5>
+                      <td class="font-weight-bold">
+                        <?php echo 'Credit Sales'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo isset($cashFlow->credit_sales)
+                          ? number_format($cashFlow->credit_sales) : '0.00'; ?>
                       </td>
                     </tr>
+                    <tr>
+                      <td class="font-weight-bold">
+                        <?php echo 'Cash Sales'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo isset($cashFlow->cash_sales)
+                          ? number_format($cashFlow->cash_sales) : '0.00'; ?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">
+                        <?php echo 'P.O.S'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo isset($cashFlow->pos)
+                          ? number_format($cashFlow->pos) : '0.00'; ?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">
+                        <?php echo 'Transfer'; ?>
+                      </td>
+                      <td class="text-right">
+                        <?php echo isset($cashFlow->transfer)
+                          ? number_format($cashFlow->transfer) : '0.00'; ?>
+                      </td>
+                    </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -158,13 +213,13 @@ if (is_get_request()) {
                     <?php foreach ($expenses as $expense) : ?>
                       <tr>
                         <td>
-                          <?php echo ucfirst($expense->title) ?>
+                          <?php echo isset($expense->title) ? ucfirst($expense->title) : 'Not set' ?>
                         </td>
                         <td>
-                          <?php echo ucfirst($expense->narration) ?>
+                          <?php echo isset($expense->narration) ? ucfirst($expense->narration) : 'Not set' ?>
                         </td>
                         <td class="text-center">
-                          <?php echo number_format($expense->amount); ?>
+                          <?php echo isset($expense->amount) ? number_format($expense->amount) : '0.00'; ?>
                         </td>
                       </tr>
                     <?php endforeach; ?>
