@@ -23,6 +23,7 @@ class Billing extends DatabaseObject
     'balance',
 
     'created_date',
+    'created_by',
     'updated_date',
     'deleted'
 
@@ -48,6 +49,7 @@ class Billing extends DatabaseObject
 
 
   public $created_date;
+  public $created_by;
   public $updated_date;
   public $deleted;
 
@@ -58,6 +60,7 @@ class Billing extends DatabaseObject
   const PAYMENT_METHOD = [
     1 => 'Wallet',
     2 => 'Cash',
+    3 => 'Credit',
   ];
 
   const BILLING_FORMAT = [
@@ -92,6 +95,7 @@ class Billing extends DatabaseObject
 
 
     $this->created_date = $args['created_date'] ?? date('Y-m-d H:i:s');
+    $this->created_by = $args['created_by'] ?? '';
     $this->updated_date = $args['updated_date'] ?? '';
     $this->deleted = $args['deleted'] ?? '';
   }

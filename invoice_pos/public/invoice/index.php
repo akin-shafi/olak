@@ -120,13 +120,14 @@ $page_title = 'Billing & Receipts'; ?>
 
                 <section class="row">
                   <div class="form-group col-lg-3 col-md-3 ">
-                    <label class="label-control">Client Name <sup class="error">*</sup></label>
+                    <label class="label-control">Customer Name <sup class="error">*</sup></label>
                     <div class="btn-group">
                     <select required class="form-control client_id" name="billing[client_id]">
-                      <option value="">Select Client</option>
+                      <option value="">Select Customer</option>
                       <?php foreach (Client::find_by_undeleted() as $client) { ?>
 
-                        <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?></option>
+                        <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?>
+                        <?php //echo $client->customer_id; ?></option>
                       <?php } ?>
                     </select>
                     <a href="<?php echo url_for('client/new.php') ?>" class="btn btn-success btn-sm">+</a>
@@ -382,7 +383,7 @@ $page_title = 'Billing & Receipts'; ?>
 
     $('#expense_form').on('submit', function(e) {
       e.preventDefault()
-      $("#create_request").attr('disabled', true);
+      // $("#create_request").attr('disabled', true);
 
       var count_data = 0;
       var cus_id = $(".client_id").val();
