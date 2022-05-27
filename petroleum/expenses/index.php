@@ -64,10 +64,12 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
           <div class="container">
             <div class="d-flex justify-content-end align-items-center">
               <div class="mb-3 ">
-                <select class="form-control" name="branch_id" id="branch_id" required>
+                <input type="hidden" class="form-control" name="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
+                <select class="form-control" id="branch_id" disabled>
                   <option value="">select branch</option>
                   <?php foreach (Branch::find_by_undeleted() as $data) : ?>
-                    <option value="<?php echo $data->id ?>"><?php echo ucwords($data->name) ?></option>
+                    <option value="<?php echo $data->id ?>" <?php echo $data->id == $loggedInAdmin->branch_id ? 'selected' : '' ?>>
+                      <?php echo ucwords($data->name) ?></option>
                   <?php endforeach; ?>
                 </select>
               </div>

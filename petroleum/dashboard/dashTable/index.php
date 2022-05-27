@@ -8,6 +8,7 @@ if (is_get_request()) {
 
     $metricTopProductName = [];
     $metricTopProductValue = [];
+
     $topSelling = DataSheet::get_top_selling_product($branchId);
     foreach ($topSelling as $value) {
       array_push($metricTopProductName, $value->product_name);
@@ -20,6 +21,67 @@ if (is_get_request()) {
     $series = $impSeries;
 
 ?>
+    <style>
+      .list-group .list-group-item {
+        border: 3px solid #000;
+      }
+    </style>
+    <div class="row gutters">
+
+      <?php foreach ($topSelling as $pro) :
+        $lagInCash = intval($pro->cash_submitted) - intval($pro->exp_sales_value);
+      ?>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+          <ul class="list-group list-group-flush shadow px-2">
+            <li class="list-group-item border-left-0 border-right-0 text-right">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="left">
+                  <p class="mb-0" style="font-size: 36px;">
+                    <span class="d-block d-flex justify-content-center align-items-center p-1 text-white rounded-circle" style="width:50px;height:50px;background-color:darkslategray">
+                      <?php echo $currency ?>
+                    </span>
+                  </p>
+                </div>
+                <div class="right">
+                  <h6 class="text-uppercase">Expected Sales: <?php echo strtoupper($pro->product_name) ?></h6>
+                  <h2 class="mb-0"><?php echo number_format($pro->exp_sales_value); ?></h2>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item border-left-0 border-right-0 text-right">
+              <div class="d-flex justify-content-between">
+                <div class="left">
+                  <p class="mb-0" style="font-size: 36px;">
+                    <span class="d-block d-flex justify-content-center align-items-center p-1 text-white rounded-circle" style="width:50px;height:50px;background-color:darkcyan">
+                      <?php echo $currency ?>
+                    </span>
+                  </p>
+                </div>
+                <div class="right">
+                  <h6 class="text-uppercase">Remittance: <?php echo strtoupper($pro->product_name) ?></h6>
+                  <h2 class="mb-0"><?php echo number_format($pro->cash_submitted); ?></h2>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item border-left-0 border-right-0 text-right">
+              <div class="d-flex justify-content-between">
+                <div class="left">
+                  <p class="mb-0" style="font-size: 36px;">
+                    <span class="d-block d-flex justify-content-center align-items-center p-1 text-white rounded-circle" style="width:50px;height:50px;background-color:brown">
+                      <?php echo $currency ?>
+                    </span>
+                  </p>
+                </div>
+                <div class="right">
+                  <h6 class="text-uppercase">Difference: <?php echo strtoupper($pro->product_name) ?></h6>
+                  <h2 class="mb-0"><?php echo number_format($lagInCash); ?></h2>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      <?php endforeach; ?>
+    </div>
 
     <div class="row gutters">
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12 mb-5">
@@ -37,7 +99,7 @@ if (is_get_request()) {
                   <th>Over/Short (LTR)</th>
                   <th>Expected Sales (<?php echo $currency; ?>)</th>
                   <th>Cash Remitted (<?php echo $currency; ?>)</th>
-                  <th>Over/Short (<?php echo $currency; ?>)</th>
+                  <th>Difference (<?php echo $currency; ?>)</th>
                 </tr>
               </thead>
 
@@ -60,7 +122,7 @@ if (is_get_request()) {
                         <?php echo number_format($data->over_or_short); ?>
                       </span>
                     </td>
-                    <td><?php echo number_format($data->exp_sales_value); ?></td>
+                    <td class=""><?php echo number_format($data->exp_sales_value); ?></td>
                     <td><?php echo number_format($data->cash_submitted); ?></td>
                     <td>
                       <span class="<?php echo $lagInCash < 0 ? 'text-danger' : 'text-dark' ?>">
@@ -82,7 +144,7 @@ if (is_get_request()) {
 
       <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
         <div class="shadow-sm p-3">
-          <h4 class="card-title text-uppercase">Top Selling Product</h4>
+          <h4 class="card-title text-uppercase">Sales (ltr)</h4>
           <div id="consolidated-sBar"></div>
         </div>
       </div>
@@ -117,7 +179,7 @@ if (is_get_request()) {
     tooltip: {
       y: {
         formatter: function(val) {
-          return "<?php echo $currency; ?> " + numberWithCommas(val)
+          return numberWithCommas(val) + " (LTR)"
         }
       }
     },
