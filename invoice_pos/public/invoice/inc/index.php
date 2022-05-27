@@ -10,11 +10,25 @@ if (is_post_request()) {
 		$result = true;
 
 		if ($result == true) {
+			if ($_POST['billing']['billingFormat'] == 1) {
+				$post_id = $_POST['billing']['client_id'];
+				$total_amount = $_POST['billing']['total_amount'];
+				$client = Client::find_by_id($post_id)->customer_id;
+				$customer_wallet = Wallet::find_by_customer_id($client);
+				$balance = ($customer_wallet->balance - $total_amount);
+				$new_args = [
+					'balance' => $balance,
+				];
+				$customer_wallet->merge_attributes($new_args);
+				$result_data = $customer_wallet->save();
+			}
+
 			$rand = rand(10, 100);
 			$new_id = $billing->id;
 			$invoice_no = "1" . str_pad($new_id, 3, "0", STR_PAD_LEFT) . $rand;
 			$data = [
-				'invoiceNum' => $invoice_no,
+				'invoiceNum' 	=> $invoice_no,
+				"created_by"    => $loggedInAdmin->id,
 			];
 			$billing->merge_attributes($data);
 			$result_set = $billing->save();
@@ -47,6 +61,9 @@ if (is_post_request()) {
 				exit(json_encode(['success' => false, 'msg' => $billing->errors]));
 			}
 		}
+
+
+		
 	}
 
 	if (isset($_POST['edit_invoice'])) {

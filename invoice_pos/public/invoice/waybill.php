@@ -80,7 +80,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 </style>
 <body>
 
-    <section class="bodyt" id="content">
+    <section class="body" id="content">
       <?php //pre_r($billing); ?>
       <div class="container">
          <section id="memo">
@@ -109,18 +109,21 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          <div class="clearfix"></div>
          <section id="invoice-info">
             <div>
+               <span data-ibcl-id="issue_date_label" class="ibcl_issue_date_label" data-tooltip="tooltip" data-placement="top" title="Enter issue date label">Processed By: </span>
                <span data-ibcl-id="issue_date_label" class="ibcl_issue_date_label" data-tooltip="tooltip" data-placement="top" title="Enter issue date label">Issue Date: </span>
                <span data-ibcl-id="due_date_label" class="ibcl_due_date_label" data-tooltip="tooltip" data-placement="top" title="Enter invoice due date label">Due Date:</span>
                <span data-ibcl-id="currency_label" class="ibcl_currency_label" data-tooltip="tooltip" data-placement="top" title="Enter invoice currency label">Currency:</span>
-               <!-- <span data-ibcl-id="po_number_label" class="ibcl_po_number_label" data-tooltip="tooltip" data-placement="top" title="Enter P.O. label">Contact No. #</span> -->
+               <span data-ibcl-id="po_number_label" class="ibcl_po_number_label" data-tooltip="tooltip" data-placement="top" title="Enter P.O. label">Print Date</span>
             </div>
             <div>
+               <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo Admin::find_by_id($billing->created_by)->full_name() ?? 'Not Set'; ?></span>
+
                <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo $billing->created_date ?? '00/00/00'; ?></span>
                <span data-ibcl-id="due_date" class="ibcl_due_date" data-tooltip="tooltip" data-placement="top" title="Select invoice due date" data-date="12/07/2019"><?php echo $due_date ?? '00/00/00'; ?></span>
                <!-- <span data-ibcl-id="net_term" class="ibcl_net_term" data-tooltip="tooltip" data-placement="top" title="Enter invoice net days">21</span> -->
                <span data-ibcl-id="currency" class="ibcl_currency" data-tooltip="tooltip" data-placement="top" title="Enter invoice currency"><?php echo $billing->currency ?? 'NGN'; ?></span>
 
-               <!-- <span data-ibcl-id="po_number" class="ibcl_po_number" data-tooltip="tooltip" data-placement="top" title="Enter P.O. Number">1/3-147</span> -->
+               <span  title=""><?php echo date('Y-m-d') ?></span>
             </div>
          </section>
          <section id="client-info">
@@ -290,10 +293,12 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          <div class="clearfix"></div>
          <section id="invoice-info">
             <div>
+               <span data-ibcl-id="issue_date_label" class="ibcl_issue_date_label" data-tooltip="tooltip" data-placement="top" title="Enter issue date label">Processed By: </span>
                <span data-ibcl-id="issue_date_label" class="ibcl_issue_date_label" data-tooltip="tooltip" data-placement="top" title="Enter issue date label">Issue Date: </span>
               
             </div>
             <div>
+               <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo Admin::find_by_id($billing->created_by)->full_name() ?? 'Not Set'; ?></span>
                <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo $billing->created_date ?? '00/00/00'; ?></span>
               
             </div>

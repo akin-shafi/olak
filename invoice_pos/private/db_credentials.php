@@ -6,7 +6,7 @@
 // 3. Unique credentials if working with multiple developers
 
 
-if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == $_SERVER['REMOTE_ADDR']) {
+if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.168.64.2') {
 	define("DB_SERVER", "localhost");
 	define("DB_USER", "root");
 	define("DB_PASS", "");
