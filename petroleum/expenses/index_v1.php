@@ -14,7 +14,7 @@ foreach ($productObj as $value) {
 $fltDate = date('Y-m-d');
 
 $products = is_unique_array($productArray);
-$expenses = Expense::find_by_expenses($fltDate);
+$expenses = Expense::find_by_expense_type($fltDate);
 $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
 
 ?>
@@ -78,8 +78,10 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
               <table class="table custom-table table-sm">
                 <thead>
                   <tr class="bg-primary text-white text-center">
-                    <th>Title</th>
-                    <th>Quantity</th>
+                    <th>Expense Type</th>
+                    <th>Product</th>
+                    <th>Rate</th>
+                    <th>Quantity (LTR)</th>
                     <th>Amount (<?php echo $currency ?>)</th>
                     <th>Narration</th>
                     <th>Action</th>
@@ -89,15 +91,32 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
                 <tbody id="exp-table">
                   <tr class="text-center">
                     <td>
-                      <input type="text" name="title[]" class="form-control title_1" id="title" required>
+                      <select name="expense_type[]" class="form-control expense_type_1" id="expense_type">
+                        <option value="">select type</option>
+                        <?php foreach (Expense::EXPENSE_TYPE as $key => $data) : ?>
+                          <option value="<?php echo $key ?>"><?php echo ucwords($data) ?></option>
+                        <?php endforeach; ?>
+                      </select>
                     </td>
                     <td>
-                      <input type="text" class="form-control quantity_1" id="quantity" name="quantity[]" </td>
-                    <td>
-                      <input type="text" class="form-control amount_1" id="amount" name="amount[]" required>
+                      <select name="product[]" class="form-control product_1" id="product">
+                        <option value="">select product</option>
+                        <?php foreach (array_unique($products) as $data) : ?>
+                          <option value="<?php echo $data ?>"><?php echo strtoupper($data) ?></option>
+                        <?php endforeach; ?>
+                      </select>
                     </td>
                     <td>
-                      <textarea name="narration[]" class="form-control narration_1" id="narration" required></textarea>
+                      <input type="text" class="form-control inpRate_1" id="inpRate" placeholder="Rate" readonly>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control quantity_1" id="quantity" name="quantity[]" placeholder="Quantity">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control amount_1" id="amount" name="amount[]" placeholder="0,000.00" required>
+                    </td>
+                    <td>
+                      <textarea name="narration[]" class="form-control narration_1" id="narration" placeholder="Enter Narration"></textarea>
                     </td>
 
                     <td>
@@ -184,7 +203,8 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
         dataType: 'json',
         success: function(r) {
           $('#branch_id').val(r.data.branch_id)
-          $('#title').val(r.data.title)
+          $('#expense_type').val(r.data.expense_type)
+          $('#product').val(r.data.product)
           $('#quantity').val(r.data.quantity)
           $('#amount').val(r.data.amount)
           $('#narration').val(r.data.narration)
@@ -235,19 +255,23 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
       let html_code = '';
       html_code += '<tr id="row_id_' + count + '">';
 
-      html_code += '<td><input type="text" size="12" name="title[]"  class="form-control title_' + count + '" required></td>'
+      html_code += '<td><select class="form-control" name="expense_type[]"><option>select type</option><?php foreach (Expense::EXPENSE_TYPE as $key => $data) { ?><option value="<?php echo $key; ?>"><?php echo $data; ?></option><?php } ?></select></td>'
 
-      html_code += '<td><input type="text" size="12" name="quantity[]"  class="form-control quantity_' + count + '"></td>'
+      html_code += '<td><select class="form-control product_' + count + '" name="product[]"><option value="">select product</option><?php foreach (array_unique($products) as $data) { ?><option value="<?php echo $data; ?>"><?php echo $data; ?></option><?php } ?></select></td>'
 
-      html_code += '<td><input type="text" name="amount[]" class="form-control amount_' + count + '" required></td>'
+      html_code += '<td><input type="text" class="form-control inpRate_' + count + '" placeholder="Rate" readonly></td>'
 
-      html_code += '<td><textarea name="narration[]" id="narration" class="form-control narration_' + count + '" required></textarea></td>'
+      html_code += '<td><input type="text" size="12" name="quantity[]"  class="form-control quantity_' + count + '" placeholder="Quantity"></td>'
+
+      html_code += '<td><input type="text" name="amount[]" class="form-control amount_' + count + '" placeholder="0,000.00" required></td>'
+
+      html_code += '<td><textarea name="narration[]" id="narration" class="form-control narration_' + count + '" placeholder="Enter Narration"></textarea></td>'
 
       html_code += '<td><button type="button" id="' + count + '" class="btn btn-secondary d-block m-auto remove_row">X</button></td></tr>'
 
       $('#exp-table').append(html_code);
 
-      // addRow()
+      addRow()
     });
 
     $(document).on('click', '.remove_row', function() {
@@ -258,14 +282,14 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
     });
 
     window.onload = () => {
-      // addRow()
+      addRow()
 
       let branch = $('#fBranch').val()
       let filterDate = $('#filter_date').val()
       getDataSheet(branch, filterDate)
     }
 
-    /*const addRow = () => {
+    const addRow = () => {
       const totalItem = $('#total_item').val();
       for (let i = 1; i <= totalItem; i++) {
         let iQty = $('.quantity_' + i)
@@ -302,7 +326,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
           })
         })
       }
-    }*/
+    }
 
 
 

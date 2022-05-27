@@ -8,7 +8,7 @@ if (empty($access->dashboard) || $access->dashboard != 1) :
 	redirect_to('../sales/');
 endif;
 
-
+/*
 $metricProfit = [];
 $metricSales = [];
 $metricExpenses = [];
@@ -52,6 +52,7 @@ $month = '"' . $impMonth . '"';
 $pieProfit = array_sum($metricProfit);
 $pieSales = array_sum($metricSales);
 $pieExpenses = array_sum($metricExpenses);
+*/
 
 $admins = Admin::find_by_undeleted();
 $products = Product::find_by_undeleted();
@@ -60,11 +61,7 @@ $stockSheet = DataSheet::get_stock_sheet();
 
 
 $branches = Branch::find_by_undeleted(['order' => 'ASC']);
-
-
-// echo $_SERVER['REMOTE_ADDR'];
 ?>
-
 
 <style>
 	th {

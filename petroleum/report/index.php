@@ -2,7 +2,7 @@
 require_login();
 
 $page = 'Reports';
-$page_title = 'Sales Report';
+$page_title = 'Sales & Expenses';
 include(SHARED_PATH . '/admin_header.php');
 
 ?>

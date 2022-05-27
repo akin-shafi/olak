@@ -491,7 +491,7 @@ $fullName = $user->full_name;
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="reportDropdown">
                         <li>
-                           <a class="dropdown-item <?php echo $page_title == 'Sales Report' ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">Sales Report</a>
+                           <a class="dropdown-item <?php echo $page_title == 'Sales & Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">Report</a>
                         </li>
                      </ul>
                   </li>

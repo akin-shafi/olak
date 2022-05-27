@@ -111,3 +111,4 @@
 2022-05-26 14:16:09 | Admin Login: Salami Lawal Logged in.
 2022-05-26 15:46:22 | Logout: Salami Lawal Logged out.
 2022-05-26 15:46:27 | Admin Login: Super Admin Logged in.
+2022-05-27 06:45:05 | Admin Login: Ojo Gbadamosi Logged in.

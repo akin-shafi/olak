@@ -14,7 +14,7 @@ include(SHARED_PATH . '/admin_header.php');
 ?>
 <style type="text/css">
 	th {
-		font-size: 9px;
+		font-size: 12px;
 		vertical-align: middle;
 	}
 
@@ -89,7 +89,7 @@ include(SHARED_PATH . '/admin_header.php');
 								<th>EXPECTED STOCK (LTRS)</th>
 								<th>ACTUAL STOCK (LTRS)</th>
 								<th>OVER/SHORT</th>
-								<th>CASH SUBMITTED #</th>
+								<th>REMITTANCE (<?php echo $currency ?>)</th>
 								<!-- <th>EXP. SALES VALUE #</th>
 							 	<th>TOTAL SALES (LTRS)</th>
 								<th>TOTAL VALUE #</th>

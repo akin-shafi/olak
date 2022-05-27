@@ -2,12 +2,12 @@
 class Expense extends DatabaseObject
 {
   protected static $table_name = "expenses";
-  protected static $db_columns = ['id', 'company_id', 'branch_id', 'title', 'quantity', 'amount', 'narration', 'created_by', 'created_at', 'updated_at', 'deleted'];
+  protected static $db_columns = ['id', 'company_id', 'branch_id', 'expense_type',  'product', 'quantity', 'amount', 'narration', 'created_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $company_id;
   public $branch_id;
-  public $title;
+  public $expense_type;
   public $product;
   public $quantity;
   public $amount;
@@ -23,11 +23,20 @@ class Expense extends DatabaseObject
   public $month;
   public $outflow;
 
+  const EXPENSE_TYPE = [
+    1 => 'Credit sales',
+    2 => 'Operating',
+    3 => 'Non-operating',
+    4 => 'Head office',
+    5 => 'Transfer',
+  ];
+
   public function __construct($args = [])
   {
     $this->company_id   = $args['company_id'] ?? '';
     $this->branch_id    = $args['branch_id'] ?? '';
-    $this->title        = $args['title'] ?? '';
+    $this->expense_type = $args['expense_type'] ?? '';
+    $this->product      = $args['product'] ?? '';
     $this->quantity     = $args['quantity'] ?? '';
     $this->amount       = $args['amount'] ?? '';
     $this->narration    = $args['narration'] ?? '';
@@ -81,10 +90,11 @@ class Expense extends DatabaseObject
   }
 
 
-  public static function find_by_expenses($dateFrom, $option = [])
+  public static function find_by_expense_type($dateFrom, $option = [])
   {
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
+    $expense = $option['expense'] ?? false;
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE created_at ='" . self::$database->escape_string($dateFrom) . "'";
@@ -94,6 +104,10 @@ class Expense extends DatabaseObject
       $sql .= " AND company_id='" . self::$database->escape_string($company) . "'";
       $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
     endif;
+
+    if ($expense != false) {
+      $sql .= " AND expense_type='" . self::$database->escape_string($expense) . "'";
+    }
 
     return static::find_by_sql($sql);
   }
