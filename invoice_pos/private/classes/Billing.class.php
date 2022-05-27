@@ -80,7 +80,7 @@ class Billing extends DatabaseObject
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';
     $this->status = $args['status'] ?? 1;
-    $this->waybill_no = $args['waybill_no'] ?? 1;
+    $this->waybill_no = $args['waybill_no'] ?? '';
     $this->invoiceNum = $args['invoiceNum'] ?? '';
     $this->client_id = $args['client_id'] ?? '';
     $this->billingFormat = $args['billingFormat'] ?? '';

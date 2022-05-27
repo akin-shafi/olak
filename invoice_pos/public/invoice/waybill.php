@@ -7,11 +7,10 @@ $invoice_no = $_GET['invoice_no'] ?? '1'; // PHP > 7.0
 
 $company = CompanyDetails::find_by_id("1");
 $billing = Billing::find_by_invoice_no($invoice_no);
-
+$rand = rand(0, 100);
+$unique = uniqid();
 // $check_waybill = Billing::find_by_waybill_no();
-if (empty($billing->waybill_no)) {
-   $rand = rand(0, 100);
-   $unique = uniqid();
+if(empty($billing->waybill_no)) {
    $args = [
       "status" => 2,
       "waybill_no" => $rand."-".$unique,

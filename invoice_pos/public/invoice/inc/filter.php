@@ -32,7 +32,7 @@ if (is_get_request()) {
 			$filteredData = Billing::find_by_filtering($companyId, $branchId);
 		endif; ?>
 
-		<?php pre_r($_GET); ?>
+		<?php //pre_r($_GET); ?>
 
 		<table id="rowSelection" class=" table table-striped table-hover responsive nowrap" style="width:100%">
 			<thead>

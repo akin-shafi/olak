@@ -269,6 +269,16 @@
             </a>
           </li>
           <?php } ?>
+          <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) { ?>
+          <li class="nav-item">
+            <a class="nav-link <?php echo ($page_title == "Report") ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">
+              <i class="feather-target nav-icon"></i>
+              <!-- <i data-feather='trello'></i> -->
+              Report
+            </a>
+          </li>
+          <?php } ?>
+
           <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle
               <?php echo ($page_title == "Add New Booking" || $page_title == "View Bookings") ? 'active-page' : '' ?>
