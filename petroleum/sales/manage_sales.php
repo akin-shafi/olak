@@ -5,67 +5,55 @@ $page_title = 'All Sales';
 include(SHARED_PATH . '/admin_header.php');
 $today = date('Y-m-d');
 
-$datasheet = DataSheet::data_sheet_report($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
+$admComp = $loggedInAdmin->company_id;
+$branch = $loggedInAdmin->company_id;
 
-$remit = [];
+$remit = DataSheet::find_by_remittance($today, ['company' => $admComp, 'branch' => $loggedInAdmin->branch_id]);
 
-foreach ($datasheet as $data) :
-	array_push($remit, $data->cash_submitted);
-endforeach;
+$cashFlow = CashFlow::find_by_cash_flow($today, ['company' => $admComp, 'branch' => $branch]);
+$today = date('Y-m-d');
 
-$remitted = array_sum($remit);
-// pre_r($remitted);
 ?>
 
 <!-- Content wrapper start -->
 <div class="content-wrapper">
-	<div class="d-flex justify-content-between align-items-center">
-		<h4>MANAGE SALES (<?php echo date('d-m-Y', strtotime($today)) ?>) </h4>
-		<div class="mb-3">
-			<select class="form-control" name="branch_id" id="sBranch" form="edit_sheet_form" required>
-				<option value="">select branch</option>
-				<?php foreach ($branches as $branch) : ?>
-					<option value="<?php echo $branch->id ?>" <?php echo $branch->id == $data->branch_id ? 'selected' : ''; ?>>
-						<?php echo ucwords($branch->name) ?></option>
-				<?php endforeach; ?>
-			</select>
-		</div>
-	</div>
-
 	<div class="card">
 		<div class="card-body">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Date</th>
-						<th>Total Remittance</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><?php echo date('M d, Y') ?></td>
-						<td> <?php echo number_format($remitted, 2); ?>
-							<input type="hidden" id="" value="5890400">
-						</td>
-						<td>
-							<button class="btn btn-primary btn-sm" id="manage">Manage</button>
+			<div class="shadow">
+				<div class="d-flex justify-content-between align-items-center m-3">
+					<h3 class="text-uppercase">Sales Remittance (<?php echo date('d-m-Y', strtotime($today)) ?>) </h3>
+				</div>
 
-						</td>
-					</tr>
-				</tbody>
-			</table>
+				<div class="row">
+					<div class="col-md-6 mx-auto">
+						<div class="table-responsive">
+							<table class="table custom-table text-center">
+								<thead>
+									<tr class="bg-primary text-white">
+										<th>Date</th>
+										<th>Total Remittance</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><?php echo date('M d, Y') ?></td>
+										<td> <?php echo number_format($remit->remittance, 2); ?>
+										</td>
+										<td>
+											<button class="btn btn-primary" id="manage" <?php echo isset($cashFlow->id) && $cashFlow->id != '' ? 'disabled' : '' ?>>Manage</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
 </div>
-
-<!-- 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button> -->
-
-<!-- Modal -->
 
 
 <div class="modal fade show" id="expenseModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-modal="true">
@@ -145,5 +133,45 @@ $remitted = array_sum($remit);
 				}
 			})
 		});
+
+
+		window.onload = () => {
+			let branch = $('#fBranch').val()
+			let filterDate = $('#filter_date').val()
+			getDataSheet(branch, filterDate)
+		}
+
+		$(document).on('click', "#query", function() {
+			let branch = $('#fBranch').val()
+			if (branch == '') {
+				alert('Kindly select a branch')
+				window.location.reload();
+			} else {
+				let filterDate = $('#filter_date').val()
+				getDataSheet(branch, filterDate)
+			}
+		})
+
+		const getDataSheet = (branch, fltDate) => {
+			$.ajax({
+				url: PET_URL,
+				method: "GET",
+				data: {
+					branch: branch,
+					filterDate: fltDate,
+					filter: 1
+				},
+				cache: false,
+				beforeSend: function() {
+					$('.lds-hourglass').removeClass('d-none');
+				},
+				success: function(r) {
+					$('#expenseReport').html(r)
+					setTimeout(() => {
+						$('.lds-hourglass').addClass('d-none');
+					}, 250);
+				}
+			})
+		}
 	})
 </script>

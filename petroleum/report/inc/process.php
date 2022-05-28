@@ -83,18 +83,10 @@ if (is_get_request()) {
     $cashFlow = CashFlow::find_by_cash_flow($convertFrom, ['company' => $admComp, 'branch' => $branch]);
     $today = date('Y-m-d');
 
-    $datasheet = DataSheet::data_sheet_report($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
-
-    $remit = [];
-
-    foreach ($datasheet as $data) :
-      array_push($remit, $data->cash_submitted);
-    endforeach;
-
-    $remitted = array_sum($remit);
+    $remit = DataSheet::find_by_remittance($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
     // pre_r($remitted);
 
-    // $remittance = Remittance::get_all_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    // $remit = Remittance::get_all_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch]);
     // $additionalRemit = Remittance::get_total_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch])->total_amount;
 
     // $filterReport = DataSheet::data_sheet_report($convertFrom, ['company' => $admComp, 'branch' => $branch]);
@@ -136,7 +128,7 @@ if (is_get_request()) {
 
           <div class="row gutters">
             <div class="col-md-12">
-              <h3 class="text-uppercase text-right">Remittance: <?php echo $currency . ' ' . number_format($remitted, 2); ?></h3>
+              <h3 class="text-uppercase text-right">Remittance: <?php echo $currency . ' ' . number_format($remit->remittance, 2); ?></h3>
 
               <div class="table-responsive">
                 <table class="table custom-table table-sm">
@@ -161,7 +153,7 @@ if (is_get_request()) {
                       <td class="font-weight-bold">
                         <?php echo 'Credit Sales'; ?>
                       </td>
-                      <td class="text-right">
+                      <td class="text-center">
                         <?php echo isset($cashFlow->credit_sales)
                           ? number_format($cashFlow->credit_sales) : '0.00'; ?>
                       </td>
@@ -170,7 +162,7 @@ if (is_get_request()) {
                       <td class="font-weight-bold">
                         <?php echo 'Cash Sales'; ?>
                       </td>
-                      <td class="text-right">
+                      <td class="text-center">
                         <?php echo isset($cashFlow->cash_sales)
                           ? number_format($cashFlow->cash_sales) : '0.00'; ?>
                       </td>
@@ -179,7 +171,7 @@ if (is_get_request()) {
                       <td class="font-weight-bold">
                         <?php echo 'P.O.S'; ?>
                       </td>
-                      <td class="text-right">
+                      <td class="text-center">
                         <?php echo isset($cashFlow->pos)
                           ? number_format($cashFlow->pos) : '0.00'; ?>
                       </td>
@@ -188,7 +180,7 @@ if (is_get_request()) {
                       <td class="font-weight-bold">
                         <?php echo 'Transfer'; ?>
                       </td>
-                      <td class="text-right">
+                      <td class="text-center">
                         <?php echo isset($cashFlow->transfer)
                           ? number_format($cashFlow->transfer) : '0.00'; ?>
                       </td>

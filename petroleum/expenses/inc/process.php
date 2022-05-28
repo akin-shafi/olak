@@ -94,7 +94,7 @@ if (is_get_request()) {
 
     <div>
       <div class="d-flex justify-content-between align-items-center">
-        <h3>Incurred Expenses (<?php echo date('d-m-Y') ?>)</h3>
+        <h3 class="text-uppercase">Incurred Expenses (<?php echo date('d-m-Y') ?>)</h3>
         <h3>Total: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalExpenses) ?></span></h3>
       </div>
 

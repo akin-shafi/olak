@@ -33,6 +33,7 @@ class DataSheet extends DatabaseObject
   public $sales_quantity;
   public $expected_sales;
   public $inflow;
+  public $remittance;
 
   public $year;
   public $month;
@@ -119,13 +120,20 @@ class DataSheet extends DatabaseObject
   public static function find_by_product_id($productId, $option = [])
   {
     $date = $option['date'] ?? false;
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE product_id='" . self::$database->escape_string($productId) . "'";
 
-    if (isset($date)) {
+    if (!empty($date)) :
       $sql .= " AND created_at LIKE'%" . self::$database->escape_string($date) . "%'";
-    }
+    endif;
+
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
 
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
@@ -141,6 +149,25 @@ class DataSheet extends DatabaseObject
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE id='" . self::$database->escape_string($sheetId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function find_by_remittance($date, $option = [])
+  {
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
+
+    $sql = "SELECT SUM(sales_in_ltr) AS sales_quantity, SUM(exp_sales_value) AS expected_sales, SUM(cash_submitted) AS remittance FROM " . static::$table_name . " ";
+    $sql .= " WHERE created_at='" . self::$database->escape_string($date) . "'";
+    $sql .= " AND company_id='" . self::$database->escape_string($company) . "'";
+    $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
     $obj_array = static::find_by_sql($sql);
