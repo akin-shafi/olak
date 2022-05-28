@@ -11,9 +11,9 @@ if (!isset($loggedInAdmin->id) || empty($loggedInAdmin)) {
    redirect_to('../logout.php');
 }
 
-if (in_array($loggedInAdmin->admin_level, [1, 2, 3 ,4]) && ($current_time >= $close_time || $current_time <= $work_hour)) {
-      redirect_to('../message.php');
-}
+// if (in_array($loggedInAdmin->admin_level, [1, 2, 3 ,4]) && ($current_time >= $close_time || $current_time <= $work_hour)) {
+//       redirect_to('../message.php');
+// }
 
 
 $access = AccessControl::find_by_user_id($loggedInAdmin->id);

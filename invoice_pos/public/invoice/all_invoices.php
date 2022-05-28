@@ -90,7 +90,7 @@ $page_title = 'All Invoices'; ?>
 		function getBranches(params) {
 			$.ajax({
 				url: FILTER_URL,
-				method: "GET",
+				method: "POST",
 				data: {
 					comp_id: params
 				},

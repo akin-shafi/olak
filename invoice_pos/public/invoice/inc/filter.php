@@ -21,8 +21,8 @@ if (is_get_request()) {
 	endif;
 
 	if (isset($_GET['complete_filter'])) :
-		$companyId = $_GET['companyId'] ?? '';
-		$branchId = $_GET['branchId'] ?? '';
+		$companyId = $_POST['companyId'] ?? '';
+		$branchId = $_POST['branchId'] ?? '';
 
 
 
@@ -32,7 +32,7 @@ if (is_get_request()) {
 			$filteredData = Billing::find_by_filtering($companyId, $branchId);
 		endif; ?>
 
-		<?php //pre_r($_GET); ?>
+		<?php pre_r($_POST); ?>
 
 		<table id="rowSelection" class=" table table-striped table-hover responsive nowrap" style="width:100%">
 			<thead>
