@@ -473,10 +473,12 @@ $fullName = $user->full_name;
                         <li>
                            <a class="dropdown-item" <?php echo $page_title == 'All Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/') ?>">List Sales</a>
                         </li>
-                        <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Add Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/add_sales.php') ?>">Add Sales</a>
-                        </li>
-                         <?php if (in_array($loggedInAdmin->admin_level, [1,3])) : ?>
+                        <!-- <li>
+                           <a class="dropdown-item" <?php //echo $page_title == 'Add Sales' ? 'active-page' : '' 
+                                                      ?> href="<?php //echo url_for('sales/add_sales.php') 
+                                                                                                                           ?>">Add Sales</a>
+                        </li> -->
+                        <?php if (in_array($loggedInAdmin->admin_level, [1, 3])) : ?>
                            <li>
                               <a class="dropdown-item" <?php echo $page_title == 'Manage Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/manage_sales.php') ?>">Manage Sales</a>
                            </li>

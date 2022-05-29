@@ -1,28 +1,14 @@
 <?php require_once('../private/initialize.php');
 
 $page = 'Sales';
-$page_title = 'All Sales';
-include(SHARED_PATH . '/admin_header.php');
+$page_title = 'Add Sales';
+$products = Product::find_all_product($loggedInAdmin->branch_id);
+$company = Company::find_by_id($loggedInAdmin->company_id);
+$branches = Branch::find_all_branch(['company_id' => $company->id]);
+$adminLevel = $loggedInAdmin->admin_level;
 
-if ($access->sales_mgt != 1) {
-	redirect_to('../dashboard/');
-}
+include(SHARED_PATH . '/admin_header.php'); ?>
 
-if ($loggedInAdmin->admin_level == 1) {
-	$filterDataSheet = DataSheet::get_data_sheets();
-} else {
-	$filterDataSheet = DataSheet::get_data_sheets(['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
-}
-
-$products = Product::find_by_undeleted();
-
-?>
-<style>
-	td {
-		min-width: 90px;
-		padding: 0.2rem 0.3rem !important;
-	}
-</style>
 <div class="content-wrapper">
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -30,10 +16,62 @@ $products = Product::find_by_undeleted();
 			<div class="card">
 				<div class="card-body">
 					<div class="table-container border-0 shadow">
+						<?php if (isset($message)) : ?>
+							<div class="alert alert-success justify-content-center">
+								<?php echo $message ?? ''; ?>
+							</div>
+						<?php endif; ?>
 						<div class="table-responsive">
 							<!-- <table id="copy-print-csv_wrapper" class="table custom-table table-sm "> -->
 							<table id="dataSheet" class="table custom-table">
+								<thead>
+									<tr class="bg-primary text-white text-center">
+										<th>PRODUCT NAME</th>
+										<th>PRODUCT RATE</th>
 
+										<?php if (in_array($adminLevel, [1, 2, 3])) : ?>
+											<th>OPENING STOCK</th>
+											<th>NEW STOCK (INFLOW)</th>
+											<th>TOTAL STOCK</th>
+										<?php endif; ?>
+
+										<?php if (in_array($adminLevel, [1, 2, 4])) : ?>
+											<th>SALES (LTRS)</th>
+											<th>EXPECTED STOCK (LTRS)</th>
+											<th>ACTUAL STOCK (LTRS)</th>
+											<th>OVER/SHORT</th>
+											<th>REMITTANCE (<?php echo $currency ?>)</th>
+										<?php endif; ?>
+										<th></th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<?php foreach ($products as $product) : ?>
+
+										<tr class=" text-center">
+											<td><?php echo strtoupper($product->name) . ' (TANK ' . $product->tank . ')'; ?></td>
+											<td><?php echo $product->rate; ?></td>
+
+											<?php if (in_array($adminLevel, [1, 2, 3])) : ?>
+												<td>0</td>
+												<td>0</td>
+												<td>0</td>
+											<?php endif; ?>
+
+											<?php if (in_array($adminLevel, [1, 2, 4])) : ?>
+												<td>0</td>
+												<td>0</td>
+												<td>0</td>
+												<td>0</td>
+												<td>0</td>
+											<?php endif; ?>
+											<th>
+												<a href="<?php echo url_for('sales/create.php?product=' . $product->id) ?>" class="btn btn-sm btn-primary enterDip">Enter Dip (LTRS)</a>
+											</th>
+										</tr>
+									<?php endforeach; ?>
+								</tbody>
 							</table>
 						</div>
 					</div>
@@ -46,86 +84,4 @@ $products = Product::find_by_undeleted();
 </div>
 
 
-
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
-
-<script>
-	const PET_URL = 'inc/process.php';
-
-	window.onload = () => {
-		let branch = $('#fBranch').val()
-		let rangeText = $('.range-text').text()
-		getDataSheet(branch, rangeText)
-	}
-
-	$(document).on('click', "#query", function() {
-		let branch = $('#fBranch').val()
-		if (branch == '') {
-			alert('Kindly select a branch')
-		} else {
-			let rangeText = $('.range-text').text()
-			getDataSheet(branch, rangeText)
-		}
-	})
-
-	const getDataSheet = (branch, range) => {
-		$.ajax({
-			url: PET_URL,
-			method: "GET",
-			data: {
-				branch: branch,
-				rangeText: range,
-				filter: 1
-			},
-			cache: false,
-			beforeSend: function() {
-				$('.lds-hourglass').removeClass('d-none');
-			},
-			success: function(r) {
-				$('#dataSheet').html(r)
-				setTimeout(() => {
-					$('.lds-hourglass').addClass('d-none');
-				}, 250);
-			}
-		})
-	}
-
-
-
-	$(document).on('click', '.remove-btn', function() {
-		let dataSheetId = this.dataset.id;
-		Swal.fire({
-			title: 'Are you sure?',
-			text: "You won't be able to revert this!",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, delete it!'
-		}).then((result) => {
-			if (result.value) {
-				$.ajax({
-					url: PET_URL,
-					method: "POST",
-					data: {
-						dataSheetId: dataSheetId,
-						delete_tank: 1
-					},
-					dataType: 'json',
-					success: function(data) {
-						Swal.fire(
-							'Deleted!',
-							data.msg,
-							'success'
-						)
-						setTimeout(() => {
-							window.location.reload()
-						}, 1000);
-					}
-				});
-
-			}
-		})
-
-	});
-</script>
