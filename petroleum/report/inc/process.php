@@ -84,27 +84,8 @@ if (is_get_request()) {
     $today = date('Y-m-d');
 
     $remit = DataSheet::find_by_remittance($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
-    // pre_r($remitted);
 
-    // $remit = Remittance::get_all_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch]);
-    // $additionalRemit = Remittance::get_total_remittance($convertFrom, ['company' => $admComp, 'branch' => $branch])->total_amount;
-
-    // $filterReport = DataSheet::data_sheet_report($convertFrom, ['company' => $admComp, 'branch' => $branch]);
-    // $arr = [];
-    // foreach ($filterReport as $value) {
-    //   array_push($arr, $value->inflow);
-    // }
-    // $totalCashRemit = array_sum($arr);
-
-    // $totalCredit = Expense::get_total_expenses($convertFrom, ['expense' => 1, 'company' => $admComp, 'branch' => $branch])->total_amount;
-
-    // $totalTransExp = Expense::get_total_expenses($convertFrom, ['expense' => 5, 'company' => $admComp, 'branch' => $branch])->total_amount;
-
-    // $totalSales = intval($additionalRemit) + intval($totalCashRemit);
-    // $totalExpenses = $totalCredit + $totalOpExp + $totalNonOpExp + $totalHOExp + $totalTransExp;
-    // $cashToHO = $totalSales - $totalExpenses;
-
-    // $grandTotal = $totalExpenses + $cashToHO;
+    $creditVoucher = isset($cashFlow->credit_voucher) ? $cashFlow->credit_voucher : 'olak.png';
 
 ?>
     <style>
@@ -140,9 +121,7 @@ if (is_get_request()) {
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="tds font-weight-bold">
-                        <?php echo 'Narration'; ?>
-                      </td>
+                      <td class="tds font-weight-bold">Narration</td>
                       <td colspan="2">
                         <p class="mb-0">
                           <?php echo isset($cashFlow->narration)
@@ -150,39 +129,44 @@ if (is_get_request()) {
                       </td>
                     </tr>
                     <tr>
-                      <td class="font-weight-bold">
-                        <?php echo 'Credit Sales'; ?>
-                      </td>
-                      <td class="text-center">
-                        <?php echo isset($cashFlow->credit_sales)
-                          ? number_format($cashFlow->credit_sales) : '0.00'; ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="font-weight-bold">
-                        <?php echo 'Cash Sales'; ?>
-                      </td>
+                      <td class="font-weight-bold">Cash Sales</td>
                       <td class="text-center">
                         <?php echo isset($cashFlow->cash_sales)
                           ? number_format($cashFlow->cash_sales) : '0.00'; ?>
                       </td>
                     </tr>
                     <tr>
-                      <td class="font-weight-bold">
-                        <?php echo 'P.O.S'; ?>
+                      <td class="font-weight-bold">Transfer</td>
+                      <td class="text-center">
+                        <?php echo isset($cashFlow->transfer)
+                          ? number_format($cashFlow->transfer) : '0.00'; ?>
                       </td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">P.O.S</td>
                       <td class="text-center">
                         <?php echo isset($cashFlow->pos)
                           ? number_format($cashFlow->pos) : '0.00'; ?>
                       </td>
                     </tr>
                     <tr>
-                      <td class="font-weight-bold">
-                        <?php echo 'Transfer'; ?>
-                      </td>
+                      <td class="font-weight-bold">Cheque</td>
                       <td class="text-center">
-                        <?php echo isset($cashFlow->transfer)
-                          ? number_format($cashFlow->transfer) : '0.00'; ?>
+                        <?php echo isset($cashFlow->cheque)
+                          ? number_format($cashFlow->cheque) : '0.00'; ?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">Credit Sales</td>
+                      <td class="text-center">
+                        <?php echo isset($cashFlow->credit_sales)
+                          ? number_format($cashFlow->credit_sales) : '0.00'; ?>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">Credit Voucher</td>
+                      <td class="text-center">
+                        <img loading="lazy" src="<?php echo url_for('sales/uploads/voucher/' . $creditVoucher) ?>" class="avatar">
                       </td>
                     </tr>
 
@@ -230,104 +214,106 @@ if (is_get_request()) {
         return params.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
 
-      var options = {
-        plotOptions: {
-          pie: {
-            startAngle: 0,
-            endAngle: 360,
-            expandOnClick: true,
-            offsetX: 0,
-            offsetY: 0,
-            customScale: 1,
-            dataLabels: {
-              offset: 0,
-              minAngleToShowLabel: 10
-            },
-            donut: {
-              size: '65%',
-              background: 'transparent',
-              labels: {
-                show: true,
-                name: {
-                  show: true,
-                  fontSize: '20px',
-                  fontFamily: 'Helvetica, Arial, sans-serif',
-                  fontWeight: 600,
-                  color: undefined,
-                  offsetY: -10,
-                  formatter: function(val) {
-                    return val
-                  }
-                },
-                value: {
-                  show: true,
-                  fontSize: '16px',
-                  fontFamily: 'Helvetica, Arial, sans-serif',
-                  fontWeight: 400,
-                  color: undefined,
-                  offsetY: 16,
-                  formatter: function(val) {
-                    return numberWithCommas(val)
-                  }
-                },
-                total: {
-                  show: false,
-                  showAlways: false,
-                  label: 'Total',
-                  fontSize: '18px',
-                  fontFamily: 'Helvetica, Arial, sans-serif',
-                  fontWeight: 600,
-                  color: '#373d3f',
-                  formatter: function(w) {
-                    return w.globals.seriesTotals.reduce((a, b) => {
-                      return a + b
-                    }, 0)
-                  }
-                }
-              }
-            },
-          }
-        },
-        chart: {
-          width: 400,
-          type: "donut",
-        },
-        labels: [<?php echo $label . ', "Expected Cash"'; ?>],
-        series: [<?php echo $series . ', ' . $cashToHO; ?>],
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200,
-            },
-            legend: {
-              position: "top",
-            },
-          },
-        }, ],
-        stroke: {
-          width: 0,
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shadeIntensity: 0.6,
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [70, 100],
-          },
-        },
-        // colors: ["#A300D6", "#7D02EB", "#5653FE", "#2983FF", "#00B1F2"],
-        // colors: ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0"],
-        // colors: ["#3F51B5", "#03A9F4", "#4CAF50", "#F9CE1D", "#FF9800"],
-        // colors: ["#449DD1", "#F86624", "#EA3546", "#662E9B", "#C5D86D"],
-        colors: ["#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044", "#00B1F2"],
-        // colors: ["#1a8e5f", "#262b31", "#434950", "#63686f", "#868a90"],
+      // var options = {
+      //   plotOptions: {
+      //     pie: {
+      //       startAngle: 0,
+      //       endAngle: 360,
+      //       expandOnClick: true,
+      //       offsetX: 0,
+      //       offsetY: 0,
+      //       customScale: 1,
+      //       dataLabels: {
+      //         offset: 0,
+      //         minAngleToShowLabel: 10
+      //       },
+      //       donut: {
+      //         size: '65%',
+      //         background: 'transparent',
+      //         labels: {
+      //           show: true,
+      //           name: {
+      //             show: true,
+      //             fontSize: '20px',
+      //             fontFamily: 'Helvetica, Arial, sans-serif',
+      //             fontWeight: 600,
+      //             color: undefined,
+      //             offsetY: -10,
+      //             formatter: function(val) {
+      //               return val
+      //             }
+      //           },
+      //           value: {
+      //             show: true,
+      //             fontSize: '16px',
+      //             fontFamily: 'Helvetica, Arial, sans-serif',
+      //             fontWeight: 400,
+      //             color: undefined,
+      //             offsetY: 16,
+      //             formatter: function(val) {
+      //               return numberWithCommas(val)
+      //             }
+      //           },
+      //           total: {
+      //             show: false,
+      //             showAlways: false,
+      //             label: 'Total',
+      //             fontSize: '18px',
+      //             fontFamily: 'Helvetica, Arial, sans-serif',
+      //             fontWeight: 600,
+      //             color: '#373d3f',
+      //             formatter: function(w) {
+      //               return w.globals.seriesTotals.reduce((a, b) => {
+      //                 return a + b
+      //               }, 0)
+      //             }
+      //           }
+      //         }
+      //       },
+      //     }
+      //   },
+      //   chart: {
+      //     width: 400,
+      //     type: "donut",
+      //   },
+      //   labels: [<?php //echo $label . ', "Expected Cash"'; 
+                    ?>],
+      //   series: [<?php //echo $series . ', ' . $cashToHO; 
+                    ?>],
+      //   responsive: [{
+      //     breakpoint: 480,
+      //     options: {
+      //       chart: {
+      //         width: 200,
+      //       },
+      //       legend: {
+      //         position: "top",
+      //       },
+      //     },
+      //   }, ],
+      //   stroke: {
+      //     width: 0,
+      //   },
+      //   fill: {
+      //     type: "gradient",
+      //     gradient: {
+      //       shadeIntensity: 0.6,
+      //       inverseColors: false,
+      //       opacityFrom: 1,
+      //       opacityTo: 1,
+      //       stops: [70, 100],
+      //     },
+      //   },
+      //   // colors: ["#A300D6", "#7D02EB", "#5653FE", "#2983FF", "#00B1F2"],
+      //   // colors: ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0"],
+      //   // colors: ["#3F51B5", "#03A9F4", "#4CAF50", "#F9CE1D", "#FF9800"],
+      //   // colors: ["#449DD1", "#F86624", "#EA3546", "#662E9B", "#C5D86D"],
+      //   colors: ["#D7263D", "#1B998B", "#2E294E", "#F46036", "#E2C044", "#00B1F2"],
+      //   // colors: ["#1a8e5f", "#262b31", "#434950", "#63686f", "#868a90"],
 
-      };
-      var chart = new ApexCharts(document.querySelector("#daily-report"), options);
-      chart.render();
+      // };
+      // var chart = new ApexCharts(document.querySelector("#daily-report"), options);
+      // chart.render();
     </script>
 
 <?php endif;

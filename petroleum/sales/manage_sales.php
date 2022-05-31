@@ -11,7 +11,6 @@ $branch = $loggedInAdmin->company_id;
 $remit = DataSheet::find_by_remittance($today, ['company' => $admComp, 'branch' => $loggedInAdmin->branch_id]);
 
 $cashFlow = CashFlow::find_by_cash_flow($today, ['company' => $admComp, 'branch' => $branch]);
-$today = date('Y-m-d');
 
 ?>
 
@@ -63,31 +62,44 @@ $today = date('Y-m-d');
 				<h5 class="modal-title">Manage Sales</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
 			</div>
-			<form id="cash_flow_form">
+			<form id="cash_flow_form" enctype="multipart/form-data">
 				<input type="hidden" name="cash_flow">
 				<div class="modal-body">
 					<div class="container">
-						<table class="table">
+						<table class="table table-sm">
 							<tr>
-								<td>Credit Sales</td>
-								<td><input type="text" name="flow[credit_sales]" class="form-control"></td>
-							</tr>
-							<tr>
-								<td>Cash Sales</td>
+								<td class="text-right">Cash Sales</td>
 								<td><input type="text" name="flow[cash_sales]" class="form-control"></td>
 							</tr>
 							<tr>
-								<td>POS </td>
-								<td><input type="text" name="flow[pos]" class="form-control"></td>
-							</tr>
-							<tr>
-								<td>Transfer </td>
+								<td class="text-right">Transfer</td>
 								<td><input type="text" name="flow[transfer]" class="form-control"></td>
 							</tr>
 							<tr>
-								<td>Narration </td>
+								<td class="text-right">POS</td>
+								<td><input type="text" name="flow[pos]" class="form-control"></td>
+							</tr>
+							<tr>
+								<td class="text-right">Cheque</td>
+								<td><input type="text" name="flow[pos]" class="form-control"></td>
+							</tr>
+							<tr>
+								<td class="text-right">Credit Sales</td>
+								<td><input type="text" name="flow[credit_sales]" class="form-control"></td>
+							</tr>
+							<tr>
+								<td class="text-right">Narration</td>
 								<td>
 									<textarea name="flow[narration]" class="form-control"></textarea>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-right"><sup class="text-secondary">(Optional)</sup>Credit Voucher</td>
+								<td>
+									<div class="custom-file">
+										<label class="custom-file-label">Upload Credit Voucher</label>
+										<input type="file" name="voucher" class="custom-file-input">
+									</div>
 								</td>
 							</tr>
 						</table>

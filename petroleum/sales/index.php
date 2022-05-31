@@ -2,12 +2,10 @@
 
 $page = 'Sales';
 $page_title = 'Add Sales';
-$products = Product::find_all_product($loggedInAdmin->branch_id);
-$company = Company::find_by_id($loggedInAdmin->company_id);
-$branches = Branch::find_all_branch(['company_id' => $company->id]);
-$adminLevel = $loggedInAdmin->admin_level;
 
-include(SHARED_PATH . '/admin_header.php'); ?>
+include(SHARED_PATH . '/admin_header.php');
+
+?>
 
 <div class="content-wrapper">
 	<div class="row gutters">
@@ -21,58 +19,8 @@ include(SHARED_PATH . '/admin_header.php'); ?>
 								<?php echo $message ?? ''; ?>
 							</div>
 						<?php endif; ?>
-						<div class="table-responsive">
-							<!-- <table id="copy-print-csv_wrapper" class="table custom-table table-sm "> -->
-							<table id="dataSheet" class="table custom-table">
-								<thead>
-									<tr class="bg-primary text-white text-center">
-										<th>PRODUCT NAME</th>
-										<th>PRODUCT RATE</th>
-
-										<?php if (in_array($adminLevel, [1, 2, 3])) : ?>
-											<th>OPENING STOCK</th>
-											<th>NEW STOCK (INFLOW)</th>
-											<th>TOTAL STOCK</th>
-										<?php endif; ?>
-
-										<?php if (in_array($adminLevel, [1, 2, 4])) : ?>
-											<th>SALES (LTRS)</th>
-											<th>EXPECTED STOCK (LTRS)</th>
-											<th>ACTUAL STOCK (LTRS)</th>
-											<th>OVER/SHORT</th>
-											<th>REMITTANCE (<?php echo $currency ?>)</th>
-										<?php endif; ?>
-										<th></th>
-									</tr>
-								</thead>
-
-								<tbody>
-									<?php foreach ($products as $product) : ?>
-
-										<tr class=" text-center">
-											<td><?php echo strtoupper($product->name) . ' (TANK ' . $product->tank . ')'; ?></td>
-											<td><?php echo $product->rate; ?></td>
-
-											<?php if (in_array($adminLevel, [1, 2, 3])) : ?>
-												<td>0</td>
-												<td>0</td>
-												<td>0</td>
-											<?php endif; ?>
-
-											<?php if (in_array($adminLevel, [1, 2, 4])) : ?>
-												<td>0</td>
-												<td>0</td>
-												<td>0</td>
-												<td>0</td>
-												<td>0</td>
-											<?php endif; ?>
-											<th>
-												<a href="<?php echo url_for('sales/create.php?product=' . $product->id) ?>" class="btn btn-sm btn-primary enterDip">Enter Dip (LTRS)</a>
-											</th>
-										</tr>
-									<?php endforeach; ?>
-								</tbody>
-							</table>
+						<div class="table-responsive" id="sales_list">
+							
 						</div>
 					</div>
 				</div>
@@ -85,3 +33,56 @@ include(SHARED_PATH . '/admin_header.php'); ?>
 
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
+
+<script>
+	$(document).ready(function() {
+		const SALES_URL = 'inc/process.php';
+
+		$(document).on('click', '.remove_row', function() {
+			let row_id = $(this).attr("id");
+			$('#row_id_' + row_id).remove();
+			count--;
+			$('#total_item').val(count);
+		});
+
+		window.onload = () => {
+			let branch = $('#fBranch').val()
+			let filterDate = $('#filter_date').val()
+			getDataSheet(branch, filterDate)
+		}
+
+		$(document).on('click', "#query", function() {
+			let branch = $('#fBranch').val()
+			if (branch == '') {
+				alert('Kindly select a branch')
+				window.location.reload();
+			} else {
+				let filterDate = $('#filter_date').val()
+				getDataSheet(branch, filterDate)
+			}
+		})
+
+		const getDataSheet = (branch, fltDate) => {
+			$.ajax({
+				url: SALES_URL,
+				method: "GET",
+				data: {
+					branch: branch,
+					filterDate: fltDate,
+					filter: 1
+				},
+				cache: false,
+				beforeSend: function() {
+					$('.lds-hourglass').removeClass('d-none');
+				},
+				success: function(r) {
+					$('#sales_list').html(r)
+					setTimeout(() => {
+						$('.lds-hourglass').addClass('d-none');
+					}, 250);
+				}
+			})
+		}
+
+	})
+</script>

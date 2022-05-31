@@ -2,6 +2,7 @@
 
 $page = 'Sales';
 $page_title = 'Add Sales';
+
 $products = Product::find_all_product($loggedInAdmin->branch_id);
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branches = Branch::find_all_branch(['company_id' => $company->id]);
@@ -11,16 +12,22 @@ $errors = [];
 
 if (is_post_request()) :
 	if (isset($_POST['data_sheet_form'])) :
-		$args = [
-			'product_id'	=> $_POST['product_id'],
-			'open_stock' 	=> $_POST['open_stock'],
-			'new_stock' 	=> $_POST['new_stock'],
-			'company_id' 	=> $loggedInAdmin->company_id,
-			'branch_id' 	=> $loggedInAdmin->branch_id,
-		];
+		$productId = $_POST['product_id'];
+		$product = Product::find_by_id($productId);
 
-		$totalStock = floatval($args['open_stock']) + floatval($args['new_stock']);
-		$args['total_stock'] = $totalStock;
+		$totalStock = floatval($_POST['open_stock']) + floatval($_POST['new_stock']);
+		$expectedSale = intval($product->rate) * $totalStock;
+
+
+		$args = [
+			'product_id'			=> $productId,
+			'open_stock' 			=> $_POST['open_stock'],
+			'new_stock' 			=> $_POST['new_stock'],
+			'total_stock'			=> $totalStock,
+			'expected_sales'	=> $expectedSale,
+			'company_id' 			=> $loggedInAdmin->company_id,
+			'branch_id' 			=> $loggedInAdmin->branch_id,
+		];
 
 		if (is_blank($args['open_stock'])) :
 			$errors[] = "Open Stock cannot be blank.";
@@ -71,18 +78,3 @@ include(SHARED_PATH . '/admin_header.php'); ?>
 
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		// $(document).on('click', '.enterDeep', function() {
-		// 	$("#enterDeepModal").modal('show')
-		// })
-
-		$('.enterDeep').on('click', function(e) {
-			e.preventDefault()
-			let proId = this.dataset.id;
-			$('#pro_id').val(proId);
-			console.log(proId);
-		})
-	})
-</script>
