@@ -231,6 +231,7 @@ if (is_get_request()) {
             <th>AVAILABLE BALANCE (<?php echo $currency ?>)</th>
             <th>AVAILABLE STOCK (LTRS)</th>
             <th>ACTUAL SALES (LTRS)</th>
+            <th>OVERAGE (LTRS)</th>
           <?php endif; ?>
           <?php if ($access->edit_sales == 1) : ?>
             <th></th>
@@ -260,6 +261,8 @@ if (is_get_request()) {
             ? $data->available_stock : '0.00';
           $actualSale = isset($data->actual_sales) && $data->actual_sales != 0
             ? $data->actual_sales : '0.00';
+
+          $overage = floatval($totalStock) - (floatval($availableStock) + floatval($actualSale));
         ?>
 
           <tr class=" text-center">
@@ -293,6 +296,7 @@ if (is_get_request()) {
               <td class="bg-light" title="Expected Sales - Total Sales"><?php echo number_format($availableBalance, 2) ?></td>
               <td class="bg-light" title="Available Balance / Rate"><?php echo number_format($availableStock, 2) ?></td>
               <td class="bg-light" title="Total Sales / Rate"><?php echo number_format($actualSale, 2) ?></td>
+              <td class="bg-light" title="Total Stock - Available Stock - Actual Sales"><?php echo number_format($overage, 2) ?></td>
             <?php endif; ?>
 
             <?php if ($access->edit_sales == 1) : ?>
