@@ -183,7 +183,6 @@ $groupedProducts = Product::grouped_products();
   </div>
 </div>
 
-<input type="text" id="pId">
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 
@@ -233,7 +232,6 @@ $groupedProducts = Product::grouped_products();
     }
 
 
-
     $(document).on('click', '.remove-btn', function() {
       let pId = this.dataset.id;
       Swal.fire({
@@ -268,48 +266,9 @@ $groupedProducts = Product::grouped_products();
 
     });
 
-
-    // function getChecked() {
-    //   var tempArray = []
-    //   $('.selected').each(function() {
-    //     if ($(this).is(':checked')) {
-    //       let checked = ($(this).val())
-
-    //       tempArray.push(checked)
-    //     }
-    //   })
-
-    //   return tempArray;
-    // }
-
-    $('.edit-btn').on("click", function() {
+    $(document).on("click", '.edit-btn', function() {
       $('.title').text('Edit Product')
-
-      // let checked = getChecked()
-      console.log(checked);
-
-      // let pId = this.dataset.id = checked[0]
-      // $('#pId').val(checked[0])
-      // $('.hide').hide()
-
-      $.ajax({
-        url: PET_URL,
-        method: "GET",
-        data: {
-          pId: pId,
-          ids: checked,
-          get_product: 1
-        },
-        dataType: 'json',
-        success: function(r) {
-          console.log(r)
-          $('#pName').val(r.data.name)
-          $('#pRate').val(r.data.rate)
-        }
-      })
     });
-
-
 
   })
 </script>

@@ -59,7 +59,7 @@ $branch = Branch::find_by_undeleted();
                   <?php foreach ($company as $data) : ?>
                     <tr>
                       <td>
-                        <img class="img-thumbnail" src="<?php echo url_for('settings/uploads/' . $data->logo); ?>" width="100" alt="<?php echo ucwords($data->name); ?>">
+                        <img class="avatar" src="<?php echo url_for('settings/uploads/' . $data->logo); ?>" alt="<?php echo ucwords($data->name); ?>">
                       </td>
                       <td><?php echo strtoupper($data->full_name); ?></td>
                       <td><?php echo $data->email; ?></td>

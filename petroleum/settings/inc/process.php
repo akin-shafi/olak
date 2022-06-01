@@ -179,147 +179,30 @@ if (is_post_request()) {
 
 
 
-  // ************* USERS
-  if (isset($_POST['new_user'])) {
-    $args = $_POST['user'];
-
-    $fileTmpPath = $_FILES['profile']['tmp_name'];
-    $fileName = $_FILES['profile']['name'];
-    $fileSize = $_FILES['profile']['size'];
-    $fileType = $_FILES['profile']['type'];
-    $fileNameExp = explode('.', $fileName);
-    $fileExt = strtolower(end($fileNameExp));
-    $newFileName = md5(time() . $fileName) . '.' . $fileExt;
-    $allowedFileExt = ['jpg', 'png', 'gif', 'jpeg'];
-    $dest_path = $uploadDir . 'profile/' . $newFileName;
-
-    if (isset($fileName) && !empty($fileName)) {
-      if (in_array($fileExt, $allowedFileExt)) {
-        if (move_uploaded_file($fileTmpPath, $dest_path)) {
-          $args['profile_img'] =  $newFileName;
-        } else {
-          exit(json_encode(['success' => false, 'msg' => 'user profile not uploaded!']));
-        }
-      } else {
-        exit(json_encode(['success' => false, 'msg' => 'Upload failed. Allowed file types: ' . implode(',', $allowedFileExt)]));
-      }
-    }
-
-    if ($loggedInAdmin->admin_level == 1) {
-      $args['company_id'] = $loggedInAdmin->company_id;
-    }
-
-    $user = new Admin($args);
-    $user->save();
-
-
-    if (!empty($user->errors)) :
-      http_response_code(404);
-      exit(json_encode(['msg' => $user->errors]));
-    endif;
-
-    if ($user == true) :
-      exit(json_encode(['success' => true, 'msg' => 'user created successfully!']));
-    endif;
-  }
-
-  if (isset($_POST['edit_user'])) {
-    $uId = $_POST['uId'];
-    $args = $_POST['user'];
-    $user = Admin::find_by_id($uId);
-
-    $fileTmpPath = $_FILES['profile']['tmp_name'];
-    $fileName = $_FILES['profile']['name'];
-    $fileSize = $_FILES['profile']['size'];
-    $fileType = $_FILES['profile']['type'];
-    $fileNameExp = explode('.', $fileName);
-    $fileExt = strtolower(end($fileNameExp));
-    $newFileName = md5(time() . $fileName) . '.' . $fileExt;
-    $allowedFileExt = ['jpg', 'png', 'gif', 'jpeg'];
-    $dest_path = $uploadDir . 'profile/' . $newFileName;
-
-    if (isset($fileName) && !empty($fileName)) {
-      if (in_array($fileExt, $allowedFileExt)) {
-        unlink($uploadDir . 'profile/' . $user->profile_img);
-        if (move_uploaded_file($fileTmpPath, $dest_path)) {
-          $args['profile_img'] =  $newFileName;
-        } else {
-          exit(json_encode(['success' => false, 'msg' => 'user profile not uploaded!']));
-        }
-      } else {
-        exit(json_encode(['success' => false, 'msg' => 'Upload failed. Allowed file types: ' . implode(',', $allowedFileExt)]));
-      }
-    }
-
-    $user->merge_attributes($args);
-    $user->save();
-
-    if ($user == true) :
-      exit(json_encode(['success' => true, 'msg' => 'user updated successfully!']));
-    endif;
-  }
-
-  if (isset($_POST['delete_user'])) {
-    $uId = $_POST['uId'];
-    $user = Admin::find_by_id($uId);
-    $user::deleted($uId);
-
-    if ($user == true) :
-      exit(json_encode(['success' => true, 'msg' => 'user deleted successfully!']));
-    endif;
-  }
-
-
-
 
   // *************** ACCESS CONTROL
-  if (isset($_POST['new_access'])) {
-    $args = $_POST['access'];
-
-    $user = AccessControl::find_by_user_id($args['user_id']);
-
-    if (empty($args['user_id'])) :
-      http_response_code(404);
-      exit(json_encode(['msg' => 'Staff name cannot be blank!']));
-    elseif (!empty($user)) :
-      http_response_code(404);
-      exit(json_encode(['msg' => 'User already have access!']));
-
-    else :
-
-      $args = [
-        'user_id'       => $args['user_id'],
-        'dashboard'     => isset($args['dashboard']) ? '1' : '0',
-        'users_mgt'     => isset($args['users_mgt']) ? '1' : '0',
-        'product_mgt'   => isset($args['product_mgt']) ? '1' : '0',
-        'sales_mgt'     => isset($args['sales_mgt']) ? '1' : '0',
-        'expenses_mgt'  => isset($args['expenses_mgt']) ? '1' : '0',
-        'report_mgt'    => isset($args['report_mgt']) ? '1' : '0',
-        'settings'      => isset($args['settings']) ? '1' : '0',
-        'filtering'     => isset($args['filtering']) ? '1' : '0',
-      ];
-
-      $access = new AccessControl($args);
-      $access->save();
-
-      exit(json_encode(['success' => true, 'msg' => 'Access control created successfully!']));
-    endif;
-  }
-
   if (isset($_POST['edit_access'])) {
     $aId = $_POST['aId'];
-    $args = $_POST['access'];
+    $req = $_POST['access'];
     $access = AccessControl::find_by_id($aId);
 
     $args = [
-      'dashboard'     => isset($args['dashboard']) ? '1' : '0',
-      'users_mgt'     => isset($args['users_mgt']) ? '1' : '0',
-      'product_mgt'   => isset($args['product_mgt']) ? '1' : '0',
-      'sales_mgt'     => isset($args['sales_mgt']) ? '1' : '0',
-      'expenses_mgt'  => isset($args['expenses_mgt']) ? '1' : '0',
-      'report_mgt'    => isset($args['report_mgt']) ? '1' : '0',
-      'settings'      => isset($args['settings']) ? '1' : '0',
-      'filtering'     => isset($args['filtering']) ? '1' : '0',
+      'dashboard'      => isset($req['dashboard'])      ? 1 : 0,
+      'sales_mgt'      => isset($req['sales_mgt'])      ? 1 : 0,
+      'add_dip'        => isset($req['add_dip'])        ? 1 : 0,
+      'add_sales'      => isset($req['add_sales'])      ? 1 : 0,
+      'edit_sales'     => isset($req['edit_sales'])     ? 1 : 0,
+      'manage_sales'   => isset($req['manage_sales'])   ? 1 : 0,
+      'expenses_mgt'   => isset($req['expenses_mgt'])   ? 1 : 0,
+      'add_exp'        => isset($req['add_exp'])        ? 1 : 0,
+      'edit_exp'       => isset($req['edit_exp'])       ? 1 : 0,
+      'delete_exp'     => isset($req['delete_exp'])     ? 1 : 0,
+      'report_mgt'     => isset($req['report_mgt'])     ? 1 : 0,
+      'access_control' => isset($req['access_control']) ? 1 : 0,
+      'company_setup'  => isset($req['company_setup'])  ? 1 : 0,
+      'user_mgt'       => isset($req['user_mgt'])       ? 1 : 0,
+      'product_mgt'    => isset($req['product_mgt'])    ? 1 : 0,
+      'filtering'      => isset($req['filtering'])      ? 1 : 0,
     ];
 
     $access->merge_attributes($args);
@@ -329,16 +212,6 @@ if (is_post_request()) {
       exit(json_encode(['success' => true, 'msg' => 'Access control updated successfully!']));
     endif;
   }
-
-  // if (isset($_POST['delete_access'])) {
-  //     $aId = $_POST['aId'];
-  //     $access = AccessControl::find_by_id($aId);
-  //     $access::deleted($aId);
-
-  //     if ($access == true) :
-  //         exit(json_encode(['success' => true, 'msg' => 'Access control deleted successfully!']));
-  //     endif;
-  // }
 }
 
 
@@ -355,12 +228,6 @@ if (is_get_request()) {
     exit(json_encode(['success' => true, 'data' => $branch]));
   endif;
 
-  if (isset($_GET['get_user'])) :
-    $uId = $_GET['uId'];
-    $user = Admin::find_by_id($uId);
-    exit(json_encode(['success' => true, 'data' => $user]));
-  endif;
-
   if (isset($_GET['get_product'])) :
     $pId = $_GET['pId'];
     $product = Product::find_by_id($pId);
@@ -369,7 +236,49 @@ if (is_get_request()) {
 
   if (isset($_GET['get_access'])) :
     $aId = $_GET['aId'];
-    $access = AccessControl::find_by_id($aId);
-    exit(json_encode(['success' => true, 'data' => $access]));
+    $permissions = AccessControl::PERMISSION;
+    $admins = Admin::find_by_undeleted();
+    $control = AccessControl::find_by_id($aId);
+?>
+
+    <div class="container">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="mb-3">
+            <label for="staff" class="col-form-label">All Staff</label>
+            <select class="form-control" name="access[user_id]" id="staff">
+              <option value="">select staff</option>
+              <?php foreach ($admins as $admin) : ?>
+                <option value="<?php echo $admin->id ?>" <?php echo ($admin->id == $control->user_id) ? 'selected' : ''; ?>>
+                  <?php echo ucwords($admin->full_name) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-12 mt-4 mb-3">
+        <h5 class="mb-3 text-secondary">Edit Permission</h5>
+        <div class="row shadow pt-3">
+          <?php foreach ($permissions as $permit) :
+            $exp = explode('_', $permit);
+            $imp = implode(' ', $exp);
+            $fullProp = ucwords($imp);
+            $access = AccessControl::find_by_id($aId);
+          ?>
+            <div class="col-md-3">
+              <div class="custom-control custom-switch mb-3">
+                <input type="checkbox" class="custom-control-input permit" name="access[<?php echo $permit; ?>]" id="<?php echo $permit; ?>" <?php echo $access->$permit == 1 ? 'checked' : ''; ?>>
+                <label class="custom-control-label" for="<?php echo $permit; ?>"><?php echo $fullProp; ?></label>
+              </div>
+            </div>
+          <?php endforeach; ?>
+
+        </div>
+      </div>
+    </div>
+
+<?php
   endif;
 }

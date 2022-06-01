@@ -17,10 +17,10 @@ $admins = Admin::find_by_undeleted();
 </style>
 
 <div class="content-wrapper">
-  <div class="d-flex justify-content-end">
+  <!-- <div class="d-flex justify-content-end">
     <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#userModel">
       &plus; Add Permission</button>
-  </div>
+  </div> -->
 
   <div class="row gutters">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -34,62 +34,58 @@ $admins = Admin::find_by_undeleted();
                 <thead>
                   <tr class="bg-primary text-white text-center">
                     <th>SN</th>
-                    <th>Users</th>
+                    <th>Fullname</th>
                     <th>Role</th>
                     <th>Dashboard</th>
-                    <th>User Mgt</th>
-                    <th>Product Mgt</th>
-                    <th>Sales Mgt</th>
-                    <th>Expenses Mgt</th>
-                    <th>Report Mgt</th>
-                    <th>Settings Mgt</th>
-                    <th>Filtering Mgt</th>
+                    <th>Sales mgt</th>
+                    <th>Add dip</th>
+                    <th>Add sales</th>
+                    <th>Edit sales</th>
+                    <th>Manage sales</th>
+                    <th>Expenses mgt</th>
+                    <th>Add exp</th>
+                    <th>Edit exp</th>
+                    <th>Delete exp</th>
+                    <th>Report mgt</th>
+                    <th>Access control</th>
+                    <th>Company setup</th>
+                    <th>User mgt</th>
+                    <th>Product mgt</th>
+                    <th>Filtering</th>
                     <th>Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   <?php $sn = 1;
+                  $isTrue = '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>';
+                  $isFalse = '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>';
+
                   foreach ($access as $data) :
                     $user = Admin::find_by_id($data->user_id);
+                    if ($user->admin_level == 1) continue;
                     $adminLevel = Admin::ADMIN_LEVEL[$user->admin_level]; ?>
 
                     <tr>
                       <td><?php echo $sn++; ?></td>
                       <td><?php echo ucwords($user->full_name); ?></td>
                       <td><span class="badge badge-primary"><?php echo ucwords($adminLevel); ?></span></td>
-                      <td class="text-center">
-                        <?php echo $data->dashboard == 1 ? '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'
-                          : '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'; ?>
-                      </td>
-                      <td class="text-center">
-                        <?php echo $data->users_mgt == 1 ? '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'
-                          : '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'; ?>
-                      </td>
-                      <td class="text-center">
-                        <?php echo $data->product_mgt == 1 ? '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'
-                          : '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'; ?>
-                      </td>
-                      <td class="text-center">
-                        <?php echo $data->sales_mgt == 1 ? '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'
-                          : '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'; ?>
-                      </td>
-                      <td class="text-center">
-                        <?php echo $data->expenses_mgt == 1 ? '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'
-                          : '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'; ?>
-                      </td>
-                      <td class="text-center">
-                        <?php echo $data->report_mgt == 1 ? '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'
-                          : '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'; ?>
-                      </td>
-                      <td class="text-center">
-                        <?php echo $data->settings == 1 ? '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'
-                          : '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'; ?>
-                      </td>
-                      <td class="text-center">
-                        <?php echo $data->filtering == 1 ? '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'
-                          : '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>'; ?>
-                      </td>
+                      <td class="text-center"><?php echo $data->dashboard == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->sales_mgt == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->add_dip == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->add_sales == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->edit_sales == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->manage_sales == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->expenses_mgt == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->add_exp == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->edit_exp == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->delete_exp == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->report_mgt == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->access_control == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->company_setup == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->user_mgt == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->product_mgt == 1 ? $isTrue : $isFalse ?></td>
+                      <td class="text-center"><?php echo $data->filtering == 1 ? $isTrue : $isFalse ?></td>
 
                       <td>
                         <div class="btn-group">
@@ -116,7 +112,7 @@ $admins = Admin::find_by_undeleted();
 </div>
 
 <div class="modal fade" id="userModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Access Control</h5>
@@ -126,77 +122,7 @@ $admins = Admin::find_by_undeleted();
         <input type="hidden" name="access[created_by]" value="<?php echo $loggedInAdmin->id ?>" readonly>
         <div class="modal-body">
           <div class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <div class="mb-3">
-                    <label for="staff" class="col-form-label">All Staff</label>
-                    <select class="form-control" name="access[user_id]" id="staff">
-                      <option value="">select staff</option>
-                      <?php foreach ($admins as $admin) : ?>
-                        <option value="<?php echo $admin->id ?>">
-                          <?php echo ucwords($admin->full_name) ?></option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[dashboard]" id="dashMgt">
-                  <label class="custom-control-label" for="dashMgt">Dashboard</label>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[users_mgt]" id="userMgt">
-                  <label class="custom-control-label" for="userMgt">User Mgt</label>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[product_mgt]" id="proMgt">
-                  <label class="custom-control-label" for="proMgt">Product Mgt</label>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[sales_mgt]" id="salMgt">
-                  <label class="custom-control-label" for="salMgt">Sales Mgt</label>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[expenses_mgt]" id="expMgt">
-                  <label class="custom-control-label" for="expMgt">Expenses Mgt</label>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[report_mgt]" id="report">
-                  <label class="custom-control-label" for="report">Report Mgt</label>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[settings]" id="settings">
-                  <label class="custom-control-label" for="settings">Settings Mgt</label>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[filtering]" id="filtering">
-                  <label class="custom-control-label" for="filtering">Filtering Mgt</label>
-                </div>
-              </div>
+            <div class="row" id="assigned">
 
             </div>
           </div>
@@ -269,26 +195,8 @@ $admins = Admin::find_by_undeleted();
           aId: aId,
           get_access: 1
         },
-        dataType: 'json',
         success: function(r) {
-          let hasDashPermit = r.data.dashboard == '1' ? true : false
-          let hasUserPermit = r.data.users_mgt == '1' ? true : false
-          let hasProductPermit = r.data.product_mgt == '1' ? true : false
-          let hasSalesPermit = r.data.sales_mgt == '1' ? true : false
-          let hasExpensesPermit = r.data.expenses_mgt == '1' ? true : false
-          let hasReportPermit = r.data.report_mgt == '1' ? true : false
-          let hasSettings = r.data.settings == '1' ? true : false
-          let hasFiltering = r.data.filtering == '1' ? true : false
-
-          $('#staff').val(r.data.user_id)
-          $('#dashMgt').prop('checked', hasDashPermit);
-          $('#userMgt').prop('checked', hasUserPermit);
-          $('#proMgt').prop('checked', hasProductPermit);
-          $('#salMgt').prop('checked', hasSalesPermit);
-          $('#expMgt').prop('checked', hasExpensesPermit);
-          $('#report').prop('checked', hasReportPermit);
-          $('#settings').prop('checked', hasSettings);
-          $('#filtering').prop('checked', hasFiltering);
+          $('#assigned').html(r)
         }
       })
     });

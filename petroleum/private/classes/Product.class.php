@@ -28,7 +28,7 @@ class Product extends DatabaseObject
         $sql = "SELECT * FROM " . static::$table_name . " ";
         $sql .= "WHERE branch_id='" . self::$database->escape_string($bId) . "'";
         $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-        $sql .= " ORDER BY name DESC ";
+        $sql .= " ORDER BY id ASC ";
         return static::find_by_sql($sql);
     }
 

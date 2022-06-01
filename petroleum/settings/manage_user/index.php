@@ -1,12 +1,9 @@
-<?php require_once('../private/initialize.php');
+<?php require_once('../../private/initialize.php');
 require_login();
 
 $page = 'Settings';
 $page_title = 'Manage Users';
 include(SHARED_PATH . '/admin_header.php');
-
-$company = Company::find_by_id($loggedInAdmin->company_id);
-$branches = Branch::find_all_branch(['company_id' => $company->id]);
 
 $admins = Admin::find_by_undeleted();
 
@@ -103,77 +100,15 @@ $admins = Admin::find_by_undeleted();
 </div>
 
 <div class="modal fade" id="userModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-  <div class="modal-dialog modal-md" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create User</h5>
+        <h5 class="modal-title title">Create User</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
-      <form id="user_form" enctype="multipart/form-data">
-        <input type="hidden" name="user[created_by]" value="<?php echo $loggedInAdmin->id ?>" readonly>
-        <div class="modal-body">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6">
-                <label for="fName" class="col-form-label">Full Name</label>
-                <input type="text" class="form-control" name="user[full_name]" id="fName" placeholder="Full name">
-              </div>
-              <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                <div class="col-md-6">
-                  <label for="aLevel" class="col-form-label">Admin Level</label>
-                  <select name="user[admin_level]" class="form-control" id="aLevel" required>
-                    <option value="">select level</option>
-                    <?php foreach (Admin::ADMIN_LEVEL as $key => $data) : ?>
-                      <option value="<?php echo $key ?>"><?php echo $data ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              <?php endif; ?>
-              <div class="col-md-6">
-                <label for="cName" class="col-form-label">Company Name</label>
-                <input type="text" class="form-control" id="cName" value="<?php echo $company->name ?>" disabled>
-              </div>
-              <div class="col-md-6">
-                <label for="regNo" class="col-form-label">Branch</label>
-                <select name="user[branch_id]" class="form-control" id="bId" required>
-                  <option value="">select branch</option>
-                  <?php foreach ($branches as $data) : ?>
-                    <option value="<?php echo $data->id ?>"><?php echo ucwords($data->name) ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label for="email" class="col-form-label">Email</label>
-                <input type="text" class="form-control" name="user[email]" id="email" placeholder="Email" required>
-              </div>
-              <div class="col-md-6">
-                <label for="phone" class="col-form-label">Phone</label>
-                <input type="tel" class="form-control" name="user[phone]" id="phone" placeholder="Phone number" required>
-              </div>
-              <div class="col-md-6">
-                <label for="password" class="col-form-label">Password</label>
-                <input type="password" class="form-control" name="user[password]" id="password" placeholder="12345">
-              </div>
-              <div class="col-md-6">
-                <label for="cPass" class="col-form-label">Confirm password</label>
-                <input type="password" class="form-control" name="user[confirm_password]" id="cPass" placeholder="12345">
-              </div>
-              <div class="col-md-12">
-                <label for="address" class="col-form-label">Address</label>
-                <textarea name="user[address]" id="address" class="form-control" placeholder="Contact address" rows="2"></textarea>
-              </div>
-              <div class="col-md-6 m-auto">
-                <label for="avatar" class="col-form-label">Profile Image</label>
-                <input type="file" class="form-control" name="profile" id="avatar">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-      </form>
+      <div id="user_form_fields">
+        <?php include('./form_fields.php'); ?>
+      </div>
     </div>
   </div>
 </div>
@@ -184,9 +119,9 @@ $admins = Admin::find_by_undeleted();
 
 <script>
   $(document).ready(function() {
-    const USER_URL = 'inc/process.php';
+    const USER_URL = './process.php';
 
-    $('#user_form').on("submit", function(e) {
+    $(document).on("submit", '#user_form', function(e) {
       e.preventDefault();
       let uId = $('#uId').val()
 
@@ -228,6 +163,7 @@ $admins = Admin::find_by_undeleted();
       $('#uId').val(uId)
       $('#password').val('')
       $('#cPass').val('')
+      $('.title').text('Edit User')
 
       $.ajax({
         url: USER_URL,
@@ -236,15 +172,8 @@ $admins = Admin::find_by_undeleted();
           uId: uId,
           get_user: 1
         },
-        dataType: 'json',
         success: function(r) {
-          $('#fName').val(r.data.full_name)
-          $('#email').val(r.data.email)
-          $('#phone').val(r.data.phone)
-          // $('#cName').val(r.data.name)
-          $('#aLevel').val(r.data.admin_level)
-          $('#bId').val(r.data.branch_id)
-          $('#address').val(r.data.address)
+          $('#user_form_fields').html(r)
         }
       })
     });
@@ -282,5 +211,30 @@ $admins = Admin::find_by_undeleted();
       }).then(() => window.location.reload())
 
     });
+
+    $('#aLevel').on('change', function() {
+      let role = parseInt($(this).val())
+
+      let topLevel = [1, 2, 3, 4, 8] // ? 'Super Admin', 'Chairman', 'General Manager', 'Head Account', 'Special',
+      let compliance = [5] // ? 'Compliance', 
+      let manager = [6] // ? 'Manager', 
+      let supervisor = [7] // ? 'Supervisor', 
+
+      if (inArray(role, topLevel)) {
+        $('.permit').attr('checked', true)
+      } else {
+        $('.permit').attr('checked', false)
+      }
+    })
+
+
+    function inArray(target, array) {
+      for (var i = 0; i < array.length; i++) {
+        if (array[i] === target) {
+          return true;
+        }
+      }
+      return false;
+    }
   })
 </script>

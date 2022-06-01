@@ -12,7 +12,7 @@ if (is_get_request()) {
     $topSelling = DataSheet::get_top_selling_product($branchId);
     foreach ($topSelling as $value) {
       array_push($metricTopProductName, $value->product_name);
-      array_push($metricTopProductValue, $value->sales_in_ltr);
+      array_push($metricTopProductValue, intval($value->actual_sales));
     }
     $impLabel = implode('","',  $metricTopProductName);
     $impSeries = implode(',',  $metricTopProductValue);
@@ -29,7 +29,7 @@ if (is_get_request()) {
     <div class="row gutters">
 
       <?php foreach ($topSelling as $pro) :
-        $lagInCash = intval($pro->cash_submitted) - intval($pro->exp_sales_value);
+        $lagInCash = intval($pro->total_sales) - intval($pro->expected_sales);
       ?>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
           <ul class="list-group list-group-flush shadow px-2">
@@ -44,7 +44,7 @@ if (is_get_request()) {
                 </div>
                 <div class="right">
                   <h6 class="text-uppercase">Expected Sales: <?php echo strtoupper($pro->product_name) ?></h6>
-                  <h2 class="mb-0"><?php echo number_format($pro->exp_sales_value); ?></h2>
+                  <h2 class="mb-0"><?php echo number_format($pro->expected_sales); ?></h2>
                 </div>
               </div>
             </li>
@@ -59,7 +59,7 @@ if (is_get_request()) {
                 </div>
                 <div class="right">
                   <h6 class="text-uppercase">Remittance: <?php echo strtoupper($pro->product_name) ?></h6>
-                  <h2 class="mb-0"><?php echo number_format($pro->cash_submitted); ?></h2>
+                  <h2 class="mb-0"><?php echo number_format($pro->total_sales); ?></h2>
                 </div>
               </div>
             </li>
@@ -92,10 +92,9 @@ if (is_get_request()) {
                 <tr class="bg-primary text-white ">
                   <th>SN</th>
                   <th>Product (Tank)</th>
-                  <th>In Stock (LTR)</th>
-                  <th>Sales (LTR)</th>
-                  <th>Expected Stock (LTR)</th>
-                  <th>Actual Stock (LTR)</th>
+                  <th>Stock for Sale (LTR)</th>
+                  <th>Actual Sales (LTR)</th>
+                  <th>Available Stock (LTR)</th>
                   <th>Over/Short (LTR)</th>
                   <th>Expected Sales (<?php echo $currency; ?>)</th>
                   <th>Remittance (<?php echo $currency; ?>)</th>
@@ -108,25 +107,24 @@ if (is_get_request()) {
                 $sn = 1;
                 foreach ($dataSheets as $data) :
                   $product = Product::find_by_id($data->product_id);
-                  $lagInCash = intval($data->cash_submitted) - intval($data->exp_sales_value);
+                  $lagInCash = intval($data->total_sales) - intval($data->expected_sales);
                 ?>
                   <tr>
                     <td><?php echo $sn++; ?></td>
                     <td><?php echo ucwords($product->name) . ' (' . $product->tank . ')'; ?></td>
-                    <td><?php echo number_format($data->total_stock); ?></td>
-                    <td><?php echo number_format($data->sales_in_ltr); ?></td>
-                    <td><?php echo number_format($data->expected_stock); ?></td>
-                    <td><?php echo number_format($data->actual_stock); ?></td>
-                    <td>
+                    <td class="text-right"><?php echo number_format($data->total_stock, 2); ?></td>
+                    <td class="text-right"><?php echo number_format($data->actual_sales, 2); ?></td>
+                    <td class="text-right"><?php echo number_format($data->available_stock, 2); ?></td>
+                    <td class="text-right">
                       <span class="<?php echo $data->over_or_short < 0 ? 'text-danger' : 'text-dark' ?>">
-                        <?php echo number_format($data->over_or_short); ?>
+                        <?php echo number_format($data->over_or_short, 2); ?>
                       </span>
                     </td>
-                    <td class=""><?php echo number_format($data->exp_sales_value); ?></td>
-                    <td><?php echo number_format($data->cash_submitted); ?></td>
-                    <td>
+                    <td class="text-right"><?php echo number_format($data->expected_sales, 2); ?></td>
+                    <td class="text-right"><?php echo number_format($data->total_sales, 2); ?></td>
+                    <td class="text-right">
                       <span class="<?php echo $lagInCash < 0 ? 'text-danger' : 'text-dark' ?>">
-                        <?php echo number_format($lagInCash); ?>
+                        <?php echo number_format($lagInCash, 2); ?>
                       </span>
                     </td>
                   </tr>
@@ -156,6 +154,10 @@ if (is_get_request()) {
 ?>
 
 <script>
+  function numberWithCommas(params) {
+    return params.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   var sBarOptions = {
     chart: {
       type: 'bar',

@@ -4,9 +4,7 @@ $page = 'Home';
 $page_title = 'Sales Dashboard';
 include(SHARED_PATH . '/admin_header.php');
 
-if (empty($access->dashboard) || $access->dashboard != 1) :
-	redirect_to('../sales/');
-endif;
+if (empty($access->dashboard) || $access->dashboard != 1) redirect_to('../sales/');
 
 /*
 $metricProfit = [];
@@ -57,7 +55,6 @@ $pieExpenses = array_sum($metricExpenses);
 $admins = Admin::find_by_undeleted();
 $products = Product::find_by_undeleted();
 $stockSheet = DataSheet::get_stock_sheet();
-
 
 
 $branches = Branch::find_by_undeleted(['order' => 'ASC']);
@@ -112,7 +109,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 									<i class="icon-check_circle"></i>
 								</div>
 								<div class="stats-detail">
-									<h5><?php echo number_format($stockSheet->sales_in_ltr); ?> (LTR)</h5>
+									<h5><?php echo number_format($stockSheet->actual_sales); ?> (LTR)</h5>
 									<p>Stock Sales</p>
 								</div>
 							</div>
@@ -123,7 +120,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 									<i class="icon-shopping_basket"></i>
 								</div>
 								<div class="stats-detail">
-									<h5><?php echo number_format($stockSheet->expected_stock); ?> (LTR)</h5>
+									<h5><?php echo number_format($stockSheet->available_stock); ?> (LTR)</h5>
 									<p>Expected Stock</p>
 								</div>
 							</div>
@@ -135,7 +132,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 									<i class="icon-watch_later"></i>
 								</div>
 								<div class="stats-detail">
-									<h5><?php echo number_format($stockSheet->actual_stock); ?> (LTR)</h5>
+									<h5><?php echo number_format($stockSheet->actual_sales); ?> (LTR)</h5>
 									<p>Actual Stock</p>
 								</div>
 							</div>
@@ -386,7 +383,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 
 			<div class="row">
 				<div class="col-12">
-					<div class="d-flex justify-content-between align-items-center shadow-sm p-2 mb-2">
+					<div class="d-flex justify-content-between align-items-center shadow p-2 mb-4">
 						<h4 class="mb-0 text-uppercase">Product Sales Summary for the month of (<?php echo date('M, Y'); ?>)</h4>
 						<div class="btn-group">
 							<select class="form-control" name="branch_query" id="branch_query">

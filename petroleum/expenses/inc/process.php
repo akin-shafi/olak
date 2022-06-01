@@ -84,17 +84,18 @@ if (is_get_request()) {
 
     $branch = isset($_GET['branch']) && $_GET['branch'] != '' ? $_GET['branch'] : $loggedInAdmin->branch_id;
 
-    $dateFrom = $_GET['filterDate'];
+    $dateFrom = $_GET['filterDate'] ?? date('Y-m-d');
     $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
 
     $expenses = Expense::find_by_expenses($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch]);
     $totalExpenses = Expense::get_total_expenses($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
 
+    $access = AccessControl::find_by_user_id($loggedInAdmin->id);
 ?>
 
     <div>
       <div class="d-flex justify-content-between align-items-center">
-        <h3>Incurred Expenses (<?php echo date('d-m-Y') ?>)</h3>
+        <h3 class="text-uppercase">Incurred Expenses (<?php echo date('d-m-Y') ?>)</h3>
         <h3>Total: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalExpenses) ?></span></h3>
       </div>
 
@@ -108,7 +109,9 @@ if (is_get_request()) {
               <th>Amount (<?php echo $currency ?>)</th>
               <th>Narration</th>
               <!-- <th>Created At</th> -->
-              <!-- <th>Action</th> -->
+              <?php if ($access->expenses_mgt) : ?>
+                <th>Action</th>
+              <?php endif; ?>
             </tr>
           </thead>
 
@@ -118,23 +121,27 @@ if (is_get_request()) {
               <tr>
                 <td><?php echo $sn++; ?></td>
                 <td><?php echo ucwords($data->title); ?></td>
-                <td class="text-right"><?php echo $data->quantity; ?></td>
-                <td class="text-right"><?php echo number_format($data->amount); ?></td>
+                <td class="text-center"><?php echo $data->quantity; ?></td>
+                <td class="text-center"><?php echo number_format($data->amount); ?></td>
                 <td><?php echo ucfirst($data->narration); ?></td>
                 <!-- <td><?php //echo date('Y-m-d', strtotime($data->created_at)); 
                           ?></td> -->
 
-                <!-- <td>
-                  <div class="btn-group">
-                    <button class="btn btn-warning edit-btn" data-id="<?php //echo $data->id; 
-                                                                      ?>" data-toggle="modal" data-target="#expenseModel">
-                      <i class="icon-edit1"></i></button>
-                    <button class="btn btn-danger remove-btn" data-id="<?php //echo $data->id; 
-                                                                        ?>">
-                      <i class="icon-trash"></i>
-                    </button>
-                  </div>
-                </td> -->
+                <?php if ($access->expenses_mgt) : ?>
+                  <td>
+                    <div class="btn-group">
+                      <?php if ($access->edit_exp) : ?>
+                        <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#expenseModel">
+                          <i class="icon-edit1"></i></button>
+                      <?php endif; ?>
+                      <?php if ($access->delete_exp) : ?>
+                        <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
+                          <i class="icon-trash"></i>
+                        </button>
+                      <?php endif; ?>
+                    </div>
+                  </td>
+                <?php endif; ?>
 
               </tr>
             <?php endforeach; ?>

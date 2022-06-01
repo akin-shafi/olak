@@ -11,6 +11,8 @@ if (!isset($loggedInAdmin->id) || empty($loggedInAdmin)) {
    redirect_to('../logout.php');
 }
 
+$imgURL = isset($loggedInAdmin->profile_img) ? $loggedInAdmin->profile_img : 'olak.png';
+
 // if (in_array($loggedInAdmin->admin_level, [1, 2, 3 ,4]) && ($current_time >= $close_time || $current_time <= $work_hour)) {
 //       redirect_to('../message.php');
 // }
@@ -239,7 +241,7 @@ $fullName = $user->full_name;
                   <div class="header-profile-actions">
                      <div class="header-user-profile">
                         <div class="header-user">
-                           <img src="<?php echo url_for('png/user.png') ?>" alt="Admin Template" />
+                           <img src="<?php echo url_for('settings/uploads/profile/' . $imgURL) ?>" alt="Admin Template" />
                         </div>
                         <h5><?php echo $fullName; ?></h5>
                         <p><?php echo  Admin::ADMIN_LEVEL[$loggedInAdmin->admin_level]; ?></p>
@@ -473,10 +475,7 @@ $fullName = $user->full_name;
                         <li>
                            <a class="dropdown-item" <?php echo $page_title == 'All Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/') ?>">List Sales</a>
                         </li>
-                        <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Add Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/add_sales.php') ?>">Add Sales</a>
-                        </li>
-                         <?php if (in_array($loggedInAdmin->admin_level, [1,3])) : ?>
+                        <?php if ($access->manage_sales == 1) : ?>
                            <li>
                               <a class="dropdown-item" <?php echo $page_title == 'Manage Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/manage_sales.php') ?>">Manage Sales</a>
                            </li>
@@ -514,34 +513,38 @@ $fullName = $user->full_name;
                <?php endif; ?>
 
 
-               <?php if ($access->settings == 1) : ?>
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="icon-settings1 nav-icon"></i>
-                        Settings
-                     </a>
-                     <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                        <?php if ($user->admin_level == 1) : ?>
-                           <li>
-                              <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
-                           </li>
-                           <li>
-                              <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
-                           </li>
-                        <?php endif; ?>
-                        <?php if ($access->users_mgt == 1) : ?>
-                           <li>
-                              <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user.php') ?>">Manage Users</a>
-                           </li>
-                        <?php endif; ?>
-                        <?php if ($access->product_mgt == 1) : ?>
-                           <li>
-                              <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
-                           </li>
-                        <?php endif; ?>
-                     </ul>
-                  </li>
-               <?php endif; ?>
+               <?php //if ($access->settings == 1) : 
+               ?>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="icon-settings1 nav-icon"></i>
+                     Settings
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+                     <?php if ($access->access_control == 1) : ?>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
+                        </li>
+                     <?php endif; ?>
+                     <?php if ($access->company_setup == 1) : ?>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
+                        </li>
+                     <?php endif; ?>
+                     <?php if ($access->user_mgt == 1) : ?>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user') ?>">Manage Users</a>
+                        </li>
+                     <?php endif; ?>
+                     <?php if ($access->product_mgt == 1) : ?>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
+                        </li>
+                     <?php endif; ?>
+                  </ul>
+               </li>
+               <?php //endif; 
+               ?>
 
 
 
@@ -983,29 +986,7 @@ $fullName = $user->full_name;
             </ol>
 
             <ul class="app-actions">
-               <?php if ($access->sales_mgt == 1 && $page_title == 'All Sales') : ?>
-                  <div class="d-flex justify-content-center align-items-center">
-                     <li class="d-flex justify-content-center align-items-center">
-                        <select name="filter_branch" class="form-control form-control-sm mx-2" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
-                           <option value="">select branch</option>
-                           <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
-                              <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
-                                 <?php echo ucwords($branch->name) ?></option>
-                           <?php endforeach; ?>
-                        </select>
-                     </li>
-                     <li>
-                        <a href="#" id="reportrange">
-                           <span class="range-text"></span>
-                           <i class="icon-chevron-down"></i>
-                        </a>
-                     </li>
-                     <li>
-                        <button class="btn btn-primary shadow border-light" id="query"><i class="icon-filter_list"></i> Filter</button>
-                     </li>
-                  </div>
-               <?php endif; ?>
-               <?php if ($access->sales_mgt == 1 && ($page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
+               <?php if ($access->filtering == 1 && ($page_title == 'Add Sales' || $page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
                   <div class="d-flex justify-content-center align-items-center">
                      <li>
                         <select name="filter_branch" class="form-control form-control-sm" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
