@@ -204,7 +204,7 @@ class Transaction extends DatabaseObject
     if ($created_by) {
       $sql .= " AND created_by  ='" . self::$database->escape_string($created_by) . "'";
     }
-    if ($from && $to) {
+    if ($from && $to) { 
       if ($from == $to) {
         $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
       } elseif ($from > $to) {

@@ -1,3 +1,2 @@
 <?php
-header("Location: supermarket-splash.php");
-die();
+    echo header('Location: login');

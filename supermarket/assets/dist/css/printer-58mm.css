@@ -1,0 +1,65 @@
+.cls{
+      float: right;
+      font-size: 1.4055rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #000;
+      text-shadow: 0 1px 0 #fff;
+      opacity: .5;
+      background: transparent;
+      border: 0;
+  }
+  @page { 
+      /*size: B5; */
+      size: 80mm 50vh;
+      margin: 0;
+      padding: 0;
+  } /* output size */
+  /* sheet size */
+
+  .bolder{
+    color: #000; font-weight: bolder !important;
+  }
+  body{
+    margin: 0;
+    padding: 0;
+
+  }
+  .modal {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  tbody tr{
+    border-bottom: 1px solid #000;
+  }
+  body.receipt .sheet { width: 80mm; font-size: 13px; height: auto;  } 
+  @media print { 
+      .container-fluid, .footer{
+        display: none !important;
+      }
+      body.receipt { width: 80mm; font-size: 13px; height: auto; font-weight: bold } 
+      .modal {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .modal-body {
+          /*padding: 1px !important;*/
+           width: 100% !important
+      }
+      .modal-dialog {
+          margin: 0px !important;
+      }
+      .no-print{
+        display: none !important;
+      }
+      /*table{font-size: 12px}*/
+      @media (min-width: 768px){
+          .modal-dialog {
+              margin: 0px !important;
+              /*width: 90% !important*/
+          }
+          .no-print{
+            display: none !important;
+          }
+      }
+  } /* fix for Chrome */

@@ -78,7 +78,7 @@
         <img src="../images/aroma-splash.png" class="hidden-xs img-fluid d-block m-auto" title="banner balance" alt="banner balance">
       </div>
 
-      <a href="./soon" class="btn btn-lg bg-custom-red text-light anchor">
+      <a href="./auth" class="btn btn-lg bg-custom-red text-light anchor">
         Click <strong>HERE</strong> to Continue
       </a>
     </main>

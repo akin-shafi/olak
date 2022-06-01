@@ -1,0 +1,9 @@
+[26-Jan-2022 08:57:21 Africa/Lagos] PHP Notice:  Undefined index: store_id in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 6
+[26-Jan-2022 08:59:04 Africa/Lagos] PHP Notice:  Undefined property: CompanyDetails::$phone in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 47
+[26-Jan-2022 09:26:57 Africa/Lagos] PHP Notice:  Undefined index: store_id in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 6
+[26-Jan-2022 09:27:04 Africa/Lagos] PHP Notice:  Undefined property: CompanyDetails::$phone in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 47
+[26-Jan-2022 09:27:25 Africa/Lagos] PHP Notice:  Undefined property: CompanyDetails::$phone in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 47
+[26-Jan-2022 09:27:29 Africa/Lagos] PHP Notice:  Undefined property: CompanyDetails::$phone in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 47
+[26-Jan-2022 09:46:17 Africa/Lagos] PHP Notice:  Undefined property: CompanyDetails::$phone in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 47
+[26-Jan-2022 10:17:39 Africa/Lagos] PHP Notice:  Undefined property: CompanyDetails::$phone in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 47
+[26-Jan-2022 10:34:33 Africa/Lagos] PHP Notice:  Undefined index: store_id in /home/hoteliap/ambiancecafe.hoteliapms.com/eatry/pos/index.php on line 6
