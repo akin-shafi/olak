@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2022 at 09:59 AM
+-- Generation Time: Jun 02, 2022 at 02:51 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -187,11 +187,10 @@ CREATE TABLE `data_sheet` (
   `open_stock` varchar(50) NOT NULL,
   `new_stock` varchar(50) NOT NULL,
   `total_stock` varchar(15) NOT NULL,
-  `expected_sales` varchar(15) NOT NULL,
+  `sales_in_ltr` varchar(191) NOT NULL,
   `total_sales` varchar(15) NOT NULL,
-  `available_balance` varchar(15) NOT NULL,
-  `available_stock` varchar(15) NOT NULL,
-  `actual_sales` varchar(15) NOT NULL,
+  `expected_stock` varchar(191) NOT NULL,
+  `expected_sales` varchar(15) NOT NULL,
   `over_or_short` varchar(50) NOT NULL,
   `company_id` varchar(15) NOT NULL,
   `branch_id` varchar(15) NOT NULL,

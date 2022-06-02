@@ -2,18 +2,17 @@
 class DataSheet extends DatabaseObject
 {
   protected static $table_name = "data_sheet";
-  protected static $db_columns = ['id', 'product_id', 'open_stock', 'new_stock', 'total_stock', 'expected_sales', 'total_sales', 'available_balance', 'available_stock', 'actual_sales', 'over_or_short', 'company_id', 'branch_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted'];
+  protected static $db_columns = ['id', 'product_id', 'open_stock', 'new_stock', 'total_stock', 'sales_in_ltr', 'total_sales', 'expected_stock', 'expected_sales', 'over_or_short', 'company_id', 'branch_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $product_id;
   public $open_stock;
   public $new_stock;
   public $total_stock;
+  public $sales_in_ltr;
+  public $expected_stock;
   public $expected_sales;
   public $total_sales;
-  public $available_balance;
-  public $available_stock;
-  public $actual_sales;
   public $over_or_short;
   public $company_id;
   public $branch_id;
@@ -42,11 +41,10 @@ class DataSheet extends DatabaseObject
     $this->open_stock         = $args['open_stock'] ?? '';
     $this->new_stock          = $args['new_stock'] ?? '';
     $this->total_stock        = $args['total_stock'] ?? '';
+    $this->sales_in_ltr        = $args['sales_in_ltr'] ?? '';
+    $this->expected_stock     = $args['expected_stock'] ?? '';
     $this->expected_sales     = $args['expected_sales'] ?? '';
     $this->total_sales        = $args['total_sales'] ?? '';
-    $this->available_balance  = $args['available_balance'] ?? '';
-    $this->available_stock    = $args['available_stock'] ?? '';
-    $this->actual_sales       = $args['actual_sales'] ?? '';
     $this->over_or_short      = $args['over_or_short'] ?? '';
 
     $this->company_id         = $args['company_id'] ?? '';
@@ -139,6 +137,21 @@ class DataSheet extends DatabaseObject
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE id='" . self::$database->escape_string($sheetId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function find_by_previous_day($previousDay, $productId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE created_at='" . self::$database->escape_string($previousDay) . "'";
+    $sql .= " AND product_id='" . self::$database->escape_string($productId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
     $obj_array = static::find_by_sql($sql);
