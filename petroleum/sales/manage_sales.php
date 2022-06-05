@@ -81,7 +81,7 @@ $cashFlow = CashFlow::find_by_cash_flow($today, ['company' => $admComp, 'branch'
 							</tr>
 							<tr>
 								<td class="text-right">Cheque</td>
-								<td><input type="text" name="flow[pos]" class="form-control"></td>
+								<td><input type="text" name="flow[cheque]" class="form-control"></td>
 							</tr>
 							<tr>
 								<td class="text-right">Credit Sales</td>

@@ -290,25 +290,27 @@ $fullName = $user->full_name;
             </ol>
 
             <ul class="app-actions">
-               <?php if ($access->filtering == 1 && ($page_title == 'Add Sales' || $page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
-                  <div class="d-flex justify-content-center align-items-center">
-                     <li>
-                        <select name="filter_branch" class="form-control form-control-sm" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
-                           <option value="">select branch</option>
-                           <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
-                              <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
-                                 <?php echo ucwords($branch->name) ?></option>
-                           <?php endforeach; ?>
-                        </select>
-                     </li>
-                     <li class="mx-2">
-                        <input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" id="filter_date">
-                     </li>
-                     <li>
-                        <button class="btn btn-primary shadow border-light" id="query"><i class="icon-filter_list"></i> Filter</button>
-                     </li>
-                  </div>
-               <?php endif; ?>
+               <?php //if ($access->filtering == 1 && ($page_title == 'Add Sales' || $page_title == 'Sales Report' || $page_title == 'Expenses')) : 
+               ?>
+               <div class="d-flex justify-content-center align-items-center">
+                  <li>
+                     <select name="filter_branch" class="form-control form-control-sm" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
+                        <option value="">select branch</option>
+                        <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
+                           <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
+                              <?php echo ucwords($branch->name) ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                  </li>
+                  <li class="mx-2">
+                     <input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" id="filter_date">
+                  </li>
+                  <li>
+                     <button class="btn btn-primary shadow border-light" id="query"><i class="icon-filter_list"></i> Filter</button>
+                  </li>
+               </div>
+               <?php //endif; 
+               ?>
                <li class="d-none">
                   <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print">
                      <i class="icon-print"></i>
