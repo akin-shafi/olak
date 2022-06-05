@@ -18,9 +18,14 @@ if (is_get_request()) {
     $cashFlow = CashFlow::single_cash_flow($dateConvertFrom, ['company' => $admComp, 'branch' => $branch]);
     $today = date('Y-m-d');
 
-    $remittance = floatval($cashFlow->cash_sales) + floatval($cashFlow->transfer) + floatval($cashFlow->pos) + floatval($cashFlow->credit_sales);
+    $credit_sales = isset($cashFlow->credit_sales) ? floatval($cashFlow->credit_sales) : 0;
+    $cash_sales   = isset($cashFlow->cash_sales) ? floatval($cashFlow->cash_sales) : 0;
+    $pos          = isset($cashFlow->pos) ? floatval($cashFlow->pos) : 0;
+    $transfer     = isset($cashFlow->transfer) ? floatval($cashFlow->transfer) : 0;
 
-    $uploads = Uploads::find_by_cash_flow_id($cashFlow->id);
+    $remittance = $credit_sales + $cash_sales + $pos + $transfer;
+
+    $uploads = Uploads::find_by_date($dateConvertFrom);
 
 ?>
     <style>

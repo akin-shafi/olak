@@ -2,8 +2,10 @@
 require_login();
 
 $id = $_GET['id'] ?? '1';
+$today = date('Y-m-d');
 
 $cash = CashFlow::find_by_id($id);
+$uploads = Uploads::find_by_date($today);
 
 $page = 'Sales';
 $page_title = 'Show Cashflow';
@@ -42,9 +44,20 @@ include(SHARED_PATH . '/admin_header.php');
         </li>
       </ul>
 
-      <div class="narration px-2 pb-4">
-        <h3>Narration</h3>
-        <p><?php echo isset($cash->narration) ? ucfirst($cash->narration) : '<i>Not set</i>'; ?></p>
+      <div class="row mx-2 pb-3">
+        <div class="col-md-6" style="border-right: 1px solid #888;">
+          <h3>Narration</h3>
+          <p><?php echo isset($cash->narration) ? ucfirst($cash->narration) : '<i>Not set</i>'; ?></p>
+        </div>
+
+        <div class="col-md-6">
+          <h3>Uploads</h3>
+          <?php foreach ($uploads as $upload) :
+            $file = isset($upload->file_name) ? $upload->file_name : 'olak.png';
+          ?>
+            <img loading="lazy" src="<?php echo url_for('sales/uploads/' . $file) ?>" class="avatar">
+          <?php endforeach; ?>
+        </div>
       </div>
     </section>
 

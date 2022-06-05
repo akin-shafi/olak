@@ -28,12 +28,16 @@
 				</div>
 			</div>
 
-			<div class="form-group col-12">
-				<div class="custom-file">
-					<label class="custom-file-label">Upload <sup class="text-secondary">(Optional)</sup></label>
-					<input type="file" name="filename[]" class="custom-file-input" multiple>
+			<?php
+			$uploads = Uploads::find_by_date(date('Y-m-d'));
+			if (empty($uploads)) : ?>
+				<div class="form-group col-12">
+					<div class="custom-file">
+						<label class="custom-file-label">Upload <sup class="text-secondary">(Optional)</sup></label>
+						<input type="file" name="filename[]" class="custom-file-input" multiple>
+					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 		</div>
 
 	</div>

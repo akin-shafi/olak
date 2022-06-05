@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jun 05, 2022 at 05:10 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.10
+-- Host: 127.0.0.1
+-- Generation Time: Jun 06, 2022 at 01:08 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -116,7 +116,7 @@ CREATE TABLE `cash_flow` (
   `company_id` varchar(50) NOT NULL,
   `branch_id` varchar(50) NOT NULL,
   `created_by` varchar(5) NOT NULL,
-  `created_at` varchar(50) NOT NULL,
+  `created_at` date NOT NULL,
   `updated_at` varchar(50) NOT NULL,
   `deleted` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -126,9 +126,8 @@ CREATE TABLE `cash_flow` (
 --
 
 INSERT INTO `cash_flow` (`id`, `credit_sales`, `cash_sales`, `pos`, `transfer`, `narration`, `company_id`, `branch_id`, `created_by`, `created_at`, `updated_at`, `deleted`) VALUES
-(1, '3000', '3000', '3000', '3000', 'Helo', '1', '1', '1', '2022-05-28', '2022-05-28 10:14:06', ''),
-(2, '23456', '34567', '22345', '12346', 'Hhejdk', '1', '1', '1', '2022-05-28 09:38:34', '', ''),
-(3, '23456', '34567', '22345', '12346', 'Hhejdk', '1', '1', '1', '2022-05-28 09:40:12', '', '');
+(1, '600', '790', '170', '690', 'Dolore quia illo vel', '1', '1', '1', '2022-06-05', '', ''),
+(2, '940', '240', '380', '600', 'Dolorem excepteur su', '1', '1', '1', '2022-06-06', '', '');
 
 -- --------------------------------------------------------
 
@@ -179,6 +178,40 @@ CREATE TABLE `expenses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `expenses`
+--
+
+INSERT INTO `expenses` (`id`, `company_id`, `branch_id`, `title`, `quantity`, `amount`, `narration`, `created_by`, `created_at`, `updated_at`, `deleted`) VALUES
+(1, '1', '1', '55LTR petrol', '55', '9075', 'Aroma fuel', '1', '2022-06-06', '0000-00-00 00:00:00', ''),
+(2, '1', '1', 'Food', '', '5000', 'Staff food', '1', '2022-06-06', '0000-00-00 00:00:00', ''),
+(3, '1', '1', 'Shola transport', '', '3300', 'Transport to Ibadan', '1', '2022-06-06', '0000-00-00 00:00:00', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uploads`
+--
+
+CREATE TABLE `uploads` (
+  `id` int(11) NOT NULL,
+  `file_name` varchar(191) NOT NULL,
+  `cash_flow_id` varchar(191) NOT NULL,
+  `created_at` date NOT NULL,
+  `deleted` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `uploads`
+--
+
+INSERT INTO `uploads` (`id`, `file_name`, `cash_flow_id`, `created_at`, `deleted`) VALUES
+(1, '037adf9af822f33fc3321a5917a1fb14.png', '1', '2022-06-05', ''),
+(2, '809ba2b3070f16ada25efdb3a944f351.png', '1', '2022-06-05', ''),
+(3, '7e1cfe4349b42a1991ac828576ab7b85.png', '2', '2022-06-06', ''),
+(4, '35147bb8aa0ef8be75ee52e9324efc1e.png', '2', '2022-06-06', ''),
+(5, '446566ee86571beac8002b462e086566.png', '2', '2022-06-06', '');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -201,6 +234,12 @@ ALTER TABLE `expenses`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `uploads`
+--
+ALTER TABLE `uploads`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -214,13 +253,19 @@ ALTER TABLE `access_control`
 -- AUTO_INCREMENT for table `cash_flow`
 --
 ALTER TABLE `cash_flow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `uploads`
+--
+ALTER TABLE `uploads`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

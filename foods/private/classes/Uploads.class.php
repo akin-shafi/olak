@@ -33,10 +33,10 @@ class Uploads extends DatabaseObject
     return $this->errors;
   }
 
-  public static function find_by_cash_flow_id($cashFlowId)
+  public static function find_by_date($date)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE cash_flow_id='" . self::$database->escape_string($cashFlowId) . "'";
+    $sql .= "WHERE created_at='" . self::$database->escape_string($date) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     return static::find_by_sql($sql);
   }

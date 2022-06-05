@@ -13,12 +13,14 @@ if (is_get_request()) {
     $dateConvertTo = date('Y-m-d', strtotime($dateTo));
     $admComp = $loggedInAdmin->company_id;
 
-    $cashFlow = CashFlow::find_by_cash_flow($dateConvertFrom, $dateConvertTo, ['company' => $admComp, 'branch' => $branch]);
+    $cashFlows = CashFlow::find_by_cash_flow($dateConvertFrom, $dateConvertTo, ['company' => $admComp, 'branch' => $branch]);
 ?>
 
     <div class="table-responsive">
       <div class="d-flex justify-content-end mb-2">
-        <a href="<?php echo url_for('/sales/new.php') ?>" class="btn float-end btn-primary " style="cursor: pointer">Add Sales</a>
+        <a href="<?php echo url_for('/sales/new.php') ?>" class="btn float-end btn-primary <?php echo !empty($cashFlows) ? 'disabled' : '' ?>" style="cursor: pointer">
+          Add Sales
+        </a>
       </div>
       <table id="dataSheet" class="table custom-table">
         <thead>
@@ -34,7 +36,7 @@ if (is_get_request()) {
 
         <tbody>
           <?php $sn = 1;
-          foreach ($cashFlow as $key => $value) : ?>
+          foreach ($cashFlows as $key => $value) : ?>
             <tr class=" text-center">
               <td><?php echo $sn++; ?></td>
               <td><?php echo $value->cash_sales ?></td>
