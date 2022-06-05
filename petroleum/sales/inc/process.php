@@ -74,6 +74,7 @@ if (is_post_request()) {
 
 
 if (is_get_request()) {
+  $access = AccessControl::find_by_user_id($loggedInAdmin->id);
 
   if (isset($_GET['filter'])) :
     $adminLevel = Admin::find_by_id($loggedInAdmin->id)->admin_level;
@@ -83,7 +84,6 @@ if (is_get_request()) {
     $date = date('Y-m-d', strtotime($dateFrom));
     $companyId = $loggedInAdmin->company_id;
     $products = Product::find_all_product($branch);
-    $access = AccessControl::find_by_user_id($loggedInAdmin->id);
 ?>
     <table id="dataSheet" class="table custom-table">
       <thead>
@@ -103,6 +103,7 @@ if (is_get_request()) {
             <?php if (in_array($adminLevel, [1, 2, 3, 4, 5, 8])) : ?>
               <th>EXPECTED SALE (<?php echo $currency ?>)</th>
               <th>EXPECTED STOCK (LTR)</th>
+              <th>ACTUAL STOCK (LTR)</th>
               <th>OVER/SHORT (LTR)</th>
             <?php endif; ?>
 
@@ -119,28 +120,36 @@ if (is_get_request()) {
           $dataId = isset($data->id) ? $data->id : '';
 
           // *** DIP BY MANAGER ***
-          $openStock = isset($data->open_stock) ? $data->open_stock : '0.00';
-          $newStock = isset($data->new_stock) ? $data->new_stock : '0.00';
-          $totalStock = isset($data->open_stock) ? $data->total_stock : '0.00';
+          $openStock = isset($data->open_stock)   ? $data->open_stock : 0;
+          $newStock = isset($data->new_stock)     ? $data->new_stock : 0;
+          $totalStock = isset($data->open_stock)  ? $data->total_stock : 0;
           $rate = intval($product->rate);
 
-
           // *** SALES BY SUPERVISOR ***
-          $salesInLtr = isset($data->sales_in_ltr) && $data->sales_in_ltr != 0
-            ? $data->sales_in_ltr : '0.00';
-          $expectedSale = isset($data->expected_sales) && $data->expected_sales != 0
-            ? $data->expected_sales : '0.00';
-          $remittance = isset($data->total_sales) && $data->total_sales != 0
-            ? $data->total_sales : '0.00';
-          $expectedStock = floatval($totalStock) - floatval($salesInLtr);
+          $salesInLtr = isset($data->sales_in_ltr) && $data->sales_in_ltr != 0        ? $data->sales_in_ltr : 0;
+          $expectedSale = isset($data->expected_sales) && $data->expected_sales != 0  ? $data->expected_sales : 0;
+          $remittance = isset($data->total_sales) && $data->total_sales != 0          ? $data->total_sales : 0;
+          $expectedStock = $totalStock - $salesInLtr;
+          $actualStock = isset($data->actual_stock) && $data->actual_stock != 0 ? floatval($data->actual_stock) : 0;
 
-          $overage =  isset($data->over_or_short) && $data->over_or_short != 0
-            ? $data->over_or_short : 0;
+          $overage = ($actualStock == 0) ? 0 : floatval($actualStock - $expectedStock);
+
+          // *** PREVIOUS RECORDS ***
+          // $prevDay        = date('Y-m-d', strtotime('-1 days'));
+          // $prevData       = DataSheet::find_by_previous_day($prevDay, $product->id);
+          // $prevTotalStock = isset($prevData->total_stock) ? $prevData->total_stock : 0;
+          // $prevSalesInLtr = isset($prevData->sales_in_ltr) ? $prevData->sales_in_ltr : 0;
+
+          // $prevExpectedStock  = floatval($prevTotalStock) - floatval($prevSalesInLtr);
+          // $prevActualStock = isset($prevData->actual_stock) && $prevData->actual_stock != 0 ? floatval($prevData->actual_stock) : $prevExpectedStock;
+
+          // $overage = $prevActualStock - $prevExpectedStock;
+
           $color = $overage < 0 ? 'text-danger' : '';
         ?>
 
           <tr class=" text-center">
-            <td>
+            <td style="min-width: 200px;">
               <div class="btn-group">
                 <?php if ($access->add_dip == 1) : ?>
                   <button class="btn btn-primary dip" data-id="<?php echo $product->id; ?>" <?php echo !empty($data->total_stock) ? 'disabled' : '' ?>>
@@ -153,7 +162,7 @@ if (is_get_request()) {
                 <?php endif; ?>
 
                 <?php if ($dataId == '') : ?>
-                  <button class="btn btn-outline-warning">No Dip Value</button>
+                  <button class="btn btn-outline-warning">No Dip</button>
                 <?php endif; ?>
               </div>
             </td>
@@ -172,18 +181,25 @@ if (is_get_request()) {
             <?php if (in_array($adminLevel, [1, 2, 3, 4, 5, 8])) : ?>
               <td class="bg-light" title="Rate * Sales In Ltr"><?php echo number_format($expectedSale, 2); ?></td>
               <td class="bg-light" title="Total Stock - Sales In Ltr"><?php echo number_format($expectedStock, 2); ?></td>
-              <td class="bg-light <?php echo $color; ?>" title="Total Stock - Expected Stock"><?php echo number_format($overage, 2) ?></td>
+              <td><?php echo number_format($actualStock, 2); ?></td>
+              <td class="bg-light <?php echo $color; ?>" title="Actual Stock - Expected Stock"><?php echo number_format($overage, 2) ?></td>
             <?php endif; ?>
 
             <?php if ($access->edit_sales == 1) : ?>
-              <td>
-                <a href="<?php echo url_for('sales/edit.php?data_sheet=' . $dataId . '&edit') ?>" class="btn btn-warning enterSale"><span class="icon-edit1"></span> Edit</a>
+              <td style="min-width: 100px;">
+                <a href="<?php echo url_for('sales/edit.php?data_sheet=' . $dataId . '&edit') ?>" class="btn btn-warning enterSale <?php echo empty($dataId) ? 'disabled' : '' ?>"><span class="icon-edit1"></span> Edit</a>
               </td>
             <?php endif; ?>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
-<?php
-  endif;
+  <?php endif;
+
+
+  // *** GET FORM FIELDS ***
+  if (isset($_GET['get_form_fields'])) : include('../form_fields.php'); ?>
+
+
+<?php endif;
 }

@@ -1,7 +1,7 @@
 <?php require_once('../private/initialize.php');
 
 $page = 'Sales';
-$page_title = 'All Sales';
+$page_title = 'Manage Sales';
 include(SHARED_PATH . '/admin_header.php');
 $today = date('Y-m-d');
 

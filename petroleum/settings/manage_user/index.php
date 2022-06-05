@@ -38,15 +38,15 @@ $admins = Admin::find_by_undeleted();
               <table class="table custom-table table-sm">
                 <thead>
                   <tr class="bg-primary text-white ">
-                    <th>profile_img</th>
+                    <th>Avatar</th>
                     <th>Full name</th>
                     <th>Email</th>
                     <th>Admin level</th>
                     <th>Branch</th>
                     <th>Password reset</th>
-                    <th>created_by</th>
-                    <th>created_at</th>
-                    <th>updated_at</th>
+                    <th>Created by</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -204,11 +204,12 @@ $admins = Admin::find_by_undeleted();
                 data.msg,
                 'success'
               )
+              setTimeout(() => window.location.reload(), 500);
             }
           });
 
         }
-      }).then(() => window.location.reload())
+      })
 
     });
 

@@ -12,13 +12,14 @@ if (is_get_request()) {
     $topSelling = DataSheet::get_top_selling_product($branchId);
     foreach ($topSelling as $value) {
       array_push($metricTopProductName, $value->product_name);
-      array_push($metricTopProductValue, intval($value->actual_sales));
+      array_push($metricTopProductValue, intval($value->sales_in_ltr));
     }
     $impLabel = implode('","',  $metricTopProductName);
     $impSeries = implode(',',  $metricTopProductValue);
 
     $label = '"' . $impLabel . '"';
     $series = $impSeries;
+
 
 ?>
     <style>
@@ -30,6 +31,9 @@ if (is_get_request()) {
 
       <?php foreach ($topSelling as $pro) :
         $lagInCash = intval($pro->total_sales) - intval($pro->expected_sales);
+        $overage = isset($pro->over_or_short) ? $pro->over_or_short : 0;
+        $lagColor = $lagInCash < 0 ? 'text-danger' : '';
+        $ovColor = $overage < 0 ? 'text-danger' : '';
       ?>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
           <ul class="list-group list-group-flush shadow px-2">
@@ -74,7 +78,22 @@ if (is_get_request()) {
                 </div>
                 <div class="right">
                   <h6 class="text-uppercase">Difference: <?php echo strtoupper($pro->product_name) ?></h6>
-                  <h2 class="mb-0"><?php echo number_format($lagInCash); ?></h2>
+                  <h2 class="mb-0 <?php echo $lagColor; ?>"><?php echo number_format($lagInCash); ?></h2>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item border-left-0 border-right-0 text-right">
+              <div class="d-flex justify-content-between">
+                <div class="left">
+                  <h3 class="mb-0" style="font-size: 20px;">
+                    <span class="d-block d-flex justify-content-center align-items-center p-1 text-white rounded-circle" style="width:50px;height:50px;background-color:#333">
+                      LTR
+                    </span>
+                  </h3>
+                </div>
+                <div class="right">
+                  <h6 class="text-uppercase">Overage: <?php echo strtoupper($pro->product_name) ?></h6>
+                  <h2 class="mb-0 <?php echo $ovColor; ?>"><?php echo number_format($overage); ?></h2>
                 </div>
               </div>
             </li>
@@ -92,9 +111,9 @@ if (is_get_request()) {
                 <tr class="bg-primary text-white ">
                   <th>SN</th>
                   <th>Product (Tank)</th>
-                  <th>Stock for Sale (LTR)</th>
-                  <th>Actual Sales (LTR)</th>
-                  <th>Available Stock (LTR)</th>
+                  <th>Sales In (LTR)</th>
+                  <th>Expected Stock (LTR)</th>
+                  <th>Actual Stock (LTR)</th>
                   <th>Over/Short (LTR)</th>
                   <th>Expected Sales (<?php echo $currency; ?>)</th>
                   <th>Remittance (<?php echo $currency; ?>)</th>
@@ -106,18 +125,30 @@ if (is_get_request()) {
                 <?php
                 $sn = 1;
                 foreach ($dataSheets as $data) :
-                  $product = Product::find_by_id($data->product_id);
-                  $lagInCash = intval($data->total_sales) - intval($data->expected_sales);
+                  $product    = Product::find_by_id($data->product_id);
+                  $lagInCash  = intval($data->total_sales) - intval($data->expected_sales);
+                  $overage    = !empty($data->over_or_short) ? $data->over_or_short : 0;
+                  $sheet      = DataSheet::get_sheet();
+                  $presentActualStock = !empty($sheet->actual_stock) && $sheet->actual_stock != 0 ? $sheet->actual_stock : 0;
+
+                  // *** PREVIOUS RECORDS ***
+                  $prevDay        = date('Y-m-d', strtotime('-1 days'));
+                  $prevData       = DataSheet::find_by_previous_day($prevDay, $product->id);
+                  $prevExpectedStock  = !empty($prevData->expected_stock) ? $prevData->expected_stock : 0;
+                  $prevActualStock    = !empty($prevData->actual_stock) ? $prevData->actual_stock : 0;
+
+                  $expectedStock  = !empty($sheet->expected_stock) ? $sheet->expected_stock : $prevExpectedStock;
+                  $actualStock    = !empty($sheet) ? $presentActualStock : $prevActualStock;
                 ?>
                   <tr>
                     <td><?php echo $sn++; ?></td>
                     <td><?php echo ucwords($product->name) . ' (' . $product->tank . ')'; ?></td>
-                    <td class="text-right"><?php echo number_format($data->total_stock, 2); ?></td>
-                    <td class="text-right"><?php echo number_format($data->actual_sales, 2); ?></td>
-                    <td class="text-right"><?php echo number_format($data->available_stock, 2); ?></td>
+                    <td class="text-right"><?php echo number_format($data->sales_in_ltr, 2); ?></td>
+                    <td class="text-right"><?php echo number_format($expectedStock, 2); ?></td>
+                    <td class="text-right"><?php echo number_format($actualStock, 2); ?></td>
                     <td class="text-right">
-                      <span class="<?php echo $data->over_or_short < 0 ? 'text-danger' : 'text-dark' ?>">
-                        <?php echo number_format($data->over_or_short, 2); ?>
+                      <span class="<?php echo $overage < 0 ? 'text-danger' : 'text-dark' ?>">
+                        <?php echo number_format($overage, 2); ?>
                       </span>
                     </td>
                     <td class="text-right"><?php echo number_format($data->expected_sales, 2); ?></td>

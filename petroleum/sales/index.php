@@ -1,7 +1,7 @@
 <?php require_once('../private/initialize.php');
 
 $page = 'Sales';
-$page_title = 'Add Sales';
+$page_title = 'All Sales';
 
 include(SHARED_PATH . '/admin_header.php');
 
@@ -39,11 +39,12 @@ include(SHARED_PATH . '/admin_header.php');
 	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Enter Dip</h5>
+				<h5 class="modal-title">Enter Value</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 			</div>
 
-			<?php include('./form_fields.php'); ?>
+			<div id="form_fields"></div>
+
 		</div>
 	</div>
 </div>
@@ -58,21 +59,11 @@ include(SHARED_PATH . '/admin_header.php');
 			let dip = this.dataset.id
 			let sheetId = this.dataset.sheetId
 
-			if (dip) {
-				$('#product_id').val(dip)
-			} else {
-				$('#sheet_id').val(sheetId)
-			}
+			getFormFields(dip, sheetId)
+
 			$('#dipModal').modal('show');
 		})
 
-
-		$(document).on('click', '.remove_row', function() {
-			let row_id = $(this).attr("id");
-			$('#row_id_' + row_id).remove();
-			count--;
-			$('#total_item').val(count);
-		});
 
 		window.onload = () => {
 			let branch = $('#fBranch').val()
@@ -90,6 +81,22 @@ include(SHARED_PATH . '/admin_header.php');
 				getDataSheet(branch, filterDate)
 			}
 		})
+
+		const getFormFields = (productId, sheetId) => {
+			$.ajax({
+				url: SALES_URL,
+				method: "GET",
+				data: {
+					dipPID: productId,
+					sheetId: sheetId,
+					get_form_fields: 1
+				},
+				cache: false,
+				success: function(r) {
+					$('#form_fields').html(r)
+				}
+			})
+		}
 
 		const getDataSheet = (branch, fltDate) => {
 			$.ajax({

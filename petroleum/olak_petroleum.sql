@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2022 at 02:51 AM
+-- Generation Time: Jun 02, 2022 at 10:30 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -201,6 +201,14 @@ CREATE TABLE `data_sheet` (
   `deleted` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `data_sheet`
+--
+
+INSERT INTO `data_sheet` (`id`, `product_id`, `open_stock`, `new_stock`, `total_stock`, `sales_in_ltr`, `total_sales`, `expected_stock`, `expected_sales`, `over_or_short`, `company_id`, `branch_id`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
+(1, '1', '1500', '50', '1550', '110', '18100', '1440', '18150', '0', '1', '1', '3', '1', '2022-06-01', '2022-06-02 20:48:57', ''),
+(2, '1', '1417', '0', '1417', '91', '14820', '1326', '15015', '-23', '1', '1', '3', '1', '2022-06-02', '2022-06-02 21:03:01', '');
+
 -- --------------------------------------------------------
 
 --
@@ -365,7 +373,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `data_sheet`
 --
 ALTER TABLE `data_sheet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `expenses`

@@ -36,7 +36,7 @@ $groupedProducts = Product::grouped_products();
               </select>
             </div>
 
-            <div class="is_edit">
+            <!-- <div class="is_edit">
               <select name="filter_branch" class="form-control form-control-sm" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
                 <option value="">select branch</option>
                 <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
@@ -44,7 +44,7 @@ $groupedProducts = Product::grouped_products();
                     <?php echo ucwords($branch->name) ?></option>
                 <?php endforeach; ?>
               </select>
-            </div>
+            </div> -->
           </div>
 
 
@@ -64,9 +64,6 @@ $groupedProducts = Product::grouped_products();
                 <tbody id="product-table">
                   <?php foreach ($products as $data) : ?>
                     <tr>
-                      <!-- <td>
-                        <input type="checkbox" class="selected" name="checked[]" data-id="<?php echo $data->id; ?>" value="<?php echo $data->id; ?>">
-                      </td> -->
                       <td><?php echo strtoupper($data->name); ?></td>
                       <td><?php echo $data->tank; ?></td>
                       <td><?php echo number_format($data->rate, 2); ?></td>
@@ -258,11 +255,12 @@ $groupedProducts = Product::grouped_products();
                 data.msg,
                 'success'
               )
+              setTimeout(() => window.location.reload(), 500);
             }
           });
 
         }
-      }).then(() => window.location.reload())
+      })
 
     });
 

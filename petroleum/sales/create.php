@@ -3,28 +3,45 @@
 $page = 'Sales';
 $page_title = 'Add Sales';
 
-$products = Product::find_all_product($loggedInAdmin->branch_id);
-$company = Company::find_by_id($loggedInAdmin->company_id);
-$branches = Branch::find_all_branch(['company_id' => $company->id]);
-$adminLevel = $loggedInAdmin->admin_level;
-
 $errors = [];
 
 if (is_post_request()) :
 	if (isset($_POST['data_sheet_form'])) :
-		$productId = $_POST['product_id'];
+		$productId 		= $_POST['product_id'];
+		$openStock 		= $_POST['open_stock'];
+		$newStock 		= $_POST['new_stock'];
+		$actualStock 	= $_POST['actual_stock'];
+
 		$product = Product::find_by_id($productId);
 
-		$totalStock = floatval($_POST['open_stock']) + floatval($_POST['new_stock']);
+		$prevDay 				= date('Y-m-d', strtotime('-1 days'));
+		$prevData 			= DataSheet::find_by_previous_day($prevDay, $productId);
+		$prevTotalStock = isset($prevData->total_stock) ? $prevData->total_stock : 0;
+		$prevSalesInLtr = isset($prevData->sales_in_ltr) ? $prevData->sales_in_ltr : 0;
+
+		if (!empty($prevData)) :
+			$prevExpectedStock 	= floatval($prevTotalStock) - floatval($prevSalesInLtr);
+			$overage 						= $actualStock - $prevExpectedStock;
+
+			$args = [
+				'actual_stock' 	=> $actualStock,
+				'over_or_short'	=> $overage,
+			];
+
+			$prevData->merge_attributes($args);
+			$prevData->save();
+		endif;
+
+		$totalStock = floatval($openStock) + floatval($newStock);
 
 		$args = [
-			'product_id'			=> $productId,
-			'open_stock' 			=> $_POST['open_stock'],
-			'new_stock' 			=> $_POST['new_stock'],
-			'total_stock'			=> $totalStock,
-			'company_id' 			=> $loggedInAdmin->company_id,
-			'branch_id' 			=> $loggedInAdmin->branch_id,
-			"created_by"      => $loggedInAdmin->id,
+			'product_id'	=> $productId,
+			'open_stock' 	=> $openStock,
+			'new_stock' 	=> $newStock,
+			'total_stock'	=> $totalStock,
+			'company_id' 	=> $loggedInAdmin->company_id,
+			'branch_id' 	=> $loggedInAdmin->branch_id,
+			"created_by" 	=> $loggedInAdmin->id,
 		];
 
 		if (is_blank($args['open_stock'])) :
@@ -37,27 +54,6 @@ if (is_post_request()) :
 		if (empty($errors)) :
 			$dataSheet = new DataSheet($args);
 			$dataSheet->save();
-
-			if ($dataSheet) :
-
-				$newId = $dataSheet->id;
-				$todayData = DataSheet::find_by_id($newId);
-
-				$prevDay = date('Y-m-d', strtotime('-1 days'));
-				$previousData = DataSheet::find_by_previous_day($prevDay, $todayData->product_id);
-
-				$totalStock = floatval($todayData->total_stock);
-				$prevDayExpectedStock = !empty($previousData) ? floatval($previousData->expected_stock) : $totalStock;
-
-				$overage = $totalStock - $prevDayExpectedStock;
-
-				$args = [
-					'over_or_short'	=> $overage,
-				];
-
-				$todayData->merge_attributes($args);
-				$todayData->save();
-			endif;
 
 			$session->message('Record saved successfully!') ?? '';
 			redirect_to('../sales/');
