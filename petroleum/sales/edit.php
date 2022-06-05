@@ -139,26 +139,26 @@ if (is_get_request()) :
 												<div class="modal-body">
 													<div class="form-group">
 														<label for="a_stock">ACTUAL STOCK</label>
-														<input type="text" name="actual_stock" value="<?php echo isset($data->actual_stock) ? $data->actual_stock : '' ?>" class="form-control" id="a_stock">
+														<input type="text" name="actual_stock" value="<?php echo isset($data->actual_stock) ? $data->actual_stock : '' ?>" class="form-control" id="a_stock" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 													</div>
 													<div class="form-group">
 														<label for="o_stock">OPENING STOCK </label>
-														<input type="text" name="open_stock" value="<?php echo isset($data->open_stock) ? $data->open_stock : '' ?>" id="o_stock" class="form-control">
+														<input type="text" name="open_stock" value="<?php echo isset($data->open_stock) ? $data->open_stock : '' ?>" id="o_stock" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 													</div>
 													<div class="form-group">
 														<label for="n_stock">NEW STOCK</label>
-														<input type="text" name="new_stock" value="<?php echo isset($data->new_stock) ? $data->new_stock : '' ?>" id="n_stock" class="form-control">
+														<input type="text" name="new_stock" value="<?php echo isset($data->new_stock) ? $data->new_stock : '' ?>" id="n_stock" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 													</div>
 
 													<hr class="bg-secondary" />
 
 													<div class="form-group">
 														<label for="s_stock">SALES IN (LTR)</label>
-														<input type="text" name="sales_in_ltr" value="<?php echo isset($data->sales_in_ltr) ? $data->sales_in_ltr : '' ?>" id="s_stock" class="form-control">
+														<input type="text" name="sales_in_ltr" value="<?php echo isset($data->sales_in_ltr) ? $data->sales_in_ltr : '' ?>" id="s_stock" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 													</div>
 													<div class="form-group">
 														<label for="t_stock">TOTAL SALES <br><small>(CASH, TRANSFER, POS, CREDIT SALES, CHEQUE)</small></label>
-														<input type="text" name="total_sales" value="<?php echo isset($data->total_sales) ? $data->total_sales : '' ?>" id="t_stock" class="form-control">
+														<input type="text" name="total_sales" value="<?php echo isset($data->total_sales) ? $data->total_sales : '' ?>" id="t_stock" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 													</div>
 												</div>
 

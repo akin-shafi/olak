@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.7
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 05, 2022 at 03:25 PM
--- Server version: 10.5.15-MariaDB-cll-lve
+-- Host: 127.0.0.1
+-- Generation Time: Jun 05, 2022 at 05:32 PM
+-- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -58,7 +57,7 @@ CREATE TABLE `access_control` (
 
 INSERT INTO `access_control` (`id`, `user_id`, `dashboard`, `sales_mgt`, `add_dip`, `add_sales`, `edit_sales`, `manage_sales`, `expenses_mgt`, `add_exp`, `edit_exp`, `delete_exp`, `report_mgt`, `access_control`, `company_setup`, `user_mgt`, `product_mgt`, `filtering`, `created_by`, `created_at`, `deleted`) VALUES
 (1, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2022-04-21 13:58:19', ''),
-(2, '2', '0', '1', '', '', '1', '1', '1', '1', '1', '1', '1', '0', '0', '1', '1', '0', '1', '2022-05-30 03:01:22', ''),
+(2, '2', '0', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '0', '1', '1', '0', '2', '2022-05-30 03:01:22', ''),
 (3, '3', '0', '1', '1', '0', '0', '1', '1', '0', '0', '0', '1', '0', '0', '0', '0', '0', '1', '2022-05-30 10:17:22', ''),
 (4, '4', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '2022-05-30 10:19:22', ''),
 (5, '5', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '0000-00-00 00:00:00', NULL);
@@ -94,7 +93,7 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`id`, `full_name`, `email`, `phone`, `profile_img`, `address`, `hashed_password`, `reset_password`, `admin_level`, `company_id`, `branch_id`, `status`, `created_at`, `updated_at`, `created_by`, `deleted`) VALUES
 (1, 'Super Admin', 'admin1@gmail.com', '08012345678', 'olak.png', 'Ilori, Kwara State', '$2y$10$df9kgE/lDm/j3TyklJyoguf5w0MTfZE8tpJqs1EUINLn7XqZYptka', '1', '1', '1', '1', '', '2022-05-30 01:06:43', '2022-05-30 01:06:43', '1', NULL),
-(2, 'Compliance Personel', 'compliance@gmail.com', '08087654321', 'ee455f890b6c099e53081a4df0fc0913.jpg', 'A Division, Ilorin, Kwara State', '$2y$10$0uYuzaK0UA.JJkvNxmq4UOpVkxLz3lfR/ccnkNH1fnkVa1yFSwxEm', '0', '5', '1', '1', '', '2022-05-30 03:01:22', '2022-05-30 03:01:22', '1', ''),
+(2, 'Compliance Personel', 'compliance@gmail.com', '08087654321', 'ee455f890b6c099e53081a4df0fc0913.jpg', 'A Division, Ilorin, Kwara State', '$2y$10$df9kgE/lDm/j3TyklJyoguf5w0MTfZE8tpJqs1EUINLn7XqZYptka', '0', '5', '1', '1', '', '2022-05-30 03:01:22', '2022-05-30 03:01:22', '2', ''),
 (3, 'Manager Management', 'manager@gmail.com', '09087654321', 'c511658b0f317a7e0de6969fe2c15ecc.jpg', '', '$2y$10$Da6l/ZfxEWrj7y/LeXouFO0foBsKdknQtSg6UzIZrHTTC8wYS5vu.', '0', '6', '1', '1', '', '2022-05-30 10:17:21', '2022-05-30 10:17:21', '1', ''),
 (4, 'Supervisor Personel', 'supervisor@gmail.com', '08012345678', '9c38dedfe125b231f298f2b3790db383.jpg', '', '$2y$10$EgLt8zuWV1PnFqI1d8VdgOWVyHZK5SsbY7URpXmzFlnyH.zlAu4KG', '0', '7', '1', '1', '', '2022-05-30 10:19:22', '2022-05-30 10:19:22', '1', ''),
 (5, 'Special User', 'special@gmail.com', '08098765432', 'b206dc6211241171382a785717c09d11.png', '', '$2y$10$J8lOL/FN0OkGAIjejMpMV.11tlMjLpCY/Rg1L21fiqXur8BUKCHK6', '0', '8', '1', '1', '', '2022-05-30 12:12:20', '2022-05-30 12:12:20', '1', '');
@@ -148,6 +147,13 @@ CREATE TABLE `cash_flow` (
   `deleted` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cash_flow`
+--
+
+INSERT INTO `cash_flow` (`id`, `credit_sales`, `cash_sales`, `pos`, `transfer`, `cheque`, `credit_voucher`, `narration`, `company_id`, `branch_id`, `created_by`, `created_at`, `updated_at`, `deleted`) VALUES
+(1, '35000', '60000', '25000', '40000', '25000', '', 'Thanks', '1', '1', '1', '2022-06-05', '0000-00-00 00:00:00', '');
+
 -- --------------------------------------------------------
 
 --
@@ -188,11 +194,11 @@ CREATE TABLE `data_sheet` (
   `open_stock` varchar(50) NOT NULL,
   `new_stock` varchar(50) NOT NULL,
   `total_stock` varchar(15) NOT NULL,
-  `expected_sales` varchar(15) NOT NULL,
+  `sales_in_ltr` varchar(191) NOT NULL,
   `total_sales` varchar(15) NOT NULL,
-  `available_balance` varchar(15) NOT NULL,
-  `available_stock` varchar(15) NOT NULL,
-  `actual_sales` varchar(15) NOT NULL,
+  `expected_stock` varchar(191) NOT NULL,
+  `actual_stock` varchar(191) NOT NULL,
+  `expected_sales` varchar(15) NOT NULL,
   `over_or_short` varchar(50) NOT NULL,
   `company_id` varchar(15) NOT NULL,
   `branch_id` varchar(15) NOT NULL,
@@ -207,10 +213,10 @@ CREATE TABLE `data_sheet` (
 -- Dumping data for table `data_sheet`
 --
 
-INSERT INTO `data_sheet` (`id`, `product_id`, `open_stock`, `new_stock`, `total_stock`, `expected_sales`, `total_sales`, `available_balance`, `available_stock`, `actual_sales`, `over_or_short`, `company_id`, `branch_id`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
-(1, '1', '5000', '0', '5000', '825000', '820000', '5000', '30.30303030303', '4969.696969697', '', '1', '1', '', '', '2022-06-01', '', ''),
-(2, '2', '3000', '0', '3000', '495000', '492000', '3000', '18.181818181818', '2981.8181818182', '', '1', '1', '', '', '2022-06-01', '', ''),
-(3, '3', '3000', '0', '3000', '495000', '', '', '', '', '', '1', '1', '', '', '2022-06-01', '', '');
+INSERT INTO `data_sheet` (`id`, `product_id`, `open_stock`, `new_stock`, `total_stock`, `sales_in_ltr`, `total_sales`, `expected_stock`, `actual_stock`, `expected_sales`, `over_or_short`, `company_id`, `branch_id`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
+(1, '1', '29100', '0', '29100', '2712', '447000', '26388', '26300', '447480', '-88', '1', '1', '3', '4', '2022-06-04', '2022-06-05 15:07:28', ''),
+(2, '1', '26300', '9', '26309', '1200', '198000', '25109', '', '198000', '', '1', '1', '3', '4', '2022-06-05', '2022-06-05 15:20:10', ''),
+(3, '2', '22450', '0', '22450', '1500', '247500', '20950', '', '247500', '', '1', '1', '3', '4', '2022-06-04', '2022-06-05 15:47:11', '');
 
 -- --------------------------------------------------------
 
@@ -231,6 +237,13 @@ CREATE TABLE `expenses` (
   `updated_at` datetime NOT NULL,
   `deleted` varchar(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `expenses`
+--
+
+INSERT INTO `expenses` (`id`, `company_id`, `branch_id`, `title`, `quantity`, `amount`, `narration`, `created_by`, `created_at`, `updated_at`, `deleted`) VALUES
+(1, '1', '1', '55LTR petrol', '55', '9075', 'Aroma Petrol ', '1', '2022-06-05', '2022-06-05 15:41:56', '');
 
 -- --------------------------------------------------------
 
@@ -364,7 +377,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `cash_flow`
 --
 ALTER TABLE `cash_flow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -382,7 +395,7 @@ ALTER TABLE `data_sheet`
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `products`

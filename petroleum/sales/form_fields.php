@@ -24,17 +24,17 @@ endif;
 			<?php if (!empty($prevData)) : ?>
 				<div class="form-group">
 					<label for="a_stock">ACTUAL STOCK</label>
-					<input type="text" name="actual_stock" value="<?php echo isset($product->actual_stock) ? $product->actual_stock : '' ?>" class="form-control" id="a_stock">
+					<input type="text" name="actual_stock" value="<?php echo isset($product->actual_stock) ? $product->actual_stock : '' ?>" class="form-control" id="a_stock" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 				</div>
 			<?php endif; ?>
 
 			<div class="form-group">
 				<label for="o_stock">OPENING STOCK </label>
-				<input type="text" name="open_stock" value="<?php echo isset($product->open_stock) ? $product->open_stock : '' ?>" class="form-control" id="o_stock" required>
+				<input type="text" name="open_stock" value="<?php echo isset($product->open_stock) ? $product->open_stock : '' ?>" class="form-control" id="o_stock" required oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 			</div>
 			<div class="form-group">
 				<label for="n_stock">NEW STOCK</label>
-				<input type="text" name="new_stock" value="<?php echo isset($product->new_stock) ? $product->new_stock : '' ?>" class="form-control" id="n_stock">
+				<input type="text" name="new_stock" value="<?php echo isset($product->new_stock) ? $product->new_stock : '' ?>" class="form-control" id="n_stock" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 			</div>
 		</div>
 
@@ -53,11 +53,11 @@ endif;
 		<div class="modal-body">
 			<div class="form-group">
 				<label for="s_ltr">SALES IN (LTR)</label>
-				<input type="text" name="sales_in_ltr" value="<?php echo isset($product->sales_in_ltr) ? $product->sales_in_ltr : '' ?>" class="form-control" id="s_ltr">
+				<input type="text" name="sales_in_ltr" value="<?php echo isset($product->sales_in_ltr) ? $product->sales_in_ltr : '' ?>" class="form-control" id="s_ltr" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 			</div>
 			<div class="form-group">
 				<label for="t_sales">TOTAL SALES <br><small>(CASH, TRANSFER, POS, CREDIT SALES, CHEQUE)</small></label>
-				<input type="text" name="total_sales" value="<?php echo isset($product->total_sales) ? $product->total_sales : '' ?>" class="form-control" id="t_sales">
+				<input type="text" name="total_sales" value="<?php echo isset($product->total_sales) ? $product->total_sales : '' ?>" class="form-control" id="t_sales" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');">
 			</div>
 		</div>
 
