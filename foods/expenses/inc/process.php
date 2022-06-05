@@ -84,17 +84,22 @@ if (is_get_request()) {
 
     $branch = isset($_GET['branch']) && $_GET['branch'] != '' ? $_GET['branch'] : $loggedInAdmin->branch_id;
 
-    $dateFrom = $_GET['filterDate'];
+    $rangeText = $_GET['rangeText'];
+    $explode = explode('-', $rangeText);
+    $dateFrom = $explode[0];
+    $dateTo = $explode[1];
     $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
+    $dateConvertTo = date('Y-m-d', strtotime($dateTo));
 
-    $expenses = Expense::find_by_expenses($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch]);
-    $totalExpenses = Expense::get_total_expenses($dateConvertFrom, ['company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
+    $expenses = Expense::find_by_expenses($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $branch]);
+    $totalExpenses = Expense::get_total_expenses($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
 
+    $filterDate = $dateConvertFrom != date('Y-m-d') ? $rangeText : date('d-m-Y');
 ?>
 
     <div>
       <div class="d-flex justify-content-between align-items-center">
-        <h3>Incurred Expenses (<?php echo date('d-m-Y') ?>)</h3>
+        <h3>Incurred Expenses (<?php echo $filterDate ?>)</h3>
         <h3>Total: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalExpenses) ?></span></h3>
       </div>
 

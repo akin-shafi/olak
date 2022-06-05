@@ -4,22 +4,62 @@ $page = 'Sales';
 $page_title = 'Add Sales';
 
 
+$uploadDir = './uploads/';
+
 if (is_post_request()) {
-  	  $args = $_POST['flow'];
+	$args = $_POST['flow'];
 
-  	  // pre_r($args);
-      $args['created_by'] = $loggedInAdmin->id;
-      $cashFlow = new CashFlow($args);
-      $result = $cashFlow->save();
+	$args['created_by'] = $loggedInAdmin->id;
 
-  if ($result == true) {
-    // $new_id = $admin->id;
-    $session->message('Data Saved successfully.');
-    redirect_to(url_for('/sales/'));
-  } 
+	$cashFlow = new CashFlow($args);
+	$result = $cashFlow->save();
+
+	if ($result == true) {
+		$newId = $cashFlow->id;
+		$cFlow = CashFlow::find_by_id($newId);
+
+		$countFiles = count($_FILES['filename']['name']);
+
+		if ($countFiles > 0) {
+			for ($i = 0; $i < $countFiles; $i++) :
+				$fileTmpPath = $_FILES['filename']['tmp_name'][$i];
+				$fileName = $_FILES['filename']['name'][$i];
+
+				$fileNameExp = explode('.', $fileName);
+				$fileExt = strtolower(end($fileNameExp));
+				$newFileName = md5(time() . $fileName) . '.' . $fileExt;
+				$allowedFileExt = ['jpg', 'png', 'gif', 'jpeg', 'pdf'];
+				$dest_path = $uploadDir . $newFileName;
+
+				if (isset($fileName) && !empty($fileName)) {
+					if (in_array($fileExt, $allowedFileExt)) {
+						if (!empty($cFlow->file_name)) {
+							unlink($uploadDir . $cFlow->file_name);
+						}
+						if (move_uploaded_file($fileTmpPath, $dest_path)) {
+							$data = [
+								'cash_flow_id' 	=> $newId,
+								'file_name' 		=> $newFileName,
+							];
+						} else {
+							exit(json_encode(['success' => false, 'msg' => 'File not uploaded!']));
+						}
+					} else {
+						exit(json_encode(['success' => false, 'msg' => 'Upload failed. Allowed file types: ' . implode(',', $allowedFileExt)]));
+					}
+				}
+
+				$uploads = new Uploads($data);
+				$uploads->save();
+			endfor;
+		}
+
+
+		$session->message('Data Saved successfully.');
+		redirect_to(url_for('/sales/'));
+	}
 } else {
-  // display the form
-  $cashFlow = new CashFlow;
+	$cashFlow = new CashFlow;
 }
 
 
@@ -31,21 +71,25 @@ include(SHARED_PATH . '/admin_header.php'); ?>
 
 			<div class="card">
 				<div class="card-body">
-					<?php if (display_errors($cashFlow->errors)) { ?>
-				      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-				        <?php echo display_errors($cashFlow->errors); ?>
-				        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				          <span aria-hidden="true">×</span>
-				        </button>
-				      </div>
-				    <?php } ?>
-					<form method="post">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<?php if (display_errors($cashFlow->errors)) { ?>
+									<!-- <div class="alert alert-danger alert-dismissible fade show" role="alert"> -->
+									<?php echo display_errors($cashFlow->errors); ?>
+									<!-- </div> -->
+								<?php } ?>
+							</div>
+						</div>
+					</div>
+					<form method="post" enctype="multipart/form-data">
 						<?php include('form_field.php') ?>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary" id="save_expenses">Save</button>
+							<a href="<?php echo url_for('sales/') ?>" class="btn btn-dark">Back</a>
+							<button type="submit" class="btn btn-primary">Save</button>
 						</div>
 					</form>
-						
+
 				</div>
 			</div>
 
@@ -62,5 +106,4 @@ include(SHARED_PATH . '/admin_header.php'); ?>
 	$(document).on('click', '.enterDeep', function() {
 		$("#enterDeepModal").modal('show')
 	})
-	
 </script>

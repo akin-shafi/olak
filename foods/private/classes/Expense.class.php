@@ -50,7 +50,7 @@ class Expense extends DatabaseObject
     }
   }
 
-  public static function get_total_expenses($dateFrom, $option = [])
+  public static function get_total_expenses($dateFrom, $dateTo, $option = [])
   {
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
@@ -63,7 +63,8 @@ class Expense extends DatabaseObject
       $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     } else {
       $sql = "SELECT SUM(amount) AS total_amount FROM " . static::$table_name . " ";
-      $sql .= "WHERE created_at ='" . self::$database->escape_string($dateFrom) . "'";
+      $sql .= "WHERE created_at >='" . self::$database->escape_string($dateFrom) . "'";
+      $sql .= " AND created_at <='" . self::$database->escape_string($dateTo) . "'";
       $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     }
 
@@ -81,13 +82,24 @@ class Expense extends DatabaseObject
   }
 
 
-  public static function find_by_expenses($dateFrom, $option = [])
+  public static function find_by_expenses($dateFrom, $dateTo, $option = [])
   {
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE created_at ='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= "WHERE created_at >='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND created_at <='" . self::$database->escape_string($dateTo) . "'";
+
+    if (empty($company) && !empty($branch)) :
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
     if (!empty($company) && !empty($branch)) :

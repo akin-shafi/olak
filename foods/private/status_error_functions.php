@@ -19,14 +19,13 @@ function require_login()
         redirect_to(url_for('login.php'));
     }
 }
-function display_errors($errors=array())
+function display_errors($errors = array())
 {
-   
+
     $output = '';
     if (!empty($errors)) {
-        $output .= "<div style=\"background: #FFF;\" class=\"errors wow  alert alert-dismissible text-danger animated\">";
-        $output .= "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"; 
-        // $output .= "Please fix the following errors:"; 
+        $output .= "<div class=\"alert alert-secondary alert-dismissible justify-content-center fade show\">";
+        $output .= "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>";
         $output .= "<ul>";
         foreach ($errors as $error) {
             if (is_array($error)) {

@@ -27,53 +27,78 @@ class CashFlow extends DatabaseObject
     $this->company_id   = $args['company_id'] ?? '';
     $this->branch_id    = $args['branch_id'] ?? '';
     $this->created_by   = $args['created_by'] ?? '';
-    $this->created_at   = $args['created_at'] ?? date('Y-m-d H:i:s');
+    $this->created_at   = $args['created_at'] ?? date('Y-m-d');
     $this->updated_at   = $args['updated_at'] ?? '';
     $this->deleted      = $args['deleted'] ?? '';
   }
 
-  public static function find_by_cash_flow($option = [])
+  protected function validate()
   {
-    $created_by = $option['created_by'] ?? false;
+    $this->errors = [];
+
+    if (is_blank($this->credit_sales)) {
+      $this->errors[] = "Credit sales is required.";
+    }
+
+    if (is_blank($this->cash_sales)) {
+      $this->errors[] = "Cash sales is required.";
+    }
+
+    if (is_blank($this->pos)) {
+      $this->errors[] = "POS sales is required.";
+    }
+
+    return $this->errors;
+  }
+
+  public static function single_cash_flow($dateFrom, $option = [])
+  {
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
-    $from = $option['from'] ?? false;
-    $to = $option['to'] ?? false;
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "WHERE created_at >='" . self::$database->escape_string($dateFrom) . "'";
 
-
-    if (!empty($company)) :
-      $sql .= " AND company_id='" . self::$database->escape_string($company) . "'";
-    endif;
-
-    if (!empty($branch)) :
+    if (empty($company) && !empty($branch)) :
       $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
     endif;
 
-    if ($created_by) {
-      $sql .= " AND created_by  ='" . self::$database->escape_string($created_by) . "'";
-    }
-    if ($from && $to) { 
-      if ($from == $to) {
-        $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
-      } elseif ($from > $to) {
-        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
-      } elseif ($from < $to) {
-        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
-      }
-    } elseif ($from && !$to) {
-      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
-    } elseif (!$from && $to) {
-      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
-    }
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    // echo $sql;
+
     $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
 
-    return $obj_array;
+  public static function find_by_cash_flow($dateFrom, $dateTo, $option = [])
+  {
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
 
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE created_at >='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND created_at <='" . self::$database->escape_string($dateTo) . "'";
+
+    if (empty($company) && !empty($branch)) :
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
+    if (!empty($company) && !empty($branch)) :
+      $sql .= " AND company_id='" . self::$database->escape_string($company) . "'";
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
+    endif;
+
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    return static::find_by_sql($sql);
   }
 
   public static function get_total_remittance($dateFrom)

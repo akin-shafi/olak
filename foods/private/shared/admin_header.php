@@ -85,8 +85,8 @@ $fullName = $user->full_name;
          height: 0;
          margin: 8px;
          box-sizing: border-box;
-         border: 32px solid green;
-         border-color: green transparent green transparent;
+         border: 32px solid red;
+         border-color: red transparent red transparent;
          animation: lds-hourglass 1.2s infinite;
       }
 
@@ -104,6 +104,16 @@ $fullName = $user->full_name;
          100% {
             transform: rotate(1800deg);
          }
+      }
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+         -webkit-appearance: none;
+         margin: 0;
+      }
+
+      input[type=number] {
+         -moz-appearance: textfield;
       }
    </style>
 
@@ -129,7 +139,7 @@ $fullName = $user->full_name;
          </div>
 
          <ul class="header-actions">
-            
+
             <li class="dropdown">
                <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
                   <span class="user-name"><?php echo $fullName; ?></span>
@@ -175,11 +185,11 @@ $fullName = $user->full_name;
          <div class="collapse navbar-collapse" id="WafiAdminNavbar">
             <ul class="navbar-nav">
                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle <?php echo $page == 'Home' ? 'active-page' : '' ?>" href="#" id="dashboardsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle <?php echo $page == 'Home' ? 'active-page' : '' ?>" href="#" id="salesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i class="icon-devices_other nav-icon"></i>
                      Sales
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="dashboardsDropdown">
+                  <ul class="dropdown-menu" aria-labelledby="salesDropdown">
                      <li>
                         <a class="dropdown-item <?php echo $page_title == 'List Sales' ? 'active-page' : '' ?>" href="<?php echo url_for('sales/') ?>">List Sales</a>
                      </li>
@@ -188,7 +198,81 @@ $fullName = $user->full_name;
                      </li>
                   </ul>
                </li>
-               
+
+               <?php //if ($access->expenses_mgt == 1) : 
+               ?>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle <?php echo $page == 'Expenses' ? 'active-page' : '' ?>" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="icon-attach_money nav-icon"></i>
+                     Expenses
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="expensesDropdown">
+                     <li>
+                        <a class="dropdown-item <?php echo $page_title == 'Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('expenses/') ?>">Manage Expenses</a>
+                     </li>
+                  </ul>
+               </li>
+               <?php //endif; 
+               ?>
+
+               <?php //if ($access->report_mgt == 1) : 
+               ?>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle <?php echo $page == 'Reports' ? 'active-page' : '' ?>" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="icon-pie-chart1 nav-icon"></i>
+                     Reports
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="reportDropdown">
+                     <li>
+                        <a class="dropdown-item <?php echo $page_title == 'Sales & Expenses' ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">Report</a>
+                     </li>
+                  </ul>
+               </li>
+               <?php //endif; 
+               ?>
+
+
+               <?php //if ($access->product_mgt == 1) : 
+               ?>
+               <!-- <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="icon-settings1 nav-icon"></i>
+                     Settings
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+                     <?php //if ($access->access_control == 1) : 
+                     ?>
+                     <li>
+                        <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
+                     </li>
+                     <?php //endif; 
+                     ?>
+                     <?php //if ($access->company_setup == 1) : 
+                     ?>
+                     <li>
+                        <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
+                     </li>
+                     <?php //endif; 
+                     ?>
+                     <?php //if ($access->user_mgt == 1) : 
+                     ?>
+                     <li>
+                        <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user') ?>">Manage Users</a>
+                     </li>
+                     <?php //endif; 
+                     ?>
+                     <?php //if ($access->product_mgt == 1) : 
+                     ?>
+                     <li>
+                        <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
+                     </li>
+                     <?php //endif; 
+                     ?>
+                  </ul>
+               </li> -->
+               <?php //endif; 
+               ?>
+
             </ul>
          </div>
 
@@ -230,29 +314,31 @@ $fullName = $user->full_name;
             </ol>
 
             <ul class="app-actions">
-               <?php //if ($access->sales_mgt == 1 && $page_title == 'All Sales') : ?>
-                  <div class="d-flex justify-content-center align-items-center">
-                     <li class="d-flex justify-content-center align-items-center">
-                        <select name="filter_branch" class="form-control form-control-sm mx-2" id="fBranch">
-                           <option value="">select branch</option>
-                           <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
-                              <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
-                                 <?php echo ucwords($branch->name) ?></option>
-                           <?php endforeach; ?>
-                        </select>
-                     </li>
-                     <li>
-                        <a href="#" id="reportrange">
-                           <span class="range-text"></span>
-                           <i class="icon-chevron-down"></i>
-                        </a>
-                     </li>
-                     <li>
-                        <button class="btn btn-primary shadow border-light" id="query"><i class="icon-filter_list"></i> Filter</button>
-                     </li>
-                  </div>
-               <?php //endif; ?>
-               
+               <?php ////if ($access->sales_mgt == 1 && $page_title == 'All Sales') : 
+               ?>
+               <div class="d-flex justify-content-center align-items-center">
+                  <li class="d-flex justify-content-center align-items-center">
+                     <select name="branch" class="form-control form-control-sm mx-2" id="filter-branch">
+                        <option value="">select branch</option>
+                        <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
+                           <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
+                              <?php echo ucwords($branch->name) ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                  </li>
+                  <li>
+                     <a href="#" id="reportrange">
+                        <span class="range-text"></span>
+                        <i class="icon-chevron-down"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <button class="btn btn-primary shadow border-light" id="query"><i class="icon-filter_list"></i> Filter</button>
+                  </li>
+               </div>
+               <?php //endif; 
+               ?>
+
                <li>
                   <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print">
                      <i class="icon-print"></i>

@@ -6,16 +6,16 @@ $page_title = 'Expenses';
 include(SHARED_PATH . '/admin_header.php');
 
 // $productObj = Product::find_by_undeleted();
-$productArray = [];
+// $productArray = [];
 
 // foreach ($productObj as $value) {
 //   array_push($productArray, $value->name);
 // }
-$fltDate = date('Y-m-d');
+// $fltDate = date('Y-m-d');
 
-$products = is_unique_array($productArray);
-$expenses = Expense::find_by_expenses($fltDate);
-$totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
+// $products = is_unique_array($productArray);
+// $expenses = Expense::find_by_expenses($fltDate);
+// $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
 
 ?>
 <style>
@@ -59,7 +59,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
         <h5 class="modal-title">Record Expenses</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
-      <form id="expense_form">
+      <form id="expenses_form">
         <div class="modal-body">
           <div class="container">
             <div class="d-flex justify-content-end align-items-center">
@@ -113,7 +113,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary" id="save_expenses">Save</button>
         </div>
       </form>
@@ -129,7 +129,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
   $(document).ready(function() {
     const EXPENSE_URL = 'inc/process.php';
 
-    $('#expense_form').on("submit", function(e) {
+    $('#expenses_form').on("submit", function(e) {
       e.preventDefault();
       $('#save_expenses').attr('disabled', true)
       let expId = $('#expId').val()
@@ -258,86 +258,29 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
     });
 
     window.onload = () => {
-      // addRow()
+      let selectedDate = $('.range-text').text()
+      let branch = $('#filter-branch').val()
 
-      let branch = $('#fBranch').val()
-      let filterDate = $('#filter_date').val()
-      getDataSheet(branch, filterDate)
+      getExpenses(branch, selectedDate)
     }
 
-    /*const addRow = () => {
-      const totalItem = $('#total_item').val();
-      for (let i = 1; i <= totalItem; i++) {
-        let iQty = $('.quantity_' + i)
-        let product = $('.product_' + i)
-        let iRate = $('.inpRate_' + i)
-        let amount = $('.amount_' + i)
-
-        iQty.on('input', function() {
-          let inpQty = Number(this.value)
-          let inpRate = Number(iRate.val())
-
-          let inpAmount = inpQty * inpRate
-          amount.val(Math.ceil(inpAmount))
-        })
-
-        product.on('change', function() {
-          let pName = this.value
-
-          $.ajax({
-            url: EXPENSE_URL,
-            method: "GET",
-            data: {
-              pName: pName,
-              get_rate: 1
-            },
-            dataType: 'json',
-            success: function(r) {
-              let inpRate = iRate.val(r.data.rate)
-              const qty = iQty.val() != '' ? Number(iQty.val()) : 0
-              const rate = Number(inpRate.val())
-              let rAmount = qty * rate
-              amount.val(Math.ceil(rAmount))
-            }
-          })
-        })
-      }
-    }*/
-
-
-
-
-
-
     $(document).on('click', "#query", function() {
-      let branch = $('#fBranch').val()
-      if (branch == '') {
-        alert('Kindly select a branch')
-        window.location.reload();
-      } else {
-        let filterDate = $('#filter_date').val()
-        getDataSheet(branch, filterDate)
-      }
+      let selectedDate = $('.range-text').text()
+      let branch = $('#filter-branch').val()
+      getExpenses(branch, selectedDate)
     })
 
-    const getDataSheet = (branch, fltDate) => {
+    const getExpenses = (branch, date) => {
       $.ajax({
         url: EXPENSE_URL,
         method: "GET",
         data: {
           branch: branch,
-          filterDate: fltDate,
+          rangeText: date,
           filter: 1
-        },
-        cache: false,
-        beforeSend: function() {
-          $('.lds-hourglass').removeClass('d-none');
         },
         success: function(r) {
           $('#expenseReport').html(r)
-          setTimeout(() => {
-            $('.lds-hourglass').addClass('d-none');
-          }, 250);
         }
       })
     }

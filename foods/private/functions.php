@@ -143,6 +143,10 @@ function log_action($action, $message = "", $logtype = "")
       $logfile = PRIVATE_PATH . '/admin.txt';
       break;
 
+    case 'cash':
+      $logfile = PRIVATE_PATH . '/cash_flow.txt';
+      break;
+
     default:
       $logfile = PRIVATE_PATH . '/trans.txt';
       break;

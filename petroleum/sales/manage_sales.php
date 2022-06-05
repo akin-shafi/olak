@@ -94,10 +94,10 @@ $cashFlow = CashFlow::find_by_cash_flow($today, ['company' => $admComp, 'branch'
 								</td>
 							</tr>
 							<tr>
-								<td class="text-right"><sup class="text-secondary">(Optional)</sup>Credit Voucher</td>
+								<td class="text-right"><sup class="text-secondary">(Optional)</sup>Upload</td>
 								<td>
 									<div class="custom-file">
-										<label class="custom-file-label">Upload Credit Voucher</label>
+										<label class="custom-file-label">Upload</label>
 										<input type="file" name="voucher" class="custom-file-input">
 									</div>
 								</td>

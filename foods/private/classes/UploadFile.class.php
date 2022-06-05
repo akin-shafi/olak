@@ -1,53 +1,53 @@
-<?php 
+<?php
 class UploadFile
 {
 	protected $destination;
 	protected $messages = array();
 	protected $maxSize = 153600;
 	protected $permittedTypes = array(
-			'image/jpeg',
-			'image/pjpeg',
-			'image/gif',
-			'image/png',
-			'image/webp'
+		'image/jpeg',
+		'image/pjpeg',
+		'image/gif',
+		'image/png',
+		'image/webp'
 	);
 	protected $newName;
-	protected $typeCheckingOn = fasle;
+	protected $typeCheckingOn = false;
 	protected $notTrusted = array('bin', 'cgi', 'exe', 'js', 'pl', 'php', 'py', 'sh');
 	protected $suffix = '.upload';
 	protected $renameDuplicates;
 	public $filename;
-	
+
 	public function __construct($uploadFolder)
 	{
 		if (!is_dir($uploadFolder) || !is_writable($uploadFolder)) {
 			throw new \Exception("$uploadFolder must be a valid, writable folder.");
 		}
-		if ($uploadFolder[strlen($uploadFolder)-1] != '/') {
+		if ($uploadFolder[strlen($uploadFolder) - 1] != '/') {
 			$uploadFolder .= '/';
 		}
 		$this->destination = $uploadFolder;
 	}
-	
+
 	public function setMaxSize($bytes)
 	{
 		$serverMax = self::convertToBytes(ini_get('upload_max_filesize'));
 		if ($bytes > $serverMax) {
 			throw new \Exception('Maximum size cannot exceed server limit for individual files: ' .
-	self::convertFromBytes($serverMax));
+				self::convertFromBytes($serverMax));
 		}
 		if (is_numeric($bytes) && $bytes > 0) {
 			$this->maxSize = $bytes;
 		}
 	}
-	
+
 	public static function convertToBytes($val)
 	{
 		$val = trim($val);
-		$last = strtolower($val[strlen($val)-1]);
-		if (in_array($last, array('g', 'm', 'k'))){
-            // Remove trailing non-numeric character
-            $val = substr($val, -1);
+		$last = strtolower($val[strlen($val) - 1]);
+		if (in_array($last, array('g', 'm', 'k'))) {
+			// Remove trailing non-numeric character
+			$val = substr($val, -1);
 			switch ($last) {
 				case 'g':
 					$val *= 1024;
@@ -59,17 +59,17 @@ class UploadFile
 		}
 		return $val;
 	}
-	
+
 	public static function convertFromBytes($bytes)
 	{
 		$bytes /= 1024;
 		if ($bytes > 1024) {
-			return number_format($bytes/1024, 1) . ' MB';
+			return number_format($bytes / 1024, 1) . ' MB';
 		} else {
 			return number_format($bytes, 1) . ' KB';
 		}
 	}
-	
+
 	public function allowAllTypes($suffix = null)
 	{
 		$this->typeCheckingOn = false;
@@ -81,7 +81,7 @@ class UploadFile
 			}
 		}
 	}
-	
+
 	public function upload($renameDuplicates = true)
 	{
 		$this->renameDuplicates = $renameDuplicates;
@@ -103,12 +103,12 @@ class UploadFile
 			}
 		}
 	}
-	
+
 	public function getMessages()
 	{
 		return $this->messages;
 	}
-	
+
 	protected function checkFile($file)
 	{
 		if ($file['error'] != 0) {
@@ -119,21 +119,21 @@ class UploadFile
 			return false;
 		}
 		if ($this->typeCheckingOn) {
-		    if (!$this->checkType($file)) {
-			    return false;
+			if (!$this->checkType($file)) {
+				return false;
 			}
 		}
 		$this->checkName($file);
 		return true;
 	}
-	
+
 	protected function getErrorMessage($file)
 	{
-		switch($file['error']) {
+		switch ($file['error']) {
 			case 1:
 			case 2:
-				$this->messages[] = $file['name'] . ' is too big: (max: ' . 
-				self::convertFromBytes($this->maxSize) . ').';
+				$this->messages[] = $file['name'] . ' is too big: (max: ' .
+					self::convertFromBytes($this->maxSize) . ').';
 				break;
 			case 3:
 				$this->messages[] = $file['name'] . ' was only partially uploaded.';
@@ -146,7 +146,7 @@ class UploadFile
 				break;
 		}
 	}
-	
+
 	protected function checkSize($file)
 	{
 		if ($file['size'] == 0) {
@@ -154,14 +154,14 @@ class UploadFile
 			return false;
 		} elseif ($file['size'] > $this->maxSize) {
 			$this->messages[] = $file['name'] . ' exceeds the maximum size for a file ('
-					. self::convertFromBytes($this->maxSize) . ').';
+				. self::convertFromBytes($this->maxSize) . ').';
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
-	protected function checkType($file) 
+
+	protected function checkType($file)
 	{
 		if (in_array($file['type'], $this->permittedTypes)) {
 			return true;
@@ -170,7 +170,7 @@ class UploadFile
 			return false;
 		}
 	}
-	
+
 	protected function checkName($file)
 	{
 		$this->newName = null;
@@ -202,14 +202,14 @@ class UploadFile
 			}
 		}
 	}
-	
+
 	protected function moveFile($file)
 	{
 		global $session;
 		$this->filename = isset($this->newName) ? $this->newName : $file['name'];
 		$success = move_uploaded_file($file['tmp_name'], $this->destination . $this->filename);
 		if ($success) {
-			//\DB::query("INSERT INTO uploads (fileName, adminId) VALUES ('$this->filename', {$_SESSION['admin_id']})");
+			// \DB::query("INSERT INTO uploads (file_name, adminId) VALUES ('$this->filename', {$_SESSION['admin_id']})");
 			$result = $file['name'] . ' was uploaded successfully';
 			if (!is_null($this->newName)) {
 				$result .= ', and was renamed ' . $this->newName;
@@ -221,4 +221,3 @@ class UploadFile
 		}
 	}
 }
- ?>
