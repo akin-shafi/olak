@@ -147,12 +147,6 @@ $cashFlow = CashFlow::find_by_cash_flow($today, ['company' => $admComp, 'branch'
 		});
 
 
-		window.onload = () => {
-			let branch = $('#fBranch').val()
-			let filterDate = $('#filter_date').val()
-			getDataSheet(branch, filterDate)
-		}
-
 		$(document).on('click', "#query", function() {
 			let branch = $('#fBranch').val()
 			if (branch == '') {
@@ -185,5 +179,10 @@ $cashFlow = CashFlow::find_by_cash_flow($today, ['company' => $admComp, 'branch'
 				}
 			})
 		}
+
+
+		let branch = $('#fBranch').val()
+		let filterDate = $('#filter_date').val()
+		getDataSheet(branch, filterDate)
 	})
 </script>

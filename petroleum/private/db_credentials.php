@@ -17,12 +17,11 @@ if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.16
 	define("DB_USER", "root");
 	define("DB_PASS", "");
 	define("DB_NAME", "olak_petroleum");
-
-}else{
+} else {
 	define("DB_SERVER", "localhost");
-    define("DB_USER", "hoteliap_ambiance_user");
-    define("DB_PASS", "Akinshafi@91");
-    define("DB_NAME", "hoteliap_petroleum");
+	define("DB_USER", "hoteliap_ambiance_user");
+	define("DB_PASS", "Akinshafi@91");
+	define("DB_NAME", "hoteliap_petroleum");
 }
 
 

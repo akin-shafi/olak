@@ -157,7 +157,7 @@ if (is_get_request()) {
                 <?php endif; ?>
 
                 <?php if ($access->add_sales == 1 && $dataId != '') : ?>
-                  <button class="btn btn-warning dip" data-sheet-id="<?php echo $dataId; ?>" <?php echo !empty($data->total_sales) || $data->total_sales == 0 ? 'disabled' : '' ?>>
+                  <button class="btn btn-warning dip" data-sheet-id="<?php echo $dataId; ?>" <?php echo !empty($data->total_sales) || ($data->total_sales == '0') ? 'disabled' : '' ?>>
                     <?php echo strtoupper($product->name) . ' (T' . $product->tank . ')'; ?> (<?php echo $currency ?>)</button>
                 <?php endif; ?>
 

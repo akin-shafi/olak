@@ -223,12 +223,6 @@ include(SHARED_PATH . '/admin_header.php');
       $('#total_item').val(count);
     });
 
-    window.onload = () => {
-      let branch = $('#fBranch').val()
-      let filterDate = $('#filter_date').val()
-      getDataSheet(branch, filterDate)
-      addRow()
-    }
 
     const addRow = () => {
       const totalItem = $('#total_item').val();
@@ -283,5 +277,10 @@ include(SHARED_PATH . '/admin_header.php');
       })
     }
 
+
+    let branch = $('#fBranch').val()
+    let filterDate = $('#filter_date').val()
+    getDataSheet(branch, filterDate)
+    addRow()
   })
 </script>

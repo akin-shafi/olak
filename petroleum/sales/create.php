@@ -8,6 +8,7 @@ $errors = [];
 if (is_post_request()) :
 	if (isset($_POST['data_sheet_form'])) :
 		$productId 		= $_POST['product_id'];
+		$rate			 		= $_POST['rate'];
 		$openStock 		= $_POST['open_stock'];
 		$newStock 		= $_POST['new_stock'];
 		$actualStock 	= $_POST['actual_stock'];
@@ -36,6 +37,7 @@ if (is_post_request()) :
 
 		$args = [
 			'product_id'	=> $productId,
+			'rate'				=> $rate,
 			'open_stock' 	=> $openStock,
 			'new_stock' 	=> $newStock,
 			'total_stock'	=> $totalStock,
