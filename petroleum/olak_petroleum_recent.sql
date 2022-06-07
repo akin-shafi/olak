@@ -92,11 +92,15 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `full_name`, `email`, `phone`, `profile_img`, `address`, `hashed_password`, `reset_password`, `admin_level`, `company_id`, `branch_id`, `status`, `created_at`, `updated_at`, `created_by`, `deleted`) VALUES
-(1, 'Super Admin', 'admin1@gmail.com', '08012345678', 'olak.png', 'Ilori, Kwara State', '$2y$10$df9kgE/lDm/j3TyklJyoguf5w0MTfZE8tpJqs1EUINLn7XqZYptka', '1', '1', '1', '1', '', '2022-05-30 01:06:43', '2022-05-30 01:06:43', '1', NULL),
-(2, 'Compliance Personel', 'compliance@gmail.com', '08087654321', 'ee455f890b6c099e53081a4df0fc0913.jpg', 'A Division, Ilorin, Kwara State', '$2y$10$df9kgE/lDm/j3TyklJyoguf5w0MTfZE8tpJqs1EUINLn7XqZYptka', '0', '5', '1', '1', '', '2022-05-30 03:01:22', '2022-05-30 03:01:22', '2', ''),
-(3, 'Manager Management', 'manager@gmail.com', '09087654321', 'c511658b0f317a7e0de6969fe2c15ecc.jpg', '', '$2y$10$Da6l/ZfxEWrj7y/LeXouFO0foBsKdknQtSg6UzIZrHTTC8wYS5vu.', '0', '6', '1', '1', '', '2022-05-30 10:17:21', '2022-05-30 10:17:21', '1', ''),
-(4, 'Supervisor Personel', 'supervisor@gmail.com', '08012345678', '9c38dedfe125b231f298f2b3790db383.jpg', '', '$2y$10$EgLt8zuWV1PnFqI1d8VdgOWVyHZK5SsbY7URpXmzFlnyH.zlAu4KG', '0', '7', '1', '1', '', '2022-05-30 10:19:22', '2022-05-30 10:19:22', '1', ''),
-(5, 'Special User', 'special@gmail.com', '08098765432', 'b206dc6211241171382a785717c09d11.png', '', '$2y$10$J8lOL/FN0OkGAIjejMpMV.11tlMjLpCY/Rg1L21fiqXur8BUKCHK6', '0', '8', '1', '1', '', '2022-05-30 12:12:20', '2022-05-30 12:12:20', '1', '');
+(1, 'Admin Super', 'admin@gmail.com', '+1 (501) 243-1641', '85f5aed8f1484aa634e875c943756de7.jpg', 'Blanditiis pariatur', '$2y$10$THE0NiMs6E3ae1X2mNuqF.MKWUDTE8xrWe3EBPzXms9/zh2JBg/cW', '0', '1', '1', '1', '', '2022-04-15 12:16:35', '2022-04-15 12:16:35', '1', ''),
+(2, 'Azeez Olugbaje', 'olugbaje488@gmail.com', '07066268526', '57e0a2ba95fc6a7a552f5eb01a2b6c3b.jpg', '', '$2y$10$fuVK62gXZHK6s.ojR3hK7OvX4RqH.UkE9UAgnzSkvxV/z4/3QObCu', '0', '2', '1', '2', '', '2022-04-15 13:01:39', '2022-04-15 13:01:39', '1', ''),
+(3, 'Aderibigbe Mudasir', 'mudasir@gmail.com', '08052926623', '', 'Block 9 & 10, Abayomi Layout Alarere Ibadan Oyo State', '$2y$10$qkJ/ilPZYJoHoix15PQ2ieCe7UZdeJ/ZKV4AR6i1VLLXy34O16brq', '0', '3', '1', '2', '', '2022-05-25 14:54:40', '2022-05-25 14:54:40', '1', ''),
+(4, 'Ismaila Sheriffdeen ', 'sheriffdeenismaila98@gmail.com', '08060436419', '', '31 Amuloko Idiose Ibadan  ', '$2y$10$ieH4uEdBEtHkyoYZORnTJeFLO528hpNHNN35oE05C9CIyVjAbNUVi', '0', '4', '1', '2', '', '2022-05-25 14:58:12', '2022-05-25 14:58:12', '1', ''),
+(5, 'Abiodun Ambali', 'ambali@gmail.com', '08036877024', '', 'Zone 2 Jaloke Aba Alfa Olami Area Ibadan, Oyo State ', '$2y$10$uK0xIbQP9GQceivhhoEfLu6pv0Gusb8WkX1ECn02h3ut4eZER8hw6', '0', '4', '1', '2', '', '2022-05-25 15:00:25', '2022-05-25 15:00:25', '1', ''),
+(6, 'Chairman', 'chairman@olak.com', '908394849', '', '', '$2y$10$BYNkmra.sTJDMwpYzb8aU.KXqSQug9JPE5M5QiMGtMFYApKjQ5Guu', '0', '7', '1', '3', '', '2022-05-26 12:30:51', '2022-05-26 12:30:51', '1', ''),
+(7, 'Ibrahim Labaika2', 'ibrahimlabaika@gmail.com', '07068380484', '', '', '$2y$10$tY0eNhYkoey15F9TrLrPjOM951g0UWEDXP6qhTeL3hb7y5MFoUoiy', '0', '4', '1', '3', '', '2022-05-26 13:28:26', '2022-05-26 13:28:26', '1', ''),
+(8, 'Fatai Abdulsalam', 'fatai@gmail.com', '09075433373', '', '', '$2y$10$3bgQCFpKe9aAzw/ZcVjBBO8leQqcT5B9TIDDuEqx5kswFhOhRywZG', '0', '3', '1', '3', '', '2022-05-26 13:42:37', '2022-05-26 13:42:37', '1', ''),
+(9, 'Ibrahim Labaika', 'ibrahimlabaika360@gmail.com', '07068380484', '', '', '$2y$10$MlWBDcSMWzd2HpVTV0oQ7eU3WMoBRvX2CmNsbCkjZoIvhYDwwYwFi', '0', '2', '1', '3', '', '2022-05-26 17:55:23', '2022-05-26 17:55:23', '1', '');
 
 -- --------------------------------------------------------
 
