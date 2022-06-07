@@ -12,11 +12,19 @@
 // define("DB_NAME", "hoteliap_restaurant");
 
 
-define("DB_SERVER", "localhost");
-define("DB_USER", "root");
-define("DB_PASS", "");
-// define("DB_NAME", "petroleum");
-define("DB_NAME", "olak_food");
+if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.168.64.2') {
+	define("DB_SERVER", "localhost");
+	define("DB_USER", "root");
+	define("DB_PASS", "");
+	define("DB_NAME", "olak_food");
+
+}else{
+	define("DB_SERVER", "localhost");
+    define("DB_USER", "hoteliap_olak");
+    define("DB_PASS", "olak@123");
+    define("DB_NAME", "hoteliap_olak_food");
+}
+
 
 // define("DB_SERVER_HR", "localhost");
 // define("DB_USER_HR", "root");
