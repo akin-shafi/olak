@@ -1,7 +1,7 @@
 <?php
 class Uploads extends DatabaseObject
 {
-  protected static $table_name = "Uploads";
+  protected static $table_name = "uploads";
   protected static $db_columns = ['id', 'file_name', 'cash_flow_id', 'created_at', 'deleted'];
 
   public $id;
