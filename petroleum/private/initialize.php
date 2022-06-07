@@ -18,8 +18,11 @@ define("SHARED_PATH", PRIVATE_PATH . '/shared');
 // * Do not need to include the domain
 // * Use same document root as webserver
 // * Can set a hardcoded value:
-
+if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.168.64.2') {
 define("WWW_ROOT", '/olak/petroleum');
+}else{
+    define("WWW_ROOT", '/petroleum');
+}
 
 // define("WWW_ROOT", '');
 // * Can dynamically find everything in URL up to "/public"
