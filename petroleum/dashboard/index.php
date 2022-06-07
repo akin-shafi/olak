@@ -444,9 +444,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 			})
 		}
 
-		window.onload = () => {
-			let branch = $('#branch_query').val()
-			getDataSheet(branch);
-		}
+		let branch = $('#branch_query').val()
+		getDataSheet(branch);
 	})
 </script>

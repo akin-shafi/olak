@@ -232,46 +232,31 @@ $fullName = $user->full_name;
                ?>
 
 
-               <?php //if ($access->product_mgt == 1) : 
-               ?>
-               <!-- <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="icon-settings1 nav-icon"></i>
-                     Settings
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                     <?php //if ($access->access_control == 1) : 
-                     ?>
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
-                     </li>
-                     <?php //endif; 
-                     ?>
-                     <?php //if ($access->company_setup == 1) : 
-                     ?>
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
-                     </li>
-                     <?php //endif; 
-                     ?>
-                     <?php //if ($access->user_mgt == 1) : 
-                     ?>
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user') ?>">Manage Users</a>
-                     </li>
-                     <?php //endif; 
-                     ?>
-                     <?php //if ($access->product_mgt == 1) : 
-                     ?>
-                     <li>
-                        <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
-                     </li>
-                     <?php //endif; 
-                     ?>
-                  </ul>
-               </li> -->
-               <?php //endif; 
-               ?>
+               <?php //if ($access->user_mgt == 1) : ?>
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle <?php echo $page == 'Settings' ? 'active-page' : '' ?>" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="icon-settings1 nav-icon"></i>
+                        Settings
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+                        <?php if ($access->access_control == 1) : ?>
+                           <li>
+                              <a class="dropdown-item" <?php echo $page_title == 'Access Control' ? 'active-page' : '' ?> href="<?php echo url_for('settings/access_control.php') ?>">Access Control</a>
+                           </li>
+                        <?php endif; ?>
+                        <?php if ($access->company_setup == 1) : ?>
+                           <li>
+                              <a class="dropdown-item" <?php echo $page_title == 'Company Setup' ? 'active-page' : '' ?> href="<?php echo url_for('settings/company_setup.php') ?>">Company Setup</a>
+                           </li>
+                        <?php endif; ?>
+                        <?php if ($access->user_mgt == 1) : ?>
+                           <li>
+                              <a class="dropdown-item" <?php echo $page_title == 'Manage Users' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_user') ?>">Manage Users</a>
+                           </li>
+                        <?php endif; ?>
+                     </ul>
+                  </li>
+               <?php //endif; ?>
 
             </ul>
          </div>

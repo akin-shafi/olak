@@ -5,6 +5,7 @@ $sheetId = $_GET['sheetId'] ?? '';
 if (!empty($productId)) :
 	$prevDay 	= date('Y-m-d', strtotime('-1 days'));
 	$prevData	= DataSheet::find_by_previous_day($prevDay, $productId);
+	$rate = Product::find_by_id($productId)->rate;
 endif;
 
 // *** COMPLIANCE EDIT ALL (DIP & SALES) ***
@@ -16,9 +17,10 @@ endif;
 ?>
 
 <?php if ($access->add_dip == 1) : ?>
-	<form method="post" action="<?php echo './create.php' ?>">
-		<input type="hidden" name="data_sheet_form">
-		<input type="hidden" name="product_id" value="<?php echo $productId ?>">
+	<form method="post" action="<?php echo url_for('sales/create.php'); ?>">
+		<input type="hidden" name="data_sheet_form" readonly>
+		<input type="hidden" name="product_id" value="<?php echo $productId ?>" readonly>
+		<input type="hidden" name="rate" value="<?php echo $rate ?>" readonly>
 
 		<div class="modal-body">
 			<?php if (!empty($prevData)) : ?>
@@ -46,7 +48,7 @@ endif;
 <?php endif; ?>
 
 <?php if ($access->add_sales == 1) : ?>
-	<form method="post" action="<?php echo './edit.php' ?>">
+	<form method="post" action="<?php echo url_for('sales/edit.php'); ?>">
 		<input type="hidden" name="edit_sheet_form">
 		<input type="hidden" name="sheet_id" value="<?php echo $sheetId ?>">
 

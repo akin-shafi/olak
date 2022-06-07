@@ -12,8 +12,7 @@ $sheetId = $_GET['data_sheet'] ?? '';
 if (is_post_request()) :
 	if (isset($_POST['edit_sheet_form'])) :
 		$data = DataSheet::find_by_sheet_id($_POST['sheet_id']);
-		$pro 	= Product::find_by_id($data->product_id);
-		$rate = $pro->rate;
+		$rate = $data->rate;
 
 		$remittance			= $_POST['total_sales'] ?? '';
 		$salesInLtr			= $_POST['sales_in_ltr'] ?? '';
@@ -52,8 +51,7 @@ if (is_post_request()) :
 
 	if (isset($_POST['compliance_edit'])) :
 		$data = DataSheet::find_by_sheet_id($_POST['sheet_id']);
-		$pro 	= Product::find_by_id($data->product_id);
-		$rate = $pro->rate;
+		$rate = $data->rate;
 
 		$totalStock = floatval($_POST['open_stock']) + floatval($_POST['new_stock']);
 		$expectedStock 	= $totalStock - floatval($_POST['sales_in_ltr']);
@@ -106,10 +104,10 @@ if (is_get_request()) :
 
 		$data = DataSheet::find_by_sheet_id($sheetId);
 		$pro = Product::find_by_id($data->product_id);
-		$rate = $pro->rate;
+		$rate = $data->rate;
 
 		$prevDay 	= date('Y-m-d', strtotime('-1 days'));
-		$prevData	= DataSheet::find_by_previous_day($prevDay, $pro->id);
+		$prevData	= DataSheet::find_by_previous_day($prevDay, $data->product_id);
 
 		include(SHARED_PATH . '/admin_header.php'); ?>
 

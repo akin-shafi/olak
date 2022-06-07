@@ -256,12 +256,6 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
       $('#total_item').val(count);
     });
 
-    window.onload = () => {
-      let branch = $('#fBranch').val()
-      let filterDate = $('#filter_date').val()
-      getDataSheet(branch, filterDate)
-    }
-
     $(document).on('click', "#query", function() {
       let branch = $('#fBranch').val()
       if (branch == '') {
@@ -295,5 +289,8 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
       })
     }
 
+    let branch = $('#fBranch').val()
+    let filterDate = $('#filter_date').val()
+    getDataSheet(branch, filterDate)
   })
 </script>

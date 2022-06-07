@@ -168,13 +168,6 @@ include(SHARED_PATH . '/admin_header.php');
       $('#total_item').val(count);
     });
 
-    window.onload = () => {
-      let selectedDate = $('.range-text').text()
-      let branch = $('#filter-branch').val()
-
-      getExpenses(branch, selectedDate)
-      addRow()
-    }
 
     const addRow = () => {
       const totalItem = $('#total_item').val();
@@ -215,5 +208,11 @@ include(SHARED_PATH . '/admin_header.php');
       })
     }
 
-  })
+
+    // ? This lines of code will be executed when the page loads!
+    let selectedDate = $('.range-text').text()
+    let branch = $('#filter-branch').val()
+    getExpenses(branch, selectedDate)
+    addRow()
+  });
 </script>

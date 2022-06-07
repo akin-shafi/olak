@@ -257,13 +257,6 @@ include(SHARED_PATH . '/admin_header.php');
       $('#total_item').val(count);
     });
 
-    window.onload = () => {
-      let selectedDate = $('.range-text').text()
-      let branch = $('#filter-branch').val()
-
-      getExpenses(branch, selectedDate)
-    }
-
     $(document).on('click', "#query", function() {
       let selectedDate = $('.range-text').text()
       let branch = $('#filter-branch').val()
@@ -285,5 +278,8 @@ include(SHARED_PATH . '/admin_header.php');
       })
     }
 
+    let selectedDate = $('.range-text').text()
+    let branch = $('#filter-branch').val()
+    getExpenses(branch, selectedDate)
   })
 </script>

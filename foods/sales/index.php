@@ -27,12 +27,6 @@ include(SHARED_PATH . '/admin_header.php'); ?>
 <script type="text/javascript">
 	$(document).ready(function() {
 		const SALES_URL = 'inc/process.php';
-		window.onload = () => {
-			let selectedDate = $('.range-text').text()
-			let branch = $('#filter-branch').val()
-
-			getExpenses(branch, selectedDate)
-		}
 
 		$(document).on('click', "#query", function() {
 			let selectedDate = $('.range-text').text()
@@ -54,5 +48,9 @@ include(SHARED_PATH . '/admin_header.php'); ?>
 				}
 			})
 		}
+
+		let selectedDate = $('.range-text').text()
+		let branch = $('#filter-branch').val()
+		getExpenses(branch, selectedDate)
 	})
 </script>

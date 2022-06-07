@@ -2,10 +2,11 @@
 class DataSheet extends DatabaseObject
 {
   protected static $table_name = "data_sheet";
-  protected static $db_columns = ['id', 'product_id', 'open_stock', 'new_stock', 'total_stock', 'sales_in_ltr', 'total_sales', 'expected_stock', 'actual_stock', 'expected_sales', 'over_or_short', 'company_id', 'branch_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted'];
+  protected static $db_columns = ['id', 'product_id', 'rate', 'open_stock', 'new_stock', 'total_stock', 'sales_in_ltr', 'total_sales', 'expected_stock', 'actual_stock', 'expected_sales', 'over_or_short', 'company_id', 'branch_id', 'created_by', 'updated_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $product_id;
+  public $rate;
   public $open_stock;
   public $new_stock;
   public $total_stock;
@@ -26,7 +27,6 @@ class DataSheet extends DatabaseObject
   public $counts;
   public $name;
   public $tank;
-  public $rate;
   public $sales_quantity;
   public $inflow;
   public $remittance;
@@ -39,6 +39,7 @@ class DataSheet extends DatabaseObject
   public function __construct($args = [])
   {
     $this->product_id         = $args['product_id'] ?? '';
+    $this->rate               = $args['rate'] ?? '';
     $this->open_stock         = $args['open_stock'] ?? '';
     $this->new_stock          = $args['new_stock'] ?? '';
     $this->total_stock        = $args['total_stock'] ?? '';
