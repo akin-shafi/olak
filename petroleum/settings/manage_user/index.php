@@ -58,7 +58,8 @@ $admins = Admin::find_by_undeleted();
                     $adminLevel = $data->admin_level != '' ? Admin::ADMIN_LEVEL[$data->admin_level] : 'Not set';
                     $createdBy = $data->created_by != '' ? Admin::find_by_id($data->created_by)->full_name : 'Not set';
                     if ($data->branch_id != '') :
-                      $branch = Branch::find_by_id($data->branch_id)->name;
+                      $branch = Branch::find_by_id($data->branch_id);
+                      $branchName = isset($branch->name) ? $branch->name : '';
                     endif;
                     $imgUrl = !empty($data->profile_img) ? $data->profile_img : 'olak.png';
                   ?>
@@ -69,7 +70,7 @@ $admins = Admin::find_by_undeleted();
                       <td><?php echo strtoupper($data->full_name); ?></td>
                       <td><?php echo $data->email; ?></td>
                       <td><span class="badge badge-primary"><?php echo $adminLevel; ?></span></td>
-                      <td><?php echo isset($branch) ? ucwords($branch) : 'Not set'; ?></td>
+                      <td><?php echo isset($branchName) ? ucwords($branchName) : 'Not set'; ?></td>
                       <td><?php echo $data->reset_password != 0 ? '<span class="badge badge-success">Activated</span>' : '<span class="badge badge-warning">Pending</span>'; ?></td>
                       <td><?php echo ucwords($createdBy); ?></td>
                       <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
