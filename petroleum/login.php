@@ -62,7 +62,7 @@ if (is_post_request()) {
 
    <div class="container">
 
-      <form method="post" action="">>
+      <form method="post" action="">
          <div class="row justify-content-md-center">
             <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                <div class="login-screen">
