@@ -131,35 +131,35 @@ if (is_get_request()) {
                     <tr>
                       <td class="font-weight-bold">Cash Sales</td>
                       <td class="text-center">
-                        <?php echo isset($cashFlow->cash_sales)
+                        <?php echo !empty($cashFlow->cash_sales)
                           ? number_format($cashFlow->cash_sales) : '0.00'; ?>
                       </td>
                     </tr>
                     <tr>
                       <td class="font-weight-bold">Transfer</td>
                       <td class="text-center">
-                        <?php echo isset($cashFlow->transfer)
+                        <?php echo !empty($cashFlow->transfer)
                           ? number_format($cashFlow->transfer) : '0.00'; ?>
                       </td>
                     </tr>
                     <tr>
                       <td class="font-weight-bold">P.O.S</td>
                       <td class="text-center">
-                        <?php echo isset($cashFlow->pos)
+                        <?php echo !empty($cashFlow->pos)
                           ? number_format($cashFlow->pos) : '0.00'; ?>
                       </td>
                     </tr>
                     <tr>
                       <td class="font-weight-bold">Cheque</td>
                       <td class="text-center">
-                        <?php echo isset($cashFlow->cheque)
+                        <?php echo !empty($cashFlow->cheque)
                           ? number_format($cashFlow->cheque) : '0.00'; ?>
                       </td>
                     </tr>
                     <tr>
                       <td class="font-weight-bold">Credit Sales</td>
                       <td class="text-center">
-                        <?php echo isset($cashFlow->credit_sales)
+                        <?php echo !empty($cashFlow->credit_sales)
                           ? number_format($cashFlow->credit_sales) : '0.00'; ?>
                       </td>
                     </tr>

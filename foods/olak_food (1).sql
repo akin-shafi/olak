@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2022 at 01:08 AM
+-- Generation Time: Jun 07, 2022 at 01:32 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -31,16 +31,31 @@ CREATE TABLE `access_control` (
   `id` int(11) NOT NULL,
   `user_id` varchar(50) NOT NULL,
   `dashboard` varchar(50) NOT NULL,
-  `users_mgt` varchar(50) NOT NULL,
-  `product_mgt` varchar(191) NOT NULL,
   `sales_mgt` varchar(191) NOT NULL,
+  `add_sales` varchar(50) NOT NULL,
+  `edit_sales` varchar(50) NOT NULL,
+  `manage_sales` varchar(50) NOT NULL,
   `expenses_mgt` varchar(191) NOT NULL,
+  `add_exp` varchar(50) NOT NULL,
+  `edit_exp` varchar(50) NOT NULL,
+  `delete_exp` varchar(50) NOT NULL,
   `report_mgt` varchar(50) NOT NULL,
-  `settings` varchar(50) NOT NULL,
+  `access_control` varchar(50) NOT NULL,
+  `company_setup` varchar(50) NOT NULL,
+  `user_mgt` varchar(50) NOT NULL,
+  `filtering` varchar(50) NOT NULL,
   `created_by` varchar(191) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `deleted` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `access_control`
+--
+
+INSERT INTO `access_control` (`id`, `user_id`, `dashboard`, `sales_mgt`, `add_sales`, `edit_sales`, `manage_sales`, `expenses_mgt`, `add_exp`, `edit_exp`, `delete_exp`, `report_mgt`, `access_control`, `company_setup`, `user_mgt`, `filtering`, `created_by`, `created_at`, `deleted`) VALUES
+(1, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2022-04-21 13:58:19', ''),
+(2, '2', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2022-06-07 09:32:06', '');
 
 -- --------------------------------------------------------
 
@@ -72,7 +87,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `full_name`, `email`, `phone`, `profile_img`, `address`, `hashed_password`, `reset_password`, `admin_level`, `company_id`, `branch_id`, `status`, `created_at`, `updated_at`, `created_by`, `deleted`) VALUES
-(1, 'Super Admin', 'admin@gmail.com', '+1 (501) 243-1641', '85f5aed8f1484aa634e875c943756de7.jpg', 'Blanditiis pariatur', '$2y$10$THE0NiMs6E3ae1X2mNuqF.MKWUDTE8xrWe3EBPzXms9/zh2JBg/cW', '0', '1', '1', '1', '', '2022-04-15 12:16:35', '2022-04-15 12:16:35', '1', '');
+(1, 'Super Admin', 'admin@gmail.com', '+1 (501) 243-1641', '85f5aed8f1484aa634e875c943756de7.jpg', 'Blanditiis pariatur', '$2y$10$THE0NiMs6E3ae1X2mNuqF.MKWUDTE8xrWe3EBPzXms9/zh2JBg/cW', '0', '1', '1', '1', '', '2022-04-15 12:16:35', '2022-04-15 12:16:35', '1', ''),
+(2, 'Chairman', 'chairman@gmail.com', '09012345678', '749bad0c7df2b6734c0ebea83800b8c9.jpg', 'Usanda, Ilorin, Kwara State', '$2y$10$rpOU29meC.xWWCqkQoN8rO2l80lvFUIvD7Nz9ySFIN47zc4AiF91W', '0', '2', '1', '1', '', '2022-06-07 09:32:06', '2022-06-07 09:32:06', '1', '');
 
 -- --------------------------------------------------------
 
@@ -98,7 +114,8 @@ CREATE TABLE `branches` (
 
 INSERT INTO `branches` (`id`, `company_id`, `name`, `address`, `city`, `state`, `established_in`, `created_at`, `deleted`) VALUES
 (1, '1', 'Usanda', 'Usanda, Ilorin, Kwara State', 'Ilorin', 'Kwara', '2019-01-01', '2022-05-10 02:42:43', ''),
-(2, '1', 'Unity', 'Ilorin, Kwara State', 'Ilorin', 'Kwara', '2020-02-04', '2022-05-10 02:43:52', '');
+(2, '1', 'Unity', 'Ilorin, Kwara State', 'Ilorin', 'Kwara', '2020-02-04', '2022-05-10 02:43:52', ''),
+(3, '1', 'Toll-gate', 'Toll-gate, Ibadan', 'Ibadan', 'Oyo', '2012-09-02', '2022-06-07 09:14:41', '');
 
 -- --------------------------------------------------------
 
@@ -126,8 +143,9 @@ CREATE TABLE `cash_flow` (
 --
 
 INSERT INTO `cash_flow` (`id`, `credit_sales`, `cash_sales`, `pos`, `transfer`, `narration`, `company_id`, `branch_id`, `created_by`, `created_at`, `updated_at`, `deleted`) VALUES
-(1, '600', '790', '170', '690', 'Dolore quia illo vel', '1', '1', '1', '2022-06-05', '', ''),
-(2, '940', '240', '380', '600', 'Dolorem excepteur su', '1', '1', '1', '2022-06-06', '', '');
+(1, '600', '790', '170', '690', 'Dolore quia illo vel', '1', '1', '1', '2022-06-04', '', ''),
+(2, '940', '240', '380', '600', 'Dolorem excepteur su', '1', '1', '1', '2022-06-05', '', ''),
+(3, '93', '26', '43', '66', 'Odio quaerat reicien', '1', '1', '1', '2022-06-06', '', '');
 
 -- --------------------------------------------------------
 
@@ -155,7 +173,7 @@ CREATE TABLE `companies` (
 --
 
 INSERT INTO `companies` (`id`, `user_id`, `full_name`, `email`, `phone`, `name`, `address`, `reg_no`, `logo`, `created_at`, `updated_at`, `deleted`) VALUES
-(1, '1', 'Liberty Gross', 'olak@gmail.com', '08012345678', 'Olak petroleum', 'Ilorin, Kwara State', '0212547892', 'faeb92e9b253b9c94ba6abc6ef37855d.png', '2022-05-10', '0000-00-00', '');
+(1, '1', 'Super Admin', 'olak@gmail.com', '08012345678', 'Olak petroleum', 'Ilorin, Kwara State', '0212547892', 'faeb92e9b253b9c94ba6abc6ef37855d.png', '2022-05-10', '0000-00-00', '');
 
 -- --------------------------------------------------------
 
@@ -222,9 +240,27 @@ ALTER TABLE `access_control`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `branches`
+--
+ALTER TABLE `branches`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `cash_flow`
 --
 ALTER TABLE `cash_flow`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `companies`
+--
+ALTER TABLE `companies`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -247,13 +283,31 @@ ALTER TABLE `uploads`
 -- AUTO_INCREMENT for table `access_control`
 --
 ALTER TABLE `access_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `branches`
+--
+ALTER TABLE `branches`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cash_flow`
 --
 ALTER TABLE `cash_flow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `expenses`
