@@ -14,6 +14,7 @@ if (is_post_request()) {
     endif;
   }
 
+
   if (isset($_POST['cash_flow'])) {
     $args = $_POST['flow'];
     $args['company_id'] = $loggedInAdmin->company_id;
@@ -80,11 +81,21 @@ if (is_get_request()) {
     $adminLevel = Admin::find_by_id($loggedInAdmin->id)->admin_level;
     $branch = isset($_GET['branch']) && $_GET['branch'] != '' ? $_GET['branch'] : $loggedInAdmin->branch_id;
 
-    $dateFrom = $_GET['filterDate'] ?? date('Y-m-d');
-    $date = date('Y-m-d', strtotime($dateFrom));
+    if (!empty($_GET['rangeText'])) :
+      $rangeText = $_GET['rangeText'];
+      $explode = explode('-', $rangeText);
+      $dateFrom = $explode[0];
+      $dateTo = $explode[1];
+      $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
+      $dateConvertTo = date('Y-m-d', strtotime($dateTo));
+    else :
+      $dateConvertFrom = date('Y-m-d');
+      $dateConvertTo = date('Y-m-d');
+    endif;
     $companyId = $loggedInAdmin->company_id;
     $products = Product::find_all_product($branch);
 ?>
+
     <table id="dataSheet" class="table custom-table">
       <thead>
         <tr class="bg-primary text-white text-center">
@@ -116,7 +127,7 @@ if (is_get_request()) {
 
       <tbody>
         <?php foreach ($products as $product) :
-          $data = DataSheet::find_by_product_id($product->id, ['date' => $date, 'company' => $companyId, 'branch' => $branch]);
+          $data = DataSheet::find_by_product_id($product->id, $dateConvertFrom, $dateConvertTo,  ['company' => $companyId, 'branch' => $branch]);
           $dataId = isset($data->id) ? $data->id : '';
 
           // *** DIP BY MANAGER ***
@@ -134,22 +145,11 @@ if (is_get_request()) {
 
           $overage = ($actualStock == 0) ? 0 : floatval($actualStock - $expectedStock);
 
-          // *** PREVIOUS RECORDS ***
-          // $prevDay        = date('Y-m-d', strtotime('-1 days'));
-          // $prevData       = DataSheet::find_by_previous_day($prevDay, $product->id);
-          // $prevTotalStock = isset($prevData->total_stock) ? $prevData->total_stock : 0;
-          // $prevSalesInLtr = isset($prevData->sales_in_ltr) ? $prevData->sales_in_ltr : 0;
-
-          // $prevExpectedStock  = floatval($prevTotalStock) - floatval($prevSalesInLtr);
-          // $prevActualStock = isset($prevData->actual_stock) && $prevData->actual_stock != 0 ? floatval($prevData->actual_stock) : $prevExpectedStock;
-
-          // $overage = $prevActualStock - $prevExpectedStock;
-
           $color = $overage < 0 ? 'text-danger' : '';
         ?>
 
           <tr class=" text-center">
-            <td style="min-width: 200px;">
+            <td style="min-width: 230px;">
               <div class="btn-group">
                 <?php if ($access->add_dip == 1) : ?>
                   <button class="btn btn-primary dip" data-id="<?php echo $product->id; ?>" <?php echo !empty($data->total_stock) ? 'disabled' : '' ?>>
@@ -157,8 +157,8 @@ if (is_get_request()) {
                 <?php endif; ?>
 
                 <?php if ($access->add_sales == 1 && $dataId != '') : ?>
-                  <button class="btn btn-warning dip" data-sheet-id="<?php echo $dataId; ?>" <?php echo !empty($data->total_sales) ? 'disabled' : '' ?>>
-                    Sales (<?php echo $currency ?>)</button>
+                  <button class="btn btn-warning dip" data-sheet-id="<?php echo $dataId; ?>" <?php echo !empty($data->total_sales) || $data->total_sales == 0 ? 'disabled' : '' ?>>
+                    <?php echo strtoupper($product->name) . ' (T' . $product->tank . ')'; ?> (<?php echo $currency ?>)</button>
                 <?php endif; ?>
 
                 <?php if ($dataId == '') : ?>
@@ -194,12 +194,10 @@ if (is_get_request()) {
         <?php endforeach; ?>
       </tbody>
     </table>
-  <?php endif;
+<?php endif;
 
 
   // *** GET FORM FIELDS ***
-  if (isset($_GET['get_form_fields'])) : include('../form_fields.php'); ?>
-
-
-<?php endif;
+  if (isset($_GET['get_form_fields'])) : include('../form_fields.php');
+  endif;
 }

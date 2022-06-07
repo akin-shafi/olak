@@ -1,7 +1,7 @@
-<?php require_once('../private/initialize.php');
+<?php require_once('../../private/initialize.php');
 
 $page = 'Sales';
-$page_title = 'All Sales';
+$page_title = 'Add Sales';
 
 include(SHARED_PATH . '/admin_header.php');
 
@@ -14,6 +14,14 @@ include(SHARED_PATH . '/admin_header.php');
 			<div class="card">
 				<div class="card-body">
 					<div class="table-container border-0 shadow">
+
+						<div style="width:100%;max-width:270px;margin:auto;">
+							<?php if (!empty(is_array($session->message()))) : ?>
+								<?php echo display_errors($session->message()); ?>
+							<?php else : ?>
+								<?php echo display_session_message(); ?>
+							<?php endif; ?>
+						</div>
 
 						<div class="table-responsive" id="sales_list">
 
@@ -45,7 +53,17 @@ include(SHARED_PATH . '/admin_header.php');
 
 <script>
 	$(document).ready(function() {
-		const LIST_URL = 'lists/';
+		const SALES_URL = '../inc/process.php';
+
+		$(document).on('click', '.dip', function() {
+			let dip = this.dataset.id
+			let sheetId = this.dataset.sheetId
+
+			getFormFields(dip, sheetId)
+
+			$('#dipModal').modal('show');
+		})
+
 
 		window.onload = () => {
 			let selectedDate = $('.range-text').text()
@@ -64,9 +82,25 @@ include(SHARED_PATH . '/admin_header.php');
 			}
 		})
 
+		const getFormFields = (productId, sheetId) => {
+			$.ajax({
+				url: SALES_URL,
+				method: "GET",
+				data: {
+					dipPID: productId,
+					sheetId: sheetId,
+					get_form_fields: 1
+				},
+				cache: false,
+				success: function(r) {
+					$('#form_fields').html(r)
+				}
+			})
+		}
+
 		const getDataSheet = (branch, date) => {
 			$.ajax({
-				url: LIST_URL,
+				url: SALES_URL,
 				method: "GET",
 				data: {
 					branch: branch,
@@ -81,7 +115,7 @@ include(SHARED_PATH . '/admin_header.php');
 					$('#sales_list').html(r)
 					setTimeout(() => {
 						$('.lds-hourglass').addClass('d-none');
-					}, 500);
+					}, 250);
 				}
 			})
 		}

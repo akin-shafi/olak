@@ -5,18 +5,17 @@ $close_time = date('H:i', strtotime('23:00'));
 $work_hour = date('H:i', strtotime('07:00'));
 $current_time = date('H:i');
 
-// echo $close_time;
-
 if (!isset($loggedInAdmin->id) || empty($loggedInAdmin)) {
    redirect_to('../logout.php');
 }
 
+$isAdminLvl = !in_array($loggedInAdmin->admin_level, [1, 2, 3, 4, 8]) ? 'd-none' : '';
+
 $imgURL = isset($loggedInAdmin->profile_img) ? $loggedInAdmin->profile_img : 'olak.png';
 
-// if (in_array($loggedInAdmin->admin_level, [1, 2, 3 ,4]) && ($current_time >= $close_time || $current_time <= $work_hour)) {
-//       redirect_to('../message.php');
-// }
-
+if (in_array($loggedInAdmin->admin_level, [1, 2, 3, 4, 5, 6, 7, 8]) && ($current_time >= $close_time || $current_time <= $work_hour)) {
+   redirect_to(url_for('message.php'));
+}
 
 $access = AccessControl::find_by_user_id($loggedInAdmin->id);
 
@@ -207,6 +206,9 @@ $fullName = $user->full_name;
                         <li>
                            <a class="dropdown-item" <?php echo $page_title == 'All Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/') ?>">List Sales</a>
                         </li>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Add Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/create/') ?>">Add Record</a>
+                        </li>
                         <?php if ($access->manage_sales == 1) : ?>
                            <li>
                               <a class="dropdown-item" <?php echo $page_title == 'Manage Sales' ? 'active-page' : '' ?> href="<?php echo url_for('sales/manage_sales.php') ?>">Manage Sales</a>
@@ -290,10 +292,10 @@ $fullName = $user->full_name;
             </ol>
 
             <ul class="app-actions">
-               <?php if ($access->filtering == 1 && ($page_title == 'All Sales' || $page_title == 'Add Sales' || $page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
-                  <div class="d-flex justify-content-center align-items-center">
-                     <li>
-                        <select name="filter_branch" class="form-control form-control-sm" <?php echo ($access->filtering == 1) ? '' : 'disabled'; ?> id="fBranch">
+               <?php if ($access->filtering == 1 && ($page_title == 'All Sales' || $page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
+                  <div class="d-flex justify-content-around align-items-center">
+                     <li class="<?php echo $isAdminLvl; ?>">
+                        <select name="branch" class="form-control form-control-sm" id="filter-branch">
                            <option value="">select branch</option>
                            <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $branch) : ?>
                               <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $user->branch_id ? 'selected' : '' ?>>
@@ -301,8 +303,11 @@ $fullName = $user->full_name;
                            <?php endforeach; ?>
                         </select>
                      </li>
-                     <li class="mx-2">
-                        <input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" id="filter_date">
+                     <li>
+                        <a href="#" id="reportrange">
+                           <span class="range-text"></span>
+                           <i class="icon-chevron-down"></i>
+                        </a>
                      </li>
                      <li>
                         <button class="btn btn-primary shadow border-light" id="query"><i class="icon-filter_list"></i> Filter</button>

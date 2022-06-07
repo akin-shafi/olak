@@ -107,7 +107,7 @@ class DataSheet extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
-  public static function find_by_product_id($productId, $option = [])
+  public static function find_by_product_id($productId, $dateFrom, $dateTo, $option = [])
   {
     $date = $option['date'] ?? false;
     $company = $option['company'] ?? false;
@@ -115,6 +115,8 @@ class DataSheet extends DatabaseObject
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE product_id='" . self::$database->escape_string($productId) . "'";
+    $sql .= " AND created_at >='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND created_at <='" . self::$database->escape_string($dateTo) . "'";
 
     if (!empty($date)) :
       $sql .= " AND created_at LIKE'%" . self::$database->escape_string($date) . "%'";
@@ -183,14 +185,15 @@ class DataSheet extends DatabaseObject
     }
   }
 
-  public static function data_sheet_report($dateFrom, $option = [])
+  public static function data_sheet_report($dateFrom, $dateTo, $option = [])
   {
     $company = $option['company'] ?? false;
     $branch = $option['branch'] ?? false;
 
-    $sql = "SELECT ds.*, SUM(ds.sales_in_ltr) AS sales_quantity, SUM(ds.expected_sales) AS expected_sales, SUM(ds.total_sales) AS inflow, pr.name, pr.tank, pr.rate FROM " . static::$table_name . " AS ds ";
+    $sql = "SELECT SUM(ds.total_stock) AS total_stock, SUM(ds.sales_in_ltr) AS sales_in_ltr, SUM(ds.total_sales) AS total_sales, SUM(ds.expected_stock) AS expected_stock, SUM(ds.actual_stock) AS actual_stock, SUM(ds.expected_sales) AS expected_sales, SUM(ds.over_or_short) AS over_or_short, pr.name, pr.rate FROM " . static::$table_name . " AS ds ";
     $sql .= "JOIN products AS pr ON ds.product_id = pr.id ";
-    $sql .= "WHERE ds.created_at ='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " WHERE ds.created_at >='" . self::$database->escape_string($dateFrom) . "'";
+    $sql .= " AND ds.created_at <='" . self::$database->escape_string($dateTo) . "'";
     $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
 
     if (!empty($company) && !empty($branch)) :

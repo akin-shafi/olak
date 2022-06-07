@@ -1,5 +1,5 @@
 <?php
-require_once('private/initialize.php');?>
+require_once('private/initialize.php'); ?>
 
 <!doctype html>
 <html lang="en">
@@ -8,11 +8,11 @@ require_once('private/initialize.php');?>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-   <meta name="description" content="Responsive Bootstrap4 Dashboard Template">
+   <meta name="description" content="Sandsify System">
    <meta name="author" content="ParkerThemes">
    <link rel="shortcut icon" href="png/fav.png" />
 
-   <title>Pet - Login</title>
+   <title>Pet - Notification</title>
 
    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
@@ -29,12 +29,12 @@ require_once('private/initialize.php');?>
             <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                <div class="login-screen">
                   <div class="login-box">
-                     <a href="#" class="login-logo">
-                        <!-- <img src="png/logo-dark.png" alt="Wafi Admin Dashboard" /> -->
+                     <h1 class="text-center text-danger">&#33;</h1>
+                     <a href="#" class="login-logo justify-content-center">
                         Olak Pet.
                      </a>
                      <div class="mb-4 text-center">
-                        Entry Closes for the Day
+                        Entry Closes for the Day.
                      </div>
 
                      <a href="<?php echo url_for('/') ?>">&leftarrow; Back</a>
@@ -47,7 +47,5 @@ require_once('private/initialize.php');?>
    </div>
 
 </body>
-
-<!-- Mirrored from bootstrap.gallery/wafi-admin/dashboard-v2/topbar/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 09 Mar 2022 05:44:21 GMT -->
 
 </html>

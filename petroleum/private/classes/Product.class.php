@@ -63,4 +63,25 @@ class Product extends DatabaseObject
         $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
         return static::find_by_sql($sql);
     }
+
+    public static function product_data_sheets($dateFrom, $dateTo, $option = [])
+    {
+        $branch = $option['branch'] ?? false;
+
+        $sql = "SELECT * FROM " . static::$table_name . " AS p ";
+        $sql .= "LEFT JOIN `data_sheet` AS ds ON p.id = ds.product_id ";
+        $sql .= "WHERE ds.created_at >='" . self::$database->escape_string($dateFrom) . "'";
+        $sql .= " AND ds.created_at <='" . self::$database->escape_string($dateTo) . "'";
+
+        if (!empty($branch)) :
+            $sql .= " AND p.branch_id ='" . self::$database->escape_string($branch) . "'";
+            $sql .= " AND ds.branch_id ='" . self::$database->escape_string($branch) . "'";
+        endif;
+
+        echo $sql;
+        $sql .= " AND (ds.deleted IS NULL OR ds.deleted = 0 OR ds.deleted = '') ";
+        $sql .= " ORDER BY p.id, ds.created_at";
+
+        return static::find_by_sql($sql);
+    }
 }

@@ -39,7 +39,7 @@ endif;
 		</div>
 
 		<div class="modal-footer">
-			<a href="<?php echo url_for('sales/') ?>" class="btn btn-secondary">Back</a>
+			<button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
 			<button type="submit" class="btn btn-primary">Save</button>
 		</div>
 	</form>
@@ -62,7 +62,7 @@ endif;
 		</div>
 
 		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
 			<button type="submit" class="btn btn-primary">Save</button>
 		</div>
 	</form>
