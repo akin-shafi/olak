@@ -18,6 +18,7 @@ define("SHARED_PATH", PRIVATE_PATH . '/shared');
 // * Use same document root as webserver
 // * Can set a hardcoded value:
 // define("WWW_ROOT", '/relieve/trash/myajax/public');
+
 if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.168.64.2') {
   define("WWW_ROOT", '/olak/invoice_pos/public');
 }else{
