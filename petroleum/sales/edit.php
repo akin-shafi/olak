@@ -29,9 +29,9 @@ if (is_post_request()) :
 		];
 
 
-		if (is_blank($remittance)) :
-			$errors[] = "Total sales cannot be blank.";
-		endif;
+		// if (is_blank($remittance)) :
+		// 	$errors[] = "Total sales cannot be blank.";
+		// endif;
 
 		if (empty($errors)) :
 			$data->merge_attributes($args);
@@ -130,7 +130,7 @@ if (is_get_request()) :
 								<div class="row">
 									<div class="col-md-3 m-auto">
 										<?php if ($access->add_dip == 1) : ?>
-											<form method="post" action="<?php echo h($_SERVER['PHP_SELF']) ?>">
+											<form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 												<input type="hidden" name="compliance_edit">
 												<input type="hidden" name="sheet_id" value="<?php echo $sheetId; ?>" id="sheet_id">
 
