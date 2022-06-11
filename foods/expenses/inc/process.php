@@ -85,7 +85,7 @@ if (is_get_request()) {
     $branch = isset($_GET['branch']) && $_GET['branch'] != '' ? $_GET['branch'] : $loggedInAdmin->branch_id;
 
     $rangeText = $_GET['rangeText'];
-    $explode = explode('-', $rangeText);
+    $explode = explode('- ', $rangeText);
     $dateFrom = $explode[0];
     $dateTo = $explode[1];
     $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));

@@ -14,6 +14,9 @@ include(SHARED_PATH . '/admin_header.php');
 			<div class="card">
 				<div class="card-body">
 					<div class="table-container border-0 shadow">
+						<div style="width:100%;max-width:270px;margin:auto;">
+							<?php echo display_session_message(); ?>
+						</div>
 
 						<div class="table-responsive" id="sales_list">
 

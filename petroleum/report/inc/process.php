@@ -75,15 +75,20 @@ if (is_get_request()) {
 
     $branch = isset($_GET['branch']) && $_GET['branch'] != '' ? $_GET['branch'] : $loggedInAdmin->branch_id;
 
-    $dateFrom = $_GET['filterDate'] ?? date('Y-m-d');
-    $convertFrom = date('Y-m-d', strtotime($dateFrom));
+    $rangeText = $_GET['rangeText'];
+    $explode = explode('- ', $rangeText);
+    $dateFrom = $explode[0];
+    $dateTo = $explode[1];
+    $dateConvertFrom = date('Y-m-d', strtotime($dateFrom));
+    $dateConvertTo = date('Y-m-d', strtotime($dateTo));
+
     $admComp = $loggedInAdmin->company_id;
 
-    $expenses = Expense::find_by_expenses($convertFrom, ['company' => $admComp, 'branch' => $branch]);
-    $cashFlow = CashFlow::find_by_cash_flow($convertFrom, ['company' => $admComp, 'branch' => $branch]);
+    $expenses = Expense::find_by_expenses($dateConvertFrom, $dateConvertTo, ['company' => $admComp, 'branch' => $branch]);
+    $cashFlow = CashFlow::find_by_cash_flow($dateConvertFrom, ['company' => $admComp, 'branch' => $branch]);
     $today = date('Y-m-d');
 
-    $remit = DataSheet::find_by_remittance($today, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
+    $remit = DataSheet::find_by_remittance($today, ['company' => $admComp, 'branch' => $branch]);
 
     $creditVoucher = isset($cashFlow->credit_voucher) ? $cashFlow->credit_voucher : 'olak.png';
 
@@ -101,7 +106,7 @@ if (is_get_request()) {
           <h3>Summary</h3>
           <h3>
             Date:
-            <?php echo date('d-m-Y', strtotime($convertFrom)) ?>
+            <?php echo date('d-m-Y', strtotime($dateConvertFrom)) ?>
           </h3>
         </div>
 
@@ -120,56 +125,19 @@ if (is_get_request()) {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="tds font-weight-bold">Narration</td>
-                      <td colspan="2">
-                        <p class="mb-0">
-                          <?php echo isset($cashFlow->narration)
-                            ? ucfirst($cashFlow->narration) : 'Narration not set'; ?></p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="font-weight-bold">Cash Sales</td>
-                      <td class="text-center">
-                        <?php echo !empty($cashFlow->cash_sales)
-                          ? number_format($cashFlow->cash_sales) : '0.00'; ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="font-weight-bold">Transfer</td>
-                      <td class="text-center">
-                        <?php echo !empty($cashFlow->transfer)
-                          ? number_format($cashFlow->transfer) : '0.00'; ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="font-weight-bold">P.O.S</td>
-                      <td class="text-center">
-                        <?php echo !empty($cashFlow->pos)
-                          ? number_format($cashFlow->pos) : '0.00'; ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="font-weight-bold">Cheque</td>
-                      <td class="text-center">
-                        <?php echo !empty($cashFlow->cheque)
-                          ? number_format($cashFlow->cheque) : '0.00'; ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="font-weight-bold">Credit Sales</td>
-                      <td class="text-center">
-                        <?php echo !empty($cashFlow->credit_sales)
-                          ? number_format($cashFlow->credit_sales) : '0.00'; ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="font-weight-bold">Credit Voucher</td>
-                      <td class="text-center">
-                        <img loading="lazy" src="<?php echo url_for('sales/uploads/voucher/' . $creditVoucher) ?>" class="avatar">
-                      </td>
-                    </tr>
-
+                    <?php foreach (CashFlow::FLOW as $flow) :
+                      $isNaN = in_array($flow, ['narration', 'credit_voucher']);
+                      $alternate = isset($cashFlow->$flow) ? $cashFlow->$flow : 'Not Set';
+                    ?>
+                      <tr>
+                        <td class="tds font-weight-bold text-uppercase"><?php echo $flow ?></td>
+                        <td colspan="2">
+                          <p class="mb-0">
+                            <?php echo isset($cashFlow->$flow) && !$isNaN
+                              ? number_format($cashFlow->$flow) : $alternate; ?></p>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
