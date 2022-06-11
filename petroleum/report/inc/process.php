@@ -127,14 +127,14 @@ if (is_get_request()) {
                   <tbody>
                     <?php foreach (CashFlow::FLOW as $flow) :
                       $isNaN = in_array($flow, ['narration', 'credit_voucher']);
-                      $alternate = isset($cashFlow->$flow) ? $cashFlow->$flow : 'Not Set';
+                      $alternate = isset($cashFlow->$flow) && $cashFlow->$flow != '' ? $cashFlow->$flow : 'Not Set';
+                      $amount = isset($cashFlow->$flow) && !$isNaN && $cashFlow->$flow != '' ? $cashFlow->$flow : '0';
                     ?>
                       <tr>
                         <td class="tds font-weight-bold text-uppercase"><?php echo $flow ?></td>
                         <td colspan="2">
                           <p class="mb-0">
-                            <?php echo isset($cashFlow->$flow) && !$isNaN
-                              ? number_format($cashFlow->$flow) : $alternate; ?></p>
+                            <?php echo !$isNaN ? number_format($amount) : $alternate; ?></p>
                         </td>
                       </tr>
                     <?php endforeach; ?>
