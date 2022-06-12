@@ -104,6 +104,9 @@ if (is_post_request()) {
                      </div> -->
                      <a href="../">&leftarrow; Back</a>
                   </div>
+                  <div class="text-center p-2 ">
+                      <a target="_blank" href="https://meet.google.com/kgp-iiei-byv">Please click here for support</a>
+                  </div>
                </div>
             </div>
          </div>
