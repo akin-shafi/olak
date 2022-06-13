@@ -19,7 +19,7 @@
   // * Use same document root as webserver
   // * Can set a hardcoded value:
 
-  define("WWW_ROOT", '/eatry');
+  define("WWW_ROOT", '/olak/supermarket');
 
   // define("WWW_ROOT", '');
   // * Can dynamically find everything in URL up to "/public"

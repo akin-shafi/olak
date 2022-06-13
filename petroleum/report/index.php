@@ -60,13 +60,13 @@ include(SHARED_PATH . '/admin_header.php');
                     <textarea name="narration[]" class="form-control narration_1" id="narration" placeholder="Enter Narration"></textarea>
                   </td>
                   <td>
-                    <input type="text" class="form-control quantity_1" id="quantity" name="quantity[]" placeholder="Quantity">
+                    <input type="text" class="form-control quantity_1" id="quantity" name="quantity[]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');" placeholder="Quantity">
                   </td>
                   <td>
-                    <input type="text" class="form-control inpRate_1" id="inpRate" name="rate[]" placeholder="Rate">
+                    <input type="text" class="form-control inpRate_1" id="inpRate" name="rate[]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');" placeholder="Rate">
                   </td>
                   <td>
-                    <input type="text" class="form-control amount_1" id="amount" name="amount[]" placeholder="0,000.00" required>
+                    <input type="text" class="form-control amount_1" id="amount" name="amount[]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');" placeholder="0,000.00" required>
                   </td>
 
                   <td>

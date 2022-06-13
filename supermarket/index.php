@@ -1,2 +1,2 @@
 <?php
-    echo header('Location: login');
+    echo header('Location: login.php');
