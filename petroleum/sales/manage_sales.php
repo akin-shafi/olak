@@ -6,7 +6,7 @@ include(SHARED_PATH . '/admin_header.php');
 $today = date('Y-m-d');
 
 $admComp = $loggedInAdmin->company_id;
-$branch = $loggedInAdmin->company_id;
+$branch = $loggedInAdmin->branch_id;
 
 $remit = DataSheet::find_by_remittance($today, ['company' => $admComp, 'branch' => $loggedInAdmin->branch_id]);
 
