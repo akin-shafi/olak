@@ -5,18 +5,6 @@ $page = 'Expenses';
 $page_title = 'Expenses';
 include(SHARED_PATH . '/admin_header.php');
 
-$productObj = Product::find_by_undeleted();
-$productArray = [];
-
-foreach ($productObj as $value) {
-  array_push($productArray, $value->name);
-}
-$fltDate = date('Y-m-d');
-
-$products = is_unique_array($productArray);
-$expenses = Expense::find_by_expenses($fltDate);
-$totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
-
 ?>
 <style>
   th {
@@ -257,13 +245,13 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
     });
 
     $(document).on('click', "#query", function() {
-      let branch = $('#fBranch').val()
+      let branch = $('#filter-branch').val()
       if (branch == '') {
         alert('Kindly select a branch')
         window.location.reload();
       } else {
-        let filterDate = $('#filter_date').val()
-        getDataSheet(branch, filterDate)
+        let selectedDate = $('.range-text').text()
+        getDataSheet(branch, selectedDate)
       }
     })
 
@@ -273,7 +261,7 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
         method: "GET",
         data: {
           branch: branch,
-          filterDate: fltDate,
+          rangeText: fltDate,
           filter: 1
         },
         cache: false,
@@ -289,8 +277,8 @@ $totalExpenses = Expense::get_total_expenses($fltDate)->total_amount;
       })
     }
 
-    let branch = $('#fBranch').val()
-    let filterDate = $('#filter_date').val()
-    getDataSheet(branch, filterDate)
+    let selectedDate = $('.range-text').text()
+    let branch = $('#filter-branch').val()
+    getDataSheet(branch, selectedDate)
   })
 </script>

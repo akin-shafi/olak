@@ -74,8 +74,8 @@ if (is_post_request()) :
 			'updated_at'      => date('Y-m-d H:i:s'),
 		];
 
-		if (is_blank($_POST['total_sales'])) :
-			$errors[] = "Total sales cannot be blank.";
+		if (is_blank($_POST['open_stock'])) :
+			$errors[] = "Opening stock cannot be blank.";
 		endif;
 
 		if (empty($errors)) :
@@ -85,7 +85,7 @@ if (is_post_request()) :
 			redirect_to('../sales/');
 		else :
 			$session->message($errors);
-			redirect_to('../sales/');
+			redirect_to('../sales/create');
 		endif;
 
 	endif;

@@ -16,11 +16,9 @@ include(SHARED_PATH . '/admin_header.php');
 					<div class="table-container border-0 shadow">
 
 						<div style="width:100%;max-width:270px;margin:auto;">
-							<?php if (!empty(is_array($session->message()))) : ?>
-								<?php echo display_errors($session->message()); ?>
-							<?php else : ?>
-								<?php echo display_session_message(); ?>
-							<?php endif; ?>
+							<?php if (!empty(is_array($session->message()))) :
+								echo display_errors($session->message());
+							endif; ?>
 						</div>
 
 						<div class="table-responsive" id="sales_list">

@@ -292,7 +292,7 @@ $fullName = $user->full_name;
             </ol>
 
             <ul class="app-actions">
-               <?php if ($access->filtering == 1 && ($page_title == 'All Sales' || $page_title == 'Sales Report' || $page_title == 'Expenses')) : ?>
+               <?php if ($access->filtering == 1 && ($page_title == 'All Sales' || $page_title == 'Sales & Expenses' || $page_title == 'Expenses')) : ?>
                   <div class="d-flex justify-content-around align-items-center">
                      <li class="<?php echo $isAdminLvl; ?>">
                         <select name="branch" class="form-control form-control-sm" id="filter-branch">

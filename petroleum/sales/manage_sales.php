@@ -69,23 +69,23 @@ $cashFlow = CashFlow::find_by_cash_flow($today, ['company' => $admComp, 'branch'
 						<table class="table table-sm">
 							<tr>
 								<td class="text-right">Cash Sales</td>
-								<td><input type="text" name="flow[cash_sales]" class="form-control"></td>
+								<td><input type="text" name="flow[cash_sales]" class="form-control" required></td>
 							</tr>
 							<tr>
 								<td class="text-right">Transfer</td>
-								<td><input type="text" name="flow[transfer]" class="form-control"></td>
+								<td><input type="text" name="flow[transfer]" class="form-control" required></td>
 							</tr>
 							<tr>
 								<td class="text-right">POS</td>
-								<td><input type="text" name="flow[pos]" class="form-control"></td>
+								<td><input type="text" name="flow[pos]" class="form-control" required></td>
 							</tr>
 							<tr>
 								<td class="text-right">Cheque</td>
-								<td><input type="text" name="flow[cheque]" class="form-control"></td>
+								<td><input type="text" name="flow[cheque]" class="form-control" required></td>
 							</tr>
 							<tr>
 								<td class="text-right">Credit Sales</td>
-								<td><input type="text" name="flow[credit_sales]" class="form-control"></td>
+								<td><input type="text" name="flow[credit_sales]" class="form-control" required></td>
 							</tr>
 							<tr>
 								<td class="text-right">Narration</td>

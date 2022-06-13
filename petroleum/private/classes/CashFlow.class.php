@@ -21,6 +21,8 @@ class CashFlow extends DatabaseObject
 
   public $total_amount;
 
+  const FLOW = ['narration', 'credit_sales', 'cash_sales', 'pos', 'transfer', 'cheque', 'credit_voucher'];
+
   public function __construct($args = [])
   {
     $this->credit_sales   = $args['credit_sales'] ?? '';

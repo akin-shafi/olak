@@ -74,9 +74,6 @@ if (is_post_request()) {
                      <h5>Welcome back,<br />Please Login to your Account.</h5>
 
                      <p>
-                        <?php echo display_session_message(); ?>
-                     </p>
-                     <p>
                         <?php if ($errors) : ?>
                            <?php echo display_errors($errors); ?>
                         <?php endif; ?>
