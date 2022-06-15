@@ -33,9 +33,9 @@ require_once('private/initialize.php'); ?>
                      <a href="#" class="login-logo justify-content-center">
                         Olak Pet.
                      </a>
-                     <div class="mb-4 text-center">
-                        Entry Closes for the Day.
-                     </div>
+                     <p class="mb-4 text-uppercase text-center">
+                        Entry Closed for the Day.
+                     </p>
 
                      <a href="<?php echo url_for('/') ?>">&leftarrow; Back</a>
                   </div>
