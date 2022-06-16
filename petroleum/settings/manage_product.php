@@ -13,7 +13,7 @@ $groupedProducts = Product::grouped_products();
 <div class="content-wrapper">
   <div class="d-flex justify-content-end">
     <div class="btn-group">
-      <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#productModel">
+      <button class="btn btn-primary mb-3 d-none" data-toggle="modal" data-target="#productModel">
         &plus; Add Product</button>
       <button class="btn btn-warning mb-3 edit-btn" data-toggle="modal" data-target="#productModalEdit">
         <i class="icon-edit1"></i> Edit Rate</button>
@@ -57,7 +57,7 @@ $groupedProducts = Product::grouped_products();
                     <th>Product Tank</th>
                     <th>Product Rate</th>
                     <th>Created At</th>
-                    <th>Action</th>
+                    <!-- <th>Action</th> -->
 
                   </tr>
                 </thead>
@@ -68,13 +68,13 @@ $groupedProducts = Product::grouped_products();
                       <td><?php echo $data->tank; ?></td>
                       <td><?php echo number_format($data->rate, 2); ?></td>
                       <td><?php echo date('d-m-Y', strtotime($data->created_at)); ?></td>
-                      <td>
+                      <!-- <td>
                         <div class="btn-group">
-                          <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
+                          <button class="btn btn-danger remove-btn d-none" data-id="<?php echo $data->id; ?>">
                             <i class="icon-trash"></i>
                           </button>
                         </div>
-                      </td>
+                      </td> -->
                     </tr>
                   <?php endforeach; ?>
                 </tbody>

@@ -20,7 +20,7 @@
 define("DB_SERVER", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
-define("DB_NAME", "hoteliap_restaurant");
+define("DB_NAME", "olak_supermarket");
 
 define("DB_SERVER2", "localhost");
 define("DB_USER2", "root");

@@ -82,7 +82,7 @@ include(SHARED_PATH . '/admin_header.php');
                     <td>
                       <input type="text" class="form-control quantity_1" id="quantity" name="quantity[]" </td>
                     <td>
-                      <input type="text" class="form-control amount_1" id="amount" name="amount[]" required>
+                      <input type="text" class="form-control amount_1" id="amount" name="amount[]" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');" required>
                     </td>
                     <td>
                       <textarea name="narration[]" class="form-control narration_1" id="narration" required></textarea>
@@ -227,7 +227,7 @@ include(SHARED_PATH . '/admin_header.php');
 
       html_code += '<td><input type="text" size="12" name="quantity[]"  class="form-control quantity_' + count + '"></td>'
 
-      html_code += '<td><input type="text" name="amount[]" class="form-control amount_' + count + '" required></td>'
+      html_code += '<td><input type="number" name="amount[]" class="form-control amount_' + count + '" required></td>'
 
       html_code += '<td><textarea name="narration[]" id="narration" class="form-control narration_' + count + '" required></textarea></td>'
 
