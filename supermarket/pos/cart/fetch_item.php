@@ -1,9 +1,12 @@
 <?php require_once('../../private/initialize.php'); ?>
 <?php if (isset($_POST['fetch']) || isset($_POST['fetch_cat']) ) { 
+
+    $company_id = $loggedInAdmin->company_id;
+    $branch_id = $loggedInAdmin->branch_id;;
     $PCAT = ProductCategory::find_by_undeleted(['order' => 'ASC']);
     $id = array_values($PCAT)[0]->id; 
     $category = $_POST['id'] ?? $id;
-    $categories = Product::find_by_category($category);
+    $categories = Product::find_by_category(['category' => $category, 'company_id' => $company_id, 'branch_id' => $branch_id]);
     // Set session variables
     $_SESSION["store_id"] = $_POST['store_id'] ?? 1;
 

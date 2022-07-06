@@ -2,7 +2,7 @@
 class Sales extends DatabaseObject {
   
   static protected $table_name = "sales";
-  static protected $db_columns = ['id','product_id', 'trans_no','product_quantity', 'unit_price', 'subtotal','created_by', 'created_at', 'updated_by', 'updated_at','returned', 'deleted'];
+  static protected $db_columns = ['id','product_id', 'trans_no','product_quantity', 'unit_price', 'subtotal','created_by', 'created_at', 'updated_by', 'updated_at','returned', 'company_id', 'branch_id','deleted'];
 
 
   public $id;
@@ -18,6 +18,8 @@ class Sales extends DatabaseObject {
   public $updated_by;
   public $updated_at;
   public $returned;
+  public $company_id;
+  public $branch_id;
   public $deleted;
 
   public $counts;
@@ -35,6 +37,8 @@ class Sales extends DatabaseObject {
     $this->updated_by = $args['updated_by'] ?? '';
     $this->updated_at = $args['updated_at'] ?? date('Y-m-d H:i:s');
     $this->returned = $args['returned'] ?? '';
+    $this->company_id = $args['company_id'] ?? '';
+    $this->branch_id = $args['branch_id'] ?? '';
     $this->deleted = $args['deleted'] ?? 0;
   }
 
@@ -54,12 +58,20 @@ class Sales extends DatabaseObject {
     $to = $options['to'] ?? false;
     $product_id = $options['product_id'] ?? false;
     $created_by = $options['created_by'] ?? false;
+    $company_id = $options['company_id'] ?? false;
+    $branch_id = $options['branch_id'] ?? false;
 
     $sql = "SELECT SUM(product_quantity) FROM " . static::$table_name . " ";
     $sql .= "WHERE product_id='" . self::$database->escape_string($product_id) . "'";
 
     if ($created_by) {
       $sql .= " AND created_by ='" . self::$database->escape_string($created_by) . "'";
+    }
+    if ($company_id) {
+      $sql .= " AND company_id ='" . self::$database->escape_string($company_id) . "'";
+    }
+    if ($branch_id) {
+      $sql .= " AND branch_id ='" . self::$database->escape_string($branch_id) . "'";
     }
     if ($from && $to) {
       if ($from == $to) {
@@ -116,8 +128,19 @@ class Sales extends DatabaseObject {
     $to = $options['to'] ?? false;
     $product_id = $options['product_id'] ?? false;
 
+    $company_id = $options['company_id'] ?? false;
+    $branch_id = $options['branch_id'] ?? false;
+
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE product_id='" . self::$database->escape_string($product_id) . "'";
+    
+    if ($company_id) {
+      $sql .= " AND company_id ='" . self::$database->escape_string($company_id) . "'";
+    }
+    if ($branch_id) {
+      $sql .= " AND branch_id ='" . self::$database->escape_string($branch_id) . "'";
+    }
+
     if ($from && $to) {
       if ($from == $to) {
         $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";

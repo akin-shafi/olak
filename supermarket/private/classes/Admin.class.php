@@ -2,7 +2,7 @@
 class Admin extends DatabaseObject
 {
     protected static $table_name = "users";
-    protected static $db_columns = ['id','first_name','last_name','address','phone','email','username','gender','profile_img','hashed_password','admin_level','account_status', 'store_id', 'created_at','updated_at','created_by','deleted'];
+    protected static $db_columns = ['id','first_name','last_name','address','phone','email','username','gender','profile_img','hashed_password','admin_level','account_status', 'store_id', 'company_id', 'branch_id','created_at','updated_at','created_by','deleted'];
 
     public $id;
     public $first_name;
@@ -20,6 +20,8 @@ class Admin extends DatabaseObject
     public $admin_level;
     public $account_status;
     public $store_id;
+    public $company_id;
+    public $branch_id;
     public $created_at ;
     public $updated_at ;
     public $created_by;
@@ -66,6 +68,8 @@ class Admin extends DatabaseObject
         $this->admin_level = $args['admin_level'] ?? '';
         $this->account_status = $args['account_status'] ?? 1;
         $this->store_id = $args['store_id'] ?? 1;
+        $this->company_id = $args['company_id'] ?? 1;
+        $this->branch_id = $args['branch_id'] ?? 1;
         $this->created_by = $args['created_by'] ?? '';
         $this->updated_at = $args['updated_at'] ?? date('Y-m-d H:i:s');
         $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');

@@ -2,7 +2,7 @@
 class Product extends DatabaseObject
 {
     protected static $table_name = "products";
-    protected static $db_columns = ['id','ref_no', 'file', 'code', 'barcode_symbology', 'pname',  'type', 'category', 'quantity', 'sold_bottle', 'sold_shut','alert_quantity', 'product_tax', 'tax_method', 'sell_per_shut','cost', 'price', 'shut_price', 'no_of_shut', 'left_bottle', 'left_shut','vat', 'total_price', 'details','created_at', 'update_at', 'created_by', 'exception', 'deleted'];
+    protected static $db_columns = ['id','ref_no', 'file', 'code', 'barcode_symbology', 'pname',  'type', 'category', 'quantity', 'sold_bottle', 'sold_shut','alert_quantity', 'product_tax', 'tax_method', 'sell_per_shut','cost', 'price', 'shut_price', 'no_of_shut', 'left_bottle', 'left_shut','vat', 'total_price', 'details', 'company_id', 'branch_id', 'created_at', 'update_at', 'created_by', 'exception', 'deleted'];
   
   public $id;
   public $ref_no;
@@ -28,6 +28,8 @@ class Product extends DatabaseObject
   public $left_bottle;
   public $left_shut;
   public $details;
+  public $company_id;
+  public $branch_id;
   public $created_at;
   public $update_at;
   public $created_by;
@@ -92,6 +94,8 @@ class Product extends DatabaseObject
       $this->vat = $args['vat'] ?? '';
       $this->total_price = $args['total_price'] ?? '';
       $this->details = $args['details'] ?? '';
+      $this->company_id = $args['company_id'] ?? '';
+      $this->branch_id = $args['branch_id'] ?? '';
       $this->created_at = $args['created_at'] ?? '';
       $this->update_at = $args['update_at'] ?? date('Y-m-d H:i:s');
       $this->created_by = $args['created_by'] ?? '';
@@ -125,20 +129,26 @@ class Product extends DatabaseObject
         
     }
  
-    public static function find_by_category($category)
+    public static function find_by_category($options=[])
     {
+
+        $company_id = $options['company_id'] ?? '';
+        $branch_id = $options['branch_id'] ?? '';
+        $category = $options['category'] ?? '';
+
         $sql = "SELECT * FROM " . static::$table_name . " ";
         $sql .= "WHERE category='" . self::$database->escape_string($category) . "'";
-        // $obj_array = static::find_by_sql($sql);
-        // if(!empty($obj_array)) {
-        //   return array_shift($obj_array);
-        // } else {
-        //   return false;
-        // }
-         $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-        $sql .= "ORDER BY id ASC";
         
-         $obj_array = static::find_by_sql($sql);
+         if ($company_id) {
+          $sql .= " AND company_id='" . self::$database->escape_string($company_id) . "'";
+        }
+        if ($branch_id) {
+          $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
+        }
+        $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+        $sql .= "ORDER BY id ASC";
+        // echo $sql;
+        $obj_array = static::find_by_sql($sql);
         return static::find_by_sql($sql);
     }
     public static function find_by_cat($category)
@@ -154,16 +164,6 @@ class Product extends DatabaseObject
        
     }
 
-    //  public static function find_by_exception($exception)
-    // {
-    //     $sql = "SELECT * FROM " . static::$table_name . " ";
-    //     $sql .= "WHERE exception='" . self::$database->escape_string($exception) . "'";
-    //     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    //     $sql .= "ORDER BY id ASC";
-    //     $obj_array = static::find_by_sql($sql);
-    //     return static::find_by_sql($sql);
-       
-    // }
 
     public static function find_by_product($id)
     {

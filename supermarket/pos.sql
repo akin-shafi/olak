@@ -382,7 +382,7 @@ CREATE TABLE `suppliers` (
   `contact_person` varchar(20) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `hashed_password` varchar(255) NOT NULL,
-  `supplier_type` int(11) DEFAULT NULL,
+  `supplier_type` varchar(255) DEFAULT NULL,
   `active` varchar(50) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_at` datetime DEFAULT CURRENT_TIMESTAMP,
