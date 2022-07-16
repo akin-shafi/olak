@@ -4,7 +4,6 @@ require_once('../../private/initialize.php');
 
 // require_login();
 
-// Find all undeleted admins
 $id = $_GET['id'];
 $clients = Client::find_by_id($id);
 $wallet = Wallet::find_by_customer_id($clients->customer_id);
@@ -15,13 +14,9 @@ $walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
 <?php $page_title = 'Admins'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
-<!-- *************
-        ************ Main container start *************
-        ************* -->
 <div class="main-container">
 
 
-  <!-- Page header start -->
   <div class="page-title">
     <div class="row gutters">
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -29,7 +24,7 @@ $walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
       </div>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="daterange-container">
-          
+
           <a href="<?php echo url_for('client/index.php') ?>" data-toggle="tooltip" data-placement="top" title="view all Customers" class="download-reports" data-original-title="iew all Customers">
             <i class="feather-arrow-left"></i>
           </a>
@@ -37,10 +32,8 @@ $walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
       </div>
     </div>
   </div>
-  <!-- Page header end -->
 
 
-  <!-- Content wrapper start -->
   <div class="content-wrapper">
     <div class="card mb-3">
       <div class="card-body">
@@ -78,7 +71,7 @@ $walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
                         <span class="title">Wallet Balance:</span>
                         <span class="text"><a href=""><?php echo number_format($walletBalance, 2) ?></a></span>
                       </li>
-                     
+
                     </ul>
                   </div>
                 </div>
@@ -95,28 +88,31 @@ $walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
         <thead>
           <tr>
             <th>S/N</th>
-            <th>Refrence No.</th>
+            <th>Reference No.</th>
             <th>Description</th>
             <th>Amount</th>
-            <th>Created At</th>
             <th>Post By</th>
             <th>Bank Name</th>
             <th>Account No.</th>
+            <th>Created At</th>
             <!-- <th>Repair Record</th> -->
           </tr>
         </thead>
         <tbody>
           <?php $sn = 1;
-          foreach ($walletDetails as $value) { ?>
+          foreach ($walletDetails as $value) {
+            $bankName = Bank::find_by_id($value->bank_name)->bank_name;
+            $createdBy = Admin::find_by_id($value->created_by)->full_name();
+          ?>
             <tr>
               <td><?php echo $sn++; ?></td>
               <td><?php echo $value->refrence_no; ?></td>
               <td><?php echo $value->description; ?></td>
-              <td><?php echo $value->amount; ?></td>
+              <td><?php echo number_format(floatval($value->amount)); ?></td>
+              <td><?php echo $createdBy; ?></td>
+              <td><?php echo ucwords($bankName); ?></td>
+              <td><?php echo $value->account_no; ?></td>
               <td><?php echo date('dS M, Y', strtotime($value->created_at)); ?></td>
-              <td><?php echo $value->created_by; ?></td>
-              <td>Bank Name</td>
-              <td>Account No.</td>
               <!-- <td><a href="record.php"><i class="feather-settings bold"> History</i></a></td> -->
             </tr>
           <?php } ?>
@@ -126,13 +122,8 @@ $walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
 
 
   </div>
-  <!-- Content wrapper end -->
-
 
 </div>
-<!-- *************
-        ************ Main container end *************
-        ************* -->
 
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>

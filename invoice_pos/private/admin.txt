@@ -1,2 +1,5 @@
 2020-02-21 09:19:04 | Delete Admin: id: 3, Deleted by Afeez Sanni
 2020-02-21 09:21:34 | Delete Admin: id: 2, Deleted by Afeez Sanni
+2022-07-16 20:01:25 | Edit Admin: id: 8, Edited by Shafi Akinropo
+2022-07-16 20:01:53 | Edit Admin: id: 6, Edited by Shafi Akinropo
+2022-07-16 20:52:56 | Edit Admin: id: 8, Edited by Shafi Akinropo

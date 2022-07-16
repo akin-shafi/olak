@@ -12,10 +12,9 @@ if ($id) {
 
 if (is_post_request()) {
 
-  // Create record using post parameters
   $args = $_POST['wallet'];
   $customer_id = $args['customer_id'];
-  
+
   $walletDetails = new WalletDetails($args);
   $result = $walletDetails->save();
   if ($result == true) {
@@ -30,13 +29,8 @@ if (is_post_request()) {
     $result = $wallet->save();
     $session->message('The wallet was created successfully.');
     redirect_to(url_for('/client/index.php'));
-  }else{
-    // show errors
   }
-
-  
 } else {
-  // display the form
   $wallet = new Wallet;
 }
 
@@ -44,14 +38,13 @@ if (is_post_request()) {
 
 ?>
 
-<?php $page = 'Wallet'; $page_title = 'Load Wallet'; ?>
+<?php $page = 'Wallet';
+$page_title = 'Load Wallet'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
-<!-- ************* Main container start ************* -->
 <div class="main-container">
 
 
-  <!-- Page header start -->
   <div class="page-title">
     <div class="row gutters">
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-9 col-9 ">
@@ -67,11 +60,9 @@ if (is_post_request()) {
       </div>
     </div>
   </div>
-  <!-- Page header end -->
 
-  <!-- Content wrapper start -->
   <div class="content-wrapper">
-      <?php if (display_errors($wallet->errors)) { ?>
+    <?php if (display_errors($wallet->errors)) { ?>
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <?php echo display_errors($wallet->errors); ?>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -85,7 +76,7 @@ if (is_post_request()) {
         <button class="btn btn-primary" id="add_wallet_btn">Submit</button>
       </div>
     </form>
-    
+
   </div>
 
 </div>

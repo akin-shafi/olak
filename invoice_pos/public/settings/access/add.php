@@ -1,11 +1,12 @@
 <?php
-require_once('../../private/initialize.php');
+require_once('../../../private/initialize.php');
 require_login();
 
 
 if (is_post_request()) {
 
-  $args = $_POST['branch'];
+  // Create record using post parameters
+  $args = $_POST['company'];
 
   if (!empty($_FILES['logo']['name'])) {
 
@@ -23,32 +24,36 @@ if (is_post_request()) {
         $uploadStatus = 0;
         http_response_code(401);
         $response['errors'] = 'Sorry, there was an error uploading your file.';
+        // exit(json_encode(['success' => false, 'msg' => $response['errors']]));
       }
     } else {
       $uploadStatus = 0;
       http_response_code(404);
       $response['errors'] = 'Sorry, JPEG, JPG & PNG files are allowed to upload.';
+      // exit(json_encode(['success' => false, 'msg' => $response['errors']]));
     }
   }
-  $branch = new Branch($args);
-  $result = $branch->save();
+  $company = new Company($args);
+  $result = $company->save();
 
   if ($result == true) {
-    $session->message('The branch was created successfully.');
-    redirect_to(url_for('/branch/index.php'));
-  } else {
+    $session->message('The company was created successfully.');
+    redirect_to(url_for('/company/index.php'));
+  }else{
     // show errors
   }
+
+  
 } else {
-  $branch = new Branch;
+  // display the form
+  $company = new Company;
 }
 
 
 
 ?>
 
-<?php $page = 'Settings';
-$page_title = 'Add New Branch'; ?>
+<?php $page = 'Settings'; $page_title = 'Add New Comapny'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <!-- ************* Main container start ************* -->
@@ -64,7 +69,7 @@ $page_title = 'Add New Branch'; ?>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-3 col-3 ">
         <div class="daterange-container">
 
-          <a href="<?php echo url_for('branch/') ?>" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Show all Branches">
+          <a href="#" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Download CSV">
             <i class="feather-file-text"></i>
           </a>
         </div>
@@ -75,21 +80,21 @@ $page_title = 'Add New Branch'; ?>
 
   <!-- Content wrapper start -->
   <div class="content-wrapper">
-    <?php if (display_errors($branch->errors)) { ?>
+      <?php if (display_errors($company->errors)) { ?>
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?php echo display_errors($branch->errors); ?>
+        <?php echo display_errors($company->errors); ?>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
     <?php } ?>
-    <form id="add_branch_form" class="mb-0" method="post">
+    <form id="add_company_form" class="mb-0" method="post">
       <?php include('form_field.php') ?>
       <div class="modal-footer">
-        <button class="btn btn-primary" id="add_branch_btn">Submit</button>
+        <button class="btn btn-primary" id="add_company_btn">Submit</button>
       </div>
     </form>
-
+    
   </div>
 
 </div>

@@ -3,7 +3,7 @@ class Admin extends DatabaseObject
 {
 
   static protected $table_name = "admins";
-  static protected $db_columns = ['id', 'first_name', 'last_name', 'email', 'phone', 'hashed_password', 'admin_level', 'company_id', 'branch_id','created_by', 'created_at', 'updated_at', 'deleted'];
+  static protected $db_columns = ['id', 'first_name', 'last_name', 'email', 'phone', 'hashed_password', 'admin_level', 'company_id', 'branch_id', 'created_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $first_name;
@@ -13,7 +13,7 @@ class Admin extends DatabaseObject
   public $admin_level;
   public $company_id;
   public $branch_id;
- 
+
 
   protected $hashed_password;
   public $password;
@@ -52,9 +52,6 @@ class Admin extends DatabaseObject
     $this->updated_at  = $args['updated_at']  ??  date('Y-m-d H:i:s');
     $this->deleted  = $args['deleted']  ??  NULL;
   }
-
-  
-
 
   protected function set_hashed_password()
   {
@@ -116,11 +113,11 @@ class Admin extends DatabaseObject
 
     if (is_blank($this->company_id)) {
       $this->errors[] = "Company name cannot be blank.";
-    } 
+    }
 
     if (is_blank($this->branch_id)) {
       $this->errors[] = "Branch name cannot be blank.";
-    } 
+    }
     // if (is_blank($this->username)) {
     //   $this->errors[] = "Username cannot be blank.";
     // } elseif (!has_length($this->username, array('min' => 3, 'max' => 255))) {
@@ -176,6 +173,14 @@ class Admin extends DatabaseObject
     } else {
       return false;
     }
+  }
+
+  public static function find_by_branch_id($bId)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE branch_id='" . self::$database->escape_string($bId) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    return static::find_by_sql($sql);
   }
 
   static public function find_by_branch($city)

@@ -9,21 +9,21 @@ $id = $_GET['id'];
 $client = Client::find_by_id($id);
 $vehicle = Vehicle::find_by_id($id);
 
+pre_r($vehicle);
+
 if (!$client) {
   redirect_to(url_for('/client/index.php'));
 }
 
 if (is_post_request()) {
 
-  // Save record using post parameters
 
   $args = $_POST['client'];
   $client->merge_attributes($args);
   $result = $client->save();
 
-  // $argsv['client_id'] = $id;
-  $argsv = $_POST['vehicle'];
-  $vehicle->merge_attributes($argsv);
+  $argsV = $_POST['vehicle'];
+  $vehicle->merge_attributes($argsV);
   $result = $vehicle->save();
 
   if ($result === true) {
@@ -33,7 +33,6 @@ if (is_post_request()) {
 
     redirect_to(url_for('/client/index.php'));
   } else {
-    // show errors
     $session->message("The {$client->clientcat} client was not updated successfully.");
   }
 } else {
@@ -42,16 +41,13 @@ if (is_post_request()) {
 
 
 ?>
-<?php $page = 'Customer'; $page_title = 'Edit Customer'; ?>
+<?php $page = 'Customer';
+$page_title = 'Edit Customer'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
-<!-- *************
-        ************ Main container start *************
-        ************* -->
+
 <div class="main-container">
 
-
-  <!-- Page header start -->
   <div class="page-title">
     <div class="row gutters">
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -73,9 +69,7 @@ if (is_post_request()) {
       </div>
     </div>
   </div>
-  <!-- Page header end -->
 
-  <!-- Content wrapper start -->
   <div class="content-wrapper">
     <?php if (display_errors($client->errors)) { ?>
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -85,27 +79,13 @@ if (is_post_request()) {
         </button>
       </div>
     <?php } ?>
-    <form action="" method="post">
+    <form method="post">
       <?php include("form_fields.php") ?>
-      <div class="card-footer">
-        <input type="submit" class="btn btn-success float-right" value="Create">
-      </div>
+    </form>
   </div>
 </div>
 
 
-
-</div>
-<!-- Row end -->
-</form>
-</div>
-<!-- Content wrapper end -->
-
-
-</div>
-<!-- *************
-        ************ Main container end *************
-        ************* -->
 
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>

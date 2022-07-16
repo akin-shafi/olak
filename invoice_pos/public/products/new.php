@@ -17,6 +17,7 @@ if (isset($_POST['uploadFile'])) {
     $stockData = [
       'product_id' => $product->id,
       'quantity' => $product->quantity,
+      'created_by' => $loggedInAdmin->id,
     ];
 
     $stock = new Stock($stockData);
@@ -32,9 +33,9 @@ if (isset($_POST['uploadFile'])) {
       foreach ($fileNames as $key => $val) {
         $fileName = basename($fileNames[$key]);
 
-        $newfilename = date('dmYHis') . str_replace(" ", "", basename($fileName));
+        $newFileName = date('dmYHis') . str_replace(" ", "", basename($fileName));
 
-        $targetFilePath = $targetDir . $newfilename;
+        $targetFilePath = $targetDir . $newFileName;
         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
         if (in_array($fileType, $allowTypes)) {
@@ -43,7 +44,7 @@ if (isset($_POST['uploadFile'])) {
 
             $check = Product::find_by_id($new_id);
             $data = [
-              'file' => $newfilename,
+              'file' => $newFileName,
               'created_by' => $loggedInAdmin->id,
               ' created_at' => date('Y-m-d H:i:s'),
             ];

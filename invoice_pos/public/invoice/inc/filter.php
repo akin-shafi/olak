@@ -32,7 +32,8 @@ if (is_get_request()) {
 			$filteredData = Billing::find_by_filtering($companyId, $branchId);
 		endif; ?>
 
-		<?php pre_r($_POST); ?>
+		<?php //pre_r($_POST); 
+		?>
 
 		<table id="rowSelection" class=" table table-striped table-hover responsive nowrap" style="width:100%">
 			<thead>
@@ -48,7 +49,7 @@ if (is_get_request()) {
 					<th>Created Date</th>
 					<th>Due Date</th>
 					<th>Total Amount</th>
-					
+
 
 				</tr>
 			</thead>
@@ -60,7 +61,7 @@ if (is_get_request()) {
 					$customer = Client::find_by_id($value->client_id);
 					$branch = Branch::find_by_id($value->branch_id);
 					$today = date('Y-m-d');
-					$due_date =  date('Y-m-d',strtotime('+'.$value->due_date.' days',strtotime($today)));
+					$due_date =  date('Y-m-d', strtotime('+' . $value->due_date . ' days', strtotime($today)));
 					$status = 'Delivered';
 				?>
 					<tr>
@@ -90,7 +91,7 @@ if (is_get_request()) {
 						<td>
 							<?php echo $status ?>
 						</td>
-						
+
 						<td><?php echo h(ucwords($value->invoiceNum)); ?></td>
 						<td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
 						<td><?php echo $customer->full_name(); ?></td>
@@ -98,7 +99,7 @@ if (is_get_request()) {
 						<td><?php echo h(date('D jS F, Y H:i:s', strtotime($value->created_date))); ?></td>
 						<td><?php echo h(date('D jS F, Y', strtotime($due_date))); ?></td>
 						<td><?php echo number_format($value->total_amount); ?></td>
-						
+
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

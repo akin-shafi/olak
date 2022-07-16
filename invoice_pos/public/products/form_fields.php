@@ -1,6 +1,7 @@
  <div class="col-lg-12">
     <form id="form" class="validation" enctype="multipart/form-data" method="post" accept-charset="utf-8">
        <input type="hidden" name="exception" id="exception" value="<?php echo $product->exception ?>" />
+       <input type="hidden" name="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>" />
        <div class="row">
           <div class="col-md-6">
              <div class="row ">
@@ -56,13 +57,6 @@
                    <input type="hidden" name="total_price" id="total_price" value="<?php echo h($product->total_price); ?>">
                 </div>
              </div>
-             <!-- <div class="form-group">
-               <label for="per_shut"> Sell per Shut ?</label>
-               <select name="per_shut" class=" form-control" id="per_shut">
-                  <option value="1">No</option>
-                  <option value="2">Yes</option>
-               </select>
-            </div> -->
 
              <div class="row shut_wrap d-none">
                 <div class="form-group col-md-6">
@@ -154,10 +148,6 @@
                 </div>
              </div>
 
-             <?php //if ($page_title == 'Edit'): 
-               ?>
-
-
              <div class="alert alert-light">
 
                 <table class="table table-striped" style="background: none">
@@ -180,13 +170,11 @@
                 </table>
 
              </div>
-             <?php //endif 
-               ?>
           </div>
        </div>
 
        <div class="form-group">
-          <input type="submit" name="uploadFile" id="add_product" value="Add Products" class="btn btn-primary float-right" />
+          <input type="submit" name="uploadFile" id="add_product" value="Submit" class="btn btn-primary float-right" />
        </div>
     </form>
  </div>

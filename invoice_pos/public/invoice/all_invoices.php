@@ -69,18 +69,15 @@ $page_title = 'All Invoices'; ?>
 
 	</div>
 
-
 </div>
-<input type="text" id="company_id" value="<?php echo $loggedInAdmin->company_id ?>">
-<input type="text" id="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
+<input type="hidden" id="company_id" value="<?php echo $loggedInAdmin->company_id ?>">
+<input type="hidden" id="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
 
 <script>
 	$(document).ready(function() {
 		const FILTER_URL = "inc/filter.php";
-
-		
 
 		$('#company').on('change', function() {
 			let companyId = this.value;

@@ -1,13 +1,11 @@
  </div>
- <?php include('../inc/modal/all.php');  ?>
+ <?php //include('../inc/modal/all.php');  
+   ?>
  <footer>
     <div class="text-white text-center pb-3">
        &copy; <?php echo date('Y') ?> All-Right Reserved
     </div>
  </footer>
- <!-- *************
-        ************ Required JavaScript Files *************
-      ************* -->
  <!-- Required jQuery first, then Bootstrap Bundle JS -->
  <!-- <script src="<?php //echo url_for('js/jquery.min.js') 
                      ?>"></script> -->
@@ -19,10 +17,6 @@
  <!-- Select2 -->
  <script src="<?php echo url_for('plugins/select2/js/select2.full.min.js'); ?>"></script>
 
-
- <!-- *************
-        ************ Vendor Js Files *************
-      ************* -->
  <!-- Daterange -->
  <script src="<?php echo url_for('vendor/daterange/daterange.js') ?>"></script>
 

@@ -3,7 +3,7 @@ class Wallet extends DatabaseObject
 {
 
   static protected $table_name = "wallet";
-  static protected $db_columns = ['id', 'customer_id', 'balance', 'company_id', 'branch_id','created_at', 'updated_at', 'deleted'];
+  static protected $db_columns = ['id', 'customer_id', 'balance', 'company_id', 'branch_id', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $customer_id;
@@ -25,7 +25,7 @@ class Wallet extends DatabaseObject
     $this->deleted = $args['deleted'] ?? '';
   }
 
-   
+
 
 
   protected function validate()
@@ -35,7 +35,7 @@ class Wallet extends DatabaseObject
     if (is_blank($this->customer_id)) {
       $this->errors[] = "customer id can not be empty.";
     }
-    
+
     return $this->errors;
   }
 

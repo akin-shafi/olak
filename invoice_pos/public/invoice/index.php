@@ -13,7 +13,7 @@ $branch = Branch::find_by_id($loggedInAdmin->branch_id);
 
 
 
-?> 
+?>
 <?php $page = 'Invoice';
 $page_title = 'Billing & Receipts'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
@@ -27,13 +27,10 @@ $page_title = 'Billing & Receipts'; ?>
     background-color: #00b894
   }
 </style>
-<!-- *************
-        ************ Main container start *************
-        ************* -->
+
 <div class="main-container">
 
 
-  <!-- Page header start -->
   <div class="page-title">
     <div class="row gutters">
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -49,10 +46,8 @@ $page_title = 'Billing & Receipts'; ?>
       </div>
     </div>
   </div>
-  <!-- Page header end -->
 
 
-  <!-- Content wrapper start -->
   <div class="content-wrapper">
 
     <section class="">
@@ -67,7 +62,7 @@ $page_title = 'Billing & Receipts'; ?>
 
         <div class="col-lg-10">
 
-          
+
           <section class="  p-3 bg-primary">
 
             <div class="text-center">
@@ -103,7 +98,8 @@ $page_title = 'Billing & Receipts'; ?>
                   </select>
                 </div>
               </div>
-              <!-- <input type="hidden" class="form-control" readonly  name="billing[invoiceNum]" value="<?php //echo date('dHs');  ?>"> -->
+              <!-- <input type="hidden" class="form-control" readonly  name="billing[invoiceNum]" value="<?php //echo date('dHs');  
+                                                                                                          ?>"> -->
 
               <div class="table-responsive">
                 <div class="d-flex">
@@ -122,15 +118,16 @@ $page_title = 'Billing & Receipts'; ?>
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Customer Name <sup class="error">*</sup></label>
                     <div class="btn-group">
-                    <select required class="form-control client_id" name="billing[client_id]">
-                      <option value="">Select Customer</option>
-                      <?php foreach (Client::find_by_undeleted() as $client) { ?>
+                      <select required class="form-control client_id" name="billing[client_id]">
+                        <option value="">Select Customer</option>
+                        <?php foreach (Client::find_by_branch_id($loggedInAdmin->branch_id) as $client) { ?>
 
-                        <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?>
-                        <?php //echo $client->customer_id; ?></option>
-                      <?php } ?>
-                    </select>
-                    <a href="<?php echo url_for('client/new.php') ?>" class="btn btn-success btn-sm">+</a>
+                          <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?>
+                            <?php //echo $client->customer_id; 
+                            ?></option>
+                        <?php } ?>
+                      </select>
+                      <a href="<?php echo url_for('client/new.php') ?>" class="btn btn-success btn-sm">+</a>
                     </div>
 
                   </div>
@@ -149,7 +146,8 @@ $page_title = 'Billing & Receipts'; ?>
                   </div>
 
                   <div class="form-group col-lg-3 col-md-3 ">
-                    <label class="label-control">Due Date <?php //echo $due_date; ?><sup class="error">*</sup></label>
+                    <label class="label-control">Due Date <?php //echo $due_date; 
+                                                          ?><sup class="error">*</sup></label>
                     <input required="" type="text" name="billing[due_date]" class="form-control" id="dueDtate" value="30">
                   </div>
 
@@ -244,7 +242,8 @@ $page_title = 'Billing & Receipts'; ?>
                 </table>
               </div>
             </form>
-          </section><!--form end -->
+          </section>
+          <!--form end -->
         </div><!-- col-10 end -->
       </div><!-- row end -->
     </section>
@@ -446,40 +445,40 @@ $page_title = 'Billing & Receipts'; ?>
     }
 
     $(document).on('change', '.payment_method', function() {
-       var payment_method = $(this).val();
-       var cus_id = $(".client_id").val();
+      var payment_method = $(this).val();
+      var cus_id = $(".client_id").val();
 
-       if (payment_method == 1) {
-          check_wallet(cus_id)
-        }else{
-          $("#wallet_value").html("0.00")
-        }
+      if (payment_method == 1) {
+        check_wallet(cus_id)
+      } else {
+        $("#wallet_value").html("0.00")
+      }
     });
 
     $(document).on('change', '.client_id', function() {
-       var cus_id = $(this).val();
-       var payment_method = $(".payment_method").val();
+      var cus_id = $(this).val();
+      var payment_method = $(".payment_method").val();
 
-       if (payment_method == 1) {
-          check_wallet(cus_id)
-        }else{
-          $("#wallet_value").html("0.00")
-        }
+      if (payment_method == 1) {
+        check_wallet(cus_id)
+      } else {
+        $("#wallet_value").html("0.00")
+      }
     });
 
     function check_wallet(cus_id) {
-        $.ajax({
-          url: "inc/fetch_wallet.php",
-          method: "POST",
-          data: {
-            fetch_wallet: 1,
-            customer_id: cus_id,
-          },
-          dataType: 'json',
-          success: function(data) {
-            $("#wallet_value").html("₦ " + data.wallet_balance)
-          }
-        });
+      $.ajax({
+        url: "inc/fetch_wallet.php",
+        method: "POST",
+        data: {
+          fetch_wallet: 1,
+          customer_id: cus_id,
+        },
+        dataType: 'json',
+        success: function(data) {
+          $("#wallet_value").html("₦ " + data.wallet_balance)
+        }
+      });
     }
     // function check_wallet(){
     //   var cus_id  = $("#client_id").val();

@@ -16,37 +16,63 @@ if ($admin == false) {
 
 if (is_post_request()) {
 
-  // Save record using post parameters
   $args = $_POST['admin'];
   $admin->merge_attributes($args);
   $result = $admin->save();
 
-  if ($result === true) {
+  if ($result === true) :
+    $req = $_POST['permit'];
+    $access = AccessControl::find_by_user_id($id);
 
-    // logfile
-    log_action('Edit Admin', "id: {$admin->id}, Editted by {$loggedInAdmin->full_name()}", "admin");
+
+    $args = [
+      'user_id'        => $admin->id,
+      'dashboard'      => isset($req['dashboard'])      ? 1 : 0,
+      'product_mgt'    => isset($req['product_mgt'])    ? 1 : 0,
+      'customer_mgt'   => isset($req['customer_mgt'])   ? 1 : 0,
+      'wallet_mgt'     => isset($req['wallet_mgt'])     ? 1 : 0,
+      'stock_mgt'      => isset($req['stock_mgt'])      ? 1 : 0,
+      'settings_mgt'   => isset($req['settings_mgt'])   ? 1 : 0,
+      'sales_mgt'      => isset($req['sales_mgt'])      ? 1 : 0,
+      'add_sales'      => isset($req['add_sales'])      ? 1 : 0,
+      'edit_sales'     => isset($req['edit_sales'])     ? 1 : 0,
+      'manage_sales'   => isset($req['manage_sales'])   ? 1 : 0,
+      'expenses_mgt'   => isset($req['expenses_mgt'])   ? 1 : 0,
+      'add_exp'        => isset($req['add_exp'])        ? 1 : 0,
+      'edit_exp'       => isset($req['edit_exp'])       ? 1 : 0,
+      'delete_exp'     => isset($req['delete_exp'])     ? 1 : 0,
+      'report_mgt'     => isset($req['report_mgt'])     ? 1 : 0,
+      'access_control' => isset($req['access_control']) ? 1 : 0,
+      'company_setup'  => isset($req['company_setup'])  ? 1 : 0,
+      'user_mgt'       => isset($req['user_mgt'])       ? 1 : 0,
+      'filtering'      => isset($req['filtering'])      ? 1 : 0,
+      'created_by'     => $loggedInAdmin->id,
+    ];
+
+
+    if (isset($access->id)) :
+      $access->merge_attributes($args);
+      $access->save();
+    else :
+      $access = new AccessControl($args);
+      $access->save();
+    endif;
+
+
+    log_action('Edit Admin', "id: {$admin->id}, Edited by {$loggedInAdmin->full_name()}", "admin");
 
     $session->message('The admin was updated successfully.');
     redirect_to(url_for('admin/show.php?id=' . $id));
-  } else {
-    // show errors
-  }
-} else {
-
-  // display the form
-
+  endif;
 }
-
 ?>
 
-<?php $page = 'Users'; $page_title = 'Edit Admin'; ?>
+<?php $page = 'Users';
+$page_title = 'Edit Admin'; ?>
 <?php include(SHARED_PATH . '/admin_header.php') ?>
 
-<!-- Container start -->
 <div class="main-container">
 
-
-  <!-- Page header start -->
   <div class="page-title">
     <div class="row gutters">
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -68,9 +94,7 @@ if (is_post_request()) {
       </div>
     </div>
   </div>
-  <!-- Page header end -->
 
-  <!-- Content wrapper start -->
   <div class="content-wrapper">
     <?php if (display_errors($admin->errors)) { ?>
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -81,23 +105,11 @@ if (is_post_request()) {
       </div>
     <?php } ?>
     <form action="" method="post">
-
-
-
-
       <?php include("form_fields.php") ?>
-
-
-
-
-
-
-
       <div class="card-footer clearfix">
         <input type="submit" class="btn btn-success float-right" value="Edit">
       </div>
   </div>
 </div>
-<!-- Container end -->
 
 <?php include(SHARED_PATH . '/admin_footer.php') ?>

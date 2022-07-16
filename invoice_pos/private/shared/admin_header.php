@@ -1,4 +1,7 @@
-<?php if (!isset($page_title)) $page_title = 'User Area'; ?>
+<?php if (!isset($page_title)) $page_title = 'User Area';
+require_login();
+$accessControl = AccessControl::find_by_user_id($loggedInAdmin->id);
+?>
 
 <!doctype html>
 <html lang="en">
@@ -158,72 +161,72 @@
       </button>
       <div class="collapse navbar-collapse" id="retailAdminNavbar">
         <ul class="navbar-nav m-auto">
-          <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) { ?>
-            
-          <li class="nav-item">
-            <a class="nav-link <?php echo ($page_title == "Dashboard") ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard/') ?>">
-              <i class="feather-airplay nav-icon"></i>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle <?php echo ($page == "Users") ? 'active-page' : '' ?>" href="#" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="feather-user nav-icon"></i>
-              Admins
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New User") ? 'active' : '' ?>" href="<?php echo url_for('/admin/new.php') ?>">Add New Admin</a>
-              </li>
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "All Users") ? 'active' : '' ?>" href="<?php echo url_for('/admin/index.php') ?>">All Users</a>
-              </li>
+          <?php if ($accessControl->dashboard == 1) : ?>
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($page_title == "Dashboard") ? 'active-page' : '' ?>" href="<?php echo url_for('dashboard/') ?>">
+                <i class="feather-airplay nav-icon"></i>
+                Dashboard
+              </a>
+            </li>
+          <?php endif; ?>
 
+          <?php if ($accessControl->user_mgt == 1) : ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle <?php echo ($page == "Users") ? 'active-page' : '' ?>" href="#" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather-user nav-icon"></i>
+                Admins
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "Add New User") ? 'active' : '' ?>" href="<?php echo url_for('/admin/new.php') ?>">Add New Admin</a>
+                </li>
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "All Users") ? 'active' : '' ?>" href="<?php echo url_for('/admin/index.php') ?>">All Users</a>
+                </li>
+              </ul>
+            </li>
+          <?php endif; ?>
 
-            </ul>
-          </li>
-          <?php } ?>
+          <?php if ($accessControl->product_mgt == 1) : ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle <?php echo ($page == "Product") ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather-package nav-icon"></i>
+                Products
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appsDropdown">
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "All Products") ? 'active' : '' ?>" href="<?php echo url_for('products/index.php') ?>">All Products</a>
+                </li>
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "Add New Product") ? 'active' : '' ?>" href="<?php echo url_for('products/new.php') ?>">Add Product</a>
+                </li>
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "Category") ? 'active' : '' ?>" href="<?php echo url_for('product_category/index.php') ?>">Category</a>
+                </li>
 
-          <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) { ?>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle <?php echo ($page == "Product") ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="feather-package nav-icon"></i>
-              Products
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appsDropdown">
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "All Products") ? 'active' : '' ?>" href="<?php echo url_for('products/index.php') ?>">All Products</a>
-              </li>
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New Product") ? 'active' : '' ?>" href="<?php echo url_for('products/new.php') ?>">Add Product</a>
-              </li>
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Category") ? 'active' : '' ?>" href="<?php echo url_for('product_category/index.php') ?>">Category</a>
-              </li>
+              </ul>
+            </li>
+          <?php endif; ?>
 
-            </ul>
-          </li>
-           <?php } ?>
-
-           <?php if (in_array($loggedInAdmin->admin_level, [1,4])) { ?>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle <?php echo ($page == "Customer") ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="feather-users nav-icon"></i>
-              Customers
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appsDropdown">
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New Customer") ? 'active' : '' ?>" href="<?php echo url_for('client/new.php') ?>">Add New Customer</a>
-              </li>
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "All Customers") ? 'active' : '' ?>" href="<?php echo url_for('client/index.php') ?>">All Customer</a>
-              </li>
-              <li>
-                <a class="dropdown-item  d-none<?php echo ($page_title == "Search Vehicle") ? 'active' : '' ?>" href="<?php echo url_for('client/vehicle.php') ?>">Search Vehicle</a>
-              </li>
-            </ul>
-          </li>
-          <?php } ?>
+          <?php if ($accessControl->customer_mgt == 1) : ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle <?php echo ($page == "Customer") ? 'active-page' : '' ?>" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather-users nav-icon"></i>
+                Customers
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appsDropdown">
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "Add New Customer") ? 'active' : '' ?>" href="<?php echo url_for('client/new.php') ?>">Add New Customer</a>
+                </li>
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "All Customers") ? 'active' : '' ?>" href="<?php echo url_for('client/index.php') ?>">All Customer</a>
+                </li>
+                <li>
+                  <a class="dropdown-item  d-none<?php echo ($page_title == "Search Vehicle") ? 'active' : '' ?>" href="<?php echo url_for('client/vehicle.php') ?>">Search Vehicle</a>
+                </li>
+              </ul>
+            </li>
+          <?php endif; ?>
 
           <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -241,43 +244,42 @@
 
             </ul>
           </li>
-          
-          <?php //print_r($loggedInAdmin) ?>
-          <?php if (in_array($loggedInAdmin->admin_level, [1,5])) { ?>
-            
-          <li class="nav-item">
-            <a class="nav-link <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('wallet/add.php') ?>">
-              <i class="feather-gift nav-icon"></i>
-              Wallet 
-            </a>
-          </li>
-          <?php } ?>
 
-          <?php if (in_array($loggedInAdmin->admin_level, [1,4])) { ?>
-          <li class="nav-item">
-            <a class="nav-link <?php echo ($page == "Invoice") ? 'active-page' : '' ?>" href="<?php echo url_for('invoice/') ?>">
-              <i class="feather-camera nav-icon"></i>
-              Billing & Receipts
-            </a>
-          </li>
-          <?php } ?>
-          <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) { ?>
-          <li class="nav-item">
-            <a class="nav-link <?php echo ($page_title == "Stock") ? 'active-page' : '' ?>" href="<?php echo url_for('stock/') ?>">
-              <i class="feather-shopping-cart nav-icon"></i>
-              Stock
-            </a>
-          </li>
-          <?php } ?>
-          <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) { ?>
-          <li class="nav-item">
-            <a class="nav-link <?php echo ($page_title == "Report") ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">
-              <i class="feather-target nav-icon"></i>
-              <!-- <i data-feather='trello'></i> -->
-              Report
-            </a>
-          </li>
-          <?php } ?>
+          <?php if ($accessControl->wallet_mgt == 1) : ?>
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('wallet/add.php') ?>">
+                <i class="feather-gift nav-icon"></i>
+                Wallet
+              </a>
+            </li>
+          <?php endif; ?>
+
+          <?php if ($accessControl->sales_mgt == 1) : ?>
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($page == "Invoice") ? 'active-page' : '' ?>" href="<?php echo url_for('invoice/') ?>">
+                <i class="feather-camera nav-icon"></i>
+                Billing & Receipts
+              </a>
+            </li>
+          <?php endif; ?>
+
+          <?php if ($accessControl->stock_mgt == 1) : ?>
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($page_title == "Stock") ? 'active-page' : '' ?>" href="<?php echo url_for('stock/') ?>">
+                <i class="feather-shopping-cart nav-icon"></i>
+                Stock
+              </a>
+            </li>
+          <?php endif; ?>
+
+          <?php if ($accessControl->report_mgt == 1) : ?>
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($page_title == "Report") ? 'active-page' : '' ?>" href="<?php echo url_for('report/') ?>">
+                <i class="feather-target nav-icon"></i>
+                Report
+              </a>
+            </li>
+          <?php endif; ?>
 
           <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle
@@ -315,35 +317,43 @@
           <?php //if ($loggedInAdmin->id == 1) { 
           ?>
 
-          <?php if (in_array($loggedInAdmin->admin_level, [1])) { ?>
-          <li class="nav-item dropdown">
-
-
-            <a class="nav-link dropdown-toggle
+          <?php if ($accessControl->settings_mgt == 1) : ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle
               <?php echo ($page == "Settings") ? 'active-page' : '' ?>
             " href="#" id="formsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="feather-settings nav-icon"></i>
-              Settings
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="formsDropdown">
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "App Setup") ? 'active' : '' ?>" href="<?php echo url_for('settings/index.php') ?>">App Setup</a>
-              </li>
+                <i class="feather-settings nav-icon"></i>
+                Settings
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="formsDropdown">
+                <?php if ($accessControl->access_control == 1) : ?>
+                  <li>
+                    <a class="dropdown-item <?php echo ($page_title == "Access Control") ? 'active' : '' ?>" href="<?php echo url_for('settings/access/index.php') ?>">Access Control</a>
+                  </li>
+                <?php endif; ?>
+                <?php if ($accessControl->company_setup == 1) : ?>
+                  <li>
+                    <a class="dropdown-item <?php echo ($page_title == "App Setup") ? 'active' : '' ?>" href="<?php echo url_for('settings/index.php') ?>">App Setup</a>
+                  </li>
 
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Company") ? 'active' : '' ?>" href="<?php echo url_for('company/') ?>">Company</a>
-              </li>
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Branch") ? 'active' : '' ?>" href="<?php echo url_for('branch/') ?>">Branch</a>
-              </li>
+                  <li>
+                    <a class="dropdown-item <?php echo ($page_title == "Company") ? 'active' : '' ?>" href="<?php echo url_for('company/') ?>">Company</a>
+                  </li>
+                <?php endif; ?>
 
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Bank") ? 'active' : '' ?>" href="<?php echo url_for('bank/') ?>">Bank</a>
-              </li>
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "Branch") ? 'active' : '' ?>" href="<?php echo url_for('branch/') ?>">Branch</a>
+                </li>
 
-            </ul>
-          </li>
-          <?php } ?>
+                <?php if ($accessControl->access_control == 1) : ?>
+                  <li>
+                    <a class="dropdown-item <?php echo ($page_title == "Bank") ? 'active' : '' ?>" href="<?php echo url_for('bank/') ?>">Bank</a>
+                  </li>
+                <?php endif; ?>
+
+              </ul>
+            </li>
+          <?php endif; ?>
 
           <li class="nav-item d-none">
             <a class="nav-link <?php echo ($page_title == "Help") ? 'active-page' : '' ?>" href="<?php echo url_for('/others/help.php') ?>">
