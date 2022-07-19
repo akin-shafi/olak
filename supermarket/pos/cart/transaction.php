@@ -2,9 +2,13 @@
 
 <?php if(isset($_POST)) { 
 	  $args = $_POST['trans'];
+	  $args['company_id'] = $loggedInAdmin->company_id;
+	  $args['branch_id'] = $loggedInAdmin->branch_id;
 	  $store_id = $_POST['trans']['store_id'];
 	  $created_by = $_POST['trans']['created_by'] ?? $loggedInAdmin->id;
+
 	  $transaction = new Transaction($args);
+	  
 	  $result1 = $transaction->save(); // Save into transaction table
 	  // $result1 = true;
       	// pre_r($transaction);
@@ -17,6 +21,7 @@
 		    $data2 = [
 		    	'trans_no' => $trans_no,
 		    	'created_by' => $created_by,
+		    	// 'created_at' => $created_at,
 		    ];
 			$transaction->merge_attributes($data2); // merge newly created trans_no and
 			$result2 = $transaction->save(); // Save tran_no into transaction table 
@@ -26,12 +31,15 @@
 		      	$dym = rand(10, 200);
 		      	// Create ref_no dynamically
 		        $ref_no = 'Ref'. "1" . str_pad($new_ref_id, 2, "0", STR_PAD_LEFT) . $dym;
+				
 			    $data3 = [
 			    	'trans_no' => $trans_no, 
 			    	'ref_no' => $ref_no,
 			    	'outstanding' => $args['balance'],
 			    	'created_by' => $created_by,
 			    	'paid_at' => date('Y-m-d H:i:s'),
+					'company_id' => $loggedInAdmin->company_id,
+					'branch_id' => $loggedInAdmin->branch_id,
 			    ];
 			    $trans_details->merge_attributes($data3); 
 			    $result3 = $trans_details->save(); // Save into transaction_details table
@@ -61,13 +69,15 @@
 					  		$items = 'left_shut';
 					  		$sold = 'sold_shut';
 					  	}
+					
+					  
 					  	for ($i = 0; $i < count($arr); $i++) {
 						    $product = Product::find_by_id($_POST['product_id'][$i]);
-						    // $stockUnit = $product->quantity - $_POST['product_quantity'][$i];
+						    $stockUnit = $product->quantity - $_POST['product_quantity'][$i];
 						    $itemsold = $_POST['product_quantity'][$i] + $product->$sold;
 
 						    $args = [
-						    	// $items => $stockUnit,
+						    	$items => $stockUnit,
 						    	$sold => $itemsold,
 						    ];
 						    $product->merge_attributes($args);

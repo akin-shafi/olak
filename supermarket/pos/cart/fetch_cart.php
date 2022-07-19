@@ -30,7 +30,34 @@ $sum = 0;
 				<td align="right"> '.$values["product_price"].' <input type="hidden" name="product_price[]" id="unit_cost'.$values["product_id"].'" value="'.$values["product_price"].'" class="unit_cost"></td>
 				
 				<td align="center">
-				<input autocomplete="no" class="form-control input-qty kb-pad text-center qty" name="quantity[]" type="text" value="'.$values["product_quantity"].'" id="quantity'.$values["product_id"].'" data-id="'.$values["product_id"].'" >
+				
+				<div class="dropdown user user-menu">
+                        <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+							<input autocomplete="off"  class="form-control input-qty kb-pad text-center qty" name="quantity[]" type="text" 
+							value="'.$values["product_quantity"].'" id="quantity'.$values["product_id"].'" data-id="'.$values["product_id"].'" >
+                            
+                        </div>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <div class="keypad">
+                                <div class="key" data-id="1">1</div>
+                                <div class="key" data-id="1">2</div>
+                                <div class="key" data-id="1">3</div>
+                                <div class="key" data-id="1">4</div>
+                                <div class="key" data-id="1">5</div>
+                                <div class="key" data-id="1">6</div>
+                                <div class="key" data-id="1">7</div>
+                                <div class="key" data-id="1">8</div>
+                                <div class="key" data-id="1">9</div>
+                                <div class="key" data-id="clear">clear</div>
+                                <div class="key" data-id="1">0</div>
+                                <!-- <div class="key" data-id="1">&rarr;</div> -->
+                                <div class="key" data-id="backspace">&larr;</div>
+								<div style="padding:2px;">
+									<div class="btn-success key" data-id="confirm" style="width:100%;">Confirm</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
 				</td>
 				
 				<td align="right" id="total'.$values["product_id"].'"> '.number_format($values["product_quantity"] * $values["product_price"], 2).'

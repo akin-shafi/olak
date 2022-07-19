@@ -3,11 +3,13 @@ class Transaction extends DatabaseObject
 {
 
   static protected $table_name = "transaction";
-  static protected $db_columns = ['id', 'store_id', 'customer_id', 'trans_no',  'total_item', 'quantity_in_item',  'cost_of_item', 'processed_by', 'tax', 'discount', 'total_paid', 'balance', 'payment_method', 'note', 'payment_note',  'created_by', 'created_at', 'verification_status', 'verified_by', 'verified_at', 'deleted'];
+  static protected $db_columns = ['id', 'store_id', 'customer_id', 'company_id', 'branch_id','trans_no',  'total_item', 'quantity_in_item',  'cost_of_item', 'processed_by', 'tax', 'discount', 'total_paid', 'balance', 'payment_method', 'note', 'payment_note',  'created_by', 'created_at', 'verification_status', 'verified_by', 'verified_at', 'deleted'];
 
   public $id;
   public $store_id;
   public $customer_id;
+  public $company_id;
+  public $branch_id;
   public $trans_no;
   public $total_item;
   public $quantity_in_item;
@@ -65,6 +67,8 @@ class Transaction extends DatabaseObject
   {
     $this->store_id = $args['store_id'] ?? '';
     $this->customer_id = $args['customer_id'] ?? '';
+    $this->company_id = $args['company_id'] ?? '';
+    $this->branch_id = $args['branch_id'] ?? '';
     $this->trans_no = $args['trans_no'] ?? '';
     $this->total_item = $args['total_item'] ?? '';
     $this->quantity_in_item = $args['quantity_in_item'] ?? '';
@@ -81,7 +85,7 @@ class Transaction extends DatabaseObject
     $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->verification_status = $args['verification_status'] ?? 0;
     $this->verified_by = $args['verified_by'] ?? 0;
-    $this->verified_at = $args['verified_at'] ?? '';
+    $this->verified_at = $args['verified_at'] ?? date('Y-m-d H:i:s');
     $this->deleted = $args['deleted'] ?? 0;
   }
 

@@ -3,7 +3,7 @@ class TransactionDetail extends DatabaseObject
 {
 
   static protected $table_name = "transaction_details";
-  static protected $db_columns = ['id', 'trans_no', 'ref_no', 'total_paid', 'outstanding','payment_method',  'note', 'payment_note', 'created_by', 'paid_at', 'created_at', 'deleted'];
+  static protected $db_columns = ['id', 'trans_no', 'ref_no', 'total_paid', 'outstanding','payment_method',  'note', 'payment_note', 'created_by', 'company_id', 'branch_id', 'paid_at', 'created_at', 'deleted'];
 
 
 
@@ -16,6 +16,8 @@ class TransactionDetail extends DatabaseObject
   public $note; 
   public $payment_note; 
   public $created_by; 
+  public $company_id; 
+  public $branch_id; 
   public $paid_at; 
   public $created_at; 
   public $deleted;
@@ -31,6 +33,8 @@ class TransactionDetail extends DatabaseObject
     $this->note = $args['note'] ?? '';
     $this->payment_note = $args['payment_note'] ?? '';
     $this->created_by = $args['created_by'] ?? '';
+    $this->company_id = $args['company_id'] ?? '';
+    $this->branch_id = $args['branch_id'] ?? '';
     $this->paid_at = $args['paid_at'] ?? '';
     $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted = $args['deleted'] ?? 0;
