@@ -1162,7 +1162,6 @@ $(document).ready(function() {
                             if (data == '') {
 
                             } else {
-
                                 errorAlert("Sorry you can't exceed the stock value!");
                             }
 
@@ -1354,6 +1353,11 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     load_cart_data();
+                    if (data == '') {
+
+                    } else {
+                        errorAlert("Sorry you can't exceed the stock value!");
+                    }
                 }
             });
         } else {

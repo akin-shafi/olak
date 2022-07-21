@@ -19,7 +19,11 @@
   // * Use same document root as webserver
   // * Can set a hardcoded value:
 
+  if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.168.64.2') {
   define("WWW_ROOT", '/olak/supermarket');
+  }else{
+       define("WWW_ROOT", '/supermarket');
+  }
 
   // define("WWW_ROOT", '');
   // * Can dynamically find everything in URL up to "/public"
@@ -96,6 +100,3 @@ if (isset($loggedInAdmin->id)) {
 
      $void_order = Settings::find_by_id(1)->delete_order ?? 0;
 }
-
-
-

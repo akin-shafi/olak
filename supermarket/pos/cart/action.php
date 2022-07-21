@@ -115,7 +115,13 @@ if(isset($_POST["edit"]))
 				if($_SESSION["shopping_cart"][$keys]['product_id'] == $_POST["product_id"])
 				{
 					$is_available++;
-					$_SESSION["shopping_cart"][$keys]['product_quantity'] = $_POST["product_quantity"];
+					if($_SESSION["shopping_cart"][$keys]['product_quantity'] >= $_POST["leftover"]){
+						
+						exit('low');
+					}else{
+						$_SESSION["shopping_cart"][$keys]['product_quantity'] = $_POST["product_quantity"];
+					}
+					
 				}
 			}
 			if($is_available == 0)
@@ -127,7 +133,11 @@ if(isset($_POST["edit"]))
 					'product_quantity'         =>     $_POST["product_quantity"],
 					'product_tax'         	   =>     $_POST["product_tax"],
 				);
-				$_SESSION["shopping_cart"][] = $item_array;
+				if($_POST["product_quantity"] >= $_POST["leftover"]){
+					exit('low');
+				}else{
+					$_SESSION["shopping_cart"][] = $item_array;
+				}
 			}
 		}
 		else
@@ -139,7 +149,11 @@ if(isset($_POST["edit"]))
 				'product_quantity'         =>     $_POST["product_quantity"],
 				'product_tax'         	   =>     $_POST["product_tax"],
 			);
-			$_SESSION["shopping_cart"][] = $item_array;
+			if($_POST["product_quantity"] >= $_POST["leftover"]){
+					exit('low');
+			}else{
+					$_SESSION["shopping_cart"][] = $item_array;
+			}
 		}
 	}
 
@@ -166,6 +180,7 @@ if(isset($_POST["edit"]))
 					'product_tax'         	   =>     $_POST["product_tax"],
 					'product_discount'         =>     $_POST["product_discount"],
 				);
+				
 				$_SESSION["shopping_cart"][] = $item_array;
 			}
 		}
