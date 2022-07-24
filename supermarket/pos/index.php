@@ -1327,13 +1327,13 @@ $(document).ready(function() {
 
     function update_quantity(product_id, p_qty) {
         let quantity = $('#quantity' + product_id).val();
-
+        var leftover = $('#quantity' + product_id).data('leftover');
         let product_name = $('#product_name' + product_id).val();
         let product_price = $('#unit_cost' + product_id).val();
         let product_quantity = p_qty;
         let product_tax = $('#p_tax' + product_id).val();
         let stockUnit = $('#stockUnit' + product_id).val();
-        let edit = "edit_quantity";
+        // let edit = "edit_quantity";
 
         // var n = stockUnit - quantity;
         // $('#stockUnit'+product_id).val(n)
@@ -1343,13 +1343,15 @@ $(document).ready(function() {
                 url: "cart/action.php",
                 method: "POST",
                 data: {
+                    edit: 1,
                     product_id: product_id,
                     product_name: product_name,
                     product_price: product_price,
                     product_quantity: product_quantity,
                     product_tax: product_tax,
                     stockUnit: stockUnit,
-                    edit: edit
+                    leftover: leftover,
+                    action: "edit_quantity",
                 },
                 success: function(data) {
                     load_cart_data();

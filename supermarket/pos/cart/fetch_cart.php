@@ -33,7 +33,7 @@ $sum = 0;
 				
 				<div class="dropdown user user-menu">
                         <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-							<input autocomplete="off"  class="form-control input-qty kb-pad text-center qty" name="quantity[]" type="text" 
+							<input autocomplete="off" data-leftover="'.$values['leftover'].'" class="form-control input-qty kb-pad text-center qty" name="quantity[]" type="text" 
 							value="'.$values["product_quantity"].'" id="quantity'.$values["product_id"].'" data-id="'.$values["product_id"].'" >
                             
                         </div>
