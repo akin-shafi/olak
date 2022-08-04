@@ -35,10 +35,10 @@ class AccessControl extends DatabaseObject
       $this->warehouse_mgt = $args['warehouse_mgt'] ?? 0;
       $this->purchase_mgt = $args['purchase_mgt'] ?? 0;
       $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
-      $this->created_by = $args['created_by'] ?? '';
+      $this->created_by = $args['created_by'] ?? 1;
       $this->updated_at = $args['updated_at'] ?? '';
-      $this->updated_by = $args['updated_by'] ?? '';
-      $this->deleted = $args['deleted'] ?? '';
+      $this->updated_by = $args['updated_by'] ?? 1;
+      $this->deleted = $args['deleted'] ?? 0;
     }
     protected function validate()
     {

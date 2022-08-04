@@ -85,6 +85,9 @@ $access = AccessControl::find_by_id($id);
 
 <?php if(isset($_POST['addRecord'])){
   $args = $_POST['addRecord'];
+  $args['created_by'] = $loggedInAdmin->id;
+  // $args['updated_by'] = 1;
+  // $args['deleted'] = 1;
   $addRecord = new AccessControl($args);
   $result = $addRecord->save();
     if ($result == true) {  
@@ -111,10 +114,12 @@ if(isset($_POST['editRecord'])){
 }?>
 
 <?php if (isset($_POST['record'])) { ?>
-	<?php $sn = 1; foreach (AccessControl::find_by_undeleted(['order' => 'ASC']) as $key => $value) { ?>
+	<?php $sn = 1; foreach (AccessControl::find_by_undeleted(['order' => 'ASC']) as $key => $value) { 
+      $full_name = Admin::find_by_id($value->user_id)->full_name() ?? '';
+    ?>
       <tr class="text-center">
         <td><?php echo $sn++ ?></td>
-        <td><?php echo Admin::find_by_id($value->user_id)->full_name(); ?></td>
+        <td><?php echo $full_name; ?></td>
         <td>
          
           <?php echo $value->product_mgt == '0' ? '<i class="fa fa-circle text-danger"></i>' : '<i class="fa fa-circle text-success"></i>' ?>

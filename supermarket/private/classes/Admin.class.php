@@ -73,7 +73,7 @@ class Admin extends DatabaseObject
         $this->created_by = $args['created_by'] ?? '';
         $this->updated_at = $args['updated_at'] ?? date('Y-m-d H:i:s');
         $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
-        $this->deleted = $args['deleted'] ?? '';
+        $this->deleted = $args['deleted'] ?? 0;
     }
 
     public function full_name()

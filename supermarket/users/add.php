@@ -28,7 +28,7 @@ if (is_post_request()) {
     $admin = new Admin($args);
     // echo '<pre>';print_r($admin);'</pre>';
     $result = $admin->save();
-
+    // $result = false;
     if ($result == true) {
         $new_id = $admin->id;
         if (in_array($admin_level, [1,2])) { // Super Admin
@@ -87,7 +87,7 @@ if (is_post_request()) {
         // Logfile
         log_action('New Users', "id: {$admin->id}, Created by {$loggedInAdmin->full_name()}", "admin");
     
-        $session->message('User created successfully.');
+        // $session->message('User created successfully.');
         redirect_to(url_for('/users/'));
     } else {
         // show errors

@@ -245,20 +245,22 @@ $accessControl = AccessControl::find_by_user_id($loggedInAdmin->id);
             </ul>
           </li>
 
-          <?php if ($accessControl->wallet_mgt == 1) : ?>
-            <li class="nav-item">
-              <a class="nav-link <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('wallet/add.php') ?>">
-                <i class="feather-gift nav-icon"></i>
-                Wallet
-              </a>
-            </li>
-          <?php endif; ?>
+          
 
           <?php if ($accessControl->sales_mgt == 1) : ?>
             <li class="nav-item">
               <a class="nav-link <?php echo ($page == "Invoice") ? 'active-page' : '' ?>" href="<?php echo url_for('invoice/') ?>">
                 <i class="feather-camera nav-icon"></i>
                 Billing & Receipts
+              </a>
+            </li>
+          <?php endif; ?>
+          
+          <?php if ($accessControl->wallet_mgt == 1) : ?>
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('wallet/add.php') ?>">
+                <i class="feather-gift nav-icon"></i>
+                Wallet
               </a>
             </li>
           <?php endif; ?>
