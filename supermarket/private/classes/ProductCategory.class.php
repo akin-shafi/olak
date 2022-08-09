@@ -2,13 +2,15 @@
 class ProductCategory extends DatabaseObject
 {
     protected static $table_name = "categories";
-    protected static $db_columns = ['id','category','created_at','created_by', 'exception','deleted'];
+    protected static $db_columns = ['id','category','created_at','created_by', 'exception', 'company_id', 'branch_id','deleted'];
 
     public $id;
     public $category;
     public $created_at ;
     public $created_by;
     public $exception;
+    public $company_id;
+    public $branch_id;
     public $deleted;
 
  
@@ -36,6 +38,8 @@ class ProductCategory extends DatabaseObject
         $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
         $this->created_by = $args['created_by'] ?? '';
         $this->exception = $args['exception'] ?? 0;
+        $this->company_id = $args['company_id'] ?? 0;
+        $this->branch_id = $args['branch_id'] ?? 0;
         $this->deleted = $args['deleted'] ?? '';
     }
 
@@ -66,5 +70,20 @@ class ProductCategory extends DatabaseObject
         } else {
             return false;
         }
+    }
+
+    public static function find_by_company($options=[])
+    {
+        $company_id = $options['company_id'] ?? false;
+        $branch_id = $options['branch_id'] ?? false;
+        $sql = "SELECT * FROM " . static::$table_name . " ";
+        $sql .= "WHERE company_id='" . self::$database->escape_string($company_id) . "'";
+        $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
+     
+        $sql .= " ORDER BY id DESC ";
+        echo $sql;
+
+        $obj_array = static::find_by_sql($sql);
+        return $obj_array;
     }
 }
