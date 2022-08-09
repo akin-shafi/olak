@@ -81,7 +81,7 @@ class ProductCategory extends DatabaseObject
         $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
      
         $sql .= " ORDER BY id DESC ";
-        echo $sql;
+        // echo $sql;
 
         $obj_array = static::find_by_sql($sql);
         return $obj_array;
