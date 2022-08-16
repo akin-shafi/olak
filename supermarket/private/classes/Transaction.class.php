@@ -188,6 +188,8 @@ class Transaction extends DatabaseObject
   {
     $from = $options['from'] ?? false;
     $to = $options['to'] ?? false;
+    $company_id = $options['cona$company_id'] ?? false;
+    $branch_id = $options['branc$branch_id'] ?? false;
     $charges = $options['charges'] ?? false;
     $created_by = $options['created_by'] ?? false;
 
@@ -207,6 +209,12 @@ class Transaction extends DatabaseObject
 
     if ($created_by) {
       $sql .= " AND created_by  ='" . self::$database->escape_string($created_by) . "'";
+    }
+    if ($company_id) {
+      $sql .= " AND company$company_id  ='" . self::$database->escape_string($company_id) . "'";
+    }
+    if ($branch_id) {
+      $sql .= " AND bra$branch_id  ='" . self::$database->escape_string($branch_id) . "'";
     }
     if ($from && $to) {
       if ($from == $to) {
