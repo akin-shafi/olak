@@ -25,10 +25,17 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
    <link rel="stylesheet" type="text/css" href="<?php echo url_for('css/template.css') ?>">
    <link rel="stylesheet" type="text/css" href="<?php echo url_for('css/generator.min.css') ?>">
    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+   <!-- bootstrap css 5.* -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
+<body>
 <style type="text/css">
    .d-none {
       display: none;
+   }
+   .modal-dialog{
+      max-height: 300px !important ;
    }
 </style>
 <div>
@@ -39,7 +46,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             <!-- <button class="default-btn" id="cmd" style="" ><i class="fa fa-download"></i> Download Reciept</button> -->
             <!-- <button class="default-btn" id="save" style="" ><i class="fa fa-download"></i> Save Reciept</button> -->
 
-            <a href="<?php echo url_for('/invoice/waybill.php?invoice_no='. $invoice_no) ?>" class="default-btn" id="printBoth" style="float: ;" >Process Waybill</a>
+            <a href="#" class="default-btn" id="printBoth" style="float: ;" >Process Waybill</a>
             <button class="default-btn" id="print" style="float: right;" i><i class="fa fa-print"></i> Print Reciept</button>
             
             
@@ -49,7 +56,9 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
    <div class="separator"></div>
 </div>
 
-<body>
+
+
+
 
    <section class="body" id="content">
       <?php //pre_r($billing); ?>
@@ -233,12 +242,34 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
       </div>
       <!-- <div id="editor"></div> -->
    </section>
+
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Please confirm</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+           <div class="text-center">Are you sure you want to Print waybill ?</div>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <a href="<?php echo url_for('/invoice/waybill.php?invoice_no='. $invoice_no) ?>" class="btn btn-success">Yes</a>
+         </div>
+       </div>
+     </div>
+   </div>
+
+
    <input type="hidden" id="url" value="<?php echo  $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?>">
    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
    <script src="es6-promise.auto.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-   
+   <!-- js -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
    
@@ -272,6 +303,10 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
          }).save();
       }
+
+      $("#printBoth").click(function(){
+         $("#exampleModal").modal("show")
+      });
       // $(document).on('click', '#save', function() {
       //    save()
       // });

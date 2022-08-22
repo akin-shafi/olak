@@ -4,10 +4,11 @@ if (is_post_request()) {
 
 	if (isset($_POST['new_invoice'])) {
 		$args  = $_POST['billing'] ?? [];
+		
 		$billing = new Billing($args);
 		$result = $billing->save();
-
-		$result = true;
+		
+		// $result = true;
 
 		if ($result == true) {
 			if ($_POST['billing']['billingFormat'] == 1) {
@@ -21,6 +22,7 @@ if (is_post_request()) {
 				];
 				$customer_wallet->merge_attributes($new_args);
 				$result_data = $customer_wallet->save();
+				// print_r("Hello");
 			}
 
 			$rand = rand(10, 100);
@@ -32,6 +34,7 @@ if (is_post_request()) {
 			];
 			$billing->merge_attributes($data);
 			$result_set = $billing->save();
+
 
 			// $result_set = true;
 			if ($result_set == true) {
@@ -52,6 +55,7 @@ if (is_post_request()) {
 
 					$expRequest = new Invoice($dataDesc);
 					$last_result = $expRequest->save();
+					// pre_r($expRequest);
 				}
 
 				if ($last_result == true) {

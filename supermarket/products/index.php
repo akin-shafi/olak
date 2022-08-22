@@ -79,7 +79,9 @@ include(SHARED_PATH . '/header.php'); ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $sn = 1; foreach (Product::find_by_company() as $key => $value) {?>
+                                    <?php $sn = 1; foreach (Product::find_by_company(['company_id' => $loggedInAdmin->company_id,  'branch_id' => $loggedInAdmin->branch_id, ]) as $key => $value) {
+                                    // pre_r($value);
+                                    ?>
                                     <tr>
                                         <td><?php echo $sn++; ?> </td>
                                         <td>

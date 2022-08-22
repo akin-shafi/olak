@@ -133,7 +133,7 @@ $page_title = 'Billing & Receipts'; ?>
                   </div>
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Payment Method <sup class="error">*</sup></label>
-                    <select required class="form-control payment_method" name="billing[billingFormat]">
+                    <select required class="form-control payment_method" id="payment_method" name="billing[billingFormat]">
                       <option value="">Payment Method</option>
                       <?php foreach (Billing::PAYMENT_METHOD as $key => $value) { ?>
                         <option value="<?php echo $key; ?>">
@@ -384,9 +384,10 @@ $page_title = 'Billing & Receipts'; ?>
       e.preventDefault()
       // $("#create_request").attr('disabled', true);
 
-      var count_data = 0;
-      var cus_id = $(".client_id").val();
-      var grand_totalInput = $("#grand_totalInput").val();
+      let count_data = 0;
+      let cus_id = $(".client_id").val();
+      let grand_totalInput = $("#grand_totalInput").val();
+      let payment_method = $("#payment_method").val();
 
       $('.amount').each(function() {
         count_data = count_data + 1;
@@ -399,22 +400,30 @@ $page_title = 'Billing & Receipts'; ?>
 
         if (part_payment > 0) {
 
-          $.ajax({
-            url: "inc/fetch_wallet.php",
-            method: "POST",
-            data: {
-              fetch_wallet: 1,
-              customer_id: cus_id,
-            },
-            dataType: 'json',
-            success: function(data) {
-              if (Number(data.wallet_balance) > Number(grand_totalInput)) {
-                submit_form(form_data);
-              } else {
-                errorAlert("Customer's wallet balance is low")
-              }
-            }
-          });
+          if(payment_method == 1){
+
+            
+              $.ajax({
+                url: "inc/fetch_wallet.php",
+                method: "POST",
+                data: {
+                  fetch_wallet: 1,
+                  customer_id: cus_id,
+                },
+                dataType: 'json',
+                success: function(data) {
+                  if (Number(data.wallet_balance) >= Number(grand_totalInput)) {
+                    submit_form(form_data);
+                  } else {
+                    errorAlert("Customer's wallet balance is low")
+                  }
+                }
+              });
+          }else{
+            submit_form(form_data);
+          }
+
+          
           // check_wallet()
           // submit_form(form_data)
         } else {
