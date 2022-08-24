@@ -52,7 +52,7 @@
  <!-- <script src="<?php //echo url_for('js/sweet.js') 
                      ?>"></script> -->
  <script type="text/javascript">
-    function successAlert(msg) {
+    function successAlert(msg) { 
        Swal.fire({
           title: msg,
           type: "success",
@@ -103,6 +103,24 @@
           buttonsStyling: !1
        })
     }
+
+    function errorOption(title, text, c_url){
+           Swal.fire({
+              title: title,
+              text: text,
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                window.location.href = c_url;
+              } 
+              // else {
+              //   swal("Your imaginary file is safe!");
+              // }
+            });
+        }
  </script>
 
  </body>

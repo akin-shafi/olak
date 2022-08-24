@@ -60,7 +60,8 @@ class Billing extends DatabaseObject
   const PAYMENT_METHOD = [
     1 => 'Wallet',
     2 => 'Cash',
-    3 => 'Credit',
+    3 => 'Transfer',
+    4 => 'POS',
   ];
 
   const BILLING_FORMAT = [

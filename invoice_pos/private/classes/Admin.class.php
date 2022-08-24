@@ -30,8 +30,9 @@ class Admin extends DatabaseObject
     1 => 'Super Admin',
     2 => 'Admin',
     3 => 'Sales Manager',
-    4 => 'Sales Rep',
-    5 => 'Account',
+    4 => 'Compliance Officer',
+    5 => 'Sales Rep',
+    6 => 'Account',
   ];
 
 

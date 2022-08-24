@@ -101,7 +101,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             </div>
          </section>
          <section id="invoice-title-number">
-            <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase;">Receipt</span>
+            <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase;">WayBill</span>
             <div class="separator"></div>
             <span id="number" class="ibcl_invoice_number">#<?php echo $billing->invoiceNum ?? '00000'; ?></span>
          </section>
@@ -154,10 +154,10 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                      <!-- Dummy cell for the row number and row commands -->
                      <th class="ibcl_item_description_label">Item/Service</th>
                      <th class="ibcl_item_quantity_label">Quantity</th>
-                     <th class="ibcl_item_price_label">Unit cost</th>
+                     <!-- <th class="ibcl_item_price_label">Unit cost</th> -->
                      <!-- <th class="ibcl_item_discount_label">Discount</th> -->
                      <!-- <th class="ibcl_item_tax_label">Tax(5%)</th> -->
-                     <th class="ibcl_item_line_total_label">Subtotal</th>
+                     <!--<th class="ibcl_item_line_total_label">Subtotal</th>-->
                   </tr>
                   <?php foreach ($invoices as $invoice) { ?>
                      <tr data-iterate="item">
@@ -175,15 +175,15 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                            <span class="ibcl_item_quantity"><?php echo $invoice->quantity; ?></span>
                         </td>
 
-                        <td>
+                        <!-- <td>
                            <span class="show-mobile ibcl_item_quantity_label">Unit Cost</span>
-                           <span class="ibcl_item_quantity"><?php echo number_format($invoice->unit_cost); ?></span>
-                        </td>
+                           <span class="ibcl_item_quantity"><?php //echo number_format($invoice->unit_cost); ?></span>
+                        </td> -->
 
-                        <td>
-                           <span class="show-mobile ibcl_item_quantity_label">Subtotal</span>
-                           <span class="ibcl_item_quantity"><?php echo number_format($invoice->amount); ?></span>
-                        </td>
+                        <!--<td>-->
+                        <!--   <span class="show-mobile ibcl_item_quantity_label">Subtotal</span>-->
+                        <!--   <span class="ibcl_item_quantity"><?php //echo number_format($invoice->amount); ?></span>-->
+                        <!--</td>-->
                      </tr>
                   <?php } ?>
 
@@ -212,8 +212,9 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
             <div>
                <h3>Terms  Notes:</h3>
-               <p>This receipt is valid for <?php echo $billing->due_date ?>days Only. Hence all goods/items stated above must by collected on or before 
-                  <b><?php echo date('D jS F, Y', strtotime($due_date)) ?></b>
+               <p>This is an evidence of release of the above Goods item to <?php
+               echo $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?> or his/her representative on this day <?php echo date("Y-m-d"); ?> by <?php echo Admin::find_by_id($billing->created_by)->full_name() ?? 'Not Set'; ?>.
+               
                </p>
             </div>
 
@@ -221,7 +222,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          </div>
          <!-- </div> -->
 
-         <section id="sums">
+         <section id="sums" class="d-none">
             <table cellspacing="0" cellpadding="0">
                <tbody>
                   <tr>

@@ -14,56 +14,20 @@ if (is_post_request()) {
 
   $args = $_POST['wallet'];
   $customer_id = $args['customer_id'];
-  $full_name = Client::find_by_customer_id($customer_id)->full_name();
-
-  // pre_r($full_name);
 
   $walletDetails = new WalletDetails($args);
-
   $result = $walletDetails->save();
   if ($result == true) {
-    $new_id = $walletDetails->id;
-    $payment_id = "POP/". $loggedInAdmin->branch_id ."/".$new_id . rand(10, 100);
-
-    $amount  = $_POST['amount'];
-    $payment_method  = $_POST['payment_method'];
-    
-    for ($i = 0; $i < count($amount); $i++) {
-      $data = [
-        'customer_id' => $customer_id,
-        'payment_method' => $payment_method[$i],
-        'amount'         => $amount[$i],
-        'company_id'     => $loggedInAdmin->company_id,
-        'branch_id'      => $loggedInAdmin->branch_id,
-      ];
-
-      $payment = new WalletFundingMethod($data);
-      $savePayment = $payment->save();
-
-      if($savePayment == true){
-        $payment_record = WalletFundingMethod::find_by_id($payment->id);
-        
-        $newData = [
-          'payment_id' => $payment_id,
-        ];
-        $payment_record->merge_attributes($newData);
-        $savePayment_id = $payment_record->save();
-      }
-    }
-    
-    
-
     $wallet = Wallet::find_by_customer_id($customer_id);
     $amount = intval($wallet->balance) + intval($args['amount']);
     $data = [
-      'balance'     => $amount,
-      'company_id'  => $args['company_id'],
-      'branch_id'   => $args['branch_id'],
-      'payment_id'  => $payment_id
+      'balance' => $amount,
+      'company_id' => $args['company_id'],
+      'branch_id' => $args['branch_id'],
     ];
     $wallet->merge_attributes($data);
     $result = $wallet->save();
-    $session->message( $full_name . ' Wallet updated successfully.');
+    $session->message('The wallet was created successfully.');
     redirect_to(url_for('/client/index.php'));
   }
 } else {
@@ -74,8 +38,8 @@ if (is_post_request()) {
 
 ?>
 
-<?php $page = 'Wallet';
-$page_title = 'Load Wallet'; ?>
+<?php $page = 'Fund';
+$page_title = 'Load Fund'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div class="main-container">
@@ -107,7 +71,7 @@ $page_title = 'Load Wallet'; ?>
       </div>
     <?php } ?>
     <form id="add_wallet_form" class="mb-0" method="post">
-      <?php include('form_field.php') ?>
+      <?php include('form_field_load.php') ?>
       <div class="modal-footer">
         <button class="btn btn-primary" id="add_wallet_btn">Submit</button>
       </div>

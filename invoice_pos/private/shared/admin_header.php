@@ -227,6 +227,23 @@ $accessControl = AccessControl::find_by_user_id($loggedInAdmin->id);
               </ul>
             </li>
           <?php endif; ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle <?php echo ($page == "Fund") ? 'active-page' : '' ?>" href="<?php echo url_for('/fund_register/index.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="feather-dollar-sign  nav-icon"></i>
+              Fund Register
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
+              <li>
+                <a class="dropdown-item <?php echo ($page_title == "Load Fund") ? 'active' : '' ?>" href="<?php echo url_for('/fund_register/index.php') ?>">Add fund</a>
+              </li>
+              <li class="">
+                <a class="dropdown-item <?php echo ($page_title == "Fund History") ? 'active' : '' ?>" href="<?php echo url_for('/fund_register/index.php') ?>">History</a>
+              </li>
+
+
+            </ul>
+          </li>
 
           <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

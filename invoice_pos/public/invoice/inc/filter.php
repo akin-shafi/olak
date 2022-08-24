@@ -32,8 +32,7 @@ if (is_get_request()) {
 			$filteredData = Billing::find_by_filtering($companyId, $branchId);
 		endif; ?>
 
-		<?php //pre_r($_POST); 
-		?>
+		<?php //pre_r($_POST); ?>
 
 		<table id="rowSelection" class=" table table-striped table-hover responsive nowrap" style="width:100%">
 			<thead>
@@ -62,7 +61,7 @@ if (is_get_request()) {
 					$branch = Branch::find_by_id($value->branch_id);
 					$today = date('Y-m-d');
 					$due_date =  date('Y-m-d', strtotime('+' . $value->due_date . ' days', strtotime($today)));
-					$status = 'Delivered';
+					$status = 'Booked';
 				?>
 					<tr>
 						<td><?php echo $sn++; ?></td>
@@ -77,7 +76,7 @@ if (is_get_request()) {
 										<a class="dropdown-item" href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
 											<i class="feather-file-text fs-18" title="view"></i> Invoice
 										</a>
-										<a class="dropdown-item" href="<?php echo url_for('invoice/waybill.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
+										<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="#">
 											<i class="feather-file-text fs-18" title="view"></i> Waybill
 										</a>
 										<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
@@ -89,7 +88,8 @@ if (is_get_request()) {
 							</div>
 						</td>
 						<td>
-							<?php echo $status ?>
+							<?php //echo $status ?>
+							<?php echo h(Billing::STATUS[$value->status]); ?>
 						</td>
 
 						<td><?php echo h(ucwords($value->invoiceNum)); ?></td>

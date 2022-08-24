@@ -35,6 +35,11 @@ class Client extends DatabaseObject
   }
 
 
+  public function full_name()
+    {
+        return $this->first_name . " " . $this->last_name;
+    }
+
   protected function validate()
   {
     $this->errors = [];
@@ -74,6 +79,8 @@ class Client extends DatabaseObject
 
     return $this->errors;
   }
+
+
 
   public static function find_by_branch_id($bId)
   {

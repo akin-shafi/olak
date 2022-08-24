@@ -88,6 +88,9 @@ $page_title = 'Billing & Receipts'; ?>
 
                   </select>
                 </div>
+
+                
+
                 <div class="form-group ">
                   <label for="payment_method">Payment Method</label>
                   <select class="form-control">
@@ -134,21 +137,15 @@ $page_title = 'Billing & Receipts'; ?>
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Payment Method <sup class="error">*</sup></label>
                     <select required class="form-control payment_method" id="payment_method" name="billing[billingFormat]">
-                      <option value="">Payment Method</option>
-                      <?php foreach (Billing::PAYMENT_METHOD as $key => $value) { ?>
-                        <option value="<?php echo $key; ?>">
-                          <?php echo $value; ?>
-
-                        </option>
-                      <?php } ?>
-
+                      <option value="">Select</option>
+                      <option value="1">Wallet</option>
                     </select>
                   </div>
 
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Due Date <?php //echo $due_date; 
                                                           ?><sup class="error">*</sup></label>
-                    <input required="" type="text" name="billing[due_date]" class="form-control" id="dueDtate" value="30">
+                    <input required="" type="text" name="billing[due_date]" class="form-control" readonly id="dueDtate" value="7">
                   </div>
 
                 </section>
@@ -182,7 +179,7 @@ $page_title = 'Billing & Receipts'; ?>
                             </td>
 
 
-                            <td><input type="text" required="" name="unit_cost[]" id="unit_cost1" data-srno="1" class="form-control form-control-sm number_only unit_cost" value=""></td>
+                            <td><input type="text" readonly required="" name="unit_cost[]" id="unit_cost1" data-srno="1" class="form-control form-control-sm number_only unit_cost" value=""></td>
 
                             <td><input type="text" required="" name="quantity[]" id="quantity1" data-srno="1" class="form-control form-control-sm quantity" value=""></td>
 
@@ -250,6 +247,29 @@ $page_title = 'Billing & Receipts'; ?>
   </div><!-- Content wrapper end -->
 </div>
 
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <input type="hidden" value="<?php echo url_for('invoice/') ?>" id="eUrl">
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
@@ -275,7 +295,7 @@ $page_title = 'Billing & Receipts'; ?>
       html_code += '<tr id="row_id_' + count + '">';
       html_code += '<td><span id="sr_no">' + count + '</span></td>';
       html_code += '<td><select class="form-control form-control-sm service_type select2" required="" name="service_type[]" id="service_type' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Product::find_by_undeleted() as $result => $value) { ?><option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>"><?php echo $value->pname ?></option><?php } ?></select></td>';
-      html_code += '<td><input type="text" required="" name="unit_cost[]"  id="unit_cost' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only unit_cost"></td>';
+      html_code += '<td><input type="text" readonly required="" name="unit_cost[]"  id="unit_cost' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only unit_cost"></td>';
       html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only quantity" value="<?php echo empty($expRequest->quantity) ? 0 : ''; ?>"></td>';
       html_code += '<td><input type="text" required="" name="amount[]" id="amount' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only amount" readonly></td>';
       html_code += '<td><button type="button" name="remove_row" id="' + count + '" class="btn btn-danger p-0 pl-2 pr-2 remove_row">X</button></td></tr>';

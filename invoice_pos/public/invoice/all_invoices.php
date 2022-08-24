@@ -72,6 +72,8 @@ $page_title = 'All Invoices'; ?>
 </div>
 <input type="hidden" id="company_id" value="<?php echo $loggedInAdmin->company_id ?>">
 <input type="hidden" id="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
+
+<input type="hidden" id="BASE_URL" value="<?php echo url_for('/') ?>">
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
 
@@ -129,6 +131,17 @@ $page_title = 'All Invoices'; ?>
 		completeFilter(cId, bId)
 		// completeFilter()
 
+// 
+		$(document).on('click', '.waybill', function(e) {
+			e.preventDefault();
+			let BASE_URL = $("#BASE_URL").val();
+			let waybill_no = $(this).data('id');
+
+			
+			console.log(waybill_no)
+			let c_url = BASE_URL + "invoice/waybill.php?invoice_no=" + waybill_no;
+			errorOption('Warning', "Are you sure you want to print waybill ?", c_url)
+		})
 		$(document).on('click', '#delete_void', function() {
 			let deleteVoid = this.dataset.id;
 			Swal.fire({
