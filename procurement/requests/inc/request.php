@@ -190,6 +190,11 @@ if (is_get_request()) {
         <td colspan="7">
           <p class="text-muted text-uppercase mb-0">Terms & conditions</p>
           <?php echo $request->note != '' ? $request->note : 'Message not set' ?>
+          <?php if ($request->vendor_img != '') : ?>
+            <div style="width:100px;" class="my-3 d-none">
+              <img src="uploads/vendors/<?php echo $request->vendor_img ?>" class="img-fluid" onclick="enlargeImg(this)" alt="Additional upload">
+            </div>
+          <?php endif; ?>
         </td>
       </tr>
     <?php endif;
@@ -221,3 +226,11 @@ if (is_get_request()) {
     exit(json_encode(['message' => 'Status updated successfully']));
   endif;
 }
+?>
+
+<script>
+  function enlargeImg(img) {
+    img.style.transform = "scale(1.5)";
+    img.style.transition = "transform 0.25s ease";
+  }
+</script>

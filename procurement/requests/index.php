@@ -37,7 +37,7 @@ $requests = Request::find_all_requests();
                 <th scope="col">Processed By</th>
                 <th scope="col">Branch</th>
                 <th scope="col">Total Qty</th>
-                <th scope="col">Grand Total</th>
+                <th scope="col">Grand Total (<?php echo $currency ?>)</th>
                 <th scope="col">Status</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Request Date</th>
@@ -148,7 +148,7 @@ $requests = Request::find_all_requests();
       <div class="modal-content">
         <div class="modal-body">
           <div class="popup text-left">
-            <h4 class="mb-3">New Order</h4>
+            <h4 class="mb-3">Order Items</h4>
             <div class="content create-workform bg-body">
               <div class="table-responsive">
                 <table class="table table-hoverable">
@@ -157,8 +157,8 @@ $requests = Request::find_all_requests();
                       <th scope="col">Request ID</th>
                       <th scope="col">Item name</th>
                       <th class="text-center" scope="col">Quantity</th>
-                      <th class="text-center" scope="col">Unit Price</th>
-                      <th class="text-center" scope="col">Amount</th>
+                      <th class="text-center" scope="col">Unit Price (<?php echo $currency ?>)</th>
+                      <th class="text-center" scope="col">Amount (<?php echo $currency ?>)</th>
                     </tr>
                   </thead>
                   <tbody id="get_request"></tbody>
