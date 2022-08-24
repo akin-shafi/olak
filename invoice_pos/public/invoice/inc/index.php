@@ -6,6 +6,7 @@ if (is_post_request()) {
 		$args  = $_POST['billing'] ?? [];
 		
 		$billing = new Billing($args);
+		pre_r($billing);
 		$result = $billing->save();
 		
 		// $result = true;
@@ -65,9 +66,6 @@ if (is_post_request()) {
 				exit(json_encode(['success' => false, 'msg' => $billing->errors]));
 			}
 		}
-
-
-		
 	}
 
 	if (isset($_POST['edit_invoice'])) {

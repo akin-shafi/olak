@@ -33,6 +33,7 @@ if (is_post_request()) {
       'access_control' => isset($req['access_control']) ? 1 : 0,
       'company_setup'  => isset($req['company_setup'])  ? 1 : 0,
       'user_mgt'       => isset($req['user_mgt'])       ? 1 : 0,
+      'compliance'     => isset($req['compliance'])     ? 1 : 0,
       'filtering'      => isset($req['filtering'])      ? 1 : 0,
       'created_by'     => $loggedInAdmin->id,
     ];

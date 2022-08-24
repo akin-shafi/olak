@@ -2,7 +2,7 @@
 class AccessControl extends DatabaseObject
 {
   protected static $table_name = "access_control";
-  protected static $db_columns = ['id', 'user_id', 'dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'filtering', 'created_by', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'user_id', 'dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'compliance', 'filtering', 'created_by', 'created_at', 'deleted'];
 
   public $id;
   public $user_id;
@@ -24,6 +24,7 @@ class AccessControl extends DatabaseObject
   public $access_control;
   public $company_setup;
   public $user_mgt;
+  public $compliance;
   public $filtering;
   public $created_by;
   public $created_at;
@@ -31,7 +32,7 @@ class AccessControl extends DatabaseObject
 
   public $counts;
 
-  const PERMISSION = ['dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'filtering'];
+  const PERMISSION = ['dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'compliance', 'filtering'];
 
   public function __construct($args = [])
   {
@@ -54,6 +55,7 @@ class AccessControl extends DatabaseObject
     $this->access_control = $args['access_control'] ?? 0;
     $this->company_setup  = $args['company_setup'] ?? 0;
     $this->user_mgt       = $args['user_mgt'] ?? 0;
+    $this->compliance     = $args['compliance'] ?? 0;
     $this->filtering      = $args['filtering'] ?? 0;
 
     $this->created_by   = $args['created_by'] ?? '';

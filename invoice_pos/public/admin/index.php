@@ -17,8 +17,6 @@ if ($loggedInAdmin->admin_level == 1) {
 $page_title = 'All Users'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
-
-
 <div class="main-container">
 
   <!-- Page header start -->
