@@ -22,6 +22,7 @@ if (is_post_request()) {
       'stock_mgt'      => isset($req['stock_mgt'])      ? 1 : 0,
       'settings_mgt'   => isset($req['settings_mgt'])   ? 1 : 0,
       'sales_mgt'      => isset($req['sales_mgt'])      ? 1 : 0,
+      'special_sales'  => isset($req['special_sales'])  ? 1 : 0,
       'add_sales'      => isset($req['add_sales'])      ? 1 : 0,
       'edit_sales'     => isset($req['edit_sales'])     ? 1 : 0,
       'manage_sales'   => isset($req['manage_sales'])   ? 1 : 0,

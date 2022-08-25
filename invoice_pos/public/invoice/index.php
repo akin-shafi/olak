@@ -11,12 +11,11 @@ $service_type = '';
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branch = Branch::find_by_id($loggedInAdmin->branch_id);
 
-
-
 ?>
 <?php $page = 'Invoice';
 $page_title = 'Billing & Receipts'; ?>
-<?php include(SHARED_PATH . '/admin_header.php'); ?>
+<?php include(SHARED_PATH . '/admin_header.php');
+?>
 <style type="text/css">
   label {
     color: #FFF !important;
@@ -78,6 +77,7 @@ $page_title = 'Billing & Receipts'; ?>
 
               <input type="hidden" value="" name="billing[invoiceNum]">
               <input type="hidden" value="" name="new_invoice">
+
               <div class="d-none justify-content-between">
                 <div class="form-group">
                   <label for="currency">Currency</label>
@@ -88,9 +88,6 @@ $page_title = 'Billing & Receipts'; ?>
 
                   </select>
                 </div>
-
-                
-
                 <div class="form-group ">
                   <label for="payment_method">Payment Method</label>
                   <select class="form-control">
@@ -101,8 +98,6 @@ $page_title = 'Billing & Receipts'; ?>
                   </select>
                 </div>
               </div>
-              <!-- <input type="hidden" class="form-control" readonly  name="billing[invoiceNum]" value="<?php //echo date('dHs');  
-                                                                                                          ?>"> -->
 
               <div class="table-responsive">
                 <div class="d-flex">
@@ -121,14 +116,11 @@ $page_title = 'Billing & Receipts'; ?>
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Customer Name <sup class="error">*</sup></label>
                     <div class="btn-group">
-                      <select required class="form-control client_id" name="billing[client_id]">
+                      <select required class="form-control client_id" name="billing[client_id]" id="client">
                         <option value="">Select Customer</option>
-                        <?php foreach (Client::find_by_branch_id($loggedInAdmin->branch_id) as $client) { ?>
-
-                          <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?>
-                            <?php //echo $client->customer_id; 
-                            ?></option>
-                        <?php } ?>
+                        <?php foreach (Client::find_by_branch_id($loggedInAdmin->branch_id) as $client) : ?>
+                          <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?></option>
+                        <?php endforeach; ?>
                       </select>
                       <a href="<?php echo url_for('client/new.php') ?>" class="btn btn-success btn-sm">+</a>
                     </div>
@@ -136,10 +128,11 @@ $page_title = 'Billing & Receipts'; ?>
                   </div>
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Payment Method <sup class="error">*</sup></label>
-                    <select required class="form-control payment_method" id="payment_method" name="billing[billingFormat]">
-                      <option value="">Select</option>
-                      <option value="1">Wallet</option>
-                    </select>
+                    <div id="payment_method">
+                      <select required class="form-control payment_method" name="billing[billingFormat]">
+                        <option value="">Select</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div class="form-group col-lg-3 col-md-3 ">
@@ -179,7 +172,7 @@ $page_title = 'Billing & Receipts'; ?>
                             </td>
 
 
-                            <td><input type="text" readonly required="" name="unit_cost[]" id="unit_cost1" data-srno="1" class="form-control form-control-sm number_only unit_cost" value=""></td>
+                            <td><input type="text" <?php echo $accessControl->special_sales == 1 ? '' : 'readonly' ?> required="" name="unit_cost[]" id="unit_cost1" data-srno="1" class="form-control form-control-sm number_only unit_cost" value=""></td>
 
                             <td><input type="text" required="" name="quantity[]" id="quantity1" data-srno="1" class="form-control form-control-sm quantity" value=""></td>
 
@@ -192,13 +185,7 @@ $page_title = 'Billing & Receipts'; ?>
                           <input type="hidden" name="billing[tax]" id="taxInput" data-srno="1" class="form-control input-sm famount" value="" readonly>
 
                           <input type="hidden" name="billing[grand_total]" id="grand_totalInput" data-srno="1" class="form-control input-sm grand_total" value="" readonly>
-
-
                         </table>
-                        <!-- <div align="center">
-                                   <button type="button" name="add_row" id="add_row" class="btn btn-success btn-xs">+</button>
-                                   </div> -->
-
                       </td>
 
                     </tr>
@@ -325,10 +312,6 @@ $page_title = 'Billing & Receipts'; ?>
       cal_final_total(count)
     });
 
-
-
-
-
     function cal_final_total(count) {
       var final_item_total = 0;
       for (var j = 1; j <= count; j++) {
@@ -370,8 +353,6 @@ $page_title = 'Billing & Receipts'; ?>
 
       $('#taxInput')[0].value = tax;
       var ans = $('#grand_totalInput')[0].value = Number(grand_total);
-      console.log(ans)
-
       $('#part_payment').val(ans);
 
     }
@@ -420,30 +401,28 @@ $page_title = 'Billing & Receipts'; ?>
 
         if (part_payment > 0) {
 
-          if(payment_method == 1){
-
-            
-              $.ajax({
-                url: "inc/fetch_wallet.php",
-                method: "POST",
-                data: {
-                  fetch_wallet: 1,
-                  customer_id: cus_id,
-                },
-                dataType: 'json',
-                success: function(data) {
-                  if (Number(data.wallet_balance) >= Number(grand_totalInput)) {
-                    submit_form(form_data);
-                  } else {
-                    errorAlert("Customer's wallet balance is low")
-                  }
+          if (payment_method == 1) {
+            $.ajax({
+              url: "inc/fetch_wallet.php",
+              method: "POST",
+              data: {
+                fetch_wallet: 1,
+                customer_id: cus_id,
+              },
+              dataType: 'json',
+              success: function(data) {
+                if (Number(data.wallet_balance) >= Number(grand_totalInput)) {
+                  submit_form(form_data);
+                } else {
+                  errorAlert("Customer's wallet balance is low")
                 }
-              });
-          }else{
+              }
+            });
+          } else {
             submit_form(form_data);
           }
 
-          
+
           // check_wallet()
           // submit_form(form_data)
         } else {
@@ -488,12 +467,29 @@ $page_title = 'Billing & Receipts'; ?>
       var cus_id = $(this).val();
       var payment_method = $(".payment_method").val();
 
+      getPaymentMethod(cus_id)
+
       if (payment_method == 1) {
         check_wallet(cus_id)
       } else {
         $("#wallet_value").html("0.00")
       }
     });
+
+    function getPaymentMethod(cus_id) {
+      $.ajax({
+        url: "inc/fetch_wallet.php",
+        method: "GET",
+        data: {
+          check_credit_facility: 1,
+          cId: cus_id,
+        },
+        success: function(data) {
+          const pMethod = $("#payment_method");
+          pMethod.html(data)
+        }
+      });
+    }
 
     function check_wallet(cus_id) {
       $.ajax({
@@ -545,8 +541,6 @@ $page_title = 'Billing & Receipts'; ?>
     // alert("All is well");
     $('#famount').val(amount);
     $('#final_total_amt').text(amount);
-
-    console.log($('#famount').val());
 
   }, false);
 </script>

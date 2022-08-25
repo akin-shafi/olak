@@ -79,6 +79,7 @@ $page = 'Customer';
                     <th>Phone No</th>
                     <th>Address</th>
                     <th>Email</th>
+                    <th>Credit Facility</th>
                     <th>W.Balance</th>
                     <th>Action</th>
                   </tr>
@@ -94,6 +95,11 @@ $page = 'Customer';
                       <td><?php echo $client->phone; ?></td>
                       <td><?php echo $client->address; ?></td>
                       <td><?php echo $client->email; ?></td>
+                      <td>
+                        <span class="badge badge-primary rounded">
+                          <?php echo $client->credit_facility == 1 ? 'Yes' : 'No'; ?>
+                        </span>
+                      </td>
                       <td><?php echo $currency . " " . number_format($balance, 2); ?></td>
                       <td>
 

@@ -63,6 +63,7 @@ $access = AccessControl::find_by_undeleted();
             <th>Stock mgt</th>
             <th>Settings mgt</th>
             <th>Sales mgt</th>
+            <th>Special Sales</th>
             <th>Add sales</th>
             <th>Edit sales</th>
             <th>Manage sales</th>
@@ -100,6 +101,7 @@ $access = AccessControl::find_by_undeleted();
               <td class="text-center"><?php echo $data->stock_mgt == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->settings_mgt == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->sales_mgt == 1 ? $isTrue : $isFalse ?></td>
+              <td class="text-center"><?php echo $data->special_sales == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->add_sales == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->edit_sales == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->manage_sales == 1 ? $isTrue : $isFalse ?></td>

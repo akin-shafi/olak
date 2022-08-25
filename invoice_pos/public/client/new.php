@@ -7,7 +7,9 @@ require_login();
 if (is_post_request()) {
 
   $args = $_POST['client'];
+  $args['credit_facility'] = $_POST['credit_facility'] == 'on' ? 1 : 0;
   $client = new Client($args);
+
   $result = $client->save();
 
   if ($result == true) {

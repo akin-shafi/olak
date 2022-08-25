@@ -2,7 +2,7 @@
 class AccessControl extends DatabaseObject
 {
   protected static $table_name = "access_control";
-  protected static $db_columns = ['id', 'user_id', 'dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'compliance', 'filtering', 'created_by', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'user_id', 'dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'special_sales',  'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'compliance', 'filtering', 'created_by', 'created_at', 'deleted'];
 
   public $id;
   public $user_id;
@@ -13,6 +13,7 @@ class AccessControl extends DatabaseObject
   public $stock_mgt;
   public $settings_mgt;
   public $sales_mgt;
+  public $special_sales;
   public $add_sales;
   public $edit_sales;
   public $manage_sales;
@@ -32,7 +33,7 @@ class AccessControl extends DatabaseObject
 
   public $counts;
 
-  const PERMISSION = ['dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'compliance', 'filtering'];
+  const PERMISSION = ['dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'special_sales', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'compliance', 'filtering'];
 
   public function __construct($args = [])
   {
@@ -44,6 +45,7 @@ class AccessControl extends DatabaseObject
     $this->stock_mgt      = $args['stock_mgt'] ?? 0;
     $this->settings_mgt   = $args['settings_mgt'] ?? 0;
     $this->sales_mgt      = $args['sales_mgt'] ?? 0;
+    $this->special_sales  = $args['special_sales'] ?? 0;
     $this->add_sales      = $args['add_sales'] ?? 0;
     $this->edit_sales     = $args['edit_sales'] ?? 0;
     $this->manage_sales   = $args['manage_sales'] ?? 0;

@@ -1,10 +1,9 @@
 <?php
-
 class Client extends DatabaseObject
 {
 
   static protected $table_name = "customer";
-  static protected $db_columns = ['id', 'customer_id', 'first_name', 'last_name', 'phone', 'address', 'email', 'company_id', 'branch_id', 'created_by', 'created_at', 'deleted'];
+  static protected $db_columns = ['id', 'customer_id', 'first_name', 'last_name', 'phone', 'address', 'email', 'credit_facility', 'company_id', 'branch_id', 'created_by', 'created_at', 'deleted'];
 
   public $id;
   public $customer_id;
@@ -13,11 +12,17 @@ class Client extends DatabaseObject
   public $address;
   public $phone;
   public $email;
+  public $credit_facility;
   public $company_id;
   public $branch_id;
   public $created_by;
   public $created_at;
   public $deleted;
+
+  const PAYMENT_METHOD = [
+    1 => 'Wallet',
+    2 => 'Credit',
+  ];
 
   public function __construct($args = [])
   {
@@ -27,6 +32,7 @@ class Client extends DatabaseObject
     $this->address = $args['address'] ?? '';
     $this->phone = $args['phone'] ?? '';
     $this->email = $args['email'] ?? '';
+    $this->credit_facility = $args['credit_facility'] ?? '';
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';
     $this->created_by = $args['created_by'] ?? '';
@@ -36,9 +42,9 @@ class Client extends DatabaseObject
 
 
   public function full_name()
-    {
-        return $this->first_name . " " . $this->last_name;
-    }
+  {
+    return $this->first_name . " " . $this->last_name;
+  }
 
   protected function validate()
   {

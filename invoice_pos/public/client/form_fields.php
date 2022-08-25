@@ -14,11 +14,17 @@
       <div class="form-group col-md-12 col-sm-12 col-12">
         <textarea name="client[address]" class="form-control" id="address" placeholder="Address"><?php echo $client->address; ?></textarea>
       </div>
-      <div class="form-group col-md-6 col-sm-6 col-12">
+      <div class="form-group col-md-4 col-sm-6 col-12">
         <input type="text" name="client[phone]" value="<?php echo $client->phone; ?>" class="form-control" id="phone" placeholder="Phone Number">
       </div>
-      <div class="form-group col-md-6 col-sm-6 col-12">
+      <div class="form-group col-md-4 col-sm-6 col-12">
         <input type="text" name="client[email]" value="<?php echo $client->email; ?>" class="form-control" id="email" placeholder="Email">
+      </div>
+      <div class="form-group col-md-4 col-sm-6 col-12">
+        <div class="custom-control custom-switch mt-2">
+          <input type="checkbox" class="custom-control-input permit" name="credit_facility" id="credit">
+          <label class="custom-control-label" for="credit">Credit Facility?</label>
+        </div>
       </div>
 
       <div class="d-none">
