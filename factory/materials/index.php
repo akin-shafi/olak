@@ -197,8 +197,8 @@ $phaseTwo = MaterialPhaseTwo::find_by_undeleted();
                         <th title="SLABS, COILS & BAGS">Close Stock S.C.B <span class="icon-question_answer"></span></th>
                         <th>Closing Stock (KG)</th>
                         <th>created by</th>
-                        <th>updated at</th>
-                        <th>created at</th>
+                        <th>updated_at</th>
+                        <th>created_at</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -216,21 +216,21 @@ $phaseTwo = MaterialPhaseTwo::find_by_undeleted();
                           <td><?php echo $sn++; ?></td>
 
                           <td><?php echo ucwords($product) ?></td>
-                          <td class="text-right"><?php echo number_format($data->weight, 2) ?></td>
-                          <td class="text-right"><?php echo number_format($data->open_scb, 2) ?></td>
-                          <td class="text-right"><?php echo number_format($data->open_stock, 2) ?></td>
-                          <td class="text-right"><?php echo number_format($data->inflow_scb, 2) ?></td>
+                          <td class="text-right"><?php echo number_format($data->weight, 3) ?></td>
+                          <td class="text-right"><?php echo number_format($data->open_scb) ?></td>
+                          <td class="text-right"><?php echo number_format($data->open_stock, 3) ?></td>
+                          <td class="text-right"><?php echo number_format($data->inflow_scb) ?></td>
                           <td class="text-right"><?php echo number_format($data->inflow, 2) ?></td>
-                          <td class="text-right"><?php echo number_format($data->total_stock_scb, 2) ?></td>
-                          <td class="text-right"><?php echo number_format($data->total_stock, 2) ?></td>
-                          <td class="text-right"><?php echo number_format($data->outflow_scb, 2) ?></td>
+                          <td class="text-right"><?php echo number_format($data->total_stock_scb) ?></td>
+                          <td class="text-right"><?php echo number_format($data->total_stock, 3) ?></td>
+                          <td class="text-right"><?php echo number_format($data->outflow_scb) ?></td>
                           <td class="text-right"><?php echo number_format($data->outflow, 2) ?></td>
-                          <td class="text-right"><?php echo number_format($data->closing_stock_scb, 2) ?></td>
-                          <td class="text-right"><?php echo number_format($data->closing_stock, 2) ?></td>
+                          <td class="text-right"><?php echo number_format($data->closing_stock_scb) ?></td>
+                          <td class="text-right"><?php echo number_format($data->closing_stock, 3) ?></td>
 
                           <td><?php echo ucwords($officer) ?></td>
 
-                          <td><?php echo $data->updated_at != '0000-00-00 00:00:00' ? date('Y-m-d (h:i:s a)', strtotime($data->updated_at)) : date('Y-m-d'); ?></td>
+                          <td><?php echo $data->updated_at != '0000-00-00 00:00:00' ? date('Y-m-d (h:i a)', strtotime($data->updated_at)) : date('Y-m-d'); ?></td>
                           <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
 
                           <td>
