@@ -74,28 +74,43 @@ td a {
                             <tbody>
 
                                 <?php $sn = 1; 
-                             foreach (Product::find_by_undeleted(['order' => 'ASC']) as $key => $item) {
-                              $value = intval($item->price) * $item->quantity;
-                              // pre_r($value);
-                              
-                              $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id, 
-                            //   'from' => $date,
-                              ]) ?? 0;
-                              $sales = Sales::find_all_by_product_id(['product_id' => $item->id, 
-                            //   'from'=> $date 
-                            ]);
-                              $qty = $sales ?? 0;
-                              $left_over = intval($stock - $qty);
-                              if (!empty($item->ref_no)) {
-                                $supply = StockDetails::find_by_ref($item->ref_no)->supply ?? "0";
-                                $sold = StockDetails::find_by_ref($item->ref_no)->sold_stock ?? "0";
-                                $qty = StockDetails::find_by_ref($item->ref_no)->deleted ?? "0";
+                                $company_id = $loggedInAdmin->company_id;
+                                $branch_id = $loggedInAdmin->branch_id;
 
+                                if ($loggedInAdmin->admin_level == 1) {
+                                    $product =  Product::find_by_undeleted(['order' => 'ASC']);
+                                }else{
+                                    $product =  Product::find_by_company(['company_id' => $company_id, 'branch_id' => $branch_id]);
+                                    
+                                }
+                                 foreach ($product as $key => $item) {
+                                //   $value = intval($item->price) * $item->quantity;
+                                //   pre_r($value);
                                 
-                              }else{
-                                $supply = "None";
-                                $sold = "None";
-                              }
+                                // if(is_numeric($value)){
+                                //  echo $value;
+                                // }else{
+                                //     echo "Not a number ".$value;
+                                // }
+                                  
+                                  $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id, 
+                                //   'from' => $date,
+                                  ]) ?? 0;
+                                  $sales = Sales::find_all_by_product_id(['product_id' => $item->id, 
+                                //   'from'=> $date 
+                                ]);
+                                  $qty = $sales ?? 0;
+                                  $left_over = intval($stock - $qty);
+                                  if (!empty($item->ref_no)) {
+                                    $supply = StockDetails::find_by_ref($item->ref_no)->supply ?? "0";
+                                    $sold = StockDetails::find_by_ref($item->ref_no)->sold_stock ?? "0";
+                                    $qty = StockDetails::find_by_ref($item->ref_no)->deleted ?? "0";
+
+                                    
+                                  }else{
+                                    $supply = "None";
+                                    $sold = "None";
+                                  }
                               ?>
                                 <tr class="text-center">
                                     <td><?php echo $sn++; ?>.</td>

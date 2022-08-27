@@ -5,6 +5,8 @@ if (empty($loggedInAdmin->email)) {
 }
 
 $access = AccessControl::find_by_user_id($loggedInAdmin->id);
+
+// pre_r($access);
 ?>
 
 <!doctype html>

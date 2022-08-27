@@ -4,8 +4,13 @@
 	 $sn = 1; 
 	 $from = $_POST['from'] ?? ''; 
 	 // $to = $_POST['to'] ?? ''; 
-	
-   foreach (Product::find_by_undeleted(['order' => 'ASC']) as  $value) { 
+     if ($loggedInAdmin->admin_level == 1) {
+         $product = Product::find_by_undeleted(['order' => 'ASC']);
+     }else{
+        $product = Product::find_by_company(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, ]);
+     }
+    
+   foreach ($product as  $value) { 
         $sales = Sales::find_all_by_product_id(['product_id' => $value->id,'from'=>  $from ]); 
         $stock = StockDetails::sum_of_Stock(['item_id' => $value->id, 'from' => $from]) ?? 0;
         // pre_r($stock);

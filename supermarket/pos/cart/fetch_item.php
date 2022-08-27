@@ -2,8 +2,11 @@
 <?php if (isset($_POST['fetch']) || isset($_POST['fetch_cat']) ) { 
 
     $company_id = $loggedInAdmin->company_id;
-    $branch_id = $loggedInAdmin->branch_id;;
-    $PCAT = ProductCategory::find_by_undeleted(['order' => 'ASC']);
+    $branch_id = $loggedInAdmin->branch_id;
+    $PCAT = ProductCategory::find_by_companys(['company_id' => $company_id, 'branch_id' => $branch_id]);
+    // $PCAT = ProductCategory::find_by_undeleted(['order' => 'ASC']); 
+
+    // pre_r($PCAT);
     $id = array_values($PCAT)[0]->id; 
     $category = $_POST['id'] ?? $id;
     $categories = Product::find_by_category(['category' => $category, 'company_id' => $company_id, 'branch_id' => $branch_id]);
@@ -18,7 +21,7 @@
 ?>
 <?php if (isset($categories)){ ?>
 <ul class="menu">
-    <?php foreach (ProductCategory::find_by_undeleted(['order' => 'ASC']) as $key => $value) { ?>
+    <?php foreach ($PCAT as $key => $value) { ?>
     <li><a class="<?php echo $category == $value->id ? 'current' : '' ?> menu_item" data-id="<?php echo $value->id; ?>"
             href="#"><?php echo $value->category; ?></a></li>
     <?php } ?>
