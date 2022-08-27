@@ -79,7 +79,7 @@ include(SHARED_PATH . '/admin_header.php');
 				<table class="table table-bordered table-sm">
 					<thead>
 						<tr class="bg-primary text-white text-center">
-							<th>CATEGORY</th>
+							<th>COLOR</th>
 							<th>PRODUCT NAME</th>
 							<th>GAUGE</th>
 							<th>OPENING STOCK</th>
@@ -96,7 +96,7 @@ include(SHARED_PATH . '/admin_header.php');
 						<tr class="border-0">
 							<td>
 								<select name="category_id[]" class="form-control form-control-sm category_id" required>
-									<option value="">select category</option>
+									<option value="">select color</option>
 									<?php foreach ($categories as $category) : ?>
 										<option value="<?php echo $category->id; ?>">
 											<?php echo ucwords($category->name); ?>
@@ -195,7 +195,7 @@ include(SHARED_PATH . '/admin_header.php');
 
 			let html_code = '';
 			html_code += '<tr id="row_id_' + count + '">';
-			html_code += '<td><select class="form-control form-control-sm category_id" name="category_id[]" required><option value="">Select</option><?php foreach ($categories as $cat) { ?><option value="<?php echo $cat->id; ?>"><?php echo ucwords($cat->name); ?></option><?php } ?></select></td>';
+			html_code += '<td><select class="form-control form-control-sm category_id" name="category_id[]" required><option value="">Select color</option><?php foreach ($categories as $cat) { ?><option value="<?php echo $cat->id; ?>"><?php echo ucwords($cat->name); ?></option><?php } ?></select></td>';
 
 			html_code += '<td><select class="form-control form-control-sm product_id" name="product_id[]" required><option value="">Select</option><?php foreach ($products as $pro) { ?><option value="<?php echo $pro->id; ?>"><?php echo ucwords($pro->name); ?></option><?php } ?></select></td>';
 

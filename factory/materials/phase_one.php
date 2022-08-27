@@ -41,7 +41,7 @@ include(SHARED_PATH . '/admin_header.php');
     margin: 0;
   }
 
-  input[type=number] {
+  input[type=text] {
     -moz-appearance: textfield;
     text-align: right;
   }
@@ -60,13 +60,23 @@ include(SHARED_PATH . '/admin_header.php');
   <div class="d-flex justify-content-between align-items-center">
     <h4>ADD DAILY STOCK FOR RAW MATERIALS (<?php echo strtoupper($phase) ?>) </h4>
     <div class="mb-3">
-      <select class="form-control" name="branch_id" id="sBranch" form="material_form" required>
-        <option value="">select branch</option>
-        <?php foreach ($branches as $branch) : ?>
-          <option value="<?php echo $branch->id ?>">
-            <?php echo ucwords($branch->name) ?></option>
-        <?php endforeach; ?>
-      </select>
+      <div class="d-flex justify-content-start align-items-center">
+        <select class="form-control mr-2" name="branch_id" id="sBranch" form="material_form" required>
+          <option value="">select branch</option>
+          <?php foreach ($branches as $branch) : ?>
+            <option value="<?php echo $branch->id ?>">
+              <?php echo ucwords($branch->name) ?></option>
+          <?php endforeach; ?>
+        </select>
+        <select name="type" class="form-control type" form="material_form" required>
+          <option value="">select type</option>
+          <?php foreach ($types as $key => $type) : ?>
+            <option value="<?php echo $key; ?>">
+              <?php echo ucwords($type); ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
     </div>
   </div>
 
@@ -79,9 +89,8 @@ include(SHARED_PATH . '/admin_header.php');
         <table class="table table-bordered table-sm">
           <thead>
             <tr class="bg-primary text-white text-center">
-              <th>TYPE</th>
               <th>GROUP</th>
-              <th>CATEGORY</th>
+              <th>COLORS</th>
               <th>OPENING STOCK</th>
               <th>INFLOW</th>
               <th>TOTAL STOCK</th>
@@ -94,16 +103,6 @@ include(SHARED_PATH . '/admin_header.php');
           <tbody id="phase-table">
             <tr class="border-0">
               <td>
-                <select name="type[]" class="form-control form-control-sm type" required>
-                  <option value="">select type</option>
-                  <?php foreach ($types as $key => $type) : ?>
-                    <option value="<?php echo $key; ?>">
-                      <?php echo ucwords($type); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </td>
-              <td>
                 <select name="raw_group_id[]" class="form-control form-control-sm group_id" required>
                   <option value="">select group</option>
                   <?php foreach ($groups as $group) : ?>
@@ -115,7 +114,7 @@ include(SHARED_PATH . '/admin_header.php');
               </td>
               <td>
                 <select name="raw_category_id[]" class="form-control form-control-sm category_id" required>
-                  <option value="">select category</option>
+                  <option value="">select color</option>
                   <?php foreach ($categories as $category) : ?>
                     <option value="<?php echo $category->id; ?>">
                       <?php echo ucwords($category->name); ?>
@@ -179,11 +178,9 @@ include(SHARED_PATH . '/admin_header.php');
       let html_code = '';
       html_code += '<tr id="row_id_' + count + '">';
 
-      html_code += '<td><select class="form-control form-control-sm type" name="type[]" required><option value="">select type</option><?php foreach ($types as $key => $type) { ?><option value="<?php echo $key; ?>"><?php echo ucwords($type); ?></option><?php } ?></select></td>';
-
       html_code += '<td><select class="form-control form-control-sm group_id" name="raw_group_id[]" required><option value="">select group</option><?php foreach ($groups as $group) { ?><option value="<?php echo $group->id; ?>"><?php echo ucwords($group->name); ?></option><?php } ?></select></td>';
 
-      html_code += '<td><select class="form-control form-control-sm category_id" name="raw_category_id[]" required><option value="">select category</option><?php foreach ($categories as $cat) { ?><option value="<?php echo $cat->id; ?>"><?php echo ucwords($cat->name); ?></option><?php } ?></select></td>';
+      html_code += '<td><select class="form-control form-control-sm category_id" name="raw_category_id[]" required><option value="">select color</option><?php foreach ($categories as $cat) { ?><option value="<?php echo $cat->id; ?>"><?php echo ucwords($cat->name); ?></option><?php } ?></select></td>';
 
       html_code += '<td><input type="text" required name="open_stock[]" class="form-control form-control-sm open_stock actions"></td>'
 
@@ -252,13 +249,14 @@ include(SHARED_PATH . '/admin_header.php');
           let inflow = parseFloat(tRow.find('.inflow').val())
           let outflow = parseFloat(tRow.find('.outflow').val())
 
-          let resultStock = openStock + inflow - outflow
+          let resultStock = openStock + inflow
+          let resultStockClose = openStock + inflow - outflow
 
           parseFloat(tRow.find('.total_stock').val(resultStock))
           // ********** STOCK END
 
           // ********** CLOSING STOCK
-          let closingStock = resultStock
+          let closingStock = resultStockClose
           parseFloat(tRow.find('.closing_stock').val(closingStock))
           // ********** CLOSING STOCK
 

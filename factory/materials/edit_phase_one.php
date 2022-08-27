@@ -65,13 +65,23 @@ include(SHARED_PATH . '/admin_header.php');
   <div class="d-flex justify-content-between align-items-center">
     <h4>EDIT DAILY STOCK FOR RAW MATERIALS (<?php echo strtoupper($phase) ?>) </h4>
     <div class="mb-3">
-      <select class="form-control" name="mat[branch_id]" id="sBranch" form="material_form" required>
-        <option value="">select branch</option>
-        <?php foreach ($branches as $branch) : ?>
-          <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $material->branch_id ? 'selected' : '' ?>>
-            <?php echo ucwords($branch->name) ?></option>
-        <?php endforeach; ?>
-      </select>
+      <div class="d-flex justify-content-start align-items-center">
+        <select class="form-control mr-2" name="mat[branch_id]" id="sBranch" form="material_form" required>
+          <option value="">select branch</option>
+          <?php foreach ($branches as $branch) : ?>
+            <option value="<?php echo $branch->id ?>" <?php echo $branch->id == $material->branch_id ? 'selected' : '' ?>>
+              <?php echo ucwords($branch->name) ?></option>
+          <?php endforeach; ?>
+        </select>
+        <select name="mat[type]" class="form-control form-control-sm type" form="material_form" required>
+          <option value="">select type</option>
+          <?php foreach ($types as $key => $type) : ?>
+            <option value="<?php echo $key; ?>" <?php echo $key == $material->type ? 'selected' : '' ?>>
+              <?php echo ucwords($type); ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
     </div>
   </div>
 
@@ -85,9 +95,8 @@ include(SHARED_PATH . '/admin_header.php');
         <table class="table table-bordered table-sm">
           <thead>
             <tr class="bg-primary text-white text-center">
-              <th>TYPE</th>
               <th>GROUP</th>
-              <th>CATEGORY</th>
+              <th>COLORS</th>
               <th>OPENING STOCK</th>
               <th>INFLOW</th>
               <th>TOTAL STOCK</th>
@@ -98,16 +107,6 @@ include(SHARED_PATH . '/admin_header.php');
 
           <tbody id="phase-table">
             <tr class="border-0">
-              <td>
-                <select name="mat[type]" class="form-control form-control-sm type" required>
-                  <option value="">select type</option>
-                  <?php foreach ($types as $key => $type) : ?>
-                    <option value="<?php echo $key; ?>" <?php echo $key == $material->type ? 'selected' : '' ?>>
-                      <?php echo ucwords($type); ?>
-                    </option>
-                  <?php endforeach; ?>
-                </select>
-              </td>
               <td>
                 <select name="mat[raw_group_id]" class="form-control form-control-sm group_id" required>
                   <option value="">select group</option>
@@ -120,7 +119,7 @@ include(SHARED_PATH . '/admin_header.php');
               </td>
               <td>
                 <select name="mat[raw_category_id]" class="form-control form-control-sm category_id" required>
-                  <option value="">select category</option>
+                  <option value="">select color</option>
                   <?php foreach ($categories as $category) : ?>
                     <option value="<?php echo $category->id; ?>" <?php echo $category->id == $material->raw_category_id ? 'selected' : '' ?>>
                       <?php echo ucwords($category->name); ?>
@@ -211,13 +210,14 @@ include(SHARED_PATH . '/admin_header.php');
           let inflow = parseFloat(tRow.find('.inflow').val())
           let outflow = parseFloat(tRow.find('.outflow').val())
 
-          let resultStock = openStock + inflow - outflow
+          let resultStock = openStock + inflow
+          let resultStockClose = openStock + inflow - outflow
 
           parseFloat(tRow.find('.total_stock').val(resultStock))
           // ********** STOCK END
 
           // ********** CLOSING STOCK
-          let closingStock = resultStock
+          let closingStock = resultStockClose
           parseFloat(tRow.find('.closing_stock').val(closingStock))
           // ********** CLOSING STOCK
 

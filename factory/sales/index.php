@@ -9,10 +9,10 @@ if ($access->sales_mgt != 1) {
 }
 
 $phase = (isset($_GET['phase']) && $_GET['phase'] == 2) ? 'process_two.php' : 'process_one.php';
-
+$activePhase2 = (isset($_GET['phase']) && $_GET['phase'] == 2) ? 'bg-info text-white' : '';
+$activePhase = (!isset($_GET['phase']) || $_GET['phase'] == 1) ? 'bg-info text-white' : '';
 
 $products = Product::find_by_undeleted();
-
 ?>
 
 <div class="content-wrapper">
@@ -25,17 +25,16 @@ $products = Product::find_by_undeleted();
 
 						<div class="text-center my-3">
 							<div class="btn-group" role="group">
-								<a href="<?php echo url_for('/sales/?phase=1') ?>" class="btn btn-outline-info">
+								<a href="<?php echo url_for('/sales/?phase=1') ?>" class="btn btn-outline-info <?php echo $activePhase; ?>">
 									Phase One Sales</a>
 								<a class="btn btn-dark text-white">
 									&LeftArrowRightArrow;</a=>
-									<a href="<?php echo url_for('/sales/?phase=2') ?>" class="btn btn-outline-info">
+									<a href="<?php echo url_for('/sales/?phase=2') ?>" class="btn btn-outline-info <?php echo $activePhase2; ?>">
 										Phase Two Sales</a>
 							</div>
 						</div>
 
 						<div class="table-responsive" id="dataSheet">
-							<!-- <table id="copy-print-csv_wrapper" class="table custom-table table-sm "> -->
 
 						</div>
 					</div>
@@ -46,8 +45,6 @@ $products = Product::find_by_undeleted();
 	</div>
 
 </div>
-
-
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
