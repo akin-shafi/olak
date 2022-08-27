@@ -18,7 +18,7 @@ $products = Product::find_by_undeleted();
 <div class="content-wrapper">
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
+			<h3 class="text-uppercase">Stock of Output</h3>
 			<div class="card">
 				<div class="card-body">
 					<div class="table-container border-0 shadow">

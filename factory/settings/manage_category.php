@@ -2,7 +2,7 @@
 require_login();
 
 $page = 'Settings';
-$page_title = 'Manage Categories';
+$page_title = 'Manage Colors';
 include(SHARED_PATH . '/admin_header.php');
 
 $categories = Category::find_by_undeleted();
@@ -10,9 +10,10 @@ $categories = Category::find_by_undeleted();
 ?>
 
 <div class="content-wrapper">
-  <div class="d-flex justify-content-end">
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#categoryModel">
-      &plus; Add Category</button>
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 class="text-uppercase mb-0">Manage material color phase 2</h3>
+    <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#categoryModel">
+      &plus; Add Color</button>
   </div>
 
   <div class="row gutters">
@@ -26,7 +27,7 @@ $categories = Category::find_by_undeleted();
                 <thead>
                   <tr class="bg-primary text-white ">
                     <th>SN</th>
-                    <th>Category Name</th>
+                    <th>Color Name</th>
                     <th>Created By</th>
                     <th>Updated At</th>
                     <th>Created At</th>
@@ -74,7 +75,7 @@ $categories = Category::find_by_undeleted();
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title title">Add Category</h5>
+        <h5 class="modal-title title">Add Color</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <form id="category_form">
@@ -84,8 +85,8 @@ $categories = Category::find_by_undeleted();
               <div class="col-md-12">
                 <div class="mb-3">
                   <div class="form-group">
-                    <label for="cName" class="col-form-label">Category Name</label>
-                    <input type="text" class="form-control" name="category[name]" id="cName" placeholder="Category Name" required>
+                    <label for="cName" class="col-form-label">Color Name</label>
+                    <input type="text" class="form-control" name="category[name]" id="cName" placeholder="Color Name" required>
                   </div>
                 </div>
               </div>
