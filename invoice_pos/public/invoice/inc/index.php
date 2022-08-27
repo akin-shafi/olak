@@ -6,7 +6,7 @@ if (is_post_request()) {
 		$args  = $_POST['billing'] ?? [];
 		
 		$billing = new Billing($args);
-		pre_r($billing);
+		// pre_r($billing);
 		$result = $billing->save();
 		
 		// $result = true;

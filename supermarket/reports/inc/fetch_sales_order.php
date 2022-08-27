@@ -6,6 +6,7 @@
         <?php if(isset($_POST['fetch'])) { 
           $from = $_POST['from'] ?? date('Y-m-d');
           // $to = $_POST['to'] ?? date('Y-m-d'); 
+          $product = Product::find_by_undeleted(['order' => 'ASC']);
             if(isset($_POST['close_reg'])){
                 $created_by = $_POST['created_by'] ?? $loggedInAdmin->id;
             }else{
@@ -43,13 +44,16 @@
                                           </tr>
                                       </thead>
                                      <tbody>
-                                         <?php foreach (Product::find_by_undeleted(['order' => 'ASC']) as  $value) { 
+                                         <?php foreach ($product as  $value) { 
                                           
                                           if ($created_by != "") {
                                             $sales = Sales::find_all_by_product_id(['product_id' => $value->id,'created_by'=>  $created_by,'from'=>  $from]);
                                           }else{
                                             $sales = Sales::find_all_by_product_id(['product_id' => $value->id,'from'=>  $from]);
                                           }
+
+                                          // pre_r($sales);
+
                                           
                                           $qty = $sales ?? 0;
                                           $subtotal = $qty * $value->price ?? 0;

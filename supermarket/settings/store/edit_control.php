@@ -115,11 +115,11 @@ if(isset($_POST['editRecord'])){
 
 <?php if (isset($_POST['record'])) { ?>
 	<?php $sn = 1; foreach (AccessControl::find_by_undeleted(['order' => 'ASC']) as $key => $value) { 
-      $full_name = Admin::find_by_id($value->user_id)->full_name() ?? '';
+      // $full_name = Admin::find_by_id($value->user_id)->full_name() ?? '';
     ?>
       <tr class="text-center">
         <td><?php echo $sn++ ?></td>
-        <td><?php echo $full_name; ?></td>
+        <td><?php echo Admin::find_by_id($value->user_id)->first_name ?></td>
         <td>
          
           <?php echo $value->product_mgt == '0' ? '<i class="fa fa-circle text-danger"></i>' : '<i class="fa fa-circle text-success"></i>' ?>

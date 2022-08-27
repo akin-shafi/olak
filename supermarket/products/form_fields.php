@@ -38,7 +38,7 @@
                <label for="category">Category</label>                                                                        
                <select name="category" class="form-control select2 tip" id="category"  required="required" style="width:100%;">
                   <option value="">Select Category</option> 
-                  <?php foreach (ProductCategory::find_by_undeleted(['order' => 'ASC']) as $key => $value) { ?>
+                  <?php foreach (ProductCategory::find_by_company(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id]) as $key => $value) { ?>
                       <option value="<?php echo $value->id; ?>" data-exception="<?php echo $value->exception ?>" <?php echo $product->category == $value->id ? 'selected' : '';  ?>><?php echo $value->category; ?>  </option>
                   <?php } ?>
                </select>
@@ -101,13 +101,13 @@
                   </div>
                </div>
             </div>
-            <div class="">
+            <div class=" d-none">
                <div class="well well-sm">
                   <h4> (Items in Store)</h4>
                   <div class="row">
                     <div class="form-group col-md-12">
                        <label for="quantity1">Quantity</label>
-                       <input type="text" name="quantity" value="<?php echo h($product->quantity); ?>"  class="form-control tip" id="quantity1" />
+                       <input type="text" readonly name="quantity" value="<?php echo h($product->quantity); ?>"  class="form-control tip" id="quantity1" />
                     </div>
                     <div class="form-group col-md-6" style="margin-bottom:0;">
                        <input type="hidden" name="left_bottle" value="<?php echo h($product->left_bottle); ?>"  class="form-control tip" id="left_bottle" />
@@ -118,9 +118,9 @@
                </div>
             </div>
 
-            <div class="form-group st">
+            <div class="form-group st d-none">
                <label for="alert_quantity">Alert Quantity</label>
-               <input type="text" name="alert_quantity" value="<?php echo h($product->alert_quantity); ?>"  class="form-control tip" id="alert_quantity"  required="required" />
+               <input type="text" readonly name="alert_quantity" value="<?php echo h($product->alert_quantity); ?>"  class="form-control tip" id="alert_quantity"  required="required" />
             </div>
             <div class="form-group">
                <label for="image">Image</label>

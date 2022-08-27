@@ -6,17 +6,18 @@
 // 3. Unique credentials if working with multiple developers
 
 
-// define("DB_SERVER", "localhost");
-// define("DB_USER", "hoteliap_ambiance_user");
-// define("DB_PASS", "Akinshafi@91");
-// define("DB_NAME", "hoteliap_restaurant");
+if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.168.64.2') {
+    define("DB_SERVER", "localhost");
+	define("DB_USER", "root");
+	define("DB_PASS", "");
+	define("DB_NAME", "olak_factory");
+}else{
+    define("DB_SERVER", "127.0.0.1");
+	define("DB_USER", "hoteliap_ambiance_user");
+	define("DB_PASS", "Akinshafi@91");
+	define("DB_NAME", "hoteliap_factory");
+}
 
-
-define("DB_SERVER", "localhost");
-define("DB_USER", "root");
-define("DB_PASS", "");
-// define("DB_NAME", "petroleum");
-define("DB_NAME", "olak_factory");
 
 // define("DB_SERVER_HR", "localhost");
 // define("DB_USER_HR", "root");
