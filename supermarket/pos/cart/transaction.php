@@ -8,10 +8,7 @@
 	  $created_by = $_POST['trans']['created_by'] ?? $loggedInAdmin->id;
 
 	  $transaction = new Transaction($args);
-	  
 	  $result1 = $transaction->save(); // Save into transaction table
-	  // $result1 = true;
-      	// pre_r($transaction);
       	if ($result1 === true) {
       		$new_trans_id = $transaction->id;
 	      	$rand = rand(10, 100);
@@ -21,7 +18,6 @@
 		    $data2 = [
 		    	'trans_no' => $trans_no,
 		    	'created_by' => $created_by,
-		    	// 'created_at' => $created_at,
 		    ];
 			$transaction->merge_attributes($data2); // merge newly created trans_no and
 			$result2 = $transaction->save(); // Save tran_no into transaction table 
@@ -29,7 +25,6 @@
 			  	$trans_details = new TransactionDetail($args);
 			  	$new_ref_id = $transaction->id;
 		      	$dym = rand(10, 200);
-		      	// Create ref_no dynamically
 		        $ref_no = 'Ref'. "1" . str_pad($new_ref_id, 2, "0", STR_PAD_LEFT) . $dym;
 				
 			    $data3 = [
@@ -56,45 +51,13 @@
 				          ];
 				         
 				         $sales = new Sales($data);
-				          $result4 = $sales->save(); // Save other info into sales table  
-					      // $result4 = true;      	
+				          $result4 = $sales->save(); // Save other info into sales table      	
 					  }
 					  if ($result4 == true) {
-					  	
-					  	$arr = $_POST['product_id'];
-					  	if ($store_id == 1) {
-					  		$items = 'quantity';
-					  		$sold = 'sold_bottle';
-					  	}else{
-					  		$items = 'left_shut';
-					  		$sold = 'sold_shut';
-					  	}
-					
-					  
-					  	for ($i = 0; $i < count($arr); $i++) {
-						    $product = Product::find_by_id($_POST['product_id'][$i]);
-						    $stockUnit = $product->quantity - $_POST['product_quantity'][$i];
-						    $itemsold = $_POST['product_quantity'][$i] + $product->$sold;
-
-						    $args = [
-						    	$items => $stockUnit,
-						    	$sold => $itemsold,
-						    ];
-						    $product->merge_attributes($args);
-						    
-						    $result5 = $product->save(); // Edit Unit Stock of stock in product table
-						   
-						    
-			            }
-						  if($result5 == true){
-						  	unset($_SESSION["shopping_cart"]);
-						    echo json_encode(['msg' => 'OK', 'trans_no' => $transaction->trans_no]);
-						  }else{
-						  	exit(json_encode(['msg' => 'FAIL', 'error' => display_errors($product->errors), 'location' => 'Fail here']));
-						  }
+					  	unset($_SESSION["shopping_cart"]);
+					  	echo json_encode(['msg' => 'OK', 'trans_no' => $transaction->trans_no]);
 				          
 					  }
-					  // pre_r($args2);
 					  
 				}else{
 					//Show error

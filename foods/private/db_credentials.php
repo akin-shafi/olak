@@ -19,9 +19,9 @@ if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.16
 	define("DB_NAME", "olak_food");
 
 }else{
-	define("DB_SERVER", "localhost");
+	define("DB_SERVER", "127.0.0.1");
     define("DB_USER", "hoteliap_olak");
-    define("DB_PASS", "olak@123");
+    define("DB_PASS", "Akinshafi@91");
     define("DB_NAME", "hoteliap_olak_food");
 }
 
@@ -30,3 +30,8 @@ if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.16
 // define("DB_USER_HR", "root");
 // define("DB_PASS_HR", "");
 // define("DB_NAME_HR", "olak_hr");
+
+// Unity
+// A Division
+// Iwo road
+// Toll gate
