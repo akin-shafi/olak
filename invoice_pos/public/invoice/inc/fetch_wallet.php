@@ -5,9 +5,11 @@ if (is_post_request()) {
 		$customer = Client::find_by_id($_POST['customer_id']);
 		$wallet = Wallet::find_by_customer_id($customer->customer_id);
 
+		// pre_r($wallet);
+
 		exit(json_encode([
 			'success' => true,
-			'wallet_balance' => $wallet->balance,
+			'wallet_balance' => number_format(intval($wallet->balance), 2),
 		]));
 	} else {
 		exit(json_encode(['success' => true, 'wallet_balance' => 0]));

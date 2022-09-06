@@ -193,7 +193,9 @@ $page_title = 'Billing & Receipts'; ?>
 
                     <tr>
                       <td class="col" align="right"><b>Total</b></td>
-                      <td class="col" align="center"><b><span id="final_total_amt">NaN</span></b></td>
+                      <td class="col" align="center"><b><span id="final_total_amt">NaN</span></b>
+                        <input type="hidden" id="final_total_input" name="">
+                      </td>
                     </tr>
                     <tr class="d-none">
                       <td class="col" align="right"><b>Tax</b></td>
@@ -295,9 +297,11 @@ $page_title = 'Billing & Receipts'; ?>
 
       var row_id = $(this).attr("id");
       var total_item_amount = $('#amount' + row_id).val();
-      var final_amount = $('#final_total_amt').text();
+      var final_amount = $('#final_total_input').val();
       var result_amount = parseFloat(final_amount) - parseFloat(total_item_amount);
-      $('#final_total_amt').text(result_amount);
+      $('#final_total_amt').text(formatToCurrency(result_amount));
+      $('#part_payment').val(result_amount);
+      $('#final_total_input').val(result_amount);
       $('#row_id_' + row_id).remove();
       count--;
       $('#total_item').val(count);
@@ -338,13 +342,12 @@ $page_title = 'Billing & Receipts'; ?>
 
       }
 
-      $('#final_total_amt').text(final_item_total);
-      // $('#famount').val($('#final_total_amt').text(final_item_total));
+      let amt = formatToCurrency(final_item_total);
 
-      var tamount = $('#final_total_amt')[0].innerText;
-      // var tax = tamount / 100 * 5;
+      $('#final_total_amt').text(amt);
+      $('#final_total_input').val(final_item_total);
+      var tamount = final_item_total;
       var tax = 0;
-
 
       var grand_total = Number(tamount) + tax;
       // $('#grand_total').val() = grand_total;
@@ -366,14 +369,9 @@ $page_title = 'Billing & Receipts'; ?>
 
     function cal_balance() {
       var part_payment = Number($('#part_payment')[0].value);
-      // console.log(part_payment);
-      // console.log(ans);
       var new_gtotal = $('#grand_totalInput')[0].value;
       var balance = new_gtotal - part_payment;
-      // console.log(balance);
       $('#balance')[0].value = Number(balance);
-
-
     }
 
     $(document).on('input', '#part_payment', function() {
@@ -383,8 +381,6 @@ $page_title = 'Billing & Receipts'; ?>
 
     $('#expense_form').on('submit', function(e) {
       e.preventDefault()
-      // $("#create_request").attr('disabled', true);
-
       let count_data = 0;
       let cus_id = $(".client_id").val();
       let grand_totalInput = $("#grand_totalInput").val();
@@ -398,9 +394,7 @@ $page_title = 'Billing & Receipts'; ?>
 
         var form_data = $(this).serialize();
         var part_payment = $("#part_payment").val();
-
         if (part_payment > 0) {
-
           if (payment_method == 1) {
             $.ajax({
               url: "inc/fetch_wallet.php",
@@ -421,10 +415,6 @@ $page_title = 'Billing & Receipts'; ?>
           } else {
             submit_form(form_data);
           }
-
-
-          // check_wallet()
-          // submit_form(form_data)
         } else {
           errorAlert("Enter Amount Paid");
         }
@@ -531,6 +521,8 @@ $page_title = 'Billing & Receipts'; ?>
 
   }); // Document.ReadyState
 
+
+
   var leave = document.querySelectorAll('.amount');
   var amount = 0.00;
   window.addEventListener("load", function() {
@@ -540,7 +532,12 @@ $page_title = 'Billing & Receipts'; ?>
     }
     // alert("All is well");
     $('#famount').val(amount);
-    $('#final_total_amt').text(amount);
+    let amt = formatToCurrency(amount)
+    $('#final_total_amt').text(amt);
 
   }, false);
+
+  function formatToCurrency(amount){
+      return (amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); 
+  }
 </script>

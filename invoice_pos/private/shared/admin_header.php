@@ -227,7 +227,7 @@ $accessControl = AccessControl::find_by_user_id($loggedInAdmin->id);
               </ul>
             </li>
           <?php endif; ?>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle <?php echo ($page == "Fund") ? 'active-page' : '' ?>" href="<?php echo url_for('/fund_register/index.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="feather-dollar-sign  nav-icon"></i>
               Fund Register
