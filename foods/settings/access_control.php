@@ -56,7 +56,7 @@ $admins = Admin::find_by_undeleted();
 
                 <tbody>
                   <?php $sn = 1;
-                  $isTrue = '<span class="bg-primary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>';
+                  $isTrue = '<span class="bg-success rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>';
                   $isFalse = '<span class="bg-secondary rounded-circle d-block m-auto" style="width:3px;height:3px;padding:5px"></span>';
 
                   foreach ($access as $data) :

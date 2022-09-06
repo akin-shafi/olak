@@ -5,9 +5,9 @@ if (is_post_request()) {
   if (isset($_POST['material_form'])) {
     $args = $_POST;
 
-    for ($i = 0; $i < count($args['type']); $i++) {
+    for ($i = 0; $i < count($args['open_stock']); $i++) {
       $data = [
-        'type'            => $args['type'][$i],
+        'type'            => $args['type'],
         'raw_group_id'    => $args['raw_group_id'][$i],
         'raw_category_id' => $args['raw_category_id'][$i],
         'open_stock'      => $args['open_stock'][$i],
@@ -24,6 +24,7 @@ if (is_post_request()) {
       $materialPhase = new MaterialPhaseOne($data);
       $result = $materialPhase->save();
     }
+    exit();
 
     if ($result == true) :
       exit(json_encode(['success' => true, 'msg' => 'Raw material created successfully!']));

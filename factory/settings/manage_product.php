@@ -10,7 +10,8 @@ $products = Product::find_by_undeleted();
 ?>
 
 <div class="content-wrapper">
-  <div class="d-flex justify-content-end">
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 class="text-uppercase mb-0">Manage products phase 2</h3>
     <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#productModel">
       &plus; Add Product</button>
   </div>

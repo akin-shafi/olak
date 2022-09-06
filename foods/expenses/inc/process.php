@@ -72,11 +72,11 @@ if (is_get_request()) {
     exit(json_encode(['success' => true, 'data' => $expense]));
   endif;
 
-  if (isset($_GET['get_rate'])) :
-    $expId = $_GET['pName'];
-    $data = Product::find_by_name($expId);
-    exit(json_encode(['success' => true, 'data' => $data]));
-  endif;
+  // if (isset($_GET['get_rate'])) :
+  //   $expId = $_GET['pName'];
+  //   $data = Product::find_by_name($expId);
+  //   exit(json_encode(['success' => true, 'data' => $data]));
+  // endif;
 
 
 
@@ -95,6 +95,7 @@ if (is_get_request()) {
     $totalExpenses = Expense::get_total_expenses($dateConvertFrom, $dateConvertTo, ['company' => $loggedInAdmin->company_id, 'branch' => $branch])->total_amount;
 
     $filterDate = $dateConvertFrom != date('Y-m-d') ? $rangeText : date('d-m-Y');
+    $access = AccessControl::find_by_user_id($loggedInAdmin->id);
 ?>
 
     <div>
@@ -112,8 +113,10 @@ if (is_get_request()) {
               <th>Quantity</th>
               <th>Amount (<?php echo $currency ?>)</th>
               <th>Narration</th>
-              <!-- <th>Created At</th> -->
-              <!-- <th>Action</th> -->
+              <th>Created At</th>
+              <?php if ($access->expenses_mgt == 1) : ?>
+                <th>Action</th>
+              <?php endif; ?>
             </tr>
           </thead>
 
@@ -126,20 +129,23 @@ if (is_get_request()) {
                 <td class="text-right"><?php echo $data->quantity; ?></td>
                 <td class="text-right"><?php echo number_format($data->amount); ?></td>
                 <td><?php echo ucfirst($data->narration); ?></td>
-                <!-- <td><?php //echo date('Y-m-d', strtotime($data->created_at)); 
-                          ?></td> -->
+                <td><?php echo date('D, j M, Y', strtotime($data->created_at)); ?></td>
 
-                <!-- <td>
-                  <div class="btn-group">
-                    <button class="btn btn-warning edit-btn" data-id="<?php //echo $data->id; 
-                                                                      ?>" data-toggle="modal" data-target="#expenseModel">
-                      <i class="icon-edit1"></i></button>
-                    <button class="btn btn-danger remove-btn" data-id="<?php //echo $data->id; 
-                                                                        ?>">
-                      <i class="icon-trash"></i>
-                    </button>
-                  </div>
-                </td> -->
+                <?php if ($access->expenses_mgt == 1) : ?>
+                  <td>
+                    <div class="btn-group">
+                      <?php if ($access->edit_exp == 1) : ?>
+                        <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#expenseModel">
+                          <i class="icon-edit1"></i></button>
+                      <?php endif; ?>
+                      <?php if ($access->delete_exp == 1) : ?>
+                        <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
+                          <i class="icon-trash"></i>
+                        </button>
+                      <?php endif; ?>
+                    </div>
+                  </td>
+                <?php endif; ?>
 
               </tr>
             <?php endforeach; ?>

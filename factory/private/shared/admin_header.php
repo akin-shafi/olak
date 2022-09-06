@@ -129,7 +129,7 @@ $fullName = $user->full_name;
          </div>
 
          <ul class="header-actions">
-            
+
             <li class="dropdown">
                <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
                   <span class="user-name"><?php echo $fullName; ?></span>
@@ -387,12 +387,6 @@ $fullName = $user->full_name;
                         <li>
                            <a class="dropdown-item" <?php echo $page_title == 'Material Dashboard' ? 'active-page' : '' ?> href="<?php echo url_for('/materials') ?>">List Materials</a>
                         </li>
-                        <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Material Category' ? 'active-page' : '' ?> href="<?php echo url_for('materials/category.php') ?>">Manage Category</a>
-                        </li>
-                        <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Material Group' ? 'active-page' : '' ?> href="<?php echo url_for('materials/group.php') ?>">Manage Group</a>
-                        </li>
                      <?php endif; ?>
                   </ul>
                </li>
@@ -454,10 +448,16 @@ $fullName = $user->full_name;
                      <?php endif; ?>
                      <?php if ($access->product_mgt == 1) : ?>
                         <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Manage Categories' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_category.php') ?>">Manage Categories</a>
+                           <a class="dropdown-item" <?php echo $page_title == 'Material Group' ? 'active-page' : '' ?> href="<?php echo url_for('settings/group.php') ?>">Manage Group Phase 1</a>
                         </li>
                         <li>
-                           <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products</a>
+                           <a class="dropdown-item" <?php echo $page_title == 'Material Category' ? 'active-page' : '' ?> href="<?php echo url_for('settings/category.php') ?>">Manage Color Phase 1</a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Manage Colors' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_category.php') ?>">Manage Color Phase 2</a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item" <?php echo $page_title == 'Manage Products' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_product.php') ?>">Manage Products Phase 2</a>
                         </li>
                         <li>
                            <a class="dropdown-item" <?php echo $page_title == 'Manage Gauges' ? 'active-page' : '' ?> href="<?php echo url_for('settings/manage_gauge.php') ?>">Manage Gauges</a>

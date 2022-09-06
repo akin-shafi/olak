@@ -35,7 +35,6 @@ if (is_post_request()) {
 
   if (isset($_POST['edit_material_form'])) {
     $mat = $_POST['mat'];
-
     $editStock = MaterialPhaseTwo::find_by_id($mat['material_id']);
 
     $args = [
@@ -55,7 +54,7 @@ if (is_post_request()) {
       'updated_at'        => date('Y-m-d H:i:s'),
     ];
 
-    $editStock->merge_attributes($mat);
+    $editStock->merge_attributes($args);
     $editStock->save();
 
     exit(json_encode(['success' => true, 'msg' => 'Stock material updated successfully!']));

@@ -80,3 +80,4 @@
 2022-08-23 20:06:22 | Admin Login: Adelabu Gbenga Logged in.
 2022-08-23 21:00:21 | Admin Login: Dorian Avery Logged in.
 2022-08-23 21:07:11 | Admin Login: Dorian Avery Logged in.
+2022-08-27 09:09:20 | Admin Login: Adelabu Gbenga Logged in.
