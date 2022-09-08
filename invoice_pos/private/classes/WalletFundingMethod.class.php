@@ -3,16 +3,21 @@ class WalletFundingMethod extends DatabaseObject
 {
 
   static protected $table_name = "wallet_funding_method";
-  static protected $db_columns = ['id', 'customer_id', 'payment_method', 'amount', 'payment_id', 'company_id', 'branch_id', 'created_at', 'updated_at', 'deleted'];
+  static protected $db_columns = ['id', 'customer_id', 'payment_method', 'amount', 'bank_name','payment_id', 'refrence_no', 'description', 'company_id', 'branch_id', 'approval', 'created_at', 'created_by', 'updated_at', 'deleted'];
 
   public $id;
   public $customer_id;
   public $payment_method;
   public $amount;
+  public $bank_name;
   public $payment_id;
+  public $refrence_no;
+  public $description;
   public $company_id;
   public $branch_id;
+  public $approval;
   public $created_at;
+  public $created_by;
   public $updated_at;
   public $deleted;
 
@@ -21,9 +26,14 @@ class WalletFundingMethod extends DatabaseObject
     $this->customer_id = $args['customer_id'] ?? '';
     $this->payment_method = $args['payment_method'] ?? '';
     $this->amount = $args['amount'] ?? 0;
+    $this->bank_name = $args['bank_name'] ?? 0;
     $this->payment_id = $args['payment_id'] ?? '';
+    $this->refrence_no = $args['refrence_no'] ?? '';
+    $this->description = $args['description'] ?? '';
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';
+    $this->approval = $args['approval'] ?? '';
+    $this->created_by = $args['created_by'] ?? '';
     $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->updated_at = $args['updated_at'] ?? date('Y-m-d H:i:s');
     $this->deleted = $args['deleted'] ?? '';
@@ -66,6 +76,61 @@ class WalletFundingMethod extends DatabaseObject
       return false;
     }
   }
+
+  static public function find_by_payment_id($payment_id)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE payment_id='" . self::$database->escape_string($payment_id) . "'";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  static public function find_by_refrence_no($refrence_no)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE refrence_no='" . self::$database->escape_string($refrence_no) . "'";
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function sum_of_unapproved($options = [])
+  {
+    $approval = $options['approval'] ?? false;
+    $customer_id = $options['customer_id'] ?? false;
+
+    $sql = "SELECT SUM(amount) FROM " . static::$table_name . " ";
+    $sql .= "WHERE approval='" . self::$database->escape_string($approval) . "'";
+    $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+
+    $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    // echo $sql;
+    $result_set = self::$database->query($sql);
+    $row = $result_set->fetch_array();
+    // pre_r( $row);
+    return array_shift($row);
+  }
+
+ 
+ static public function find_by_unapproved($options=[])
+  {
+    $approval = $options['approval'] ?? false;
+    $customer_id = $options['customer_id'] ?? false;
+
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE approval='" . self::$database->escape_string($approval) . "'";
+    $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+    $obj_array = static::find_by_sql($sql);
+    return $obj_array;
+  }
+  
 
   static public function find_by_branch_id($branch_id)
   {

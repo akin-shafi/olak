@@ -299,3 +299,14 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+
+
+ALTER TABLE `access_control` ADD `can_approve` VARCHAR(50) NOT NULL DEFAULT '0' AFTER `access_control`;
+ALTER TABLE `access_control` ADD `special_sales` VARCHAR(50) NOT NULL AFTER `sales_mgt`;
+ALTER TABLE `wallet_funding_method` ADD `bank_name` VARCHAR(50) NOT NULL AFTER `amount`;
+ALTER TABLE `access_control` ADD `compliance` VARCHAR(50) NOT NULL AFTER `user_mgt`;
+ALTER TABLE `wallet_funding_method` ADD `refrence_no` VARCHAR(50) NOT NULL AFTER `payment_id`, ADD `description` TEXT NOT NULL AFTER `refrence_no`;
+ALTER TABLE `access_control` ADD `process_waybill` VARCHAR(50) NOT NULL AFTER `filtering`;

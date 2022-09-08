@@ -3,11 +3,13 @@ class Wallet extends DatabaseObject
 {
 
   static protected $table_name = "wallet";
-  static protected $db_columns = ['id', 'customer_id', 'balance', 'company_id', 'branch_id', 'created_at', 'updated_at', 'deleted'];
+  static protected $db_columns = ['id', 'customer_id', 'balance', 'deposit', 'payment_id', 'company_id', 'branch_id', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $customer_id;
   public $balance;
+  public $deposit;
+  public $payment_id;
   public $company_id;
   public $branch_id;
   public $created_at;
@@ -18,6 +20,8 @@ class Wallet extends DatabaseObject
   {
     $this->customer_id = $args['customer_id'] ?? '';
     $this->balance = $args['balance'] ?? 0;
+    $this->deposit = $args['deposit'] ?? 0;
+    $this->payment_id = $args['payment_id'] ?? 0;
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';
     $this->updated_at = $args['updated_at'] ?? date('Y-m-d H:i:s');
@@ -50,6 +54,7 @@ class Wallet extends DatabaseObject
       return false;
     }
   }
+
 
   static public function find_by_branch($city)
   {

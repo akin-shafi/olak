@@ -1,6 +1,6 @@
 <?php if (!isset($page_title)) $page_title = 'User Area';
 require_login();
-$accessControl = AccessControl::find_by_user_id($loggedInAdmin->id);
+
 ?>
 
 <!doctype html>
@@ -245,17 +245,20 @@ $accessControl = AccessControl::find_by_user_id($loggedInAdmin->id);
             </ul>
           </li>
 
-          <li class="nav-item dropdown d-none">
-            <a class="nav-link dropdown-toggle <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="feather-gift  nav-icon"></i>
-              Wallet
+          
+
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle <?php echo ($page == "Transaction") ? 'active-page' : '' ?>" href="<?php echo url_for('/transaction/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="feather-dollar-sign  nav-icon"></i>
+              Transaction
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Load Wallet") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>">Load Customer's Wallet</a>
+                <a class="dropdown-item <?php echo ($page_title == "All Transaction") ? 'active' : '' ?>" href="<?php echo url_for('/transaction/') ?>">All Transaction</a>
               </li>
-              <li class="d-none">
-                <a class="dropdown-item <?php echo ($page_title == "Wallet History") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/index.php') ?>">Wallet History</a>
+              <li class="">
+                <a class="dropdown-item <?php echo ($page_title == "Approve Transaction") ? 'active' : '' ?>" href="<?php echo url_for('/transaction/approve_transaction.php') ?>">Approve Transaction</a>
               </li>
 
 
@@ -274,12 +277,25 @@ $accessControl = AccessControl::find_by_user_id($loggedInAdmin->id);
           <?php endif; ?>
           
           <?php if ($accessControl->wallet_mgt == 1) : ?>
-            <li class="nav-item">
-              <a class="nav-link <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('wallet/add.php') ?>">
-                <i class="feather-gift nav-icon"></i>
+           
+
+            <li class="nav-item dropdown ">
+              <a class="nav-link dropdown-toggle <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="feather-gift  nav-icon"></i>
                 Wallet
               </a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "Load Wallet") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>">Load Customer's Wallet</a>
+                </li>
+                <li class="">
+                  <a class="dropdown-item <?php echo ($page_title == "Wallet History") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/index.php') ?>">Wallet History</a>
+                </li>
+
+
+              </ul>
             </li>
+
           <?php endif; ?>
 
           <?php if ($accessControl->stock_mgt == 1) : ?>

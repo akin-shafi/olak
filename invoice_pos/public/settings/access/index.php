@@ -73,9 +73,12 @@ $access = AccessControl::find_by_undeleted();
             <th>Delete exp</th>
             <th>Report mgt</th>
             <th>Access control</th>
+            <th>Can Approve</th>
             <th>Company setup</th>
             <th>User mgt</th>
             <th>Filtering</th>
+            <th>Process waybill</th>
+            
             <th>Action</th>
           </tr>
         </thead>
@@ -111,9 +114,12 @@ $access = AccessControl::find_by_undeleted();
               <td class="text-center"><?php echo $data->delete_exp == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->report_mgt == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->access_control == 1 ? $isTrue : $isFalse ?></td>
+              <td class="text-center"><?php echo $data->can_approve == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->company_setup == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->user_mgt == 1 ? $isTrue : $isFalse ?></td>
               <td class="text-center"><?php echo $data->filtering == 1 ? $isTrue : $isFalse ?></td>
+              <td class="text-center"><?php echo $data->process_waybill == 1 ? $isTrue : $isFalse ?></td>
+              
 
               <td>
                 <div class="btn-group">

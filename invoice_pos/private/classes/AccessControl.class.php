@@ -2,7 +2,7 @@
 class AccessControl extends DatabaseObject
 {
   protected static $table_name = "access_control";
-  protected static $db_columns = ['id', 'user_id', 'dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'special_sales',  'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'compliance', 'filtering', 'created_by', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'user_id', 'dashboard', 'product_mgt', 'customer_mgt',  'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'special_sales',  'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control','can_approve', 'company_setup', 'user_mgt', 'compliance', 'filtering', 'process_waybill', 'created_by', 'created_at', 'deleted'];
 
   public $id;
   public $user_id;
@@ -23,17 +23,19 @@ class AccessControl extends DatabaseObject
   public $delete_exp;
   public $report_mgt;
   public $access_control;
+  public $can_approve;
   public $company_setup;
   public $user_mgt;
   public $compliance;
   public $filtering;
+  public $process_waybill;
   public $created_by;
   public $created_at;
   public $deleted;
 
   public $counts;
 
-  const PERMISSION = ['dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'special_sales', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'company_setup', 'user_mgt', 'compliance', 'filtering'];
+  const PERMISSION = ['dashboard', 'product_mgt', 'customer_mgt', 'wallet_mgt', 'stock_mgt', 'settings_mgt', 'sales_mgt', 'special_sales', 'add_sales', 'edit_sales', 'manage_sales', 'expenses_mgt', 'add_exp', 'edit_exp', 'delete_exp', 'report_mgt', 'access_control', 'can_approve', 'company_setup', 'user_mgt', 'compliance', 'filtering', 'process_waybill'];
 
   public function __construct($args = [])
   {
@@ -55,10 +57,12 @@ class AccessControl extends DatabaseObject
     $this->delete_exp     = $args['delete_exp'] ?? 0;
     $this->report_mgt     = $args['report_mgt'] ?? 0;
     $this->access_control = $args['access_control'] ?? 0;
+    $this->can_approve    = $args['can_approve'] ?? 0;
     $this->company_setup  = $args['company_setup'] ?? 0;
     $this->user_mgt       = $args['user_mgt'] ?? 0;
     $this->compliance     = $args['compliance'] ?? 0;
     $this->filtering      = $args['filtering'] ?? 0;
+    $this->process_waybill      = $args['process_waybill'] ?? 0;
 
     $this->created_by   = $args['created_by'] ?? '';
     $this->created_at   = $args['created_at'] ?? date('Y-m-d H:i:s');

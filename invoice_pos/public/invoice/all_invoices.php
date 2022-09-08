@@ -19,7 +19,7 @@ $page_title = 'All Invoices'; ?>
 			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 				<h5 class="title">All Invoices</h5>
 			</div>
-			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 d-none">
 
 				<div class="d-flex justify-content-end align-items-center">
 					<div class="btn-group">

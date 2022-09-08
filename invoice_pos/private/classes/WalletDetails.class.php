@@ -3,7 +3,7 @@ class WalletDetails extends DatabaseObject
 {
 
   static protected $table_name = "walletDetails";
-  static protected $db_columns = ['id', 'customer_id', 'amount', 'refrence_no', 'description', 'created_by', 'bank_name', 'account_no', 'created_at', 'updated_at', 'deleted'];
+  static protected $db_columns = ['id', 'customer_id', 'amount', 'refrence_no', 'description', 'created_by', 'bank_name', 'account_no', 'payment_id', 'approval', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $customer_id;
@@ -13,6 +13,8 @@ class WalletDetails extends DatabaseObject
   public $created_by;
   public $bank_name;
   public $account_no;
+  public $payment_id;
+  public $approval;
   public $created_at;
   public $updated_at;
   public $deleted;
@@ -26,6 +28,8 @@ class WalletDetails extends DatabaseObject
     $this->created_by = $args['created_by'] ?? '';
     $this->bank_name = $args['bank_name'] ?? '';
     $this->account_no = $args['account_no'] ?? '';
+    $this->payment_id = $args['payment_id'] ?? '';
+    $this->approval = $args['approval'] ?? '';
     $this->updated_at = $args['updated_at'] ?? date('Y-m-d H:i:s');
     $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
     $this->deleted = $args['deleted'] ?? '';
@@ -50,12 +54,19 @@ class WalletDetails extends DatabaseObject
     $sql .= "WHERE customer_id='" . self::$database->escape_string($customer_id) . "'";
     $obj_array = static::find_by_sql($sql);
     return $obj_array;
-    // if (!empty($obj_array)) {
-    //   return array_shift($obj_array);
-    // } else {
-    //   return false;
-    // }
   }
+
+  // static public function find_by_unapproved($options=[])
+  // {
+  //   $approval = $options['approval'] ?? false;
+  //   $customer_id = $options['customer_id'] ?? false;
+
+  //   $sql = "SELECT * FROM " . static::$table_name . " ";
+  //   $sql .= "WHERE approval='" . self::$database->escape_string($approval) . "'";
+  //   $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+  //   $obj_array = static::find_by_sql($sql);
+  //   return $obj_array;
+  // }
 
   static public function find_by_branch($city)
   {

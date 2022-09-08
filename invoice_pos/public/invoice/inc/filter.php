@@ -44,7 +44,7 @@ if (is_get_request()) {
 					<th>Invoice No.</th>
 					<th>Branch</th>
 					<th>Customer Name</th>
-					<th>Payment Method</th>
+					<!-- <th>Payment Method</th> -->
 					<th>Created Date</th>
 					<th>Due Date</th>
 					<th>Total Amount</th>
@@ -76,12 +76,15 @@ if (is_get_request()) {
 										<a class="dropdown-item" href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
 											<i class="feather-file-text fs-18" title="view"></i> Invoice
 										</a>
+										<?php if ($accessControl->process_waybill == true): ?>
 										<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="#">
 											<i class="feather-file-text fs-18" title="view"></i> Waybill
 										</a>
 										<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
 
 										<a href="#!" class="dropdown-item" id="delete_void" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void </a>
+
+										<?php endif ?>
 
 									</div>
 								</div>
@@ -95,7 +98,6 @@ if (is_get_request()) {
 						<td><?php echo h(ucwords($value->invoiceNum)); ?></td>
 						<td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
 						<td><?php echo $customer->full_name(); ?></td>
-						<td><?php echo h(Billing::PAYMENT_METHOD[$value->billingFormat]); ?></td>
 						<td><?php echo h(date('D jS F, Y H:i:s', strtotime($value->created_date))); ?></td>
 						<td><?php echo h(date('D jS F, Y', strtotime($due_date))); ?></td>
 						<td><?php echo number_format($value->total_amount); ?></td>

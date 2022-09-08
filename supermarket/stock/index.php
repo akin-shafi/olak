@@ -105,9 +105,6 @@ include(SHARED_PATH . '/header.php'); ?>
 $(document).on('click', '#replace', function(){
 	$('#p_qty').val($(this).val()); 
 })
- 
-
-  
 
 </script>
 

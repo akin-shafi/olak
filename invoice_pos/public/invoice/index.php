@@ -193,17 +193,17 @@ $page_title = 'Billing & Receipts'; ?>
 
                     <tr>
                       <td class="col" align="right"><b>Total</b></td>
-                      <td class="col" align="center"><b><span id="final_total_amt">NaN</span></b>
+                      <td class="col" align="center"><b><span id="final_total_amt">0.00</span></b>
                         <input type="hidden" id="final_total_input" name="">
                       </td>
                     </tr>
                     <tr class="d-none">
                       <td class="col" align="right"><b>Tax</b></td>
-                      <td class="col" align="center"><b><span id="tax">NaN</span></b></td>
+                      <td class="col" align="center"><b><span id="tax">0.00</span></b></td>
                     </tr>
                     <tr class="d-none">
                       <td class="col" align="right"><b>Sum Total</b></td>
-                      <td class="col" align="center"><b><span id="grand_total">NaN</span></b></td>
+                      <td class="col" align="center"><b><span id="grand_total">0.00</span></b></td>
                     </tr>
 
                     <table class="table table-bordered">
@@ -273,7 +273,7 @@ $page_title = 'Billing & Receipts'; ?>
       $("#acct_no").val(data);
     });
 
-    var final_total_amt = $('#final_total_amt').text('0.00');
+    var final_total_amt = $('#final_total_amt').text(0);
     var count = 1;
 
     $(document).on('click', '#add_row', function() {
@@ -285,7 +285,7 @@ $page_title = 'Billing & Receipts'; ?>
       html_code += '<td><span id="sr_no">' + count + '</span></td>';
       html_code += '<td><select class="form-control form-control-sm service_type select2" required="" name="service_type[]" id="service_type' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Product::find_by_undeleted() as $result => $value) { ?><option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>"><?php echo $value->pname ?></option><?php } ?></select></td>';
       html_code += '<td><input type="text" readonly required="" name="unit_cost[]"  id="unit_cost' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only unit_cost"></td>';
-      html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only quantity" value="<?php echo empty($expRequest->quantity) ? 0 : ''; ?>"></td>';
+      html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only quantity" value="<?php echo empty($expRequest->quantity) ? '' : ''; ?>"></td>';
       html_code += '<td><input type="text" required="" name="amount[]" id="amount' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only amount" readonly></td>';
       html_code += '<td><button type="button" name="remove_row" id="' + count + '" class="btn btn-danger p-0 pl-2 pr-2 remove_row">X</button></td></tr>';
 

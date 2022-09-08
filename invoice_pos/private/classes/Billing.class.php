@@ -58,7 +58,7 @@ class Billing extends DatabaseObject
   public $counts;
 
   const PAYMENT_METHOD = [
-    1 => 'Wallet',
+    // 1 => 'Wallet',
     2 => 'Cash',
     3 => 'Transfer',
     4 => 'POS',

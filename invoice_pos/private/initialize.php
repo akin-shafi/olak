@@ -58,6 +58,8 @@ spl_autoload_register('my_autoload');
 $database = db_connect();
 DatabaseObject::set_database($database);
 
+
+
 $session = new Session;
 $currency = '₦' ;
 
@@ -72,21 +74,10 @@ if ($session->user_id) { //for riders session
   //  echo $accessStates;
 } elseif ($session->customer_id) { //for customers session
 
-  // if($session->clientcat === 'credit'){
-  //    // echo $_SESSION['clientcat'];
-  //    $loggedInCustomer = CreditClient::find_by_credit_email($session->email);
-  // }elseif($session->clientcat === 'walkin'){
-  //    // echo $_SESSION['clientcat'];
-  //    $loggedInCustomer = WalkInClient::find_by_walkin_email($session->email);
-  // }elseif($session->clientcat === 'prepaid'){
-  //    // echo $_SESSION['clientcat'];
-  //    $loggedInCustomer = PrepaidClient::find_by_prepaid_email($session->email);
-  // }
 
-  // $arg_clientcat = $session->clientcat ?? null;
 
 }
-  // $theme = Theme::find_all();
-  // $company_1 = CompanyDetails::find_by_id("1");
-  // $pics = CompanyLogo::find_by_id(1);
-  // $bank_1 = BankDetails::find_by_id(1);
+if (isset($loggedInAdmin->id)) {
+  $accessControl = AccessControl::find_by_user_id($loggedInAdmin->id) ?? 0;
+}
+

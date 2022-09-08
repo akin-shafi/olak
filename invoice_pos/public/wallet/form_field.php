@@ -1,11 +1,14 @@
+<style type="text/css">
+  .bank_alt{display: none;}
+</style>
 <div class="row">
-  <section class="col-lg-6 col-md-6 ">
+  <section class="col-lg-12 col-md-12 ">
     <dl class="row">
       <input type="hidden" class="form-control" name="wallet[created_by]" value="<?php echo $loggedInAdmin->id ?>">
 
       <?php if ($loggedInAdmin->admin_level == 1) { ?>
         
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
         <label>Company Name <span class="text-danger">*</span></label>
 
         <select name="wallet[company_id]" class="form-control select2" data-placeholder="Company Name" required>
@@ -16,14 +19,14 @@
         </select>
 
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
         <label>Branch Name <span class="text-danger">*</span></label>
         <!-- <input type="text" class="form-control" name="wallet[branch_id]" value=""> -->
 
         <select name="wallet[branch_id]" class="form-control select2" data-placeholder="Branch Name" required>
           <option label="Select Branch"></option>
           <?php foreach (Branch::find_by_undeleted() as $value) : ?>
-            <option value="<?php echo $value->id ?>" <?php echo $value->id == $loggedInAdmin->branch_id ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
+            <option value="<?php echo $value->id ?>" data-id="1" <?php echo $value->id == $loggedInAdmin->branch_id ? 'selected' : '' ?>><?php echo ucwords($value->branch_name) ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -36,7 +39,7 @@
 
 
 
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-4">
         <label>Customer Name<span class="text-danger">*</span></label>
 
         <?php if (!empty($c_id)) { ?>
@@ -53,7 +56,7 @@
       </div>
 
 
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-6 d-none">
         <label>Total Amount <span class="text-danger">*</span></label>
 
         <input type="text" name="wallet[amount]" id="famount" data-srno="1" class="form-control input-sm famount" value="0" readonly>
@@ -72,16 +75,18 @@
                         <th>S/N</th>
                         <th>Payment Method</th>
                         <th>Amount</th>
+                        <th>Bank Name</th>
+                        <th>Account No</th>
                         <th>Action</th>
                       </tr>
                       <tr>
                         <td>1</td>
                         
                         <td>
-                          <select class="form-control form-control-sm payment_method " required="" name="payment_method[]" id="payment_method1" data-srno="1">
+                          <select class="form-control form-control-sm payment_method " required="" name="payment_method[]" id="payment_method1" >
                               <option value="">Select</option>
                               <?php foreach (Billing::PAYMENT_METHOD as $key => $value) { ?>
-                                  <option value="<?php echo $key; ?>">
+                                  <option value="<?php echo $key; ?>" data-srno="1">
                                     <?php echo $value; ?>
 
                                   </option>
@@ -91,6 +96,16 @@
                         <td>
                           <input type="text" required="" name="amount[]" id="amount1" data-srno="1" class="form-control form-control-sm number_only amount"></td>
                         </td>
+                        <td>
+                          <input class="bank_alt form-control" id="bank_alt1" >
+                          <select class="form-control form-control-sm bank_name" required="" name="bank_name[]" id="bank_name1">
+                            <option value="">Select</option>
+                            <option value="0" style="display: none">Direct Cash</option>
+                            <?php foreach (Bank::find_by_undeleted() as $result => $value) { ?><option data-id="1" data-acct="<?php echo $value->account_number ?>" value="<?php echo $value->id ; ?>"><?php echo $value->bank_name ?> </option><?php } ?></select>
+
+                        </td>
+
+                        <td><input class="form-control" name="account_no[]" id="account_no1" type="number" value="<?php echo $wallet->account_no ?? '' ?>" readonly></td>
                         <td><button type="button" name="add_row" id="add_row" class="btn btn-success btn-sm">+</button></td>
                       </tr>
                     </table>
@@ -108,11 +123,11 @@
     </dl>
  </section>
 
- <section class="col-lg-6 col-md-6">
+ <section class="col-lg-12 col-md-12">
   <dl class="row">
     
-
-    <div class="form-group col-md-6">
+    <input type="hidden" name="wallet[approval]" value="0">
+    <div class="form-group col-md-6 d-none">
       <label>Bank Name <span class="text-danger">*</span></label>
 
       <select class="form-control select2" id="bank_name" name="wallet[bank_name]">
@@ -121,22 +136,19 @@
           <option value="<?php echo $value->id ?>" data-id="<?php echo $value->account_number ?>"><?php echo $value->bank_name ?></option>
         <?php endforeach; ?>
       </select>
-
-
-      </select>
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 d-none">
       <label>Account No<span class="text-danger">*</span></label>
       <input class="form-control" name="wallet[account_no]" id="account_no" type="number" value="<?php echo $wallet->account_no ?? '' ?>" readonly>
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 d-none">
       <label>Reference No </label>
       <input class="form-control" name="wallet[refrence_no]" id="refrence_no" type="text" value="<?php echo $wallet->refrence_no ?? '' ?>">
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-6 d-none">
       <label>Description </label>
       <textarea class="form-control" name="wallet[description]" type="text"><?php echo $wallet->description ?? '' ?></textarea>
     </div>
@@ -145,10 +157,27 @@
 <section>
 
 <script type="text/javascript">
-  $(document).on('change', '#bank_name', function() {
-    var selected = $("#bank_name").find('option:selected');
-    var data = selected.data("id");
-    $("#account_no").val(data);
+  
+  $(document).on('change', '.payment_method', function() {
+    let selected = $(this).find('option:selected');
+    let val = selected.val();
+    let id = selected.data("srno");
+    if (val == 2) {
+      // $('#bank_name'+ id).val(4).trigger('change').attr('readonly', true);
+      $('#bank_name'+ id).val(0).trigger('change').css('display', 'none');
+      $('#bank_alt'+ id).css("display", "block").val("Direct Cash").attr('readonly', true);
+      $("#account_no"+ id).val(0);
+    }else{
+      $('#bank_name'+ id).css('display', 'block').val('').trigger('change');
+      $('#bank_alt'+ id).css("display", "none");
+    }
+  });
+
+  $(document).on('change', '.bank_name', function() {
+    let selected = $(this).find('option:selected');
+    let id = selected.data("id");
+    let account_no = selected.data("acct");
+    $("#account_no"+ id).val(account_no);
   });
 
 
@@ -196,9 +225,15 @@
       var html_code = '';
       html_code += '<tr id="row_id_' + count + '">';
       html_code += '<td><span id="sr_no">' + count + '</span></td>';
-      html_code += '<td><select class="form-control form-control-sm payment_method select2" required="" name="payment_method[]" id="payment_method' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Billing::PAYMENT_METHOD as $result => $value) { ?><option value="<?php echo $result; ?>"><?php echo $value ?></option><?php } ?></select></td>';
+      html_code += '<td><select class="form-control form-control-sm payment_method select2" required="" name="payment_method[]" id="payment_method' + count + '" ><option value="">Select</option><?php foreach (Billing::PAYMENT_METHOD as $result => $value) { ?><option data-srno="' + count + '" value="<?php echo $result; ?>"><?php echo $value ?></option><?php } ?></select></td>';
      
       html_code += '<td><input type="text" required="" name="amount[]" id="amount' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only amount" value=""></td>';
+
+      html_code += '<td><input class="bank_alt form-control" id="bank_alt' + count + '" ><select class="form-control form-control-sm bank_name" required="" name="bank_name[]" id="bank_name' + count + '"><option value="">Select</option> <option value="0" style="display: none">Direct Cash</option><?php foreach (Bank::find_by_undeleted() as $result => $value) { ?><option data-id="' + count + '" data-acct="<?php echo $value->account_number ?>" value="<?php echo $value->id ; ?>"><?php echo $value->bank_name ?> </option><?php } ?></select></td>';
+
+      html_code += '<td><input class="form-control" name="account_no[]" id="account_no' + count + '" type="number" value="<?php echo $wallet->account_no ?? '' ?>" readonly></td>';
+ 
+
       html_code += '<td><button type="button" name="remove_row" id="' + count + '" class="btn btn-danger p-0 pl-2 pr-2 remove_row">X</button></td></tr>';
 
       $('#expense-item-table').append(html_code);
