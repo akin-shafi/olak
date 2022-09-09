@@ -247,23 +247,24 @@ require_login();
 
           
 
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle <?php echo ($page == "Transaction") ? 'active-page' : '' ?>" href="<?php echo url_for('/transaction/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <?php if ($accessControl->can_approve == 1) : ?>
+          <li class="nav-item">
+            <a class="nav-link  <?php echo ($page_title == "All Transactions") ? 'active-page' : '' ?>" href="<?php echo url_for('/transaction/') ?>" id="adminDrop">
               <i class="feather-dollar-sign  nav-icon"></i>
-              Transaction
+              Transactions
             </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
+            <!-- <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "All Transaction") ? 'active' : '' ?>" href="<?php echo url_for('/transaction/') ?>">All Transaction</a>
+                <a class="dropdown-item <?php //echo ($page_title == "All Transaction") ? 'active' : '' ?>" href="<?php //echo url_for('/transaction/') ?>">All Transaction</a>
               </li>
               <li class="">
-                <a class="dropdown-item <?php echo ($page_title == "Approve Transaction") ? 'active' : '' ?>" href="<?php echo url_for('/transaction/approve_transaction.php') ?>">Approve Transaction</a>
+                <a class="dropdown-item <?php //echo ($page_title == "Approve Transaction") ? 'active' : '' ?>" href="<?php //echo url_for('/transaction/approve_transaction.php') ?>">Approve Transaction</a>
               </li>
 
 
-            </ul>
+            </ul> -->
           </li>
+        <?php endif ?>
 
           
 
