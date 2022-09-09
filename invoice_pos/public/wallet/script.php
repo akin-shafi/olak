@@ -21,9 +21,9 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 		<td><?php echo $value->created_at; ?></td>
 		<td><?php echo Admin::find_by_id($value->created_by)->full_name(); ?></td>
 		<?php  if($accessControl->can_approve == 1) : ?>
-		<td><button class="btn btn-danger btn-sm approve" data-type="<?php echo $value->payment_method ?>" data-cust="<?php echo $value->customer_id; ?>" id="<?php echo $value->id; ?>">Approve </button></td>
+		<td><button class="btn btn-danger btn-sm approve" data-type="<?php echo $value->payment_method ?>" data-cust="<?php echo $value->customer_id; ?>" id="<?php echo $value->id; ?>">Confirm </button></td>
 		<?php elseif($value->payment_method != 3): ?>
-			<td><button class="btn btn-primary btn-sm approve" data-type="<?php echo $value->payment_method ?>" data-cust="<?php echo $value->customer_id; ?>" id="<?php echo $value->id; ?>">Approve </button></td>
+			<td><button class="btn btn-primary btn-sm approve" data-type="<?php echo $value->payment_method ?>" data-cust="<?php echo $value->customer_id; ?>" id="<?php echo $value->id; ?>">Confirm </button></td>
 		<?php endif ?>
 
 	</tr>
@@ -82,10 +82,10 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
           </a>
         </td>
         <td><?php echo ucwords($customer->customer_id) ?> </td>
-        <td><?php echo number_format($balance, 2) ?> </td>
+        <td class="green"><?php echo number_format($balance, 2) ?> </td>
         <td>
           <?php if ($sum != 0) {?>
-            <a href="#" data-id="<?php echo $wallet->customer_id ?>" class="deposit"><?php echo number_format($sum, 2) ?></a>
+            <a href="#" data-id="<?php echo $wallet->customer_id ?>" class="red deposit"><?php echo number_format($sum, 2) ?></a>
           <?php }else{ ?>
             <?php echo number_format($sum, 2) ?>
           <?php } ?>

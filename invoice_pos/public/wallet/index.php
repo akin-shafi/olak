@@ -5,7 +5,20 @@ require_login();
 ?>
 <?php $page = 'Wallet'; $page_title = 'Wallet History'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
-
+<style type="text/css">
+  .red{
+    color: red; 
+    font-weight: bold; 
+    font-size: 20px; 
+    text-decoration:underline;
+  }
+  .green{
+    color: green; 
+    font-weight: bold; 
+    font-size: 20px; 
+    /*text-decoration:underline;*/
+  }
+</style>
 <!-- ************* Main container start ************* -->
 <div class="main-container">
 
@@ -39,7 +52,7 @@ require_login();
               <th>Customer Name</th>
               <th>Customer No</th>
               <th>Wallet Balance</th>
-              <th>Unapproved</th>
+              <th>Un-confirmed</th>
               <th>Action</th>
             </tr>
           </thead>
