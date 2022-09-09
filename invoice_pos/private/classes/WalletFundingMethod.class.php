@@ -126,7 +126,10 @@ class WalletFundingMethod extends DatabaseObject
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE approval='" . self::$database->escape_string($approval) . "'";
-    $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+    if ($customer_id) {
+      $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+    }
+    
     $obj_array = static::find_by_sql($sql);
     return $obj_array;
   }

@@ -78,7 +78,7 @@ require_login();
       </div>
       <div class="modal-body">
         <!-- <table class="table table-bordered"> -->
-          <table id="" class="table table-sm table-striped ">
+          <table id="rowSelection" class="table table-sm table-striped ">
             <thead>
               <tr>
                 <td>S/N</td>
