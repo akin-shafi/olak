@@ -27,9 +27,28 @@ require_login();
         </div>
       </div>
     </div>
+
   </div>
   <!-- Page header end -->
+
   <div class="content-wrapper">
+    <div>
+      <table>
+        <tr>
+          <td>from: <input type="date" id="from" class="form-control form-control-sm" value="<?php echo date("Y-m-d") ?>"></td>
+          <td>To: <input type="date" id="to" class="form-control form-control-sm" value="<?php echo date("Y-m-d") ?>"></td>
+          <td><button id="find" class="mt-3 btn btn-primary btn-sm">Find</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="row gutters justify-content-center" id="show_matrics">
+      
+      
+    </div>
+
+
+
+
     <?php echo display_session_message(); ?>
     <div class="table-responsive">
         <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="wallet-table">
@@ -37,41 +56,216 @@ require_login();
             <tr role="row">
               <th>S/N</th>
               <th>Customer Name</th>
-              <!-- <th>Customer No</th> -->
-              <th>Deposit</th>
+              <th>Amount</th>
+              <th>Payment Method</th>
+              <th>Bank Name</th>
+              <th>Account No</th>
+              <th>Registered at</th>
+              <th>Registered By</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
-            <?php $sn = 1;
-            foreach (Wallet::find_by_undeleted() as $wallet) : 
-              $customer = Client::find_by_customer_id($wallet->customer_id);
-              $c_id = $customer->id;
-              $customer_name = $customer->full_name();
-              $balance = intval($wallet->balance);
-            ?>
+          <tbody id="show_data">
 
-	            <?php if ($wallet->deposit != 0) { ?>
-	            	
-	              <tr>
-	                <td><?php echo $sn++ ?></td>
-	                <td>
-	                  <a href="<?php echo url_for('client/show.php?id='. $c_id) ?>" class="d-flex align-items-center">
-	                    <h6 class="mb-0 fs-14"><?php echo ucwords($customer_name) ?></h6>
-	                  </a>
-	                </td>
-	                <td><?php echo number_format($wallet->deposit, 2) ?> </td>
-	                
-	                <td>
-	                  <!-- <a href="<?php // echo url_for('wallet/add.php?id='. $customer->customer_id ) ?>" class=" btn btn-sm btn-primary " > <i class="feather-plus text-success"></i> Load wallet</a> -->
-	                </td>
-	              </tr>
-              <?php } ?>
-            <?php endforeach; ?>
+            
           </tbody>
         </table>
     </div>
     
   </div>
 </div>
+
+
+<div class="modal fade" tabindex="-1" id="show_deposit" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Payment History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table id="rowSelection" class="table table-sm table-striped ">
+            <thead>
+              <tr>
+                <td>S/N</td>
+                <td>Amount</td>
+                <td>Payment Method</td>
+                <td>Bank Name</td>
+                <td>Account No.</td>
+                <td>Date</td>
+                <td>Registered By</td>
+                <?php if($accessControl->can_approve == 1) : ?>
+                <td>Action</td>
+                <?php endif  ?>
+              </tr>
+            </thead>
+            <tbody id="show_details"></tbody>
+          </table>
+      </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" id="enter_refrence" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Enter Refrence</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form id="submit_ref">
+          <input type="hidden" id="data_id" name="id">
+          <input type="hidden" id="customer_id" name="customer_id">
+          <div class="form-group col-md-12">
+            <label class="form-label">Refrence Number <sup class="text-danger">*</sup></label>
+            <input type="text" required class="form-control" name="refrence_no">
+          </div>
+
+          <div class="form-group col-md-12">
+            <label class="form-label">Description <sup class="text-danger">*</sup></label>
+            <textarea type="text" class="form-control" name="description"></textarea>
+          </div>
+
+          <div class="clearfix">
+            <input type="submit" class="btn btn-primary float-right">
+          </div>
+        </form>
+          
+      </div>
+      
+    </div>
+  </div>
+</div>
+
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
+
+<script type="text/javascript">
+  $(document).on("click", ".deposit", function() {
+    $("#show_deposit").modal('show');
+     let customer_id = $(this).data('id');
+     getPaymentHistory(customer_id);
+  })
+
+  $(document).on("click", "#find", function() {
+    let from = $("#from").val();
+    let to = $("#to").val();
+    showMatrics(from, to);
+  })
+
+  let from = $("#from").val();
+  let to = $("#to").val();
+  showMatrics(from, to);
+  function showMatrics(from, to) {
+    $.ajax({
+        url:"script.php",
+        method:"POST",
+        data:{
+          matrics: 1,
+          from: from,
+          to: to,
+        },
+        success:function(data)
+        {
+           $("#show_matrics").html(data)
+        }
+     });
+  }
+  
+
+  function showData() {
+    $.ajax({
+        url:"script.php",
+        method:"POST",
+        data:{
+          show: 1,
+        },
+        success:function(data)
+        {
+           $("#show_data").html(data)
+        }
+     });
+  }
+  showData();
+
+  function getPaymentHistory(customer_id) {
+    $.ajax({
+        url:"script.php",
+        method:"POST",
+        data:{
+          unapproved: 1,
+          customer_id: customer_id,
+          approval: 0,
+        },
+        success:function(data)
+        {
+           $("#show_details").html(data)
+        }
+     });
+  }
+
+  $(document).on("click", ".approve", function() {
+     let id = $(this).attr('id');
+     let customer_id = $(this).data('cust');
+     let payment_method = $(this).data('type');
+
+     if (payment_method == 3) {
+        $("#customer_id").val(customer_id);
+        $("#data_id").val(id);
+        $("#enter_refrence").modal('show');
+     }else{
+        approval(id, customer_id);
+     }
+     
+  })
+
+  function approval(id, customer_id) {
+    $.ajax({
+        url:"script.php",
+        method:"POST",
+        dataType: 'json',
+        data:{
+          approve: 1,
+          id: id,
+        },
+        success:function(data)
+        {
+          if(data.msg == 'OK'){
+            getPaymentHistory(customer_id);
+            showData();
+            successTime("Approved");
+          }
+        }
+     });
+  }
+
+  $(document).on("submit", "#submit_ref", function(e) {
+    e.preventDefault();
+      let id = $("#data_id").val();
+      let customer_id = $("#customer_id").val();
+      $.ajax({
+        url:"script.php",
+        method:"POST",
+        dataType: 'json',
+        data: $(this).serialize(),
+        success:function(data)
+        {
+          if(data.msg == 'OK'){
+            approval(id, customer_id)
+            $("#enter_refrence").modal('hide');
+          }else{
+            errorAlert(data.msg);
+          }
+        }
+     });
+  })
+</script>

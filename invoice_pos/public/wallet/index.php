@@ -77,7 +77,7 @@ require_login();
         </button>
       </div>
       <div class="modal-body">
-        <!-- <table class="table table-bordered"> -->
+        <div class="table-responsive">
           <table id="rowSelection" class="table table-sm table-striped ">
             <thead>
               <tr>
@@ -94,7 +94,8 @@ require_login();
               </tr>
             </thead>
             <tbody id="show_details"></tbody>
-        </table>
+          </table>
+      </div>
       </div>
       
     </div>

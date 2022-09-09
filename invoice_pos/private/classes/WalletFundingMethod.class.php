@@ -103,14 +103,35 @@ class WalletFundingMethod extends DatabaseObject
 
   public static function sum_of_unapproved($options = [])
   {
-    $approval = $options['approval'] ?? false;
-    $customer_id = $options['customer_id'] ?? false;
+    $approval       = $options['approval'] ?? false;
+    $customer_id    = $options['customer_id'] ?? false;
+    $payment_method = $options['payment_method'] ?? false;
 
+    $from = $options['from'] ?? false;
+    $to   = $options['to'] ?? false;
     $sql = "SELECT SUM(amount) FROM " . static::$table_name . " ";
     $sql .= "WHERE approval='" . self::$database->escape_string($approval) . "'";
-    $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
-
+    if ($customer_id) {
+       $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+    }
+    if ($payment_method) {
+       $sql .= " AND payment_method='" . self::$database->escape_string($payment_method) . "'";
+    }
     $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    if ($from && $to) {
+      if ($from == $to) {
+        $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from > $to) {
+        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from < $to) {
+        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+      }
+    } elseif ($from && !$to) {
+      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+    } elseif (!$from && $to) {
+      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
+    }
     // echo $sql;
     $result_set = self::$database->query($sql);
     $row = $result_set->fetch_array();
