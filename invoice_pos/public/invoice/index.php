@@ -445,8 +445,6 @@ $page_title = 'Billing & Receipts'; ?>
               },
               dataType: 'json',
               success: function(data) {
-                console.log(data.wallet_balance);
-                console.log(grand_totalInput);
                 if (Number(data.wallet_balance) >= Number(grand_totalInput)) {
                   submit_form(form_data);
                 } else {
@@ -454,7 +452,9 @@ $page_title = 'Billing & Receipts'; ?>
                 }
               }
             });
-          } 
+          } else{
+            submit_form(form_data);
+          }
         } else {
           errorAlert("Enter Amount Paid");
         }
