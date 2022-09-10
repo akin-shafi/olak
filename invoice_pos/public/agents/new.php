@@ -7,51 +7,53 @@ require_login();
 if (is_post_request()) {
 
   $args = $_POST['agent'];
-  $args['credit_facility'] = $_POST['credit_facility'] == 'on' ? 1 : 0;
   $agent = new Agent($args);
-
   $result = $agent->save();
+
+  // $result = true;
 
   if ($result == true) {
     $new_id = $agent->id;
+    // $new_id = 1;
     $rand = rand(10, 200);
     $date = date('ymd');
 
-    $customer_id = 'C' . str_pad($new_id, 2, '0', STR_PAD_LEFT) . $date;
-    $customer = agent::find_by_id($new_id);
+    $agent_id = 'A' . str_pad($new_id, 2, '0', STR_PAD_LEFT) . $date;
+    $agnet = Agent::find_by_id($new_id);
     $data1 = [
-      'customer_id' => $customer_id,
+      'agent_id' => $agent_id,
     ];
-    $customer->merge_attributes($data1);
-    $data_set = $customer->save();
-
+    $agnet->merge_attributes($data1);
+    $data_set = $agnet->save();
+    // $data_set = true;
     if ($data_set == true) {
       $data2 = [
         'balance' => 0,
-        'customer_id' => $customer_id,
+        'agent_id' => $agent_id,
         'company_id' => $loggedInAdmin->company_id,
         'branch_id' => $loggedInAdmin->branch_id
       ];
 
       $wallet = new AgentWallet($data2);
       $result_set = $wallet->save();
+      // pre_r($wallet);
     }
 
     if ($result_set == true) {
-      $session->message('The customer was created successfully.');
-      redirect_to(url_for('/agent/index.php'));
+      $session->message('The Agent was created successfully.');
+      redirect_to(url_for('/agents/index.php'));
     }
   } else {
     // show errors
   }
 } else {
   // display the form
-  $agent = new agent;
+  $agent = new Agent;
 }
 
 ?>
-<?php $page = 'Customer';
-$page_title = 'Add New Customer'; ?>
+<?php $page = 'Agents';
+$page_title = 'Add Agent'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div class="main-container">

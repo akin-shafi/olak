@@ -128,18 +128,47 @@ $page_title = 'Billing & Receipts'; ?>
                   </div>
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Payment Method <sup class="error">*</sup></label>
-                    <div id="payment_method">
-                      <select required class="form-control payment_method" name="billing[billingFormat]">
+                    <div id="">
+                      <select id="payment_method" required class="form-control payment_method" name="billing[billingFormat]">
                         <option value="">Select</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="form-group col-lg-3 col-md-3 ">
-                    <label class="label-control">Due Date <?php //echo $due_date; 
-                                                          ?><sup class="error">*</sup></label>
+                    <label class="label-control">Due Date <sup class="error">*</sup></label>
                     <input required="" type="text" name="billing[due_date]" class="form-control" readonly id="dueDtate" value="7">
                   </div>
+
+                  <?php if ($accessControl->special_sales == 1): ?>
+                    
+                  <div class="form-group col-lg-3 col-md-3 pt-4 bg-light">
+                    <div class="d-flex justify-content-between align-items-center" style="min-width: 150px;">
+                      <div class="custom-control custom-switch mb-3 ">
+                        <input type="checkbox" class="custom-control-input" id="rebate">
+                        <label class="custom-control-label text-dark" for="rebate">Agent Rebate</label>
+                      </div>
+                    </div>
+
+                    <!-- <label class="label-control">  <input type="checkbox" name="billing['rebate']"> Agent Rebate</label> -->
+                  </div>
+                  <?php endif ?>
+
+                  <div class="form-group col-lg-3 col-md-3 agent_wrap" style="display: none;">
+                    <label class="label-control">Agent Name <sup class="error">*</sup></label>
+
+                    <div class="btn-group">
+                      <select class="form-control" name="billing[agent_id]" id="agent_id">
+                        <option value="">Select an agent</option>
+                        <?php foreach (Agent::find_by_undeleted() as $agent) : ?>
+                            <option value="<?php echo $agent->agent_id ?>"><?php echo $agent->full_name(); ?></option>
+                          <?php endforeach; ?>
+                      </select>
+                      <a href="<?php echo url_for('agents/new.php') ?>" class="btn btn-success btn-sm">+</a>
+                    </div>
+                  </div>
+
+
 
                 </section>
                 <table class="table table-bordered">
@@ -273,6 +302,17 @@ $page_title = 'Billing & Receipts'; ?>
       $("#acct_no").val(data);
     });
 
+    $(document).on('change', '#rebate', function() {
+
+      $(".agent_wrap").toggle();
+      if($(this).is(':checked') == true){
+        $("#agent_id").prop('required',true);
+      }else{
+        $("#agent_id").prop("required", false);
+      }
+      
+    })
+
     var final_total_amt = $('#final_total_amt').text(0);
     var count = 1;
 
@@ -284,7 +324,7 @@ $page_title = 'Billing & Receipts'; ?>
       html_code += '<tr id="row_id_' + count + '">';
       html_code += '<td><span id="sr_no">' + count + '</span></td>';
       html_code += '<td><select class="form-control form-control-sm service_type select2" required="" name="service_type[]" id="service_type' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Product::find_by_undeleted() as $result => $value) { ?><option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>"><?php echo $value->pname ?></option><?php } ?></select></td>';
-      html_code += '<td><input type="text" readonly required="" name="unit_cost[]"  id="unit_cost' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only unit_cost"></td>';
+      html_code += '<td><input type="text" <?php echo $accessControl->special_sales == 1 ? '' : 'readonly' ?>  required="" name="unit_cost[]"  id="unit_cost' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only unit_cost"></td>';
       html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only quantity" value="<?php echo empty($expRequest->quantity) ? '' : ''; ?>"></td>';
       html_code += '<td><input type="text" required="" name="amount[]" id="amount' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only amount" readonly></td>';
       html_code += '<td><button type="button" name="remove_row" id="' + count + '" class="btn btn-danger p-0 pl-2 pr-2 remove_row">X</button></td></tr>';
@@ -368,10 +408,10 @@ $page_title = 'Billing & Receipts'; ?>
     });
 
     function cal_balance() {
-      var part_payment = Number($('#part_payment')[0].value);
-      var new_gtotal = $('#grand_totalInput')[0].value;
+      var part_payment = $('#part_payment').val();
+      var new_gtotal = $('#grand_totalInput').val();
       var balance = new_gtotal - part_payment;
-      $('#balance')[0].value = Number(balance);
+      $('#balance').val(balance);
     }
 
     $(document).on('input', '#part_payment', function() {
@@ -405,6 +445,8 @@ $page_title = 'Billing & Receipts'; ?>
               },
               dataType: 'json',
               success: function(data) {
+                console.log(data.wallet_balance);
+                console.log(grand_totalInput);
                 if (Number(data.wallet_balance) >= Number(grand_totalInput)) {
                   submit_form(form_data);
                 } else {
@@ -412,9 +454,7 @@ $page_title = 'Billing & Receipts'; ?>
                 }
               }
             });
-          } else {
-            submit_form(form_data);
-          }
+          } 
         } else {
           errorAlert("Enter Amount Paid");
         }

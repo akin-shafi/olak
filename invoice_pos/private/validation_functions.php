@@ -150,6 +150,20 @@ function has_unique_client_phone($client_phone, $current_id = "0")
   }
 }
 
+function has_unique_agent_phone($agent_phone, $current_id = "0")
+{
+
+  $agent = Agent::find_by_phone($agent_phone);
+
+  if ($agent === false || $agent->id == $current_id) {
+    // is unique
+    return true;
+  } else {
+    // not unique
+    return false;
+  }
+}
+
 function has_unique_email($client_email, $current_id = "0")
 {
 

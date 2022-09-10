@@ -4,13 +4,14 @@ class Invoice extends DatabaseObject
 {
 
   static protected $table_name = 'invoice';
-  static protected $db_columns = ['id', 'transid', 'service_type', 'quantity', 'unit_cost', 'amount', 'created_at', 'created_by', 'updated_at', 'deleted'];
+  static protected $db_columns = ['id', 'transid', 'service_type', 'quantity', 'unit_cost', 'rebate_value', 'amount', 'created_at', 'created_by', 'updated_at', 'deleted'];
 
   public $id;
   public $transid;
   public $service_type;
   public $quantity;
   public $unit_cost;
+  public $rebate_value;
   // public $vat;
   public $amount;
   public $created_at;
@@ -27,6 +28,7 @@ class Invoice extends DatabaseObject
     $this->service_type = $args['service_type'] ?? '';
     $this->quantity = $args['quantity'] ?? '';
     $this->unit_cost = $args['unit_cost'] ?? '';
+    $this->rebate_value = $args['rebate_value'] ?? '';
     $this->amount = $args['amount'] ?? '';
     $this->created_at = $args['created_at'] ?? date("Y-m-d H:i:s");
     $this->created_by = $args['created_by'] ?? '';
@@ -77,5 +79,34 @@ class Invoice extends DatabaseObject
     $sql .= "WHERE transid = " . self::$database->escape_string($invoiceNum) . " ";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     return static::find_by_sql($sql);
+  }
+
+  static public function sum_of_rebate_value($options=[])
+  {
+    $transid = $options['transid'] ?? false;
+    $from = $options['from'] ?? false;
+    $to = $options['to'] ?? false;
+
+    $sql = "SELECT SUM(rebate_value) FROM " . static::$table_name . " ";
+    $sql .= "WHERE transid='" . self::$database->escape_string($transid) . "'";
+    $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    if ($from && $to) {
+      if ($from == $to) {
+        $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from > $to) {
+        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from < $to) {
+        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+      }
+    } elseif ($from && !$to) {
+      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+    } elseif (!$from && $to) {
+      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
+    }
+    // echo $sql;
+    $result_set = self::$database->query($sql);
+    $row = $result_set->fetch_array();
+    return array_shift($row);
   }
 }

@@ -26,10 +26,10 @@ if (isset($_POST['receive'])) {
 
 
 
-$page = 'Customer';
+$page = 'Agents';
 
 ?>
-<?php $page_title = 'All Customers'; ?>
+<?php $page_title = 'All Agents'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div class="main-container">
@@ -42,7 +42,7 @@ $page = 'Customer';
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="daterange-container">
 
-          <a href="<?php echo url_for('agent/new.php') ?>" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Add New Customer">
+          <a href="<?php echo url_for('agents/new.php') ?>" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Add New Customer">
             <i class="feather-plus"></i>
           </a>
         </div>
@@ -78,8 +78,9 @@ $page = 'Customer';
                     <th>Name</th>
                     <th>Phone No</th>
                     <th>Address</th>
-                    <th>Email</th>
-                    <th>Credit Facility</th>
+                    <!-- <th>Email</th> -->
+                    <th>Bank Name</th>
+                    <th>Account No.</th>
                     <th>W.Balance</th>
                     <th>Action</th>
                   </tr>
@@ -87,19 +88,17 @@ $page = 'Customer';
                 <tbody>
                   <?php $sn = 1;
                   foreach ($agents  as $agent) {
-                    $balance = intval(Wallet::find_by_customer_id($agent->customer_id)->balance);
+                    $balance = intval(AgentWallet::find_by_agent_id($agent->agent_id)->balance);
                   ?>
                     <tr>
                       <td><?php echo $sn++; ?></td>
                       <td><?php echo $agent->full_name(); ?></td>
                       <td><?php echo $agent->phone; ?></td>
                       <td><?php echo $agent->address; ?></td>
-                      <td><?php echo $agent->email; ?></td>
-                      <td>
-                        <span class="badge badge-primary rounded">
-                          <?php echo $agent->credit_facility == 1 ? 'Yes' : 'No'; ?>
-                        </span>
-                      </td>
+                      <!-- <td><?php //echo $agent->email; ?></td> -->
+                      <td><?php echo $agent->bank_name; ?></td>
+                      <td><?php echo $agent->account_no; ?></td>
+                     
                       <td><?php echo $currency . " " . number_format($balance, 2); ?></td>
                       <td>
 
@@ -109,15 +108,12 @@ $page = 'Customer';
                               <i class="feather-more-vertical" title="More Options" style="font-weight: bolder;"></i> More
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a class="dropdown-item" href="<?php echo url_for('/agent/show.php?id=' . $agent->id); ?>"> <i class="feather-maximize-2 tet-info"></i> View Customer Info </a>
-                              <a class="dropdown-item" href="<?php echo url_for('/agent/edit.php?id=' . $agent->id); ?>"> <i class="feather-edit text-warning"></i> Edit Customer</a>
-
-                              <a class="dropdown-item" href="<?php echo url_for('/agent/edit.php?id=' . $agent->id); ?>"> <i class="feather-file-text text-orange"></i> Invoice</a>
-
-                              <a class="dropdown-item" href="<?php echo url_for('/agent/edit.php?id=' . $agent->id); ?>"> <i class="feather-trash text-danger"></i> Delete</a>
+                              <a class="dropdown-item" href="<?php echo url_for('/agents/show.php?id=' . $agent->id); ?>"> <i class="feather-maximize-2 tet-info"></i> View Agent Info </a>
+                              <a class="dropdown-item" href="<?php echo url_for('/agents/edit.php?id=' . $agent->id); ?>"> <i class="feather-edit text-warning"></i> Edit Agent</a>
+                              <a class="dropdown-item" href="<?php echo url_for('/agents/delete.php?id=' . $agent->id); ?>"> <i class="feather-trash text-danger"></i> Delete</a>
                             </div>
                           </div>
-                          <a href="<?php echo url_for('wallet/add.php?id=' . $agent->customer_id) ?>" class=" btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
+                          <a href="<?php echo url_for('wallet/add.php?id=' . $agent->agent_id) ?>" class=" btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
                         </div>
                       </td>
                     </tr>

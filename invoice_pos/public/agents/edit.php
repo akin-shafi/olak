@@ -7,33 +7,21 @@ require_login();
 $id = $_GET['id'];
 
 $agent = Agent::find_by_id($id);
-$vehicle = Vehicle::find_by_id($id);
-
-pre_r($vehicle);
-
 if (!$agent) {
   redirect_to(url_for('/agent/index.php'));
 }
 
 if (is_post_request()) {
-
-
   $args = $_POST['agent'];
   $agent->merge_attributes($args);
   $result = $agent->save();
 
-  $argsV = $_POST['vehicle'];
-  $vehicle->merge_attributes($argsV);
-  $result = $vehicle->save();
-
   if ($result === true) {
     $new_id = $agent->id;
-
-    $session->message("The {$agent->agentcat} agent was updated successfully.");
-
-    redirect_to(url_for('/agent/index.php'));
+    $session->message("Agent record updated successfully.");
+    redirect_to(url_for('/agents/index.php'));
   } else {
-    $session->message("The {$agent->agentcat} agent was not updated successfully.");
+    $session->message("Error updating Agent record.");
   }
 } else {
   // display the form
@@ -41,8 +29,8 @@ if (is_post_request()) {
 
 
 ?>
-<?php $page = 'Customer';
-$page_title = 'Edit Customer'; ?>
+<?php $page = 'Agents';
+$page_title = 'Edit Agent'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 
@@ -51,14 +39,14 @@ $page_title = 'Edit Customer'; ?>
   <div class="page-title">
     <div class="row gutters">
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-        <h5 class="title">Create New agent | Vehicle</h5>
+        <h5 class="title"><?php echo $page_title; ?></h5>
       </div>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="daterange-container">
           <div class="date-range">
             <div id="reportrange">
               <i class="feather-calendar cal"></i>
-              <span class="range-text">Jan 20, 2020 - Feb 18, 2020</span>
+              <!-- <span class="range-text">Jan 20, 2020 - Feb 18, 2020</span> -->
               <i class="feather-chevron-down arrow"></i>
             </div>
           </div>

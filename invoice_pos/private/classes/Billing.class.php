@@ -17,6 +17,7 @@ class Billing extends DatabaseObject
     'start_date',
     'due_date',
     'total_amount',
+    'agent_id',
     'tax',
     'grand_total',
     'part_payment',
@@ -41,6 +42,7 @@ class Billing extends DatabaseObject
   public $start_date;
   public $due_date;
   public $total_amount;
+  public $agent_id;
   public $tax;
   public $grand_total;
   public $part_payment;
@@ -89,6 +91,7 @@ class Billing extends DatabaseObject
     $this->start_date = $args['start_date'] ?? '';
     $this->due_date = $args['due_date'] ?? '';
     $this->total_amount = $args['total_amount'] ?? '';
+    $this->agent_id = $args['agent_id'] ?? '';
     $this->tax = $args['tax'] ?? '';
     $this->grand_total = $args['grand_total'] ?? '';
     $this->part_payment = $args['part_payment'] ?? '';
