@@ -113,12 +113,12 @@ $page_title = 'Billing & Receipts'; ?>
                 </div>
 
                 <section class="row">
-                  <div class="form-group col-lg-3 col-md-3 ">
+                  <div class="form-group col-lg-3 col-md-3">
                     <label class="label-control">Customer Name <sup class="error">*</sup></label>
                     <div class="btn-group">
-                      <select required class="form-control client_id" name="billing[client_id]" id="client">
+                      <select required class="form-control client_id select2" name="billing[client_id]" id="client">
                         <option value="">Select Customer</option>
-                        <?php foreach (Client::find_by_branch_id($loggedInAdmin->branch_id) as $client) : ?>
+                        <?php foreach (Client::find_by_undeleted($loggedInAdmin->branch_id) as $client) : ?>
                           <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?></option>
                         <?php endforeach; ?>
                       </select>
@@ -158,7 +158,7 @@ $page_title = 'Billing & Receipts'; ?>
                     <label class="label-control">Agent Name <sup class="error">*</sup></label>
 
                     <div class="btn-group">
-                      <select class="form-control" name="billing[agent_id]" id="agent_id">
+                      <select class="form-control select2" name="billing[agent_id]" id="agent_id">
                         <option value="">Select an agent</option>
                         <?php foreach (Agent::find_by_undeleted() as $agent) : ?>
                             <option value="<?php echo $agent->agent_id ?>"><?php echo $agent->full_name(); ?></option>
@@ -445,7 +445,8 @@ $page_title = 'Billing & Receipts'; ?>
               },
               dataType: 'json',
               success: function(data) {
-                if (Number(data.wallet_balance) >= Number(grand_totalInput)) {
+
+                if (Number(data.unformated_balance) >= Number(grand_totalInput)) {
                   submit_form(form_data);
                 } else {
                   errorAlert("Customer's wallet balance is low")
@@ -535,27 +536,7 @@ $page_title = 'Billing & Receipts'; ?>
         }
       });
     }
-    // function check_wallet(){
-    //   var cus_id  = $("#client_id").val();
-    //   var grand_totalInput = $("#grand_totalInput").val();
-    //   $.ajax({
-    //       url:"inc/fetch_wallet.php",
-    //       method:"POST",
-    //       data: {
-    //         fetch_wallet: 1,
-    //         customer_id: cus_id,
-    //       },
-    //       dataType: 'json',
-    //       success:function (data) {
-    //         if (data.wallet_balance < grand_totalInput) {
-    //           errorAlert("Customer wallet balance is low")
-    //         }else{
-    //           submit_form();
-    //         }
-    //         // $("#wallet_value").html( "₦ " + data.wallet_balance)
-    //       }
-    //     });
-    // }
+
 
 
 

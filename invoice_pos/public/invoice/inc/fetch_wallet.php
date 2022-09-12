@@ -10,6 +10,7 @@ if (is_post_request()) {
 		exit(json_encode([
 			'success' => true,
 			'wallet_balance' => number_format(intval($wallet->balance), 2),
+			'unformated_balance' => $wallet->balance,
 		]));
 	} else {
 		exit(json_encode(['success' => true, 'wallet_balance' => 0]));

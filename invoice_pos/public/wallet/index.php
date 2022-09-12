@@ -44,8 +44,10 @@ require_login();
   <!-- Content wrapper start -->
   <div class="content-wrapper">
     <?php echo display_session_message(); ?>
+
+
     <div class="table-responsive">
-        <table class="table table-vcenter text-nowrap table-bordered border-bottom dataTable no-footer" id="wallet-table">
+          <table id="" class="table table-sm table-striped " >
           <thead>
             <tr role="row">
               <th>S/N</th>
@@ -78,7 +80,7 @@ require_login();
       </div>
       <div class="modal-body">
         <div class="table-responsive">
-          <table id="rowSelection" class="table table-sm table-striped ">
+          <table id="" class="table table-sm table-striped ">
             <thead>
               <tr>
                 <td>S/N</td>

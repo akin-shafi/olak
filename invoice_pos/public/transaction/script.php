@@ -66,11 +66,19 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 
 }?>
 
-<?php if (isset($_POST['show'])) { ?>
-	<?php 
+<?php if (isset($_POST['show'])) { 
               $check = WalletFundingMethod::find_by_unapproved([ 'approval' => 0]);
               $sum = WalletFundingMethod::sum_of_unapproved(['approval' => 0]);
-              $sn=1; foreach($check as $value){ ?>
+              $sn=1; foreach($check as $value)
+              
+
+              { ?>
+
+              
+					          
+					         
+
+
               <tr>
                 <td><?php echo $sn++; ?></td>
                 <td><?php echo Client::find_by_customer_id($value->customer_id)->full_name(); ?></td>
