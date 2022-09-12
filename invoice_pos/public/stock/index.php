@@ -1,223 +1,292 @@
-<?php
-require_once('../../private/initialize.php');
+<?php require_once('../../private/initialize.php');
+$page = 'Stock';
+$page_title = 'Stock'; 
 require_login();
-
-?>
-<?php $page = 'Stock';
-$page_title = 'Stock'; ?>
-<?php include(SHARED_PATH . '/admin_header.php');
-
-$products = Product::find_by_undeleted();
-$stockId = '';
-
-?>
-
+$from = $_GET['from'] ?? date('Y-m-d');
+$to = $_GET['to'] ?? date('Y-m-d');
+include(SHARED_PATH . '/admin_header.php'); ?>
+<style type="text/css">
+td a {
+    text-decoration: underline;
+    color: red;
+}
+</style>
 
 <div class="main-container">
 
-
-  <div class="page-title">
-    <div class="row gutters">
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-9 col-9 ">
-        <h5 class="title"><?php echo $page_title ?></h5>
-      </div>
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-3 col-3 ">
-        <div class="daterange-container">
-
-          <a href="#" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Download CSV">
-            <i class="feather-file-text"></i>
-          </a>
+    <div class="page-title">
+        <div class="row gutters">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <h5 class="title"><?php echo $page_title ?></h5>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
+           <div class="d-flex justify-content-end">
+              From: <input type="date" id="from" value="<?php echo $from ?>" class="form-control form-control-sm" name="">
+              To: <input type="date" id="to" value="<?php echo $to ?>" class="form-control form-control-sm" name=""> 
+              <button type="button" id="search" class="btn btn-primary btn-sm">Search</button>
+           </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="content-wrapper">
-    <div class="d-flex justify-content-end align-tems-center mb-2">
-      <button class="btn btn-primary btn-sm add_stock" disabled>Add Stock</button>
-    </div>
+    <div class="content-wrapper">
+        <div class="col-lg-12 alerts">
+            <div id="custom-alerts" style="display:none;">
+                <div class="alert alert-dismissable">
+                    <div class="custom-msg"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered" id="rowSelection">
+                <thead>
+                    <tr class="text-center">
+                        <th>S/n</th>
+                        <th>Item</th>
+                        <!-- <th>Unit Price</th> -->
+                        <!-- <th>Unit Sold</th> -->
+                        <th>Sum of Supply</th>
+                        <th>Qty Sold</th>
+                        <th>Avail Stock</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-    <div class="table-responsive">
-      <table class="table table-sm table-striped ">
-        <thead>
-          <tr class="active">
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach (Stock::find_by_undeleted() as $value) :
-            $product = Product::find_by_id($value->product_id);
-          ?>
-            <tr>
-              <td> <?php echo ucwords($product->pname); ?></td>
-              <td> <?php echo number_format($value->quantity, 2); ?></td>
-              <td>
-                <button class="btn btn-warning btn-sm edit_stock" data-id="<?php echo $value->id ?>" disabled>
-                  <i class="feather-edit"></i></button>
-                <button class="btn btn-danger btn-sm delete-btn" data-id="<?php echo $value->id ?>" disabled>
-                  <i class="feather-delete"></i></button>
-              </td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
+                    <?php $sn = 1; 
+                    $company_id = $loggedInAdmin->company_id;
+                    $branch_id = $loggedInAdmin->branch_id;
 
+                    if ($loggedInAdmin->admin_level == 1) {
+                        $product =  Product::find_by_undeleted(['order' => 'ASC']);
+                    }else{
+                        $product =  Product::find_by_company(['company_id' => $company_id, 'branch_id' => $branch_id]);
+                        
+                    }
+                     foreach ($product as $key => $item) {
+                      
+                      $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id,   'from' => $from ]) ?? 0;
+
+                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id ,   'from' => $from, 'to' => $to, 'status' => 1]);
+                      $qty = $sales ?? 0;
+                      $left_over = intval($stock - $qty);
+                      if (!empty($item->ref_no)) {
+                        $supply = StockDetails::find_by_ref($item->ref_no)->supply ?? "0";
+                        $sold = StockDetails::find_by_ref($item->ref_no)->sold_stock ?? "0";
+                        $qty = StockDetails::find_by_ref($item->ref_no)->deleted ?? "0";
+
+                        
+                      }else{
+                        $supply = "None";
+                        $sold = "None";
+                      }
+                  ?>
+                    <tr class="text-center">
+                        <td><?php echo $sn++; ?>.</td>
+                        <td>
+                            <a class="" href="<?php echo url_for('stock/items.php?id='.$item->id) ?>"
+                                style="text-decoration: underline;" data-id="<?php echo $item->id ?>">
+                                <?php echo $item->pname; ?>
+                            </a>
+                            <?php //echo $item->name; ?>
+                        </td>
+                        <!-- <td><?php //echo $item->price ?></td> -->
+                        <!-- <td><?php //echo $sold ?></td> -->
+
+                        <td><?php echo $stock ?? 0; ?></td>
+                        <td><?php echo $sales ?? 0; ?></td>
+                        <td><?php echo $left_over ?? 0; ?></td>
+
+                        <!-- <td><?php //echo $qty == 1 ? $currency ." ". number_format(0, 2) : $currency ." ".number_format($value, 2); ?></td> -->
+
+                        <td>
+                            <button type="button" class=" btn btn-sm btn-primary add"
+                                data-id="<?php echo $item->id ?>"><i class="fa fa-plus"></i> Add
+                                Stock</button>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                <tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade none-border" id="stockModal" aria-modal="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><strong>Add Item</strong></h4>
+            </div>
+            <form method="post" id="form"></form>
+        </div>
+    </div>
 </div>
 
 
 
-<div class="modal fade" id="addStockModal">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="customModalLabel">Add Stock</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="stock_form">
-          <div class="row">
-            <div class="form-group col-md-6">
-              <div class="mb-3">
-                <label for="product_id" class="form-label">Product Name</label>
-                <select class="form-control" name="stock[product_id]" id="product_id">
-                  <option value="">select product</option>
-                  <?php foreach ($products as $product) : ?>
-                    <option value="<?php echo $product->id; ?>">
-                      <?php echo $product->pname; ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-            </div>
 
-            <div class="form-group col-md-6">
-              <label>Quantity</label>
-              <input type="text" name="stock[quantity]" class="form-control" id="quantity">
-            </div>
+<form id="details">
+
+    <?php 
+ $variable = StockDetails::find_all();
+foreach ($variable as $key => $value) { ?>
+
+    <input type="hidden" name="stockDetails[item_id][]" value="<?php echo $value->item_id;  ?>">
+    <input type="hidden" name="stockDetails[ref_no][]" value="<?php echo $value->ref_no;  ?>">
+    <input type="hidden" name="stockDetails[initial_stock][]" value="<?php echo $value->initial_stock;  ?>">
+    <input type="hidden" name="stockDetails[supply][]" value="<?php echo $value->supply;  ?>">
+    <input type="hidden" name="stockDetails[unit_price][]" value="<?php echo $value->unit_price;  ?>">
+    <input type="hidden" name="stockDetails[total_amt][]" value="<?php echo $value->total_amt;  ?>">
+    <input type="hidden" name="stockDetails[sold_stock][]" value="<?php echo $value->sold_stock;  ?>">
+    <input type="hidden" name="stockDetails[sold_stock_amt][]" value="<?php echo $value->sold_stock_amt;  ?>">
+    <input type="hidden" name="stockDetails[qty_left][]" value="<?php echo $value->qty_left;  ?>">
+
+    <?php  } ?>
 
 
-            <div class="form-group col-md-12 d-flex justify-content-end">
-              <button type="submit" class="btn-sm btn-primary">Submit</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+    <input type="hidden" name="deleteAll" value="1">
+</form>
 
-<input type="text" value="<?php echo $stockId ?>" id="stockId" readonly>
+<form id="stockData">
+
+
+    <?php  $stock = Stock::find_all();
+foreach ($stock as $key => $val) {?>
+
+    <input type="hidden" name="stock[ref_no][]" value="<?php echo $val->ref_no;  ?>">
+    <input type="hidden" name="stock[opened_at][]" value="<?php echo $val->opened_at;  ?>">
+    <input type="hidden" name="stock[closed_at][]" value="<?php echo $val->closed_at;  ?>">
+    <input type="hidden" name="stock[opened_by][]" value="<?php echo $val->opened_by;  ?>">
+    <?php  } ?>
+
+</form>
+
+<input type="hidden" id="eUrl" value="<?php echo url_for('/stock/') ?>">
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
-<script>
-  $(document).ready(function() {
-    const STOCK_URL = 'inc/process.php';
-
-    $(document).on('click', '.add_stock', function() {
-      $("#addStockModal").modal('show')
-    })
-
-    $('#stock_form').on("submit", function(e) {
-      e.preventDefault();
-      let stockId = $('#stockId').val()
-
-      let formData = new FormData(this);
-
-      if (stockId == "") {
-        formData.append('new_stock', 1)
-      } else {
-        formData.append('edit_stock', 1)
-        formData.append('stockId', stockId)
-      }
-
-      $.ajax({
-        url: STOCK_URL,
-        method: "POST",
-        data: formData,
-        contentType: false,
-        cache: false,
-        processData: false,
-        dataType: 'json',
-        beforeSend: function() {
-          $('.ajax-wrap').removeClass('d-none');
-        },
-        success: function(r) {
-          successAlert(r.message);
-          setTimeout(() => {
-            $('.ajax-wrap').addClass('d-none');
-            window.location.reload()
-          }, 250);
-        },
-
-        error: function(jqXHR, textStatus, error) {
-          errorAlert(jqXHR.responseJSON.errors);
-          $('.ajax-wrap').addClass('d-none');
-        }
-      })
-    });
-
-    $('tbody').on("click", '.edit_stock', function(e) {
-      let stockId = this.dataset.id;
-      $('#stockId').val(stockId);
-
-      $.ajax({
-        url: STOCK_URL,
-        method: "GET",
+<script type="text/javascript">
+var BASE_URL = $("#eUrl").val();
+$(document).on('click', '.add', function(e) {
+    e.preventDefault();
+    var eid = $(this).data('id');
+    var ref = $(this).data('ref');
+    $("#stockModal").modal("show");
+    $.ajax({
+        url: 'inc/form.php',
+        method: 'post',
         data: {
-          stockId: stockId,
-          get_stock: 1
+            stockForm: 1,
+            id: eid,
         },
+        success: function(r) {
+            $("#form").html(r)
+        }
+
+    });
+})
+
+
+// ***************** Add Stock *********************// 
+
+$(document).on('click', '#addStock', function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: 'inc/stock_crud.php',
+        method: 'post',
+        // data: {new: 1,},
+        data: $('#form').serialize(),
         dataType: 'json',
         success: function(r) {
-          $('#product_id').val(r.data.product_id)
-          $('#quantity').val(r.data.quantity)
-
-          $("#addStockModal").modal('show')
+            if (r.msg == 'OK') {
+                successTime("Stock Added Succesfully");
+                $("#stockModal").modal('hide');
+                // load_product();
+                // $('#form')[0].reset();
+                window.location.href = BASE_URL;
+            } else {
+                $("#stockErrors").html(r.msg)
+            }
         }
-      })
+
     });
+})
 
-
-    $('tbody').on('click', '.delete-btn', function(e) {
-      let stockId = this.dataset.id;
-
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.value) {
-          $.ajax({
-            url: STOCK_URL,
-            method: "POST",
+$(document).on("click", "#clearData", function() {
+    if (confirm("Are you sure you! want to return to Zero ?")) {
+        $(this).attr("disabled", true).html("Processing...");
+        $.ajax({
+            url: 'inc/clearData.php',
+            method: 'post',
             data: {
-              stockId: stockId,
-              delete_stock: 1
+                clearAll: 1,
             },
             dataType: 'json',
-            success: function(data) {
-              Swal.fire(
-                'Deleted!',
-                data.message,
-                'success'
-              )
-
-              window.location.reload()
+            success: function(r) {
+                if (r.msg == 'OK') {
+                    successTime("Returned Succesfully");
+                    window.location.reload();
+                } else {
+                    errorAlert(r.msg)
+                }
             }
-          });
+        });
+    } else {
+        return false
+    }
+})
+$(document).on("click", "#updExp", function() {
+    if (confirm("Are you sure you want to clear all data ?")) {
+        $(this).attr("disabled", true).html("Processing...");
+        $.ajax({
+            url: 'inc/push_to_ledger.php',
+            method: 'post',
+            data: {
+                deleteAll: 1,
+            },
+            dataType: 'json',
+            success: function(r) {
+                if (r.msg == 'OK') {
+                    successTime("Deleted Succesfully");
+                    window.location.reload();
+                } else {
+                    errorAlert(r.msg)
+                }
+            }
+        });
+    } else {
+        return false
+    }
+})
+$(document).on("click", "#clearDataAdmin", function() {
+    if (confirm("Are you sure you want to clear all data ?")) {
+        $.ajax({
+            url: 'inc/clearDataAdmin.php',
+            method: 'post',
+            data: {
+                'deleteAll': 1
+            },
+            dataType: 'json',
+            success: function(r) {
+                if (r.msg == 'OK') {
+                    successTime("Deleted Succesfully");
+                    window.location.href = BASE_URL
+                } else {
+                    errorAlert(r.msg)
+                }
+            }
+        });
+    } else {
+        return false
+    }
+})
 
-        }
-      })
-
-    });
-  })
+$(document).on('click', '#search', function() {
+    let from = $("#from").val();
+    let to = $("#to").val();
+    window.location.href = BASE_URL + 'index.php?from='+ from +'&to=' + to ;
+})
 </script>

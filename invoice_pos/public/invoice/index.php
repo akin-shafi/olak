@@ -539,8 +539,8 @@ $page_title = 'Billing & Receipts'; ?>
 
 
 
-
   }); // Document.ReadyState
+
 
 
 

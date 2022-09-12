@@ -70,6 +70,32 @@ $page_title = 'All Invoices'; ?>
 	</div>
 
 </div>
+
+
+
+<div class="modal fade" tabindex="-1" id="modal_confirm" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <input type="hidden" id="invoice_num" name="">
+      <div class="modal-body">
+			<p class="text-center">Are you sure, you want to process this transaction ?</p>
+		</div>
+		<div class="modal-footer justify-content-center">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+			<button type="button" class="btn btn-danger" id="yes_process">Yes</button>
+		</div>
+      
+    </div>
+  </div>
+</div>
+
+
 <input type="hidden" id="company_id" value="<?php echo $loggedInAdmin->company_id ?>">
 <input type="hidden" id="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
 
@@ -128,20 +154,42 @@ $page_title = 'All Invoices'; ?>
 		var cId = $('#companyId').val();
 		var bId = $('#branchId').val();
 
-		completeFilter(cId, bId)
-		// completeFilter()
-
-// 
+		completeFilter(cId, bId);
 		$(document).on('click', '.waybill', function(e) {
 			e.preventDefault();
 			let BASE_URL = $("#BASE_URL").val();
 			let waybill_no = $(this).data('id');
-
-			
-			console.log(waybill_no)
 			let c_url = BASE_URL + "invoice/waybill.php?invoice_no=" + waybill_no;
-			errorOption('Warning', "Are you sure you want to print waybill ?", c_url)
+			// errorOption('Warning', "Are you sure you want to print waybill ?", c_url)
+			window.location.href = c_url
 		})
+
+		$(document).on('click', '.process_waybill', function(e) {
+			e.preventDefault();
+			let id = $(this).data('id');
+			$("#modal_confirm").modal("show");
+			$("#invoice_num").val(id);
+		});
+
+		$(document).on('click', '#yes_process', function(e) {
+			let invoice_num = $("#invoice_num").val();
+			let BASE_URL = $("#BASE_URL").val();
+			$.ajax({
+				url: "inc/index.php",
+				method: "POST",
+				data: {
+					process_waybill: 1,
+					invoice_num: invoice_num
+				},
+				dataType: 'json',
+				success: function(data) {
+					if (data.success == true) {
+						successAlert(data.msg);
+						window.location.href =  BASE_URL + "invoice/waybill.php?invoice_no=" + invoice_num;
+					}
+				}
+			});
+		});
 		$(document).on('click', '#delete_void', function() {
 			let deleteVoid = this.dataset.id;
 			Swal.fire({

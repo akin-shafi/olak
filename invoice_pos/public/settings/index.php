@@ -31,14 +31,14 @@ if(isset($_POST['company_details'])){
         <div class="page-title">
           <div class="row gutters">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-              <h5 class="title">Company Settings</h5>
+              <h5 class="title"><?php $page_title ?></h5>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="daterange-container">
                 <div class="date-range">
                   <div id="reportrange">
                     <i class="feather-calendar cal"></i>
-                    <span class="range-text">Jan 20, 2020 - Feb 18, 2020</span>
+                    <!-- <span class="range-text">Jan 20, 2020 - Feb 18, 2020</span> -->
                     <i class="feather-chevron-down arrow"></i>
                   </div>
                 </div>

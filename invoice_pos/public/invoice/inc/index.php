@@ -188,4 +188,43 @@ if (is_post_request()) {
 
 		exit(json_encode(['msg' => 'Invoice record deleted successfully']));
 	}
+
+	if (isset($_POST['process_waybill'])) {
+		$invoice_no = $_POST['invoice_num'];
+		$billing = Billing::find_by_invoice_no($invoice_no);
+		$rand = rand(0, 100);
+		$unique = uniqid();
+		if(empty($billing->waybill_no)) {
+		   $args = [
+		      "status" => 2,
+		      "waybill_no" => $rand."-".$unique,
+		   ];
+		   $billing->merge_attributes($args);
+		   $result = $billing->save();
+		   if ($result == true) {
+		   $all_invoice = Invoice::find_by_invoiceNum($invoice_no);
+		  
+		   	foreach ($all_invoice as $value) {
+		   		$inv = Invoice::find_by_id($value->id);
+		   		$data = [
+		   			'status' => 1,
+		   		];
+		   		$inv->merge_attributes($data);
+				$result_data = $inv->save();
+		    }
+
+		   	exit(json_encode(['success' => true, 'msg' => 'Waybill processed successfully']));
+		   }
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+

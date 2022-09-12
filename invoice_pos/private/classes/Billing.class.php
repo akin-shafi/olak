@@ -149,6 +149,8 @@ class Billing extends DatabaseObject
     }
   }
 
+    
+
   static public function find_by_metrics()
   {
     $sql = "SELECT COUNT(*) AS counts, SUM(total_amount) AS total_amount, SUM(grand_total) AS grand_total, SUM(part_payment) AS part_payment, SUM(balance) AS balance FROM " . static::$table_name . " ";

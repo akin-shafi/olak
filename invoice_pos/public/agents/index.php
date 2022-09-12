@@ -113,7 +113,7 @@ $page = 'Agents';
                               <a class="dropdown-item" href="<?php echo url_for('/agents/delete.php?id=' . $agent->id); ?>"> <i class="feather-trash text-danger"></i> Delete</a>
                             </div>
                           </div>
-                          <a href="<?php echo url_for('wallet/add.php?id=' . $agent->agent_id) ?>" class=" btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
+                          
                         </div>
                       </td>
                     </tr>

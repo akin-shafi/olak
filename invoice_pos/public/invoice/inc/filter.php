@@ -74,16 +74,23 @@ if (is_get_request()) {
 									</button>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 										<a class="dropdown-item" href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
-											<i class="feather-file-text fs-18" title="view"></i> Invoice
+											<i class="feather-file-text fs-18" title="Invoice"></i> Invoice
 										</a>
-										<?php if ($accessControl->process_waybill == true): ?>
-										<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="#">
-											<i class="feather-file-text fs-18" title="view"></i> Waybill
-										</a>
-										<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
+										<?php if ($accessControl->process_waybill == 1): ?>
+											<?php if ($value->status == 1):  ?>
+											<a href="#" class="dropdown-item process_waybill" data-id="<?php echo $value->invoiceNum ?>" >
+												<i class="feather-loader fs-18" title="Process Waybill"></i> Process Waybill
+											</a>
+											<?php endif ?>
+											<?php if ($value->status == 2):  ?>
+											<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="#">
+												<i class="feather-file-text fs-18" title="Print Waybill"></i>Print Waybill
+											</a>
+											
+											<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
 
-										<a href="#!" class="dropdown-item" id="delete_void" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void </a>
-
+											<a href="#!" class="dropdown-item" id="delete_void" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void </a>
+											<?php endif ?>
 										<?php endif ?>
 
 									</div>
