@@ -243,6 +243,9 @@ require_login();
             getPaymentHistory(customer_id);
             showData();
             successTime("Approved");
+            let from = $("#from").val();
+            let to = $("#to").val();
+            showMatrics(from, to);
           }
         }
      });

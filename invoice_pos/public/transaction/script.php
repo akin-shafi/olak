@@ -96,10 +96,6 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 
               </tr>
 
-              <tr>
-                <td colspan="1" align="center" style="font-size:18pxx; font-weight: bold;">Total:</td>
-                <td colspan="2" align="center" style="font-size:18pxx; font-weight: bold;"><?php echo $currency." ". number_format($sum, 2)?></td>
-              </tr>
               
             <?php } ?>
 <?php } ?>

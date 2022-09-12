@@ -44,8 +44,6 @@ td a {
                     <tr class="text-center">
                         <th>S/n</th>
                         <th>Item</th>
-                        <!-- <th>Unit Price</th> -->
-                        <!-- <th>Unit Sold</th> -->
                         <th>Sum of Supply</th>
                         <th>Qty Sold</th>
                         <th>Avail Stock</th>
@@ -89,17 +87,11 @@ td a {
                                 style="text-decoration: underline;" data-id="<?php echo $item->id ?>">
                                 <?php echo $item->pname; ?>
                             </a>
-                            <?php //echo $item->name; ?>
                         </td>
-                        <!-- <td><?php //echo $item->price ?></td> -->
-                        <!-- <td><?php //echo $sold ?></td> -->
 
                         <td><?php echo $stock ?? 0; ?></td>
                         <td><?php echo $sales ?? 0; ?></td>
                         <td><?php echo $left_over ?? 0; ?></td>
-
-                        <!-- <td><?php //echo $qty == 1 ? $currency ." ". number_format(0, 2) : $currency ." ".number_format($value, 2); ?></td> -->
-
                         <td>
                             <button type="button" class=" btn btn-sm btn-primary add"
                                 data-id="<?php echo $item->id ?>"><i class="fa fa-plus"></i> Add
@@ -128,41 +120,7 @@ td a {
 
 
 
-<form id="details">
 
-    <?php 
- $variable = StockDetails::find_all();
-foreach ($variable as $key => $value) { ?>
-
-    <input type="hidden" name="stockDetails[item_id][]" value="<?php echo $value->item_id;  ?>">
-    <input type="hidden" name="stockDetails[ref_no][]" value="<?php echo $value->ref_no;  ?>">
-    <input type="hidden" name="stockDetails[initial_stock][]" value="<?php echo $value->initial_stock;  ?>">
-    <input type="hidden" name="stockDetails[supply][]" value="<?php echo $value->supply;  ?>">
-    <input type="hidden" name="stockDetails[unit_price][]" value="<?php echo $value->unit_price;  ?>">
-    <input type="hidden" name="stockDetails[total_amt][]" value="<?php echo $value->total_amt;  ?>">
-    <input type="hidden" name="stockDetails[sold_stock][]" value="<?php echo $value->sold_stock;  ?>">
-    <input type="hidden" name="stockDetails[sold_stock_amt][]" value="<?php echo $value->sold_stock_amt;  ?>">
-    <input type="hidden" name="stockDetails[qty_left][]" value="<?php echo $value->qty_left;  ?>">
-
-    <?php  } ?>
-
-
-    <input type="hidden" name="deleteAll" value="1">
-</form>
-
-<form id="stockData">
-
-
-    <?php  $stock = Stock::find_all();
-foreach ($stock as $key => $val) {?>
-
-    <input type="hidden" name="stock[ref_no][]" value="<?php echo $val->ref_no;  ?>">
-    <input type="hidden" name="stock[opened_at][]" value="<?php echo $val->opened_at;  ?>">
-    <input type="hidden" name="stock[closed_at][]" value="<?php echo $val->closed_at;  ?>">
-    <input type="hidden" name="stock[opened_by][]" value="<?php echo $val->opened_by;  ?>">
-    <?php  } ?>
-
-</form>
 
 <input type="hidden" id="eUrl" value="<?php echo url_for('/stock/') ?>">
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
