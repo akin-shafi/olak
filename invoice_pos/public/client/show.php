@@ -99,7 +99,7 @@ $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id)
         <tbody>
           <?php $sn = 1;
           foreach ($walletDetails as $value) {
-            $bankName = Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set"; ;
+            $bankName = Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set";
             $account_no = Bank::find_by_id($value->bank_name)->account_number;
             $createdBy = Admin::find_by_id($value->created_by)->full_name();
           ?>
