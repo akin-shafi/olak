@@ -50,7 +50,7 @@ $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id)
                 <div class="row">
                   <div class="col-md-5 col-sm-12 col-12">
                     <div class="profile-info-left">
-                      <h3 class="user-name m-t-0"><?php echo $clients->full_name() ?></h3>
+                      <h3 class="user-name m-t-0"><?php echo $clients->full_name() ?? "Not Set" ?></h3>
                       <h5 class="company-role m-t-0 mb-0">Customer</h5>
                       <div class="staff-id"><i>Registered By : <?php echo Admin::find_by_id($clients->created_by)->full_name(); ?></i></div>
                       <div class="staff-msg"><a href="chat.html" class="btn btn-custom">Send Message</a></div>

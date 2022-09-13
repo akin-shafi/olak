@@ -7,7 +7,6 @@ $currencies = [
 ];
 
 $service_type = '';
-
 $company = Company::find_by_id($loggedInAdmin->company_id);
 $branch = Branch::find_by_id($loggedInAdmin->branch_id);
 
