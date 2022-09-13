@@ -47,7 +47,7 @@ require_login();
 
 
     <div class="table-responsive">
-          <table id="" class="table table-sm table-striped " >
+          <table id="rowSelection" class="table table-sm table-striped " >
           <thead>
             <tr role="row">
               <th>S/N</th>
@@ -59,7 +59,34 @@ require_login();
             </tr>
           </thead>
           <tbody id="show_data">
-            
+            <?php $sn = 1;
+              foreach (Client::find_by_undeleted() as $client) : 
+                $customer_name = $client->full_name();
+                $balance = intval($client->balance);
+                $sum =  WalletFundingMethod::sum_of_unapproved(['customer_id' => $client->customer_id, 'approval' => 0]);
+              ?>
+                <tr>
+                  <td><?php echo $sn++ ?></td>
+                  <td>
+                    <a href="<?php echo url_for('client/show.php?id='. $client->id) ?>" class="d-flex align-items-center">
+                      <h6 class="mb-0 fs-14"><?php echo ucwords($customer_name) ?></h6>
+                    </a>
+                  </td>
+                  <td><?php echo ucwords($client->customer_id) ?> </td>
+                  <td class="green"><?php echo number_format($balance, 2) ?> </td>
+                  <td>
+                    <?php if ($sum != 0) {?>
+                      <a href="#" data-id="<?php echo $client->customer_id ?>" class="red deposit"><?php echo number_format($sum, 2) ?></a>
+                    <?php }else{ ?>
+                      <?php echo number_format($sum, 2) ?>
+                    <?php } ?>
+                  </td>
+                  
+                  <td>
+                    <a href="<?php echo url_for('client/add.php?id='. $customer->customer_id ) ?>" class=" btn btn-sm btn-primary " > <i class="feather-plus text-success"></i> Load wallet</a>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
           </tbody>
         </table>
     </div>
@@ -80,7 +107,7 @@ require_login();
       </div>
       <div class="modal-body">
         <div class="table-responsive">
-          <table id="" class="table table-sm table-striped ">
+          <table id="rowSelection" class="table table-sm table-striped ">
             <thead>
               <tr>
                 <td>S/N</td>
@@ -95,7 +122,9 @@ require_login();
                 <?php endif  ?>
               </tr>
             </thead>
-            <tbody id="show_details"></tbody>
+            <tbody id="show_details">
+              
+            </tbody>
           </table>
       </div>
       </div>
@@ -150,8 +179,6 @@ require_login();
   })
 
   
-  
-
   function showData() {
     $.ajax({
         url:"script.php",
