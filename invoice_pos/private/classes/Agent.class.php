@@ -64,15 +64,15 @@ class Agent extends DatabaseObject
       $this->errors[] = "Last Name is required.";
     }
 
-    if (is_blank($this->address)) {
-      $this->errors[] = "Address is required";
-    }
+    // if (is_blank($this->address)) {
+    //   $this->errors[] = "Address is required";
+    // }
 
-    if (is_blank($this->phone)) {
-      $this->errors[] = "Phone Number is required";
-    } elseif (!has_unique_agent_phone($this->phone, $this->id ?? 0)) {
-      $this->errors[] = "agent already exist, We found Phone Number in record.";
-    }
+    // if (is_blank($this->phone)) {
+    //   $this->errors[] = "Phone Number is required";
+    // } elseif (!has_unique_agent_phone($this->phone, $this->id ?? 0)) {
+    //   $this->errors[] = "agent already exist, We found Phone Number in record.";
+    // }
 
     return $this->errors;
   }
