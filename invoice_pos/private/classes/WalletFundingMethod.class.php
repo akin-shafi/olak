@@ -57,12 +57,15 @@ class WalletFundingMethod extends DatabaseObject
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE customer_id='" . self::$database->escape_string($customer_id) . "'";
+    // $obj_array = static::find_by_sql($sql);
+    // if (!empty($obj_array)) {
+    //   return array_shift($obj_array);
+    // } else {
+    //   return false;
+    // }
+
     $obj_array = static::find_by_sql($sql);
-    if (!empty($obj_array)) {
-      return array_shift($obj_array);
-    } else {
-      return false;
-    }
+    return $obj_array;
   }
 
   static public function find_by_payment_method($payment_method)

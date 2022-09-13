@@ -10,21 +10,6 @@ if ($loggedInAdmin->admin_level == 1) {
 }
 
 
-if (isset($_POST['receive'])) {
-  $args = $_POST['vehicle'];
-  $vehicle = new Vehicle($args);
-  $result = $vehicle->save();
-
-  if ($result === true) {
-    $new_id = $vehicle->id;
-    $session->message('Vehicle added successfully.');
-    // redirect_to(url_for('/client/index'));
-  }
-} else {
-  $vehicle = new Vehicle;
-}
-
-
 
 $page = 'Customer';
 
@@ -53,16 +38,6 @@ $page = 'Customer';
 
   <?php echo display_session_message(); ?>
 
-  <?php if (display_errors($vehicle->errors)) { ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <?php echo display_errors($vehicle->errors);
-      ?>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
-      </button>
-    </div>
-  <?php } ?>
-
   <div class="content-wrapper">
     <div class="row gutters">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -87,7 +62,7 @@ $page = 'Customer';
                 <tbody>
                   <?php $sn = 1;
                   foreach ($clients  as $client) {
-                    $balance = intval(Wallet::find_by_customer_id($client->customer_id)->balance);
+                    $balance = $client->balance;
                   ?>
                     <tr>
                       <td><?php echo $sn++; ?></td>
@@ -112,9 +87,7 @@ $page = 'Customer';
                               <a class="dropdown-item" href="<?php echo url_for('/client/show.php?id=' . $client->id); ?>"> <i class="feather-maximize-2 tet-info"></i> View Customer Info </a>
                               <a class="dropdown-item" href="<?php echo url_for('/client/edit.php?id=' . $client->id); ?>"> <i class="feather-edit text-warning"></i> Edit Customer</a>
 
-                              <a class="dropdown-item" href="<?php echo url_for('/client/edit.php?id=' . $client->id); ?>"> <i class="feather-file-text text-orange"></i> Invoice</a>
-
-                              <a class="dropdown-item" href="<?php echo url_for('/client/edit.php?id=' . $client->id); ?>"> <i class="feather-trash text-danger"></i> Delete</a>
+                              <!-- <a class="dropdown-item" href="<?php //echo url_for('/client/delete.php?id=' . $client->id); ?>"> <i class="feather-trash text-danger"></i> Delete</a> -->
                             </div>
                           </div>
                           <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class=" btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>

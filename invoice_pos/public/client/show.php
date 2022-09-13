@@ -6,10 +6,9 @@ require_once('../../private/initialize.php');
 
 $id = $_GET['id'];
 $clients = Client::find_by_id($id);
-$wallet = Wallet::find_by_customer_id($clients->customer_id);
+$walletBalance = intval($clients->balance);
+$walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id);
 
-$walletBalance = intval($wallet->balance);
-$walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
 ?>
 <?php $page_title = 'Admins'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
@@ -82,14 +81,13 @@ $walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
       </div>
     </div>
 
-
+    <h3>Transaction History</h3>
     <div class="table-responsive">
       <table class="table table-bordered" id="rowSelection">
         <thead>
           <tr>
             <th>S/N</th>
-            <th>Reference No.</th>
-            <th>Description</th>
+            <th>Payment Method</th>
             <th>Amount</th>
             <th>Post By</th>
             <th>Bank Name</th>
@@ -102,16 +100,16 @@ $walletDetails = WalletDetails::find_rec_by_customer_id($clients->customer_id);
           <?php $sn = 1;
           foreach ($walletDetails as $value) {
             $bankName = Bank::find_by_id($value->bank_name)->bank_name;
+            $account_no = Bank::find_by_id($value->bank_name)->account_number;
             $createdBy = Admin::find_by_id($value->created_by)->full_name();
           ?>
             <tr>
               <td><?php echo $sn++; ?></td>
-              <td><?php echo $value->refrence_no; ?></td>
-              <td><?php echo $value->description; ?></td>
+              <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
               <td><?php echo number_format(floatval($value->amount)); ?></td>
               <td><?php echo $createdBy; ?></td>
               <td><?php echo ucwords($bankName); ?></td>
-              <td><?php echo $value->account_no; ?></td>
+              <td><?php echo $account_no; ?></td>
               <td><?php echo date('dS M, Y', strtotime($value->created_at)); ?></td>
               <!-- <td><a href="record.php"><i class="feather-settings bold"> History</i></a></td> -->
             </tr>

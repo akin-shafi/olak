@@ -16,28 +16,22 @@ if (is_post_request()) {
   $customer_id = $args['customer_id'];
   $full_name = Client::find_by_customer_id($customer_id)->full_name();
 
-  // pre_r($full_name);
 
-  $walletDetails = new WalletDetails($args);
-
-  $result = $walletDetails->save();
-  // $result = true;
-  if ($result == true) {
     $new_id = $walletDetails->id;
     $payment_id = "POP/". $loggedInAdmin->branch_id ."/".$new_id . rand(10, 100);
 
-    $updateWalletDetail = WalletDetails::find_by_id($new_id);
+    // $updateWalletDetail = WalletDetails::find_by_id($new_id);
 
-    $dat = [
-      'payment_id' => $payment_id,
-    ];
-    $updateWalletDetail->merge_attributes($dat);
-    $updateWalletDetail->save();
+    // $dat = [
+    //   'payment_id' => $payment_id,
+    // ];
+    // $updateWalletDetail->merge_attributes($dat);
+    // $updateWalletDetail->save();
 
-    $amount  = $_POST['amount'];
-    $payment_method  = $_POST['payment_method'];
-    $bank_name       = $_POST['bank_name'];
-    $total_amt = $_POST['wallet']['amount'];
+    $amount             = $_POST['amount'];
+    $payment_method     = $_POST['payment_method'];
+    $bank_name          = $_POST['bank_name'];
+    $total_amt          = $_POST['wallet']['amount'];
     for ($i = 0; $i < count($amount); $i++) {
       $data = [
         'customer_id'    => $customer_id,
@@ -65,22 +59,11 @@ if (is_post_request()) {
       }
     }
     
-
-    // $wallet = Wallet::find_by_customer_id($customer_id);
-    // $amount = intval($wallet->deposit) + intval($args['amount']);
-    // $data = [
-    //   'deposit'     => $amount,
-    //   'company_id'  => $args['company_id'],
-    //   'branch_id'   => $args['branch_id'],
-    //   'payment_id'  => $payment_id
-    // ];
-    // $wallet->merge_attributes($data);
-    // $result = $wallet->save();
     $session->message( $full_name . ' Wallet updated successfully.');
     redirect_to(url_for('/wallet/index.php'));
-  }
+
 } else {
-  $wallet = new Wallet;
+  $wallet = new WalletFundingMethod;
 }
 
 ?>

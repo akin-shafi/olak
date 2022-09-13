@@ -5,32 +5,19 @@ require_once('../../private/initialize.php');
 require_login();
 
 $id = $_GET['id'];
-
 $client = Client::find_by_id($id);
-$vehicle = Vehicle::find_by_id($id);
-
-pre_r($vehicle);
-
 if (!$client) {
   redirect_to(url_for('/client/index.php'));
 }
 
 if (is_post_request()) {
-
-
   $args = $_POST['client'];
   $client->merge_attributes($args);
   $result = $client->save();
 
-  $argsV = $_POST['vehicle'];
-  $vehicle->merge_attributes($argsV);
-  $result = $vehicle->save();
-
   if ($result === true) {
     $new_id = $client->id;
-
     $session->message("The {$client->clientcat} client was updated successfully.");
-
     redirect_to(url_for('/client/index.php'));
   } else {
     $session->message("The {$client->clientcat} client was not updated successfully.");

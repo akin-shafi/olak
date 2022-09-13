@@ -26,18 +26,6 @@ if (is_post_request()) {
     $data_set = $customer->save();
 
     if ($data_set == true) {
-      $data2 = [
-        'balance' => 0,
-        'customer_id' => $customer_id,
-        'company_id' => $loggedInAdmin->company_id,
-        'branch_id' => $loggedInAdmin->branch_id
-      ];
-
-      $wallet = new Wallet($data2);
-      $result_set = $wallet->save();
-    }
-
-    if ($result_set == true) {
       $session->message('The customer was created successfully.');
       redirect_to(url_for('/client/index.php'));
     }

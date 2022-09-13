@@ -3,14 +3,10 @@
 if (is_post_request()) {
 	if (!empty($_POST['customer_id'])) {
 		$customer = Client::find_by_id($_POST['customer_id']);
-		$wallet = Wallet::find_by_customer_id($customer->customer_id);
-
-		// pre_r($wallet);
-
 		exit(json_encode([
 			'success' => true,
-			'wallet_balance' => number_format(intval($wallet->balance), 2),
-			'unformated_balance' => $wallet->balance,
+			'wallet_balance' => number_format(intval($customer->balance), 2),
+			'unformated_balance' => $customer->balance,
 		]));
 	} else {
 		exit(json_encode(['success' => true, 'wallet_balance' => 0]));

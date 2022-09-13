@@ -37,62 +37,55 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 <?php } ?>
 
 <?php if (isset($_POST['approve'])) { 
-	$check = WalletFundingMethod::find_by_id($_POST['id']);
-	$data1 = [
-		'approval' => 1
-	];
-
-	$check->merge_attributes($data1);
-    $result = $check->save();
+		$check = WalletFundingMethod::find_by_id($_POST['id']);
+		$data1 = [
+			'approval' => 1
+		];
+		$check->merge_attributes($data1);
+	  $result = $check->save();
 
     if($result == true){
-		$wallet = Wallet::find_by_customer_id($check->customer_id);
-		$balance = intval($wallet->balance) + intval($check->amount);
-		$data2 = [
-			'balance' => $balance
-		];
-		$wallet->merge_attributes($data2);
-	    $result2 = $wallet->save();
+				$client = Client::find_by_customer_id($check->customer_id);
+				$balance = intval($client->balance) + intval($check->amount);
+				$data2 = [
+					'balance' => $balance
+				];
+			  $client->merge_attributes($data2);
+		    $result2 = $client->save();
 
-	    if($result2 == true){
-	    	exit(json_encode(['msg' => 'OK']));
+		    if($result2 == true){
+		    	exit(json_encode(['msg' => 'OK']));
+		    }
 	    }
-
-
-    }
-	
-
 
 }?>
 
 <?php if (isset($_POST['show'])) { ?>
 	<?php $sn = 1;
-    foreach (Wallet::find_by_undeleted() as $wallet) : 
-      $customer = Client::find_by_customer_id($wallet->customer_id);
-      $c_id = $customer->id;
-      $customer_name = $customer->full_name();
-      $balance = intval($wallet->balance);
-      $sum =  WalletFundingMethod::sum_of_unapproved(['customer_id' => $wallet->customer_id, 'approval' => 0]);
+    foreach (Client::find_by_undeleted() as $client) : 
+      $customer_name = $client->full_name();
+      $balance = intval($client->balance);
+      $sum =  WalletFundingMethod::sum_of_unapproved(['customer_id' => $client->customer_id, 'approval' => 0]);
     ?>
       <tr>
         <td><?php echo $sn++ ?></td>
         <td>
-          <a href="<?php echo url_for('client/show.php?id='. $c_id) ?>" class="d-flex align-items-center">
+          <a href="<?php echo url_for('client/show.php?id='. $client->id) ?>" class="d-flex align-items-center">
             <h6 class="mb-0 fs-14"><?php echo ucwords($customer_name) ?></h6>
           </a>
         </td>
-        <td><?php echo ucwords($customer->customer_id) ?> </td>
+        <td><?php echo ucwords($client->customer_id) ?> </td>
         <td class="green"><?php echo number_format($balance, 2) ?> </td>
         <td>
           <?php if ($sum != 0) {?>
-            <a href="#" data-id="<?php echo $wallet->customer_id ?>" class="red deposit"><?php echo number_format($sum, 2) ?></a>
+            <a href="#" data-id="<?php echo $client->customer_id ?>" class="red deposit"><?php echo number_format($sum, 2) ?></a>
           <?php }else{ ?>
             <?php echo number_format($sum, 2) ?>
           <?php } ?>
         </td>
         
         <td>
-          <a href="<?php echo url_for('wallet/add.php?id='. $customer->customer_id ) ?>" class=" btn btn-sm btn-primary " > <i class="feather-plus text-success"></i> Load wallet</a>
+          <a href="<?php echo url_for('client/add.php?id='. $customer->customer_id ) ?>" class=" btn btn-sm btn-primary " > <i class="feather-plus text-success"></i> Load wallet</a>
         </td>
       </tr>
     <?php endforeach; ?>

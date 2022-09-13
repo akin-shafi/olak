@@ -310,3 +310,15 @@ ALTER TABLE `wallet_funding_method` ADD `bank_name` VARCHAR(50) NOT NULL AFTER `
 ALTER TABLE `access_control` ADD `compliance` VARCHAR(50) NOT NULL AFTER `user_mgt`;
 ALTER TABLE `wallet_funding_method` ADD `refrence_no` VARCHAR(50) NOT NULL AFTER `payment_id`, ADD `description` TEXT NOT NULL AFTER `refrence_no`;
 ALTER TABLE `access_control` ADD `process_waybill` VARCHAR(50) NOT NULL AFTER `filtering`;
+
+
+
+
+ALTER TABLE `customer` ADD `balance` VARCHAR(50) NOT NULL DEFAULT '0' AFTER `branch_id`, ADD `deposit` 
+VARCHAR(50) NOT NULL AFTER `balance`, ADD `payment_id` VARCHAR(50) NOT NULL AFTER `deposit`;
+
+
+
+
+
+
