@@ -36,6 +36,7 @@ if (is_post_request()) {
       'user_mgt'       => isset($req['user_mgt'])       ? 1 : 0,
       'compliance'     => isset($req['compliance'])     ? 1 : 0,
       'filtering'      => isset($req['filtering'])      ? 1 : 0,
+      'process_waybill'      => isset($req['process_waybill'])      ? 1 : 0,
       'created_by'     => $loggedInAdmin->id,
     ];
 
