@@ -85,7 +85,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
         </td>
         
         <td>
-          <a href="<?php echo url_for('client/add.php?id='. $customer->customer_id ) ?>" class=" btn btn-sm btn-primary " > <i class="feather-plus text-success"></i> Load wallet</a>
+          <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class=" btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
         </td>
       </tr>
     <?php endforeach; ?>
