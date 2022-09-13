@@ -90,7 +90,7 @@ $page = 'Customer';
                               <!-- <a class="dropdown-item" href="<?php //echo url_for('/client/delete.php?id=' . $client->id); ?>"> <i class="feather-trash text-danger"></i> Delete</a> -->
                             </div>
                           </div>
-                          <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class=" btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
+                          <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class="d-none btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
                         </div>
                       </td>
                     </tr>
