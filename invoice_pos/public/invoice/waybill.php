@@ -8,7 +8,7 @@ $invoice_no = $_GET['invoice_no'] ?? '1'; // PHP > 7.0
 $company = CompanyDetails::find_by_id("1");
 
 $billing = Billing::find_by_invoice_no($invoice_no);
-$process = $_POST['p'] ?? '';
+$process = $_GET['p'] ?? '';
 if ($process == 1) {
    $rand = rand(0, 100);
    $unique = uniqid();
@@ -31,7 +31,6 @@ if ($process == 1) {
          $result_data = $inv->save();
        }
 
-         exit(json_encode(['success' => true, 'msg' => 'Waybill processed successfully']));
       }
    }
 }
