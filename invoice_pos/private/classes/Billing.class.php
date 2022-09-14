@@ -154,6 +154,8 @@ class Billing extends DatabaseObject
     {
       $status       = $options['status'] ?? false;
       $billingFormat = $options['billingFormat'] ?? false;
+      $company_id = $options['company_id'] ?? false;
+      $branch_id = $options['branch_id'] ?? false;
 
       $from = $options['from'] ?? false;
       $to   = $options['to'] ?? false;
@@ -162,6 +164,14 @@ class Billing extends DatabaseObject
      
       if ($billingFormat) {
          $sql .= " AND billingFormat='" . self::$database->escape_string($billingFormat) . "'";
+      }
+
+      if ($company_id) {
+         $sql .= " AND company_id='" . self::$database->escape_string($company_id) . "'";
+      }
+
+      if ($branch_id) {
+         $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
       }
       $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 

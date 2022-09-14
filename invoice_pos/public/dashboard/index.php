@@ -10,11 +10,19 @@ $billing = Billing::find_by_metrics();
 $from = $_POST['from'] ?? date("Y-m-d");
 $to = $_POST['to'] ?? date("Y-m-d");
 
+if ( in_array($loggedInAdmin->admin_level, [1,2,3])) {
+    $revenue = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 1, 'from' => $from, 'to' => $to,]) ?? 0;
+    $credit = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 2, 'from' => $from, 'to' => $to,]) ?? 0;
+}else{
+    $revenue = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 1, 'from' => $from, 'to' => $to, 'company_id' => $company_id, 'branch_id' => $branch_id]) ?? 0;
+    $credit = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 2, 'from' => $from, 'to' => $to, 'company_id' => $company_id, 'branch_id' => $branch_id]) ?? 0;
 
 
-$revenue = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 1, 'from' => $from, 'to' => $to,]) ?? 0;
+    $product =  Product::find_by_company(['company_id' => $company_id, 'branch_id' => $branch_id]);
+    
+}
 
-$credit = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 2, 'from' => $from, 'to' => $to,]) ?? 0;
+
 $page = '';
 ?>
 <?php $page_title = 'Dashboard'; ?>
