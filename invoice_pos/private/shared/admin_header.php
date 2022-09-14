@@ -276,7 +276,7 @@ require_login();
 
         <?php if ($accessControl->compliance == 1) : ?>
         <li class="nav-item">
-          <a class="nav-link  <?php echo ($page_title == "Expennses") ? 'active-page' : '' ?>" href="<?php echo url_for('/transaction/') ?>" id="adminDrop">
+          <a class="nav-link  <?php echo ($page_title == "Expennses") ? 'active-page' : '' ?>" href="<?php echo url_for('/expenses/') ?>" id="adminDrop">
             <i class="feather-shopping-bag  nav-icon"></i>
             Expenses
           </a>
