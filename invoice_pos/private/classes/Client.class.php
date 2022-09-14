@@ -39,7 +39,7 @@ class Client extends DatabaseObject
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';
 
-    $this->balance = $args['balance'] ?? '';
+    $this->balance = $args['balance'] ?? 0;
     $this->deposit = $args['deposit'] ?? '';
     $this->payment_id = $args['payment_id'] ?? '';
 
