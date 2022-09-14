@@ -8,8 +8,8 @@ $invoice_no = $_GET['invoice_no'] ?? '1'; // PHP > 7.0
 $company = CompanyDetails::find_by_id("1");
 
 $billing = Billing::find_by_invoice_no($invoice_no);
-
-if ($_POST['p'] == 1) {
+$process = $_POST['p'] ?? '';
+if ($process == 1) {
    $rand = rand(0, 100);
    $unique = uniqid();
    if(empty($billing->waybill_no)) {
@@ -66,15 +66,13 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
    }
 </style>
 <div>
-   <div class=" btn-wrp d-none">
+   <div class=" btn-wrp">
       <div class="holder">
          <a href="<?php echo url_for('invoice/all_invoices.php') ?>" class="default-btn">
             << Back</a> 
-            <button class="default-btn" id="cmd" style="" ><i class="fa fa-download"></i> Download Reciept</button>
-            <!-- <button class="default-btn" id="save" style="" ><i class="fa fa-download"></i> Save Reciept</button> -->
+            <!-- <button class="default-btn" id="printBoth" style="float: right;" i><i class="fa fa-print"></i> Print Reciept & WayBill</button> -->
 
             <button class="default-btn" id="print" style="float: right;" i><i class="fa fa-print"></i> Print Reciept</button>
-            <button class="default-btn" id="printBoth" style="float: right;" i><i class="fa fa-print"></i> Print Reciept & WayBill</button>
             
       </div>
    </div>
@@ -433,6 +431,9 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
    <input type="hidden" id="cert_id" value="<?php echo $billing->invoiceNum ?? '00000'; ?>">
    <script type="text/javascript">
+      $('#print').click(function() {
+         window.print() 
+      })
       // var cert_id = $('#cert_id').val();
       //  $('#qrcode').qrcode(
       //  {
