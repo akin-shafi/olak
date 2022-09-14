@@ -74,11 +74,6 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 
               { ?>
 
-              
-					          
-					         
-
-
               <tr>
                 <td><?php echo $sn++; ?></td>
                 <td><?php echo Client::find_by_customer_id($value->customer_id)->full_name(); ?></td>
@@ -139,7 +134,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 
         $confirmed_cash = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 2, 'from' => $from, 'to' => $to,]) ?? 0;
         $confirmed_transfer = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 3, 'from' => $from, 'to' => $to,]) ?? 0;
-        $confirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 4, 'from' => $from, 'to' => $to,]) ?? 0;
+        $confirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 4, 'from' => $from, 'to' => $to,]) ?? 0; 
       ?>
       <div class="col-6 border">
         <div class="row">

@@ -149,6 +149,41 @@ class Billing extends DatabaseObject
     }
   }
 
+
+  public static function sum_of_sales($options = [])
+    {
+      $status       = $options['status'] ?? false;
+      $billingFormat = $options['billingFormat'] ?? false;
+
+      $from = $options['from'] ?? false;
+      $to   = $options['to'] ?? false;
+      $sql = "SELECT SUM(grand_total) FROM " . static::$table_name . " ";
+      $sql .= "WHERE status='" . self::$database->escape_string($status) . "'";
+     
+      if ($billingFormat) {
+         $sql .= " AND billingFormat='" . self::$database->escape_string($billingFormat) . "'";
+      }
+      $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+      if ($from && $to) {
+        if ($from == $to) {
+          $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($from) . "' ";
+        } elseif ($from > $to) {
+          $sql .= " AND DATE(created_date) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+        } elseif ($from < $to) {
+          $sql .= " AND DATE(created_date) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+        }
+      } elseif ($from && !$to) {
+        $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($from) . "' ";
+      } elseif (!$from && $to) {
+        $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($to) . "' ";
+      }
+      // echo $sql;
+      $result_set = self::$database->query($sql);
+      $row = $result_set->fetch_array();
+      // pre_r( $row);
+      return array_shift($row);
+    }
     
 
   static public function find_by_metrics()

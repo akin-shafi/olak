@@ -319,62 +319,7 @@ class StockDetails extends DatabaseObject
         // }
     }
 
-    public static function find_open_reg(){
-        $sql = "SELECT item_id, SUM(initial_stock) as initial_stock FROM ". static::$table_name . " ";
-        $sql .= " GROUP BY item_id ";
-        // $sql = "SELECT `item_id`,  SUM(`supply`) as `supply`, `initial_stock` as `initial_stock`, `unit_price` as `unit_price`,
-        // SUM(`total_amt`) as `total_amt`, SUM(`sold_stock`) as `sold_stock`, SUM(`sold_stock_amt`) as `sold_stock_amt`
-        // from kitchen_stock_details 
-        // group by `item_id`";
-
-        
-        
-        // $sql = "SELECT * FROM ". static::$table_name . " "; 
-        // $sql .= "GROUP BY item_id HAVING COUNT(*) > 1";
-        // echo $sql;
-        // $obj_array = static::find_by_sql($sql);
-        // return static::find_by_sql($sql);
-        // if (!empty($obj_array)) {
-        //     return array_shift($obj_array);
-        // } else {
-        //     return false;
-        // }
-
-    }
-
-  //    static public function find_all_by_product_id($options=[]) {
-  //   $from = $options['from'] ?? false;
-  //   $to = $options['to'] ?? false;
-  //   $product_id = $options['product_id'] ?? false;
-  //   $created_by = $options['created_by'] ?? false;
-
-  //   $sql = "SELECT SUM(product_quantity) FROM " . static::$table_name . " ";
-  //   $sql .= "WHERE product_id='" . self::$database->escape_string($product_id) . "'";
-
-  //   if ($created_by) {
-  //     $sql .= " AND created_by ='" . self::$database->escape_string($created_by) . "'";
-  //   }
-  //   if ($from && $to) {
-  //     if ($from == $to) {
-  //       $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
-  //     } elseif ($from > $to) {
-  //       $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
-  //     } elseif ($from < $to) {
-  //       $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
-  //     }
-  //   } elseif ($from && !$to) {
-  //     $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
-  //   } elseif (!$from && $to) {
-  //     $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
-  //   }
-
-  //   $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-  //   // echo $sql;
-  //   $result_set = self::$database->query($sql);
-  //   $row = $result_set->fetch_array();
-  //   return array_shift($row);
-  // }
-
+   
     public static function sum_of_Stock($options=[])
     {
         $item_id = $options['item_id'] ?? false;

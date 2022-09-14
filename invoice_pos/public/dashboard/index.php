@@ -5,6 +5,16 @@ require_once('../../private/initialize.php');
 require_login();
 
 $billing = Billing::find_by_metrics();
+
+
+$from = $_POST['from'] ?? date("Y-m-d");
+$to = $_POST['to'] ?? date("Y-m-d");
+
+
+
+$revenue = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 1, 'from' => $from, 'to' => $to,]) ?? 0;
+
+$credit = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 2, 'from' => $from, 'to' => $to,]) ?? 0;
 $page = '';
 ?>
 <?php $page_title = 'Dashboard'; ?>
@@ -50,7 +60,7 @@ $page = '';
 
         <div class="daily-sales">
           <h6>Revenue</h6>
-          <h1><?php echo number_format($billing->total_amount) ?></h1>
+          <h1><?php echo number_format($revenue) ?></h1>
           <p>Total Revenue</p>
           <div id="apexLineChartGradient2" class="orange-graph"></div>
         </div>
@@ -71,13 +81,13 @@ $page = '';
 
         <div class="daily-sales">
           <h6>Credit</h6>
-          <h1><?php echo number_format($billing->part_payment) ?></h1>
+          <h1><?php echo number_format($credit) ?></h1>
           <p>Paid Invoices</p>
           <div id="apexLineChartGradient4" class="lavandar-graph"></div>
         </div>
 
       </div>
-      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+      <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 d-none">
         <div class="daily-sales">
           <h6>Balance</h6>
           <h1><?php echo number_format($billing->balance) ?></h1>
