@@ -8,17 +8,34 @@ $invoice_no = $_GET['invoice_no'] ?? '1'; // PHP > 7.0
 $company = CompanyDetails::find_by_id("1");
 
 $billing = Billing::find_by_invoice_no($invoice_no);
-// $rand = rand(0, 100);
-// $unique = uniqid();
-// // $check_waybill = Billing::find_by_waybill_no();
-// if(empty($billing->waybill_no)) {
-//    $args = [
-//       "status" => 2,
-//       "waybill_no" => $rand."-".$unique,
-//    ];
-//    $billing->merge_attributes($args);
-//    $billing->save();
-// }
+
+if ($_POST['p'] == 1) {
+   $rand = rand(0, 100);
+   $unique = uniqid();
+   if(empty($billing->waybill_no)) {
+      $args = [
+         "status" => 2,
+         "waybill_no" => $rand."-".$unique,
+      ];
+      $billing->merge_attributes($args);
+      $result = $billing->save();
+      if ($result == true) {
+      $all_invoice = Invoice::find_by_invoiceNum($invoice_no);
+     
+         foreach ($all_invoice as $value) {
+            $inv = Invoice::find_by_id($value->id);
+            $data = [
+               'status' => 1,
+            ];
+            $inv->merge_attributes($data);
+         $result_data = $inv->save();
+       }
+
+         exit(json_encode(['success' => true, 'msg' => 'Waybill processed successfully']));
+      }
+   }
+}
+
 
 
 

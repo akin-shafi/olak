@@ -255,7 +255,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          </div>
          <div class="modal-footer">
            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-           <a href="<?php echo url_for('/invoice/waybill.php?invoice_no='. $invoice_no) ?>" class="btn btn-success">Yes</a>
+           <a href="<?php echo url_for('/invoice/waybill.php?invoice_no='. $invoice_no."&p=1") ?>" class="btn btn-success">Yes</a>
          </div>
        </div>
      </div>

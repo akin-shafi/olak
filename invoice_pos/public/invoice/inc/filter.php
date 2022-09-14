@@ -46,7 +46,7 @@ if (is_get_request()) {
 					<th>Customer Name</th>
 					<!-- <th>Payment Method</th> -->
 					<th>Created Date</th>
-					<th>Due Date</th>
+					<!-- <th>Due Date</th> -->
 					<th>Total Amount</th>
 
 
@@ -83,7 +83,7 @@ if (is_get_request()) {
 											</a>
 											<?php endif ?>
 											<?php if ($value->status == 2):  ?>
-											<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="#">
+											<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="<?php echo url_for('invoice/waybill.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
 												<i class="feather-file-text fs-18" title="Print Waybill"></i>Print Waybill
 											</a>
 											
@@ -106,7 +106,7 @@ if (is_get_request()) {
 						<td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
 						<td><?php echo $customer->full_name(); ?></td>
 						<td><?php echo h(date('D jS F, Y H:i:s', strtotime($value->created_date))); ?></td>
-						<td><?php echo h(date('D jS F, Y', strtotime($due_date))); ?></td>
+						<!-- <td><?php //echo h(date('D jS F, Y', strtotime($due_date))); ?></td> -->
 						<td><?php echo number_format($value->total_amount); ?></td>
 
 					</tr>

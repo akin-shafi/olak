@@ -21,7 +21,10 @@ require_login();
 
   <link rel="stylesheet" href="<?php echo url_for('css/main.css'); ?>">
   <link rel="stylesheet" href="<?php echo url_for('css/feather.css'); ?>">
-  <link rel="stylesheet" href="<?php echo url_for('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css ') ?>">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+  <link rel="stylesheet" href="https://fontawesome.com/releases/v5.15/css/all.css"/>
 
   <link rel="stylesheet" href="<?php echo url_for('plugins/select2/css/select2.min.css'); ?>">
 
@@ -292,7 +295,7 @@ require_login();
           <?php if ($accessControl->sales_mgt == 1) : ?>
             <li class="nav-item">
               <a class="nav-link <?php echo ($page == "Invoice") ? 'active-page' : '' ?>" href="<?php echo url_for('invoice/') ?>">
-                <i class="feather-camera nav-icon"></i>
+                <i class="feather-credit-card nav-icon"></i>
                 Billing & Receipts
               </a>
             </li>
@@ -304,6 +307,8 @@ require_login();
             <li class="nav-item dropdown ">
               <a class="nav-link dropdown-toggle <?php echo ($page == "Wallet") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="feather-gift  nav-icon"></i>
+                <!-- <i class="far fa-wallet nav-icon"></i> -->
+                <!-- <i class="fab fa-google nav-icon"></i> -->
                 Wallet
               </a>
               <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
