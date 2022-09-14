@@ -66,13 +66,13 @@ include(SHARED_PATH . '/header.php'); ?>
                                     <tr class="active">
                                         <th style="max-width:30px;">ID</th>
                                         <th style="max-width:30px;">Image</th>
-                                        <th class="col-xs-1">Code</th>
+                                        <!-- <th class="col-xs-1">Code</th> -->
                                         <th>Name</th>
-                                        <th class="col-xs-1">Type</th>
+                                        <!-- <th class="col-xs-1">Type</th> -->
                                         <th class="col-xs-1">Category</th>
                                         <th class="col-xs-1">Quantity</th>
-                                        <th class="col-xs-1">Tax</th>
-                                        <th class="col-xs-1">Method</th>
+                                        <!-- <th class="col-xs-1">Tax</th> -->
+                                        <!-- <th class="col-xs-1">Method</th> -->
                                         <th class="col-xs-1">P.Price</th>
                                         <th class="col-xs-1">S.Price</th>
                                         <th style="width:165px;">Actions</th>
@@ -80,6 +80,15 @@ include(SHARED_PATH . '/header.php'); ?>
                                 </thead>
                                 <tbody>
                                     <?php $sn = 1; foreach (Product::find_by_company(['company_id' => $loggedInAdmin->company_id,  'branch_id' => $loggedInAdmin->branch_id, ]) as $key => $value) {
+
+                                        $stock = StockDetails::sum_of_Stock([ 'item_id' => $value->id, 
+                                        //   'from' => $date,
+                                          ]) ?? 0;
+                                          $sales = Sales::find_all_by_product_id(['product_id' => $value->id, 
+                                        //   'from'=> $date 
+                                        ]);
+                                          $qty = $sales ?? 0;
+                                          $left_over = intval($stock - $qty);
                                     // pre_r($value);
                                     ?>
                                     <tr>
@@ -91,9 +100,9 @@ include(SHARED_PATH . '/header.php'); ?>
                                                     <img src="<?php echo !empty($value->file) ? url_for('/uploads/thumbs/' . $value->file) :  url_for('/uploads/thumbs/bottles.jpg'); ?>"
                                                         alt="images" class="img-responsive"></a></div>
                                         </td>
-                                        <td><?php echo $value->code; ?></td>
+                                        <!-- <td><?php //echo $value->code; ?></td> -->
                                         <td><?php echo $value->pname; ?></td>
-                                        <td><?php echo $value->type; ?></td>
+                                        <!-- <td><?php //echo $value->type; ?></td> -->
                                         <td>
                                             <?php 
                                   $e = $value->category; 
@@ -113,12 +122,13 @@ include(SHARED_PATH . '/header.php'); ?>
 
                                             <?php } ?>
                                         </td>
-                                        <td><?php echo $value->quantity; ?></td>
-                                        <td><?php echo $value->product_tax; ?></td>
-                                        <td><?php $n = $value->tax_method;
-                              echo ($n == 2) ? '<span class="label label-primary">Inclusive</span>' : '<span class="label label-warning">Exclusive</span>'; ?>
+                                        <td><?php echo $left_over; ?></td>
+                                        <!-- <td><?php //echo $value->product_tax; ?></td> -->
+                                        <!-- <td>
+                                        <?php //$n = $value->tax_method;
+                              //echo ($n == 2) ? '<span class="label label-primary">Inclusive</span>' : '<span class="label label-warning">Exclusive</span>'; ?>
                                         </td>
-                                        <td><?php echo $value->cost; ?></td>
+ -->                                        <td><?php echo $value->cost; ?></td>
                                         <td><?php echo $value->price; ?></td>
                                         <td>
                                             <div class="text-center">
