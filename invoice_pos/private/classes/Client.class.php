@@ -96,6 +96,21 @@ class Client extends DatabaseObject
   }
 
 
+  public static function find_by_company($options=[]) 
+  {
+      $company_id = $options['company_id'] ?? false;
+      $branch_id = $options['branch_id'] ?? false;
+      $sql = "SELECT * FROM " . static::$table_name . " ";
+      $sql .= "WHERE company_id='" . self::$database->escape_string($company_id) . "'";
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
+      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+   
+      $sql .= " ORDER BY id ASC ";
+      // echo $sql;
+
+      $obj_array = static::find_by_sql($sql);
+      return $obj_array;
+  }
 
   public static function find_by_branch_id($bId)
   {
