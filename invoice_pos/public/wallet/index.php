@@ -60,14 +60,7 @@ require_login();
           </thead>
           <tbody id="show_data">
             <?php $sn = 1;
-
-              if ($loggedInAdmin->admin_level == 1 || $accessControl->can_approve) {
-                  $record =  Client::find_by_undeleted(['order' => 'ASC']);
-              }else{
-                  $record =  Client::find_by_company(['company_id' => $company_id, 'branch_id' => $branch_id]);
-                  
-              }
-              foreach ($record  as $client) : 
+              foreach (Client::find_by_undeleted() as $client) : 
                 $customer_name = $client->full_name();
                 $balance = intval($client->balance);
                 $sum =  WalletFundingMethod::sum_of_unapproved(['customer_id' => $client->customer_id, 'approval' => 0]);
