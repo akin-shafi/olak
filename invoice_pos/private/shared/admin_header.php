@@ -270,19 +270,18 @@ require_login();
               <i class="feather-dollar-sign  nav-icon"></i>
               Transactions
             </a>
-            <!-- <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
-              <li>
-                <a class="dropdown-item <?php //echo ($page_title == "All Transaction") ? 'active' : '' ?>" href="<?php //echo url_for('/transaction/') ?>">All Transaction</a>
-              </li>
-              <li class="">
-                <a class="dropdown-item <?php //echo ($page_title == "Approve Transaction") ? 'active' : '' ?>" href="<?php //echo url_for('/transaction/approve_transaction.php') ?>">Approve Transaction</a>
-              </li>
-
-
-            </ul> -->
+            
           </li>
         <?php endif ?>
 
+        <?php if ($accessControl->compliance == 1) : ?>
+        <li class="nav-item">
+          <a class="nav-link  <?php echo ($page_title == "Expennses") ? 'active-page' : '' ?>" href="<?php echo url_for('/transaction/') ?>" id="adminDrop">
+            <i class="feather-shopping-bag  nav-icon"></i>
+            Expenses
+          </a>
+        </li>
+        <?php endif ?>
           
 
 
