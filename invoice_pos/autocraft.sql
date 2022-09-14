@@ -319,6 +319,12 @@ VARCHAR(50) NOT NULL AFTER `balance`, ADD `payment_id` VARCHAR(50) NOT NULL AFTE
 
 
 
+CREATE TABLE `expenses` ( `id` int(11) NOT NULL AUTO_INCREMENT, `company_id` varchar(191) DEFAULT NULL, `branch_id` varchar(191) DEFAULT NULL, `title` varchar(191) NOT NULL, `quantity` varchar(191) NOT NULL, `amount` varchar(191) NOT NULL, `narration` varchar(255) NOT NULL, `created_by` varchar(191) NOT NULL, 
+  `created_at` date NOT NULL, `updated_at` datetime NOT NULL, `deleted` varchar(2) DEFAULT NULL, PRIMARY KEY (`id`) );
+
+ALTER TABLE `expenses` CHANGE `created_at` `created_at` VARCHAR(50) NOT NULL, CHANGE `updated_at` `updated_at` VARCHAR(50) NOT NULL;
+
+
 
 
 
