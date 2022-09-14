@@ -53,7 +53,9 @@ $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id)
                       <h3 class="user-name m-t-0"><?php echo $clients->full_name() ?? "Not Set" ?></h3>
                       <h5 class="company-role m-t-0 mb-0">Customer</h5>
                       <div class="staff-id"><i>Registered By : <?php echo Admin::find_by_id($clients->created_by)->full_name(); ?></i></div>
-                      <div class="staff-msg"><a href="<?php echo url_for('wallet/add.php') ?>" class="btn btn-primary">Load Wallet</a></div>
+                      <div class="staff-msg">
+                          <a href="<?php echo url_for('wallet/add.php?id=' . $clients->customer_id) ?>" class="btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-7 col-sm-12 col-12">
