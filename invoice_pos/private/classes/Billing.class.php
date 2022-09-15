@@ -144,6 +144,7 @@ class Billing extends DatabaseObject
     }
   }
 
+  
 
   public static function sum_of_sales($options = [])
     {

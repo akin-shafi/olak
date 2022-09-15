@@ -44,7 +44,7 @@
                                           </tr>
                                       </thead>
                                      <tbody>
-                                         <?php foreach ($product as  $value) { 
+                                         <?php foreach ($product as  $value) {
                                           
                                           if ($created_by != "") {
                                             $sales = Sales::find_all_by_product_id(['product_id' => $value->id,'created_by'=>  $created_by,'from'=>  $from]);

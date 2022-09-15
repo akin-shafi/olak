@@ -89,15 +89,28 @@ class Invoice extends DatabaseObject
     $sql .= "WHERE transid = " . self::$database->escape_string($invoiceNum) . " ";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     return static::find_by_sql($sql);
-
-
-    // $obj_array = static::find_by_sql($sql);
-    // if (!empty($obj_array)) {
-    //   return array_shift($obj_array);
-    // } else {
-    //   return false;
-    // }
   }
+  static public function find_all_invoices($options=[]) {
+
+    $order = $options['order'] ?? '';
+    // $company_id = $options['company_id'] ?? '';
+    // $branch_id = $options['branch_id'] ?? '';
+
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    //   $sql .= "WHERE deleted = 0 ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    if ($order) {
+      $sql .= " ORDER BY id " . self::$database->escape_string($order) . " ";
+    }else{
+      $sql .= " ORDER BY id DESC ";
+    }
+    // echo $sql;
+
+    return static::find_by_sql($sql);
+  }
+
+  
 
   static public function find_all_by_service_type($options=[]) {
     $from = $options['from'] ?? false;
@@ -106,9 +119,11 @@ class Invoice extends DatabaseObject
     $status = $options['status'] ?? false;
     $created_at = $options['created_at'] ?? false;
 
-    $sql = "SELECT SUM(quantity) FROM " . static::$table_name . " ";
-    $sql .= "WHERE service_type='" . self::$database->escape_string($service_type) . "'";
+    // $sql = "SELECT COUNT(*) AS counts, SUM(quantity) AS quantity, SUM(amount) AS grand_total, SUM(unit_cost) AS unit_cost, SUM(rebate_value) AS rebate_value FROM " . static::$table_name . " ";
 
+    $sql = "SELECT SUM(quantity) FROM " . static::$table_name . " ";
+
+    $sql .= "WHERE service_type='" . self::$database->escape_string($service_type) . "'";
 
     if ($status) {
       $sql .= " AND status ='" . self::$database->escape_string($status) . "'";

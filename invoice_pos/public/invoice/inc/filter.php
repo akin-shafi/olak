@@ -24,10 +24,11 @@ if (is_get_request()) {
 		$branchId = $_POST['branchId'] ?? '';
 		if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
 			$filteredData = Billing::find_by_undeleted();
-			$output = "Viewing for all branches";
+			$output = "All Branch Receipts";
 		else :
-			$filteredData = Billing::find_by_filtering(['company_id' => $companyId, 'branch_id' => $branchId,  ]);
-			$output = "Viewing for". Branch::find_by_id($branchId)->branch_name;
+			$filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id,  ]);
+			$output = "All Receipts: ". Branch::find_by_id($loggedInAdmin->branch_id)->branch_name;
+			// pre_r(Branch::find_by_id($loggedInAdmin->branch_id));
 		endif; ?>
 
 		<?php //pre_r($_POST); ?>
