@@ -78,9 +78,9 @@ $page = '';
       <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
 
         <div class="daily-sales">
-          <h6>Invoices</h6>
+          <h6>Receipts</h6>
           <h1><?php echo number_format($billing->counts) ?></h1>
-          <p>Generated Invoices</p>
+          <p>Total Generated Receipts</p>
           <div id="apexLineChartGradient3" class="pink-graph"></div>
         </div>
 
@@ -90,7 +90,7 @@ $page = '';
         <div class="daily-sales">
           <h6>Credit</h6>
           <h1><?php echo number_format($credit) ?></h1>
-          <p>Paid Invoices</p>
+          <p>UnPaid Transactions</p>
           <div id="apexLineChartGradient4" class="lavandar-graph"></div>
         </div>
 
@@ -172,7 +172,7 @@ $page = '';
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-none">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Traffic Source</div>
@@ -190,7 +190,7 @@ $page = '';
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-none">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Overall Product Rating</div>
@@ -213,7 +213,7 @@ $page = '';
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-nones">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Deals</div>
@@ -231,7 +231,7 @@ $page = '';
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-nones">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Department Sales</div>
@@ -249,7 +249,7 @@ $page = '';
           </div>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 d-nones">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-header">
             <div class="card-title">Customers</div>
@@ -308,9 +308,7 @@ $page = '';
 
 
 </div>
-<!-- *************
-        ************ Main container end *************
-        ************* -->
+<!-- *************  Main container end ************* -->
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 

@@ -56,13 +56,8 @@ $page_title = 'Billing & Receipts'; ?>
           <?php include('sideNav.php'); ?>
         </div>
         <!--col-2 end -->
-
-
         <div class="col-lg-10">
-
-
           <section class="  p-3 bg-primary">
-
             <div class="text-center">
               <label for="wallet">Wallet Balance</label>
               <div>
@@ -245,7 +240,7 @@ $page_title = 'Billing & Receipts'; ?>
                       <tr>
                         <td colspan="4" align="center">
                           <input type="hidden" name="total_item" class="form-control " id="total_item" value="1">
-                          <button type="submit" name="create_request" id="create_request" class="btn btn-primary">Generate Invoice</button>
+                          <button type="submit" name="create_request" id="create_request" class="btn btn-primary">Generate Receipt</button>
                         </td>
                       </tr>
 

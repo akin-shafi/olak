@@ -1,5 +1,5 @@
 <?php
-$clients = Billing::find_all();
+$clients = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id,  ]);
 $due = Billing::find_due_date();
 
 ?>
@@ -11,13 +11,9 @@ $due = Billing::find_due_date();
     <a class="<?php if ($page_title == 'All Invoices') {
                 echo 'active';
               } ?>" href="<?php echo url_for('/invoice/all_invoices.php') ?>">All Receipts <span class="float-right fs-12"><?php echo Count($clients) ?></span></a>
-    <a class="<?php if ($page_title == 'Due Invoices') {
-                echo 'active';
-              } ?>" href="<?php echo url_for('/invoice/dueinvoices.php') ?>">Due Receipts <span class="float-right fs-12">
-        <?php echo Count($due) ?>
-      </span></a>
-    <a class="<?php if ($page_title == 'Cleared') {
-                echo 'active';
-              } ?>" href="<?php echo url_for('/invoice/cleared.php') ?>">Cleared Check<span class="float-right fs-12"></span></a>
+    <!-- <a class="<?php //if ($page_title == 'Due Invoices') { echo 'active';  } ?>" href="<?php // echo url_for('/invoice/dueinvoices.php') ?>">Due Receipts <span class="float-right fs-12"> -->
+        <?php //echo Count($due) ?> 
+    <!-- </span></a> -->
+    <!-- a class="<?php //if ($page_title == 'Cleared') { echo 'active'; } ?>" href="<?php //echo url_for('/invoice/cleared.php') ?>">Cleared Check<span class="float-right fs-12"></span></a> -->
   </div>
 </div>

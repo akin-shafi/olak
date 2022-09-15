@@ -29,7 +29,7 @@ if (is_get_request()) {
 		if (empty($companyId) && empty($branchId)) :
 			$filteredData = Billing::find_by_undeleted();
 		else :
-			$filteredData = Billing::find_by_filtering($companyId, $branchId);
+			$filteredData = Billing::find_by_filtering(['company_id' => $companyId, 'branch_id' => $branchId,  ]);
 		endif; ?>
 
 		<?php //pre_r($_POST); ?>
