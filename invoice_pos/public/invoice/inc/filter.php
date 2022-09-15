@@ -22,7 +22,7 @@ if (is_get_request()) {
 	if (isset($_GET['complete_filter'])) :
 		$companyId = $_POST['companyId'] ?? '';
 		$branchId = $_POST['branchId'] ?? '';
-		if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
+		if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
 			$filteredData = Billing::find_by_undeleted();
 		else :
 			$filteredData = Billing::find_by_filtering(['company_id' => $companyId, 'branch_id' => $branchId,  ]);
