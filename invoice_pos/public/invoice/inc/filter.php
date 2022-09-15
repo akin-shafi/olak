@@ -2,7 +2,6 @@
 
 
 if (is_get_request()) {
-
 	if (isset($_GET['comp_id'])) :
 		$companyId = $_GET['comp_id'] ?? '';
 		$branches = Branch::find_by_company_id($companyId);
@@ -23,9 +22,6 @@ if (is_get_request()) {
 	if (isset($_GET['complete_filter'])) :
 		$companyId = $_POST['companyId'] ?? '';
 		$branchId = $_POST['branchId'] ?? '';
-
-
-
 		if (empty($companyId) && empty($branchId)) :
 			$filteredData = Billing::find_by_undeleted();
 		else :
@@ -40,16 +36,11 @@ if (is_get_request()) {
 					<th>S/N</th>
 					<th>Action</th>
 					<th>Status</th>
-					<!-- <th>Show WayBill</th> -->
 					<th>Invoice No.</th>
 					<th>Branch</th>
 					<th>Customer Name</th>
-					<!-- <th>Payment Method</th> -->
 					<th>Created Date</th>
-					<!-- <th>Due Date</th> -->
 					<th>Total Amount</th>
-
-
 				</tr>
 			</thead>
 

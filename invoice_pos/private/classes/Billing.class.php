@@ -22,7 +22,6 @@ class Billing extends DatabaseObject
     'grand_total',
     'part_payment',
     'balance',
-
     'created_date',
     'created_by',
     'updated_date',
@@ -47,9 +46,6 @@ class Billing extends DatabaseObject
   public $grand_total;
   public $part_payment;
   public $balance;
-
-
-
   public $created_date;
   public $created_by;
   public $updated_date;
@@ -96,8 +92,6 @@ class Billing extends DatabaseObject
     $this->grand_total = $args['grand_total'] ?? '';
     $this->part_payment = $args['part_payment'] ?? '';
     $this->balance = $args['balance'] ?? '';
-
-
     $this->created_date = $args['created_date'] ?? date('Y-m-d H:i:s');
     $this->created_by = $args['created_by'] ?? '';
     $this->updated_date = $args['updated_date'] ?? '';
@@ -114,16 +108,6 @@ class Billing extends DatabaseObject
     if (is_blank($this->currency)) {
       $this->errors[] = "currency is required.";
     }
-    // if (is_blank($this->start_date)) {
-    //   $this->errors[] = "Application date cannot be blank.";
-    // }
-    // if (is_blank($this->due_date)) {
-    //   $this->errors[] = "Due Date is required.";
-    // }
-    // if(is_blank($this->amount)) {
-    //   $this->errors[] = "Amount cannot be blank.";
-    // }
-
     return $this->errors;
   }
 

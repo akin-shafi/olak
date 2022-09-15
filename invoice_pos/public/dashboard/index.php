@@ -79,7 +79,7 @@ $page = '';
 
         <div class="daily-sales">
           <h6>Receipts</h6>
-          <h1><?php echo number_format($billing->counts) ?></h1>
+          <h1><a href="<?php echo url_for('/invoice/all_invoices.php') ?>"><?php echo number_format($billing->counts) ?></a></h1>
           <p>Total Generated Receipts</p>
           <div id="apexLineChartGradient3" class="pink-graph"></div>
         </div>
