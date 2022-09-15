@@ -191,10 +191,15 @@ class Billing extends DatabaseObject
     }
     
 
-  static public function find_by_metrics()
+  static public function find_by_metrics($options = [])
   {
+    $company_id = $options['company_id'] ?? false;
+    $branch_id = $options['branch_id'] ?? false;
     $sql = "SELECT COUNT(*) AS counts, SUM(total_amount) AS total_amount, SUM(grand_total) AS grand_total, SUM(part_payment) AS part_payment, SUM(balance) AS balance FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    if ($company_id) { $sql .= " AND company_id='" . self::$database->escape_string($company_id) . "'";}
+
+    if ($branch_id) { $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'"; }
     // echo $sql;
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {

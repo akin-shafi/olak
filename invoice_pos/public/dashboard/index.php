@@ -4,7 +4,12 @@ require_once('../../private/initialize.php');
 
 require_login();
 
-$billing = Billing::find_by_metrics();
+if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
+  $billing = Billing::find_by_metrics();
+}else{
+  $billing = Billing::find_by_metrics(['branch_id' => $loggedInAdmin->branch_id]);
+}
+
 
 
 $from = $_POST['from'] ?? date("Y-m-d");
