@@ -24,12 +24,14 @@ if (is_get_request()) {
 		$branchId = $_POST['branchId'] ?? '';
 		if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
 			$filteredData = Billing::find_by_undeleted();
+			$output = "Viewing for all branches";
 		else :
 			$filteredData = Billing::find_by_filtering(['company_id' => $companyId, 'branch_id' => $branchId,  ]);
+			$output = "Viewing for". Branch::find_by_id($branchId)->branch_name;
 		endif; ?>
 
 		<?php //pre_r($_POST); ?>
-
+		<div class="h3"><?php echo $output ?? "" ?></div>
 		<table id="rowSelection" class=" table table-striped table-hover responsive nowrap" style="width:100%">
 			<thead>
 				<tr class="border-bottom bg-primary">
