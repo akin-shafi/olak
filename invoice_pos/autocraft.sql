@@ -325,6 +325,8 @@ CREATE TABLE `expenses` ( `id` int(11) NOT NULL AUTO_INCREMENT, `company_id` var
 ALTER TABLE `expenses` CHANGE `created_at` `created_at` VARCHAR(50) NOT NULL, CHANGE `updated_at` `updated_at` VARCHAR(50) NOT NULL;
 
 
+ALTER TABLE `invoice` ADD `company_id` VARCHAR(50) NOT NULL AFTER `amount`, ADD `branch_id` VARCHAR(50) NOT NULL AFTER `company_id`;
+
 
 
 

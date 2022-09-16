@@ -74,6 +74,8 @@ if (is_post_request()) {
 							"unit_cost"     => $unit_cost[$i],
 							"amount"        => $amount[$i],
 							"created_by"    => $loggedInAdmin->id,
+							"company_id"    => $loggedInAdmin->company_id,
+							"branch_id"    => $loggedInAdmin->branch_id,
 						];
 
 						$expRequest = new Invoice($dataDesc);

@@ -4,7 +4,7 @@ class Invoice extends DatabaseObject
 {
 
   static protected $table_name = 'invoice';
-  static protected $db_columns = ['id', 'transid', 'service_type', 'quantity', 'status', 'unit_cost', 'rebate_value', 'amount', 'created_at', 'created_by', 'updated_at', 'deleted'];
+  static protected $db_columns = ['id', 'transid', 'service_type', 'quantity', 'status', 'unit_cost', 'rebate_value', 'amount', 'company_id', 'branch_id', 'created_at', 'created_by', 'updated_at', 'deleted'];
 
   public $id;
   public $transid;
@@ -15,9 +15,15 @@ class Invoice extends DatabaseObject
   public $rebate_value;
   // public $vat;
   public $amount;
+  public $company_id;
+  public $branch_id;
   public $created_at;
   public $created_by;
   public $updated_at;
+
+  public $sum_of_quantity;
+  public $grand_total;
+
   public $deleted;
 
 
@@ -32,6 +38,8 @@ class Invoice extends DatabaseObject
     $this->unit_cost = $args['unit_cost'] ?? '';
     $this->rebate_value = $args['rebate_value'] ?? '';
     $this->amount = $args['amount'] ?? '';
+    $this->company_id = $args['company_id'] ?? '';
+    $this->branch_id = $args['branch_id'] ?? '';
     $this->created_at = $args['created_at'] ?? date("Y-m-d H:i:s");
     $this->created_by = $args['created_by'] ?? '';
     $this->updated_at = $args['updated_at'] ?? '';
@@ -110,6 +118,43 @@ class Invoice extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
+
+   public static function get_total_sales($option = [])
+  {
+    $company = $option['company'] ?? false;
+    $branch = $option['branch'] ?? false;
+    $from = $option['from'] ?? false;
+    $to = $option['to'] ?? false;
+
+    $sql = "SELECT SUM(amount) FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    if ($company) :
+      $sql .= " AND company_id='" . self::$database->escape_string($company) . "'";
+    endif;
+
+    if ($branch) {
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch) . "'";
+    }
+    if ($from && $to) {
+      if ($from == $to) {
+        $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from > $to) {
+        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from < $to) {
+        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+      }
+    } elseif ($from && !$to) {
+      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+    } elseif (!$from && $to) {
+      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
+    }
+
+    // echo $sql;
+    $result_set = self::$database->query($sql);
+    $row = $result_set->fetch_array();
+    return array_shift($row);
+  }
   
 
   static public function find_all_by_service_type($options=[]) {
@@ -117,16 +162,22 @@ class Invoice extends DatabaseObject
     $to = $options['to'] ?? false;
     $service_type = $options['service_type'] ?? false;
     $status = $options['status'] ?? false;
+    $branch_id = $options['branch_id'] ?? false;
     $created_at = $options['created_at'] ?? false;
 
-    // $sql = "SELECT COUNT(*) AS counts, SUM(quantity) AS quantity, SUM(amount) AS grand_total, SUM(unit_cost) AS unit_cost, SUM(rebate_value) AS rebate_value FROM " . static::$table_name . " ";
+    $sql = "SELECT COUNT(*) AS counts, SUM(quantity) AS sum_of_quantity, SUM(amount) AS grand_total, SUM(unit_cost) AS unit_cost, SUM(rebate_value) AS rebate_value FROM " . static::$table_name . " ";
 
-    $sql = "SELECT SUM(quantity) FROM " . static::$table_name . " ";
-
-    $sql .= "WHERE service_type='" . self::$database->escape_string($service_type) . "'";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    if ($service_type) {
+      $sql .= " AND service_type='" . self::$database->escape_string($service_type) . "'";
+    }
 
     if ($status) {
       $sql .= " AND status ='" . self::$database->escape_string($status) . "'";
+    }
+
+    if ($branch_id) {
+      $sql .= " AND branch_id ='" . self::$database->escape_string($branch_id) . "'";
     }
 
     if ($created_at) {
@@ -146,11 +197,13 @@ class Invoice extends DatabaseObject
       $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
     }
 
-    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     // echo $sql;
-    $result_set = self::$database->query($sql);
-    $row = $result_set->fetch_array();
-    return array_shift($row);
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
   }
 
   static public function sum_of_rebate_value($options=[])

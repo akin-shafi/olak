@@ -100,11 +100,15 @@ class Product extends DatabaseObject
     return $this->errors;
   }
 
-  public static function find_by_branch_id($bId)
+  public static function find_by_branch_id($options=[])
   {
+    $branch_id = $options['branch_id'] ?? false;
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE branch_id='" . self::$database->escape_string($bId) . "'";
-    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    if ($branch_id) {
+      $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
+    }
+    // echo $sql;
     return static::find_by_sql($sql);
   }
 

@@ -7,16 +7,9 @@ $page_title = 'Report';
 $from = date("Y-m-01");
 $to = date("Y-m-d");
 
-$confirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id, ]) ?? 0; 
-$unconfirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0; 
+$branch_id = $loggedInAdmin->branch_id;
 
-$unconfirmed_cash = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 2, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
-$unconfirmed_transfer = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 3, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
-$unconfirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 4, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
 
-$confirmed_cash = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 2, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
-$confirmed_transfer = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 3, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
-$confirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 4, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0; 
 ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
@@ -40,83 +33,135 @@ $confirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payme
   </div>
   <!-- Page header end -->
 <div class="content-wrapper">
-    <div class="row  justify-content-center">
-        <div class="col-6 border">
-        <div class="row">
-          <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-12">
-            <div class="daily-sales" style="position: relative;">
-              <h6>Unconfirmed</h6>
-              <h1><?php echo $currency . " ". number_format($unconfirmed, 2) ?></h1>
-              <div class="row">
-                <div class="col-4 border">Cash: <?php echo number_format($unconfirmed_cash, 2) ?></div>
-                <div class="col-4 border">Transfer: <?php echo number_format($unconfirmed_transfer, 2); ?></div>
-                <div class="col-4 border">POS: <?php echo number_format($unconfirmed_pos, 2); ?></div>
+    <div class="border">
+      <!-- <div class="h4"> Transaction Report</div> -->
+      <div class="page-title">
+        <div class="row gutters">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <h5 class="title">Transaction Report</h5>
+          </div>
+          <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="d-flex justify-content-end">
+              <div class="daterange-container">
+                <div class="date-range">
+                  <div id="reportrange">
+                    <i class="feather-calendar cal"></i>
+                    <span class="range-text"></span>
+                    <i class="feather-chevron-down arrow"></i>
+                  </div>
+                </div>
               </div>
+
+              <select class="form-control" id="filter-branch" style="width: 150px;">
+                <option value="" selected>All</option>
+                <?php foreach (Branch::find_by_undeleted() as $key => $value) { ?>
+                  <option value="<?php echo $value->id ?>"><?php echo $value->branch_name ?></option>
+                <?php } ?>
+                
+              </select>
+
+              <button class="btn btn-primary" id="query">Filter</button>
+
             </div>
+
+
           </div>
         </div>
       </div>
-      <div class="col-6 border">
-        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-12">
-            <div class="daily-sales" style="position: relative;">
-              <h6>Confirmed</h6>
-              <h1><?php echo $currency . " ". number_format($confirmed, 2) ?></h1>
-              <div class="row">
-                <div class="col-4 border">Cash: <?php echo number_format($confirmed_cash, 2) ?></div>
-                <div class="col-4 border">Transfer: <?php echo number_format($confirmed_transfer, 2); ?></div>
-                <div class="col-4 border">POS: <?php echo number_format($confirmed_pos, 2); ?></div>
-              </div>
-            </div>
-          </div>
-      </div>
+
+
+
+      
     </div>
 
-    <div class="h4">Sales Report from (<?php echo date('D d M, Y', strtotime($from)) ?>) to (<?php echo date('D d M, Y', strtotime($to)) ?>) </div>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>S/N</th>
-            <th>Product Name</th>
-            <th>Quantity Sold</th>
-            <th>Stock Value</th>
-            <th>Total</th>
-            
-          </tr>
-        </thead>
+    
 
-        <tbody>
-            <?php 
-              $product = Product::find_by_branch_id($loggedInAdmin->branch_id);
-              $sn = 1; foreach ($product as $key => $value): 
-              // pre_r($value);
-              
-              $sales = Invoice::find_all_by_service_type(['service_type' => $value->id,'from'=>  $from, 'to'=>  $to]);
-              $stock = StockDetails::sum_of_Stock(['item_id' => $value->id, 'from' => $from]) ?? 0;
-              $qty = intval($sales) ?? 0;
-              $price = intval($value->price) ?? 0;
-              $subtotal = ($qty *  $price);
-              $left_over = intval($stock - $qty);
-              // $grand_total = $sales->grand_total ?? 0;
-              // pre_r ($sales);
-
-            ?>
-            <?php if ($qty != 0) { ?>
-            <tr>
-              <td><?php echo $sn++; ?></td>
-              <td><?php  echo $value->pname;?></td>
-              <td><?php  echo $qty;?></td>
-
-              <td><?php echo $left_over;?></td>
-              <td><?php echo $subtotal;?></td>
-            </tr>
-            <?php } ?>
-            <?php endforeach; ?>
-        </tbody>
-      </table>
-    </div>
+    <div id="salesReport"></div>
+    
+      
+    
 </div>
 
 
 </div>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
+
+
+<script type="text/javascript">
+ 
+
+
+  $(function() {
+    // var start = moment().subtract(29, 'days');
+    var start = moment().subtract(1, 'days');
+    var end = moment().subtract(1, 'days');
+    function cb(start, end) {
+      $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+    }
+    $('#reportrange').daterangepicker({
+      opens: 'left',
+      startDate: start,
+      endDate: end,
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    }, cb);
+    cb(start, end);
+
+
+    const EXPENSE_URL = 'inc/process.php';
+    $(document).on('click', "#query", function() {
+      let branch = $('#filter-branch').val()
+
+      let selectedDate = $('#reportrange span').text()
+        getDataSheet(branch, selectedDate);
+      // if (branch == '') {
+      //   alert('Kindly select a branch')
+      //   window.location.reload();
+      // } else {
+        
+      // }
+    })
+
+    const getDataSheet = (branch, fltDate) => {
+      $.ajax({
+        url: EXPENSE_URL,
+        method: "GET",
+        data: {
+          branch: branch,
+          rangeText: fltDate,
+          filter: 1
+        },
+        cache: false,
+        beforeSend: function() {
+          $('.lds-hourglass').removeClass('d-none');
+        },
+        success: function(r) {
+          $('#salesReport').html(r)
+          setTimeout(() => {
+            $('.lds-hourglass').addClass('d-none');
+          }, 250);
+        }
+      })
+    }
+
+    
+    let branch = $('#filter-branch').val()
+    let selectedDate = $('#reportrange span').text()
+
+    getDataSheet(branch, selectedDate)
+    // console.log(selectedDate)
+  });
+
+
+
+
+
+
+
+  
+</script>
