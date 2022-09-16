@@ -46,6 +46,7 @@ require_login();
     <?php echo display_session_message(); ?>
 
 
+    <div id="show_data"></div>
     <div class="table-responsive">
           <table id="rowSelection" class="table table-sm table-striped " >
           <thead>
@@ -58,7 +59,7 @@ require_login();
               <th>Action</th>
             </tr>
           </thead>
-          <tbody id="show_data">
+          <tbody id="">
             <?php $sn = 1;
               foreach (Client::find_by_undeleted() as $client) : 
                 $customer_name = $client->full_name();

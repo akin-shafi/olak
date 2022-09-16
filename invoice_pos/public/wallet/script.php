@@ -67,6 +67,8 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
       $balance = intval($client->balance);
       $sum =  WalletFundingMethod::sum_of_unapproved(['customer_id' => $client->customer_id, 'approval' => 0]);
     ?>
+
+    
       <tr>
         <td><?php echo $sn++ ?></td>
         <td>
@@ -85,7 +87,9 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
         </td>
         
         <td>
-          <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class=" btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
+          <?php if (!in_array($loggedInAdmin->admin_level, [2,3])) { ?>
+            <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class="btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a> 
+          <?php } ?>
         </td>
       </tr>
     <?php endforeach; ?>
