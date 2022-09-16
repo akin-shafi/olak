@@ -44,6 +44,7 @@ if (is_post_request()) {
       'delete_exp'     => isset($req['delete_exp'])     ? 1 : 0,
       'report_mgt'     => isset($req['report_mgt'])     ? 1 : 0,
       'access_control' => isset($req['access_control']) ? 1 : 0,
+      'can_approve'    => isset($req['can_approve']) ? 1 : 0,
       'company_setup'  => isset($req['company_setup'])  ? 1 : 0,
       'user_mgt'       => isset($req['user_mgt'])       ? 1 : 0,
       'compliance'     => isset($req['compliance'])     ? 1 : 0,
