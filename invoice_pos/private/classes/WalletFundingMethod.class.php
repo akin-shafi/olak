@@ -109,6 +109,8 @@ class WalletFundingMethod extends DatabaseObject
     $approval       = $options['approval'] ?? false;
     $customer_id    = $options['customer_id'] ?? false;
     $payment_method = $options['payment_method'] ?? false;
+    $company_id = $options['company_id'] ?? false;
+    $branch_id = $options['branch_id'] ?? false;
 
     $from = $options['from'] ?? false;
     $to   = $options['to'] ?? false;
@@ -119,6 +121,13 @@ class WalletFundingMethod extends DatabaseObject
     }
     if ($payment_method) {
        $sql .= " AND payment_method='" . self::$database->escape_string($payment_method) . "'";
+    }
+    if ($company_id) {
+       $sql .= " AND company_id='" . self::$database->escape_string($company_id) . "'";
+    }
+
+    if ($branch_id) {
+       $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
     }
     $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 

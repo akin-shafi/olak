@@ -7,16 +7,16 @@ $page_title = 'Report';
 $from = date("Y-m-01");
 $to = date("Y-m-d");
 
-$confirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'from' => $from, 'to' => $to, ]) ?? 0; 
-$unconfirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'from' => $from, 'to' => $to,]) ?? 0; 
+$confirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id, ]) ?? 0; 
+$unconfirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0; 
 
-$unconfirmed_cash = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 2, 'from' => $from, 'to' => $to,]) ?? 0;
-$unconfirmed_transfer = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 3, 'from' => $from, 'to' => $to,]) ?? 0;
-$unconfirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 4, 'from' => $from, 'to' => $to,]) ?? 0;
+$unconfirmed_cash = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 2, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
+$unconfirmed_transfer = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 3, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
+$unconfirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'payment_method' => 4, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
 
-$confirmed_cash = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 2, 'from' => $from, 'to' => $to,]) ?? 0;
-$confirmed_transfer = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 3, 'from' => $from, 'to' => $to,]) ?? 0;
-$confirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 4, 'from' => $from, 'to' => $to,]) ?? 0; 
+$confirmed_cash = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 2, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
+$confirmed_transfer = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 3, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0;
+$confirmed_pos = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'payment_method' => 4, 'from' => $from, 'to' => $to, 'branch_id' => $branch_id,]) ?? 0; 
 ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
