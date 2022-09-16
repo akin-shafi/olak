@@ -20,12 +20,14 @@
       <div class="form-group col-md-4 col-sm-6 col-12">
         <input type="text" name="client[email]" value="<?php echo $client->email; ?>" class="form-control" id="email" placeholder="Email">
       </div>
+      <?php if ($accessControl->can_approve == 1) { ?>
       <div class="form-group col-md-4 col-sm-6 col-12">
         <div class="custom-control custom-switch mt-2">
           <input type="checkbox" class="custom-control-input permit" name="credit_facility" id="credit">
           <label class="custom-control-label" for="credit">Credit Facility?</label>
         </div>
       </div>
+      <?php } ?>
 
       <div class="d-none">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
