@@ -31,10 +31,11 @@ require_login();
       </div>
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-3 col-3 ">
         <div class="daterange-container">
-
+          <?php if (!in_array($loggedInAdmin->admin_level, [2,3])) { ?>
            <a href="<?php echo url_for('wallet/add.php') ?>" data-toggle="tooltip" data-placement="top" title="" class="download-reports" data-original-title="Add New wallet">
             <i class="feather-plus"></i>
           </a>
+        <?php } ?>
         </div>
       </div>
     </div>
