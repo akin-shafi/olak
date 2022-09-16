@@ -238,9 +238,12 @@ require_login();
             </a>
 
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add Agent") ? 'active' : '' ?>" href="<?php echo url_for('/agents/new.php') ?>">Add Agent</a>
-              </li>
+              <?php if (!in_array($loggedInAdmin->admin_level, [2,3])) { ?>
+                <li>
+                  <a class="dropdown-item <?php echo ($page_title == "Add Agent") ? 'active' : '' ?>" href="<?php echo url_for('/agents/new.php') ?>">Add Agent</a>
+                </li>
+              <?php } ?>
+              
               <li class="">
                 <a class="dropdown-item <?php echo ($page_title == "All Agents") ? 'active' : '' ?>" href="<?php echo url_for('/agents/index.php') ?>">All Agent</a>
               </li>
@@ -312,9 +315,11 @@ require_login();
                 Wallet
               </a>
               <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
+                <?php if (!in_array($loggedInAdmin->admin_level, [2,3])) { ?>
                 <li>
                   <a class="dropdown-item <?php echo ($page_title == "Load Wallet") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/add.php') ?>">Load Customer's Wallet</a>
                 </li>
+                <?php } ?>
                 <li class="">
                   <a class="dropdown-item <?php echo ($page_title == "Wallet History") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/index.php') ?>">Wallet History</a>
                 </li>

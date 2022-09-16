@@ -83,9 +83,11 @@ require_login();
                   </td>
                   
                   <td>
-
-                    <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class="btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
+                    <?php if (!in_array($loggedInAdmin->admin_level, [2,3])) { ?>
+                      <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class="btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a> 
+                    <?php } ?>
                   </td>
+
                 </tr>
               <?php endforeach; ?>
           </tbody>
