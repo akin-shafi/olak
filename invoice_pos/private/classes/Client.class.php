@@ -3,7 +3,7 @@ class Client extends DatabaseObject
 {
 
   static protected $table_name = "customer";
-  static protected $db_columns = ['id', 'customer_id', 'first_name', 'last_name', 'phone', 'address', 'email', 'credit_facility', 'company_id', 'branch_id', 'balance', 'deposit', 'payment_id','created_by', 'created_at', 'deleted'];
+  static protected $db_columns = ['id', 'customer_id', 'first_name', 'last_name', 'phone', 'address', 'email', 'credit_facility', 'credit_capcity', 'company_id', 'branch_id', 'balance', 'deposit', 'payment_id','created_by', 'created_at', 'deleted'];
 
   public $id;
   public $customer_id;
@@ -13,6 +13,7 @@ class Client extends DatabaseObject
   public $phone;
   public $email;
   public $credit_facility;
+  public $credit_capcity;
   public $company_id;
   public $branch_id;
   public $balance;
@@ -36,6 +37,7 @@ class Client extends DatabaseObject
     $this->phone = $args['phone'] ?? '';
     $this->email = $args['email'] ?? '';
     $this->credit_facility = $args['credit_facility'] ?? '';
+    $this->credit_capcity = $args['credit_capcity'] ?? '';
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';
 
