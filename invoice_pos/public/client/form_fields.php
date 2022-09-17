@@ -29,9 +29,9 @@
       </div>
 
       <div class="form-group col-md-4 col-sm-6 col-12">
-        <div class="custom-control custom-switch mt-2">
-          <label class="custom-control-label" for="credit_capcity">Maximum Credit Capacity ?</label>
-          <input type="textx" class="custom-control-input" id="credit_capcity" name="credit_capcity">
+        <div class="form-group">
+          <label class="control-label" for="credit_capcity">Maximum Credit Capacity ?</label>
+          <input type="text" class="form-control" id="credit_capcity" name="credit_capcity">
           
         </div>
       </div>
