@@ -20,7 +20,7 @@ td a {
             <h5 class="title"><?php echo $page_title ?></h5>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-           <div class="d-flex justify-content-end">
+           <div class="d-none justify-content-end">
               From: <input type="date" id="from" value="<?php echo $from ?>" class="form-control form-control-sm" name="">
               To: <input type="date" id="to" value="<?php echo $to ?>" class="form-control form-control-sm" name=""> 
               <button type="button" id="search" class="btn btn-primary btn-sm">Search</button>
@@ -64,9 +64,11 @@ td a {
                     }
                      foreach ($product as $key => $item) {
                       
-                      $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id,   'from' => $from ]) ?? 0;
+                      $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id,   //'from' => $from 
+                      ]) ?? 0;
 
-                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id ,   'from' => $from, 'to' => $to, 'status' => 1]);
+                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id , 'status' => 1  //'from' => $from, 'to' => $to, 
+                        ]);
                       // pre_r($sales->sum_of_quantity);
                       $qty = intval($sales->sum_of_quantity) ?? 0;
                       $left_over = intval($stock - $qty);
