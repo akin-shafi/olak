@@ -31,7 +31,7 @@
       <div class="form-group col-md-4 col-sm-6 col-12">
         <div class="form-group">
           <label class="control-label" for="credit_capcity">Maximum Credit Capacity ?</label>
-          <input type="number" class="form-control" id="credit_capcity" name="credit_capcity">
+          <input type="number" class="form-control" id="credit_capcity" name="client[credit_capcity]">
           
         </div>
       </div>

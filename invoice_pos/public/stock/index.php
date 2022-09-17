@@ -67,7 +67,8 @@ td a {
                       $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id,   'from' => $from ]) ?? 0;
 
                       $sales = Invoice::find_all_by_service_type(['service_type' => $item->id ,   'from' => $from, 'to' => $to, 'status' => 1]);
-                      $qty = $sales ?? 0;
+                      // pre_r($sales->sum_of_quantity);
+                      $qty = intval($sales->sum_of_quantity) ?? 0;
                       $left_over = intval($stock - $qty);
                       if (!empty($item->ref_no)) {
                         $supply = StockDetails::find_by_ref($item->ref_no)->supply ?? "0";
@@ -90,7 +91,7 @@ td a {
                         </td>
 
                         <td><?php echo $stock ?? 0; ?></td>
-                        <td><?php echo $sales ?? 0; ?></td>
+                        <td><?php echo $sales->sum_of_quantity ?? 0; ?></td>
                         <td><?php echo $left_over ?? 0; ?></td>
                         <td>
                             <button type="button" class=" btn btn-sm btn-primary add"
