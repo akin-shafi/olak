@@ -20,10 +20,20 @@ td a {
             <h5 class="title"><?php echo $page_title ?></h5>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-           <div class="d-none justify-content-end">
-              From: <input type="date" id="from" value="<?php echo $from ?>" class="form-control form-control-sm" name="">
-              To: <input type="date" id="to" value="<?php echo $to ?>" class="form-control form-control-sm" name=""> 
-              <button type="button" id="search" class="btn btn-primary btn-sm">Search</button>
+           <div class="d-flex justify-content-end">
+
+             <!--  From: <input type="date" id="from" value="<?php //echo $from ?>" class="form-control form-control-sm" name="">
+              To: <input type="date" id="to" value="<?php //echo $to ?>" class="form-control form-control-sm" name=""> 
+              <button type="button" id="search" class="btn btn-primary btn-sm">Search</button> -->
+
+
+              <select class="form-control" id="filter-branch" style="width: 150px;">
+                <option value="" selected>All</option>
+                <?php foreach (Branch::find_by_undeleted() as $key => $value) { ?>
+                  <option value="<?php echo $value->id ?>"><?php echo $value->branch_name ?></option>
+                <?php } ?>
+                
+              </select>
            </div>
           </div>
         </div>
