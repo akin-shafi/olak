@@ -109,7 +109,7 @@ class Product extends DatabaseObject
     if ($branch_id) {
       $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
     }
-    echo $sql;
+    // echo $sql;
     return static::find_by_sql($sql);
   }
 
