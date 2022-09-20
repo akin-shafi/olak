@@ -66,10 +66,10 @@ td a {
                     $company_id = $loggedInAdmin->company_id;
                     $branch_id = $loggedInAdmin->branch_id;
 
-                    if ($loggedInAdmin->admin_level == 1) {
+                    if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
                         $product =  Product::find_by_undeleted(['order' => 'ASC']);
                     }else{
-                        $product =  Product::find_by_company(['company_id' => $company_id, 'branch_id' => $branch_id]);
+                        $product =  Product::find_by_branch_id(['branch_id' => $branch_id]);
                         
                     }
                      foreach ($product as $key => $item) {
