@@ -13,9 +13,11 @@ $page = 'Invoice';
 $backlog = $_GET['backlog'] ?? 0;
 // echo $backlog;
 $status = $_GET['status'] ?? 0;
-if ($backlog != 1) {
-	$page_title = 'All Invoices'; 
-}else{
+if ($backlog == 0 && $status == 1) {
+	$page_title = 'In Progress'; 
+}else if(($backlog == 0 && $status == 2)){
+	$page_title = 'Delivered'; 
+}else if($backlog == 1 && $status == 1){
 	$page_title = 'Backlog'; 
 }
 

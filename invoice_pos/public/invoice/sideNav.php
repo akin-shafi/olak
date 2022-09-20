@@ -18,7 +18,7 @@ $due = Billing::find_due_date();
     <a class="<?php if ($page_title == 'New Invoice') {
                 echo 'active';
               } ?>" href="<?php echo url_for('/invoice/index.php') ?>">Add New Receipts</a>
-    <a class="<?php if ($page_title == 'In Progress ') {
+    <a class="<?php if ($page_title == 'In Progress') {
                 echo 'active';
               } ?>" href="<?php echo url_for('/invoice/all_invoices.php?backlog=0&status=1') ?>">In Progress <span class="float-right fs-12"><?php echo Count($inprogress) ?></span></a>
     <a class="<?php if ($page_title == 'Delivered') {
