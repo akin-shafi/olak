@@ -26,6 +26,7 @@ class Client extends DatabaseObject
   const PAYMENT_METHOD = [
     1 => 'Wallet',
     2 => 'Credit',
+    3 => 'Backlog',
   ];
 
   public function __construct($args = [])

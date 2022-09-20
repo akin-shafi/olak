@@ -94,13 +94,16 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 </style>
 <body>
 
-    <section class="body" id="content">
+    <section class="body" id="content" style="margin-bottom: 150px;">
       <?php //pre_r($billing); ?>
       <div class="container">
          <section id="memo">
             <div class="logo">
 
                <!-- <img data-logo="company_logo" src="../../images/justice.svg"> -->
+               <?php if ($billing->backlog == 1) : ?>
+                  <div style="width: 100px; height: 100px; background: #000;"></div>
+               <?php endif ?>
 
             </div>
             <div class="company-info  float-right">
@@ -141,7 +144,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             </div>
          </section>
          <section id="client-info">
-            <span data-ibcl-id="bill_to_label" class="ibcl_bill_to_label" data-tooltip="tooltip" data-placement="top" title="Enter bill to label">Being bill of Charges For:</span>
+            <span data-ibcl-id="bill_to_label" class="ibcl_bill_to_label" data-tooltip="tooltip" data-placement="top" title="Enter bill to label">Issued To:</span>
             <div>
               <span class="client-name ibcl_client_name" data-ibcl-id="client_name" data-tooltip="tooltip" data-placement="top" title="Enter client name"> <strong>Name: </strong>  <?php
                echo $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?></span>
@@ -227,9 +230,15 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
             <div>
                <h3>Terms  Notes:</h3>
-               <p>This is an evidence of release of the above Goods item to <?php
+               <p>
+                  1. This is an evidence of release of the above Goods item to <?php
                echo $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?> or his/her representative on this day <?php echo date("Y-m-d"); ?> by <?php echo Admin::find_by_id($billing->created_by)->full_name() ?? 'Not Set'; ?>.
-               
+               </p>
+               <p>
+                  2. By accepting this waybill, you acknowledge that all goods/item stated above was handed over to you in good condition.
+               </p>
+               <p>
+                  3. In the event of return of goods/item, customer agrees to be bounded by the return policy of the management.
                </p>
             </div>
 
@@ -277,7 +286,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
       </div>
       <!-- <div id="editor"></div> -->
    </section>
-   <section class="bodyt" id="content" style="">
+   <section class="bodyt" id="content" style="margin-top: 150px;">
       <?php //pre_r($billing); ?>
       <div class="container">
          <section id="memo">
@@ -302,7 +311,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase; color: red;">Waybill</span>
             <div class="separator"></div>
             <span id="number" class="ibcl_invoice_number">#<?php echo $billing->waybill_no ?? '00000'; ?></span>
-            <div>Being Reciept of: <?php echo $billing->invoiceNum ?? '00000'; ?> </div>
+            <div>Refrence to Reciept No: <?php echo $billing->invoiceNum ?? '00000'; ?> </div>
             <div id="qrcode"></div>
          </section>
          <div class="clearfix"></div>
@@ -310,16 +319,19 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             <div>
                <span data-ibcl-id="issue_date_label" class="ibcl_issue_date_label" data-tooltip="tooltip" data-placement="top" title="Enter issue date label">Processed By: </span>
                <span data-ibcl-id="issue_date_label" class="ibcl_issue_date_label" data-tooltip="tooltip" data-placement="top" title="Enter issue date label">Issue Date: </span>
+
+               <span data-ibcl-id="po_number_label" class="ibcl_po_number_label" data-tooltip="tooltip" data-placement="top" title="Enter P.O. label">Print Date</span>
               
             </div>
             <div>
                <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo Admin::find_by_id($billing->created_by)->full_name() ?? 'Not Set'; ?></span>
                <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo $billing->created_date ?? '00/00/00'; ?></span>
+               <span  title=""><?php echo date('Y-m-d') ?></span>
               
             </div>
          </section>
          <section id="client-info">
-            <span data-ibcl-id="bill_to_label" class="ibcl_bill_to_label" data-tooltip="tooltip" data-placement="top" title="Enter bill to label">Being bill of Charges For:</span>
+            <span data-ibcl-id="bill_to_label" class="ibcl_bill_to_label" data-tooltip="tooltip" data-placement="top" title="Enter bill to label">Issued To:</span>
             <div>
               <span class="client-name ibcl_client_name" data-ibcl-id="client_name" data-tooltip="tooltip" data-placement="top" title="Enter client name"> <strong>Name: </strong>  <?php
                echo $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?></span>

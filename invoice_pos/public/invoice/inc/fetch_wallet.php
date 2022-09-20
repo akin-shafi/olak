@@ -28,6 +28,7 @@ if (is_get_request()) {
 			<select required class="form-control payment_method" name="billing[billingFormat]">
 				<option value="">Select</option>
 				<option value="1">Wallet</option>
+				<option value="3">Backlog</option>
 			</select>
 <?php
 		endif;

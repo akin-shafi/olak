@@ -148,6 +148,13 @@ $page_title = 'Billing & Receipts'; ?>
                   </div>
                   <?php endif ?>
 
+                  <div class="form-group col-lg-3 col-md-3 created_date" style="display: none;">
+                    <label class="label-control">Transaction Date <sup class="error">*</sup></label>
+
+                    <input type="date" class="form-control" id="created_date" name="billing[created_date]">
+                  </div>
+
+
                   <div class="form-group col-lg-3 col-md-3 agent_wrap" style="display: none;">
                     <label class="label-control">Agent Name <sup class="error">*</sup></label>
 
@@ -445,9 +452,12 @@ $page_title = 'Billing & Receipts'; ?>
                 } else {
                   errorAlert("Customer's wallet balance is low")
                 }
+
               }
             });
-          } else{
+          } else if(payment_method == 2){
+            processBacklog(form_data);
+          }else{
             submit_form(form_data);
           }
         } else {
@@ -477,14 +487,38 @@ $page_title = 'Billing & Receipts'; ?>
       });
     }
 
+    function processBacklog(form_data) {
+      $.ajax({
+        url: "inc/processBacklog.php",
+        method: "POST",
+        data: form_data,
+        dataType: 'json',
+        success: function(data) {
+          if (data.success == true) {
+            successAlert(data.msg)
+            window.location.href = eUrl + '/invoice.php?invoice_no=' + data.invoice_no;
+          } else {
+            alert(data.msg)
+          }
+        }
+      });
+    }
+    
     $(document).on('change', '.payment_method', function() {
       var payment_method = $(this).val();
       var cus_id = $(".client_id").val();
 
       if (payment_method == 1) {
-        check_wallet(cus_id)
-      } else {
-        $("#wallet_value").html("0.00")
+        check_wallet(cus_id);
+        $(".created_date").hide();
+        $("#created_date").prop('required',false);
+      } else if(payment_method == 3) {
+        $(".created_date").toggle();
+        $("#created_date").prop('required',true);
+      }else{
+        $("#wallet_value").html("0.00");
+        $(".created_date").hide();
+        $("#created_date").prop('required',false);
       }
     });
 

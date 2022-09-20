@@ -9,6 +9,7 @@ class Billing extends DatabaseObject
     'company_id',
     'branch_id',
     'status',
+    'backlog',
     'waybill_no',
     'invoiceNum',
     'client_id',
@@ -33,6 +34,7 @@ class Billing extends DatabaseObject
   public $company_id;
   public $branch_id;
   public $status;
+  public $backlog;
   public $waybill_no;
   public $invoiceNum;
   public $client_id;
@@ -79,6 +81,7 @@ class Billing extends DatabaseObject
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';
     $this->status = $args['status'] ?? 1;
+    $this->backlog = $args['backlog'] ?? 0;
     $this->waybill_no = $args['waybill_no'] ?? '';
     $this->invoiceNum = $args['invoiceNum'] ?? '';
     $this->client_id = $args['client_id'] ?? '';

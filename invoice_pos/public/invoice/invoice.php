@@ -67,6 +67,9 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             <div class="logo">
 
                <!-- <img data-logo="company_logo" src="../../images/justice.svg"> -->
+               <?php if ($billing->backlog == 1) : ?>
+                  <div style="width: 100px; height: 100px; background: #000;"></div>
+               <?php endif ?>
 
             </div>
             <div class="company-info  float-right">
@@ -94,6 +97,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                <span data-ibcl-id="due_date_label" class="ibcl_due_date_label" data-tooltip="tooltip" data-placement="top" title="Enter invoice due date label">Due Date:</span>
                <span data-ibcl-id="currency_label" class="ibcl_currency_label" data-tooltip="tooltip" data-placement="top" title="Enter invoice currency label">Currency:</span>
                <span data-ibcl-id="po_number_label" class="ibcl_po_number_label" data-tooltip="tooltip" data-placement="top" title="Enter P.O. label">Print Date</span>
+               
             </div>
             <div>
                <span data-ibcl-id="issue_date" class="ibcl_issue_date" data-tooltip="tooltip" data-placement="top" title="Select invoice issue date" data-date="11/16/2019"><?php echo Admin::find_by_id($billing->created_by)->full_name() ?? 'Not Set'; ?></span>
@@ -107,7 +111,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             </div>
          </section>
          <section id="client-info">
-            <span data-ibcl-id="bill_to_label" class="ibcl_bill_to_label" data-tooltip="tooltip" data-placement="top" title="Enter bill to label">Being bill of Charges For:</span>
+            <span data-ibcl-id="bill_to_label" class="ibcl_bill_to_label" data-tooltip="tooltip" data-placement="top" title="Enter bill to label">Issued To:</span>
             <div>
               <span class="client-name ibcl_client_name" data-ibcl-id="client_name" data-tooltip="tooltip" data-placement="top" title="Enter client name"> <strong>Name: </strong>  <?php
                echo $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?></span>
@@ -193,8 +197,10 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
             <div>
                <h3>Terms  Notes:</h3>
-               <p>This receipt is valid for <?php echo $billing->due_date ?>days Only. Hence all goods/items stated above must by collected on or before 
+               <p>
+                  This receipt is valid for <?php echo $billing->due_date ?>days Only. Hence all goods/items stated above must be collected on or before 
                   <b><?php echo date('D jS F, Y', strtotime($due_date)) ?></b>
+
                </p>
             </div>
 
