@@ -120,6 +120,8 @@ class Billing extends DatabaseObject
 
     $company_id = $options['company_id'] ?? false;
     $branch_id = $options['branch_id'] ?? false;
+    $backlog = $options['backlog'] ?? false;
+    $status = $options['status'] ?? false;
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
@@ -130,6 +132,12 @@ class Billing extends DatabaseObject
 
     if ($branch_id) {
        $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
+    }
+    if ($backlog || isset($backlog)) {
+         $sql .= " AND backlog='" . self::$database->escape_string($backlog) . "'";
+    }
+    if ($status || isset($status)) {
+         $sql .= " AND status='" . self::$database->escape_string($status) . "'";
     }
     // echo $sql;
     return static::find_by_sql($sql);

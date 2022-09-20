@@ -8,9 +8,19 @@ $clients = Billing::find_by_undeleted();
 $companies = Company::find_by_undeleted();
 // $branches = Branch::find_by_company_id($companyId);
 
+
+$page = 'Invoice';
+$backlog = $_GET['backlog'] ?? 0;
+// echo $backlog;
+$status = $_GET['status'] ?? 0;
+if ($backlog != 1) {
+	$page_title = 'All Invoices'; 
+}else{
+	$page_title = 'Backlog'; 
+}
+
+
 ?>
-<?php $page = 'Invoice';
-$page_title = 'All Invoices'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div class="main-container">
@@ -98,6 +108,9 @@ $page_title = 'All Invoices'; ?>
 
 <input type="hidden" id="company_id" value="<?php echo $loggedInAdmin->company_id ?>">
 <input type="hidden" id="branch_id" value="<?php echo $loggedInAdmin->branch_id ?>">
+<input type="hidden" id="backlog" value="<?php echo $backlog ?? 0 ?>">
+<input type="hidden" id="status" value="<?php echo $status ?? 0 ?>">
+
 
 <input type="hidden" id="BASE_URL" value="<?php echo url_for('/') ?>">
 <?php include(SHARED_PATH . '/admin_footer.php');
@@ -128,22 +141,26 @@ $page_title = 'All Invoices'; ?>
 		$(document).on('click', '.query', function() {
 			let companyId = $('#company').val()
 			let branchId = $('#branch').val()
+			let backlog = $('#backlog').val()
+			let status = $('#status').val()
 
 			if ((companyId == '') || (branchId == '')) {
 				errorAlert('Company and branch is required!')
 				return
 			}
 
-			completeFilter(companyId, branchId)
+			completeFilter(companyId, branchId, backlog, status)
 		})
 
-		function completeFilter(companyId, branchId) {
+		function completeFilter(companyId, branchId, backlog, status) {
 			$.ajax({
 				url: FILTER_URL,
 				method: "GET",
 				data: {
 					companyId: companyId,
 					branchId: branchId,
+					qbacklog: backlog,
+					status: status,
 					complete_filter: 1
 				},
 				success: function(r) {
@@ -151,10 +168,12 @@ $page_title = 'All Invoices'; ?>
 				}
 			});
 		}
-		var cId = $('#companyId').val();
-		var bId = $('#branchId').val();
+		let cId = $('#companyId').val();
+		let bId = $('#branchId').val();
+		let backlog = $('#backlog').val();
+		let status = $('#status').val();
 
-		completeFilter(cId, bId);
+		completeFilter(cId, bId, backlog, status);
 		$(document).on('click', '.waybill', function(e) {
 			e.preventDefault();
 			let BASE_URL = $("#BASE_URL").val();

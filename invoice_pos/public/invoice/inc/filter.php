@@ -20,16 +20,22 @@ if (is_get_request()) {
 	endif;
 
 	if (isset($_GET['complete_filter'])) :
-		$companyId = $_POST['companyId'] ?? '';
-		$branchId = $_POST['branchId'] ?? '';
+		$companyId = $_GET['companyId'] ?? 1;
+		$branchId = $_GET['branchId'] ?? 1;
+		$qbacklog = $_GET['qbacklog'] ?? 1;
+		$status = $_GET['status'] ?? 1;
 		if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
-			$filteredData = Billing::find_by_undeleted();
+			// $filteredData = Billing::find_by_undeleted();
+			$filteredData = Billing::find_by_filtering(['backlog' => $qbacklog, 'status' => $status]);
 			$output = "All Branch Receipts";
 		else :
-			$filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id,  ]);
+			$filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'backlog' => $qbacklog, 'status' => $status ]);
 			$output = "All Receipts: ". Branch::find_by_id($loggedInAdmin->branch_id)->branch_name;
-			// pre_r(Branch::find_by_id($loggedInAdmin->branch_id));
-		endif; ?>
+		endif;
+
+		// $filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'backlog' => $backlog, 'status' => $status ]);
+		// $output = "All Receipts: " //. Branch::find_by_id($loggedInAdmin->branch_id)->branch_name; 
+	?>
 
 		<?php //pre_r($_POST); ?>
 		<div class="h3"><?php echo $output ?? "" ?></div>
