@@ -27,7 +27,7 @@ td a {
               <button type="button" id="search" class="btn btn-primary btn-sm">Search</button> -->
 
 
-              <select class="form-control" id="filter-branch" style="width: 150px;">
+              <select class="form-control" id="filter-branch" style="width: 150px; display: none;">
                 <option value="" selected>All</option>
                 <?php foreach (Branch::find_by_undeleted() as $key => $value) { ?>
                   <option value="<?php echo $value->id ?>"><?php echo $value->branch_name ?></option>
