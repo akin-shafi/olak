@@ -5,10 +5,12 @@ if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
     $delivered = Billing::find_by_filtering([ 'status' => 2, 'backlog' => 0 ]);
     $backlog_count = Billing::find_by_filtering([ 'status' => 1, 'backlog' => 1 ]);
 else :
-    $inprogress = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'status' => 1  ]);
-    $delivered = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id,  'status' => 2 ]);
+    $inprogress = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'status' => 1, 'backlog' => 0  ]);
+    $delivered = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id,  'status' => 2, 'backlog' => 0 ]);
     $backlog_count = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'status' => 1, 'backlog' => 1 ]);
 endif;
+
+
 
 $due = Billing::find_due_date();
 
