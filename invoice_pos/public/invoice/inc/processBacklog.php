@@ -8,18 +8,6 @@ if (is_post_request()) {
 		$result = $billing->save();
 
 		if ($result == true) {
-			// if ($_POST['billing']['billingFormat'] == 1) {
-			// 	$post_id = $_POST['billing']['client_id'];
-			// 	$total_amount = $_POST['billing']['total_amount'];
-			// 	$client = Client::find_by_id($post_id);
-			// 	$balance = ($client->balance - $total_amount);
-			// 	$new_args = [
-			// 		'balance' => $balance,
-			// 	];
-			// 	$client->merge_attributes($new_args);
-			// 	$result_data = $client->save();
-			// }
-
 			$rand = rand(10, 100);
 			$new_id = $billing->id;
 			$invoice_no = "1" . str_pad($new_id, 3, "0", STR_PAD_LEFT) . $rand;
