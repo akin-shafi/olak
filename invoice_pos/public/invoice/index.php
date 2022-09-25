@@ -193,7 +193,7 @@ $page_title = 'Billing & Receipts'; ?>
 
                               <select class="form-control form-control-sm service_type select2" required="" name="service_type[]" id="service_type1" data-srno="1">
                                 <option disabled selected="">Select Type</option>
-                                <?php foreach (Product::find_by_undeleted() as $result => $value) { ?>
+                                <?php foreach (Product::find_by_branch_id(['branch_id' => $loggedInAdmin->branch_id]) as $result => $value) { ?>
                                   <option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>">
                                     <?php echo $value->pname; ?>
                                   </option>
@@ -324,7 +324,7 @@ $page_title = 'Billing & Receipts'; ?>
       var html_code = '';
       html_code += '<tr id="row_id_' + count + '">';
       html_code += '<td><span id="sr_no">' + count + '</span></td>';
-      html_code += '<td><select class="form-control form-control-sm service_type select2" required="" name="service_type[]" id="service_type' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Product::find_by_undeleted() as $result => $value) { ?><option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>"><?php echo $value->pname ?></option><?php } ?></select></td>';
+      html_code += '<td><select class="form-control form-control-sm service_type select2" required="" name="service_type[]" id="service_type' + count + '" data-srno="' + count + '"><option value="">Select</option><?php foreach (Product::find_by_branch_id(['branch_id' => $loggedInAdmin->branch_id]) as $result => $value) { ?><option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>"><?php echo $value->pname ?></option><?php } ?></select></td>';
       html_code += '<td><input type="text" <?php echo $accessControl->special_sales == 1 ? '' : 'readonly' ?>  required="" name="unit_cost[]"  id="unit_cost' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only unit_cost"></td>';
       html_code += '<td><input type="text" required="" name="quantity[]" id="quantity' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only quantity" value="<?php echo empty($expRequest->quantity) ? '' : ''; ?>"></td>';
       html_code += '<td><input type="text" required="" name="amount[]" id="amount' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only amount" readonly></td>';
