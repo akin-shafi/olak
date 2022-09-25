@@ -22,18 +22,18 @@ td a {
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
            <div class="d-flex justify-content-end">
 
-             <!--  From: <input type="date" id="from" value="<?php //echo $from ?>" class="form-control form-control-sm" name="">
-              To: <input type="date" id="to" value="<?php //echo $to ?>" class="form-control form-control-sm" name=""> 
-              <button type="button" id="search" class="btn btn-primary btn-sm">Search</button> -->
+              
 
-
-              <select class="form-control" id="filter-branch" style="width: 150px; display: none;">
+            <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) : ?>
+              <select class="form-control" id="filter_branch" style="width: 150px; ">
                 <option value="" selected>All</option>
                 <?php foreach (Branch::find_by_undeleted() as $key => $value) { ?>
                   <option value="<?php echo $value->id ?>"><?php echo $value->branch_name ?></option>
                 <?php } ?>
                 
               </select>
+            <?php endif; ?>
+              <!-- <button type="button" id="search" class="btn btn-primary btn-sm">Search</button> -->
            </div>
           </div>
         </div>
@@ -64,14 +64,15 @@ td a {
 
                     <?php $sn = 1; 
                     $company_id = $loggedInAdmin->company_id;
-                    $branch_id = $loggedInAdmin->branch_id;
+                    $branch_id = $_GET['branch'] ?? $loggedInAdmin->branch_id;
 
-                    if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
-                        $product =  Product::find_by_undeleted(['order' => 'ASC']);
-                    }else{
-                        $product =  Product::find_by_branch_id(['branch_id' => $branch_id]);
+                    // if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
+                    //     $product =  Product::find_by_undeleted(['order' => 'ASC']);
+                    // }else{
                         
-                    }
+                        
+                    // }
+                    $product =  Product::find_by_branch_id(['branch_id' => $branch_id]);
                      foreach ($product as $key => $item) {
                       
                       $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id,   //'from' => $from 
@@ -253,6 +254,10 @@ $(document).on("click", "#clearDataAdmin", function() {
     } else {
         return false
     }
+})
+$(document).on('change', '#filter_branch', function() {
+    let branch = $(this).val();
+    window.location.href = BASE_URL + 'index.php?branch='+ branch;
 })
 
 $(document).on('click', '#search', function() {

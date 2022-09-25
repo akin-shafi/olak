@@ -105,7 +105,7 @@ if (is_get_request()) {
 						<td><?php echo h(ucwords($value->invoiceNum)); ?></td>
 						<td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
 						<td><?php echo $customer->full_name(); ?></td>
-						<td><?php echo h(date('D jS F, Y H:i:s', strtotime($value->created_date))); ?></td>
+						<td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>
 						<!-- <td><?php //echo h(date('D jS F, Y', strtotime($due_date))); ?></td> -->
 						<td><?php echo number_format($value->total_amount); ?></td>
 
