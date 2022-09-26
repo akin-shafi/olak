@@ -123,6 +123,9 @@ class Billing extends DatabaseObject
     $backlog = $options['backlog'] ?? false;
     $status = $options['status'] ?? false;
 
+    $from = $options['from'] ?? false;
+    $to = $options['to'] ?? false;
+
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
@@ -139,6 +142,21 @@ class Billing extends DatabaseObject
     if ($status || isset($status)) {
          $sql .= " AND status='" . self::$database->escape_string($status) . "'";
     }
+
+    if ($from && $to) {
+        if ($from == $to) {
+        $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from > $to) {
+        $sql .= " AND DATE(created_date) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from < $to) {
+        $sql .= " AND DATE(created_date) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+      }
+    } elseif ($from && !$to) {
+      $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($from) . "' ";
+    } elseif (!$from && $to) {
+      $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($to) . "' ";
+    }
+
     $sql .= "ORDER BY id ASC ";
     // echo $sql;
     return static::find_by_sql($sql);

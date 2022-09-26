@@ -22,10 +22,10 @@ $due = Billing::find_due_date();
               } ?>" href="<?php echo url_for('/invoice/index.php') ?>">Add New Receipts</a>
     <a class="<?php if ($page_title == 'In Progress') {
                 echo 'active';
-              } ?>" href="<?php echo url_for('/invoice/all_invoices.php?backlog=0&status=1') ?>">In Progress <span class="float-right fs-12"><?php echo Count($inprogress) ?></span></a>
+              } ?>" href="<?php echo url_for('/invoice/all_invoices.php?backlog=0&status=1') ?>">Not Yet Supplied <span class="float-right fs-12"><?php echo Count($inprogress) ?></span></a>
     <a class="<?php if ($page_title == 'Delivered') {
                 echo 'active';
-              } ?>" href="<?php echo url_for('/invoice/all_invoices.php?backlog=0&status=2') ?>">Delivered <span class="float-right fs-12"><?php echo Count($delivered) ?></span></a>
+              } ?>" href="<?php echo url_for('/invoice/all_invoices.php?backlog=0&status=2') ?>">Supplied <span class="float-right fs-12"><?php echo Count($delivered) ?></span></a>
     <a class="<?php if ($page_title == 'Backlog') {
                 echo 'active';
               } ?>" href="<?php echo url_for('/invoice/all_invoices.php?backlog=1&status=1') ?>">Backlog <span class="float-right fs-12"><?php echo Count($backlog_count) ?></span></a>

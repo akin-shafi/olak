@@ -24,14 +24,26 @@ if (is_get_request()) {
 		$branchId = $_GET['branchId'] ?? 1;
 		$qbacklog = $_GET['qbacklog'] ?? 1;
 		$status = $_GET['status'] ?? 1;
+
+
+		if ($qbacklog == 0 && $status == 1) {
+			$label = 'Not Yet Supplied:';
+		}else if($qbacklog == 0 && $status == 2){
+			$label = 'Supplied Goods:';
+		}else{
+			$label = 'Backlog Transactions:';
+		}
+
 		if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
-			// $filteredData = Billing::find_by_undeleted();
 			$filteredData = Billing::find_by_filtering(['backlog' => $qbacklog, 'status' => $status]);
-			$output = "All Branch Receipts";
+			$output = "All Branches ". $label;
 		else :
 			$filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'backlog' => $qbacklog, 'status' => $status ]);
-			$output = "All Receipts: ". Branch::find_by_id($loggedInAdmin->branch_id)->branch_name;
+			$output = $label." ". Branch::find_by_id($loggedInAdmin->branch_id)->branch_name;
 		endif;
+		
+		
+		
 
 		// $filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'backlog' => $backlog, 'status' => $status ]);
 		// $output = "All Receipts: " //. Branch::find_by_id($loggedInAdmin->branch_id)->branch_name; 

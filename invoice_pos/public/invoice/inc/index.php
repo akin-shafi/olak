@@ -133,7 +133,6 @@ if (is_post_request()) {
 
 				$total_rebate = Invoice::sum_of_rebate_value($invoice_no);
 				if ($last_result == true) {
-					$total_rebate = intval(23455);
 					$agentWallet = AgentWallet::find_by_agent_id($args['agent_id']);
 					$agentRecord = [
 						'balance' => ($total_rebate + $agentWallet->balance),
