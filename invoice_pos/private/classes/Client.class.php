@@ -80,7 +80,9 @@ class Client extends DatabaseObject
 
     if (is_blank($this->phone)) {
       $this->errors[] = "Phone Number is required";
-    } elseif (!has_unique_client_phone($this->phone, $this->id ?? 0)) {
+    } elseif (!has_length($this->phone, array('max' => 11))) {
+      $this->errors[] = "Phone number cannot be less than 11 digits.";
+    }elseif (!has_unique_client_phone($this->phone, $this->id ?? 0)) {
       $this->errors[] = "Customer already exist, We found Phone Number in record.";
     }
 
