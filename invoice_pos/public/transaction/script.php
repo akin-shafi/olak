@@ -80,7 +80,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
                 <td><?php echo $currency." ".$value->amount; ?></td>
                 <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
                 <td><?php echo Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set"; ?></td>
-                <td><?php echo Bank::find_by_id($value->bank_name)->account_number ?? "Not Set"; ?></td>
+                <td><?php echo Bank::find_by_id($value->bank_name)->account_number . "(" . Bank::find_by_id($value->bank_name)->account_name . ")" ?? "Not Set"; ?></td>
                 <td><?php echo $value->created_at; ?></td>
                 <td><?php echo Admin::find_by_id($value->created_by)->full_name(); ?></td>
                 <?php  if($accessControl->can_approve == 1) : ?>
