@@ -101,11 +101,11 @@
                           <select class="form-control form-control-sm bank_name" required="" name="bank_name[]" id="bank_name1">
                             <option value="">Select</option>
                             <option value="0" style="display: none">Direct Cash</option>
-                            <?php foreach (Bank::find_by_undeleted() as $result => $value) { ?><option data-id="1" data-acct="<?php echo $value->account_number ?>" value="<?php echo $value->id ; ?>"><?php echo $value->bank_name ?> </option><?php } ?></select>
+                            <?php foreach (Bank::find_by_undeleted() as $result => $value) { ?><option data-id="1" data-acctname="<?php echo $value->account_name ?>"  data-acct="<?php echo $value->account_number ?>" value="<?php echo $value->id ; ?>"><?php echo $value->bank_name ?> </option><?php } ?></select>
 
                         </td>
 
-                        <td><input class="form-control" name="account_no[]" id="account_no1" type="number" value="<?php echo $wallet->account_no ?? '' ?>" readonly></td>
+                        <td><input class="form-control" name="account_no[]" id="account_no1" type="text" value="<?php echo $wallet->account_no ?? '' ?>" readonly></td>
                         <td><button type="button" name="add_row" id="add_row" class="btn btn-success btn-sm">+</button></td>
                       </tr>
                     </table>
@@ -177,7 +177,9 @@
     let selected = $(this).find('option:selected');
     let id = selected.data("id");
     let account_no = selected.data("acct");
-    $("#account_no"+ id).val(account_no);
+    let account_name = selected.data("acctname");
+    console.log(account_name)
+    $("#account_no"+ id).val(account_no + " - " + account_name);
   });
 
 
@@ -229,9 +231,9 @@
      
       html_code += '<td><input type="text" required="" name="amount[]" id="amount' + count + '" data-srno="' + count + '" class="form-control form-control-sm number_only amount" value=""></td>';
 
-      html_code += '<td><input class="bank_alt form-control" id="bank_alt' + count + '" ><select class="form-control form-control-sm bank_name" required="" name="bank_name[]" id="bank_name' + count + '"><option value="">Select</option> <option value="0" style="display: none">Direct Cash</option><?php foreach (Bank::find_by_undeleted() as $result => $value) { ?><option data-id="' + count + '" data-acct="<?php echo $value->account_number ?>" value="<?php echo $value->id ; ?>"><?php echo $value->bank_name ?> </option><?php } ?></select></td>';
+      html_code += '<td><input class="bank_alt form-control" id="bank_alt' + count + '" ><select class="form-control form-control-sm bank_name" required="" name="bank_name[]" id="bank_name' + count + '"><option value="">Select</option> <option value="0" style="display: none">Direct Cash</option><?php foreach (Bank::find_by_undeleted() as $result => $value) { ?><option data-id="' + count + '" data-acctname="<?php echo $value->account_name ?>" data-acct="<?php echo $value->account_number ?>" value="<?php echo $value->id ; ?>"><?php echo $value->bank_name ?> </option><?php } ?></select></td>';
 
-      html_code += '<td><input class="form-control" name="account_no[]" id="account_no' + count + '" type="number" value="<?php echo $wallet->account_no ?? '' ?>" readonly></td>';
+      html_code += '<td><input class="form-control" name="account_no[]" id="account_no' + count + '" type="text" value="<?php echo $wallet->account_no ?? '' ?>" readonly></td>';
  
 
       html_code += '<td><button type="button" name="remove_row" id="' + count + '" class="btn btn-danger p-0 pl-2 pr-2 remove_row">X</button></td></tr>';

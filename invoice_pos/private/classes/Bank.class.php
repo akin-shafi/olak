@@ -3,10 +3,11 @@
 class Bank extends DatabaseObject {
 
   static protected $table_name = "bank";
-  static protected $db_columns = ['id', 'bank_name','account_number','company_id', 'branch_id','created_by','created_at', 'deleted'];
+  static protected $db_columns = ['id', 'bank_name', 'account_name', 'account_number','company_id', 'branch_id','created_by','created_at', 'deleted'];
   
   public $id;
   public $bank_name;
+  public $account_name;
   public $account_number;
   public $company_id;
   public $branch_id;
@@ -23,6 +24,7 @@ class Bank extends DatabaseObject {
   
   public function __construct($args=[]) {
     $this->bank_name = $args['bank_name'] ?? '';
+    $this->account_name = $args['account_name'] ?? '';
     $this->account_number = $args['account_number'] ?? '';
     $this->company_id = $args['company_id'] ?? '';
     $this->branch_id = $args['branch_id'] ?? '';

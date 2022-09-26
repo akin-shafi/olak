@@ -20,14 +20,6 @@ if (is_post_request()) {
     $new_id = $walletDetails->id;
     $payment_id = "POP/". $loggedInAdmin->branch_id ."/".$new_id . rand(10, 100);
 
-    // $updateWalletDetail = WalletDetails::find_by_id($new_id);
-
-    // $dat = [
-    //   'payment_id' => $payment_id,
-    // ];
-    // $updateWalletDetail->merge_attributes($dat);
-    // $updateWalletDetail->save();
-
     $amount             = $_POST['amount'];
     $payment_method     = $_POST['payment_method'];
     $bank_name          = $_POST['bank_name'];
