@@ -139,7 +139,7 @@ class Billing extends DatabaseObject
     if ($status || isset($status)) {
          $sql .= " AND status='" . self::$database->escape_string($status) . "'";
     }
-    $sql .= "ORDER BY id DESC ";
+    $sql .= "ORDER BY id ASC ";
     // echo $sql;
     return static::find_by_sql($sql);
   }
