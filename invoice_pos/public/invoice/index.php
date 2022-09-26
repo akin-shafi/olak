@@ -455,7 +455,7 @@ $page_title = 'Billing & Receipts'; ?>
 
               }
             });
-          } else if(payment_method == 2){
+          } else if(payment_method == 3){
             processBacklog(form_data);
           }else{
             submit_form(form_data);

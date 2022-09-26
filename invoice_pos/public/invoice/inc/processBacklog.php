@@ -15,7 +15,7 @@ if (is_post_request()) {
 				'invoiceNum' 	=> $invoice_no,
 				"created_by"    => $loggedInAdmin->id,
 				"backlog"    	=> 1,
-				"created_date"    => $_POST['created_date'],
+				"created_date"    => $args['created_date'],
 			];
 			$billing->merge_attributes($data);
 			$result_set = $billing->save();
