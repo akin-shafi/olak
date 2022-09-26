@@ -127,12 +127,12 @@ require_login();
           <input type="hidden" id="data_id" name="id">
           <input type="hidden" id="customer_id" name="customer_id">
           <div class="form-group col-md-12">
-            <label class="form-label">Refrence Number <sup class="text-danger">*</sup></label>
-            <input type="text" required class="form-control" name="refrence_no">
+            <label class="form-label">Refrence Number </label>
+            <input type="text" class="form-control" name="refrence_no">
           </div>
 
           <div class="form-group col-md-12">
-            <label class="form-label">Description <sup class="text-danger">*</sup></label>
+            <label class="form-label">Description </label>
             <textarea type="text" class="form-control" name="description"></textarea>
           </div>
 
