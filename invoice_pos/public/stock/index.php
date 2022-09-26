@@ -65,30 +65,19 @@ td a {
                     <?php $sn = 1; 
                     $company_id = $loggedInAdmin->company_id;
                     $branch_id = $_GET['branch'] ?? $loggedInAdmin->branch_id;
-
-                    // if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
-                    //     $product =  Product::find_by_undeleted(['order' => 'ASC']);
-                    // }else{
-                        
-                        
-                    // }
                     $product =  Product::find_by_branch_id(['branch_id' => $branch_id]);
                      foreach ($product as $key => $item) {
                       
                       $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id,   //'from' => $from 
                       ]) ?? 0;
 
-                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id , 'status' => 1  //'from' => $from, 'to' => $to, 
-                        ]);
-                      // pre_r($sales->sum_of_quantity);
+                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id , 'status' => 1  //'from' => $from, 'to' => $to,]);
                       $qty = intval($sales->sum_of_quantity) ?? 0;
                       $left_over = intval($stock - $qty);
                       if (!empty($item->ref_no)) {
                         $supply = StockDetails::find_by_ref($item->ref_no)->supply ?? "0";
                         $sold = StockDetails::find_by_ref($item->ref_no)->sold_stock ?? "0";
                         $qty = StockDetails::find_by_ref($item->ref_no)->deleted ?? "0";
-
-                        
                       }else{
                         $supply = "None";
                         $sold = "None";
