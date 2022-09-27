@@ -71,7 +71,8 @@ td a {
                       $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id,   //'from' => $from 
                       ]) ?? 0;
 
-                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id , 'status' => 1  //'from' => $from, 'to' => $to,]);
+                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id , 'status' => 1  //'from' => $from, 'to' => $to,
+                      ]);
                       $qty = intval($sales->sum_of_quantity) ?? 0;
                       $left_over = intval($stock - $qty);
                       if (!empty($item->ref_no)) {
