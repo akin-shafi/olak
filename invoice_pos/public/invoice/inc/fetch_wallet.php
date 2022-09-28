@@ -20,7 +20,7 @@ if (is_get_request()) {
 			<select required class="form-control payment_method" name="billing[billingFormat]">
 				<option value="">Select</option>
 				<?php foreach (Client::PAYMENT_METHOD as $key => $value) : ?>
-					<option value="<?= $key ?>"><?= $value ?></option>
+					<option value="<?php $key ?>"><?php $value ?></option>
 				<?php endforeach; ?>
 			</select>
 		<?php
@@ -28,7 +28,7 @@ if (is_get_request()) {
 			<select required class="form-control payment_method" name="billing[billingFormat]">
 				<option value="">Select</option>
 				<option value="1">Wallet</option>
-				<option value="3">Backlog</option>
+				<!-- <option value="3">Backlog</option> -->
 			</select>
 <?php
 		endif;
