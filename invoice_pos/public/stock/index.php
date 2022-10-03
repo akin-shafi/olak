@@ -51,12 +51,15 @@ td a {
         <div class="table-responsive">
             <table class="table table-sm table-bordered" id="rowSelection">
                 <thead>
-                    <tr class="text-center">
+                    <tr class="text-center text-uppercase">
                         <th>S/n</th>
                         <th>Item</th>
-                        <th>Sum of Supply</th>
-                        <th>Qty Sold</th>
-                        <th>Avail Stock</th>
+                        <th>ToTal Stock</th>
+                        <th>Inflow/Avail Stock</th>
+                        <th>Out Flow/Sold stock</th>
+                        
+                        <th>RETURNED INWARDS</th>
+                        <th> BREAKAGES/SCRAP</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -92,10 +95,12 @@ td a {
                                 <?php echo $item->pname; ?>
                             </a>
                         </td>
-
                         <td><?php echo $stock ?? 0; ?></td>
-                        <td><?php echo $sales->sum_of_quantity ?? 0; ?></td>
                         <td><?php echo $left_over ?? 0; ?></td>
+                        <td><?php echo $sales->sum_of_quantity ?? 0; ?></td>
+                        
+                        <td>0</td>
+                        <td>0</td>
                         <td>
                             <button type="button" class=" btn btn-sm btn-primary add"
                                 data-id="<?php echo $item->id ?>"><i class="fa fa-plus"></i> Add

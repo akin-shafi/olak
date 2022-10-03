@@ -74,7 +74,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 
               <tr>
                 <td><?php echo $sn++; ?></td>
-                <td><?php echo Client::find_by_customer_id($value->customer_id)->full_name(); ?></td>
+                <td class="text-uppercase"><?php echo Client::find_by_customer_id($value->customer_id)->full_name(); ?></td>
                 <td><?php echo $currency." ". number_format($value->amount, 2); ?></td>
                 <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
                 <td><?php echo Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set"; ?></td>
@@ -82,7 +82,11 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
                 <td><?php echo $value->created_at; ?></td>
                 <td><?php echo Admin::find_by_id($value->created_by)->full_name(); ?></td>
                 <?php  if($accessControl->can_approve == 1) : ?>
-                <td><button class="btn btn-danger btn-sm approve" data-type="<?php echo $value->payment_method ?>" data-cust="<?php echo $value->customer_id; ?>" id="<?php echo $value->id; ?>">Confirm </button></td>
+                <td>
+
+                	<button class="btn btn-success btn-sm approve" data-type="<?php echo $value->payment_method ?>" data-cust="<?php echo $value->customer_id; ?>" id="<?php echo $value->id; ?>">Confirm </button>
+                	 <a class=" btn-danger btn-sm" href="<?php echo url_for('/transaction/delete.php?id=' . $value->id); ?>"> Delete</a>
+                </td>
                 <?php elseif($value->payment_method != 3): ?>
                   <td><button class="btn btn-primary btn-sm approve" data-type="<?php echo $value->payment_method ?>" data-cust="<?php echo $value->customer_id; ?>" id="<?php echo $value->id; ?>">Confirm </button></td>
                 <?php endif ?>
