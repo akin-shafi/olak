@@ -33,14 +33,14 @@
     </td>
 
     <td>
-        <?php  if ($val->id == $arr->id) { ?>
-        <?php if ($val->qty_left != 0) { ?>
+        <?php //if ($val->id == $arr->id) { ?>
+        <?php //if ($val->qty_left != 0) { ?>
 
         <button type="button" class="btn btn-sm btn-secondary oneItem" data-ref="<?php echo $val->ref_no;  ?>"
             data-id="<?php echo $val->item_id;  ?>" data-toggle="modal" data-target="#editModal"><i
                 class="fa fa-pencil"></i> Edit Stock </button>
-        <?php } ?>
-        <?php } ?>
+        <?php //} ?>
+        <?php //} ?>
     </td>
 </tr>
 

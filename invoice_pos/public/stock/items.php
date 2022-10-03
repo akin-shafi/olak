@@ -107,6 +107,7 @@ include(SHARED_PATH . '/admin_header.php'); ?>
                                     <td colspan="4" align="right">Total</td>
                                     <td align="center" id="sum_of_supply" style="font-weight: bold;"></td>
                                     <td align="center" id="value_of_supply" style="font-weight: bold;"></td>
+                                    
                                 </tr>
                             </tfoot>
                         </table>

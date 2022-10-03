@@ -127,13 +127,14 @@ require_login();
           <input type="hidden" id="data_id" name="id">
           <input type="hidden" id="customer_id" name="customer_id">
           <div class="form-group col-md-12">
-            <label class="form-label">Refrence Number </label>
-            <input type="text" class="form-control" name="refrence_no">
+            <label class="form-label">Reference Number </label>
+            <!-- <span style="float: right; margin-bottom: 1px" id="gen" class="btn btn-primary btn-sm">Generate</span> -->
+            <input type="text" class="form-control" name="refrence_no" required id="code" readonly>
           </div>
 
           <div class="form-group col-md-12">
             <label class="form-label">Description </label>
-            <textarea type="text" class="form-control" name="description"></textarea>
+            <textarea type="text" class="form-control" name="description" required></textarea>
           </div>
 
           <div class="clearfix">
@@ -150,6 +151,28 @@ require_login();
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 <script type="text/javascript">
+  // $(document).on("click", "#gen", function() {
+  //   gen_code();
+  // });
+
+
+    function gen_code() {
+       $.ajax({
+          url: 'codegen.php',
+          method: 'post',
+          data: {
+             gen_code: 1,
+          },
+          dataType: "json",
+          success: function(data) {
+             if (data.msg == 'OK') {
+                $('#code').val(data.barcode);
+             }
+
+          }
+       });
+    }
+
   $(document).on("click", ".deposit", function() {
     $("#show_deposit").modal('show');
      let customer_id = $(this).data('id');
@@ -222,6 +245,7 @@ require_login();
         $("#customer_id").val(customer_id);
         $("#data_id").val(id);
         $("#enter_refrence").modal('show');
+        gen_code();
      }else{
         approval(id, customer_id);
      }
