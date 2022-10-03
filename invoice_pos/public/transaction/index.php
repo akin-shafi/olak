@@ -60,9 +60,10 @@ require_login();
               <th>Payment Method</th>
               <th>Bank Name</th>
               <th>Account No</th>
+              <th>Action</th>
               <th>Registered at</th>
               <th>Registered By</th>
-              <th>Action</th>
+              
             </tr>
           </thead>
           <tbody id="show_data">
