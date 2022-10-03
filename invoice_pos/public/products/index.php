@@ -139,7 +139,7 @@ $page_title = 'All Products'; ?>
 
                             <a href="<?php echo url_for('/products/edit.php?id=') ?><?php echo $value->id; ?>" title="Edit Product" class="tip btn btn-warning btn-xs edit" data-id="<?php echo $value->id; ?>"><i class="feather-edit"></i></a>
 
-                            <a title="Delete Product" class="tip btn btn-danger btn-xs delete" data-id="<?php echo $value->id; ?>"><i class="feather-trash"></i></a>
+                            <a title="Delete Product" href="<?php echo url_for('/products/delete.php?id='. $value->id) ?>" class="tip btn btn-danger btn-xs delete" data-id="<?php echo $value->id; ?>"><i class="feather-trash"></i></a>
                           </div>
                       </td>
                     </tr>
