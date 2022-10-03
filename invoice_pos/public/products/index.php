@@ -23,7 +23,8 @@ if (isset($_POST['receive'])) {
 if ($loggedInAdmin->admin_level == 1) {
   $products = Product::find_by_undeleted();
 } else {
-  $products = Product::find_by_branch_id($loggedInAdmin->branch_id);
+  // $products = Product::find_by_branch_id($loggedInAdmin->branch_id); 
+  $products = Product::find_by_branch_id(['branch_id' => $loggedInAdmin->branch_id]);
 }
 
 ?>
