@@ -34,7 +34,7 @@ if (is_get_request()) {
 			$label = 'Backlog Transactions:';
 		}
 
-		if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
+		if (in_array($loggedInAdmin->admin_level, [1,2])) :
 			$filteredData = Billing::find_by_filtering(['backlog' => $qbacklog, 'status' => $status,]);
 			$output = "All Branches ". $label;
 		else :
