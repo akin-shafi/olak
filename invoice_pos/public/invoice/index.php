@@ -446,9 +446,9 @@ $page_title = 'Billing & Receipts'; ?>
               },
               dataType: 'json',
               success: function(data) {
-
                 if (Number(data.unformated_balance) >= Number(grand_totalInput)) {
                   submit_form(form_data);
+
                 } else {
                   errorAlert("Customer's wallet balance is low")
                 }
@@ -471,6 +471,8 @@ $page_title = 'Billing & Receipts'; ?>
     // Form Submission
 
     function submit_form(form_data) {
+      // console.log(form_data);
+      
       $.ajax({
         url: "inc/index.php",
         method: "POST",

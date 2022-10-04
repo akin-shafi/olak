@@ -3,15 +3,17 @@
 if (is_post_request()) {
 
 	if (isset($_POST['new_invoice'])) {
-		$args  = $_POST['billing'] ?? [];
+		$args  = $_POST['billing'];
 		
+		$args['created_date'] =  date("Y-m-d H:i:s");
 		$billing = new Billing($args);
 		$result = $billing->save();
+		// pre_r($billing);
 
 		if ($result == true) {
-			if ($_POST['billing']['billingFormat'] == 1) {
-				$post_id = $_POST['billing']['client_id'];
-				$total_amount = $_POST['billing']['total_amount'];
+			if ($args['billingFormat'] == 1) {
+				$post_id = $args['client_id'];
+				$total_amount = $args['total_amount'];
 				$client = Client::find_by_id($post_id);
 				$balance = ($client->balance - $total_amount);
 				$new_args = [
@@ -50,6 +52,7 @@ if (is_post_request()) {
 							"amount"        	  => $amount[$i],
 							"rebate_value"        => $rebate_value,
 							"created_by"    	  => $loggedInAdmin->id,
+							"created_at"          => date("Y-m-d H:i:s"),
 						];
 
 						$expRequest = new Invoice($dataDesc);

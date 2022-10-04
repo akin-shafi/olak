@@ -97,7 +97,7 @@ class Billing extends DatabaseObject
     $this->balance = $args['balance'] ?? '';
     $this->created_date = $args['created_date'] ?? date('Y-m-d H:i:s');
     $this->created_by = $args['created_by'] ?? '';
-    $this->updated_date = $args['updated_date'] ?? '';
+    $this->updated_date = $args['updated_date'] ?? date('Y-m-d H:i:s');
     $this->deleted = $args['deleted'] ?? '';
   }
 

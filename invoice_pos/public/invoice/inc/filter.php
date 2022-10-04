@@ -35,7 +35,7 @@ if (is_get_request()) {
 		}
 
 		if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
-			$filteredData = Billing::find_by_filtering(['backlog' => $qbacklog, 'status' => $status]);
+			$filteredData = Billing::find_by_filtering(['backlog' => $qbacklog, 'status' => $status,]);
 			$output = "All Branches ". $label;
 		else :
 			$filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'backlog' => $qbacklog, 'status' => $status ]);
