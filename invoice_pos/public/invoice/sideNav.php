@@ -1,6 +1,6 @@
 <?php
 
-if (in_array($loggedInAdmin->admin_level, [1,2,3])) :
+if (in_array($loggedInAdmin->admin_level, [1,2])) :
     $inprogress = Billing::find_by_filtering(['status' => 1, 'backlog' => 0 ]);
     $delivered = Billing::find_by_filtering([ 'status' => 2, 'backlog' => 0 ]);
     $backlog_count = Billing::find_by_filtering([ 'status' => 1, 'backlog' => 1 ]);
