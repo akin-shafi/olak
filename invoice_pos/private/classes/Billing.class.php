@@ -157,7 +157,7 @@ class Billing extends DatabaseObject
       $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($to) . "' ";
     }
 
-    $sql .= "ORDER BY created_date ASC ";
+    $sql .= "ORDER BY created_date DESC ";
     // echo $sql;
     return static::find_by_sql($sql);
   }
