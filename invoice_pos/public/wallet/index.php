@@ -82,10 +82,19 @@ require_login();
                       <?php echo number_format($sum, 2) ?>
                     <?php } ?>
                   </td>
-                  
+                
+
                   <td>
                     <?php if (!in_array($loggedInAdmin->admin_level, [2,3])) { ?>
                       <a href="<?php echo url_for('wallet/add.php?id=' . $client->customer_id) ?>" class="btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a> 
+                    <?php } ?>
+                  
+                    <?php if (in_array($loggedInAdmin->admin_level, [1,2])){ ?>
+                          <a href="<?php echo url_for('token/add.php?id=' . $client->customer_id) ?>" class="btn btn-sm btn-danger d-none"> <i class="feather-plus text-dark"></i> Generate Token</a> 
+                    <?php } ?>
+
+                    <?php if (in_array($loggedInAdmin->admin_level, [1,6])){ ?>
+                          <a href="<?php echo url_for('refund/new.php?id=' . $client->customer_id) ?>" class="btn btn-sm btn-info "> <i class="feather-plus text-dark"></i> Refund Customer</a> 
                     <?php } ?>
                   </td>
 
@@ -124,7 +133,7 @@ require_login();
                 <?php if($accessControl->can_approve == 1) : ?>
                 <td>Action</td>
                 <?php endif  ?>
-                
+
               </tr>
             </thead>
             <tbody id="show_details">
