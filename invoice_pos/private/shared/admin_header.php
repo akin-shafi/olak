@@ -348,10 +348,10 @@ require_login();
 
           <?php endif; ?>
 
-          <?php if (in_array($loggedInAdmin->admin_level, [1,2])): ?>
+          <?php if (in_array($loggedInAdmin->admin_level, [1,2,6])): ?>
 
           <li class="nav-item">
-            <a class="nav-link  <?php echo ($page_title == "All Refund") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/refund_all.php') ?>" id="adminDrop">
+            <a class="nav-link  <?php echo ($page_title == "All Refund") ? 'active-page' : '' ?>" href="<?php echo url_for('/refund/') ?>" id="adminDrop">
               <i class="feather-dollar-sign  nav-icon"></i>
               Refund
             </a>
