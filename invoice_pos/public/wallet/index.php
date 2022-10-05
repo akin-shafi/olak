@@ -124,6 +124,7 @@ require_login();
                 <?php if($accessControl->can_approve == 1) : ?>
                 <td>Action</td>
                 <?php endif  ?>
+                
               </tr>
             </thead>
             <tbody id="show_details">

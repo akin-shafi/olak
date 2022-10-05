@@ -267,9 +267,27 @@ require_login();
 
             </ul>
           </li>
-
           
+          
+          <?php if (in_array($loggedInAdmin->admin_level, [1,2])): ?>
+          <li class="nav-item dropdown d-none">
+            <a class="nav-link dropdown-toggle <?php echo ($page == "Token") ? 'active-page' : '' ?>" href="<?php echo url_for('/token/index.php') ?>" id="adminDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="feather-dollar-sign  nav-icon"></i>
+              Token
+            </a>
 
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
+              <li>
+                <a class="dropdown-item <?php echo ($page_title == "Create Token") ? 'active' : '' ?>" href="<?php echo url_for('/token/add.php') ?>">Create Token</a>
+              </li>
+              <li class="">
+                <a class="dropdown-item <?php echo ($page_title == "All Token") ? 'active' : '' ?>" href="<?php echo url_for('/token/index.php') ?>">All Token</a>
+              </li>
+
+
+            </ul>
+          </li>
+          <?php endif ?>
           <?php if ($accessControl->can_approve == 1) : ?>
           <li class="nav-item">
             <a class="nav-link  <?php echo ($page_title == "All Transactions") ? 'active-page' : '' ?>" href="<?php echo url_for('/transaction/') ?>" id="adminDrop">
@@ -329,6 +347,18 @@ require_login();
             </li>
 
           <?php endif; ?>
+
+          <?php if (in_array($loggedInAdmin->admin_level, [1,2])): ?>
+
+          <li class="nav-item">
+            <a class="nav-link  <?php echo ($page_title == "All Refund") ? 'active-page' : '' ?>" href="<?php echo url_for('/wallet/refund_all.php') ?>" id="adminDrop">
+              <i class="feather-dollar-sign  nav-icon"></i>
+              Refund
+            </a>
+            
+          </li>
+
+          <?php endif ?>
 
           <?php if ($accessControl->stock_mgt == 1) : ?>
             <li class="nav-item">
