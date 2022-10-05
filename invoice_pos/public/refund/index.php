@@ -79,8 +79,10 @@ require_login();
                   </td>
                   <td><?php echo Refund::STATUS[$value->status] ?? 'NULL' ?></td>
                   <td>
-                    <?php if ($value->status == 0) { ?>
-                      <a class="btn btn-sm btn-primary approve" id="<?php echo  $value->id ?>"> <i class="feather-plus text-success"></i> Approve</a> 
+                    <?php if (in_array($loggedInAdmin->admin_level, [1,2])){ ?>
+                      <?php if ($value->status == 0) { ?>
+                        <a class="btn btn-sm btn-primary approve" id="<?php echo  $value->id ?>"> <i class="feather-plus text-success"></i> Approve</a> 
+                      <?php } ?>
                     <?php } ?>
                   </td>
 
