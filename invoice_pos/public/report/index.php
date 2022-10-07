@@ -52,13 +52,18 @@ $branch_id = $loggedInAdmin->branch_id;
                 </div>
               </div>
 
-              <select class="form-control" id="filter-branch" style="width: 150px;">
-                <option value="" selected>All</option>
-                <?php foreach (Branch::find_by_undeleted() as $key => $value) { ?>
-                  <option value="<?php echo $value->id ?>"><?php echo $value->branch_name ?></option>
-                <?php } ?>
-                
-              </select>
+              <?php if (in_array($loggedInAdmin->admin_level, [1,6])) { ?>
+                <select class="form-control" id="filter-branch" style="width: 150px;">
+                  <option value="" selected>All</option>
+                  <?php foreach (Branch::find_by_undeleted() as $key => $value) { ?>
+                    <option value="<?php echo $value->id ?>"><?php echo $value->branch_name ?></option>
+                  <?php } ?>
+                </select>
+              <?php }else{ ?>
+                <input type="text" readonly value="<?php echo Branch::find_by_id($loggedInAdmin->branch_id)->branch_name ?>" class="form-control" style="width: 150px;">
+
+                <input type="hidden" value="<?php echo $loggedInAdmin->branch_id ?>" id="filter-branch" name="">
+              <?php } ?>
 
               <button class="btn btn-primary" id="query">Filter</button>
 

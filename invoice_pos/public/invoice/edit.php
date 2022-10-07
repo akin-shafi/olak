@@ -61,7 +61,7 @@ $page_title = 'Edit Invoice'; ?>
 
         <div class="col-lg-10">
           <section class="  p-3 bg-primary">
-            <div class="text-center">
+            <div class="text-center d-none">
               <label for="wallet">Wallet Balance</label>
               <div>
                 <h1 class="text-success text-center" id="wallet_value" style="font-size: 29px;">0.00</h1>
@@ -94,9 +94,13 @@ $page_title = 'Edit Invoice'; ?>
               </div>
 
               <div class="table-responsive">
-                <section class=" row ">
+                 <p>
+                   <h2 class="text-white">Customer: <?php echo $clients->full_name(); ?></h2>
+                 </p>
+                <section class=" row d-none">
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Client Name <sup class="error">*</sup></label>
+
                     <select required="" class="form-control client_id" name="billing[client_id]">
                       <option value="">Select Client</option>
                       <?php foreach (Client::find_by_undeleted() as $client) { ?>
@@ -106,9 +110,9 @@ $page_title = 'Edit Invoice'; ?>
                     </select>
 
                   </div>
-                  <div class="form-group col-lg-3 col-md-3 ">
+                  <div class="form-group col-lg-3 col-md-3 d-none">
                     <label class="label-control">Billing Format <sup class="error">*</sup></label>
-                    <select required="" class="form-control" name="billing[billingFormat]">
+                    <select class="form-control" name="billing[billingFormat]">
                       <option disabled selected="">Select Format</option>
                       <?php foreach (Billing::BILLING_FORMAT as $result => $value) { ?>
                         <option value="<?php echo $value; ?>" <?php echo $value == $billing->billingFormat ? 'selected' : '' ?>>
@@ -119,14 +123,14 @@ $page_title = 'Edit Invoice'; ?>
                     </select>
                   </div>
 
-                  <div class="form-group col-lg-3 col-md-3 ">
+                  <div class="form-group col-lg-3 col-md-3 d-none">
                     <label class="label-control">Application Date <sup class="error">*</sup></label>
-                    <input required="" type="date" class="form-control" name="billing[start_date]" value="<?php echo $billing->start_date ?>">
+                    <input type="date" class="form-control" name="billing[start_date]" value="<?php echo $billing->start_date ?>">
                   </div>
 
-                  <div class="form-group col-lg-3 col-md-3 ">
+                  <div class="form-group col-lg-3 col-md-3 d-none">
                     <label class="label-control">Due Date <sup class="error">*</sup></label>
-                    <input required="" type="date" name="billing[due_date]" class="form-control" id="dueDtate" value="<?php echo $billing->due_date ?>">
+                    <input type="date" name="billing[due_date]" class="form-control" id="dueDtate" value="<?php echo $billing->due_date ?>">
                   </div>
 
                 </section>
@@ -147,11 +151,14 @@ $page_title = 'Edit Invoice'; ?>
                             <button type="button" id="add_row" class="btn btn-success btn-sm float-right">+</button>
                           </th>
 
-                          <?php $sn = 1;
+                          <?php 
+                          $sn = 1;
+                          $vn = 1;
                           foreach ($invoices as $trans) { ?>
                             <tr class="mtable">
                               <td>
-                                <select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type1" data-srno="<?php echo $sn ?>">
+                                <!-- <input type="text" name="" value="<?php //echo Product::find_by_id($trans->service_type)->pname ?>"> -->
+                                <select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type<?php echo $vn ?>" data-srno="<?php echo $sn ?>">
                                   <option disabled selected="">Select Type</option>
                                   <?php foreach (Product::find_by_undeleted() as $result => $value) { ?>
                                     <option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>" <?php echo $value->id == $trans->service_type ? "selected" : '' ?>>
@@ -391,24 +398,26 @@ $page_title = 'Edit Invoice'; ?>
 
         if (part_payment > 0) {
 
-          $.ajax({
-            url: "inc/fetch_wallet.php",
-            method: "POST",
-            data: {
-              fetch_wallet: 1,
-              customer_id: cus_id,
-            },
-            dataType: 'json',
-            success: function(data) {
-              if (Number(data.wallet_balance) > Number(grand_totalInput)) {
-                submit_form(form_data);
-              } else {
-                errorAlert("Customer's wallet balance is low")
-              }
-            }
-          });
-          // check_wallet()
-          // submit_form(form_data)
+          // $.ajax({
+          //   url: "inc/fetch_wallet.php",
+          //   method: "POST",
+          //   data: {
+          //     fetch_wallet: 1,
+          //     customer_id: cus_id,
+          //   },
+          //   dataType: 'json',
+          //   success: function(data) {
+          //     if (Number(data.wallet_balance) > Number(grand_totalInput)) {
+          //       submit_form(form_data);
+          //     } else {
+          //       errorAlert("Customer's wallet balance is low")
+          //     }
+          //   }
+          // });
+          // check_wallet();
+
+
+          submit_form(form_data);
         } else {
           errorAlert("Enter Amount Paid");
         }

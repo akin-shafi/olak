@@ -91,13 +91,6 @@ class Invoice extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
-  static public function find_by_invoiceNum($invoiceNum)
-  {
-    $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE transid = " . self::$database->escape_string($invoiceNum) . " ";
-    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-    return static::find_by_sql($sql);
-  }
   static public function find_all_invoices($options=[]) {
 
     $order = $options['order'] ?? '';
