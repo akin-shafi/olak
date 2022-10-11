@@ -98,11 +98,13 @@ if (is_get_request()) {
 											<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="<?php echo url_for('invoice/waybill.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
 												<i class="feather-file-text fs-18" title="Print Waybill"></i>Print Waybill
 											</a>
+											
+											<?php endif ?>
+
 											<?php if (in_array($loggedInAdmin->admin_level, [1])): ?>
 												<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
 
 												<a href="#!" class="dropdown-item" id="delete_void" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void </a>
-											<?php endif ?>
 											<?php endif ?>
 										<?php endif ?>
 
