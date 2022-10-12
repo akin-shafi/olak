@@ -4,32 +4,34 @@ $page_title = "Invoices";
 require_login();
 
 $invoice_no = $_GET['invoice_no'] ?? '1'; // PHP > 7.0
-
 $company = CompanyDetails::find_by_id("1");
 
 $billing = Billing::find_by_invoice_no($invoice_no);
-$process = $_GET['p'] ?? '';
+$process = $_GET['p'] ?? 1;
+
+
 if ($process == 1) {
    $rand = rand(0, 100);
-   $unique = uniqid();
+   $unique = date('His');
    if(empty($billing->waybill_no)) {
       $args = [
          "status" => 2,
-         "waybill_no" => $rand."-".$unique,
+         "waybill_no" => $rand."-".$unique."-".$billing->id,
       ];
       $billing->merge_attributes($args);
       $result = $billing->save();
+      // $result = true;
       if ($result == true) {
-      $all_invoice = Invoice::find_by_invoiceNum($invoice_no);
-     
+         $all_invoice = Invoice::find_by_transid($invoice_no);
+         // pre_r($all_invoice);
          foreach ($all_invoice as $value) {
             $inv = Invoice::find_by_id($value->id);
             $data = [
                'status' => 1,
             ];
             $inv->merge_attributes($data);
-         $result_data = $inv->save();
-       }
+            $result_data = $inv->save();
+         }
 
       }
    }
@@ -460,7 +462,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             setTimeout(function(){
                 window.close();
             }, 1000);//wait 1 seconds
-         });
+      });
    </script>
    
    

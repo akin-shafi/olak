@@ -46,7 +46,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             <!-- <button class="default-btn" id="cmd" style="" ><i class="fa fa-download"></i> Download Reciept</button> -->
             <!-- <button class="default-btn" id="save" style="" ><i class="fa fa-download"></i> Save Reciept</button> -->
 
-            <a href="#" class="default-btn" id="printBoth" style="float: ;" >Process Waybill</a>
+            <div class="default-btn" id="printBoth" style="float: ;" >Process Waybill</div>
             <button class="default-btn" id="print" style="float: right;" i><i class="fa fa-print"></i> Print Reciept</button>
             
             
