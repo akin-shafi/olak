@@ -162,9 +162,10 @@ require_login();
         <form id="submit_ref">
           <input type="hidden" id="data_id" name="id">
           <input type="hidden" id="customer_id" name="customer_id">
+          <input type="hidden" name="submit">
           <div class="form-group col-md-12">
             <label class="form-label">Refrence Number <sup class="text-danger">*</sup></label>
-            <input type="text" required class="form-control" name="refrence_no">
+            <input type="text" required class="form-control" name="refrence_no" readonly id="ref_no">
           </div>
 
           <div class="form-group col-md-12">
@@ -232,6 +233,7 @@ require_login();
      if (payment_method == 3) {
         $("#customer_id").val(customer_id);
         $("#data_id").val(id);
+        gen_code();
         $("#enter_refrence").modal('show');
      }else{
         approval(id, customer_id);
@@ -279,6 +281,25 @@ require_login();
         }
      });
   })
+
+  gen_code();
+
+    function gen_code() {
+       $.ajax({
+          url: 'script.php',
+          method: 'post',
+          data: {
+             gen_code: 1,
+          },
+          dataType: "json",
+          success: function(data) {
+             if (data.msg == 'OK') {
+                $('#ref_no').val(data.barcode);
+             }
+
+          }
+       });
+    }
 
 </script>
 

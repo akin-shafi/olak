@@ -8,18 +8,17 @@ if (is_post_request()) {
 		$args['created_date'] =  date("Y-m-d H:i:s");
 		$billing = new Billing($args);
 		$result = $billing->save();
-		// pre_r($billing);
-
 		if ($result == true) {
 			if ($args['billingFormat'] == 1) {
 				$post_id = $args['client_id'];
-				$total_amount = $args['total_amount'];
+				$grand_total = $args['grand_total'];
 				$client = Client::find_by_id($post_id);
-				$balance = ($client->balance - $total_amount);
+				$balance = ($client->balance - $grand_total);
 				$new_args = [
 					'balance' => $balance,
 				];
 				$client->merge_attributes($new_args);
+				
 				$result_data = $client->save();
 			}
 
@@ -233,13 +232,3 @@ if (is_post_request()) {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-

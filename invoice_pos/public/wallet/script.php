@@ -105,7 +105,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 
 
 
-<?php if (isset($_POST['customer_id'])) { 
+<?php if (isset($_POST['submit'])) { 
 	$find_ref = WalletFundingMethod::find_by_refrence_no($_POST['refrence_no']);
 
 	if(!empty($find_ref)){
@@ -125,5 +125,21 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 	}
 	
 	
+
+} ?>
+
+
+
+
+
+<?php if (isset($_POST['gen_code'])) { 
+$rand = rand(10, 100);
+$unique = date('His');
+// Create trans_no dynamically
+$barcode = $unique . $rand;
+
+// $barcode = "SPO" . $rand;
+
+exit(json_encode(['msg' => 'OK', 'barcode' => $barcode]));
 
 } ?>

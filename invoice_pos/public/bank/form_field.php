@@ -6,6 +6,11 @@
   </div>
 
 
+   <div class="form-group col-md-4">
+    <label>Account Name <span class="text-danger">*</span></label>
+    <input class="form-control" name="bank[account_name]" id="account_name" type="text"  value="<?php echo $bank->account_name ?? '' ?>">
+  </div>
+
   <div class="form-group col-md-4">
     <label>Account Number <span class="text-danger">*</span></label>
     <input class="form-control" name="bank[account_number]" id="account_number" type="number"  value="<?php echo $bank->account_number ?? '' ?>">

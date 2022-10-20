@@ -32,23 +32,26 @@ if (is_post_request()) {
         'bank_name'      => $bank_name[$i],
         'company_id'     => $loggedInAdmin->company_id,
         'branch_id'      => $loggedInAdmin->branch_id,
+        'payment_id' => $payment_id,
+        'approval' => 0,
+        'created_by' => $loggedInAdmin->id,
       ];
 
       $payment = new WalletFundingMethod($data);
       $savePayment = $payment->save();
 
 
-      if($savePayment == true){
-        $payment_record = WalletFundingMethod::find_by_id($payment->id);
+      // if($savePayment == true){
+      //   $payment_record = WalletFundingMethod::find_by_id($payment->id);
         
-        $newData = [
-          'payment_id' => $payment_id,
-          'approval' => 0,
-          'created_by' => $loggedInAdmin->id,
-        ];
-        $payment_record->merge_attributes($newData);
-        $savePayment_id = $payment_record->save();
-      }
+      //   $newData = [
+      //     'payment_id' => $payment_id,
+      //     'approval' => 0,
+      //     'created_by' => $loggedInAdmin->id,
+      //   ];
+      //   $payment_record->merge_attributes($newData);
+      //   $savePayment_id = $payment_record->save();
+      // }
     }
     
     $session->message( $full_name . ' Wallet updated successfully.');
