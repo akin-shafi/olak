@@ -62,7 +62,12 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 
 <?php if (isset($_POST['show'])) { ?>
 	<?php $sn = 1;
-    foreach (Client::find_by_undeleted() as $client) : 
+		if (in_array($loggedInAdmin->admin_level, [1,6])) {
+			$customer = Client::find_by_undeleted();
+		}else{
+			$customer = Client::find_by_branch_id($loggedInAdmin->branch_id);
+		}
+    foreach ($customer as $client) : 
       $customer_name = $client->full_name();
       $balance = intval($client->balance);
       $sum =  WalletFundingMethod::sum_of_unapproved(['customer_id' => $client->customer_id, 'approval' => 0]);
