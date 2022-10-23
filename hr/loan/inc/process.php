@@ -32,7 +32,7 @@ if (is_post_request()) {
       ];
 
       $longTerm->merge_attributes($data);
-      // $longTerm->save();
+      $longTerm->save();
     }
 
     exit(json_encode(['message' => 'Loan updated successful!']));

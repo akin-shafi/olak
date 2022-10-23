@@ -222,12 +222,14 @@ if (is_post_request()) {
           exit(json_encode(['errors' => $loan->errors]));
         }
       } else {
-        $longLoan = LongTermLoan::find_by_employee_id($employeeId);
+        $longLoan = LongTermLoan::find_by_employee_id($employeeId); 
+        $ref_no = date('His').rand(1,10);
 
         if (empty($longLoan->employee_id)) {
           $params = [
             'employee_id' => $employeeId,
             'amount_requested' => $args['amount'],
+            'ref_no' => $ref_no,
             'amount_paid' => 0,
             'deduction_date' => $args['deduction_date'],
             'commitment' => $args['loan_deduction'],
@@ -236,12 +238,22 @@ if (is_post_request()) {
 
           $longTermLoan = new LongTermLoan($params);
           $longTermLoan->save();
+          // pre_r($longTermLoan);
 
-          if ($longTermLoan) {
+          if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
+            $status = 3;
+          }else{
+            $status = 1;
+          }
+          $longTermLoan = true;
+          if ($longTermLoan == true) {
             $params = [
+              'employee_id' => $employeeId,
+              'ref_no' => $ref_no,
               'commitment_duration' => $args['loan_duration'],
               'loan_repayment' => $args['loan_deduction'],
               'note' =>  $args['note'],
+              'status' =>  $status,
               'issued_by' => $loggedInAdmin->id,
               'date_approved' => date('Y-m-d'),
             ];
@@ -249,10 +261,16 @@ if (is_post_request()) {
 
             $longTDet = new LongTermLoanDetail($params);
             $longTDet->save();
+            // pre_r($longTDet);
           }
 
-          http_response_code(201);
-          $response['message'] = 'Employee loan created successfully!';
+          if ($longTDet == true) {
+            http_response_code(201);
+            $response['message'] = 'Employee loan created successfully!';
+          }else{
+            $response['message'] = 'Failed!';
+          }
+          
         } else {
           $amountRequested = intval($longLoan->amount_requested);
           $commitment = intval($longLoan->commitment);

@@ -24,6 +24,13 @@ class LongTermLoanDetail extends DatabaseObject
 
   public $total_loan_refunded;
 
+  const STATUS = [
+    1 => 'New',
+    2 => 'Pending',
+    3 => 'Approved',
+    4 => 'Rejected',
+  ];
+
   public function __construct($args = [])
   {
     $this->ref_no                 = $args['ref_no'] ?? '';
