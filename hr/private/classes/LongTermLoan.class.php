@@ -2,7 +2,7 @@
 class LongTermLoan extends DatabaseObject
 {
   protected static $table_name = "long_term_loans";
-  protected static $db_columns = ['id', 'employee_id', 'amount_requested', 'amount_paid', 'commitment', 'date_requested', 'deduction_date', 'deleted'];
+  protected static $db_columns = ['id', 'employee_id', 'amount_requested', 'amount_paid', 'commitment', 'date_requested', 'deduction_date', 'loan_duration', 'deleted'];
 
   public $id;
   public $employee_id;
@@ -11,6 +11,7 @@ class LongTermLoan extends DatabaseObject
   public $commitment;
   public $date_requested;
   public $deduction_date;
+  public $loan_duration;
   public $deleted;
 
   public $total_amount;
@@ -24,6 +25,7 @@ class LongTermLoan extends DatabaseObject
     $this->commitment         = $args['commitment'] ?? '';
     $this->date_requested     = $args['date_requested'] ?? date('Y-m-d H:i:s');
     $this->deduction_date     = $args['deduction_date'] ?? '';
+    $this->loan_duration     = $args['loan_duration'] ?? '';
     $this->deleted            = $args['deleted'] ?? '';
   }
 

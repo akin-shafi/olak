@@ -158,6 +158,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                         foreach (LongTermLoan::find_loan_by_year(date('Y')) as $loan) :
                           $longTermDet = LongTermLoanDetail::find_by_employee_id($loan->employee_id);
                           $employee = Employee::find_by_id($loan->employee_id);
+                          // pre_r($loan);
                         ?>
                           <tr>
                             <td><?php echo $sn++ ?></td>
@@ -174,12 +175,12 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                             </td>
                             <td><?php echo number_format(intval($loan->amount_requested)) ?></td>
                             <td><?php echo number_format(intval($loan->commitment)) ?></td>
-                            <td><?php echo ucwords($longTermDet->commitment_duration) ?></td>
-                            <td><?php echo date('Y-m-d', strtotime($longTermDet->created_at)) ?></td>
+                            <td><?php echo ucwords($loan->loan_duration) ?></td>
+                            <td><?php echo date('Y-m-d', strtotime($loan->date_requested)) ?></td>
                             <td><?php echo $loan->deduction_date != ''
                                   ? date('Y-m-d', strtotime($loan->deduction_date)) : 'Not Set' ?></td>
 
-                            <td><?php echo $longTermDet->date_approved != '0000-00-00' ? date('Y-m-d', strtotime($longTermDet->date_approved)) : 'Not Set' ?></td>
+                            <td><?php echo $longTermDet->date_approved == '' ? 'Not Yet approved' : date('Y-m-d', strtotime($longTermDet->date_approved)) ?></td>
 
                             <td>
                               <?php switch ($longTermDet->status):

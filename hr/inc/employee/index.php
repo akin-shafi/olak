@@ -231,6 +231,7 @@ if (is_post_request()) {
             'amount_paid' => 0,
             'deduction_date' => $args['deduction_date'],
             'commitment' => $args['loan_deduction'],
+            'loan_duration' => $args['loan_duration'],
           ];
 
           $longTermLoan = new LongTermLoan($params);
