@@ -207,15 +207,16 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                                 <i class="fas fa-ellipsis-v"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId">
+                                 <button class="dropdown-item status" data-id="<?php echo $longTermDet->id; ?>" data-status="3">
+                                    <i class="feather feather-check"></i>
+                                    Approve
+                                  </button>
                                 <?php if (in_array($longTermDet->status, [1, 2, 3])) : ?>
                                   <button class="dropdown-item status" data-id="<?php echo $longTermDet->id; ?>" data-status="2">
                                     <i class="feather feather-loader"></i>
                                     Pending
                                   </button>
-                                  <button class="dropdown-item status" data-id="<?php echo $longTermDet->id; ?>" data-status="3">
-                                    <i class="feather feather-check"></i>
-                                    Approve
-                                  </button>
+                                 
                                 <?php endif; ?>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item text-dark status" data-id="<?php echo $longTermDet->id; ?>" data-status="4" <?php echo $longTermDet->status == 4 ? 'disabled' : '' ?>>
