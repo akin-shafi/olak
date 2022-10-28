@@ -169,7 +169,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                                 <div class="me-3 mt-0 mt-sm-1 d-block">
                                   <h6 class="mb-1 fs-14"><?php echo $employee->first_name ? $employee->full_name() : 'Not Set' ?></h6>
                                   <p class="text-muted mb-0 fs-12"><?php echo strtolower($employee->email) ?></p>
-                                  <p class="text-muted mb-0 fs-12">Emp ID: <?php echo  str_pad($longTermDet->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
+                                  <p class="text-muted mb-0 fs-12">Emp ID: <?php echo str_pad($longTermDet->employee_id, 3, '0', STR_PAD_LEFT); ?></p>
                                 </div>
                               </div>
                             </td>
@@ -228,7 +228,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                             <td>
                               <button data-id="<?php echo $longTermDet->id ?>" class="btn btn-outline-info btn-sm" id="editLongLoan">
                                 Edit</button>
-                              <button data-id="<?php echo $longTermDet->id ?>" class="btn btn-outline-danger btn-sm deleted">Delete</button>
+                              <button data-id="<?php echo $longTermDet->id ?>" class="btn btn-outline-danger btn-sm deleted">Delete <?php echo $longTermDet->id; ?></button>
                             </td>
                           </tr>
                         <?php endforeach; ?>
@@ -431,6 +431,8 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
       loanTitle.innerText = "Edit Long Term Loan";
       loanBtn.innerText = "Update";
 
+      // loanBtn.id('update_btn');
+
       loanModal.show();
 
       loanBtn.addEventListener("click", async (e) => {
@@ -438,6 +440,13 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
         submitForm(PROCESS_URL, loanForm);
       });
     });
+
+    // $(document).on("click", "#loan_btn", async function() {
+    //   if ($(this).innerText() == "Update") {
+    //     errorAlert("Ok")
+    //   }
+    //   // submitForm(PROCESS_URL, loanForm);
+    // })
 
     $('tbody').on('click', '.deleted', function() {
       let longLoan = this.dataset.id;

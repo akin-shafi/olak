@@ -5,52 +5,53 @@ if (is_post_request()) {
   if (isset($_POST['updatedLongLoan'])) {
     $args = $_POST['loan'];
     $longTermDetailId = $_POST['updatedLongLoan'];
-
+    
     $longTDet = LongTermLoanDetail::find_by_id($longTermDetailId);
-
     $data = [
       'commitment_duration' => $args['loan_duration'],
       'loan_repayment' => $args['loan_deduction'],
       'note' =>  $args['note'],
       'date_approved' =>  $longTDet->date_approved,
-      'created_at' => date('Y-m-d H:i:s')
     ];
 
     $longTDet->merge_attributes($data);
-    $longTDet->save();
-    
-    if ($longTDet) {
-      $queryParam = ['requested' => date('Y-m-d H:i', strtotime($longTDet->created_at))];
-      $longTerm = LongTermLoan::find_by_employee_id($longTDet->employee_id, $queryParam);
-
+    $result = $longTDet->save();
+    if ($result == true) {
+      $longTerm = LongTermLoan::find_by_ref_no($longTDet->ref_no);
       $data = [
         'amount_requested' => $args['amount'],
         'commitment' => $args['loan_deduction'],
         'amount_paid' => 0,
-        'loan_duration' => $args['loan_duration'],
         'deduction_date' => $args['deduction_date'],
+        'loan_duration' => $args['loan_duration'],
       ];
 
       $longTerm->merge_attributes($data);
-      $longTerm->save();
-    }
+      $result_set = $longTerm->save();
+      if ($result_set == true) {
+        exit(json_encode(['message' => 'Loan updated successful!']));
+      }
 
-    exit(json_encode(['message' => 'Loan updated successful!']));
+    }
   }
 
   if (isset($_POST['removeLL'])) {
     $longTermDetailId = $_POST['removeLL'];
 
-    $longTDet = LongTermLoanDetail::find_by_id($longTermDetailId);
-    $longTDet::deleted($longTermDetailId);
+    // $find = LongTermLoanDetail::find_by_id($longTermDetailId);
+    $find = LongTermLoan::find_by_id($longTermDetailId);
+    pre_r($longTermDetailId);
+    // $longTDet::deleted($longTermDetailId);
 
-    if ($longTDet) {
-      $queryParam = ['requested' => date('Y-m-d H:i', strtotime($longTDet->created_at))];
-      $longTerm = LongTermLoan::find_by_employee_id($longTDet->employee_id, $queryParam);
-      $longTerm::deleted($longTerm->id);
-    }
+    // if ($longTDet) {
+    //   $queryParam = ['requested' => date('Y-m-d H:i', strtotime($longTDet->created_at))];
+    //   $longTerm = LongTermLoan::find_by_employee_id($longTDet->employee_id, $queryParam);
+    //   $longTerm::deleted($longTerm->id);
+    // }
 
-    exit(json_encode(['message' => 'Long term deleted successful!']));
+   
+
+    // exit(json_encode(['message' => 'Long term deleted successful!']));
   }
 
 
@@ -149,9 +150,11 @@ if (is_post_request()) {
 if (is_get_request()) {
   if (isset($_GET['longId'])) {
     $longTermDetail = LongTermLoanDetail::find_by_id($_GET['longId']);
-    $queryParam = ['requested' => date('Y-m-d H:i', strtotime($longTermDetail->created_at))];
-    $longTerm = LongTermLoan::find_by_employee_id($longTermDetail->employee_id, $queryParam);
-
+    $requested = date('Y-m-d H:i', strtotime($longTermDetail->created_at));
+    $employee_id = $longTermDetail->employee_id;
+    // pre_r($employee_id);
+    $longTerm = LongTermLoan::find_by_employee_id(['employee_id' => $employee_id, 'requested' => $requested]);
+    // pre_r($longTerm);
     $data = [
       'employee_id' => $longTermDetail->employee_id,
       'amount_requested' => $longTerm->amount_requested,

@@ -51,8 +51,23 @@ class LongTermLoan extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
-  public static function find_by_employee_id($employee_id, $option = [])
+  public static function find_by_ref_no($ref_no)
   {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE ref_no='" . self::$database->escape_string($ref_no) . "'";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    // echo $sql;
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+  }
+
+  public static function find_by_employee_id($option=[])
+  {
+    $employee_id = $option['employee_id'] ?? false;
     $dateRequested = $option['requested'] ?? false;
     $deductedDate = $option['deduct_date'] ?? false;
 
@@ -68,7 +83,7 @@ class LongTermLoan extends DatabaseObject
     }
 
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
-
+    // echo $sql;
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {
       return array_shift($obj_array);
