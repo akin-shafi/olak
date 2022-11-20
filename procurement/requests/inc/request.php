@@ -188,7 +188,7 @@ if (is_get_request()) {
       ?>
       <tr>
         <td colspan="7">
-          <p class="text-muted text-uppercase mb-0">Terms & conditions</p>
+          <p class="text-muted text-uppercase mb-0">More details</p>
           <?php echo $request->note != '' ? $request->note : 'Message not set' ?>
           <?php if ($request->vendor_img != '') : ?>
             <div style="width:100px;" class="my-3 d-none">
@@ -210,7 +210,7 @@ if (is_get_request()) {
         <option value="<?php echo $value->id ?>"><?php echo $value->name ?></option>
       <?php endforeach; ?>
     </select>
-<?php endif;
+    <?php endif;
 
   if (isset($_GET['request_status'])) :
     $invoiceId = $_GET['invoiceId'];
@@ -224,6 +224,72 @@ if (is_get_request()) {
     $request->save();
 
     exit(json_encode(['message' => 'Status updated successfully']));
+  endif;
+
+
+  if (isset($_GET['request_by_branch'])) :
+    $branchId = $_GET['branch_id'];
+
+    $requests = Request::find_all_requests(['branch_id' => $branchId]);
+    foreach ($requests as $data) :
+      $branch = Branch::find_by_id($data->branch_id)->name; ?>
+      <tr>
+        <td>
+          <a href="<?php echo url_for('invoice.php?invoice_no=' . $data->invoice_no) ?>">
+            <?php echo $data->invoice_no ?>
+          </a>
+        </td>
+        <td><?php echo $data->full_name ?></td>
+        <td><?php echo $branch ?></td>
+        <td class="text-center">
+          <?php echo $data->quantity != '' ? number_format($data->quantity) : 'Not Set' ?>
+        </td>
+        <td><?php echo number_format(intval($data->grand_total)) ?></td>
+        <td class="text-center">
+          <?php foreach (Request::STATUS as $key => $value) :
+            $color = RequestDetail::COLOR[$key];
+
+            if ($key == $data->status) :
+          ?>
+              <span class="badge badge-<?php echo $color; ?>">
+                <?php echo $value ?>
+              </span>
+          <?php endif;
+          endforeach; ?>
+        </td>
+        <td><?php echo date('M d, Y', strtotime($data->due_date)) ?></td>
+        <td><?php echo date('M d, Y', strtotime($data->created_at)) ?></td>
+        <td>
+          <div class="d-flex align-items-center list-action">
+            <button class="btn btn-sm badge badge-info view-btn mr-2 position-relative" data-invoice="<?php echo $data->invoice_no; ?>" data-toggle="modal" data-target="#view-request">
+              <i class="ri-eye-line mr-0"></i>
+              <span class="d-flex justify-content-center rounded-circle align-items-center bg-danger text-white p-2" style="width:10px;height:10px;position:absolute;top:-6px;right:-5px"><?php echo $data->counts; ?></span>
+            </button>
+
+            <a href="<?php echo url_for('requests/edit-request.php?invoice_no=' . $data->invoice_no) ?>" class="btn btn-sm badge bg-success mr-2"><i class="ri-pencil-line mr-0"></i></a>
+
+            <?php if ($access->change_status ?? 0) : ?>
+              <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v mr-0"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <?php foreach (Request::STATUS as $key => $value) :
+                    if ($value == 'New') continue;
+                  ?>
+                    <button class="dropdown-item status" data-id="<?php echo $data->id; ?>" data-status="<?php echo $key; ?>">
+                      <?php echo $value; ?>
+                    </button>
+                  <?php endforeach; ?>
+
+                  <button class="dropdown-item text-center text-white delete_request d-none" data-id="<?php echo $data->id; ?>" style="background-color: red;"><i class="ri-delete-bin-line mr-0"></i>Delete</button>
+                </div>
+              </div>
+            <?php endif; ?>
+          </div>
+        </td>
+      </tr>
+<?php endforeach;
   endif;
 }
 ?>

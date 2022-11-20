@@ -4,6 +4,7 @@ $page = 'Request';
 $page_title = 'List Requests';
 include(SHARED_PATH . '/admin_header.php');
 
+$branches = Branch::find_all_branch();
 $requests = Request::find_all_requests();
 ?>
 
@@ -29,6 +30,21 @@ $requests = Request::find_all_requests();
       </div>
 
       <div class="col-lg-12">
+        <div class="card" style="width:18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Filter</h5>
+            <div class="form-group">
+              <h6 class="card-subtitle mb-2 text-muted ">Select branch</h6>
+              <select class="form-control" name="req[branch_id]" id="branch">
+                <option value="">-select a branch-</option>
+                <?php foreach ($branches as $value) : ?>
+                  <option value="<?php echo $value->id ?>"><?php echo $value->name ?> </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div class="table-responsive rounded mb-3">
           <table class="data-table table mb-0 tbl-server-info">
             <thead class="bg-white">
@@ -44,7 +60,7 @@ $requests = Request::find_all_requests();
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody class="ligth-body">
+            <tbody class="ligth-body" id="tBranch">
               <?php foreach ($requests as $data) :
                 $branch = Branch::find_by_id($data->branch_id)->name; ?>
                 <tr>
@@ -82,20 +98,24 @@ $requests = Request::find_all_requests();
 
                       <a href="<?php echo url_for('requests/edit-request.php?invoice_no=' . $data->invoice_no) ?>" class="btn btn-sm badge bg-success mr-2"><i class="ri-pencil-line mr-0"></i></a>
 
-                      <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v mr-0"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                          <?php foreach (Request::STATUS as $key => $value) : ?>
-                            <button class="dropdown-item status" data-id="<?php echo $data->id; ?>" data-status="<?php echo $key; ?>">
-                              <?php echo $value; ?>
-                            </button>
-                          <?php endforeach; ?>
+                      <?php if ($access->change_status ?? 0) : ?>
+                        <div class="dropdown">
+                          <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v mr-0"></i>
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <?php foreach (Request::STATUS as $key => $value) :
+                              if ($value == 'New') continue;
+                            ?>
+                              <button class="dropdown-item status" data-id="<?php echo $data->id; ?>" data-status="<?php echo $key; ?>">
+                                <?php echo $value; ?>
+                              </button>
+                            <?php endforeach; ?>
 
-                          <button class="dropdown-item text-center text-white delete_request" data-id="<?php echo $data->id; ?>" style="background-color: red;"><i class="ri-delete-bin-line mr-0"></i>Delete</button>
+                            <button class="dropdown-item text-center text-white delete_request d-none" data-id="<?php echo $data->id; ?>" style="background-color: red;"><i class="ri-delete-bin-line mr-0"></i>Delete</button>
+                          </div>
                         </div>
-                      </div>
+                      <?php endif; ?>
                     </div>
                   </td>
                 </tr>
@@ -247,7 +267,6 @@ $requests = Request::find_all_requests();
       updateStatus(invoiceId, request_status)
     })
 
-
     const updateStatus = async (id, status) => {
       const data = await fetch(REQ_URL + '?invoiceId=' + id + '&request_status=' + status);
       const res = await data.json();
@@ -257,5 +276,22 @@ $requests = Request::find_all_requests();
         window.location.reload();
       }, 1000);
     }
+
+    $(document).on('change', '#branch', function() {
+      const selected = $("#branch option:selected").val();
+      console.log(selected);
+      $.ajax({
+        url: REQ_URL,
+        method: "GET",
+        data: {
+          request_by_branch: true,
+          branch_id: selected
+        },
+        success: function(data) {
+          console.log(data);
+          $('#tBranch').html(data)
+        }
+      });
+    });
   })
 </script>

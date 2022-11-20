@@ -9,6 +9,7 @@ $isHidden = true;
 $companies = Company::find_by_undeleted();
 $branches = Branch::find_all_branch();
 
+$isRequester = $loggedInAdmin->admin_level == 4 ? true : false;
 ?>
 
 <style>
@@ -42,22 +43,33 @@ $branches = Branch::find_all_branch();
                       <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group mx-3">
-                      <label class="label-control">Company<sup class="text-danger">*</sup></label>
+                      <input type="hidden" class="form-control form-control-sm" name="req[company_id]" value="<?php echo $loggedInAdmin->company_id ?>" id="company" readonly />
+                      <!-- <label class="label-control">Company<sup class="text-danger">*</sup></label> 
                       <select class="form-control form-control-sm" name="req[company_id]" id="company">
-                        <?php foreach ($companies as $value) : ?>
-                          <option value="<?php echo $value->id ?>"><?php echo $value->name ?></option>
-                        <?php endforeach; ?>
-                      </select>
+                        <?php //foreach ($companies as $value) : 
+                        ?>
+                          <option value="<?php //echo $value->id 
+                                          ?>"><?php //echo $value->name 
+                                              ?></option>
+                        <?php //endforeach; 
+                        ?>
+                      </select> -->
                     </div>
                     <div class="form-group">
-                      <label class="label-control">Branch<sup class="text-danger">*</sup></label>
-                      <select class="form-control form-control-sm" name="req[branch_id]" id="branch" required>
+
+                      <input type="hidden" class="form-control form-control-sm" name="req[branch_id]" value="<?php echo $loggedInAdmin->branch_id ?>" id="branch" readonly />
+                      <!-- <label class="label-control">Branch<sup class="text-danger">*</sup></label> 
+                        <select class="form-control form-control-sm" name="req[branch_id]" id="branch" required>
                         <option value="">-select a branch-</option>
-                        <?php foreach ($branches as $value) : ?>
-                          <option value="<?php echo $value->id ?>">
-                            <?php echo $value->name ?> </option>
-                        <?php endforeach; ?>
-                      </select>
+                        <?php //foreach ($branches as $value) : 
+                        ?>
+                          <option value="<?php //echo $value->id 
+                                          ?>">
+                            <?php //echo $value->name 
+                            ?> </option>
+                        <?php //endforeach; 
+                        ?>
+                      </select> -->
                     </div>
                   </div>
 
@@ -94,7 +106,7 @@ $branches = Branch::find_all_branch();
                                 <input type="number" name="quantity[]" class="form-control form-control-sm quantity_1" placeholder="eg. 5" required>
                               </td>
                               <td>
-                                <input type="number" name="unit_price[]" class="form-control form-control-sm unit_price_1" placeholder="eg. 120" required>
+                                <input type="number" name="unit_price[]" value="0" class="form-control form-control-sm unit_price_1" placeholder="eg. 120" <?php echo $isRequester ? 'readonly' : '' ?>>
                               </td>
                               <td>
                                 <input type="number" name="amount[]" class="form-control form-control-sm amt amount_1" placeholder="eg. 600" readonly>
@@ -129,8 +141,8 @@ $branches = Branch::find_all_branch();
                 <table class="table table-sm my-4">
                   <tr>
                     <td>
-                      <label for="note" class="text-muted text-uppercase">Terms & conditions</label>
-                      <textarea name="req[note]" id="note" class="form-control form-control-sm" rows="3" placeholder="Terms and conditions">Payment is due within 15 days of request.</textarea>
+                      <label for="note" class="text-muted text-uppercase">More details</label>
+                      <textarea name="req[note]" id="note" class="form-control form-control-sm" rows="3" placeholder="Enter more details"></textarea>
                     </td>
                   </tr>
 
@@ -154,7 +166,7 @@ $branches = Branch::find_all_branch();
 </div>
 
 
-
+<input type="hidden" value="<?php echo $isRequester; ?>" id="requester">
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 <script>
@@ -180,7 +192,7 @@ $branches = Branch::find_all_branch();
 
       html_code += '<td><input type="number" required="" name="quantity[]" class="form-control form-control-sm quantity_' + count + '"  placeholder="eg. 5"></td>';
 
-      html_code += '<td><input type="number" required="" name="unit_price[]" class="form-control form-control-sm unit_price_' + count + '"  placeholder="eg. 120"></td>';
+      html_code += '<td><input type="number" name="unit_price[]" value="0" class="form-control form-control-sm unit_price_' + count + '"  placeholder="eg. 120" <?php echo $isRequester ? 'readonly' : '' ?>></td>';
 
       html_code += '<td><input type="number" name="amount[]" class="form-control form-control-sm amt amount_' + count + '"  placeholder="eg. 600" readonly></td>';
 
@@ -248,17 +260,28 @@ $branches = Branch::find_all_branch();
 
       const totalItem = $('#total_item').val();
 
+      let requester = $('#requester').val()
+
       for (let i = 1; i <= totalItem; i++) {
         let qty = $('.quantity_' + i)
         let unitPrice = $('.unit_price_' + i)
         let amount = $('.amount_' + i)
 
-        unitPrice.on('input', function() {
-          let subTotal = Number(qty.val()) * Number(unitPrice.val())
-          amount.val(subTotal);
+        if (requester != '') {
+          qty.on('input', function() {
+            let subTotal = Number(qty.val()) * Number(unitPrice.val())
+            amount.val(subTotal);
 
-          calTotal();
-        })
+            calTotal();
+          })
+        } else {
+          unitPrice.on('input', function() {
+            let subTotal = Number(qty.val()) * Number(unitPrice.val())
+            amount.val(subTotal);
+
+            calTotal();
+          })
+        }
 
         // ! This will set the initial calculated result on page load. Thank you!
         // let subTotal = Number(amount.val()) * Number(unitPrice.val())

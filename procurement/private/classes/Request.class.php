@@ -1,16 +1,14 @@
-
-
 <?php
 class Request extends DatabaseObject
 {
    protected static $table_name = "requests";
-   protected static $db_columns = ['id', 'invoice_no', 'grand_total', 'full_name', 'company_id', 'branch_id', 'vendor_img', 'status', 'note', 'due_date', 'created_by', 'created_at', 'deleted'];
+   protected static $db_columns = ['id', 'invoice_no', 'grand_total', 'full_name', 'branch', 'branch_id', 'vendor_img', 'status', 'note', 'due_date', 'created_by', 'created_at', 'deleted'];
 
    public $id;
    public $invoice_no;
    public $grand_total;
    public $full_name;
-   public $company_id;
+   public $branch;
    public $branch_id;
    public $vendor_img;
    public $status;
@@ -33,8 +31,8 @@ class Request extends DatabaseObject
 
    const STATUS = [
       1 => 'New',
-      2 => 'Approved',
-      3 => 'Rejected',
+      2 => 'Delivered',
+      // 3 => 'Rejected',
    ];
 
    public function __construct($args = [])
@@ -42,7 +40,7 @@ class Request extends DatabaseObject
       $this->invoice_no   = $args['invoice_no'] ?? '';
       $this->grand_total  = $args['grand_total'] ?? '';
       $this->full_name    = $args['full_name'] ?? '';
-      $this->company_id   = $args['company_id'] ?? '';
+      $this->branch   = $args['branch'] ?? '';
       $this->branch_id    = $args['branch_id'] ?? '';
       $this->vendor_img   = $args['vendor_img'] ?? '';
       $this->status       = $args['status'] ?? 1;
@@ -69,11 +67,18 @@ class Request extends DatabaseObject
       return $this->errors;
    }
 
-   static public function find_all_requests()
+   static public function find_all_requests($option = [])
    {
+      $branchId = $option['branch_id'] ?? false;
+
       $sql = "SELECT req.id, req.invoice_no, req.grand_total, req.full_name, req.branch_id, req.vendor_img, req.status, req.note, req.due_date, req.created_by, req.created_at, det.item_name, SUM(det.quantity) AS quantity, sum( det.unit_price) AS unit_price, COUNT(det.request_id) AS counts FROM " . static::$table_name . " AS req ";
       $sql .= "JOIN request_details AS det ON req.id = det.request_id ";
       $sql .= "WHERE (req.deleted IS NULL OR req.deleted = 0 OR req.deleted = '') ";
+
+      if (!empty($branchId)) {
+         $sql .= "AND branch_id='" . self::$database->escape_string($branchId) . "'";
+      }
+
       $sql .= "GROUP BY req.invoice_no ";
       $sql .= "ORDER BY req.id DESC ";
 
@@ -84,6 +89,20 @@ class Request extends DatabaseObject
    {
       $sql = "SELECT * FROM " . static::$table_name . " ";
       $sql .= "WHERE invoice_no ='" . self::$database->escape_string($item) . "'";
+      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $obj_array = static::find_by_sql($sql);
+
+      if (!empty($obj_array)) {
+         return array_shift($obj_array);
+      } else {
+         return false;
+      }
+   }
+
+   public static function find_by_branch_id($branchId)
+   {
+      $sql = "SELECT * FROM " . static::$table_name . " ";
+      $sql .= "WHERE branch_id ='" . self::$database->escape_string($branchId) . "'";
       $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
       $obj_array = static::find_by_sql($sql);
 
