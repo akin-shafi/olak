@@ -44,24 +44,30 @@
 
         <?php if (!empty($c_id)) { ?>
           <h4><?php echo $customer_name ?></h4>
-          <input type="hidden" readonly name="wallet[customer_id]" class="form-control" value="<?php echo $id; ?>">
-        <?php } else { ?>
-          <select name="wallet[customer_id]" class="form-control select2 w-100" data-placeholder="Customer Name" required>
-            <option label="Select Customer"></option>
-            <?php foreach (Client::find_by_undeleted() as $value) : ?>
-              <option value="<?php echo $value->customer_id ?>"><?php echo ucwords($value->full_name()) ?></option>
-            <?php endforeach; ?>
-          </select>
         <?php } ?>
+
+
+          <div class="<?php echo !empty($c_id) ? "d-none" : "" ?>">
+            <select name="wallet[customer_id]" class="form-control select2 w-100 cust_id " data-placeholder="Customer Name" required>
+              <option label="Select Customer"></option>
+              <?php foreach (Client::find_by_undeleted() as $value) : ?>
+                <option data-balance="<?php echo $value->balance ?>"  value="<?php echo $value->customer_id ?>" 
+                  <?php echo $id == $value->customer_id ? "selected" : "" ?>>  <?php echo ucwords($value->full_name()) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        
       </div>
 
+      <div>
+        <input type="hidden" name="wallet[balance]" id="balance">
+      </div>
 
       <div class="form-group col-md-6 d-none">
         <label>Total Amount <span class="text-danger">*</span></label>
 
         <input type="text" name="wallet[amount]" id="famount" data-srno="1" class="form-control input-sm famount" value="0" readonly>
 
-        <!-- <input class="form-control" name="wallet[amount]" readonly id="comp_reg" type="number" value="<?php echo $wallet->amount ?? '' ?>"> -->
       </div>
 
       <div class="form-group col-md-12">
@@ -113,7 +119,8 @@
               </tr>
 
               <tr class="">
-                <td class="col" colspan="4" align="center">Total: <b><span id="final_total_amt">NaN</span></b></td>
+                <td class="col" colspan="1" align="center">Total: <b><span id="final_total_amt">NaN</span></b></td>
+                <td class="col" colspan="1" align="center"> Book Balance : <b><span id="final_total_balance">NaN</span></b></td>
 
                
               </tr>
@@ -182,6 +189,21 @@
     $("#account_no"+ id).val(account_no + " - " + account_name);
   });
 
+  const selected = $(".cust_id").find('option:selected')
+  get(selected);
+
+
+  $(document).on('change', '.cust_id', function() {
+    const selected = $(this).find('option:selected')
+    get(selected)
+  });
+
+  function get(selected){
+    let balance = selected.data('balance');
+    $("#balance").val(balance)
+    $('#final_total_balance').text(balance);
+  }
+
 
 
   var final_total_amt = $('#final_total_amt').text('0.00');
@@ -216,8 +238,26 @@
       $('#final_total_amt').text(final_item_total);
       $('#famount').val(final_item_total);
 
+      let selected = $('.cust_id').find('option:selected');
+      let b = selected.data('balance');
+
+      const reload_val = parseInt(b) + final_item_total
+      $('#balance').val(reload_val);
+      $('#final_total_balance').text(reload_val);
+
+
+      // cal_wallet_bal(final_item_total)
+
 
   }
+
+  // function cal_wallet_bal(final_item_total){
+  //     let selected = $('.cust_id').find('option:selected');
+  //     let b = selected.data('balance');
+
+  //     const reload_val = parseInt(b) + final_item_total
+  //     $('#balance').val(reload_val);
+  // }
 
 
   $(document).on('click', '#add_row', function() {

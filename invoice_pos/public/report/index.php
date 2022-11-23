@@ -52,7 +52,7 @@ $branch_id = $loggedInAdmin->branch_id;
                 </div>
               </div>
 
-              <?php if (in_array($loggedInAdmin->admin_level, [1,6])) { ?>
+              <?php if (in_array($loggedInAdmin->admin_level, [1,2,6])) { ?>
                 <select class="form-control" id="filter-branch" style="width: 150px;">
                   <option value="" selected>All</option>
                   <?php foreach (Branch::find_by_undeleted() as $key => $value) { ?>

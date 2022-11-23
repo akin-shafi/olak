@@ -370,7 +370,8 @@ $page_title = 'Billing & Receipts'; ?>
           unit_cost = $('#unit_cost' + j).val();
           if (unit_cost > 0) {
             actual_amount = parseFloat(quantity) * parseFloat(unit_cost);
-            $('#amount' + j).val(actual_amount);
+            var final = Math.round((actual_amount + Number.EPSILON) * 100) / 100;
+            $('#amount' + j).val(final);
           }
 
           item_total = parseFloat(actual_amount);
@@ -397,7 +398,8 @@ $page_title = 'Billing & Receipts'; ?>
 
       $('#taxInput')[0].value = tax;
       var ans = $('#grand_totalInput')[0].value = Number(grand_total);
-      $('#part_payment').val(ans);
+      let final_ans = Math.round((ans + Number.EPSILON) * 100) / 100;
+      $('#part_payment').val(final_ans);
 
     }
 
