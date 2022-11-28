@@ -50,31 +50,22 @@ include(SHARED_PATH . '/header.php');
             <tbody>
               <?php $sn = 1;
               foreach (AccessControl::find_by_undeleted() as $value) :
-                $expComp = explode(', ', $value->company_id);
-                $expBranch = explode(', ', $value->branch_id);
-
                 $admin = Admin::find_by_id($value->admin_id);
               ?>
                 <tr>
                   <td><?php echo $sn++ ?></td>
                   <td style="min-width: 150px;"><?php echo ucwords($admin->full_name()); ?></td>
                   <td style="min-width: 150px;">
-                    <?php
-                    foreach ($expComp as $exCom) :
-                      $company = ucwords(Company::find_by_id($exCom)->company_name);  ?>
-                      <span class="badge bg-primary" style="margin: 2.5px 0; font-size:10px">
-                        <?php echo $company; ?>
-                      </span>
-                    <?php endforeach; ?>
+                    <?php $company = ucwords(Company::find_by_id($value->company_id)->company_name); ?>
+                    <span class="badge bg-primary" style="margin: 2.5px 0; font-size:10px">
+                      <?php echo $company; ?>
+                    </span>
                   </td>
                   <td>
-                    <?php
-                    foreach ($expBranch as $exBra) :
-                      $branch = ucwords(Branch::find_by_id($exBra)->branch_name);  ?>
-                      <span class="badge bg-danger" style="margin: 2.5px 0; font-size:10px">
-                        <?php echo $branch; ?>
-                      </span>
-                    <?php endforeach; ?>
+                    <?php $branch = ucwords(Branch::find_by_id($value->branch_id)->branch_name); ?>
+                    <span class="badge bg-danger" style="margin: 2.5px 0; font-size:10px">
+                      <?php echo $branch; ?>
+                    </span>
                   </td>
                   <td style="min-width: 150px;">
                     <button data-id="<?php echo $value->id ?>" class="btn btn-outline-info btn-sm update">Update</button>

@@ -100,4 +100,11 @@ class EmployeeLoan extends DatabaseObject
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     return static::find_by_sql($sql);
   }
+
+  public static function clear_loan_requests($thisMonth)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE created_at LIKE'%" . self::$database->escape_string($thisMonth) . "%'";
+    return static::find_by_sql($sql);
+  }
 }
