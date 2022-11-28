@@ -176,6 +176,7 @@ if (is_post_request()) {
 
       $args = $_POST['loan'];
       $employeeId = $args['employee_id'];
+      $current = date('Y-m');
 
       $prefix = $args['type'] == 1 ? 'SAL-' : 'LTL-';
 
@@ -187,6 +188,7 @@ if (is_post_request()) {
 
       $accessible_loan_value = intval($employee->present_salary) * 0.4;
       $salaryAdvance = SalaryAdvance::find_by_employee_id($employeeId);
+      $salaryAdvance = SalaryAdvance::find_by_employee_id($employee->id, ['current' => $current]);
       if (isset($salaryAdvance)) {
         $loan_balance = $accessible_loan_value - intval($salaryAdvance->total_requested);
       } else {
@@ -222,8 +224,8 @@ if (is_post_request()) {
           exit(json_encode(['errors' => $loan->errors]));
         }
       } else {
-        $longLoan = LongTermLoan::find_by_employee_id($employeeId); 
-        $ref_no = date('His').rand(1,10);
+        $longLoan = LongTermLoan::find_by_employee_id($employeeId);
+        $ref_no = date('His') . rand(1, 10);
 
         if (empty($longLoan->employee_id)) {
           $params = [
@@ -240,9 +242,9 @@ if (is_post_request()) {
           $longTermLoan->save();
           // pre_r($longTermLoan);
 
-          if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
+          if (in_array($loggedInAdmin->admin_level, [1, 2, 3])) {
             $status = 3;
-          }else{
+          } else {
             $status = 1;
           }
           $longTermLoan = true;
@@ -267,10 +269,9 @@ if (is_post_request()) {
           if ($longTDet == true) {
             http_response_code(201);
             $response['message'] = 'Employee loan created successfully!';
-          }else{
+          } else {
             $response['message'] = 'Failed!';
           }
-          
         } else {
           $amountRequested = intval($longLoan->amount_requested);
           $commitment = intval($longLoan->commitment);
