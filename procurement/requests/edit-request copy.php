@@ -148,8 +148,8 @@ if (empty($invoice)) {
                 <table class="table table-sm my-4">
                   <tr>
                     <td>
-                      <label for="note" class="text-muted text-uppercase">More details</label>
-                      <textarea name="req[note]" id="note" class="form-control form-control-sm" rows="3" placeholder="Enter more details"></textarea>
+                      <label for="note" class="text-muted text-uppercase">Terms & conditions</label>
+                      <textarea name="req[note]" id="note" class="form-control form-control-sm" rows="3" placeholder="Terms and conditions">Payment is due within 15 days of request.</textarea>
                     </td>
                   </tr>
 

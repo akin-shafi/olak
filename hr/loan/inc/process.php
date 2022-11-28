@@ -15,9 +15,12 @@ if (is_post_request()) {
     ];
 
     $longTDet->merge_attributes($data);
-    $result = $longTDet->save();
-    if ($result == true) {
-      $longTerm = LongTermLoan::find_by_ref_no($longTDet->ref_no);
+    $longTDet->save();
+
+    if ($longTDet) {
+      $queryParam = ['requested' => date('Y-m-d H:i', strtotime($longTDet->created_at))];
+      $longTerm = LongTermLoan::find_by_employee_id($longTDet->employee_id, $queryParam);
+
       $data = [
         'amount_requested' => $args['amount'],
         'commitment' => $args['loan_deduction'],

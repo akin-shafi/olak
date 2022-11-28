@@ -42,7 +42,7 @@ $admins = Admin::find_by_undeleted();
                 <th>Role</th>
                 <th>Dashboard</th>
                 <th>User Mgt</th>
-                <th>Product Mgt</th>
+                <th>Status Mgt</th>
                 <th>Sales Mgt</th>
                 <th>Expenses Mgt</th>
                 <th>Report Mgt</th>
@@ -69,7 +69,7 @@ $admins = Admin::find_by_undeleted();
                       : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
                   </td>
                   <td class="text-center">
-                    <?php echo $data->product_mgt == 1 ? '<span class="bg-success rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                    <?php echo $data->change_status == 1 ? '<span class="bg-success rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
                       : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
                   </td>
                   <td class="text-center">
@@ -150,8 +150,8 @@ $admins = Admin::find_by_undeleted();
 
               <div class="col-md-4">
                 <div class="custom-control custom-switch mb-3">
-                  <input type="checkbox" class="custom-control-input" name="access[product_mgt]" id="proMgt">
-                  <label class="custom-control-label" for="proMgt">Product Mgt</label>
+                  <input type="checkbox" class="custom-control-input" name="access[change_status]" id="proMgt">
+                  <label class="custom-control-label" for="proMgt">Status Mgt</label>
                 </div>
               </div>
 
@@ -251,7 +251,7 @@ $admins = Admin::find_by_undeleted();
         success: function(r) {
           let hasDashPermit = r.data.dashboard == '1' ? true : false
           let hasUserPermit = r.data.users_mgt == '1' ? true : false
-          let hasProductPermit = r.data.product_mgt == '1' ? true : false
+          let hasProductPermit = r.data.change_status == '1' ? true : false
           let hasSalesPermit = r.data.sales_mgt == '1' ? true : false
           let hasExpensesPermit = r.data.expenses_mgt == '1' ? true : false
           let hasReportPermit = r.data.report_mgt == '1' ? true : false
