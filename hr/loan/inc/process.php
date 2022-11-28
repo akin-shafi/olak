@@ -92,7 +92,15 @@ if (is_post_request()) {
     if ($salAdDet) {
       $queryParam = ['current' => date('Y-m', strtotime($salAdDet->date_requested))];
       $salAdvance = SalaryAdvance::find_by_employee_id($salAdDet->employee_id, $queryParam);
-      $salAdvance::deleted($salAdvance->id);
+      $amountRequested = $salAdvance->total_requested;
+      $amount = $salAdDet->amount;
+      $balance = intval($amountRequested) - intval($amount);
+      $salAdvance->merge_attributes(['total_requested' => $balance]);
+      $salAdvance->save();
+
+      if ($salAdvance->total_requested <= 0) {
+        $salAdvance::deleted($salAdvance->id);
+      }
     }
 
     exit(json_encode(['message' => 'Salary advance deleted successful!']));
