@@ -58,7 +58,7 @@ include(SHARED_PATH . '/header.php');
                                 <td><?php echo $sn++ ?></td>
                                 <td style="min-width: 150px;"><?php echo ucwords($admin->full_name()); ?></td>
                                 <td style="min-width: 150px;">
-                                    <<<<<<< HEAD <?php
+                                   <?php
                     foreach ($expComp as $exCom) :
                       $company = ucwords(Company::find_by_id($exCom)->company_name);  ?> <span class="badge bg-primary"
                                         style="margin: 2.5px 0; font-size:10px">
@@ -74,7 +74,7 @@ include(SHARED_PATH . '/header.php');
                                         <?php echo $branch; ?>
                                     </span>
                                     <?php endforeach; ?>
-                                    =======
+                                    
                                     <?php $company = ucwords(Company::find_by_id($value->company_id)->company_name); ?>
                                     <span class="badge bg-primary" style="margin: 2.5px 0; font-size:10px">
                                         <?php echo $company; ?>
@@ -85,7 +85,7 @@ include(SHARED_PATH . '/header.php');
                                     <span class="badge bg-danger" style="margin: 2.5px 0; font-size:10px">
                                         <?php echo $branch; ?>
                                     </span>
-                                    >>>>>>> 85bf7ada52e86bf0d0dcd3fede9a5e296514cc7d
+                                   
                                 </td>
                                 <td style="min-width: 150px;">
                                     <button data-id="<?php echo $value->id ?>"
