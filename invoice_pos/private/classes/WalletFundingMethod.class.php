@@ -39,7 +39,12 @@ class WalletFundingMethod extends DatabaseObject
     $this->deleted = $args['deleted'] ?? '';
   }
 
-
+ const PAYMENT_METHOD = [
+    // 1 => 'Wallet',
+    2 => 'Cash',
+    3 => 'Transfer',
+    4 => 'POS',
+  ];
 
 
   protected function validate()
@@ -85,11 +90,13 @@ class WalletFundingMethod extends DatabaseObject
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE payment_id='" . self::$database->escape_string($payment_id) . "'";
     $obj_array = static::find_by_sql($sql);
-    if (!empty($obj_array)) {
-      return array_shift($obj_array);
-    } else {
-      return false;
-    }
+    return $obj_array;
+    // $obj_array = static::find_by_sql($sql);
+    // if (!empty($obj_array)) {
+    //   return array_shift($obj_array);
+    // } else {
+    //   return false;
+    // }
   }
 
   static public function find_by_refrence_no($refrence_no)

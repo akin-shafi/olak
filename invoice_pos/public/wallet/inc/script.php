@@ -10,6 +10,21 @@ if (is_post_request()) {
     $new_id = uniqid();
     $payment_id = "POP/". $loggedInAdmin->branch_id ."/".$new_id . rand(10, 100);
 
+    $argment = [
+      'customer_id'     => $customer_id,
+      'deposit'         => $_POST['wallet']['deposit'],
+      'balance'         => $_POST['wallet']['balance'],
+      'narration'         => $_POST['wallet']['narration'],
+      'payment_id'      => $payment_id,
+      'created_by'      => $loggedInAdmin->id,
+      'company_id'      => $loggedInAdmin->company_id,
+      'branch_id'       => $loggedInAdmin->branch_id,
+      'created_at'      => date("Y-m-d H:i:s"),
+    ];
+
+    $wallet = new Wallet($argment);
+    $updateWallet = $wallet->save();
+
     $amount             = $_POST['amount'];
     $payment_method     = $_POST['payment_method'];
     $bank_name          = $_POST['bank_name'];
@@ -33,7 +48,7 @@ if (is_post_request()) {
     }
     
     $session->message( $full_name . ' Wallet updated successfully.');
-    exit(json_encode(['success' => true, 'msg' => 'Wallet updated successfully.']));
+    exit(json_encode(['success' => true, 'msg' => 'Wallet updated successfully.', 'payment_id' =>  $payment_id]));
 
 } else {
     exit(json_encode(['success' => false, 'msg' => $payment->errors]));

@@ -78,7 +78,8 @@ $page_title = 'Load Wallet'; ?>
         success: function(data) {
           if (data.success == true) {
             successAlert(data.msg)
-            window.location.href = eUrl + 'index.php';
+            window.location.href = eUrl + 'pop.php?payment_id=' + data.payment_id;
+
           } else {
             errorAlert(data.msg)
           }

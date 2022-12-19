@@ -119,8 +119,12 @@
               </tr>
 
               <tr class="">
-                <td class="col" colspan="1" align="center">Total: <b><span id="final_total_amt">NaN</span></b></td>
-                <td class="col" colspan="1" align="center"> Book Balance : <b><span id="final_total_balance">NaN</span></b></td>
+                <td class="col" colspan="1" align="center">Total: <b><span id="final_total_amt">NaN</span></b>
+                <input type="hidden" id="final_t_input" name="wallet[deposit]">
+              </td>
+                <td class="col" colspan="1" align="center"> Book Balance : <b><span id="final_total_balance">NaN</span></b>
+                <input type="hidden" id="final_t_balance" name="wallet[balance]">
+              </td>
 
                
               </tr>
@@ -133,31 +137,10 @@
  <section class="col-lg-12 col-md-12">
   <dl class="row">
     
-    <input type="hidden" name="wallet[approval]" value="0">
-    <div class="form-group col-md-6 d-none">
-      <label>Bank Name <span class="text-danger">*</span></label>
 
-      <select class="form-control select2" id="bank_name" name="wallet[bank_name]">
-        <option value="">Select Bank</option>
-        <?php foreach (Bank::find_by_undeleted() as $value) : ?>
-          <option value="<?php echo $value->id ?>" data-id="<?php echo $value->account_number ?>"><?php echo $value->bank_name ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-
-    <div class="form-group col-md-6 d-none">
-      <label>Account No<span class="text-danger">*</span></label>
-      <input class="form-control" name="wallet[account_no]" id="account_no" type="number" value="<?php echo $wallet->account_no ?? '' ?>" readonly>
-    </div>
-
-    <div class="form-group col-md-6 d-none">
-      <label>Reference No </label>
-      <input class="form-control" name="wallet[refrence_no]" id="refrence_no" type="text" value="<?php echo $wallet->refrence_no ?? '' ?>">
-    </div>
-
-    <div class="form-group col-md-6 d-none">
-      <label>Description </label>
-      <textarea class="form-control" name="wallet[description]" type="text"><?php echo $wallet->description ?? '' ?></textarea>
+    <div class="form-group col-md-6 ">
+      <label>Narration </label>
+      <textarea class="form-control" name="wallet[narration]" type="text"><?php echo $wallet->narration ?? '' ?></textarea>
     </div>
   </dl>
 
@@ -236,6 +219,7 @@
       }
 
       $('#final_total_amt').text(final_item_total);
+      $('#final_t_input').val(final_item_total);
       $('#famount').val(final_item_total);
 
       let selected = $('.cust_id').find('option:selected');
@@ -244,6 +228,8 @@
       const reload_val = parseInt(b) + final_item_total
       $('#balance').val(reload_val);
       $('#final_total_balance').text(reload_val);
+      $('#final_t_balance').val(reload_val);
+      
 
 
       // cal_wallet_bal(final_item_total)
