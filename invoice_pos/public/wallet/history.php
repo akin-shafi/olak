@@ -72,7 +72,7 @@ require_login();
                 <tr>
                   <td><?php echo $sn++ ?></td>
                   <td>
-                    <a href="<?php echo url_for('value/show.php?id='. $value->id) ?>" class="d-flex align-items-center">
+                    <a href="<?php echo url_for('wallet/show.php?id='. $value->id) ?>" class="d-flex align-items-center">
                       <h6 class="mb-0 fs-14"><?php echo ucwords($customer_name) ?></h6>
                     </a>
                   </td>
