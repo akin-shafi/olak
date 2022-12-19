@@ -185,7 +185,7 @@
     let id = selected.data("id");
     let account_no = selected.data("acct");
     let account_name = selected.data("acctname");
-    console.log(account_name)
+    // console.log(account_name)
     $("#account_no"+ id).val(account_no + " - " + account_name);
   });
 
@@ -301,5 +301,7 @@
    $(document).on('input', '.amount', function() {
       cal_final_total(count);
    });
+
+   
   
 </script>

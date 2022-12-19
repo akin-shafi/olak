@@ -10,44 +10,7 @@ if ($id) {
 }
 
 
-if (is_post_request()) {
 
-  $args = $_POST['wallet'];
-  $customer_id = $args['customer_id'];
-  $full_name = Client::find_by_customer_id($customer_id)->full_name();
-
-
-    $new_id = $walletDetails->id;
-    $payment_id = "POP/". $loggedInAdmin->branch_id ."/".$new_id . rand(10, 100);
-
-    $amount             = $_POST['amount'];
-    $payment_method     = $_POST['payment_method'];
-    $bank_name          = $_POST['bank_name'];
-    $total_amt          = $_POST['wallet']['amount'];
-    for ($i = 0; $i < count($amount); $i++) {
-      $data = [
-        'customer_id'    => $customer_id,
-        'payment_method' => $payment_method[$i],
-        'amount'         => $amount[$i],
-        'bank_name'      => $bank_name[$i],
-        'company_id'     => $loggedInAdmin->company_id,
-        'branch_id'      => $loggedInAdmin->branch_id,
-        'payment_id'     => $payment_id,
-        'approval'       => 0,
-        'created_by' => $loggedInAdmin->id,
-      ];
-
-      $payment = new WalletFundingMethod($data);
-      $savePayment = $payment->save();
-
-    }
-    
-    $session->message( $full_name . ' Wallet updated successfully.');
-    redirect_to(url_for('/wallet/index.php'));
-
-} else {
-  $wallet = new WalletFundingMethod;
-}
 
 ?>
 
@@ -75,14 +38,14 @@ $page_title = 'Load Wallet'; ?>
   </div>
 
   <div class="content-wrapper">
-    <?php if (display_errors($wallet->errors)) { ?>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?php echo display_errors($wallet->errors); ?>
+    <?php // if (display_errors($wallet->errors)) { ?>
+      <!-- <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?php // echo display_errors($wallet->errors); ?>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
-      </div>
-    <?php } ?>
+      </div> -->
+    <?php // } ?>
     <form id="add_wallet_form" class="mb-0" method="post">
       <?php include('form_field.php') ?>
       <div class="modal-footer">
@@ -95,3 +58,30 @@ $page_title = 'Load Wallet'; ?>
 </div>
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
+<input type="hidden" value="<?php echo url_for('wallet/') ?>" id="eUrl">
+<script type="text/javascript">
+  var eUrl = $("#eUrl").val()
+  $(document).on('click', '#add_wallet_btn', function(e) {
+      
+      e.preventDefault();
+      $(this).attr("disabled", true);
+
+      var form_data = $("#add_wallet_form").serialize();
+     
+
+      $.ajax({
+        url: "inc/script.php",
+        method: "POST",
+        data: form_data,
+        dataType: 'json',
+        success: function(data) {
+          if (data.success == true) {
+            successAlert(data.msg)
+            window.location.href = eUrl + 'index.php';
+          } else {
+            errorAlert(data.msg)
+          }
+        }
+      });
+  });
+</script>
