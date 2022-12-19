@@ -53,7 +53,7 @@ require_login();
             <tr role="row">
               <th>S/N</th>
               <th>Customer Name</th>
-              <th>Wallet Balance</th>
+              <th class="d-none">Wallet Balance</th>
               <th>Last Deposit</th>
               <th>Payment ID</th>
               
@@ -76,7 +76,7 @@ require_login();
                       <h6 class="mb-0 fs-14"><?php echo ucwords($customer_name) ?></h6>
                     </a>
                   </td>
-                  <td class="green"><?php echo number_format($balance, 2) ?> </td>
+                  <td class="green d-none"><?php echo number_format($balance, 2) ?> </td>
                   <td>
                     <?php echo number_format($deposit, 2) ?>
                   </td>
