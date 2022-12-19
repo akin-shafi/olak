@@ -12,7 +12,7 @@ $wallet = Wallet::find_by_payment_id($payment_id);
 $walletFundingMethod = WalletFundingMethod::find_by_payment_id($payment_id);
 $clients = Client::find_by_customer_id($wallet->customer_id);
 
-// pre_r($walletFundingMethod);
+// pre_r($wallet);
 
 
 ?>
@@ -147,9 +147,17 @@ $clients = Client::find_by_customer_id($wallet->customer_id);
                <span class="hidden ibcl_terms_label">Terms &amp; Notes</span>
                <div class="ibcl_terms">Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?>, We appreciate your patrionage.</div>
             </section>
+             <div>
+            <h3 class="h3">Narration:</h3>
+            <div>
+               <?php echo $wallet->narration ?? "Not Set" ?>
 
+            </div>
+         </div>
          </div>
          <!-- </div> -->
+        
+
          <section class="d-none" id="sums">
             <table cellspacing="0" cellpadding="0">
                <tbody>
