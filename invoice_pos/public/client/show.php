@@ -8,7 +8,7 @@ $id = $_GET['id'];
 $clients = Client::find_by_id($id);
 $walletBalance = intval($clients->balance);
 $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id);
-
+// pre_r($walletDetails);
 ?>
 <?php $page_title = 'Admins'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
@@ -89,8 +89,10 @@ $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id)
         <thead>
           <tr>
             <th>S/N</th>
+            <th>Payment ID</th>
             <th>Payment Method</th>
             <th>Amount</th>
+            <th>Status</th>
             <th>Post By</th>
             <th>Bank Name</th>
             <th>Account No.</th>
@@ -107,12 +109,14 @@ $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id)
           ?>
             <tr>
               <td><?php echo $sn++; ?></td>
+              <td><?php echo $value->payment_id ?></td>
               <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
               <td><?php echo number_format(floatval($value->amount)); ?></td>
+              <td><?php  echo $value->approval == 0 ? "Unapproved" : "Approved"; ?></td>
               <td><?php echo $createdBy; ?></td>
               <td><?php echo ucwords($bankName); ?></td>
               <td><?php echo $account_no; ?></td>
-              <td><?php echo date('dS M, Y', strtotime($value->created_at)); ?></td>
+              <td><?php echo date('dS M, Y H:i:s', strtotime($value->created_at)); ?></td>
               <!-- <td><a href="record.php"><i class="feather-settings bold"> History</i></a></td> -->
             </tr>
           <?php } ?>

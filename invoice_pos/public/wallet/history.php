@@ -65,15 +65,15 @@ require_login();
           <tbody id="show_data">
             <?php $sn = 1;
               foreach (Wallet::find_by_undeleted() as $value) : 
-                $customer_name = Client::find_by_customer_id($value->customer_id)->full_name();
+                $customer_name = Client::find_by_customer_id($value->customer_id);
                 $balance = intval($value->balance);
                 $deposit = intval($value->deposit);
               ?>
                 <tr>
                   <td><?php echo $sn++ ?></td>
                   <td>
-                    <a href="<?php echo url_for('wallet/show.php?id='. $value->id) ?>" class="d-flex align-items-center">
-                      <h6 class="mb-0 fs-14"><?php echo ucwords($customer_name) ?></h6>
+                    <a href="<?php echo url_for('client/show.php?id='. $customer_name->id) ?>" class="d-flex align-items-center">
+                      <h6 class="mb-0 fs-14"><?php echo ucwords($customer_name->full_name()) ?></h6>
                     </a>
                   </td>
                   <td class="green d-none"><?php echo number_format($balance, 2) ?> </td>
