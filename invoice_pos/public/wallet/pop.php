@@ -29,7 +29,7 @@ $clients = Client::find_by_customer_id($wallet->customer_id);
 <div>
    <div class=" btn-wrp">
       <div class="holder">
-         <a href="<?php echo url_for('wallet/index.php') ?>" class="default-btn">
+         <a href="<?php echo url_for('wallet/history.php') ?>" class="default-btn">
             << Back</a> <button class="default-btn" id="cmd" style="float: right;"><i class="fa fa-print"></i> Print</button>
       </div>
    </div>

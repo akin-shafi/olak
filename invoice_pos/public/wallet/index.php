@@ -3,7 +3,7 @@ require_once('../../private/initialize.php');
 require_login();
 
 ?>
-<?php $page = 'Wallet'; $page_title = 'Wallet History'; ?>
+<?php $page = 'Wallet'; $page_title = 'Load Wallet'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 <style type="text/css">
   .red{
