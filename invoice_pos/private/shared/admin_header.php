@@ -335,12 +335,14 @@ require_login();
               <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDrop">
                 <?php if (!in_array($loggedInAdmin->admin_level, [2,3])) { ?>
                 <li class="">
-                  <a class="dropdown-item <?php echo ($page_title == "Load Wallet") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/index.php') ?>">Load Customer's Wallet</a>
+                  <a class="dropdown-item <?php echo ($page_title == "Wallet") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/index.php') ?>"> Customer's Wallet</a>
                 </li>
                 <?php } ?>
                 <li class="">
-                  <a class="dropdown-item <?php echo ($page_title == "Wallet History") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/history.php') ?>">Wallet History</a>
+                  <a class="dropdown-item <?php echo ($page_title == "Proof of Payments") ? 'active' : '' ?>" href="<?php echo url_for('/wallet/history.php') ?>">Proof of Payments</a>
                 </li>
+
+                
 
 
               </ul>
