@@ -226,6 +226,9 @@ require_login();
   }
 
   $(document).on("click", ".approve", function() {
+    $(this).attr("disabled", true);
+    $(this).html("processing..");
+
      let id = $(this).attr('id');
      let customer_id = $(this).data('cust');
      let payment_method = $(this).data('type');

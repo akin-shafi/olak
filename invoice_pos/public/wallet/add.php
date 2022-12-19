@@ -65,6 +65,7 @@ $page_title = 'Load Wallet'; ?>
       
       e.preventDefault();
       $(this).attr("disabled", true);
+      $(this).html("processing..");
 
       var form_data = $("#add_wallet_form").serialize();
      

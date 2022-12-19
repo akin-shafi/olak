@@ -424,7 +424,7 @@ $page_title = 'Billing & Receipts'; ?>
 
     $('#expense_form').on('submit', function(e) {
       e.preventDefault()
-      $(this).attr("disabled", true);
+      
       let count_data = 0;
       let cus_id = $(".client_id").val();
       let grand_totalInput = $("#grand_totalInput").val();
@@ -475,6 +475,8 @@ $page_title = 'Billing & Receipts'; ?>
 
     function submit_form(form_data) {
       // console.log(form_data);
+      $("#create_request").attr("disabled", true);
+      $("#create_request").html("processing..");
       
       $.ajax({
         url: "inc/index.php",
