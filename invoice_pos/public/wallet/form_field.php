@@ -140,7 +140,7 @@
 
     <div class="form-group col-md-6 ">
       <label>Narration </label>
-      <textarea class="form-control" name="wallet[narration]" type="text"><?php echo $wallet->narration ?? '' ?></textarea>
+      <textarea required class="form-control" name="wallet[narration]" type="text"><?php echo $wallet->narration ?? '' ?></textarea>
     </div>
   </dl>
 
