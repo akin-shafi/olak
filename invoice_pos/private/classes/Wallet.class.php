@@ -5,7 +5,6 @@ class Wallet extends DatabaseObject
   static protected $table_name = "wallet";
   static protected $db_columns = ['id', 'customer_id', 'balance', 'deposit','payment_id', 'company_id', 'branch_id',  'created_at', 'created_by', 'narration','deleted'];
 
-
   public $id;
   public $customer_id;
   public $balance;
