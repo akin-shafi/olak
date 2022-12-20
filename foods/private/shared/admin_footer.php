@@ -4,7 +4,7 @@
       ************* -->
 
     <!-- Footer start -->
-    <footer class="main-footer">© Olak Pet <?php echo date('Y') ?></footer>
+    <footer class="main-footer">© Olak food <?php echo date('Y') ?></footer>
     <!-- Footer end -->
 
     </div>

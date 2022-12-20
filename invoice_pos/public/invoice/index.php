@@ -209,6 +209,7 @@ $page_title = 'Billing & Receipts'; ?>
                             <td><input type="text" required="" name="amount[]" id="amount1" data-srno="1" class="form-control form-control-sm amount" readonly value=""></td>
 
                             <td><button type="button" name="add_row" id="add_row" class="btn btn-success btn-sm">+</button></td>
+                            
                           </tr>
                           <input type="hidden" name="billing[total_amount]" id="famount" data-srno="1" class="form-control input-sm famount" value="" readonly>
 
@@ -369,19 +370,24 @@ $page_title = 'Billing & Receipts'; ?>
         if (quantity > 0) {
           unit_cost = $('#unit_cost' + j).val();
           if (unit_cost > 0) {
-            actual_amount = parseFloat(quantity) * parseFloat(unit_cost);
-            var final = Math.round((actual_amount + Number.EPSILON) * 100) / 100;
-            $('#amount' + j).val(final);
+            actual_amount = roundup( parseFloat(quantity) * parseFloat(unit_cost));
+            // var final = Math.round((actual_amount + Number.EPSILON) * 100) / 100;
+            $('#amount' + j).val(actual_amount);
           }
 
           item_total = parseFloat(actual_amount);
 
-          final_item_total = parseFloat(final_item_total) + parseFloat(item_total);
+          final_item_total = roundup( parseFloat(final_item_total) + parseFloat(item_total));
+          // const f_total = Math.round((final_item_total + Number.EPSILON) * 100) / 100;
           $('#famount').val(final_item_total);
 
         }
 
 
+      }
+
+       function roundup(value){
+        return Math.round((value + Number.EPSILON) * 100) / 100;
       }
 
       let amt = formatToCurrency(final_item_total);
@@ -583,10 +589,8 @@ $page_title = 'Billing & Receipts'; ?>
   var amount = 0.00;
   window.addEventListener("load", function() {
     for (let i = 0; i < leave.length; i++) {
-      // console.log(leave[i].value);
       amount += parseFloat(leave[i].value);
     }
-    // alert("All is well");
     $('#famount').val(amount);
     let amt = formatToCurrency(amount)
     $('#final_total_amt').text(amt);
