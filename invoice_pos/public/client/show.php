@@ -141,6 +141,7 @@ $transactions = Billing::find_by_client_id($id);
         <tbody>
           <?php $sn = 1;
           foreach ($transactions as $value) {
+            $branch = Branch::find_by_id($value->branch_id);
           ?>
             <tr>
               <td><?php echo $sn++; ?></td>
