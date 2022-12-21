@@ -61,7 +61,7 @@ if (is_get_request()) {
 					<th>Branch</th>
 					<th>Customer Name</th>
 					<th>Created Date</th>
-					<th>Total Amount</th>
+					<th>Total Amount</th> 
 				</tr>
 			</thead>
 

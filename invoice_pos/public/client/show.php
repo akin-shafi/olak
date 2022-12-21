@@ -8,7 +8,8 @@ $id = $_GET['id'];
 $clients = Client::find_by_id($id);
 $walletBalance = intval($clients->balance);
 $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id);
-// pre_r($walletDetails);
+$transactions = Billing::find_by_client_id($id);
+// pre_r($transactions);
 ?>
 <?php $page_title = 'Admins'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
@@ -83,7 +84,7 @@ $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id)
       </div>
     </div>
 
-    <h3>Transaction History</h3>
+    <h3>Deposit History</h3>
     <div class="table-responsive">
       <table class="table table-bordered" id="rowSelection">
         <thead>
@@ -118,6 +119,39 @@ $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id)
               <td><?php echo $account_no; ?></td>
               <td><?php echo date('dS M, Y H:i:s', strtotime($value->created_at)); ?></td>
               <!-- <td><a href="record.php"><i class="feather-settings bold"> History</i></a></td> -->
+            </tr>
+          <?php } ?>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Transaction History</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered" id="rowSelection">
+        <thead>
+          <tr>
+            <th>S/N</th>
+            <th>Status</th>
+            <th>Invoice No.</th>
+            <th>Branch</th>
+            <th>Created Date</th>
+            <th>Total Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php $sn = 1;
+          foreach ($transactions as $value) {
+          ?>
+            <tr>
+              <td><?php echo $sn++; ?></td>
+              <td>
+                <?php echo h(Billing::STATUS[$value->status]); ?>
+              </td>
+
+              <td><?php echo h(ucwords($value->invoiceNum)); ?></td>
+              <td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
+              <td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>
+              <td><?php echo number_format($value->total_amount); ?></td>
             </tr>
           <?php } ?>
         </tbody>

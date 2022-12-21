@@ -247,6 +247,12 @@ class Billing extends DatabaseObject
     return static::find_by_sql($sql);
   }
 
+  static public function find_by_client_id($client_id){
+      $sql = "SELECT * FROM " . static::$table_name . " ";
+      $sql .= "WHERE client_id = " . self::$database->escape_string($client_id) . " ";
+      return static::find_by_sql($sql);
+  }
+
   static public function find_due_date()
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
