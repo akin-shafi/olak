@@ -19,10 +19,10 @@ class CashFlow extends DatabaseObject
 
   public function __construct($args = [])
   {
-    $this->credit_sales = $args['credit_sales'] ?? '';
-    $this->cash_sales   = $args['cash_sales'] ?? '';
-    $this->pos          = $args['pos'] ?? '';
-    $this->transfer     = $args['transfer'] ?? '';
+    $this->credit_sales = $args['credit_sales'] ?? 0;
+    $this->cash_sales   = $args['cash_sales'] ?? 0;
+    $this->pos          = $args['pos'] ?? 0;
+    $this->transfer     = $args['transfer'] ?? 0;
     $this->narration    = $args['narration'] ?? '';
     $this->company_id   = $args['company_id'] ?? '';
     $this->branch_id    = $args['branch_id'] ?? '';
