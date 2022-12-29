@@ -148,7 +148,6 @@ $transactions = Billing::find_by_client_id($id);
               <td>
                 <?php echo h(Billing::STATUS[$value->status]); ?>
               </td>
-
               <td><?php echo h(ucwords($value->invoiceNum)); ?></td>
               <td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
               <td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>

@@ -4,6 +4,10 @@
 		<input type="hidden" name="flow[company_id]" value="<?php echo $loggedInAdmin->company_id ?>">
 		<input type="hidden" name="flow[branch_id]" value="<?php echo $loggedInAdmin->branch_id ?>">
 		<div class="row">
+			<div class="form-group col-12">
+				<label>Date</label>
+				<div><input type="date" name="flow[created_at]" class="form-control" value="<?php echo $cashFlow->created_at ?? ""; ?>" ></div>
+			</div>
 			<div class="form-group col-6">
 				<label>Cash Sales</label>
 				<div><input type="number" name="flow[cash_sales]" class="form-control" value="<?php echo $cashFlow->cash_sales; ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');"></div>

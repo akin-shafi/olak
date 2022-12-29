@@ -18,7 +18,7 @@ if (is_get_request()) {
 
     <div class="table-responsive">
       <div class="d-flex justify-content-end mb-2">
-        <a href="<?php echo url_for('/sales/new.php') ?>" class="btn float-end btn-primary <?php echo !empty($cashFlows) ? 'disabled' : '' ?>" style="cursor: pointer">
+        <a href="<?php echo url_for('/sales/new.php') ?>" class="btn float-end btn-primary <?php //echo !empty($cashFlows) ? 'disabled' : '' ?>" style="cursor: pointer">
           Add Sales
         </a>
       </div>
