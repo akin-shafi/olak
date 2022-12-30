@@ -18,7 +18,7 @@ if (is_get_request()) {
 
     <div class="table-responsive">
       <div class="d-flex justify-content-end mb-2">
-        <a href="<?php echo url_for('/sales/new.php') ?>" class="btn float-end btn-primary <?php //echo !empty($cashFlows) ? 'disabled' : '' ?>" style="cursor: pointer">
+        <a href="<?php echo url_for('/sales/new.php') ?>" class="btn float-end btn-primary <?php echo !empty($cashFlows) ? 'disabled' : '' ?>" style="cursor: pointer">
           Add Sales
         </a>
       </div>
@@ -30,6 +30,7 @@ if (is_get_request()) {
             <th>Credit</th>
             <th>POS</th>
             <th>Transfer</th>
+            <th>Date</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -43,6 +44,7 @@ if (is_get_request()) {
               <td><?php echo $value->credit_sales ?></td>
               <td><?php echo $value->pos ?></td>
               <td><?php echo $value->transfer ?></td>
+              <td><?php echo date("D j-M-Y", strtotime($value->created_at)); ?></td>
               <td>
                 <div class="btn-group">
                   <a href="<?php echo url_for('sales/show.php?id=' . $value->id) ?>" class="btn btn-info">View</a>
