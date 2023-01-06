@@ -2,11 +2,13 @@
 class AccessControl extends DatabaseObject
 {
   protected static $table_name = "access_control";
-  protected static $db_columns = ['id', 'user_id', 'dashboard', 'users_mgt', 'change_status', 'sales_mgt', 'expenses_mgt', 'report_mgt', 'created_by', 'created_at', 'deleted'];
+  protected static $db_columns = ['id', 'user_id', 'dashboard', 'request', 'settings', 'users_mgt', 'change_status', 'sales_mgt', 'expenses_mgt', 'report_mgt', 'created_by', 'created_at', 'deleted'];
 
   public $id;
   public $user_id;
   public $dashboard;
+  public $request;
+  public $settings;
   public $users_mgt;
   public $change_status;
   public $sales_mgt;
@@ -23,6 +25,8 @@ class AccessControl extends DatabaseObject
   {
     $this->user_id      = $args['user_id'] ?? '';
     $this->dashboard    = $args['dashboard'] ?? '';
+    $this->request    = $args['request'] ?? '';
+    $this->settings    = $args['settings'] ?? '';
     $this->users_mgt    = $args['users_mgt'] ?? '';
     $this->change_status  = $args['change_status'] ?? '';
     $this->sales_mgt  = $args['sales_mgt'] ?? '';

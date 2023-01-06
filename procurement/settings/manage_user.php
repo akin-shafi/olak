@@ -6,7 +6,7 @@ $page_title = 'Manage Users';
 include(SHARED_PATH . '/admin_header.php');
 
 
-$admins = Admin::find_by_undeleted(['order'=>'ASC']);
+$admins = Admin::find_by_undeleted(['order' => 'ASC']);
 $companies = Company::find_by_undeleted();
 
 
@@ -42,7 +42,7 @@ $companies = Company::find_by_undeleted();
         <div class="card">
           <div class="card-body">
             <div class="table-container border-0 shadow">
-              <h4 class="mb-3">User Management</h4>
+              <h4 class="mb-3">Admin Management</h4>
               <div class="table-responsive">
                 <table class="table table-sm data-table">
                   <thead class="bg-primary">
@@ -53,7 +53,6 @@ $companies = Company::find_by_undeleted();
                       <th>Admin level</th>
                       <th>Company</th>
                       <th>Branch</th>
-                      <!-- <th>Password reset</th> -->
                       <!-- <th>Created By</th> -->
                       <th>Created At</th>
                       <th>Updated At</th>
@@ -69,7 +68,7 @@ $companies = Company::find_by_undeleted();
                       $branch_name = Branch::find_by_id($data->branch_id)->name;
                       $adminLevel = $data->admin_level != '' ? Admin::ADMIN_LEVEL[$data->admin_level] : 'Not set';
                       $imgUrl = !empty($data->profile_img) ? $data->profile_img : 'pro.png';
-                      $createdBy = $data->created_by != '' ? Admin::find_by_id($data->created_by)->full_name : 'Not set';
+                      $createdBy = $data->created_by != '' ?  Admin::find_by_id($data->created_by)->full_name : 'Not set';
                     ?>
                       <tr>
                         <td>
@@ -102,6 +101,7 @@ $companies = Company::find_by_undeleted();
 
           </div>
         </div>
+
       </div>
     </div>
 

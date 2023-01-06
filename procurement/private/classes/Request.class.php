@@ -2,13 +2,13 @@
 class Request extends DatabaseObject
 {
    protected static $table_name = "requests";
-   protected static $db_columns = ['id', 'invoice_no', 'grand_total', 'full_name', 'branch', 'branch_id', 'vendor_img', 'status', 'note', 'due_date', 'created_by', 'created_at', 'deleted'];
+   protected static $db_columns = ['id', 'invoice_no', 'grand_total', 'full_name', 'company_id', 'branch_id', 'vendor_img', 'status', 'note', 'due_date', 'created_by', 'created_at', 'deleted'];
 
    public $id;
    public $invoice_no;
    public $grand_total;
    public $full_name;
-   public $branch;
+   public $company_id;
    public $branch_id;
    public $vendor_img;
    public $status;
@@ -40,7 +40,7 @@ class Request extends DatabaseObject
       $this->invoice_no   = $args['invoice_no'] ?? '';
       $this->grand_total  = $args['grand_total'] ?? '';
       $this->full_name    = $args['full_name'] ?? '';
-      $this->branch   = $args['branch'] ?? '';
+      $this->company_id   = $args['company_id'] ?? '';
       $this->branch_id    = $args['branch_id'] ?? '';
       $this->vendor_img   = $args['vendor_img'] ?? '';
       $this->status       = $args['status'] ?? 1;
@@ -70,19 +70,51 @@ class Request extends DatabaseObject
    static public function find_all_requests($option = [])
    {
       $branchId = $option['branch_id'] ?? false;
+      $selectedDate = $option['selected_date'] ?? false;
 
       $sql = "SELECT req.id, req.invoice_no, req.grand_total, req.full_name, req.branch_id, req.vendor_img, req.status, req.note, req.due_date, req.created_by, req.created_at, det.item_name, SUM(det.quantity) AS quantity, sum( det.unit_price) AS unit_price, COUNT(det.request_id) AS counts FROM " . static::$table_name . " AS req ";
       $sql .= "JOIN request_details AS det ON req.id = det.request_id ";
       $sql .= "WHERE (req.deleted IS NULL OR req.deleted = 0 OR req.deleted = '') ";
 
       if (!empty($branchId)) {
-         $sql .= "AND branch_id='" . self::$database->escape_string($branchId) . "'";
+         echo $branchId;
+         $sql .= "AND req.branch_id='" . self::$database->escape_string($branchId) . "' ";
+      }
+
+      if (!empty($selectedDate)) {
+         $sql .= "AND (req.created_at <= '" . self::$database->escape_string($selectedDate[0]) . "' AND req.created_at >='" . self::$database->escape_string($selectedDate[1]) . "'";
+         $sql .= " OR req.created_at >= '" . self::$database->escape_string($selectedDate[0]) . "' AND req.created_at <='" . self::$database->escape_string($selectedDate[1]) . "') ";
       }
 
       $sql .= "GROUP BY req.invoice_no ";
       $sql .= "ORDER BY req.id DESC ";
 
       return static::find_by_sql($sql);
+   }
+
+   public static function find_total_amount_by_status($option = [])
+   {
+      $branchId = $option['branch_id'] ?? false;
+      $selectedDate = $option['selected_date'] ?? false;
+      $status = $option['status'] ?? false;
+
+      $sql = "SELECT SUM(grand_total) as grand_total FROM " . static::$table_name . " ";
+      $sql .= "WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $sql .= "AND status='" . self::$database->escape_string($status) . "' ";
+
+      if (!empty($selectedDate)) {
+         $sql .= "AND (created_at <= '" . self::$database->escape_string($selectedDate[0]) . "' AND created_at >='" . self::$database->escape_string($selectedDate[1]) . "'";
+         $sql .= " OR created_at >= '" . self::$database->escape_string($selectedDate[0]) . "' AND created_at <='" . self::$database->escape_string($selectedDate[1]) . "') ";
+
+         $sql .= "AND branch_id='" . self::$database->escape_string($branchId) . "' ";
+      }
+
+      $obj_array = static::find_by_sql($sql);
+      if (!empty($obj_array)) {
+         return array_shift($obj_array);
+      } else {
+         return false;
+      }
    }
 
    public static function find_by_invoice($item)

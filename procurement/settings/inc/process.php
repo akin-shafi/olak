@@ -163,7 +163,7 @@ if (is_post_request()) {
             }
         }
 
-        if ($loggedInAdmin->admin_level == 1) {
+        if (isset($loggedInAdmin->admin_level) && $loggedInAdmin->admin_level == 1) {
             $args['company_id'] = $loggedInAdmin->company_id;
         }
 
@@ -235,6 +235,8 @@ if (is_post_request()) {
         $args = [
             'user_id' => $args['user_id'],
             'dashboard' => isset($args['dashboard']) ? '1' : '0',
+            'request' => isset($args['request']) ? '1' : '0',
+            'settings' => isset($args['settings']) ? '1' : '0',
             'users_mgt' => isset($args['users_mgt']) ? '1' : '0',
             'change_status' => isset($args['change_status']) ? '1' : '0',
             'sales_mgt' => isset($args['sales_mgt']) ? '1' : '0',
@@ -259,6 +261,8 @@ if (is_post_request()) {
 
         $args = [
             'dashboard' => isset($args['dashboard']) ? '1' : '0',
+            'request' => isset($args['request']) ? '1' : '0',
+            'settings' => isset($args['settings']) ? '1' : '0',
             'users_mgt' => isset($args['users_mgt']) ? '1' : '0',
             'change_status' => isset($args['change_status']) ? '1' : '0',
             'sales_mgt' => isset($args['sales_mgt']) ? '1' : '0',
@@ -312,7 +316,8 @@ if (is_get_request()) {
     endif;
 
     if (isset($_GET['company_id'])) :
-        $branches = Branch::find_all_branch();
+        $branches = Branch::find_all_branch(['company_id' => $_GET['company_id']]);
+
 ?>
         <label class="label-control">Branch<sup class="text-danger">*</sup></label>
         <select class="form-control" name="user[branch_id]">

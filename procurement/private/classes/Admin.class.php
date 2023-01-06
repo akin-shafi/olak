@@ -27,9 +27,10 @@ class Admin extends DatabaseObject
 
     const ADMIN_LEVEL = [
         1 => 'Super Admin',
-        2 => 'Admin',
+        2 => 'Manager',
         3 => 'Processor',
         4 => 'Requester',
+        5 => 'Accountant',
     ];
 
     const STATUS = [

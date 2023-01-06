@@ -10,6 +10,8 @@ class Branch extends DatabaseObject
   public $address;
   public $city;
   public $state;
+  public $established_in;
+  public $created_at;
   public $deleted;
 
   public $counts;

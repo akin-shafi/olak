@@ -71,16 +71,19 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
          <div class="data-scrollbar" data-scroll="1">
             <nav class="iq-sidebar-menu">
                <ul id="iq-sidebar-toggle" class="iq-menu">
-                  <li class="<?php echo $page == 'Dashboard' ? 'active' : '' ?>">
-                     <a href="<?php echo url_for('/dashboard') ?>" class="svg-icon">
-                        <svg class="svg-icon" id="p-dash1" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                           <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                           <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
-                        <span class="ml-4">Dashboards</span>
-                     </a>
-                  </li>
+                  <?php if (isset($access->dashboard) && $access->dashboard == 1) : ?>
+                     <li class="<?php echo $page == 'Dashboard' ? 'active' : '' ?>">
+                        <a href="<?php echo url_for('/dashboard') ?>" class="svg-icon">
+                           <svg class="svg-icon" id="p-dash1" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                           </svg>
+                           <span class="ml-4">Dashboards</span>
+                        </a>
+                     </li>
+                  <?php endif; ?>
+
                   <li class="<?php echo $page == 'Request' ? 'active' : '' ?>">
                      <a href="#request" class="collapsed" data-toggle="collapse" aria-expanded="false">
                         <svg class="svg-icon" id="p-dash2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -100,49 +103,58 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                               <i class="fas la-minus"></i><span>List Request</span>
                            </a>
                         </li>
-                        <li class="<?php echo $page_title == 'Add Requests' ? 'active' : '' ?>">
-                           <a href="<?php echo url_for('requests/add-request.php'); ?>">
-                              <i class="fas la-minus"></i><span>Add Request</span>
-                           </a>
-                        </li>
+                        <?php if (isset($access->request) && $access->request == 1 || $loggedInAdmin->admin_level == 4) : ?>
+                           <li class="<?php echo $page_title == 'Add Requests' ? 'active' : '' ?>">
+                              <a href="<?php echo url_for('requests/add-request.php'); ?>">
+                                 <i class="fas la-minus"></i><span>Add Request</span>
+                              </a>
+                           </li>
+                        <?php endif; ?>
                      </ul>
                   </li>
 
-                  <li class="<?php echo $page == 'Settings' ? 'active' : '' ?>">
-                     <a href="#settings" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                        <svg class="svg-icon" id="p-dash19" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                           <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                        </svg>
-                        <span class="ml-4">Settings</span>
-                        <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                           <polyline points="10 15 15 20 20 15"></polyline>
-                           <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
-                        </svg>
-                     </a>
-                     <ul id="settings" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                        <?php if (isset($access->users_mgt) && $access->users_mgt == 1) : ?>
-                           <li class="<?php echo $page_title == 'Manage Users' ? 'active' : '' ?>">
-                              <a href="<?php echo url_for('settings/manage_user.php'); ?>">
-                                 <i class="fas la-minus"></i><span>Manage Users</span>
-                              </a>
-                           </li>
-                        <?php endif; ?>
-                        <?php if (isset($access->users_mgt) && $access->users_mgt == 1) : ?>
-                           <li class="<?php echo $page_title == 'Company Setup' ? 'active' : '' ?>">
-                              <a href="<?php echo url_for('settings/company.php'); ?>">
-                                 <i class="fas la-minus"></i><span>Company Setup</span>
-                              </a>
-                           </li>
-                        <?php endif; ?>
-                        <?php if ($loggedInAdmin->admin_level == 1) : ?>
-                           <li class="<?php echo $page_title == 'Access Control' ? 'active' : '' ?>">
-                              <a href="<?php echo url_for('settings/access_control.php'); ?>">
-                                 <i class="fas la-minus"></i><span>Access Control</span>
-                              </a>
-                           </li>
-                        <?php endif; ?>
-                     </ul>
-                  </li>
+                  <?php if (isset($access->settings) && $access->settings == 1) : ?>
+                     <li class="<?php echo $page == 'Settings' ? 'active' : '' ?>">
+                        <a href="#settings" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                           <svg class="svg-icon" id="p-dash19" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                           </svg>
+                           <span class="ml-4">Settings</span>
+                           <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <polyline points="10 15 15 20 20 15"></polyline>
+                              <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                           </svg>
+                        </a>
+                        <ul id="settings" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                           <?php if (isset($access->users_mgt) && $access->users_mgt == 1) : ?>
+                              <li class="<?php echo $page_title == 'Manage Users' ? 'active' : '' ?>">
+                                 <a href="<?php echo url_for('settings/manage_user.php'); ?>">
+                                    <i class="fas la-minus"></i><span>Manage Users</span>
+                                 </a>
+                              </li>
+                           <?php endif; ?>
+                           <?php if (isset($access->users_mgt) && $access->users_mgt == 1) : ?>
+                              <li class="<?php echo $page_title == 'Company Setup' ? 'active' : '' ?>">
+                                 <a href="<?php echo url_for('settings/company.php'); ?>">
+                                    <i class="fas la-minus"></i><span>Company Setup</span>
+                                 </a>
+                              </li>
+                           <?php endif; ?>
+                           <?php if ($loggedInAdmin->admin_level == 1) : ?>
+                              <li class="<?php echo $page_title == 'Access Control' ? 'active' : '' ?>">
+                                 <a href="<?php echo url_for('settings/access_control.php'); ?>">
+                                    <i class="fas la-minus"></i><span>Access Control</span>
+                                 </a>
+                              </li>
+                              <li class="<?php echo $page_title == 'Report' ? 'active' : '' ?>">
+                                 <a href="<?php echo url_for('settings/report.php'); ?>">
+                                    <i class="fas la-minus"></i><span>Report</span>
+                                 </a>
+                              </li>
+                           <?php endif; ?>
+                        </ul>
+                     </li>
+                  <?php endif; ?>
 
                   <li class="d-none <?php echo $page == 'Invoice' ? 'active' : '' ?>">
                      <a href="<?php echo url_for('requests'); ?>" class="svg-icon">

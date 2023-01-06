@@ -229,8 +229,21 @@ if (is_get_request()) {
 
   if (isset($_GET['request_by_branch'])) :
     $branchId = $_GET['branch_id'];
+    $selectedDate = $_GET['selected_date'];
+    $dateExp = explode('/', $selectedDate);
 
-    $requests = Request::find_all_requests(['branch_id' => $branchId]);
+    $totalPending = $branchId != ''
+      ? Request::find_total_amount_by_status(['branch_id' => $branchId, 'selected_date' => $dateExp, 'status' => 1])
+      : Request::find_total_amount_by_status(['status' => 1]);
+
+    $totalDelivered = $branchId != ''
+      ? Request::find_total_amount_by_status(['branch_id' => $branchId, 'selected_date' => $dateExp, 'status' => 2])
+      : Request::find_total_amount_by_status(['status' => 2]);
+
+    $requests = $branchId != ''
+      ? Request::find_all_requests(['branch_id' => $branchId, 'selected_date' => $dateExp])
+      : Request::find_all_requests();
+
     foreach ($requests as $data) :
       $branch = Branch::find_by_id($data->branch_id)->name; ?>
       <tr>
@@ -266,7 +279,9 @@ if (is_get_request()) {
               <span class="d-flex justify-content-center rounded-circle align-items-center bg-danger text-white p-2" style="width:10px;height:10px;position:absolute;top:-6px;right:-5px"><?php echo $data->counts; ?></span>
             </button>
 
-            <a href="<?php echo url_for('requests/edit-request.php?invoice_no=' . $data->invoice_no) ?>" class="btn btn-sm badge bg-success mr-2"><i class="ri-pencil-line mr-0"></i></a>
+            <?php if (!isset($_GET['report'])) : ?>
+              <a href="<?php echo url_for('requests/edit-request.php?invoice_no=' . $data->invoice_no) ?>" class="btn btn-sm badge bg-success mr-2"><i class="ri-pencil-line mr-0"></i></a>
+            <?php endif; ?>
 
             <?php if ($access->change_status ?? 0) : ?>
               <div class="dropdown">
@@ -289,8 +304,14 @@ if (is_get_request()) {
           </div>
         </td>
       </tr>
-<?php endforeach;
-  endif;
+    <?php endforeach; ?>
+    <tr class="d-none">
+      <td colspan="9">
+        <p id="pending"><?php echo number_format($totalPending->grand_total); ?></p>
+        <p id="deliver"><?php echo number_format($totalDelivered->grand_total); ?></p>
+      </td>
+    </tr>
+<?php endif;
 }
 ?>
 

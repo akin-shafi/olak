@@ -41,6 +41,8 @@ $admins = Admin::find_by_undeleted();
                 <th>Users</th>
                 <th>Role</th>
                 <th>Dashboard</th>
+                <th>Request</th>
+                <th>Settings</th>
                 <th>User Mgt</th>
                 <th>Status Mgt</th>
                 <th>Sales Mgt</th>
@@ -62,6 +64,14 @@ $admins = Admin::find_by_undeleted();
                   <td><?php echo ucwords($adminLevel); ?></td>
                   <td class="text-center">
                     <?php echo $data->dashboard == 1 ? '<span class="bg-success rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                      : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                  </td>
+                  <td class="text-center">
+                    <?php echo $data->request == 1 ? '<span class="bg-success rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
+                      : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
+                  </td>
+                  <td class="text-center">
+                    <?php echo $data->settings == 1 ? '<span class="bg-success rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'
                       : '<span class="bg-secondary rounded-circle p-2 d-block m-auto" style="width:5px;height:5px;"></span>'; ?>
                   </td>
                   <td class="text-center">
@@ -138,6 +148,20 @@ $admins = Admin::find_by_undeleted();
                 <div class="custom-control custom-switch mb-3">
                   <input type="checkbox" class="custom-control-input" name="access[dashboard]" id="dashMgt">
                   <label class="custom-control-label" for="dashMgt">Dashboard</label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[request]" id="reqMgt">
+                  <label class="custom-control-label" for="reqMgt">Request</label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="custom-control custom-switch mb-3">
+                  <input type="checkbox" class="custom-control-input" name="access[settings]" id="setMgt">
+                  <label class="custom-control-label" for="setMgt">Settings</label>
                 </div>
               </div>
 
@@ -250,6 +274,8 @@ $admins = Admin::find_by_undeleted();
         dataType: 'json',
         success: function(r) {
           let hasDashPermit = r.data.dashboard == '1' ? true : false
+          let hasReqPermit = r.data.request == '1' ? true : false
+          let hasSetPermit = r.data.settings == '1' ? true : false
           let hasUserPermit = r.data.users_mgt == '1' ? true : false
           let hasProductPermit = r.data.change_status == '1' ? true : false
           let hasSalesPermit = r.data.sales_mgt == '1' ? true : false
@@ -258,6 +284,8 @@ $admins = Admin::find_by_undeleted();
 
           $('#staff').val(r.data.user_id)
           $('#dashMgt').prop('checked', hasDashPermit);
+          $('#reqMgt').prop('checked', hasReqPermit);
+          $('#setMgt').prop('checked', hasSetPermit);
           $('#userMgt').prop('checked', hasUserPermit);
           $('#proMgt').prop('checked', hasProductPermit);
           $('#salMgt').prop('checked', hasSalesPermit);

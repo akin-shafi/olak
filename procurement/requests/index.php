@@ -5,7 +5,9 @@ $page_title = 'List Requests';
 include(SHARED_PATH . '/admin_header.php');
 
 $branches = Branch::find_all_branch();
-$requests = Request::find_all_requests();
+$requests =  in_array($loggedInAdmin->admin_level, [1, 2, 3])
+  ? Request::find_all_requests()
+  : Request::find_all_requests(['branch_id' => $loggedInAdmin->branch_id]);
 ?>
 
 <style>
@@ -30,21 +32,6 @@ $requests = Request::find_all_requests();
       </div>
 
       <div class="col-lg-12">
-        <div class="card" style="width:18rem;">
-          <div class="card-body">
-            <h5 class="card-title">Filter</h5>
-            <div class="form-group">
-              <h6 class="card-subtitle mb-2 text-muted ">Select branch</h6>
-              <select class="form-control" name="req[branch_id]" id="branch">
-                <option value="">-select a branch-</option>
-                <?php foreach ($branches as $value) : ?>
-                  <option value="<?php echo $value->id ?>"><?php echo $value->name ?> </option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-          </div>
-        </div>
-
         <div class="table-responsive rounded mb-3">
           <table class="data-table table mb-0 tbl-server-info">
             <thead class="bg-white">
@@ -70,7 +57,7 @@ $requests = Request::find_all_requests();
                     </a>
                   </td>
                   <td><?php echo $data->full_name ?></td>
-                  <td><?php echo $branch ?></td>
+                  <td><?php echo $branch; ?></td>
                   <td class="text-center">
                     <?php echo $data->quantity != '' ? number_format($data->quantity) : 'Not Set' ?>
                   </td>
@@ -276,22 +263,5 @@ $requests = Request::find_all_requests();
         window.location.reload();
       }, 1000);
     }
-
-    $(document).on('change', '#branch', function() {
-      const selected = $("#branch option:selected").val();
-      console.log(selected);
-      $.ajax({
-        url: REQ_URL,
-        method: "GET",
-        data: {
-          request_by_branch: true,
-          branch_id: selected
-        },
-        success: function(data) {
-          console.log(data);
-          $('#tBranch').html(data)
-        }
-      });
-    });
   })
 </script>

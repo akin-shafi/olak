@@ -45,7 +45,7 @@ if (is_post_request()) {
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <title>POS Dash | Responsive Bootstrap 4 Admin Dashboard Template</title>
+   <title>OLAK | Procurement</title>
 
    <!-- Favicon -->
    <link rel="shortcut icon" href="ico/favicon.ico" />
@@ -85,7 +85,10 @@ if (is_post_request()) {
                         <div class="d-flex align-items-center auth-content">
                            <div class="col-lg-7 align-self-center">
                               <div class="p-3">
-                                 <h2 class="mb-2">Sign In</h2>
+                                 <div class="d-flex justify-content-between align-items-center">
+                                    <h2 class="mb-2">Sign In</h2>
+                                    <a href="./login_guest.php" class="btn btn-outline-dark">Guest Login Here</a>
+                                 </div>
                                  <p>Login to stay connected.</p>
                                  <form method="post">
                                     <div class="row">
@@ -112,9 +115,10 @@ if (is_post_request()) {
                                        </div> -->
                                     </div>
                                     <button type="submit" class="btn btn-primary">Sign In</button>
-                                    <!-- <p class="mt-3">
-                                       Create an Account <a href="auth-sign-up.html" class="text-primary">Sign Up</a>
-                                    </p> -->
+
+                                    <p class="mt-3">
+                                       Create an Account <a href="<?php echo url_for('/signup.php') ?>" class="text-primary">Sign Up</a>
+                                    </p>
                                  </form>
                               </div>
                               <a href="<?php echo url_for('../') ?>">&leftarrow; Back</a>
