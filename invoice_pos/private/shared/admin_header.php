@@ -79,11 +79,13 @@ require_login();
         </div>
         <div class="col-xl-8 col-lg-8 col-md-6 col-sm-6 col-6">
           <ul class="header-actions">
+          
             <li class="dropdown d-none d-sm-block">
               <a href="#" id="notifications" data-toggle="dropdown" aria-haspopup="true">
                 <img src="<?php echo url_for('img/notification.svg'); ?>" alt="notifications" class="list-icon" />
               </a>
               <div class="dropdown-menu lrg" aria-labelledby="notifications">
+                
                 <div class="dropdown-menu-header">
                   <h5>Notifications</h5>
                   <p class="m-0 sub-title">You have 5 unread notifications</p>
@@ -465,15 +467,35 @@ require_login();
       </div>
     </nav>
 
-    <!-- <div class="search-container ">
+    <div class="search-container ">
       <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7 col-sm-8 col-12">
 
           <div class="search-box">
-            <input type="text" class="search-query" placeholder="Search here ...">
-            <i class="feather-search"></i>
+            <!-- <input type="text" class="search-query" placeholder="Search here ..."> -->
+            
+                <select required class="form-control client_id select2" name="billing[client_id]" id="search_client">
+                  <option value="">Search Customer</option>
+                  <?php foreach (Client::find_by_undeleted() as $client) : ?>
+                    
+                    <option value="<?php echo $client->id ?>"><?php echo $client->customer_id ?>- (<?php echo $client->full_name(); ?>)</option>
+                      
+                  <?php endforeach; ?>
+                </select>
+          
+            <!-- <i class="feather-search"></i> -->
           </div>
 
         </div>
       </div>
-    </div> -->
+    </div>
+
+    <input type="hidden" value="<?php echo url_for('client/') ?>" id="Url_link">
+
+<script>
+    var Url_link = $("#Url_link").val()
+   $(document).on('change', '#search_client', function() {
+      var customer_id = $(this).val();
+      window.location.href = Url_link + 'show.php?id=' + customer_id;
+    });
+</script>

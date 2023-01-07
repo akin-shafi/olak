@@ -48,18 +48,12 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
             <div class="default-btn" id="printBoth" style="float: ;" >Process Waybill</div>
             <a class="default-btn" id="printBoth" href="<?php echo url_for('invoice/rebate.php?invoice_no='. $invoice_no) ?>" style="float: ;" >Check Rebate</a>
-            <button class="default-btn" id="print" style="float: right;" i><i class="fa fa-print"></i> Print Reciept</button>
-            
-            
+            <button class="default-btn" id="print" style="float: right;" i><i class="fa fa-print"></i> Print Reciept</button> 
       </div>
    </div>
    <div class="separator"></div>
    <div class="separator"></div>
 </div>
-
-
-
-
 
    <section class="body" id="content">
       <?php //pre_r($billing); ?>

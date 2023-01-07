@@ -358,6 +358,10 @@ $page_title = 'Billing & Receipts'; ?>
       cal_final_total(count)
     });
 
+
+   
+    
+
     function cal_final_total(count) {
       var final_item_total = 0;
       for (var j = 1; j <= count; j++) {
