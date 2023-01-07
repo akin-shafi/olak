@@ -89,7 +89,13 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase;">Receipt</span>
             <div class="separator"></div>
             <span id="number" class="ibcl_invoice_number">#<?php echo $billing->invoiceNum ?? '00000'; ?></span>
+            
+            <div>
+               <h5 id="" class="ibcl_invoice_title" style="text-transform: uppercase;">Customer No: <b style="border-bottom: 1px solid #000;"><?php echo Client::find_by_id($billing->client_id)->customer_id; ?></b></h5>
+            </div>
+            
          </section>
+         
          <div class="clearfix"></div>
          <section id="invoice-info">
             <div>
