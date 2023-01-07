@@ -240,6 +240,31 @@ class Billing extends DatabaseObject
     }
   }
 
+  static public function find_duplicate($options = []) {
+    $client_id = $options['client_id'] ?? false;
+    $created_by = $options['created_by'] ?? false;
+    $created_date = $options['created_date'] ?? false;
+    $grand_total = $options['grand_total'] ?? false;
+    
+
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE grand_total='" . self::$database->escape_string($grand_total) . "'";
+
+    if ($client_id) {
+         $sql .= " AND client_id='" . self::$database->escape_string($client_id) . "'";
+    }
+
+    if ($created_by) {
+      $sql .= " AND created_by='" . self::$database->escape_string($created_by) . "'";
+    }
+
+    if ($created_date) {
+      $sql .= " AND created_date = '" . self::$database->escape_string($created_date) . "' ";
+    }
+
+    // echo $sql;
+    return static::find_by_sql($sql);
+  }
   static public function find_by_invoiceNum($invoiceNum)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
