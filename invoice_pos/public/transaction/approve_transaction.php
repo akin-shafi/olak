@@ -24,7 +24,7 @@ if (is_post_request()) {
     // $result = $wallet->save();
     $session->message( $full_name . ' Wallet updated successfully.');
     redirect_to(url_for('/client/index.php'));
-  }
+  // }
 } else {
   $wallet = new Wallet;
 }

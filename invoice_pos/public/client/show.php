@@ -9,7 +9,7 @@ $clients = Client::find_by_id($id);
 $walletBalance = intval($clients->balance);
 $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id);
 $transactions = Billing::find_by_client_id($id);
-// pre_r($transactions);
+// pre_r($clients);
 ?>
 <?php $page_title = 'Admins'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
@@ -52,7 +52,7 @@ $transactions = Billing::find_by_client_id($id);
                   <div class="col-md-5 col-sm-12 col-12">
                     <div class="profile-info-left">
                       <h3 class="user-name m-t-0"><?php echo $clients->full_name() ?? "Not Set" ?></h3>
-                      <h5 class="company-role m-t-0 mb-0">Customer</h5>
+                      <h5 class="company-role m-t-0 mb-0">Customer ID: <?php echo $clients->customer_id; ?></h5>
                       <div class="staff-id"><i>Registered By : <?php echo Admin::find_by_id($clients->created_by)->full_name(); ?></i></div>
                       <div class="staff-msg">
                           <a href="<?php echo url_for('wallet/add.php?id=' . $clients->customer_id) ?>" class="btn btn-sm btn-primary "> <i class="feather-plus text-success"></i> Load wallet</a>
@@ -110,7 +110,7 @@ $transactions = Billing::find_by_client_id($id);
           ?>
             <tr>
               <td><?php echo $sn++; ?></td>
-              <td><?php echo $value->payment_id ?></td>
+              <td><a href="<?php echo url_for('wallet/pop.php?payment_id=' . h(u($value->payment_id))); ?>"><?php echo h(ucwords($value->payment_id)); ?></a></td>
               <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
               <td><?php echo number_format(floatval($value->amount)); ?></td>
               <td><?php  echo $value->approval == 0 ? "Unapproved" : "Approved"; ?></td>
@@ -148,7 +148,7 @@ $transactions = Billing::find_by_client_id($id);
               <td>
                 <?php echo h(Billing::STATUS[$value->status]); ?>
               </td>
-              <td><?php echo h(ucwords($value->invoiceNum)); ?></td>
+              <td><a href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>"><?php echo h(ucwords($value->invoiceNum)); ?></a></td>
               <td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
               <td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>
               <td><?php echo number_format($value->total_amount); ?></td>
