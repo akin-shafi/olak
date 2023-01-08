@@ -264,13 +264,23 @@ require_login();
         },
         success:function(data)
         {
-          if(data.msg == 'OK'){
+          
+
+          if(data.success == true){
             getPaymentHistory(customer_id);
             showData();
             successTime("Approved");
             let from = $("#from").val();
             let to = $("#to").val();
             showMatrics(from, to);
+          }else{
+            getPaymentHistory(customer_id);
+            showData();
+            errorAlert(data.msg);
+            let from = $("#from").val();
+            let to = $("#to").val();
+            showMatrics(from, to);
+            
           }
         }
      });

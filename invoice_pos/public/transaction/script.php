@@ -38,17 +38,22 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 
 
 <?php if (isset($_POST['approve'])) { 
-	$check = WalletFundingMethod::find_by_id($_POST['id']);
-	$data1 = [
-		'approval' => 1
-	];
+	$wallet = WalletFundingMethod::find_by_id($_POST['id']);
 
-	$check->merge_attributes($data1);
-  $result = $check->save();
+  if($wallet->approval == 1){
+    exit(json_encode(['success' => false, 'msg' => 'Trasaction already approved']));
+  }else{
+    $data1 = [
+      'approval' => 1
+    ];
+    $wallet->merge_attributes($data1);
+    $result = $wallet->save();
+  }
+
 
     if($result == true){
-			$client = Client::find_by_customer_id($check->customer_id);
-			$balance = intval($client->balance) + intval($check->amount);
+			$client = Client::find_by_customer_id($wallet->customer_id);
+			$balance = intval($client->balance) + intval($wallet->amount);
 			$data2 = [
 				'balance' => $balance
 			];
@@ -56,7 +61,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 		    $result2 = $client->save();
 
 		    if($result2 == true){
-		    	exit(json_encode(['msg' => 'OK']));
+		    	exit(json_encode(['success' => true, 'msg' => 'Approved']));
 				}
     }
 	

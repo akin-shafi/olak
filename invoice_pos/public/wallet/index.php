@@ -255,10 +255,15 @@ require_login();
         },
         success:function(data)
         {
-          if(data.msg == 'OK'){
+          if(data.success == true){
             getPaymentHistory(customer_id);
             showData();
-            successTime("Approved");
+            successTime(data.msg);
+          }else{
+            getPaymentHistory(customer_id);
+            showData();
+            errorAlert(data.msg)
+            
           }
         }
      });
