@@ -14,92 +14,92 @@ if (is_post_request()) {
 		if(!empty($duplicate)){
 			exit(json_encode(['success' => false, 'msg' => "Duplicate Transaction Please Check Receipt Number". $duplicate->invoiceNum]));
 		}else{
-			// $billing = new Billing($args);
-			// $result = $billing->save();
-			// if ($result == true) {
-			// 	if ($args['billingFormat'] == 1) {
-			// 		$post_id = $args['client_id'];
-			// 		$grand_total = $args['grand_total'];
-			// 		$client = Client::find_by_id($post_id);
-			// 		$balance = ($client->balance - $grand_total);
-			// 		$new_args = [
-			// 			'balance' => $balance,
-			// 		];
-			// 		$client->merge_attributes($new_args);
+			$billing = new Billing($args);
+			$result = $billing->save();
+			if ($result == true) {
+				if ($args['billingFormat'] == 1) {
+					$post_id = $args['client_id'];
+					$grand_total = $args['grand_total'];
+					$client = Client::find_by_id($post_id);
+					$balance = ($client->balance - $grand_total);
+					$new_args = [
+						'balance' => $balance,
+					];
+					$client->merge_attributes($new_args);
 					
-			// 		$result_data = $client->save();
-			// 	}
+					$result_data = $client->save();
+				}
 
-			// 	$rand = rand(10, 100);
-			// 	$new_id = $billing->id;
-			// 	$invoice_no = "1" . str_pad($new_id, 3, "0", STR_PAD_LEFT) . $rand;
-			// 	$data = [
-			// 		'invoiceNum' 	=> $invoice_no,
-			// 		"created_by"    => $created_by,
-			// 	];
-			// 	$billing->merge_attributes($data);
-			// 	$result_set = $billing->save();
+				$rand = rand(10, 100);
+				$new_id = $billing->id;
+				$invoice_no = "1" . str_pad($new_id, 3, "0", STR_PAD_LEFT) . $rand;
+				$data = [
+					'invoiceNum' 	=> $invoice_no,
+					"created_by"    => $created_by,
+				];
+				$billing->merge_attributes($data);
+				$result_set = $billing->save();
 
-			// 	if ($result_set == true) {
-			// 		$service_type  = $_POST['service_type'];
-			// 		$quantity     = $_POST['quantity'];
-			// 		$unit_cost    = $_POST['unit_cost'];
-			// 		$amount       = $_POST['amount'];
+				if ($result_set == true) {
+					$service_type  = $_POST['service_type'];
+					$quantity     = $_POST['quantity'];
+					$unit_cost    = $_POST['unit_cost'];
+					$amount       = $_POST['amount'];
 
-			// 		if ($args['agent_id'] != '') {
-			// 			for ($i = 0; $i < count($amount); $i++) {
-			// 				$item_cost = Product::find_by_id($_POST['service_type'][$i])->price;
-			// 				$rebate_value = ($unit_cost[$i] - $item_cost);
+					if ($args['agent_id'] != '') {
+						for ($i = 0; $i < count($amount); $i++) {
+							$item_cost = Product::find_by_id($_POST['service_type'][$i])->price;
+							$rebate_value = ($unit_cost[$i] - $item_cost);
 
-			// 				$dataDesc = [
-			// 					"transid" 			  => $invoice_no,
-			// 					"service_type"  	  => $service_type[$i],
-			// 					"quantity"      	  => $quantity[$i],
-			// 					"unit_cost"     	  => $unit_cost[$i],
-			// 					"amount"        	  => $amount[$i],
-			// 					"rebate_value"        => $rebate_value,
-			// 					"created_by"    	  => $loggedInAdmin->id,
-			// 					"created_at"          => date("Y-m-d H:i:s"),
-			// 				];
+							$dataDesc = [
+								"transid" 			  => $invoice_no,
+								"service_type"  	  => $service_type[$i],
+								"quantity"      	  => $quantity[$i],
+								"unit_cost"     	  => $unit_cost[$i],
+								"amount"        	  => $amount[$i],
+								"rebate_value"        => $rebate_value,
+								"created_by"    	  => $loggedInAdmin->id,
+								"created_at"          => date("Y-m-d H:i:s"),
+							];
 
-			// 				$expRequest = new Invoice($dataDesc);
-			// 				$last_result = $expRequest->save();
-			// 			}
+							$expRequest = new Invoice($dataDesc);
+							$last_result = $expRequest->save();
+						}
 
-			// 			$total_rebate = Invoice::sum_of_rebate_value(['transid' => $invoice_no]);
-			// 			$agentWallet = AgentWallet::find_by_agent_id($args['agent_id']);
+						$total_rebate = Invoice::sum_of_rebate_value(['transid' => $invoice_no]);
+						$agentWallet = AgentWallet::find_by_agent_id($args['agent_id']);
 
-			// 			$agentRecord = [
-			// 				'balance' => ($agentWallet->balance + $total_rebate),
-			// 			];
-			// 			$agentWallet->merge_attributes($agentRecord);
-			// 			$agentWallet->save();
+						$agentRecord = [
+							'balance' => ($agentWallet->balance + $total_rebate),
+						];
+						$agentWallet->merge_attributes($agentRecord);
+						$agentWallet->save();
 
-			// 		}else{
-			// 			for ($i = 0; $i < count($amount); $i++) {
-			// 				$dataDesc = [
-			// 					"transid" 		=> $invoice_no,
-			// 					"service_type"  => $service_type[$i],
-			// 					"quantity"      => $quantity[$i],
-			// 					"unit_cost"     => $unit_cost[$i],
-			// 					"amount"        => $amount[$i],
-			// 					"created_by"    => $loggedInAdmin->id,
-			// 					"company_id"    => $loggedInAdmin->company_id,
-			// 					"branch_id"    => $loggedInAdmin->branch_id,
-			// 				];
+					}else{
+						for ($i = 0; $i < count($amount); $i++) {
+							$dataDesc = [
+								"transid" 		=> $invoice_no,
+								"service_type"  => $service_type[$i],
+								"quantity"      => $quantity[$i],
+								"unit_cost"     => $unit_cost[$i],
+								"amount"        => $amount[$i],
+								"created_by"    => $loggedInAdmin->id,
+								"company_id"    => $loggedInAdmin->company_id,
+								"branch_id"    => $loggedInAdmin->branch_id,
+							];
 
-			// 				$expRequest = new Invoice($dataDesc);
-			// 				$last_result = $expRequest->save();
-			// 			}
-			// 		}
+							$expRequest = new Invoice($dataDesc);
+							$last_result = $expRequest->save();
+						}
+					}
 
-			// 		if ($last_result == true) {
-			// 			exit(json_encode(['success' => true, 'msg' => 'Invoice Generated Successfully', 'invoice_no' => $invoice_no]));
-			// 		}
-			// 	} else {
-			// 		exit(json_encode(['success' => false, 'msg' => $billing->errors]));
-			// 	}
-			// }
+					if ($last_result == true) {
+						exit(json_encode(['success' => true, 'msg' => 'Invoice Generated Successfully', 'invoice_no' => $invoice_no]));
+					}
+				} else {
+					exit(json_encode(['success' => false, 'msg' => $billing->errors]));
+				}
+			}
 		}
 	}
 

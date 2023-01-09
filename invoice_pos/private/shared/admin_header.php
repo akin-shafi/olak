@@ -493,7 +493,7 @@ require_login();
     <input type="hidden" value="<?php echo url_for('client/') ?>" id="Url_link">
 
 <script>
-    var Url_link = $("#Url_link").val()
+   var Url_link = $("#Url_link").val()
    $(document).on('change', '#search_client', function() {
       var customer_id = $(this).val();
       window.location.href = Url_link + 'show.php?id=' + customer_id;
