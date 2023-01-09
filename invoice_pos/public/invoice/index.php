@@ -110,7 +110,7 @@ $page_title = 'Billing & Receipts'; ?>
                   <div class="form-group col-lg-3 col-md-3">
                     <label class="label-control">Customer Name <sup class="error">*</sup></label>
                     <div class="btn-group">
-                      <select required class="form-control client_id select2" name="billing[client_id]" id="client">
+                      <select required class="form-control the_client_id select2" name="billing[client_id]" id="client">
                         <option value="">Select Customer</option>
                         <?php foreach (Client::find_by_undeleted($loggedInAdmin->branch_id) as $client) : ?>
                           <option value="<?php echo $client->id ?>"><?php echo $client->full_name(); ?></option>
@@ -436,7 +436,7 @@ $page_title = 'Billing & Receipts'; ?>
       e.preventDefault()
       
       let count_data = 0;
-      let cus_id = $(".client_id").val();
+      let cus_id = $(".the_client_id").val();
       let grand_totalInput = $("#grand_totalInput").val();
       let payment_method = $("#payment_method").val();
 
@@ -523,7 +523,7 @@ $page_title = 'Billing & Receipts'; ?>
     
     $(document).on('change', '.payment_method', function() {
       var payment_method = $(this).val();
-      var cus_id = $(".client_id").val();
+      var cus_id = $(".the_client_id").val();
 
       if (payment_method == 1) {
         check_wallet(cus_id);
@@ -539,7 +539,7 @@ $page_title = 'Billing & Receipts'; ?>
       }
     });
 
-    $(document).on('change', '.client_id', function() {
+    $(document).on('change', '.the_client_id', function() {
       var cus_id = $(this).val();
       var payment_method = $(".payment_method").val();
 
