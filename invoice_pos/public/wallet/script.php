@@ -47,22 +47,24 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 			];
 			$wallet->merge_attributes($data1);
 			$result = $wallet->save();
+
+			if($result == true){
+				$client = Client::find_by_customer_id($wallet->customer_id);
+				$balance = intval($client->balance) + intval($wallet->amount);
+				$data2 = [
+					'balance' => $balance
+				];
+				$client->merge_attributes($data2);
+				$result2 = $client->save();
+	
+				if($result2 == true){
+					exit(json_encode(['success' => true, 'msg' => 'Approved']));
+				}
+			}
 		}
 		
 
-		if($result == true){
-			$client = Client::find_by_customer_id($wallet->customer_id);
-			$balance = intval($client->balance) + intval($wallet->amount);
-			$data2 = [
-				'balance' => $balance
-			];
-			$client->merge_attributes($data2);
-			$result2 = $client->save();
-
-			if($result2 == true){
-				exit(json_encode(['success' => true, 'msg' => 'Approved']));
-			}
-		}
+		
 
 }?>
 

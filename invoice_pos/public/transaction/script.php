@@ -48,8 +48,6 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
     ];
     $wallet->merge_attributes($data1);
     $result = $wallet->save();
-  }
-
 
     if($result == true){
 			$client = Client::find_by_customer_id($wallet->customer_id);
@@ -64,6 +62,10 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 		    	exit(json_encode(['success' => true, 'msg' => 'Approved']));
 				}
     }
+  }
+
+
+   
 	
 
 
