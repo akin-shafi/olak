@@ -206,3 +206,12 @@
 2023-01-07 21:14:13 | Login: Akin shafi Logged in.
 2023-01-09 09:39:59 | Login: Akin shafi Logged in.
 2023-01-09 10:54:53 | Login: Akin shafi Logged in.
+2023-01-10 07:45:57 | Logout: Akin shafi Logged out.
+2023-01-10 07:46:04 | Login: ISSA JIMOH Logged in.
+2023-01-10 07:47:08 | Logout: ISSA JIMOH Logged out.
+2023-01-10 07:47:16 | Login: Akin shafi Logged in.
+2023-01-11 17:54:27 | Login: Akin shafi Logged in.
+2023-01-11 18:09:36 | Logout: Akin shafi Logged out.
+2023-01-11 18:09:42 | Login: Adekunle Adeyemo Logged in.
+2023-01-11 18:11:52 | Logout: Adekunle Adeyemo Logged out.
+2023-01-11 18:11:56 | Login: Akin shafi Logged in.

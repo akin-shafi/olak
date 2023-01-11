@@ -193,6 +193,7 @@ if (is_post_request()) {
 
 		if ($result == true) {
 			$invoice::deleted($invoiceId);
+			$billing::deleted($invoiceId);
 		}
 
 		exit(json_encode(['msg' => 'Invoice record deleted successfully']));
