@@ -1,11 +1,7 @@
 <?php if (!isset($page_title)) $page_title = 'User Area';
-require_login();
-
-?>
-
-<!doctype html>
+require_login();?>
+<!Doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -94,7 +90,7 @@ require_login();
                   <li>
                     <a href="#" class="clearfix">
                       <div class="avatar">
-                        <img src="<?php echo url_for('img/user.png'); ?>" alt="avatar" />
+                        <img src="<?php //echo url_for('img/user.png'); ?>" alt="avatar" />
                         <span class="notify-iocn feather-drafts text-danger"></span>
                       </div>
                       <div class="details">
@@ -476,9 +472,9 @@ require_login();
             
                 <select required class="form-control client_id select2" id="search_client">
                   <option value="">Search Customer</option>
-                  <?php foreach (Client::find_by_undeleted() as $client) : ?>
+                  <?php foreach (Client::find_by_undeleted() as $fetch_cus) : ?>
                     
-                    <option value="<?php echo $client->id ?>"><?php echo $client->customer_id ?>- (<?php echo $client->full_name(); ?>)</option>
+                    <option value="<?php echo $fetch_cus->id ?>"><?php echo $fetch_cus->customer_id ?>- (<?php echo $fetch_cus->full_name(); ?>)</option>
                       
                   <?php endforeach; ?>
                 </select>
@@ -489,6 +485,7 @@ require_login();
         </div>
       </div>
     </div>
+    
 
     <input type="hidden" value="<?php echo url_for('client/') ?>" id="Url_link">
 

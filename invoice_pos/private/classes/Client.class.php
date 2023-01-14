@@ -77,7 +77,7 @@ class Client extends DatabaseObject
     if (is_blank($this->address)) {
       $this->errors[] = "Address is required";
     }
-
+   
     if (is_blank($this->phone)) {
       $this->errors[] = "Phone Number is required";
     } elseif (!has_length($this->phone, array('max' => 11))) {

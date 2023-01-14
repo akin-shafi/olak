@@ -61,7 +61,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
    <section class="body" id="content">
       <?php //pre_r($billing); ?>
-      <div class="container">
+      <div class="container-fluid">
          <section id="memo">
             <div class="logo">
 

@@ -70,8 +70,12 @@ $page_title = 'Add New Customer'; ?>
         </button>
       </div>
     <?php } ?>
-    <form method="post">
+    <form id='formF' method="post">
       <?php include("form_fields.php") ?>
+
+      <div class="">
+        <input type="button" class="btn btn-success float-right" id="save_customer" value="Create">
+      </div>
     </form>
   </div>
 </div>
@@ -80,6 +84,22 @@ $page_title = 'Add New Customer'; ?>
 
 </div>
 
-<?php include(SHARED_PATH . '/admin_footer.php');
-?>
-?>
+<?php include(SHARED_PATH . '/admin_footer.php'); ?>
+
+<script>
+  $(document).on('click', '#save_customer', function() {
+    var form_data = $("#formF").serialize();
+      $.ajax({
+        url: "inc/script.php",
+        method: "POST",
+        data: form_data,
+        dataType: 'json',
+        success: function(data) {
+          if(data.success == true){
+            successAlert(data.msg);
+          }
+        }
+      });
+  })
+  
+</script>
