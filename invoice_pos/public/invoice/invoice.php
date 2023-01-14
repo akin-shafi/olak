@@ -316,8 +316,13 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
    <input type="hidden" id="url" value="<?php echo  $clients->first_name . ' '. $clients->last_name ?? 'NOT SET'; ?>">
    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-   <script src="es6-promise.auto.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+   <!-- <script src="es6-promise.auto.min.js"></script> -->
+   
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> -->
+   <script src="https://cdn.jsdelivr.net/npm/jspdf@latest/dist/jspdf.min.js"></script>
+
+
    <!-- js -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -326,35 +331,24 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
    
    <script type="text/javascript">
       $('#print').click(function() {
-         window.print() 
+         // window.print() 
+         downloadDivAsPDF()
       })
       $('#cmd').click(function() {
-         download();
+         // download();
       });
-
-      function download() {
-         // Get the element.
-         var url = $('#url').val();
-         var element = document.getElementById('content');
-         // Generate the PDF.
-         html2pdf().from(element).set({
-            margin: 0,
-            filename: url+'-invoice.pdf',
-            // image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas: {
-               scale: 2
-            },
-            jsPDF: {
-               orientation: 'portrait',
-               unit: 'in',
-               format: 'a4',
-               compressPDF: true
-            }
-            // pagebreak: { mode: 'avoid-all', before: '#part2' }
-
-         }).save();
+      
+      function downloadDivAsPDF() {
+         var div = document.getElementById('#print');
+         var pdf = new jsPDF('p', 'pt', 'letter');
+         var options = {
+            background: 'white',
+            pagesplit: true
+         };
+         pdf.addHTML(div, 0, 0, options, function() {
+            pdf.save('div_as_pdf.pdf');
+         });
       }
-
       $("#printBoth").click(function(){
          $("#exampleModal").modal("show")
       });

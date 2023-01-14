@@ -8,8 +8,9 @@ $id = $_GET['id'];
 $agent = Agent::find_by_id($id);
 $wallet = AgentWallet::find_by_agent_id($agent->agent_id);
 
+
 $walletBalance = intval($wallet->balance);
-$walletDetails = WalletDetails::find_rec_by_agent_id($agent->agent_id);
+// $walletDetails = WalletDetails::find_rec_by_agent_id($agent->agent_id);
 ?>
 <?php $page_title = 'Admins'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
@@ -88,34 +89,26 @@ $walletDetails = WalletDetails::find_rec_by_agent_id($agent->agent_id);
         <thead>
           <tr>
             <th>S/N</th>
-            <th>Reference No.</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Post By</th>
-            <th>Bank Name</th>
-            <th>Account No.</th>
-            <th>Created At</th>
+            <th>Balance</th>
+            <th>Payment ID</th>
             <!-- <th>Repair Record</th> -->
           </tr>
         </thead>
         <tbody>
-          <?php $sn = 1;
-          foreach ($walletDetails as $value) {
-            $bankName = Bank::find_by_id($value->bank_name)->bank_name;
-            $createdBy = Admin::find_by_id($value->created_by)->full_name();
+          <?php
+          // pre_r($wallet);
+          //$sn = 1;
+          //foreach ($wallet as $value) {
+            // $bankName = Bank::find_by_id($value->bank_name)->bank_name;
+            // $createdBy = Admin::find_by_id($value->created_by)->full_name();
           ?>
             <tr>
-              <td><?php echo $sn++; ?></td>
-              <td><?php echo $value->refrence_no; ?></td>
-              <td><?php echo $value->description; ?></td>
-              <td><?php echo number_format(floatval($value->amount)); ?></td>
-              <td><?php echo $createdBy; ?></td>
-              <td><?php echo ucwords($bankName); ?></td>
-              <td><?php echo $value->account_no; ?></td>
-              <td><?php echo date('dS M, Y', strtotime($value->created_at)); ?></td>
+              <td><?php //echo $sn++; ?></td>
+              <td><?php //echo $value->balance; ?></td>
+              <td><?php //echo $value->payment_id; ?></td>
               <!-- <td><a href="record.php"><i class="feather-settings bold"> History</i></a></td> -->
             </tr>
-          <?php } ?>
+          <?php // } ?>
         </tbody>
       </table>
     </div>
