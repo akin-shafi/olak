@@ -474,7 +474,7 @@ require_login();
           <div class="search-box">
             <!-- <input type="text" class="search-query" placeholder="Search here ..."> -->
             
-                <select required class="form-control client_id select2" name="billing[client_id]" id="search_client">
+                <select required class="form-control client_id select2" id="search_client">
                   <option value="">Search Customer</option>
                   <?php foreach (Client::find_by_undeleted() as $client) : ?>
                     

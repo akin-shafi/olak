@@ -207,8 +207,6 @@ class StockDetails extends DatabaseObject
 
      public static function find_by_item_id($item_id)
     {   
-        $from = $options['from'] ?? false;
-        $to = $options['to'] ?? false;
         $sql = "SELECT * FROM " . static::$table_name . " ";
         $sql .= "WHERE item_id='" . self::$database->escape_string($item_id) . "'";
         $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";

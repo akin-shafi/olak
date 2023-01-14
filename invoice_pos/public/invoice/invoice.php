@@ -331,8 +331,8 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
    
    <script type="text/javascript">
       $('#print').click(function() {
-         // window.print() 
-         downloadDivAsPDF()
+         window.print() 
+         // downloadDivAsPDF()
       })
       $('#cmd').click(function() {
          // download();

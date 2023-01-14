@@ -68,6 +68,9 @@ $page_title = 'Edit Customer'; ?>
     <?php } ?>
     <form method="post">
       <?php include("form_fields.php") ?>
+      <div class="card-footer">
+        <input type="submit" class="btn btn-success float-right" value="Edit">
+      </div>
     </form>
   </div>
 </div>
