@@ -86,6 +86,7 @@
                         <li><a href="<?php echo url_for('/dashboard/')?>"><i class="fa fa-dashboard"></i></a></li>
                         <li class="hidden-xs hidden-sm"><a href="<?php echo url_for('/settings')?>"><i class="fa fa-cogs"></i></a></li>
                         <li class="hidden-xs hidden-sm"><a href="<?php echo url_for('/pos/view_bill')?>" target="_blank"><i class="fa fa-desktop"></i></a></li>
+                        <?php if ($view_report == 1) { ?>
                         <li class="bg-primary">
                             <a  href="<?php echo url_for('/pos/draft.php') ?>"  class="bg-black">
                                  <!-- <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" fill="#ffff" viewBox="0 0 16 16">
@@ -96,8 +97,11 @@
                             </a>
                         </li>
                         <li><a id="register_details" >Register Details</a></li>
-                        <li><a href="<?php echo url_for('/report/today_sale')?>">Today's Sale</a></li>
+                        
+                        <li><a href="<?php echo url_for('/report/today_sale') ?>">Today's Sale</a></li>
+                        
                         <li><a  id="close_reg">Close Register</a></li>
+                        <?php } ?>
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="<?php echo url_for('/uploads/avatars/thumbs/male.png')?>" class="user-image" alt="Avatar">
@@ -146,22 +150,24 @@
                             <a href="<?php echo url_for('/pos/')?>"><i class="fa fa-th"></i> <span>POS</span></a>
                         </li>
 
-                        
+                        <?php if ($view_report == 1) { ?>
                         <li class="treeview mm_sales"> 
                             <a href="#">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Sales</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
+                            
                             <ul class="treeview-menu">
                                 <li class="divider"></li> 
-                                <li id="sales_opened"><a href="<?php echo url_for('/reports/today_sale')?>"><i class="fa fa-circle-o"></i> Today's Sales Report</a></li>
-                                <?php if (in_array($loggedInAdmin->id, [1,2,3])) { ?>
-                                    <li id="sales_index"><a href="<?php echo url_for('/sales/')?>"><i class="fa fa-circle-o"></i>  All Sales Report</a></li>
+                                <li id="sales_opened"><a href="<?php echo url_for('/reports/today_sale') ?>"><i class="fa fa-circle-o"></i> Today's Sales Report</a></li>
+                                <?php if (in_array($loggedInAdmin->id, [1, 2, 3])) { ?>
+                                    <li id="sales_index"><a href="<?php echo url_for('/sales/') ?>"><i class="fa fa-circle-o"></i>  All Sales Report</a></li>
                                 <?php } ?>
-                                <li id="reports_registers" class="<?php echo $page_title == 'Registers Report' ? 'active' : '' ?>"><a href="<?php echo url_for('/reports/registers')?>"><i class="fa fa-circle-o"></i> Registers Report</a></li>
+                                <li id="reports_registers" class="<?php echo $page_title == 'Registers Report' ? 'active' : '' ?>"><a href="<?php echo url_for('/reports/registers') ?>"><i class="fa fa-circle-o"></i> Registers Report</a></li>
                                 <li class="divider"></li> 
                             </ul>
+                            
                         </li>
                         
 
@@ -185,6 +191,7 @@
                                 <li id="reports_products"><a href="<?php //echo url_for('/reports/products')?>"><i class="fa fa-circle-o"></i> Products Report</a></li> -->
                             </ul>
                         </li>
+                        <?php } ?>
                     </ul>
                 </section>
             </aside>
