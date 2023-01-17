@@ -20,6 +20,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
 		<td><?php echo Bank::find_by_id($value->bank_name)->account_number ?? "Not Set"; ?></td>
 		<td><?php echo $value->created_at; ?></td>
 		<td><?php echo Admin::find_by_id($value->created_by)->full_name(); ?></td>
+    <td><?php echo $value->branch_id ?? "Not Set"; ?></td>
 		<?php  if($accessControl->can_approve == 1) : ?>
 		<td><button class="btn btn-danger btn-sm approve" data-type="<?php echo $value->payment_method ?>" data-cust="<?php echo $value->customer_id; ?>" id="<?php echo $value->id; ?>">Confirm </button></td>
 		<?php elseif($value->payment_method != 3): ?>
@@ -86,6 +87,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
                 <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
                 <td><?php echo Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set"; ?></td>
                 <td><?php echo $account_number ."-". $account_name; ?></td>
+                <td><?php echo  Branch::find_by_id($value->branch_id)->branch_name  ?? "Not Set"; ?></td>
                 <?php  if($accessControl->can_approve == 1) : ?>
                 <td>
 

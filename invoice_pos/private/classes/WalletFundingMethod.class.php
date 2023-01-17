@@ -116,8 +116,8 @@ class WalletFundingMethod extends DatabaseObject
     $approval       = $options['approval'] ?? false;
     $customer_id    = $options['customer_id'] ?? false;
     $payment_method = $options['payment_method'] ?? false;
-    $company_id = $options['company_id'] ?? false;
-    $branch_id = $options['branch_id'] ?? false;
+    $company_id     = $options['company_id'] ?? false;
+    $branch_id      = $options['branch_id'] ?? false;
 
     $from = $options['from'] ?? false;
     $to   = $options['to'] ?? false;

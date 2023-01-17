@@ -60,6 +60,7 @@ require_login();
               <th>Payment Method</th>
               <th>Bank Name</th>
               <th>Account No</th>
+              <th>Branch</th>
               <th>Action</th>
               <th>Registered at</th>
               <th>Registered By</th>
@@ -98,6 +99,7 @@ require_login();
                 <td>Account No.</td>
                 <td>Date</td>
                 <td>Registered By</td>
+                
                 <?php if($accessControl->can_approve == 1) : ?>
                 <td>Action</td>
                 <?php endif  ?>
