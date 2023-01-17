@@ -553,7 +553,7 @@
                     </ul>
                 </li>
                 <?php } ?>
-                <?php if ($report == 1) { ?>
+                <?php if ($view_report == 1) { ?>
                 <li class="treeview mm_reports <?php echo  $page == 'Reports' ? 'active' : '' ?>">
                     <a href="#">
                         <i class="fa fa-bar-chart-o"></i>
