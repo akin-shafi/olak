@@ -27,7 +27,7 @@ if (is_post_request()) {
 
     if ($data_set == true) {
       $session->message('The customer was created successfully.');
-      redirect_to(url_for('/client/index.php'));
+      redirect_to(url_for('/wallet/index.php'));
     }
   } else {
     // show errors
