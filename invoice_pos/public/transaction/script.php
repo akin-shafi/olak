@@ -99,7 +99,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
                 <?php endif ?>
 
                 <td><?php echo $value->created_at; ?></td>
-                <td><?php echo Admin::find_by_id($value->created_by)->full_name(); ?></td>
+                <td><?php echo Admin::find_by_id($value->created_by)->full_name() ?? "Not Set"; ?></td>
                 
 
               </tr>
