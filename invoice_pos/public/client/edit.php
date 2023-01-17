@@ -11,7 +11,7 @@ if (!$client) {
 }
 
 if (is_post_request()) {
-  $args = $_POST['client'];
+  $args = $_POST;
   $client->merge_attributes($args);
   $result = $client->save();
 
@@ -77,6 +77,4 @@ $page_title = 'Edit Customer'; ?>
 
 
 
-<?php include(SHARED_PATH . '/admin_footer.php');
-?>
-?>
+<?php include(SHARED_PATH . '/admin_footer.php'); ?>
