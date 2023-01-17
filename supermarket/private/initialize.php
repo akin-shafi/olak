@@ -97,7 +97,7 @@ if (isset($loggedInAdmin->id)) {
      $process_delivery = AccessControl::find_by_user_id($loggedInAdmin->id)->process_delivery ?? 0;
      $ledger_mgt = AccessControl::find_by_user_id($loggedInAdmin->id)->ledger_mgt ?? 0;
      $shift_mgt = AccessControl::find_by_user_id($loggedInAdmin->id)->shift_mgt ?? 0;
-     $report == AccessControl::find_by_user_id($loggedInAdmin->id)->view_report ?? 0;
+     $view_report = AccessControl::find_by_user_id($loggedInAdmin->id)->view_report ?? 0;
 
      $void_order = Settings::find_by_id(1)->delete_order ?? 0;
 }

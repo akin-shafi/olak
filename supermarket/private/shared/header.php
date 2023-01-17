@@ -7,7 +7,8 @@
     $stock_mgt = AccessControl::find_by_user_id($loggedInAdmin->id)->stock_mgt ?? 0;
     $shift_mgt = AccessControl::find_by_user_id($loggedInAdmin->id)->shift_mgt ?? 0;
     $ledger_mgt = AccessControl::find_by_user_id($loggedInAdmin->id)->ledger_mgt ?? 0;
-    $report == AccessControl::find_by_user_id($loggedInAdmin->id)->view_report ?? 0;
+    $view_report = AccessControl::find_by_user_id($loggedInAdmin->id)->view_report ?? 0;
+
     $settings = $loggedInAdmin->admin_level;
 
     $page == "Products" ? ($product_mgt != 1 ? redirect_to(url_for('redirect.php?action=1')) : "") : "";
@@ -552,7 +553,7 @@
                     </ul>
                 </li>
                 <?php } ?>
-                <?php if ($report == 1)) { ?>
+                <?php if ($report == 1) { ?>
                 <li class="treeview mm_reports <?php echo  $page == 'Reports' ? 'active' : '' ?>">
                     <a href="#">
                         <i class="fa fa-bar-chart-o"></i>

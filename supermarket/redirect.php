@@ -1,6 +1,7 @@
 <?php require_once('private/initialize.php'); 
 $page_title ="Welcome";
 $action = $_GET['action'] ?? "";
+    //  $view_report == AccessControl::find_by_user_id($loggedInAdmin->id)->view_report ?? 0;
 
 if(!isset($loggedInAdmin->id)){
 	redirect_to('login.php');
@@ -95,7 +96,7 @@ a:hover {
                 </div>
                 <?php } ?>
 
-                <?php if ($report == 1) ){?>
+                <?php if ($view_report == 1){?>
                 <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
                     <a href="<?php echo url_for('reports/today_sale') ?>"
                         class="card border d-flex align-items-center justify-content-center">

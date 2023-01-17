@@ -76,6 +76,19 @@ $access = AccessControl::find_by_id($id);
           </select>
         </div>
 
+
+        <div class="form-group col-sm-6">
+          <label class="control-label">View Report</label>
+          <select class="form-control" name="editRecord[view_report]">
+            <!-- <option value="">Select</option> -->
+            <?php foreach (AccessControl::VALUE as $key => $value) { ?>
+              <option value="<?php echo $key ?>" <?php echo $access->view_report == $key ? 'selected' : '0' ?>><?php echo $value ?></option>
+            <?php } ?>
+          </select>
+        </div>
+
+        
+
         <div class="p-3 border-top d-flex justify-content-between">
 	        <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Close</button>
 	        <button type="button" name="genManifest" class="btn btn-sm bg-gradient-primary" id="editRecord">Edit</button>
@@ -141,6 +154,9 @@ if(isset($_POST['editRecord'])){
         </td>
         <td>
           <?php echo $value->ledger_mgt == '0' ? '<i class="fa fa-circle text-danger"></i>' : '<i class="fa fa-circle text-success"></i>' ?>
+        </td>
+        <td>
+          <?php echo $value->view_report == '0' ? '<i class="fa fa-circle text-danger"></i>' : '<i class="fa fa-circle text-success"></i>' ?>
         </td>
         <td>
           <button type="button" class="edit" data-id="<?php echo $value->id ?>">Edit</button>
