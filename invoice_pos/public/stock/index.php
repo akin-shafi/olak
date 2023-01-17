@@ -55,11 +55,11 @@ td a {
                         <th>S/n</th>
                         <th>Item</th>
                         <th>ToTal Stock</th>
-                        <th>Inflow/Avail Stock</th>
-                        <th>Out Flow/Sold stock</th>
+                        <th>Avail Stock</th>
+                        <th>Sold stock</th>
                         
-                        <th>RETURNED INWARDS</th>
-                        <th> BREAKAGES/SCRAP</th>
+                        <!-- <th>RETURNED INWARDS</th> -->
+                        <!-- <th> BREAKAGES/SCRAP</th> -->
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -99,8 +99,8 @@ td a {
                         <td><?php echo $left_over ?? 0; ?></td>
                         <td><?php echo $sales->sum_of_quantity ?? 0; ?></td>
                         
-                        <td>0</td>
-                        <td>0</td>
+                        <!-- <td>0</td> -->
+                        <!-- <td>0</td> -->
                         <td>
                             <button type="button" class=" btn btn-sm btn-primary add"
                                 data-id="<?php echo $item->id ?>"><i class="fa fa-plus"></i> Add

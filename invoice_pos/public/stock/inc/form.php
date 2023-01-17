@@ -23,7 +23,17 @@ if(isset($_POST['stockForm'])){
 
     <div class="form-group col-sm-6">
       <label>Quantity Supplied</label>
-      <input type="number" min="0" name="addStock[supply]" placeholder="e.g 19" class="form-control" id="supply">
+      <input type="number" required min="0" name="addStock[supply]" placeholder="e.g 19" class="form-control" id="supply">
+    </div>
+    
+    <div class="form-group col-sm-6">
+      <label>Cost Price</label>
+      <input type="number" required min="0" name="addStock[cost_price]" placeholder="e.g 30000" class="form-control" id="cost_price">
+    </div>
+
+    <div class="form-group col-sm-6">
+      <label>Sales Price</label>
+      <input type="number" required min="0" name="addStock[sales_price]" placeholder="e.g 30000" class="form-control" id="sales_price">
     </div>
 </div>
 <div class="modal-footer">
