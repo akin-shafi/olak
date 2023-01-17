@@ -78,11 +78,18 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
               $sn=1; foreach($check as $value) { 
               $account_number = Bank::find_by_id($value->bank_name)->account_number ?? "Not Set";
               $account_name = $value->bank_name == 0 ? " " : Bank::find_by_id($value->bank_name)->account_name;
+              $client = Client::find_by_customer_id($value->customer_id);
               ?>
 
               <tr>
                 <td><?php echo $sn++; ?></td>
-                <td class="text-uppercase"><?php echo Client::find_by_customer_id($value->customer_id)->full_name(); ?></td>
+                <td class="text-uppercase">
+                  <a href="<?php echo url_for('client/show.php?id='. $client->id) ?>" class="d-flex align-items-center">
+                    
+                    <?php echo $client->full_name(); ?>
+                    
+                  </a>
+                </td>
                 <td><?php echo $currency." ". number_format($value->amount, 2); ?></td>
                 <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
                 <td><?php echo Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set"; ?></td>
