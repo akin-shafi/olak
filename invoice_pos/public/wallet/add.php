@@ -8,10 +8,6 @@ if ($id) {
   $c_id = $customer->id;
   $customer_name = $customer->full_name();
 }
-
-
-
-
 ?>
 
 <?php $page = 'Wallet';

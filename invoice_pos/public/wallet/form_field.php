@@ -2,6 +2,7 @@
   .bank_alt{display: none;}
 </style>
 <div class="row">
+<input type="hidden" value="<?php echo date("Y-m-d H:i:s")?>" name="wallet[created_at]">
   <section class="col-lg-12 col-md-12 ">
     <dl class="row">
       <input type="hidden" class="form-control" name="wallet[created_by]" value="<?php echo $loggedInAdmin->id ?>">
@@ -23,6 +24,7 @@
         <label>Branch Name <span class="text-danger">*</span></label>
         <!-- <input type="text" class="form-control" name="wallet[branch_id]" value=""> -->
 
+        
         <select name="wallet[branch_id]" class="form-control select2" data-placeholder="Branch Name" required>
           <option label="Select Branch"></option>
           <?php foreach (Branch::find_by_undeleted() as $value) : ?>
