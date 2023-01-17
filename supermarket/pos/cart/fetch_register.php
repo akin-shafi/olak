@@ -51,7 +51,7 @@
                                 <input type="hidden" name="open_time" value="<?php echo date('Y-m-d', strtotime($current_register->open_time)) ?>">
                                 <input type="hidden" name="remitter[close_time]" value="<?php echo date('Y-m-d H:i:s') ?>">
                                 <div id="list-table">
-                                     <table width="100%" class="stable" >
+                                     <table width="100%" class="stable d-none" >
                                          <tbody>
                                          <tr>
                                              <td style="border-bottom: 1px solid #EEE;"><h4>Cash in hand:</h4></td>
@@ -160,7 +160,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label for="total_cash_submitted">Total Cash Remitted</label>
+                                                    <label for="total_cash_submitted">Total Revenue</label>
                                                     <input type="text" name="remitter[total_cash_submitted]" value="<?php echo $total + $current_register->cash_in_hand; ?>" class="form-control input-tip" id="total_cash_submitted" required="required">
                                                 </div>
                                                 <div class="form-group">

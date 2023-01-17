@@ -99,9 +99,9 @@
                         <li><a id="register_details" >Register Details</a></li>
                         
                         <li><a href="<?php echo url_for('/report/today_sale') ?>">Today's Sale</a></li>
-                        
-                        <li><a  id="close_reg">Close Register</a></li>
                         <?php } ?>
+                        <li><a  id="close_reg">Close Register</a></li>
+                        
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="<?php echo url_for('/uploads/avatars/thumbs/male.png')?>" class="user-image" alt="Avatar">
