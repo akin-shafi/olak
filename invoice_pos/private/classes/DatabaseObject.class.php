@@ -124,7 +124,7 @@ class DatabaseObject
     $sql .= join("', '", array_values($attributes));
     $sql .= "')";
 
-    echo $sql;
+    // echo $sql;
 
     $result = self::$database->query($sql);
     if ($result) {

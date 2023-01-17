@@ -2,7 +2,7 @@
 class AccessControl extends DatabaseObject
 {
     protected static $table_name = "acccess_control";
-    protected static $db_columns = ['id', 'user_id', 'stock_mgt', 'user_mgt', 'warehouse_mgt', 'purchase_mgt', 'product_mgt', 'shift_mgt', 'ledger_mgt', 'created_at','created_by','updated_at','updated_by', 'deleted']; 
+    protected static $db_columns = ['id', 'user_id', 'stock_mgt', 'user_mgt', 'warehouse_mgt', 'purchase_mgt', 'product_mgt', 'shift_mgt', 'ledger_mgt', 'view_report', 'created_at','created_by','updated_at','updated_by', 'deleted']; 
 
     public $id;
     public $user_id;
@@ -13,6 +13,8 @@ class AccessControl extends DatabaseObject
     public $ledger_mgt;
     public $warehouse_mgt;
     public $purchase_mgt;
+    public $view_report;
+    
     public $created_at;
     public $created_by;
     public $deleted;
@@ -34,6 +36,7 @@ class AccessControl extends DatabaseObject
       $this->ledger_mgt = $args['ledger_mgt'] ?? 0;
       $this->warehouse_mgt = $args['warehouse_mgt'] ?? 0;
       $this->purchase_mgt = $args['purchase_mgt'] ?? 0;
+      $this->view_report = $args['view_report'] ?? 0;
       $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
       $this->created_by = $args['created_by'] ?? 1;
       $this->updated_at = $args['updated_at'] ?? '';
@@ -63,6 +66,10 @@ class AccessControl extends DatabaseObject
         }
         if (is_blank($this->purchase_mgt)) {
             $this->errors[] = "Procurement mgt cannot be blank.";
+        }
+
+        if (is_blank($this->view_report)) {
+            $this->errors[] = "View report cannot be blank.";
         }
         return $this->errors;
     }
