@@ -132,7 +132,7 @@
 
   #invoice-info {
     float: left;
-    margin-top: 50px;
+    margin-top: 20px;
   }
   #invoice-info > div {
     float: left;
@@ -179,7 +179,7 @@
     line-height: 1em;
   }
   #invoice-title-number #title {
-    font-size: 50px;
+    font-size: 30px;
     color: #396E00;
   }
   #invoice-title-number #number {

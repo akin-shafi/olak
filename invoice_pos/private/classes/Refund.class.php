@@ -126,6 +126,31 @@ class Refund extends DatabaseObject {
     return $obj_array;
   }
   
+  static public function find_duplicate($options=[]){
+    $customer_id    = $options['customer_id'] ?? false;
+    $amount        = $options['amount'] ?? false;
+    $created_by     = $options['created_by'] ?? false;
+    $created_at     = $options['created_at'] ?? false;
+    
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE amount='" . self::$database->escape_string($amount) . "'";
+
+    if ($customer_id) {
+         $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+    }
+
+    if ($created_by) {
+      $sql .= " AND created_by='" . self::$database->escape_string($created_by) . "'";
+    }
+
+    if ($created_at) {
+      $sql .= " AND created_at = '" . self::$database->escape_string($created_at) . "' ";
+    }
+
+    // echo $sql;
+    return static::find_by_sql($sql);
+  }
+  
 
 
 

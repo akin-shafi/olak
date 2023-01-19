@@ -64,7 +64,17 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
       <div class="container-fluid">
          <section id="memo">
             <div class="logo">
-
+            <section id="invoice-title-number">
+               <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase;">Receipt</span>
+               <div class="separator"></div>
+               <span id="number" class="ibcl_invoice_number">#<?php echo $billing->invoiceNum ?? '00000'; ?></span>
+               
+               <div>
+                  <h5 id="" class="ibcl_invoice_title" style="text-transform: uppercase;">Customer No: <b style="border-bottom: 1px solid #000;"><?php echo Client::find_by_id($billing->client_id)->customer_id; ?></b></h5>
+               </div>
+               
+            </section>
+            
                <!-- <img data-logo="company_logo" src="../../images/justice.svg"> -->
                <?php if ($billing->backlog == 1) : ?>
                   <div style="width: 100px; height: 100px; background: #000;"></div>
@@ -83,16 +93,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                <span class="ibcl_company_phone_fax"><?php echo $company->phone_no; ?> | <?php echo $company->mobile_no; ?></span>
             </div>
          </section>
-         <section id="invoice-title-number">
-            <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase;">Receipt</span>
-            <div class="separator"></div>
-            <span id="number" class="ibcl_invoice_number">#<?php echo $billing->invoiceNum ?? '00000'; ?></span>
-            
-            <div>
-               <h5 id="" class="ibcl_invoice_title" style="text-transform: uppercase;">Customer No: <b style="border-bottom: 1px solid #000;"><?php echo Client::find_by_id($billing->client_id)->customer_id; ?></b></h5>
-            </div>
-            
-         </section>
+         
          
          <div class="clearfix"></div>
          <section id="invoice-info">
@@ -136,7 +137,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          </section>
          <div class="clearfix"></div>
 
-         <section id="items">
+         <section id="items" style="margin-top:-10px ;">
             <table cellspacing="0" cellpadding="0">
                <tbody>
                   <tr>
@@ -192,12 +193,12 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             </div>
 
             <div class="ibcl_payment_info5"></div>
-            <section id="terms">
-               <span class="hidden ibcl_terms_label">Terms Notes</span>
-               <div class="ibcl_terms">Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?>, We appreciate your patrionage.
-               </div>
-
-
+       
+            <section id="terms" style="margin-top: -20px !important;">
+                Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?><br>
+                <div>Please kindly take note of the companies Sales and Transaction Policy below.</div>
+               <span class="hidden ibcl_terms_label">Terms &amp; Notes</span>
+               
             </section>
 
             <div>
@@ -205,8 +206,14 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                <p>
                   This receipt is valid for <?php echo $billing->due_date ?>days Only. Hence all goods/items stated above must be collected on or before 
                   <b><?php echo date('D jS F, Y', strtotime($due_date)) ?></b>
-
                </p>
+               1. All Goods paid for must be picked-up within 90days of payment.<br>
+               2. After 90days customer will be liabe to pay the difference in price of Goods.<br>
+               3. Refunds can only be considered within 7days of purchase. <br>
+               4. All returned goods after-sales shall be valued on the 
+                     management scale as second-grade goods at 10% discount of the sales price, and duction of VAT<br>
+               5. Customer should note that the refund process may take up to 3 working days.<br>
+               <p>Thanks for your patrionage. </p>
             </div>
 
 

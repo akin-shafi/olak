@@ -32,26 +32,43 @@ require_once('../../private/initialize.php'); ?>
 
 
 <?php if (isset($_POST['approve'])) { 
-		$check = Refund::find_by_id($_POST['id']);
-		$data1 = [
-			'status' => 1
-		];
-		$check->merge_attributes($data1);
-	    $result = $check->save();
+		$formData = Refund::find_by_id($_POST['id']);
+    $client = Client::find_by_customer_id($formData->customer_id);
+    $created_by = $loggedInAdmin->id;
+    $created_at = $_POST['created_at'];
 
-    if($result == true){
-			$client = Client::find_by_customer_id($check->customer_id);
-			$balance = intval($client->balance) - intval($check->amount);
-			$data2 = [
-				'balance' => $balance
-			];
-		$client->merge_attributes($data2);
-	    $result2 = $client->save();
+    $find_duplicate = Refund::find_duplicate(['customer_id' => $formData->customer_id, 
+    'balance' => $formData->amount, 'created_by' => $created_by, 
+    'created_at' => $created_at]);
+    if(!empty($find_duplicate)){
+      exit(json_encode(['success' => false, 'msg' => "Duplicate Transaction Please Check Record"]));
+    }else{
+        $balance = intval($client->balance) - intval($formData->amount);
+        $data2 = [
+          'balance' => $balance
+        ];
+        $client->merge_attributes($data2);
+        $result = $client->save();
 
-	    if($result2 == true){
-	    	exit(json_encode(['msg' => 'OK']));
-	    }
+        if($result == true){
+          $changeStatus = [
+            'status' => 1
+          ];
+          $formData->merge_attributes($changeStatus);
+          $result2 = $formData->save();
+          if($result2 == true){
+            exit(json_encode(['msg' => 'OK']));
+          }
+          
+        }
+
+        
     }
+    
+
+		
+
+    
 
 }?>
 
