@@ -217,16 +217,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                <p>Thanks for your patrionage. </p>
             </div>
 
-            <div>
-               <tr>
-                  <td>Signature:</td>
-                  <td>_______________________</td>
-               </tr>
-               <tr>
-                  <td>Date:</td>
-                  <td>_______________________</td>
-               </tr>
-            </div>
+            
             
             
 
@@ -263,8 +254,23 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                      <th data-ibcl-id="amount_due_label" class="ibcl_amount_due_label" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Enter amount due label">Balance:</th>
                      <td data-ibcl-id="amount_due" class="ibcl_amount_due" data-tooltip="tooltip" data-placement="top" title=""><?php echo $billing->currency; ?> <?php echo $billing->balance ?: '0.00'; ?></td>
                   </tr>
+                  <tr>
+                     <td colspan="2">
+                        <div>
+                           <tr>
+                              <td>Signature:</td>
+                              <td>_______________________</td>
+                           </tr>
+                           <tr>
+                              <td>Date:</td>
+                              <td>_______________________</td>
+                           </tr>
+                        </div>
+                     </td>
+                  </tr>
                </tbody>
             </table>
+
          </section>
          <div class="clearfix"></div>
 
