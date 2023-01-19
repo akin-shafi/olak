@@ -194,9 +194,9 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
 
             <div class="ibcl_payment_info5"></div>
        
-            <section id="terms" style="margin-top: -20px !important;">
+            <section class="mb-2" style="margin-top: 10px;">
                 Dear <b><?php echo $clients->full_name() ?? 'NOT SET'; ?></b><br>
-                <div>kindly take note of the companies terms below.</div>
+                <div>Please afix your signature below.</div>
             </section>
 
             <div style="margin-top: -10px;">
