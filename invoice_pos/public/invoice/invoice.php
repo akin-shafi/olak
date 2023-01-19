@@ -138,7 +138,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          <div class="clearfix"></div>
 
          <section id="items" style="margin-top:-10px ;">
-            <table cellspacing="0" cellpadding="0">
+            <table cellspacing="0" cellpadding="0" style="font-size: 12px;">
                <tbody>
                   <tr>
                      <th class="ibcl_item_row_number_label"></th>
@@ -195,27 +195,40 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             <div class="ibcl_payment_info5"></div>
        
             <section id="terms" style="margin-top: -20px !important;">
-                Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?><br>
-                <div>Please kindly take note of the companies Sales and Transaction Policy below.</div>
-               <span class="hidden ibcl_terms_label">Terms &amp; Notes</span>
-               
+                Dear <b><?php echo $clients->full_name() ?? 'NOT SET'; ?></b><br>
+                <div>kindly take note of the companies terms below.</div>
             </section>
 
-            <div>
-               <h3>Terms  Notes:</h3>
+            <div style="margin-top: -10px;">
+               <h3>Sales & Purchase Agreement </h3>
                <p>
-                  This receipt is valid for <?php echo $billing->due_date ?>days Only. Hence all goods/items stated above must be collected on or before 
-                  <b><?php echo date('D jS F, Y', strtotime($due_date)) ?></b>
+                  <b><u>Price Validity</u></b><br>
+                  1. Prices on this receipt is valid for <?php echo $billing->due_date ?>days Only.
+                     <b><?php //echo date('D jS F, Y', strtotime($due_date)) ?></b> <br>
+                  <b><u>Unpicked Goods</u></b><br>
+                  1. All Goods paid for must be picked-up within 90days after payment.<br>
+                  2. After 90days customer will be liable to pay a warehousing service charge.<br>
+                  <b><u>Return Policy</u></b><br>
+                  1. After sales retun/refunds can only be considered within 7days of purchase. <br>
+                  2. All returned goods shall be valued on the 
+                        management scale as second-grade goods at 10% discount of the sales price, and duction of VAT<br>
+                  3. Customer should note that the refund process may take up to 3 working days.<br>
                </p>
-               1. All Goods paid for must be picked-up within 90days of payment.<br>
-               2. After 90days customer will be liabe to pay the difference in price of Goods.<br>
-               3. Refunds can only be considered within 7days of purchase. <br>
-               4. All returned goods after-sales shall be valued on the 
-                     management scale as second-grade goods at 10% discount of the sales price, and duction of VAT<br>
-               5. Customer should note that the refund process may take up to 3 working days.<br>
                <p>Thanks for your patrionage. </p>
             </div>
 
+            <div>
+               <tr>
+                  <td>Signature:</td>
+                  <td>_______________________</td>
+               </tr>
+               <tr>
+                  <td>Date:</td>
+                  <td>_______________________</td>
+               </tr>
+            </div>
+            
+            
 
          </div>
          <!-- </div> -->
