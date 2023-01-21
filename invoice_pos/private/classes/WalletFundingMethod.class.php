@@ -62,13 +62,7 @@ class WalletFundingMethod extends DatabaseObject
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE customer_id='" . self::$database->escape_string($customer_id) . "'";
-    // $obj_array = static::find_by_sql($sql);
-    // if (!empty($obj_array)) {
-    //   return array_shift($obj_array);
-    // } else {
-    //   return false;
-    // }
-
+    $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     $obj_array = static::find_by_sql($sql);
     return $obj_array;
   }
