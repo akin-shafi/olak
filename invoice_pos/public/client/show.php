@@ -86,10 +86,6 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
                           <th>Wallet Balance:</th>
                           <td><?php echo $currency . ' ' . number_format($walletBalance) ?></td>
                         </tr>
-                        <tr>
-                          <th>Total Deposit:</th>
-                          <td><?php echo $currency . ' ' . number_format($totalDeposit) ?></td>
-                        </tr>
                         
                         <tr>
                           <th>Total Transaction:</th>
