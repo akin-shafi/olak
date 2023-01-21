@@ -9,6 +9,8 @@ $clients = Client::find_by_id($id);
 $walletBalance = intval($clients->balance);
 $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id);
 $transactions = Billing::find_by_client_id($id);
+$totalSales = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'customer_id' => $clients->customer_id ]) ?? 0; 
+
 // pre_r($clients);
 ?>
 <?php $page_title = 'Admins'; ?>
@@ -86,6 +88,10 @@ $transactions = Billing::find_by_client_id($id);
 
     <h3>Deposit History</h3>
     <div class="table-responsive">
+    <div class="d-flex justify-content-end">
+        <!-- <h3>Sum of Deposit </h3> -->
+        <h3>Total Deposit: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalSales) ?></span></h3>
+      </div>
       <table class="table table-bordered" id="rowSelection">
         <thead>
           <tr>
@@ -111,6 +117,7 @@ $transactions = Billing::find_by_client_id($id);
             $branch_id = Admin::find_by_id($value->created_by)->branch_id;
             $branch = Branch::find_by_id($branch_id)->branch_name;
           ?>
+           
             <tr>
               <td><?php echo $sn++; ?></td>
               <td><a href="<?php echo url_for('wallet/pop.php?payment_id=' . h(u($value->payment_id))); ?>"><?php echo h(ucwords($value->payment_id)); ?></a></td>
@@ -131,6 +138,7 @@ $transactions = Billing::find_by_client_id($id);
           <?php } ?>
         </tbody>
       </table>
+      
     </div>
 
     <h3>Transaction History</h3>
