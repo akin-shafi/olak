@@ -95,10 +95,11 @@ $transactions = Billing::find_by_client_id($id);
             <th>Amount</th>
             <th>Status</th>
             <th>Post By</th>
+            <th>Branch </th>
             <th>Bank Name</th>
             <th>Account No.</th>
             <th>Created At</th>
-            <!-- <th>Repair Record</th> -->
+            
           </tr>
         </thead>
         <tbody>
@@ -107,6 +108,8 @@ $transactions = Billing::find_by_client_id($id);
             $bankName = Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set";
             $account_no = Bank::find_by_id($value->bank_name)->account_number ?? "Not Set";
             $createdBy = Admin::find_by_id($value->created_by)->full_name();
+            $branch_id = Admin::find_by_id($value->created_by)->branch_id;
+            $branch = Branch::find_by_id($branch_id)->branch_name;
           ?>
             <tr>
               <td><?php echo $sn++; ?></td>
@@ -115,6 +118,7 @@ $transactions = Billing::find_by_client_id($id);
               <td><?php echo number_format(floatval($value->amount)); ?></td>
               <td><?php  echo $value->approval == 0 ? "Unapproved" : "Approved"; ?></td>
               <td><?php echo $createdBy; ?></td>
+              <td><?php echo $branch; ?></td>
               <td><?php echo ucwords($bankName); ?></td>
               <td><?php echo $account_no; ?></td>
               <td><?php echo date('dS M, Y H:i:s', strtotime($value->created_at)); ?></td>
@@ -133,6 +137,7 @@ $transactions = Billing::find_by_client_id($id);
             <th>S/N</th>
             <th>Status</th>
             <th>Invoice No.</th>
+            <th>Created By</th>
             <th>Branch</th>
             <th>Created Date</th>
             <th>Total Amount</th>
@@ -142,6 +147,7 @@ $transactions = Billing::find_by_client_id($id);
           <?php $sn = 1;
           foreach ($transactions as $value) {
             $branch = Branch::find_by_id($value->branch_id);
+            $createdBy = Admin::find_by_id($value->created_by)->full_name();
           ?>
             <tr>
               <td><?php echo $sn++; ?></td>
@@ -149,6 +155,7 @@ $transactions = Billing::find_by_client_id($id);
                 <?php echo h(Billing::STATUS[$value->status]); ?>
               </td>
               <td><a href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>"><?php echo h(ucwords($value->invoiceNum)); ?></a></td>
+              <td><?php echo $createdBy ?></td>
               <td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
               <td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>
               <td><?php echo number_format($value->total_amount); ?></td>
