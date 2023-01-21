@@ -116,7 +116,11 @@ $transactions = Billing::find_by_client_id($id);
               <td><a href="<?php echo url_for('wallet/pop.php?payment_id=' . h(u($value->payment_id))); ?>"><?php echo h(ucwords($value->payment_id)); ?></a></td>
               <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
               <td><?php echo number_format(floatval($value->amount)); ?></td>
-              <td><?php  echo $value->approval == 0 ? "Unapproved" : "Approved"; ?></td>
+              <td>
+                <?php  echo $value->approval == 0 ? "Unapproved" : "Approved"; ?>
+                <?php  echo $value->deleted == 1 ? " and Deleted" : ""; ?>
+
+              </td>
               <td><?php echo $createdBy; ?></td>
               <td><?php echo $branch; ?></td>
               <td><?php echo ucwords($bankName); ?></td>
