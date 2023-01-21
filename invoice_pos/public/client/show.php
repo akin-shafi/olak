@@ -9,8 +9,8 @@ $clients = Client::find_by_id($id);
 $walletBalance = intval($clients->balance);
 $walletDetails = WalletFundingMethod::find_by_customer_id($clients->customer_id);
 $transactions = Billing::find_by_client_id($id);
-$totalSales = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'customer_id' => $clients->customer_id ]) ?? 0; 
-
+$totalDeposit = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'customer_id' => $clients->customer_id ]) ?? 0;
+$totalPurchase = Billing::sum_of_sales(['client_id' => $id, 'status' => 2]);
 // pre_r($clients);
 ?>
 <?php $page_title = 'Admins'; ?>
@@ -88,9 +88,9 @@ $totalSales = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'customer
 
     <h3>Deposit History</h3>
     <div class="table-responsive">
-    <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end">
         <!-- <h3>Sum of Deposit </h3> -->
-        <h3>Total Deposit: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalSales) ?></span></h3>
+        <h3>Total Deposit: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalDeposit) ?></span></h3>
       </div>
       <table class="table table-bordered" id="rowSelection">
         <thead>
@@ -175,6 +175,10 @@ $totalSales = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'customer
           <?php } ?>
         </tbody>
       </table>
+    </div>
+    <div class="d-flex justify-content-end">
+      <!-- <h3>Sum of Deposit </h3> -->
+      <h3>Total Purchase: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalPurchase) ?></span></h3>
     </div>
 
 

@@ -182,12 +182,17 @@ class Billing extends DatabaseObject
       $billingFormat = $options['billingFormat'] ?? false;
       $company_id = $options['company_id'] ?? false;
       $branch_id = $options['branch_id'] ?? false;
+      $client_id = $options['client_id'] ?? false;
 
       $from = $options['from'] ?? false;
       $to   = $options['to'] ?? false;
       $sql = "SELECT SUM(grand_total) FROM " . static::$table_name . " ";
       $sql .= "WHERE status='" . self::$database->escape_string($status) . "'";
      
+      if ($client_id) {
+        $sql .= " AND client_id='" . self::$database->escape_string($client_id) . "' ";
+      }
+
       if ($billingFormat) {
          $sql .= " AND billingFormat='" . self::$database->escape_string($billingFormat) . "'";
       }
@@ -199,6 +204,8 @@ class Billing extends DatabaseObject
       if ($branch_id) {
          $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
       }
+
+      
       $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
       if ($from && $to) {
