@@ -189,7 +189,9 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
               <td>
                 <?php echo h(Billing::STATUS[$value->status]); ?>
               </td>
-              <td><a href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>"><?php echo h(ucwords($value->invoiceNum)); ?></a></td>
+              <td>
+                <a href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
+                  <?php echo h(ucwords($value->invoiceNum)); ?></a></td>
               <td><?php echo $createdBy ?></td>
               <td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
               <td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>
@@ -206,7 +208,7 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
           <td><?php echo $currency . ' ' . number_format($totalDelivered) ?></td>
         </tr>
         <tr>
-          <td>Total UnDelivered</td>
+          <td>Total Not Yet Delivered</td>
           <td><?php echo $currency . ' ' . number_format($totalUndelivered) ?></td>
         </tr>
       </table>

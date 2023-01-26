@@ -300,16 +300,23 @@ class DatabaseObject
   {
 
     $order = $options['order'] ?? '';
+    $limit = $options['limit'] ?? '';
 
     $sql = "SELECT * FROM " . static::$table_name . " ";
     //   $sql .= "WHERE deleted = 0 ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
 
+    
     if ($order) {
       $sql .= " ORDER BY id " . self::$database->escape_string($order) . " ";
     } else {
       $sql .= " ORDER BY id DESC ";
     }
+    if ($limit) {
+      $sql .= "LIMIT " . self::$database->escape_string($limit) . " ";
+    }
+    
+    
     // echo $sql;
 
     return static::find_by_sql($sql);

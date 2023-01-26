@@ -3,7 +3,8 @@ class StockDetails extends DatabaseObject
 {
   protected static $table_name = "stock_details";
   protected static $db_columns = ['id','item_id','ref_no','initial_stock','supply', 'cost_price',
-  'sales_price',
+  'sales_price', 'company_id',
+  'branch_id',
   'total_amt','sold_stock','sold_stock_amt','qty_left','created_at','created_by', 'updated_at', 'updated_by', 'exception','deleted'];
      
 
@@ -25,7 +26,10 @@ class StockDetails extends DatabaseObject
     public $updated_at;
     public $updated_by;
     public $exception;
+    public $company_id;
+    public $branch_id;
     public $deleted;
+    
 
      
  
@@ -50,6 +54,8 @@ class StockDetails extends DatabaseObject
         $this->updated_at = $args['updated_at'] ?? '';
         $this->updated_by = $args['updated_by'] ?? '';
         $this->exception = $args['exception'] ?? 0;
+        $this->company_id = $args['company_id'] ?? 0;
+        $this->branch_id = $args['branch_id'] ?? 0;
         $this->deleted = $args['deleted'] ?? '';
     }
 

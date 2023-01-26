@@ -70,7 +70,7 @@ class Billing extends DatabaseObject
   ];
 
   const STATUS = [
-    1 => 'In Progress',
+    1 => 'Not Yet Delivered',
     2 => 'Delivered',
   ];
 
@@ -282,6 +282,9 @@ class Billing extends DatabaseObject
   static public function find_by_client_id($client_id){
       $sql = "SELECT * FROM " . static::$table_name . " ";
       $sql .= "WHERE client_id = " . self::$database->escape_string($client_id) . " ";
+      
+      $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    
       return static::find_by_sql($sql);
   }
 

@@ -104,69 +104,37 @@ if (is_post_request()) {
 	}
 
 	if (isset($_POST['edit_invoice'])) {
-		$args				= $_POST['billing'];
-		$invoice_no = $_POST['invoice_num'];
-
-		$billing = Billing::find_by_invoice_no($invoice_no);
-		$previous_total = $billing->grand_total;
-		// ($billing->balance == $args['balance']) ? $billing->balance : $args['balance'];
-
-		$args['invoiceNum'] = $invoice_no;
+		$args				 = $_POST['billing'];
+		$invoice_no 		 = $_POST['invoice_num'];
+		$billing 			 = Billing::find_by_invoice_no($invoice_no);
+		$previous_total 	 = $billing->grand_total;
+		$args['invoiceNum']  = $invoice_no;
 		$args['grand_total'] = $args['grand_total'] == '' ? $billing->grand_total : $args['grand_total'] + $args['balance'];
-
-		$customer_balance = Client::find_by_id($billing->client_id)->balance;
+		$customer_balance    = Client::find_by_id($billing->client_id)->balance;
 
 		$billing->merge_attributes($args);
-		// $result = $billing->save();
-		$result = true;
+		$result = $billing->save();
 		if ($result == true) {
-
 			$service_type = $_POST['service_type'];
 			$quantity     = $_POST['quantity'];
 			$unit_cost    = $_POST['unit_cost'];
 			$amount       = $_POST['amount'];
-			// pre_r($_POST);
-				
-
-				$invoice = Invoice::find_by_transid($invoice_no);
+				$invoice = Invoice::find_all_by_transid($invoice_no);
 				for ($i = 0; $i < count($amount); $i++) {
-
-					// $item_cost = Product::find_by_id($_POST['service_type'][$i])->price;
-					// $rebate_value = ($unit_cost[$i] - $item_cost);
-
 					$dataDesc = [
 						"transid" 			  => $invoice_no,
 						"service_type"  	  => $service_type[$i],
 						"quantity"      	  => $quantity[$i],
 						"unit_cost"     	  => $unit_cost[$i],
 						"amount"        	  => $amount[$i],
-						// "rebate_value"        => $rebate_value,
 						"created_by"    	  => $loggedInAdmin->id,
 					];
-
-					// $expRequest = new Invoice($dataDesc);
 					$invoice->merge_attributes($dataDesc);
-					$last_result = $expRequest->save();
-					pre_r($invoice);
+					$last_result = $invoice->save();
 				}
 				if ($last_result == true) {
-					// if ($args['agent_id'] != '') {
-					// 	$total_rebate = Invoice::sum_of_rebate_value($invoice_no);
-					
-					// 	$agentWallet = AgentWallet::find_by_agent_id($args['agent_id']);
-					// 	$agentRecord = [
-					// 		'balance' => ($total_rebate + $agentWallet->balance),
-					// 	];
-					// 	$agentWallet->merge_attributes($agentRecord);
-					// 	$agentWallet->save();
-					// }
-
 					exit(json_encode(['success' => true, 'msg' => 'Invoice Updated Successfully', 'invoice_no' => $invoice_no]));
 				}
-
-			
-
-			
 		}
 	}
 

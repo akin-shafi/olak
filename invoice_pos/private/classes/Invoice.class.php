@@ -83,11 +83,30 @@ class Invoice extends DatabaseObject
     return $this->errors;
   }
 
+  static public function find_all_by_transid($invoiceNum)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE transid = " . self::$database->escape_string($invoiceNum) . " ";
+    $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    // echo $sql;
+    // return static::find_by_sql($sql);
+
+    // echo $sql;
+    $obj_array = static::find_by_sql($sql);
+    if (!empty($obj_array)) {
+      return array_shift($obj_array);
+    } else {
+      return false;
+    }
+    
+  }
+
   static public function find_by_transid($invoiceNum)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE transid = " . self::$database->escape_string($invoiceNum) . " ";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    // echo $sql;
     return static::find_by_sql($sql);
   }
 
