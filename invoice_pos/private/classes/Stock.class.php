@@ -3,7 +3,7 @@ class Stock extends DatabaseObject
 {
     // KitchenRegisterDetails
   protected static $table_name = "stock";
-   protected static $db_columns = ['id','ref_no','last_rec','exception','opened_at','closed_at','opened_by', 'closed_by','deleted'];
+   protected static $db_columns = ['id','ref_no','last_rec','exception','opened_at','closed_at','opened_by', 'closed_by', 'company_id', 'branch_id', 'deleted'];
      
 
     public $id;
@@ -14,6 +14,8 @@ class Stock extends DatabaseObject
     public $closed_at;
     public $opened_by;
     public $closed_by;
+    public $company_id;
+    public $branch_id;
     public $deleted;
 
  
@@ -28,6 +30,8 @@ class Stock extends DatabaseObject
         $this->closed_at = $args['closed_at'] ?? date('Y-m-d H:i:s');
         $this->opened_by = $args['opened_by'] ?? '';
         $this->closed_by = $args['closed_by'] ?? '';
+        $this->company_id = $args['company_id'] ?? '';
+        $this->branch_id = $args['branch_id'] ?? '';
         $this->deleted = $args['deleted'] ?? '';
         
     }

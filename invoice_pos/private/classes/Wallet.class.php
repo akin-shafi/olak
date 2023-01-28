@@ -61,7 +61,30 @@ class Wallet extends DatabaseObject
       return false;
     }
   }
+  static public function find_duplicate($options=[]){
+    $customer_id    = $options['customer_id'] ?? false;
+    $deposit        = $options['deposit'] ?? false;
+    $created_by     = $options['created_by'] ?? false;
+    $created_at     = $options['created_at'] ?? false;
+    
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE deposit='" . self::$database->escape_string($deposit) . "'";
 
+    if ($customer_id) {
+         $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+    }
+
+    if ($created_by) {
+      $sql .= " AND created_by='" . self::$database->escape_string($created_by) . "'";
+    }
+
+    if ($created_at) {
+      $sql .= " AND created_at = '" . self::$database->escape_string($created_at) . "' ";
+    }
+
+    // echo $sql;
+    return static::find_by_sql($sql);
+  }
   static public function find_by_branch_id($branch_id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";

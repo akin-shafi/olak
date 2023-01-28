@@ -156,7 +156,7 @@ $clients = Client::find_by_id($billing->client_id);
          </section>
 
          <!-- <div class="acctDetails border"> -->
-         <div class="payment-info " id="part2" style="position: absolute; left: 50; margin-top: 20px">
+         <div class="payment-info " id="part2" style="position: absolute; left: 50; margin-top: 10px">
 
             <div class="ibcl_payment_info1">Account details:</div><br>
             <p class="ibcl_payment_info2">Bank Name: <?php echo $company->bank_name; ?> </p>
@@ -164,9 +164,23 @@ $clients = Client::find_by_id($billing->client_id);
             <div class="ibcl_payment_info4">ACCT No: <?php echo $company->acct_no ?></div>
 
             <div class="ibcl_payment_info5"></div>
-            <section id="terms">
+            <section id="terms" style="margin-top: -35px !important;">
+                Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?><br>
+                <div>Please kindly take note of the companies Sales and Transaction Policy below.</div>
                <span class="hidden ibcl_terms_label">Terms &amp; Notes</span>
-               <div class="ibcl_terms">Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?>, We appreciate your patrionage.<br>Kindly Make payment before the due date.</div>
+               <div class="ibcl_terms">
+               <ol>
+                  <li>Refunds can only be considered within 7days of purchase.</li>
+                  <li>2. All Refund after-sales shall be valued on the management scale as second-hand goods at 90% of the sales price of the goods.</li>
+                  <li>The customer will only be refunded the value of stock after VAT has been deducted.</li>
+                  <li>Customer shall Produce the Goods receipts carrying the actual value of Goods at companies-specified prices 
+                     i.e ( In a situation where prices reflecting on Goods are customer-specified prices, such goods can no longer be returned).</li>
+                  <li>Goods can only be returned in good condition as the company will not accept defected goods.</li>
+                  <li>if all conditions are certified worthy Customer should note that the refund process may take up to 3 working days.</li>
+               </ol>
+               
+               </div>
+               <p>Thanks for your patrionage. </p>
             </section>
 
          </div>

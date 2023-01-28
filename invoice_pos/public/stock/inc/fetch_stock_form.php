@@ -18,17 +18,18 @@ if(isset($_POST['stockForm'])){
 
       <div class="form-group col-sm-6">
 	    <label>Quantity Supplied</label>
-	    <input type="text" name="editStock[supply]" placeholder="e.g 19" class="form-control" id="edit_supply" value="<?php echo $find->supply ?>">
+	    <input type="number" required name="editStock[supply]" placeholder="e.g 19" class="form-control" id="edit_supply" value="<?php echo $find->supply ?>">
 	  </div>
+    
+    <div class="form-group col-sm-6">
+      <label>Cost Price</label>
+      <input type="number" required min="0" name="editStock[cost_price]" placeholder="e.g 30000" class="form-control" id="cost_price">
+    </div>
+
+	<div class="form-group col-sm-6">
+      <label>Sales Price</label>
+      <input type="number" required min="0" name="editStock[sales_price]" placeholder="e.g 30000" class="form-control" id="sales_price">
+    </div>
 
 
 <?php } exit();?>
-
-
-
-
-
-
-
-
-    

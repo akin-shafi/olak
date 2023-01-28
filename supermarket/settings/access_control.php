@@ -52,6 +52,7 @@ include(SHARED_PATH . '/header.php'); ?>
                       <th>Procurement Mgt</th>
                       <th>Shift Mgt</th>
                       <th>Ledger Mgt</th>
+                      <th>View Report</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -143,6 +144,14 @@ include(SHARED_PATH . '/header.php'); ?>
             <div class="form-group col-sm-6">
               <label class="control-label">Ledger Mgt</label>
               <select class="form-control" name="addRecord[ledger_mgt]">
+                <option value="1">On</option>
+                <option value="0" selected="">off</option>
+              </select>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label">View Report</label>
+              <select class="form-control" name="addRecord[view_report]">
                 <option value="1">On</option>
                 <option value="0" selected="">off</option>
               </select>

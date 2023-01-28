@@ -64,7 +64,17 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
       <div class="container-fluid">
          <section id="memo">
             <div class="logo">
-
+            <section id="invoice-title-number">
+               <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase;">Receipt</span>
+               <div class="separator"></div>
+               <span id="number" class="ibcl_invoice_number">#<?php echo $billing->invoiceNum ?? '00000'; ?></span>
+               
+               <div>
+                  <h5 id="" class="ibcl_invoice_title" style="text-transform: uppercase;">Customer No: <b style="border-bottom: 1px solid #000;"><?php echo Client::find_by_id($billing->client_id)->customer_id; ?></b></h5>
+               </div>
+               
+            </section>
+            
                <!-- <img data-logo="company_logo" src="../../images/justice.svg"> -->
                <?php if ($billing->backlog == 1) : ?>
                   <div style="width: 100px; height: 100px; background: #000;"></div>
@@ -83,16 +93,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                <span class="ibcl_company_phone_fax"><?php echo $company->phone_no; ?> | <?php echo $company->mobile_no; ?></span>
             </div>
          </section>
-         <section id="invoice-title-number">
-            <span id="title" class="ibcl_invoice_title" style="text-transform: uppercase;">Receipt</span>
-            <div class="separator"></div>
-            <span id="number" class="ibcl_invoice_number">#<?php echo $billing->invoiceNum ?? '00000'; ?></span>
-            
-            <div>
-               <h5 id="" class="ibcl_invoice_title" style="text-transform: uppercase;">Customer No: <b style="border-bottom: 1px solid #000;"><?php echo Client::find_by_id($billing->client_id)->customer_id; ?></b></h5>
-            </div>
-            
-         </section>
+         
          
          <div class="clearfix"></div>
          <section id="invoice-info">
@@ -136,8 +137,8 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          </section>
          <div class="clearfix"></div>
 
-         <section id="items">
-            <table cellspacing="0" cellpadding="0">
+         <section id="items" style="margin-top:-10px ;">
+            <table cellspacing="0" cellpadding="0" style="font-size: 12px;">
                <tbody>
                   <tr>
                      <th class="ibcl_item_row_number_label"></th>
@@ -192,23 +193,33 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
             </div>
 
             <div class="ibcl_payment_info5"></div>
-            <section id="terms">
-               <span class="hidden ibcl_terms_label">Terms Notes</span>
-               <div class="ibcl_terms">Dear <?php echo $clients->full_name() ?? 'NOT SET'; ?>, We appreciate your patrionage.
-               </div>
-
-
+       
+            <section class="mb-2" style="margin-top: 10px;">
+                Dear <b><?php echo $clients->full_name() ?? 'NOT SET'; ?></b><br>
+                <div>Please afix your signature below.</div>
             </section>
 
-            <div>
-               <h3>Terms  Notes:</h3>
+            <div style="margin-top: -10px;">
+               <h3>Sales & Purchase Agreement </h3>
                <p>
-                  This receipt is valid for <?php echo $billing->due_date ?>days Only. Hence all goods/items stated above must be collected on or before 
-                  <b><?php echo date('D jS F, Y', strtotime($due_date)) ?></b>
-
+                  <b><u>Price Validity</u></b><br>
+                  1. Prices on this receipt is valid for <?php echo $billing->due_date ?>days Only.
+                     <b><?php //echo date('D jS F, Y', strtotime($due_date)) ?></b> <br>
+                  <b><u>Unpicked Goods</u></b><br>
+                  1. All Goods paid for must be picked-up within 90days after payment.<br>
+                  2. After 90days customer will be liable to pay a warehousing service charge.<br>
+                  <b><u>Return Policy</u></b><br>
+                  1. After sales retun/refunds can only be considered within 7days of purchase. <br>
+                  2. All returned goods shall be valued on the 
+                        management scale as second-grade goods at 10% discount of the sales price, and duction of VAT<br>
+                  3. Customer should note that the refund process may take up to 3 working days.<br>
                </p>
+               <p>Thanks for your patrionage. </p>
             </div>
 
+            
+            
+            
 
          </div>
          <!-- </div> -->
@@ -243,8 +254,23 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                      <th data-ibcl-id="amount_due_label" class="ibcl_amount_due_label" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Enter amount due label">Balance:</th>
                      <td data-ibcl-id="amount_due" class="ibcl_amount_due" data-tooltip="tooltip" data-placement="top" title=""><?php echo $billing->currency; ?> <?php echo $billing->balance ?: '0.00'; ?></td>
                   </tr>
+                  <tr>
+                     <td colspan="2">
+                        <div>
+                           <tr>
+                              <td>Signature:</td>
+                              <td>_______________________</td>
+                           </tr>
+                           <tr>
+                              <td>Date:</td>
+                              <td>_______________________</td>
+                           </tr>
+                        </div>
+                     </td>
+                  </tr>
                </tbody>
             </table>
+
          </section>
          <div class="clearfix"></div>
 

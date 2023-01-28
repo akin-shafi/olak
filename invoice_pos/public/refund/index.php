@@ -114,7 +114,7 @@ require_login();
       
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary yes" id="yes">Yes</button>
+        <button type="button" class="btn btn-primary yes" data-created="<?php echo date("Y-m-d H:i:s") ?>" id="yes">Yes</button>
       </div>
     </div>
 
@@ -150,12 +150,14 @@ require_login();
 
    $(document).on("click", ".yes", function() {
      let id = $(this).attr('id');
+     let created = $(this).data('created');
      // console.log(id);
-     approval(id);
+     approval(id, created);
 
   });
 
-  function approval(id) {
+
+  function approval(id, created) {
     $.ajax({
         url:"script.php",
         method:"POST",
@@ -163,6 +165,7 @@ require_login();
         data:{
           approve: 1,
           id: id,
+          created_at: created,
         },
         success:function(data)
         {
