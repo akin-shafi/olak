@@ -158,7 +158,6 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                         foreach (LongTermLoan::find_loan_by_year(date('Y')) as $loan) :
                           $longTermDet = LongTermLoanDetail::find_by_employee_id($loan->employee_id);
                           $employee = Employee::find_by_id($loan->employee_id);
-                          // pre_r($loan);
                         ?>
                           <tr>
                             <td><?php echo $sn++ ?></td>
@@ -228,7 +227,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
                             <td>
                               <button data-id="<?php echo $longTermDet->id ?>" class="btn btn-outline-info btn-sm" id="editLongLoan">
                                 Edit</button>
-                              <button data-id="<?php echo $longTermDet->id ?>" class="btn btn-outline-danger btn-sm deleted">Delete <?php echo $longTermDet->id; ?></button>
+                              <button data-id="<?php echo $longTermDet->id ?>" class="btn btn-outline-danger btn-sm deleted">Delete</button>
                             </td>
                           </tr>
                         <?php endforeach; ?>
@@ -318,7 +317,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
 
           <div class="form-group">
             <label>Note</label>
-            <textarea name="loan[note]" class="form-control" cols="3" placeholder="Notes"></textarea>
+            <textarea name="loan[note]" class="form-control" id="note" cols="3" placeholder="Notes"></textarea>
           </div>
 
           <div class="form-group">
@@ -427,6 +426,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
       $('#deduction').val(params.commitment)
       $('#duration').val(params.duration)
       $('#ded_date').val(params.deduction_date)
+      $('#note').val(params.note)
 
       loanTitle.innerText = "Edit Long Term Loan";
       loanBtn.innerText = "Update";
@@ -468,7 +468,7 @@ $longLoanRejected = LongTermLoanDetail::find_by_loan_approved(['status' => 4])->
               },
               dataType: 'json',
               success: function(data) {
-                message("success", data.msg);
+                message("success", data.message);
 
                 setTimeout(() => {
                   window.location.reload();
