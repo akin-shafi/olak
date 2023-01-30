@@ -12,16 +12,17 @@ $lastDate = date('Y-m', strtotime('last month'));
 $thisDate = date('Y-m');
 
 $salaryAdvance = SalaryAdvance::find_by_total_salary_advance_amount(['current' => $thisDate]);
-$advanceApproval = SalaryAdvanceDetail::find_by_loan_approved(['status' => 1, 'current' => $thisDate]);
+$advanceApproval = SalaryAdvanceDetail::find_by_loan_approved(['status' => 3, 'current' => $thisDate]);
 
 $longTerm = LongTermLoan::find_by_total_long_term_amount(['current' => $thisDate]);
-$loanApproval = LongTermLoanDetail::find_by_loan_approved(['status' => 1, 'current' => $thisDate]);
+$loanApproval = LongTermLoanDetail::find_by_loan_approved(['status' => 3, 'current' => $thisDate]);
 
 $totalLoanRequest = intval($longTerm->counts) + intval($salaryAdvance->counts);
-$totalLoanValue = intval($longTerm->total_amount) + intval($salaryAdvance->total_amount);
+$totalLoanRequestValue = intval($longTerm->total_amount) + intval($salaryAdvance->total_amount);
 
-if ($salaryAdvance->status == 1) {
+if ($salaryAdvance->status == 3) {
    $totalLoanApproved = intval($loanApproval->counts) + intval($advanceApproval->counts);
+   $totalLoanApprovedValue = intval($longTerm->total_amount) + intval($salaryAdvance->total_amount);
 }
 
 $lastMonthSalary = Payroll::find_by_salary_payable(['month' => $lastDate, 'payment_status' => 1,]);
@@ -31,7 +32,6 @@ $salaryPayable       = Employee::find_by_total_salary();
 $lastMonthSalaryPaid = intval($lastMonthSalary->present_salary) - intval($lastMonthSalary->salary_advance);
 $thisMonthSalaryPaid = intval($thisMonthSalary->present_salary) - intval($thisMonthSalary->salary_advance);
 
-// pre_r($totalLoanValue);
 
 $page = 'Dashboard';
 $page_title = 'HR Dashboard';
@@ -146,7 +146,7 @@ $employee = Employee::find_by_undeleted();
                      <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Request</span>
-                           <h4 class="mb-0 mt-1 mb-2"><?php echo $totalLoanValue ? number_format($totalLoanValue) : '0.00'; ?></h4>
+                           <h4 class="mb-0 mt-1 mb-2"><?php echo $totalLoanRequestValue ? number_format($totalLoanRequestValue) : '0.00'; ?></h4>
                            <span class="text-muted">
                               <span class="text-danger fs-12 mt-2 me-1">
                                  <i class="feather feather-arrow-down-left me-1 bg-danger-transparent p-1 brround"></i>
@@ -168,7 +168,7 @@ $employee = Employee::find_by_undeleted();
                      <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Approved</span>
-                           <h4 class="mb-0 mt-1  mb-2"><?php echo $totalLoanApproved ?? '0.00' ?></h4>
+                           <h4 class="mb-0 mt-1 mb-2"><?php echo $totalLoanApprovedValue ? number_format($totalLoanApprovedValue) : '0.00'; ?></h4>
                         </div>
                         <span class="text-muted">
                            <span class="text-secondary fs-12 mt-2 me-1">

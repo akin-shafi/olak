@@ -38,14 +38,14 @@ if (isset($_POST['computeSalary'])) {
 		foreach ($employees as $value) :
 
 			$salary_advance = SalaryAdvance::find_by_employee_id($value->id, ['current' => $date]);
-			$empLoan = LongTermLoan::find_by_employee_id($value->id, ['deduct_date' => $date]);
+			$empLoan = LongTermLoan::find_by_employee_id(['employee_id' => $value->id], ['deduct_date' => $date]);
 
 			if (!empty($empLoan)) {
 				array_push($empId, $value->id);
 			}
 
 			$salary = intval($value->present_salary);
-			$commitment = isset($empLoan->commitment) ? $empLoan->commitment : '0.00';
+			$commitment = isset($empLoan->commitment) ? $empLoan->commitment : 0;
 
 			$args = [
 				'employee_id' => $value->id,
@@ -63,7 +63,7 @@ if (isset($_POST['computeSalary'])) {
 
 		if ($result == true) :
 			foreach ($empId as $key => $value) :
-				$longLoan = LongTermLoan::find_by_employee_id($value, ['deduct_date' => $date]);
+				$longLoan = LongTermLoan::find_by_employee_id(['employee_id' => $value], ['deduct_date' => $date]);
 
 				$amountRequested = intval($longLoan->amount_requested);
 				$commitment = intval($longLoan->commitment);
@@ -77,7 +77,7 @@ if (isset($_POST['computeSalary'])) {
 				$longLoan->save();
 			endforeach;
 
-			exit(json_encode(['success' => true, 'msg' => 'Salary Compute Successfully']));
+			exit(json_encode(['success' => true, 'msg' => 'Salary Computed Successfully']));
 		else :
 			exit(json_encode(['success' => false, 'msg' => 'Error can not compute salary, Something went wrong']));
 		endif;

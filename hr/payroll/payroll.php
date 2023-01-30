@@ -101,8 +101,6 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                     <?php
                     $sn = 1;
                     foreach ($payrolls as $value) :
-
-                      $empLoan = LongTermLoan::find_by_employee_id($value->employee_id);
                       $salary_advance = SalaryAdvance::find_by_employee_id($value->employee_id, ['current' => date('Y-m')]);
                       $employee = Employee::find_by_id($value->employee_id);
                       $salary = intval($value->present_salary);
@@ -111,7 +109,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                       $leave = $value->leave_allowance ?? 0;
                       $otherAllowance = $value->other_allowance ?? 0;
 
-                      $commitment = isset($empLoan->commitment) ? intval($empLoan->commitment) : '0.00';
+                      $commitment = isset($value->loan) ? intval($value->loan) : '0.00';
                       $salAdv = $salary_advance->total_requested != 0 ? intval($salary_advance->total_requested) : 0;
                       $otherDeduction = $value->other_deduction ?? 0;
 
@@ -151,7 +149,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
                         <td>
                           <?php echo !empty($salary_advance->total_requested) ? number_format(intval($salary_advance->total_requested)) : '0.00' ?>
                         </td>
-                        <td><?php echo !empty($commitment) ? number_format(intval($commitment)) : '0.00' ?></td>
+                        <td><?php echo number_format($value->loan) ?></td>
                         <td class="font-weight-semibold"><?php echo number_format($take_home) ?></td>
                         <td>
                           <?php

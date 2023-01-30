@@ -46,7 +46,7 @@ if (is_get_request()) {
 		$salaryPayable     = Employee::find_by_total_salary(['company' => $isCompany]);
 		$tax_payable       = Payroll::sum_of_tax_payable();
 
-		// pre_r($payrollPayable);
+		// pre_r($totalSalaryByBranch);
 		$isVisible = false;
 ?>
 		<style>
@@ -252,7 +252,7 @@ if (is_get_request()) {
 															 <th>Emp Name</th>
 															 <th>EMp ID</th>
 															 <th>Branch</th>
-															 <th>Gross Salary (₦)</th>
+															 <th>Gross Salaries (₦)</th>
 															 <th>Salary Advance (₦)</th>
 															 <th>Loan (₦)</th>
 															 <th>Take Home (₦) </th>
@@ -261,13 +261,20 @@ if (is_get_request()) {
 												</thead>
 											<tbody>";
 								foreach ($employeeCompanyBranch as $value) :
-									$salary 			= intval($value->present_salary);
-									$fullName 		= isset($value->first_name) ? $value->full_name() : 'Not Set';
-									$branch 			= isset($value->branch) ? $value->branch : 'Not Set';
-									$employee_id 	= isset($value->employee_id) ? str_pad($value->employee_id, 3, '0', STR_PAD_LEFT) : 'Not Set';
-									$payroll 	= Payroll::find_by_employee_id($value->id);
-									$status 	= Payroll::STATUS[$payroll->payment_status];
+									$fullName 			= isset($value->first_name) ? $value->full_name() : 'Not Set';
+									$branch 				= isset($value->branch) ? $value->branch : 'Not Set';
+									$employee_id 		= isset($value->employee_id) ? str_pad($value->employee_id, 3, '0', STR_PAD_LEFT) : 'Not Set';
 
+									$payroll 				= Payroll::find_by_employee_id($value->id);
+									$salary 				= intval($payroll->present_salary);
+									$overtime 			= intval($payroll->overtime_allowance) ?? 0;
+									$leave 					= intval($payroll->leave_allowance) ?? 0;
+									$otherAllowance = intval($payroll->other_allowance) ?? 0;
+									$loan 					= intval($payroll->loan) ?? 0;
+									$salary_advance = intval($payroll->salary_advance);
+									$otherDeduction = intval($payroll->other_deduction) ?? 0;
+
+									$status 				= Payroll::STATUS[$payroll->payment_status];
 									switch ($status) {
 										case 'Computed':
 											$status_color = 'badge-dark';
@@ -285,9 +292,11 @@ if (is_get_request()) {
 											$status_color = 'badge-danger';
 											break;
 									}
-									$salary_advance = intval($payroll->salary_advance);
-									$loan = intval($payroll->loan);
-									$takeHome = $salary - ($salary_advance + $loan);
+
+									$totalAllowance =  $salary + $overtime + $leave + $otherAllowance;
+									$totalDeduction = $loan + $salary_advance + $otherDeduction;
+
+									$takeHome = intval($totalAllowance) - intval($totalDeduction);
 									$output .= "
 													<tr>
 														 <td><input type='checkbox' name='payrollId[]' value='$payroll->id' id='pay-$payroll->id'></td>

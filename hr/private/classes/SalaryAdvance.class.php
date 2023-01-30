@@ -55,7 +55,7 @@ class SalaryAdvance extends DatabaseObject
       $sql .= " WHERE created_at LIKE '%" . self::$database->escape_string($currentMonth) . "%'";
     }
 
-    if ($salaryStatus == 1) {
+    if ($salaryStatus) {
       $sql .= " AND status='" . self::$database->escape_string($salaryStatus) . "'";
     }
 
