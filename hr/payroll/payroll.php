@@ -111,7 +111,7 @@ $config = Configuration::find_by_process_salary(['process_salary' => 1, 'process
 
                       $commitment = isset($value->loan) ? intval($value->loan) : '0.00';
                       $salAdv = $salary_advance->total_requested != 0 ? intval($salary_advance->total_requested) : 0;
-                      $otherDeduction = $value->other_deduction ?? 0;
+                      $otherDeduction = isset($value->other_deduction) ? $value->other_deduction : 0;
 
                       $totalAllowance = $overtime + $leave + $otherAllowance + $salary;
                       $totalDeduction = $commitment + $salAdv + $otherDeduction;

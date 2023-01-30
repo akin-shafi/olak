@@ -9,7 +9,7 @@ $earnings = PayrollItem::find_all_payroll(['category' => 1]);
 $deductions = PayrollItem::find_all_payroll(['category' => 3]);
 
 $salaryAdvance = SalaryAdvance::find_by_employee_id($empId, ['current' => $date]);
-$longTerm = LongTermLoan::find_by_employee_id($empId, ['requested' => $date]);
+$longTerm = LongTermLoan::find_by_employee_id(['employee_id' => $empId], ['requested' => $date]);
 
 $commitment = $longTerm ? intval($longTerm->commitment) : 0;
 $presentSalary = isset($employee->present_salary) ? $employee->present_salary : 0;
@@ -214,7 +214,7 @@ $netSalaryComputed = intval($totalAllowance) - intval($totalDeduction);
    <div class="p-5 border-top text-center">
       <div class="text-center">
          <h6 class="mb-2">Integrated Olak Group.</h6>
-         <p class="mb-1 fs-12">Adress</p>
+         <p class="mb-1 fs-12">Address</p>
          <div> <small>Tel No: +234 66904 8599,</small> <small>Email: info@olakgroups.com</small> </div>
       </div>
    </div>
