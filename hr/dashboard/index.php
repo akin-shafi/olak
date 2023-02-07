@@ -168,7 +168,7 @@ $employee = Employee::find_by_undeleted();
                      <div class="col-9">
                         <div class="mt-0 text-start">
                            <span class="fs-14 font-weight-semibold">Total Loan Approved</span>
-                           <h4 class="mb-0 mt-1 mb-2"><?php echo $totalLoanApprovedValue ? number_format($totalLoanApprovedValue) : '0.00'; ?></h4>
+                           <h4 class="mb-0 mt-1 mb-2"><?php echo isset($totalLoanApprovedValue) ? number_format($totalLoanApprovedValue) : '0.00'; ?></h4>
                         </div>
                         <span class="text-muted">
                            <span class="text-secondary fs-12 mt-2 me-1">
