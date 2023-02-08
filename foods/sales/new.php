@@ -62,36 +62,43 @@ if (is_post_request()) {
 	$cashFlow = new CashFlow;
 }
 
+$date = date('Y-m-d');
+$singleCashFlow = CashFlow::single_cash_flow($date, ['company' => $loggedInAdmin->company_id, 'branch' => $loggedInAdmin->branch_id]);
 
 include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div class="content-wrapper">
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
-			<div class="card">
-				<div class="card-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-12">
-								<?php if (display_errors($cashFlow->errors)) { ?>
-									<!-- <div class="alert alert-danger alert-dismissible fade show" role="alert"> -->
-									<?php echo display_errors($cashFlow->errors); ?>
-									<!-- </div> -->
-								<?php } ?>
+			<?php if (isset($singleCashFlow->created_at) && $singleCashFlow->created_at == $date) : ?>
+				<div class="alert alert-primary" style="display:grid;place-items:center;height:60vh">
+					<h1>You are not permitted to enter sales.</h1>
+				</div>
+			<?php else : ?>
+				<div class="card">
+					<div class="card-body">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+									<?php if (display_errors($cashFlow->errors)) { ?>
+										<!-- <div class="alert alert-danger alert-dismissible fade show" role="alert"> -->
+										<?php echo display_errors($cashFlow->errors); ?>
+										<!-- </div> -->
+									<?php } ?>
+								</div>
 							</div>
 						</div>
-					</div>
-					<form method="post" enctype="multipart/form-data">
-						<?php include('form_field.php') ?>
-						<div class="modal-footer">
-							<a href="<?php echo url_for('sales/') ?>" class="btn btn-dark">Back</a>
-							<button type="submit" class="btn btn-primary">Save</button>
-						</div>
-					</form>
+						<form method="post" enctype="multipart/form-data">
+							<?php include('form_field.php') ?>
+							<div class="modal-footer">
+								<a href="<?php echo url_for('sales/') ?>" class="btn btn-dark">Back</a>
+								<button type="submit" class="btn btn-primary">Save</button>
+							</div>
+						</form>
 
+					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 
 		</div>
 	</div>
