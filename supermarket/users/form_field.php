@@ -4,7 +4,10 @@
    }else{
       $url = "";
    }
+$branch = Branch::find_by_undeleted(['order' => 'ASC']);
+// pre_r($branch);
  ?>
+ <?php //pre_r(); ?>
 <form action="<?php echo $url ?>" method="post" accept-charset="utf-8">
     <div class="text-danger text-center"><?php echo display_errors($admin->errors); ?></div>
     <div class="col-lg-6">
@@ -61,8 +64,8 @@
             <label for="company_id">Company name</label>
 
             <select name="admin[company_id]" class="form-control tip" id="company_id" required="required">
-                <option>Select Company</option>
-                <option value="1">olak</option>
+                <!-- <option>Select Company</option> -->
+                <option value="1">Olak Supermarket</option>
             </select>
         </div>
         <div class="form-group">
@@ -70,9 +73,16 @@
 
             <select name="admin[branch_id]" class="form-control tip" id="branch_id" required="required">
                 <option>Select Branch</option>
-                <option value="1">A Division</option>
+                
+                <?php foreach ($branch as $key => $value) { ?>
+                <option value="<?php echo $value->id; ?>" 
+                    <?php echo $admin->branch_id == $value->id ? 'selected' : '';  ?>>
+                    <?php echo $value->branch_name; ?></option>
+                <?php } ?>
+                
+                <!-- <option value="1">A Division</option>
                 <option value="2">Toll Gate</option>
-                <option value="3">Usanda</option>
+                <option value="3">Usanda</option> -->
             </select>
         </div>
         <div class="form-group">
