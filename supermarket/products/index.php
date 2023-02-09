@@ -241,8 +241,12 @@ $(document).ready(function() {
                 success: function(r) {
                     if (r.msg == 'OK') {
                         // fetch_data();
-                        window.location.href = 'index.php'
-                        successTime("Deleted Succesfully")
+                        // window.location.href = 'index.php'
+                        
+                        successTime("Deleted Succesfully");
+                        location.reload(true);
+
+
                     }
                 }
             });

@@ -11,9 +11,9 @@ $billing = Billing::find_by_invoice_no($invoice_no);
 $invoices = Invoice::find_by_transid($billing->invoiceNum);
 $clients = Client::find_by_id($billing->client_id);
 
-// $pop = Wallet::find_by_customer_id($clients->customer_id);
-// $last_deposit = array_values(array_slice($pop, -1))[0]; 
-// $last_deposit_details = WalletFundingMethod::find_by_payment_id($last_deposit->payment_id);
+$pop = Wallet::find_by_customer_id($clients->customer_id);
+$last_deposit = array_values(array_slice($pop, -1))[0]; 
+$last_deposit_details = WalletFundingMethod::find_by_payment_id($last_deposit->payment_id);
 
 $today = date('Y-m-d');
 $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($today)));
@@ -274,7 +274,7 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          </section>
          <div class="clearfix"></div>
 
-    <!-- <h5 class="mt-5">Last Payment Record</h5>
+    <h5 class="mt-5">Last Payment Record</h5>
     <div class="table-responsive m">
       <table class="table table-bordered" id="rowSelection">
         <thead>
@@ -292,27 +292,27 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
         </thead>
         <tbody>
           <?php
-          //$sn = 1;
-         //  foreach ($last_deposit_details as $value) {
-         //    $bankName = Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set";
-         //    $account_no = Bank::find_by_id($value->bank_name)->account_number ?? "Not Set";
-         //    $createdBy = Admin::find_by_id($value->created_by)->full_name();
+          $sn = 1;
+          foreach ($last_deposit_details as $value) {
+            $bankName = Bank::find_by_id($value->bank_name)->bank_name ?? "Not Set";
+            $account_no = Bank::find_by_id($value->bank_name)->account_number ?? "Not Set";
+            $createdBy = Admin::find_by_id($value->created_by)->full_name();
           ?>
             <tr>
-              <td><?php //echo $sn++; ?></td>
-              <td><a href="<?php //echo url_for('wallet/pop.php?payment_id=' . h(u($value->payment_id))); ?>"><?php //echo h(ucwords($value->payment_id)); ?></a></td>
-              <td><?php //echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
-              <td><?php //echo number_format(floatval($value->amount)); ?></td>
-              <td><?php  //echo $value->approval == 0 ? "Unapproved" : "Approved"; ?></td>
-              <td><?php //echo $createdBy; ?></td>
-              <td><?php //echo ucwords($bankName); ?></td>
-              <td><?php //echo $account_no; ?></td>
-              <td><?php //echo date('dS M, Y H:i:s', strtotime($value->created_at)); ?></td>
+              <td><?php echo $sn++; ?></td>
+              <td><a href="<?php echo url_for('wallet/pop.php?payment_id=' . h(u($value->payment_id))); ?>"><?php echo h(ucwords($value->payment_id)); ?></a></td>
+              <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
+              <td><?php echo number_format(floatval($value->amount)); ?></td>
+              <td><?php  echo $value->approval == 0 ? "Unapproved" : "Approved"; ?></td>
+              <td><?php echo $createdBy; ?></td>
+              <td><?php echo ucwords($bankName); ?></td>
+              <td><?php echo $account_no; ?></td>
+              <td><?php echo date('dS M, Y H:i:s', strtotime($value->created_at)); ?></td>
             </tr>
-          <?php //} ?>
+          <?php } ?>
         </tbody>
       </table>
-    </div> -->
+    </div>
 
 
 

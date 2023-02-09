@@ -130,10 +130,10 @@ if (is_post_request()) {
 						"created_by"    	  => $loggedInAdmin->id,
 					];
 					$invoice->merge_attributes($dataDesc);
-					$last_result = $invoice->save();
+					// $last_result = $invoice->save();
 				}
 				if ($last_result == true) {
-					exit(json_encode(['success' => true, 'msg' => 'Invoice Updated Successfully', 'invoice_no' => $invoice_no]));
+					// exit(json_encode(['success' => true, 'msg' => 'Invoice Updated Successfully', 'invoice_no' => $invoice_no]));
 				}
 		}
 	}
