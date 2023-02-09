@@ -275,15 +275,15 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
          <div class="clearfix"></div>
 
     <h5 class="mt-5">Last Payment Record</h5>
-    <div class="table-responsive m">
-      <table class="table table-bordered" id="rowSelection">
+    <div class="table-responsive ">
+      <table class="table table-bordered " style="font-size: 12px;" id="rowSelection">
         <thead>
           <tr>
             <th>S/N</th>
-            <th>Payment ID</th>
+            <!-- <th>Payment ID</th> -->
             <th>Payment Method</th>
             <th>Amount</th>
-            <th>Status</th>
+            <!-- <th>Status</th> -->
             <th>Post By</th>
             <th>Bank Name</th>
             <th>Account No.</th>
@@ -300,10 +300,10 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
           ?>
             <tr>
               <td><?php echo $sn++; ?></td>
-              <td><a href="<?php echo url_for('wallet/pop.php?payment_id=' . h(u($value->payment_id))); ?>"><?php echo h(ucwords($value->payment_id)); ?></a></td>
+              <!-- <td><a href="<?php //echo url_for('wallet/pop.php?payment_id=' . h(u($value->payment_id))); ?>"><?php echo h(ucwords($value->payment_id)); ?></a></td> -->
               <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
               <td><?php echo number_format(floatval($value->amount)); ?></td>
-              <td><?php  echo $value->approval == 0 ? "Unapproved" : "Approved"; ?></td>
+              <!-- <td><?php  //echo $value->approval == 0 ? "Unapproved" : "Approved"; ?></td> -->
               <td><?php echo $createdBy; ?></td>
               <td><?php echo ucwords($bankName); ?></td>
               <td><?php echo $account_no; ?></td>
