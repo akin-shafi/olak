@@ -28,28 +28,27 @@ if (is_get_request()) {
 
 		if ($qbacklog == 0 && $status == 1) {
 			$label = 'Not Yet Supplied:';
-		}else if($qbacklog == 0 && $status == 2){
+		} else if ($qbacklog == 0 && $status == 2) {
 			$label = 'Supplied Goods:';
-		}else{
+		} else {
 			$label = 'Backlog Transactions:';
 		}
 
-		if (in_array($loggedInAdmin->admin_level, [1,2])) :
+		if (in_array($loggedInAdmin->admin_level, [1, 2])) :
 			$filteredData = Billing::find_by_filtering(['backlog' => $qbacklog, 'status' => $status,]);
-			$output = "All Branches ". $label;
+			$output = "All Branches " . $label;
 		else :
-			$filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'backlog' => $qbacklog, 'status' => $status ]);
-			$output = $label." ". Branch::find_by_id($loggedInAdmin->branch_id)->branch_name;
+			$filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'backlog' => $qbacklog, 'status' => $status]);
+			$output = $label . " " . Branch::find_by_id($loggedInAdmin->branch_id)->branch_name;
 		endif;
-		
-		
-		
+
+
+
 
 		// $filteredData = Billing::find_by_filtering(['company_id' => $loggedInAdmin->company_id, 'branch_id' => $loggedInAdmin->branch_id, 'backlog' => $backlog, 'status' => $status ]);
 		// $output = "All Receipts: " //. Branch::find_by_id($loggedInAdmin->branch_id)->branch_name; 
 	?>
 
-		<?php //pre_r($_POST); ?>
 		<div class="h3"><?php echo $output ?? "" ?></div>
 		<table id="rowSelection" class=" table table-striped table-hover responsive nowrap" style="width:100%">
 			<thead>
@@ -61,7 +60,7 @@ if (is_get_request()) {
 					<th>Branch</th>
 					<th>Customer Name</th>
 					<th>Created Date</th>
-					<th>Total Amount</th> 
+					<th>Total Amount</th>
 				</tr>
 			</thead>
 
@@ -88,20 +87,20 @@ if (is_get_request()) {
 										<a class="dropdown-item" href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
 											<i class="feather-file-text fs-18" title="Invoice"></i> Invoice
 										</a>
-										<?php if ($accessControl->process_waybill == 1): ?>
-											<?php if ($value->status == 1):  ?>
-											<a href="#" class="dropdown-item process_waybill" data-id="<?php echo $value->invoiceNum ?>" >
-												<i class="feather-loader fs-18" title="Process Waybill"></i> Process Waybill
-											</a>
+										<?php if ($accessControl->process_waybill == 1) : ?>
+											<?php if ($value->status == 1) :  ?>
+												<a href="#" class="dropdown-item process_waybill" data-id="<?php echo $value->invoiceNum ?>">
+													<i class="feather-loader fs-18" title="Process Waybill"></i> Process Waybill
+												</a>
 											<?php endif ?>
-											<?php if ($value->status == 2):  ?>
-											<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="<?php echo url_for('invoice/waybill.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
-												<i class="feather-file-text fs-18" title="Print Waybill"></i>Print Waybill
-											</a>
-											
+											<?php if ($value->status == 2) :  ?>
+												<a class="dropdown-item waybill" data-id="<?php echo $value->invoiceNum ?>" href="<?php echo url_for('invoice/waybill.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
+													<i class="feather-file-text fs-18" title="Print Waybill"></i>Print Waybill
+												</a>
+
 											<?php endif ?>
 
-											<?php if (in_array($loggedInAdmin->admin_level, [1])): ?>
+											<?php if (in_array($loggedInAdmin->admin_level, [1])) : ?>
 												<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
 
 												<a href="#!" class="dropdown-item" id="delete_void" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void </a>
@@ -113,7 +112,8 @@ if (is_get_request()) {
 							</div>
 						</td>
 						<td>
-							<?php //echo $status ?>
+							<?php //echo $status 
+							?>
 							<?php echo h(Billing::STATUS[$value->status]); ?>
 						</td>
 
@@ -121,7 +121,8 @@ if (is_get_request()) {
 						<td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
 						<td><?php echo $customer->full_name(); ?></td>
 						<td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>
-						<!-- <td><?php //echo h(date('D jS F, Y', strtotime($due_date))); ?></td> -->
+						<!-- <td><?php //echo h(date('D jS F, Y', strtotime($due_date))); 
+											?></td> -->
 						<td><?php echo number_format($value->total_amount); ?></td>
 
 					</tr>

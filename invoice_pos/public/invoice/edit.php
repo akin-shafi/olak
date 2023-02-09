@@ -94,9 +94,9 @@ $page_title = 'Edit Invoice'; ?>
               </div>
 
               <div class="table-responsive">
-                 <p>
-                   <h2 class="text-white">Customer: <?php echo $clients->full_name(); ?></h2>
-                 </p>
+                <p>
+                <h2 class="text-white">Customer: <?php echo $clients->full_name(); ?></h2>
+                </p>
                 <section class=" row d-none">
                   <div class="form-group col-lg-3 col-md-3 ">
                     <label class="label-control">Client Name <sup class="error">*</sup></label>
@@ -151,14 +151,12 @@ $page_title = 'Edit Invoice'; ?>
                             <button type="button" id="add_row" class="btn btn-success btn-sm float-right">+</button>
                           </th>
 
-                          <?php 
-                          $sn = 1;
-                          $vn = 1;
-                          foreach ($invoices as $trans) { ?>
+                          <?php foreach ($invoices as $key => $trans) : ?>
                             <tr class="mtable">
                               <td>
-                                <!-- <input type="text" name="" value="<?php //echo Product::find_by_id($trans->service_type)->pname ?>"> -->
-                                <select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type<?php echo $vn ?>" data-srno="<?php echo $sn ?>">
+                                <!-- <input type="text" name="" value="<?php //echo Product::find_by_id($trans->service_type)->pname 
+                                                                        ?>"> -->
+                                <select class="form-control form-control-sm service_type" required="" name="service_type[]" id="service_type<?php echo $key ?>" data-srno="<?php echo $key ?>">
                                   <option disabled selected="">Select Type</option>
                                   <?php foreach (Product::find_by_undeleted() as $result => $value) { ?>
                                     <option data-price="<?php echo $value->price ?>" value="<?php echo $value->id; ?>" <?php echo $value->id == $trans->service_type ? "selected" : '' ?>>
@@ -168,14 +166,15 @@ $page_title = 'Edit Invoice'; ?>
                                 </select>
                               </td>
 
-                              <td><input type="text" required="" name="unit_cost[]" id="unit_cost<?php echo $sn ?>" data-srno="<?php echo $sn ?>" class="form-control form-control-sm number_only unit_cost" value="<?php echo $trans->unit_cost ?>"></td>
+                              <td><input type="text" required="" name="unit_cost[]" id="unit_cost<?php echo $key ?>" data-srno="<?php echo $key ?>" class="form-control form-control-sm number_only unit_cost" value="<?php echo $trans->unit_cost ?>"></td>
 
-                              <td><input type="text" required="" name="quantity[]" id="quantity<?php echo $sn ?>" data-srno="<?php echo $sn ?>" class="form-control form-control-sm quantity" value="<?php echo $trans->quantity ?>"></td>
+                              <td><input type="text" required="" name="quantity[]" id="quantity<?php echo $key ?>" data-srno="<?php echo $key ?>" class="form-control form-control-sm quantity" value="<?php echo $trans->quantity ?>"></td>
 
-                              <td><input type="text" required="" name="amount[]" id="amount<?php echo $sn ?>" data-srno="<?php echo $sn ?>" class="form-control form-control-sm amount" readonly value="<?php echo $trans->amount ?>"></td>
+                              <td><input type="text" required="" name="amount[]" id="amount<?php echo $key ?>" data-srno="<?php echo $key ?>" class="form-control form-control-sm amount" readonly value="<?php echo $trans->amount ?>"></td>
                               <td><button type="button" data-id="<?php echo $trans->id; ?>" class="btn btn-danger btn-sm delete_row">X</button></td>
                             </tr>
-                          <?php } ?>
+                          <?php endforeach; ?>
+
                           <input type="hidden" name="billing[total_amount]" id="famount" data-srno="1" class="form-control input-sm famount" value="" readonly>
 
                           <input type="hidden" name="billing[tax]" id="taxInput" data-srno="1" class="form-control input-sm famount" value="" readonly>
@@ -321,7 +320,7 @@ $page_title = 'Edit Invoice'; ?>
 
     function cal_final_total(count) {
       let final_item_total = 0;
-      for (let j = 1; j <= count; j++) {
+      for (let j = 0; j <= count; j++) {
         let quantity = 0;
         let unit_cost = 0;
         let actual_amount = 0;
