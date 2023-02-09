@@ -263,18 +263,18 @@ if (is_get_request()) {
 								foreach ($employeeCompanyBranch as $value) :
 									$fullName 			= isset($value->first_name) ? $value->full_name() : 'Not Set';
 									$branch 				= isset($value->branch) ? $value->branch : 'Not Set';
-									$employee_id 		= isset($value->employee_id) ? str_pad($value->employee_id, 3, '0', STR_PAD_LEFT) : 'Not Set';
+									$employee_id 		= isset($value->id) ? str_pad($value->id, 3, '0', STR_PAD_LEFT) : 'Not Set';
 
-									$payroll 				= Payroll::find_by_employee_id($value->id);
-									$salary 				= intval($payroll->present_salary);
-									$overtime 			= intval($payroll->overtime_allowance) ?? 0;
-									$leave 					= intval($payroll->leave_allowance) ?? 0;
-									$otherAllowance = intval($payroll->other_allowance) ?? 0;
-									$loan 					= intval($payroll->loan) ?? 0;
-									$salary_advance = intval($payroll->salary_advance);
-									$otherDeduction = intval($payroll->other_deduction) ?? 0;
+									$payroll 				= Payroll::find_by_employee_id($value->id, ['month' => $month,]);
+									$salary 				= isset($payroll->present_salary) ? intval($payroll->present_salary) : 0;
+									$overtime 			= isset($payroll->overtime_allowance) ? intval($payroll->overtime_allowance) : 0;
+									$leave 					= isset($payroll->leave_allowance) ? intval($payroll->leave_allowance) : 0;
+									$otherAllowance = isset($payroll->other_allowance) ? intval($payroll->other_allowance) : 0;
+									$loan 					= isset($payroll->loan) ? intval($payroll->loan) : 0;
+									$salary_advance = isset($payroll->salary_advance) ? intval($payroll->salary_advance) : 0;
+									$otherDeduction = isset($payroll->other_deduction) ? intval($payroll->other_deduction) : 0;
 
-									$status 				= Payroll::STATUS[$payroll->payment_status];
+									$status 				= isset($payroll->payment_status) ? Payroll::STATUS[$payroll->payment_status] : 0;
 									switch ($status) {
 										case 'Computed':
 											$status_color = 'badge-dark';
@@ -297,6 +297,9 @@ if (is_get_request()) {
 									$totalDeduction = $loan + $salary_advance + $otherDeduction;
 
 									$takeHome = intval($totalAllowance) - intval($totalDeduction);
+									if (!isset($payroll->id)) {
+										continue;
+									};
 									$output .= "
 													<tr>
 														 <td><input type='checkbox' name='payrollId[]' value='$payroll->id' id='pay-$payroll->id'></td>

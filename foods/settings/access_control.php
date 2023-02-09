@@ -61,13 +61,13 @@ $admins = Admin::find_by_undeleted();
 
                   foreach ($access as $data) :
                     $user = Admin::find_by_id($data->user_id);
-                    if ($user->admin_level == 1) continue;
-                    isset($user->admin_level) ? $adminLevel = Admin::ADMIN_LEVEL[$user->admin_level] : '';
+                    if ((isset($user->admin_level) && $user->admin_level == 1) || !isset($user->id)) continue;
+                    $adminLevel = isset($user->admin_level) ? Admin::ADMIN_LEVEL[$user->admin_level] : '';
                   ?>
 
                     <tr>
                       <td><?php echo $sn++; ?></td>
-                      <td><?php echo ucwords($user->full_name); ?></td>
+                      <td><?php echo isset($user->full_name) ? ucwords($user->full_name) : 'NOT SET'; ?></td>
                       <td><span class="badge badge-primary"><?php echo ucwords($adminLevel); ?></span></td>
                       <td class="text-center"><?php echo $data->dashboard == 1 ? $isTrue : $isFalse ?></td>
                       <td class="text-center"><?php echo $data->sales_mgt == 1 ? $isTrue : $isFalse ?></td>
@@ -88,9 +88,11 @@ $admins = Admin::find_by_undeleted();
                         <div class="btn-group">
                           <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#userModel">
                             <i class="icon-edit1"></i></button>
-                          <button class="btn btn-danger remove-btn d-none" data-id="<?php echo $data->id; ?>">
-                            <i class="icon-trash"></i>
-                          </button>
+                          <?php if ($loggedInAdmin->admin_level == 1) : ?>
+                            <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
+                              <i class="icon-trash"></i>
+                            </button>
+                          <?php endif; ?>
                         </div>
                       </td>
 

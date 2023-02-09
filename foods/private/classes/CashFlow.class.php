@@ -10,6 +10,8 @@ class CashFlow extends DatabaseObject
   public $pos;
   public $transfer;
   public $narration;
+  public $company_id;
+  public $branch_id;
   public $created_by;
   public $created_at;
   public $updated_at;
