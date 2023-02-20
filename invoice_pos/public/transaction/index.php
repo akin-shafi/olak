@@ -98,7 +98,7 @@ require_login();
                 <td>Bank Name</td>
                 <td>Account No.</td>
                 <td>Date</td>
-                <!-- <td>Registered By</td> -->
+                <td>Registered By</td>
                 
                 <?php if($accessControl->can_approve == 1) : ?>
                 <td>Action</td>
