@@ -4,10 +4,9 @@
    }else{
       $url = "";
    }
-$branch = Branch::find_by_undeleted(['order' => 'ASC']);
-// pre_r($branch);
+    $branch = Branch::find_by_undeleted(['order' => 'ASC']);
+
  ?>
- <?php //pre_r(); ?>
 <form action="<?php echo $url ?>" method="post" accept-charset="utf-8">
     <div class="text-danger text-center"><?php echo display_errors($admin->errors); ?></div>
     <div class="col-lg-6">
