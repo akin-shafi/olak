@@ -79,6 +79,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
               $account_number = Bank::find_by_id($value->bank_name)->account_number ?? "Not Set";
               $account_name = $value->bank_name == 0 ? " " : Bank::find_by_id($value->bank_name)->account_name;
               $client = Client::find_by_customer_id($value->customer_id);
+              $createdBy = $value->created_by != '' ? Admin::find_by_id($value->created_by)->full_name() : '';
               ?>
 
               <tr>
@@ -106,7 +107,7 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
                 <?php endif ?>
 
                 <td><?php echo $value->created_at; ?></td>
-                <td><?php echo Admin::find_by_id($value->created_by)->full_name() ?? "Not Set"; ?></td>
+                <td><?php echo $createdBy ?? "Not Set"; ?></td>
                 
 
               </tr>

@@ -4,7 +4,7 @@
 		<input type="hidden" name="flow[company_id]" value="<?php echo $loggedInAdmin->company_id ?>">
 		<input type="hidden" name="flow[branch_id]" value="<?php echo $loggedInAdmin->branch_id ?>">
 		<div class="row">
-			<div class="form-group col-12 d-none">
+			<div class="form-group col-12">
 				<label>Date</label>
 				<div><input type="date" name="flow[created_at]" class="form-control" value="<?php echo $cashFlow->created_at ?? ""; ?>" readonly></div>
 			</div>
