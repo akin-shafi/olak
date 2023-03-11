@@ -6,7 +6,8 @@ $today = date('Y-m-d');
 
 $cash = CashFlow::find_by_id($id);
 $uploads = Uploads::find_by_date($today);
-
+$total_with_bread = $cash->bread + $cash->transfer + $cash->pos + $cash->credit_sales + $cash->cash_sales;
+$total_without_bread = $cash->transfer + $cash->pos + $cash->credit_sales + $cash->cash_sales;
 $page = 'Sales';
 $page_title = 'Show Cashflow';
 include(SHARED_PATH . '/admin_header.php');
@@ -41,6 +42,19 @@ include(SHARED_PATH . '/admin_header.php');
         <li class="list-group-item d-flex justify-content-between align-items-center">
           Transfer
           <span class="badge bg-primary rounded-pill text-white"><?php echo number_format($cash->transfer); ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Bread
+          <span class="badge bg-primary rounded-pill text-white"><?php echo number_format($cash->bread); ?></span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Total with bread
+          <span class="badge bg-primary rounded-pill text-white"><?php echo number_format($total_with_bread); ?></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Total without bread
+          <span class="badge bg-primary rounded-pill text-white"><?php echo number_format($total_without_bread); ?></span>
         </li>
       </ul>
 
