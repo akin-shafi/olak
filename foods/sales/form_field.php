@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="form-group col-12">
 				<label>Date</label>
-				<div><input type="date" name="flow[created_at]" class="form-control" value="<?php echo $cashFlow->created_at ?? ""; ?>" readonly></div>
+				<div><input type="date" name="flow[created_at]" class="form-control" value="<?php echo $cashFlow->created_at ?? ""; ?>" <?php in_array($loggedInAdmin->admin_level, [1,2]) ? "" : "readonly"; ?> ></div>
 			</div>
 			<div class="form-group col-6">
 				<label>Cash Sales</label>
