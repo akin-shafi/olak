@@ -2,13 +2,14 @@
 class CashFlow extends DatabaseObject
 {
   protected static $table_name = "cash_flow";
-  protected static $db_columns = ['id', 'credit_sales', 'cash_sales', 'pos', 'transfer', 'narration', 'company_id', 'branch_id', 'created_by', 'created_at', 'updated_at', 'deleted'];
+  protected static $db_columns = ['id', 'credit_sales', 'cash_sales', 'pos', 'transfer', 'bread', 'narration', 'company_id', 'branch_id', 'created_by', 'created_at', 'updated_at', 'deleted'];
 
   public $id;
   public $credit_sales;
   public $cash_sales;
   public $pos;
   public $transfer;
+  public $bread;
   public $narration;
   public $company_id;
   public $branch_id;
@@ -25,6 +26,7 @@ class CashFlow extends DatabaseObject
     $this->cash_sales   = $args['cash_sales'] ?? 0;
     $this->pos          = $args['pos'] ?? 0;
     $this->transfer     = $args['transfer'] ?? 0;
+    $this->bread        = $args['bread'] ?? 0;
     $this->narration    = $args['narration'] ?? '';
     $this->company_id   = $args['company_id'] ?? '';
     $this->branch_id    = $args['branch_id'] ?? '';
@@ -48,6 +50,10 @@ class CashFlow extends DatabaseObject
 
     if (is_blank($this->pos)) {
       $this->errors[] = "POS sales is required.";
+    }
+
+    if (is_blank($this->bread)) {
+      $this->errors[] = "Bread sales is required.";
     }
 
     return $this->errors;
