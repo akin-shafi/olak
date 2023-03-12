@@ -46,55 +46,10 @@ $branch = Branch::find_by_undeleted();
 
         <div class="card">
           <div class="card-body">
-            <div class="table-container mb-5 border-0 shadow-sm p-2">
-              <h5 class="mb-3">User Management</h5>
-              <div class="table-responsive">
-                <table class="table table-sm data-table">
-                  <thead class="bg-primary">
-                    <tr class="ligth ligth-data">
-                      <th>Company Logo</th>
-                      <th>Full Name</th>
-                      <th>Email</th>
-                      <th>Phone Number</th>
-                      <th>Company Name</th>
-                      <th>Registration No</th>
-                      <th>Company Address</th>
-                      <th>Created At</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <?php foreach ($company as $data) : ?>
-                      <tr>
-                        <td>
-                          <img class="img-thumbnail" src="<?php echo url_for('settings/uploads/' . $data->logo); ?>" width="100" alt="<?php echo ucwords($data->name); ?>">
-                        </td>
-                        <td><?php echo ucwords($data->full_name); ?></td>
-                        <td><?php echo $data->email; ?></td>
-                        <td><?php echo $data->phone; ?></td>
-                        <td><?php echo ucwords($data->name); ?></td>
-                        <td><?php echo ucwords($data->reg_no); ?></td>
-                        <td><?php echo ucfirst($data->address); ?></td>
-                        <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
-                        <td>
-                          <div class="btn-group">
-                            <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#companyModel">
-                              <i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger remove-btn" data-id="<?php echo $data->id; ?>">
-                              <i class="fas fa-trash"></i>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            
 
             <!-- //******* BRANCH */ -->
-            <?php if (!empty($company)) : ?>
+            <?php //if (!empty($company)) : ?>
               <div class="table-container border-0 shadow-sm p-2">
                 <h5 class="mb-3">Branch Info</h5>
                 <div class="table-responsive">
@@ -103,10 +58,6 @@ $branch = Branch::find_by_undeleted();
                       <tr class="ligth ligth-data">
                         <th>SN</th>
                         <th>Company Name</th>
-                        <th>Branch Name</th>
-                        <th>Address</th>
-                        <th>State</th>
-                        <th>City</th>
                         <th>Established In</th>
                         <th>Created At</th>
                         <th>Action</th>
@@ -114,7 +65,7 @@ $branch = Branch::find_by_undeleted();
                     </thead>
                     <tbody>
                       <?php $sn = 1;
-                      foreach ($branch as $data) :
+                      foreach ($company as $data) :
                         $companyName = Company::find_by_id($data->company_id)->name; ?>
                         <tr>
                           <td><?php echo $sn++; ?></td>
@@ -140,7 +91,7 @@ $branch = Branch::find_by_undeleted();
                   </table>
                 </div>
               </div>
-            <?php endif; ?>
+            <?php //endif; ?>
 
           </div>
         </div>
