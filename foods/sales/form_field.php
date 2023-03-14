@@ -27,7 +27,7 @@
 			</div>
 
 			<div class="form-group col-6">
-				<label>Bread Sales (POS + Transfer) </label>
+				<label>Bread Sales (POS + Transfer + Cash) </label>
 				<div><input type="number" name="flow[bread]" class="form-control" value="<?php echo $cashFlow->bread; ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1');"></div>
 			</div>
 			<div class="form-group col-12">

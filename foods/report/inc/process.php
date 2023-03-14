@@ -97,6 +97,13 @@ if (is_get_request()) {
                       </td>
                     </tr>
                     <tr>
+                      <td class="font-weight-bold">Bread Sales (POS + Transfer + Cash)</td>
+                      <td class="text-center">
+                        <?php echo isset($cashFlow->bread)
+                          ? number_format($cashFlow->bread) : '0.00'; ?>
+                      </td>
+                    </tr>
+                    <tr>
                       <td class="font-weight-bold">Uploads</td>
                       <td class="text-center">
                         <?php foreach ($uploads as $upload) :
