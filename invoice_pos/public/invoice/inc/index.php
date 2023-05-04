@@ -170,15 +170,25 @@ if (is_post_request()) {
 	if (isset($_POST['delete_void'])) {
 		$invoiceId = $_POST['id'];
 		$billing = Billing::find_by_id($invoiceId);
+		$customer_w = Client::find_by_id($_POST['customerID']);
+		$refund = $billing->grand_total + $customer_w->balance;
+		$args = [
+			'balance' => $refund,
+		];
+		$customer_w->merge_attributes($args);
+		$result = $customer_w->save();
+		if($result){
+			$invoices = Invoice::find_by_transid($billing->invoiceNum);
+			foreach ($invoices as $value) {
+				Invoice::deleted($value->id);
+			}
 
-		$invoices = Invoice::find_by_transid($billing->invoiceNum);
-		foreach ($invoices as $value) {
-			Invoice::deleted($value->id);
+			$billing::deleted($invoiceId);
+
+			exit(json_encode(['success' => true, 'msg' => 'Invoice record deleted successfully']));
+		}else{
+			exit(json_encode(['success' => false, 'msg' => 'Error Something went wrong']));
 		}
-
-		$billing::deleted($invoiceId);
-
-		exit(json_encode(['msg' => 'Invoice record deleted successfully']));
 	}
 
 	if (isset($_POST['process_waybill'])) {

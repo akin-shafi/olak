@@ -239,6 +239,7 @@ if ($backlog == 0 && $status == 1) {
     });
     $(document).on('click', '#delete_void', function() {
       let deleteVoid = this.dataset.id;
+      let customerID = this.dataset.customerid;
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -254,19 +255,21 @@ if ($backlog == 0 && $status == 1) {
             method: "POST",
             data: {
               id: deleteVoid,
-              delete_void: 1
+              delete_void: 1,
+              customerID: customerID
             },
             dataType: 'json',
             success: function(data) {
-              Swal.fire(
-                'Deleted!',
-                data.msg,
-                'success'
-              )
+              if (data.success == true) {
+                successAlert(data.msg);
+              }else{
+                errorAlert(data.msg)
+              }
             }
           });
         }
-      }).then(() => window.location.reload())
+      })
+      .then(() => window.location.reload())
 
     });
   })

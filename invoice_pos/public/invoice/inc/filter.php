@@ -103,7 +103,7 @@ if (is_get_request()) {
 											<?php if (in_array($loggedInAdmin->admin_level, [1])) : ?>
 												<a class="dropdown-item" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
 
-												<a href="#!" class="dropdown-item" id="delete_void" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void </a>
+												<a href="#!" class="dropdown-item" id="delete_void" data-customerid="<?php echo $customer->id ?>" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void <?php echo $customer->id ?> </a>
 											<?php endif ?>
 										<?php endif ?>
 
