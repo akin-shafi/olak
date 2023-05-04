@@ -128,7 +128,7 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
             <th>Bank Name</th>
             <th>Account No.</th>
             <th>Created At</th>
-            
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -156,6 +156,11 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
               <td><?php echo ucwords($bankName); ?></td>
               <td><?php echo $account_no; ?></td>
               <td><?php echo date('dS M, Y H:i:s', strtotime($value->created_at)); ?></td>
+              
+              <td>
+                <a href="#!" class="btn btn-sm btn-danger" id="delete_pop"  data-id="<?php echo $value->id; ?>"> <i class="feather-trash tet-info"></i> <?php //echo $value->id; ?>  </a>
+
+              </td>
               <!-- <td><a href="record.php"><i class="feather-settings bold"> History</i></a></td> -->
             </tr>
           <?php } ?>
@@ -176,6 +181,7 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
             <th>Branch</th>
             <th>Created Date</th>
             <th>Total Amount</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -196,6 +202,13 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
               <td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
               <td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>
               <td><?php echo number_format($value->total_amount); ?></td>
+              <?php if (in_array($loggedInAdmin->admin_level, [1])) : ?>
+              <td>
+                <a class="btn btn-sm btn-primary" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
+
+                <a href="#!" class="btn btn-sm btn-primary" id="delete_void" data-customerid="<?php echo $clients->id ?>" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void  </a>
+              </td>
+              <?php endif ?>
             </tr>
           <?php } ?>
         </tbody>
@@ -222,3 +235,80 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
 
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
+<script>
+  $(document).ready(function() {
+    
+
+    $(document).on('click', '#delete_pop', function() {
+      let deletePOP = this.dataset.id;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: "inc/script.php",
+            method: "POST",
+            data: {
+              id: deletePOP,
+              delete_pop: 1,
+            },
+            dataType: 'json',
+            success: function(data) {
+              if (data.success == true) {
+                successAlert(data.msg);
+                window.location.reload()
+              }else{
+                errorAlert(data.msg)
+              }
+            }
+          });
+        }
+      })
+    //   .then(() => window.location.reload())
+
+    });
+
+
+  $(document).on('click', '#delete_void', function() {
+      let deleteVoid = this.dataset.id;
+      let customerID = this.dataset.customerid;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: "../invoice/inc/index.php",
+            method: "POST",
+            data: {
+              id: deleteVoid,
+              delete_void: 1,
+              customerID: customerID
+            },
+            dataType: 'json',
+            success: function(data) {
+              if (data.success == true) {
+                successAlert(data.msg);
+              }else{
+                errorAlert(data.msg)
+              }
+            }
+          });
+        }
+      })
+      .then(() => window.location.reload())
+
+    });
+  });
+</script>

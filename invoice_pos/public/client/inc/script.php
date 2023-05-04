@@ -1,38 +1,50 @@
 <?php require_once('../../../private/initialize.php');
-
 if (is_post_request()) {
-  
-    // $args['credit_facility'] = $_POST['credit_facility'] == 'on' ? 1 : 0;
-    $customer = new Client($_POST);
+    if (isset($_POST['delete_pop'])) {
+        $popID = $_POST['id'];
+        
+        $walletDetails = WalletFundingMethod::find_by_id($popID);
+        
+        if($walletDetails->approval == 1){
+            exit(json_encode(['success' => false, 'msg' => 'Error: POP already approved, you can no longer delete']));
+        }else{
+            $wallet = Wallet::find_by_payment_id($walletDetails->payment_id);
+            $amt_left = $wallet->deposit - $walletDetails->amount;
+            // pre_r($amt_left);
+            if($amt_left == 0){
+                $wallet::deleted($wallet->id);
+                $walletDetails::deleted($popID);
+                exit(json_encode(['success' => true, 'msg' => 'POP record deleted successfully']));
+            }
+            else{
+                $args = [
+                    'deposit' => $amt_left,
+                    'balance' => $amt_left,
+                ];
+                $wallet->merge_attributes($args);
+                // pre_r($wallet);
+                $result = $wallet->save();
+                if($result){
+                    $result2 =$walletDetails::deleted($popID);
+                    if($result2){
+                        exit(json_encode(['success' => true, 'msg' => 'POP record deleted successfully']));
+                    }
+                }
+            }
 
-    // pre_r($customer);
-    $result = $customer->save();
+        }
 
+
+        // $invoices = Invoice::find_by_transid($billing->invoiceNum);
+        // foreach ($invoices as $value) {
+        //     Invoice::deleted($value->id);
+        // }
+
+        // $billing::deleted($invoiceId);
+
+        // exit(json_encode(['success' => true, 'msg' => 'Invoice record deleted successfully']));
     
-
-
-    // if ($result == true) {
-    //     $new_id = $client->id;
-    //     $rand = rand(10, 200);
-    //     $date = date('ymd');
-
-    //     $customer_id = 'C' . str_pad($new_id, 2, '0', STR_PAD_LEFT) . $date;
-    //     $customer = Client::find_by_id($new_id);
-    //     $data1 = [
-    //     'customer_id' => $customer_id,
-    //     ];
-    //     $customer->merge_attributes($data1);
-    //     $data_set = $customer->save();
-
-
-
-    
-            // if ($data_set == true) {
-            //     exit(json_encode(['success' => true, 'msg' => 'The customer was created successfully', 'invoice_no' => $invoice_no]));
-            // }
-    // } else {
-    //     // show errors
-    // }
+    }
 }
 
 ?>
