@@ -3,6 +3,8 @@
 <?php 
 if(isset($_POST['stockForm'])){ 
   $id = $_POST['id'];
+  $product = StockDetails::find_by_item_id($id);
+  $arr = end($product);
 ?>
 <div class="modal-body row" id="append">
     <input type="hidden" name="addStock[created_by]" class="form-control" value="<?php echo $loggedInAdmin->id ?>">
@@ -28,12 +30,12 @@ if(isset($_POST['stockForm'])){
     
     <div class="form-group col-sm-6">
       <label>Cost Price</label>
-      <input type="number" required min="0" name="addStock[cost_price]" placeholder="e.g 30000" class="form-control" id="cost_price">
+      <input type="number" required min="0" value="<?php echo $arr->cost_price ?? 0 ?>" name="addStock[cost_price]" placeholder="e.g 30000" class="form-control" id="cost_price">
     </div>
 
     <div class="form-group col-sm-6">
       <label>Sales Price</label>
-      <input type="number" required min="0" name="addStock[sales_price]" placeholder="e.g 30000" class="form-control" id="sales_price">
+      <input type="number" required min="0" value="<?php echo $arr->sales_price ?? 0 ?>" name="addStock[sales_price]" placeholder="e.g 30000" class="form-control" id="sales_price">
     </div>
 </div>
 <div class="modal-footer">

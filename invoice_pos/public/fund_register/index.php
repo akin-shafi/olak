@@ -40,6 +40,7 @@ if (is_post_request()) {
 
 <?php $page = 'Fund';
 $page_title = 'Load Fund'; ?>
+
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
 
 <div class="main-container">

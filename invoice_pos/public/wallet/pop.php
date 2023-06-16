@@ -5,7 +5,6 @@ require_login();
 
 $payment_id = $_GET['payment_id'] ?? '1'; // PHP > 7.0
 
-
 $company = CompanyDetails::find_by_id("1");
 $wallet = Wallet::find_by_payment_id($payment_id);
 
@@ -29,8 +28,16 @@ $clients = Client::find_by_customer_id($wallet->customer_id);
 <div>
    <div class=" btn-wrp">
       <div class="holder">
-         <a href="<?php echo url_for('wallet/') ?>" class="default-btn">
-            << Back</a> <button class="default-btn" id="cmd" style="float: right;"><i class="fa fa-print"></i> Print</button>
+         <div>
+            <a href="<?php echo url_for('wallet/add.php') ?>" class="default-btn">
+            << Back</a> 
+
+            <a href="<?php echo url_for('client/show.php?id='. $clients->id) ?>" class="default-btn">
+            Customer Record</a> 
+            
+         </div>
+
+         <button class="default-btn" id="cmd" style="float: right;"><i class="fa fa-print"></i> Print</button>
       </div>
    </div>
    <div class="separator"></div>

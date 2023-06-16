@@ -17,30 +17,48 @@
           $arr = end($stock);
           foreach ($stock as $val) { 
             // $supply_val = number_format(Product::find_by_id($val->item_id)->price  * $val->supply, 2) ;
-            $supply_val = Product::find_by_id($val->item_id)->price  * $val->supply;
+            // $supply_val = Product::find_by_id($val->item_id)->price  * $val->supply;
+            $supply_val = $val->cost_price  * $val->supply;
           ?>
 <?php if (!empty($val)) { ?>
 <tr class="text-center">
     <td><?php echo $sn++ ?>.</td>
     <td><?php echo date('d/m/y h:i:a', strtotime($val->created_at)) ?></td>
-    <td>
+    <td class="d-none">
         <?php echo Product::find_by_id($val->item_id)->pname; ?>
     </td>
     <td><?php echo $val->ref_no ?></td>
     <td> <span class="supply"><?php echo $val->supply ?></span></td>
-    <td>
-        <span class="supply_val"><?php echo $supply_val ?></span>
+    <td><?php echo $val->breakage ?></td>
+    <td><?php echo $val->return_inward ?></td>
+    <td><?php echo $val->cost_price ?></td>
+    <td><?php echo $val->sales_price ?></td>
+
+    <td class="">
+        <span class="supply_val"><?php echo number_format($supply_val, 2) ?></span>
     </td>
 
     <td>
-        <?php //if ($val->id == $arr->id) { ?>
+        <?php if ($val->id == $arr->id) { ?>
         <?php //if ($val->qty_left != 0) { ?>
 
-        <button type="button" class="btn btn-sm btn-secondary oneItem" data-ref="<?php echo $val->ref_no;  ?>"
-            data-id="<?php echo $val->item_id;  ?>" data-toggle="modal" data-target="#editModal"><i
-                class="fa fa-pencil"></i> Edit Stock </button>
+        <div class="dropdown ">
+          <div class="btn-group">
+            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="feather-more-vertical" title="More Options" style="font-weight: bolder;"></i> More
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#"> <i class="feather-maximize-2 tet-info"></i> Add Breakage</a>
+              <a class="dropdown-item" href="#"> <i class="feather-maximize-2 tet-info"></i> Return In-ward</a>
+              <a class="dropdown-item oneItem" href="#" data-ref="<?php echo $val->ref_no;  ?>"
+            data-id="<?php echo $val->item_id;  ?>" data-toggle="modal" data-target="#editModal"> <i class="fa fa-pencil"></i> Edit Stock</a>
+            </div>
+          </div>
+        </div>
+
+        
         <?php //} ?>
-        <?php //} ?>
+        <?php } ?>
     </td>
 </tr>
 

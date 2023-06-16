@@ -4,6 +4,9 @@ $page = 'Stock';
 $id = $_GET['id'] ?? 1;
 $from = $_GET['from'] ?? date('Y-01-01');
 $to = $_GET['to'] ?? date('Y-m-d');
+
+$product = StockDetails::find_by_item_id($id);
+$arr = end($product);
 require_login();
 
 include(SHARED_PATH . '/admin_header.php'); ?>
@@ -69,20 +72,24 @@ include(SHARED_PATH . '/admin_header.php'); ?>
                         <table class="table table-sm table-bordered" id="">
                             <!-- <table id="example5" class="display table table-sm table-bordered"> -->
                             <thead>
-                                <tr>
+                                <tr class="d-none">
                                     <th></th>
-                                    <th colspan="6" class="text-center fs-20 bg-success">Open Stock</th>
+                                    <th colspan="4" class="text-center fs-20 bg-success">Open Stock</th>
                                     <!-- <th colspan="5" class="text-center fs-20 bg-primary">Close Stock</th> -->
                                     <th></th>
                                 </tr>
-                                <tr class="text-center">
+                                <tr class="text-center text-uppercase">
                                     <th>S/n</th>
                                     <th>created On</th>
-                                    <th>Item</th>
+                                    <th class="d-none">Product</th>
                                     <th>Ref No</th>
                                     <!-- <th>Initial Stock</th> -->
-                                    <th>Supply</th>
-                                    <th class="bg-yellow">Value in(<?php echo $currency ?>)</th>
+                                    <th>Stock In</th>
+                                    <th>Breakage</th>
+                                    <th>Return_inward</th>
+                                    <th>Cost Price</th>
+                                    <th>Selling Price</th>
+                                    <th class="bg-yellow ">Total Cost(<?php echo $currency ?>)</th>
                                     <!-- <th>Total Stock</th> -->
                                     <!--  -->
                                     <!-- <th>Total.Amt</th> -->
@@ -104,7 +111,7 @@ include(SHARED_PATH . '/admin_header.php'); ?>
 
                             <tfoot>
                                 <tr>
-                                    <td colspan="4" align="right">Total</td>
+                                    <td colspan="5" align="right">Total</td>
                                     <td align="center" id="sum_of_supply" style="font-weight: bold;"></td>
                                     <td align="center" id="value_of_supply" style="font-weight: bold;"></td>
                                     
@@ -161,6 +168,16 @@ include(SHARED_PATH . '/admin_header.php'); ?>
                         <label>Quantity Supplied</label>
                         <input type="number" min="0" name="addStock[supply]" placeholder="e.g 19" class="form-control"
                             id="supply">
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label>Cost Price</label>
+                        <input type="number" required min="0" value="<?php echo $arr->cost_price ?? 0 ?>" name="addStock[cost_price]" placeholder="e.g 30000" class="form-control" id="cost_price">
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label>Sales Price</label>
+                        <input type="number" required min="0" value="<?php echo $arr->sales_price ?? 0 ?>" name="addStock[sales_price]" placeholder="e.g 30000" class="form-control" id="sales_price">
                     </div>
 
                 </div>

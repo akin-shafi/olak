@@ -88,7 +88,7 @@ $page_title = 'Billing & Receipts'; ?>
                     <option>Cash</option>
                     <option>Transfer</option>
                     <option>POS</option>
-                    <option>Wallet</option>
+                    <option selected>Wallet</option>
                   </select>
                 </div>
               </div>

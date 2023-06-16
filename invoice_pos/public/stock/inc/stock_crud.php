@@ -15,6 +15,10 @@ if(isset($_POST['addStock'])):
           ];
           $addStock->merge_attributes($data);
           $result2 = $addStock->save();
+
+          $product->merge_attributes($data);
+          $result3 = $product->save();
+
           exit(json_encode(['msg' => 'OK']));
   } else {
       exit(json_encode(['msg' => display_errors($addStock->errors)]));

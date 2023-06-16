@@ -2,7 +2,7 @@
 class StockDetails extends DatabaseObject
 {
   protected static $table_name = "stock_details";
-  protected static $db_columns = ['id','item_id','ref_no','initial_stock','supply', 'cost_price',
+  protected static $db_columns = ['id','item_id','ref_no','initial_stock','supply', 'breakage', 'return_inward', 'cost_price',
   'sales_price', 'company_id',
   'branch_id',
   'total_amt','sold_stock','sold_stock_amt','qty_left','created_at','created_by', 'updated_at', 'updated_by', 'exception','deleted'];
@@ -13,6 +13,8 @@ class StockDetails extends DatabaseObject
     public $ref_no;  
     public $initial_stock;  
     public $supply; 
+    public $breakage; 
+    public $return_inward; 
     public $cost_price;  
     public $sales_price;  
     public $total_amt; 
@@ -42,6 +44,8 @@ class StockDetails extends DatabaseObject
         $this->ref_no = $args['ref_no'] ?? '';    
         $this->initial_stock = $args['initial_stock'] ?? '';    
         $this->supply = $args['supply'] ?? ''; 
+        $this->breakage = $args['breakage'] ?? 0; 
+        $this->return_inward = $args['return_inward'] ?? 0; 
         $this->cost_price = $args['cost_price'] ?? 0;  
         $this->sales_price = $args['sales_price'] ?? 0;  
         $this->total_amt = $args['total_amt'] ?? ''; 

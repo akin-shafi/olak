@@ -14,7 +14,7 @@ if(count($stock) > 0){
 
     // Create a file pointer
     $f = fopen('php://memory', 'w');
-
+ 
     // Set column headers 
 
     $fields = array('ID', 'created On',  'Item', 'Ref No', 'Initial Stock',  'Supply', 'Total Stock', 'Unit Price',  'Unit Sold',  'Value in(NGN)', 'Avail Stock Value in(NGN)'); 

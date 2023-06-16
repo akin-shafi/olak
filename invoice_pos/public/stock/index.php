@@ -4,6 +4,7 @@ $page_title = 'Stock';
 require_login();
 $from = $_GET['from'] ?? date('Y-m-d');
 $to = $_GET['to'] ?? date('Y-m-d');
+$branch_id = $_GET['branch'] ?? $loggedInAdmin->id;
 include(SHARED_PATH . '/admin_header.php'); ?>
 <style type="text/css">
 td a {
@@ -24,16 +25,30 @@ td a {
 
               
 
-            <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) : ?>
-              <select class="form-control" id="filter_branch" style="width: 150px; ">
-                <option value="" selected>All</option>
-                <?php foreach (Branch::find_by_undeleted() as $key => $value) { ?>
-                  <option value="<?php echo $value->id ?>"><?php echo $value->branch_name ?></option>
-                <?php } ?>
-                
-              </select>
-            <?php endif; ?>
-              <!-- <button type="button" id="search" class="btn btn-primary btn-sm">Search</button> -->
+              <div class="">
+                <label class="label-control">Branch</label>
+                <?php if (in_array($loggedInAdmin->admin_level, [1,2,3])) : ?>
+                <select class="form-control" id="filter_branch" style="width: 150px; ">
+                    <option value="" selected>All</option>
+                    <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $key => $value) { ?>
+                    <option value="<?php echo $value->id ?>" <?php echo $branch_id ==  $value->id ? 'selected' : ''; ?>><?php echo $value->branch_name ?> </option>
+                    <?php } ?>
+                    
+                </select>
+                <?php else: ?>
+                   
+                    <input type="hidden" id="filter_branch" name="" value="<?php echo $branch_id ?>">
+                <?php endif; ?>
+              </div>
+              <div class="form-group">
+                <label class="label-control">Date From:</label>
+                <input type="date" id="date_from" class="form-control" value="<?php echo $from ?>">
+              </div>
+              <div class="form-group">
+                <label class="label-control">Date To:</label>
+                <input type="date" id="date_to" class="form-control" value="<?php echo $to ?>">
+              </div>
+              <button type="button" id="search" class="btn btn-primary btn-sm">Search</button>
            </div>
           </div>
         </div>
@@ -49,17 +64,20 @@ td a {
         </div>
         
         <div class="table-responsive">
-            <table class="table table-sm table-bordered" id="rowSelection">
+        <table class="table table-sm table-bordered" id="rowSelection">
                 <thead>
                     <tr class="text-center text-uppercase">
                         <th>S/n</th>
                         <th>Item</th>
-                        <th>ToTal Stock</th>
-                        <th>Avail Stock</th>
-                        <th>Sold stock</th>
+                        <th class="d-none" title="TotalStock - Sales">OPENING STOCK</th>
+                        <th>STOCK IN/EXCESS</th>
+                        <th> BREAKAGES/SCRAP</th>
+                        <th>RETURNED INWARDS</th>
+                        <th title="StockIn + ReturnInward">TOTAL STOCK</th>
+                        <th> OUTFLOW/SALES</th>
                         
-                        <!-- <th>RETURNED INWARDS</th> -->
-                        <!-- <th> BREAKAGES/SCRAP</th> -->
+                        <th title="TotalStock - Outflow - breakage"> CLOSING STOCK </th>
+                        <th title="ClosingStock - Breakage "> TOTAL (CLOSING STOCK) </th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -71,17 +89,28 @@ td a {
                     $product =  Product::find_by_branch_id(['branch_id' => $branch_id]);
                      foreach ($product as $key => $item) {
                       
-                      $stock = StockDetails::sum_of_Stock([ 'item_id' => $item->id,   //'from' => $from 
-                      ]) ?? 0;
+                      
+                      $stock_in = StockDetails::find_by_date([ 'item_id' => $item->id, 'from' => $from, 'to' => $to, 'order' => 'ASC']);
 
-                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id , 'status' => 1  //'from' => $from, 'to' => $to,
-                      ]);
-                      $qty = intval($sales->sum_of_quantity) ?? 0;
-                      $left_over = intval($stock - $qty);
+                      $arr = end($stock_in);
+                    //   pre_r($arr);
+                      $last_entry = $arr->supply ?? 0;
+                      $breakage = $arr->breakage ?? 0;
+                      $return_inward =  $arr->return_inward ?? 0;
+                    
+                      $totalStock = StockDetails::sum_of_Stock(['item_id' => $item->id,   //'from' => $from 
+                      ])  ?? 0;
+                      $sales = Invoice::find_all_by_service_type(['service_type' => $item->id , 'status' => 1 , 'from' => $from, 'to' => $to,]);
+                     
+                      $outflow = intval($sales->sum_of_quantity) ?? 0;
+                      $opening_stock = $totalStock - $outflow;
+                      $closingStock = intval($totalStock - $outflow - $breakage + $return_inward); //* TotalStock - Outflow - breakage
+                     
+                      $totalClosingStock = intval($closingStock - $breakage ) ?? 0; //* Breakage + ClosingStock 
                       if (!empty($item->ref_no)) {
                         $supply = StockDetails::find_by_ref($item->ref_no)->supply ?? "0";
                         $sold = StockDetails::find_by_ref($item->ref_no)->sold_stock ?? "0";
-                        $qty = StockDetails::find_by_ref($item->ref_no)->deleted ?? "0";
+                        $outflow = StockDetails::find_by_ref($item->ref_no)->deleted ?? "0";
                       }else{
                         $supply = "None";
                         $sold = "None";
@@ -95,12 +124,15 @@ td a {
                                 <?php echo $item->pname; ?>
                             </a>
                         </td>
-                        <td><?php echo $stock ?? 0; ?></td>
-                        <td><?php echo $left_over ?? 0; ?></td>
+                        <td class="d-none"><?php echo $opening_stock?></td>
+                        <td><?php echo $last_entry ?></td>
+                        <td><?php echo $breakage ?></td>
+                        <td><?php echo $return_inward ?></td>
+                        <td><?php echo $totalStock ?? 0; ?></td>
                         <td><?php echo $sales->sum_of_quantity ?? 0; ?></td>
-                        
-                        <!-- <td>0</td> -->
-                        <!-- <td>0</td> -->
+          
+                        <td><?php echo $closingStock ?? 0; ?></td>
+                        <td><?php echo $totalClosingStock; ?></td>
                         <td>
                             <button type="button" class=" btn btn-sm btn-primary add"
                                 data-id="<?php echo $item->id ?>"><i class="fa fa-plus"></i> Add
@@ -157,10 +189,11 @@ $(document).on('click', '.add', function(e) {
 
 
 // ***************** Add Stock *********************// 
+// alert($("#filter_branch").val());
 
 $(document).on('click', '#addStock', function(e) {
     e.preventDefault();
-
+    let selected = $("#filter_branch").find(":selected").val() || $("#filter_branch").val();
     $.ajax({
         url: 'inc/stock_crud.php',
         method: 'post',
@@ -173,7 +206,7 @@ $(document).on('click', '#addStock', function(e) {
                 $("#stockModal").modal('hide');
                 // load_product();
                 // $('#form')[0].reset();
-                window.location.href = BASE_URL;
+                window.location.href = BASE_URL + '?branch=' +selected;
             } else {
                 $("#stockErrors").html(r.msg)
             }
@@ -250,14 +283,19 @@ $(document).on("click", "#clearDataAdmin", function() {
         return false
     }
 })
+search
 $(document).on('change', '#filter_branch', function() {
+    let from = $("#date_from").val();
+    let to = $("#date_to").val();
     let branch = $(this).val();
-    window.location.href = BASE_URL + 'index.php?branch='+ branch;
+    // window.location.href = BASE_URL + 'index.php?branch='+ branch;
+    window.location.href = BASE_URL + 'index.php?branch='+ branch + '&from=' +from +'&to=' + to ;
 })
 
 $(document).on('click', '#search', function() {
-    let from = $("#from").val();
-    let to = $("#to").val();
-    window.location.href = BASE_URL + 'index.php?from='+ from +'&to=' + to ;
+    let from = $("#date_from").val();
+    let to = $("#date_to").val();
+    let branch = $("#filter_branch").val();
+    window.location.href = BASE_URL + 'index.php?branch='+ branch + '&from=' +from +'&to=' + to ;
 })
 </script>

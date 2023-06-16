@@ -16,7 +16,20 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
 ?>
 <?php $page_title = 'Admins'; ?>
 <?php include(SHARED_PATH . '/admin_header.php'); ?>
-
+<style type="text/css">
+  .red{
+    color: red; 
+    font-weight: bold; 
+    font-size: 20px; 
+    text-decoration:underline;
+  }
+  .green{
+    color: green; 
+    font-weight: bold; 
+    font-size: 20px; 
+    /*text-decoration:underline;*/
+  }
+</style>
 <div class="main-container">
 
 
@@ -145,7 +158,15 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
               <td><?php echo $sn++; ?></td>
               <td><a href="<?php echo url_for('wallet/pop.php?payment_id=' . h(u($value->payment_id))); ?>"><?php echo h(ucwords($value->payment_id)); ?></a></td>
               <td><?php echo Billing::PAYMENT_METHOD[$value->payment_method]; ?></td>
-              <td><?php echo number_format(floatval($value->amount)); ?></td>
+
+              <td>
+                
+                    <?php if ($value->approval == 0) {?>
+                      <a href="#" data-id="<?php echo $clients->customer_id ?>" class="red deposit"><?php echo number_format(floatval($value->amount)) ?></a>
+                    <?php }else{ ?>
+                      <?php echo number_format(floatval($value->amount)) ?>
+                    <?php } ?>
+              </td>             
               <td>
                 <?php  echo $value->approval == 0 ? "Unapproved" : "Approved"; ?>
                 <?php  echo $value->deleted == 1 ? " and Deleted" : ""; ?>
@@ -188,28 +209,44 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
           <?php $sn = 1;
           foreach ($transactions as $value) {
             $branch = Branch::find_by_id($value->branch_id);
-            $createdBy = Admin::find_by_id($value->created_by)->full_name();
+
+            $createdBy = $value->created_by != '' ? Admin::find_by_id($value->created_by)->full_name() : "No Name" ;
           ?>
+          
             <tr>
               <td><?php echo $sn++; ?></td>
               <td>
                 <?php echo h(Billing::STATUS[$value->status]); ?>
               </td>
               <td>
-                <a href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u($value->invoiceNum))); ?>">
-                  <?php echo h(ucwords($value->invoiceNum)); ?></a></td>
+                
+                <?php if(intval($value->invoiceNum) != 0 ): ?>
+                <a href="<?php echo url_for('invoice/invoice.php?invoice_no=' . h(u(intval($value->invoiceNum)))); ?>">
+                  <?php echo h(ucwords(intval($value->invoiceNum))) ?></a>
+                <?php else: ?>
+                  <span class="h3 text-danger">Error</span>
+                <?php endif ?>
+                
+              </td>
               <td><?php echo $createdBy ?></td>
               <td><?php echo h(ucwords(substr($branch->branch_name, 0, 30))); ?></td>
               <td><?php echo h(date('D jS M, Y H:i:s', strtotime($value->created_date))); ?></td>
-              <td><?php echo number_format($value->total_amount); ?></td>
+              <td><?php echo number_format(intval($value->total_amount)); ?></td>
               <?php if (in_array($loggedInAdmin->admin_level, [1])) : ?>
               <td>
+              <?php if(intval($value->invoiceNum) != 0 ): ?>
+                <?php if (in_array($loggedInAdmin->id, [1])) : ?>
                 <a class="btn btn-sm btn-primary" href="<?php echo url_for('/invoice/edit.php?invoiceNum=' . $value->invoiceNum); ?>"> <i class="feather-maximize-2 tet-info"></i> Recall Invoice </a>
-
+                <?php endif ?>
                 <a href="#!" class="btn btn-sm btn-primary" id="delete_void" data-customerid="<?php echo $clients->id ?>" data-id="<?php echo $value->id; ?>"> <i class="feather-maximize-2 tet-info"></i> Void  </a>
+              <?php else: ?>
+                  <span class="h3 text-danger">Error</span>
+              <?php endif ?>
+                
               </td>
               <?php endif ?>
             </tr>
+           
           <?php } ?>
         </tbody>
       </table>
@@ -231,6 +268,46 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
 
   </div>
 
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" id="show_deposit" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Payment History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table id="rowSelection" class="table table-sm table-striped ">
+            <thead>
+              <tr>
+                <td>S/N</td>
+                <td>Amount</td>
+                <td>Payment Method</td>
+                <td>Bank Name</td>
+                <td>Account No.</td>
+                <td>Date</td>
+                <td>Registered By</td>
+                <?php if($accessControl->can_approve == 1) : ?>
+                <td>Action</td>
+                <?php endif  ?>
+
+              </tr>
+            </thead>
+            <tbody id="show_details">
+              
+            </tbody>
+          </table>
+      </div>
+      </div>
+      
+    </div>
+  </div>
 </div>
 
 <?php include(SHARED_PATH . '/admin_footer.php');
@@ -310,5 +387,123 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
       .then(() => window.location.reload())
 
     });
+
+
+
+
+
+
+
+
+
+
+
+
+  $(document).on("click", ".deposit", function() {
+    $("#show_deposit").modal('show');
+    let customer_id = $(this).data('id');
+    getPaymentHistory(customer_id);
+  })
+  function getPaymentHistory(customer_id) {
+    $.ajax({
+        url:"inc/process.php",
+        method:"POST",
+        data:{
+          unapproved: 1,
+          customer_id: customer_id,
+          approval: 0,
+        },
+        success:function(data)
+        {
+          $("#show_details").html(data)
+        }
+    });
+  }
+  
+  $(document).on("click", ".approve", function() {
+    $(this).attr("disabled", true);
+    $(this).html("processing..");
+
+    let id = $(this).attr('id');
+    let customer_id = $(this).data('cust');
+    let payment_method = $(this).data('type');
+
+    if (payment_method == 3) {
+        $("#customer_id").val(customer_id);
+        $("#data_id").val(id);
+        gen_code();
+        $("#enter_refrence").modal('show');
+    }else{
+        approval(id, customer_id);
+    }
+    
+  })
+
+  function approval(id, customer_id) {
+    $.ajax({
+        url:"inc/process.php",
+        method:"POST",
+        dataType: 'json',
+        data:{
+          approve: 1,
+          id: id,
+        },
+        success:function(data)
+        {
+          if(data.success == true){
+            getPaymentHistory(customer_id);
+            showData();
+            successTime(data.msg);
+          }else{
+            getPaymentHistory(customer_id);
+            showData();
+            errorAlert(data.msg)
+            
+          }
+        }
+    });
+  }
+
+  $(document).on("submit", "#submit_ref", function(e) {
+    e.preventDefault();
+      let id = $("#data_id").val();
+      let customer_id = $("#customer_id").val();
+      $.ajax({
+        url:"inc/process.php",
+        method:"POST",
+        dataType: 'json',
+        data: $(this).serialize(),
+        success:function(data)
+        {
+          if(data.msg == 'OK'){
+            approval(id, customer_id)
+            $("#enter_refrence").modal('hide');
+          }else{
+            errorAlert(data.msg);
+          }
+        }
+    });
+  })
+
+  gen_code();
+
+    function gen_code() {
+      $.ajax({
+          url: 'script.php',
+          method: 'post',
+          data: {
+            gen_code: 1,
+          },
+          dataType: "json",
+          success: function(data) {
+            if (data.msg == 'OK') {
+                $('#ref_no').val(data.barcode);
+            }
+
+          }
+      });
+    }
+
+
   });
 </script>

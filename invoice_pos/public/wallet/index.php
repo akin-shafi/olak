@@ -192,23 +192,6 @@ require_login();
      let customer_id = $(this).data('id');
      getPaymentHistory(customer_id);
   })
-
-  
-  function showData() {
-    $.ajax({
-        url:"script.php",
-        method:"POST",
-        data:{
-          show: 1,
-        },
-        success:function(data)
-        {
-           $("#show_data").html(data)
-        }
-     });
-  }
-  showData();
-
   function getPaymentHistory(customer_id) {
     $.ajax({
         url:"script.php",
@@ -224,7 +207,7 @@ require_login();
         }
      });
   }
-
+  
   $(document).on("click", ".approve", function() {
     $(this).attr("disabled", true);
     $(this).html("processing..");
@@ -309,5 +292,24 @@ require_login();
        });
     }
 
+
+  function showData() {
+    $.ajax({
+        url:"script.php",
+        method:"POST",
+        data:{
+          show: 1,
+        },
+        success:function(data)
+        {
+           $("#show_data").html(data)
+        }
+     });
+  }
+  showData();
+
+  
+
+  
 </script>
 

@@ -168,6 +168,51 @@ class Invoice extends DatabaseObject
     return array_shift($row);
   }
   
+  static public function filter_option($options=[]) {
+    $from = $options['from'] ?? false;
+    $to = $options['to'] ?? false;
+    $status = $options['status'] ?? false;
+    $service_type = $options['service_type'] ?? false;
+    $branch_id = $options['branch_id'] ?? false;
+    $created_at = $options['created_at'] ?? false;
+
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    if ($service_type) {
+      $sql .= " AND service_type='" . self::$database->escape_string($service_type) . "'";
+    }
+
+    if ($status) {
+      $sql .= " AND status ='" . self::$database->escape_string($status) . "'";
+    }
+
+    if ($branch_id) {
+      $sql .= " AND branch_id ='" . self::$database->escape_string($branch_id) . "'";
+    }
+
+    if ($created_at) {
+      $sql .= " AND created_at ='" . self::$database->escape_string($created_at) . "'";
+    }
+    if ($from && $to) {
+      if ($from == $to) {
+        $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from > $to) {
+        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from < $to) {
+        $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+      }
+    } elseif ($from && !$to) {
+      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+    } elseif (!$from && $to) {
+      $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
+    }
+
+    // echo $sql;
+        return static::find_by_sql($sql);
+
+
+  }
 
   static public function find_all_by_service_type($options=[]) {
     $from = $options['from'] ?? false;
@@ -180,6 +225,7 @@ class Invoice extends DatabaseObject
     $sql = "SELECT COUNT(*) AS counts, SUM(quantity) AS sum_of_quantity, SUM(amount) AS grand_total, SUM(unit_cost) AS unit_cost, SUM(rebate_value) AS rebate_value FROM " . static::$table_name . " ";
 
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
     if ($service_type) {
       $sql .= " AND service_type='" . self::$database->escape_string($service_type) . "'";
     }
