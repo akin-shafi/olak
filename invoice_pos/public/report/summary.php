@@ -115,7 +115,9 @@ $branches = Branch::find_by_undeleted();
     <h2 id="currentDate"></h2>
   </div>
 
-  <div id="tableContainer"></div>
+  <div class="table-responsive" id="tableContainer">
+    
+  </div>
 
 
 </div>

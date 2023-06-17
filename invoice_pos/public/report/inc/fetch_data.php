@@ -1,6 +1,7 @@
 <?php require_once('../../../private/initialize.php');
 
-$date = $_POST['date'] ?? date("Y-m-d");
+// $date = $_POST['date'] ?? date("Y-m-d");
+$date = '2023-01-03' ?? date("Y-m-d");
 $branches = Branch::find_by_undeleted();
 
 // Prepare the JSON response
@@ -17,7 +18,8 @@ echo json_encode($response);
  * Helper function to generate the HTML for the data table
  */
 function generateTableHTML($data, $date) {
-    $html = '<table class="table table-sm table-striped table-bordered">';
+    $html = '<table id="rowSelection" class="table table-sm table-striped table-bordered">';
+    $html .= '<thead>';
     $html .= 
     '<tr>
         <th>S/N</th>
@@ -32,11 +34,12 @@ function generateTableHTML($data, $date) {
         <th>Refund</th>
         <th>Action</th>
     </tr>';
+    $html .= '</thead>';
     $sn = 1;
+    $html .= '<tbody>';
     foreach ($data as $row) {
         
         $summary_report = SummaryReport::find_by_date(['report_date' => $date, 'branch_id' => $row->id]);
-        // pre_r($summary_report);
         $manualCash = !empty($summary_report) ? number_format($summary_report->cash_sales, 2) : "No Record";
         $expenses = !empty($summary_report) ? number_format($summary_report->expenses, 2) : "No Record";
         $refund = !empty($summary_report) ? number_format($summary_report->sum_of_refund, 2) : "No Record";
@@ -54,15 +57,19 @@ function generateTableHTML($data, $date) {
 
         $confirmed = WalletFundingMethod::sum_of_approved(['approval' => 1, 'from' => $date, 'to' => $date, 'branch_id' => $row->id, ]) ?? 0; 
         $unconfirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'from' => $date, 'to' => $date, 'branch_id' => $row->id,]) ?? 0; 
-        
-        if($manualCash != "No Record" && $manualCash != $systemCash){
-            $checker = "bg-danger text-light";
+        // pre_r($confirmed);r
+        if($manualCash != "No Record"){
+            if($manualCash != $systemCash){
+                $checker = "bg-danger text-light";
+            }else{
+                $checker = 'bg-success text-light';
+            }
         }else{
             $checker = '';
         }
         
         $id = !empty($summary_report) ? $summary_report->id : '0';
-
+       
         $html .= '<tr>';
         $html .= '<td>' . $sn++. '</td>';
         $html .= '<td>' . $row->branch_name . '</td>';
@@ -80,8 +87,16 @@ function generateTableHTML($data, $date) {
             $html .= '<td></td>';
         }
         $html .= '</tr>';
+        $html .= '<tr>';
+        if(!empty($summary_report)){
+            $html .= '<td colspan="11" class="text-center">' . $summary_report->complains . '</td>';
+        }else{
+            $html .= '<td></td>';
+        }
+        $html .= '</tr>';
+        
     }
-
+    $html .= '</tbody>';
     $html .= '</table>';
 
     return $html;
