@@ -35,7 +35,7 @@ class WalletFundingMethod extends DatabaseObject
     $this->approval = $args['approval'] ?? '';
     $this->created_by = $args['created_by'] ?? '';
     $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
-    $this->updated_at = $args['updated_at'] ?? date('Y-m-d H:i:s');
+    $this->updated_at = $args['updated_at'] ?? '';
     $this->deleted = $args['deleted'] ?? '';
   }
 
@@ -187,6 +187,53 @@ class WalletFundingMethod extends DatabaseObject
     return array_shift($row);
   }
 
+  
+  public static function sum_of_approved($options = [])
+  {
+    $approval       = $options['approval'] ?? false;
+    $customer_id    = $options['customer_id'] ?? false;
+    $payment_method = $options['payment_method'] ?? false;
+    $company_id     = $options['company_id'] ?? false;
+    $branch_id      = $options['branch_id'] ?? false;
+
+    $from = $options['from'] ?? false;
+    $to   = $options['to'] ?? false;
+    $sql = "SELECT SUM(amount) FROM " . static::$table_name . " ";
+    $sql .= "WHERE approval='" . self::$database->escape_string($approval) . "'";
+    if ($customer_id) {
+       $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "'";
+    }
+    if ($payment_method) {
+       $sql .= " AND payment_method='" . self::$database->escape_string($payment_method) . "'";
+    }
+    if ($company_id) {
+       $sql .= " AND company_id='" . self::$database->escape_string($company_id) . "'";
+    }
+
+    if ($branch_id) {
+       $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'";
+    }
+    $sql .= "AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+    if ($from && $to) {
+      if ($from == $to) {
+        $sql .= " AND DATE(updated_at) = '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from > $to) {
+        $sql .= " AND DATE(updated_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from < $to) {
+        $sql .= " AND DATE(updated_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+      }
+    } elseif ($from && !$to) {
+      $sql .= " AND DATE(updated_at) = '" . self::$database->escape_string($from) . "' ";
+    } elseif (!$from && $to) {
+      $sql .= " AND DATE(updated_at) = '" . self::$database->escape_string($to) . "' ";
+    }
+    // echo $sql;
+    $result_set = self::$database->query($sql);
+    $row = $result_set->fetch_array();
+    // pre_r( $row);
+    return array_shift($row);
+  }
  
  static public function find_by_unapproved($options=[])
   {

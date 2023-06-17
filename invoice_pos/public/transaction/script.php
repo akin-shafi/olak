@@ -45,7 +45,8 @@ $sum = WalletFundingMethod::sum_of_unapproved(['customer_id' => $customer_id, 'a
     exit(json_encode(['success' => false, 'msg' => 'Trasaction already approved']));
   }else{
     $data1 = [
-      'approval' => 1
+      'approval' => 1,
+      'updated_at' => date('Y-m-d'),
     ];
     $wallet->merge_attributes($data1);
     $result = $wallet->save();

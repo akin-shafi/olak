@@ -52,15 +52,7 @@ function generateTableHTML($data, $date) {
             'branch_id' => $row->id, 'payment_method' => 4, 'from' => $date
         ]) ?? 0;
 
-        // $confirmed = WalletFundingMethod::find_transaction([
-        //     'branch_id' => $row->id, 'approval' => 1, 'from' => $date
-        // ]) ?? 0;
-
-        // $unconfirmed = WalletFundingMethod::find_transaction([
-        //     'branch_id' => $row->id, 'approval' => 0, 'from' => $date
-        // ]) ?? 0;
-
-        $confirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 1, 'from' => $date, 'to' => $date, 'branch_id' => $row->id, ]) ?? 0; 
+        $confirmed = WalletFundingMethod::sum_of_approved(['approval' => 1, 'from' => $date, 'to' => $date, 'branch_id' => $row->id, ]) ?? 0; 
         $unconfirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'from' => $date, 'to' => $date, 'branch_id' => $row->id,]) ?? 0; 
 
         
