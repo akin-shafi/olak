@@ -197,7 +197,7 @@ $(document).ready(function() {
   // Event listener for Create or edit Form
   
   let data = 'add';
-  let eid = 1;
+  let eid = '';
   fetchForm(data, eid);
 
   function fetchForm(data, eid){

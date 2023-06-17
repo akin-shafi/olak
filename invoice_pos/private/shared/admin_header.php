@@ -444,15 +444,17 @@ require_login(); ?>
                 <a class="dropdown-item <?php echo ($page_title == "Comprehensive Sales Report") ? 'active' : '' ?>"
                   href="<?php echo url_for('report/advance.php') ?>">Concise Sales Report</a>
               </li>
+              <?php if (in_array($loggedInAdmin->admin_level, [1, 2, 6])) : ?>
               <li>
                 <a class="dropdown-item <?php echo ($page_title == "Summary Report") ? 'active' : '' ?>"
                   href="<?php echo url_for('report/summary.php') ?>">Summary Report</a>
               </li>
+              
               <li>
                 <a class="dropdown-item <?php echo ($page_title == "Advance Report") ? 'active' : '' ?>"
                   href="<?php echo url_for('report/') ?>">Advance Report</a>
               </li>
-              
+              <?php endif;?>
 
             </ul>
           </li>

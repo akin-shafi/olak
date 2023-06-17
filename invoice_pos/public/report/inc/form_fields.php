@@ -38,20 +38,20 @@
           </div>
           <div class="form-group">
             <label for="cashSales">Cash Sales (Manual):</label>
-            <input required value="<?php echo $summary_report->cash_sales ?>" name="createReport[cash_sales]" type="number" class="form-control" id="cashSales">
+            <input required value="<?php echo $summary_report->cash_sales ?? '' ?>" name="createReport[cash_sales]" type="number" class="form-control" id="cashSales">
           </div>
           <div class="form-group">
             <label for="expenses">Expenses:</label>
-            <input required value="<?php echo $summary_report->expenses ?>" name="createReport[expenses]" type="number" class="form-control" id="expenses">
+            <input required value="<?php echo $summary_report->expenses ?? '' ?>" name="createReport[expenses]" type="number" class="form-control" id="expenses">
           </div>
           <div class="form-group">
             <label for="refund">Sum of Refund:</label>
-            <input required value="<?php echo $summary_report->sum_of_refund ?>" name="createReport[sum_of_refund]" type="number" class="form-control" id="refund">
+            <input required value="<?php echo $summary_report->sum_of_refund ?? '' ?>" name="createReport[sum_of_refund]" type="number" class="form-control" id="refund">
           </div>
 
           <div class="form-group">
             <label for="complaintsInput">Complaints</label>
-            <textarea  name="createReport[complains]" class="form-control" id="complaintsInput" rows="3" placeholder="Enter Complaints"><?php echo $summary_report->complains ?></textarea>
+            <textarea  name="createReport[complains]" class="form-control" id="complaintsInput" rows="3" placeholder="Enter Complaints"><?php echo $summary_report->complains ?? '' ?></textarea>
           </div>
         </form>
       </div>

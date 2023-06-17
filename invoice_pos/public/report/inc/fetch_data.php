@@ -54,15 +54,20 @@ function generateTableHTML($data, $date) {
 
         $confirmed = WalletFundingMethod::sum_of_approved(['approval' => 1, 'from' => $date, 'to' => $date, 'branch_id' => $row->id, ]) ?? 0; 
         $unconfirmed = WalletFundingMethod::sum_of_unapproved(['approval' => 0, 'from' => $date, 'to' => $date, 'branch_id' => $row->id,]) ?? 0; 
-
+        
+        if($manualCash != "No Record" && $manualCash != $systemCash){
+            $checker = "bg-danger text-light";
+        }else{
+            $checker = '';
+        }
         
         $id = !empty($summary_report) ? $summary_report->id : '0';
 
         $html .= '<tr>';
         $html .= '<td>' . $sn++. '</td>';
         $html .= '<td>' . $row->branch_name . '</td>';
-        $html .= '<td>' . $manualCash . '</td>';
-        $html .= '<td>' . number_format($systemCash, 2) . '</td>';
+        $html .= '<td class="'.$checker.'">' . $manualCash . '</td>';
+        $html .= '<td class="'.$checker.'">' . number_format($systemCash, 2) . '</td>';
         $html .= '<td>' . number_format($transfer, 2) . '</td>';
         $html .= '<td>' . number_format($pos, 2) . '</td>';
         $html .= '<td>' . number_format($confirmed, 2) . '</td>';
