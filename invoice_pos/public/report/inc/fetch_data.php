@@ -1,7 +1,7 @@
 <?php require_once('../../../private/initialize.php');
 
-// $date = $_POST['date'] ?? date("Y-m-d");
-$date = '2023-01-03' ?? date("Y-m-d");
+$date = $_POST['date'] ?? date("Y-m-d");
+// $date = '2023-01-03' ?? date("Y-m-d");
 $branches = Branch::find_by_undeleted();
 
 // Prepare the JSON response
