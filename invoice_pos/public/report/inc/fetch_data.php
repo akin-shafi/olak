@@ -75,7 +75,7 @@ function generateTableHTML($data, $date) {
         $html .= '<td>' . $sn++. '</td>';
         $html .= '<td>' . $row->branch_name . '</td>';
         $html .= '<td class="'.$checker.'">' . $manualCash . '</td>';
-        $html .= '<td class="'.$checker.'">' . number_format($formattedCashSales, 2) . '</td>';
+        $html .= '<td class="'.$checker.'">' . $formattedCashSales . '</td>';
         $html .= '<td>' . number_format($transfer, 2) . '</td>';
         $html .= '<td>' . number_format($pos, 2) . '</td>';
         $html .= '<td>' . number_format($confirmed, 2) . '</td>';
