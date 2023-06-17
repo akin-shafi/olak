@@ -17,8 +17,8 @@
       <div class="modal-body">
         
         <form id="form">
-        <input type="text" name="createReport[<?php echo $action == 'add' ? 'add' : 'edit'; ?>]" value="<?php echo $action == 'add' ? 'add' : 'edit'; ?>">
-        <input type="text" name="createReport[id]" value="<?php echo $id; ?>">
+        <input type="hidden" name="createReport[<?php echo $action == 'add' ? 'add' : 'edit'; ?>]" value="<?php echo $action == 'add' ? 'add' : 'edit'; ?>">
+        <input type="hidden" name="createReport[id]" value="<?php echo $id; ?>">
 
           <div class="form-group">
             <label for="date">Date:</label>
