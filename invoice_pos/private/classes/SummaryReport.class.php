@@ -18,25 +18,6 @@ class SummaryReport extends DatabaseObject {
   public $created_by;
   public $created_at;
   public $deleted;
-
-//   CREATE TABLE `summary_report` (
-//     `id` int(11) NOT NULL AUTO_INCREMENT,
-//     `ref_no` int(50) NOT NULL,
-//     `report_date` varchar(50) NOT NULL,
-//     `branch_id` int(11) NOT NULL,
-//     `company_id` int(50) NOT NULL,
-//     `cash_sales` int(50) NOT NULL,
-//     `expenses` int(50) NOT NULL,
-//     `sum_of_refund` int(50) NOT NULL,
-//     `complains` varchar(50) NOT NULL,
-//     `created_by` int(50) NOT NULL,
-//     `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-//     `updated_date` int(50) NOT NULL,
-//     `deleted` int(20) NOT NULL,
-//     PRIMARY KEY (`id`)
-//    ) ;
-// ALTER TABLE `summary_report` CHANGE `complains` `complains` TEXT NOT NULL;
-// ALTER TABLE `summary_report` CHANGE `date_created` `report_date` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
   public function __construct($args=[]) {
     $this->ref_no           = $args['ref_no'] ?? '';
     $this->report_date     = $args['report_date'] ?? '';
