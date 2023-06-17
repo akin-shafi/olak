@@ -11,10 +11,14 @@ $to = $_POST['to'] ?? date("Y-m-d");
   <?php $sn = 1;
   foreach (Invoice::filter_option(['branch_id' => $branch_id, 'from' => $from, 'to' => $to, ]) as $value) : 
     $client_id = Billing::find_by_invoice_no($value->transid)->client_id;
-    $customer_name = Client::find_by_id($client_id)->full_name();
 
+    $customer_name = Client::find_by_id($client_id)->full_name();
     $product_name = Product::find_by_id($value->service_type)->pname;
-    $trans_status = $value->status == 1 ? 'Not yet' : 'Supplied' 
+
+    $qbacklog = Billing::find_by_invoice_no($value->transid)->backlog ?? 0;
+    $status = Billing::find_by_invoice_no($value->transid)->status ?? 0;
+    $trans_status = $qbacklog == 0 && $status == 1  ? 'Not yet' : 'Supplied'; 
+    // $trans_status = 0;
   ?>
     <tr>
       <td><?php echo $sn++ ?></td>

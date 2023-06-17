@@ -393,27 +393,6 @@ require_login(); ?>
 
           </li>
 
-          <li class="nav-item dropdown ">
-            <a class="nav-link dropdown-toggle
-              <?php echo ($page_title == "Add New Booking" || $page_title == "View Bookings") ? 'active-page' : '' ?>
-            " href="#" id="formsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              <i class="feather-package nav-icon"></i>
-              Report
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="formsDropdown">
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New Booking") ? 'active' : '' ?>"
-                  href="<?php echo url_for('report/') ?>">Report</a>
-              </li>
-              <li>
-                <a class="dropdown-item <?php echo ($page_title == "View Bookings") ? 'active' : '' ?>"
-                  href="<?php echo url_for('report/advance.php') ?>">Advance</a>
-              </li>
-
-            </ul>
-          </li>
-
           <?php endif ?>
 
           <?php if ($accessControl->stock_mgt == 1) : ?>
@@ -451,23 +430,29 @@ require_login(); ?>
 
           <?php if ($accessControl->report_mgt == 1) : ?>
 
-          <li class="nav-item dropdown ">
+          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle
-              <?php echo ($page_title == "Add New Booking" || $page_title == "View Bookings") ? 'active-page' : '' ?>
+              <?php echo ($page == "Report") ? 'active-page' : '' ?>
             " href="#" id="formsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">
               <i class="feather-package nav-icon"></i>
               Report
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="formsDropdown">
+              
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "Add New Booking") ? 'active' : '' ?>"
-                  href="<?php echo url_for('report/') ?>">Report</a>
+                <a class="dropdown-item <?php echo ($page_title == "Comprehensive Sales Report") ? 'active' : '' ?>"
+                  href="<?php echo url_for('report/advance.php') ?>">Concise Sales Report</a>
               </li>
               <li>
-                <a class="dropdown-item <?php echo ($page_title == "View Bookings") ? 'active' : '' ?>"
-                  href="<?php echo url_for('report/advance.php') ?>">Advance</a>
+                <a class="dropdown-item <?php echo ($page_title == "Summary Report") ? 'active' : '' ?>"
+                  href="<?php echo url_for('report/summary.php') ?>">Summary Report</a>
               </li>
+              <li>
+                <a class="dropdown-item <?php echo ($page_title == "Advance Report") ? 'active' : '' ?>"
+                  href="<?php echo url_for('report/') ?>">Advance Report</a>
+              </li>
+              
 
             </ul>
           </li>

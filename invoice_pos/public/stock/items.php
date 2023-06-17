@@ -293,7 +293,7 @@ $(document).on('click', '.oneItem', function(e) {
             $("#fetchstockForm").html(r)
         }
 
-    });
+    }); 
 })
 // Edit Stock
 $(document).on('click', '#editStock', function(e) {

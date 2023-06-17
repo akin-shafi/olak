@@ -5,7 +5,7 @@ class WalletFundingMethod extends DatabaseObject
   static protected $table_name = "wallet_funding_method";
   static protected $db_columns = ['id', 'customer_id', 'payment_method', 'amount', 'bank_name','payment_id', 'refrence_no', 'description', 'company_id', 'branch_id', 'approval', 'created_at', 'created_by', 'updated_at', 'deleted'];
 
-  public $id;
+  public $id; 
   public $customer_id;
   public $payment_method;
   public $amount;
@@ -67,6 +67,45 @@ class WalletFundingMethod extends DatabaseObject
     return $obj_array;
   }
 
+  static public function find_transaction($options=[])
+  {
+    
+      
+      $company_id = $options['company_id'] ?? false;
+      $branch_id = $options['branch_id'] ?? false;
+      $customer_id = $options['customer_id'] ?? false;
+      $payment_method = $options['payment_method'] ?? false;
+
+      $from = $options['from'] ?? false;
+      $to   = $options['to'] ?? false;
+      $sql = "SELECT SUM(amount) FROM " . static::$table_name . " ";
+      $sql .= "WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+     
+      if ($company_id) { $sql .= " AND company_id='" . self::$database->escape_string($company_id) . "' ";}
+      if ($branch_id) { $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "' ";}
+      if ($customer_id) { $sql .= " AND customer_id='" . self::$database->escape_string($customer_id) . "' ";}
+      if ($payment_method) { $sql .= " AND payment_method='" . self::$database->escape_string($payment_method) . "' ";}
+
+      if ($from && $to) {
+        if ($from == $to) {
+          $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+        } elseif ($from > $to) {
+          $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+        } elseif ($from < $to) {
+          $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+        }
+      } elseif ($from && !$to) {
+        $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+      } elseif (!$from && $to) {
+        $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
+      }
+      // echo $sql;
+      $result_set = self::$database->query($sql);
+      $row = $result_set->fetch_array();
+      // pre_r( $row);
+      return array_shift($row);
+      
+  }
   static public function find_by_payment_method($payment_method)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";

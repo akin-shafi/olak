@@ -3,9 +3,6 @@
 
 
 if (is_get_request()) {
-  
-
-
 
   if (isset($_GET['filter'])) :
 
