@@ -128,7 +128,7 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
         <!-- <h3>Sum of Deposit </h3> -->
         <h3>Total Deposit: <span class="text-danger"><?php echo $currency . ' ' . number_format($totalDeposit) ?></span></h3>
       </div>
-      <table class="table table-bordered " id="rowSelection2">
+      <table class="table table-bordered " id="rowSelection">
         <thead>
           <tr>
             <th>S/N</th>
@@ -192,7 +192,7 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
 
     <h3>Transaction History</h3>
     <div class="table-responsive">
-      <table class="table table-bordered" id="rowSelection">
+      <table class="table table-bordered" id="highlightRowColumn">
         <thead>
           <tr>
             <th>S/N</th>
