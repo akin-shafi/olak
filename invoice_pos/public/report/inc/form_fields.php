@@ -31,7 +31,7 @@
             <select name="createReport[branch_id]" class="form-control" id="branch">
                 <option value="" selected>Select</option>
                 <?php foreach (Branch::find_by_undeleted(['order' => 'ASC']) as $key => $value) { ?>
-                <option value="<?php echo $value->id ?>" <?php echo $summary_report->id ==  $value->id ? 'selected' : ''; ?>><?php echo $value->branch_name ?> </option>
+                <option value="<?php echo $value->id ?>" <?php echo $loggedInAdmin->branch_id ==  $value->id ? 'selected' : ''; ?>><?php echo $value->branch_name ?> </option>
                 <?php } ?>
                 
             </select>
