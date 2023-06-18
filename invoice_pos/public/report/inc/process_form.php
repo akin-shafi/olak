@@ -5,7 +5,8 @@
 if(isset($_POST['createReport']['add'])):
     $args = $_POST['createReport'];
     $date = $_POST['createReport']['report_date'];
-    $find_date = SummaryReport::find_by_date($date);
+    $branch = $_POST['createReport']['branch_id'];
+    $find_date = SummaryReport::find_by_date(['report_date' => $date, 'branch_id' => $branch]);
     // pre_r($find_date);
     if(empty($find_date)){
         
