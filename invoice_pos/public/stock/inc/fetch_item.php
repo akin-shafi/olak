@@ -41,7 +41,7 @@
     <td>
         <?php if ($val->id == $arr->id) { ?>
         <?php //if ($val->qty_left != 0) { ?>
-
+        <?php if (in_array($loggedInAdmin->id, [1])) : ?>
         <div class="dropdown ">
           <div class="btn-group">
             <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,15 +49,15 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="#"> <i class="feather-maximize-2 tet-info"></i> Add Breakage</a>
+              
               <a class="dropdown-item" href="#"> <i class="feather-maximize-2 tet-info"></i> Return In-ward</a>
               <a class="dropdown-item oneItem" href="#" data-ref="<?php echo $val->ref_no;  ?>"
             data-id="<?php echo $val->item_id;  ?>" data-toggle="modal" data-target="#editModal"> <i class="fa fa-pencil"></i> Edit Stock</a>
+
             </div>
           </div>
         </div>
-
-        
-        <?php //} ?>
+        <?php endif; ?>
         <?php } ?>
     </td>
 </tr>

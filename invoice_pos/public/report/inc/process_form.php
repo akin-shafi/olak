@@ -36,10 +36,10 @@ endif
 <?php if(isset($_POST['createReport']['edit'])){
    $id = $_POST['createReport']['id'];
    $date = $_POST['createReport']['report_date'];
-   $editReport = SummaryReport::find_by_id($id);  
-    // pre_r($_POST['createReport']);
-   $args = $_POST['createReport'];    
-    $editReport->merge_attributes($args);
+   $editReport = SummaryReport::find_by_id($id); 
+   $args = $_POST['createReport'];  
+   $args['updated_date'] = date('Y-m-d h:i:s'); // Add updated_at field with current date
+   $editReport->merge_attributes($args);
     $result = $editReport->save();
     if ($result == true) {  
         exit(json_encode(['msg' => 'OK', 'date' => $date]));

@@ -2,7 +2,7 @@
 
 $date = $_POST['date'] ?? date("Y-m-d");
 // $date = '2023-01-03' ?? date("Y-m-d");
-$branches = Branch::find_by_undeleted();
+$branches = Branch::find_by_undeleted(['order' => 'ASC']);
 
 // Prepare the JSON response
 $response = array(

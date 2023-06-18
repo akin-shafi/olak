@@ -53,7 +53,7 @@ class StockDetails extends DatabaseObject
         $this->sold_stock_amt = $args['sold_stock_amt'] ?? 0;
         $this->qty_left = $args['qty_left'] ?? '';
 
-        $this->created_at = $args['created_at'] ?? date('Y-m-d H:i:s');
+        $this->created_at = $args['created_at'] ?? date('Y-m-d h:i:s');
         $this->created_by = $args['created_by'] ?? '';
         $this->updated_at = $args['updated_at'] ?? '';
         $this->updated_by = $args['updated_by'] ?? '';

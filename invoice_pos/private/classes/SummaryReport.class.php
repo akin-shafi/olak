@@ -3,7 +3,7 @@
 class SummaryReport extends DatabaseObject {
 
   static protected $table_name = "summary_report";
-  static protected $db_columns = ['id', 'ref_no', 'report_date', 'branch_id', 'cash_sales', 'expenses', 'sum_of_refund','complains', 'created_by', 'created_at', 'deleted'];
+  static protected $db_columns = ['id', 'ref_no', 'report_date', 'branch_id', 'cash_sales', 'expenses', 'sum_of_refund','complains', 'created_by', 'created_at', 'updated_date', 'deleted'];
   
   public $id;
 
@@ -17,6 +17,8 @@ class SummaryReport extends DatabaseObject {
   public $complains;
   public $created_by;
   public $created_at;
+  public $updated_date;
+  
   public $deleted;
   public function __construct($args=[]) {
     $this->ref_no           = $args['ref_no'] ?? '';
@@ -29,6 +31,7 @@ class SummaryReport extends DatabaseObject {
     $this->complains        = $args['complains'] ?? '';
     $this->created_by       = $args['created_by'] ?? 0;
     $this->created_at       = $args['created_at'] ?? date('Y-m-d H:m:s');
+    $this->updated_date       = $args['updated_date'] ?? '';
     $this->deleted          = $args['deleted'] ?? NULL;
   }
 

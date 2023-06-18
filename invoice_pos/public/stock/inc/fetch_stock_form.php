@@ -28,6 +28,12 @@ if(isset($_POST['stockForm'])){
 		<label>Breakage</label>
 		<input type="number" required min="0" value="<?php echo $arr->breakage ?? 0 ?>" name="editStock[breakage]" placeholder="e.g 30000" class="form-control" id="breakage">
 	</div>
+	<?php if (in_array($loggedInAdmin->id, [1])) : ?>
+	<div class="form-group col-sm-6">
+		<label>Return In-ward</label>
+		<input type="number" required min="0" value="<?php echo $arr->return_inward ?? 0 ?>" name="editStock[return_inward]" placeholder="e.g 30000" class="form-control" id="return_inward">
+	</div>
+	<?php endif ?>
     
 	<div class="form-group col-sm-6">
 		<label>Cost Price</label>

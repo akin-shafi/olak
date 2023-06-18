@@ -32,6 +32,7 @@ endif
    $editCat = StockDetails::find_by_ref($ref_no);  
    $supply = $_POST['editStock']['supply'];
    $args = $_POST['editStock'];    
+   $args['updated_at'] = date('Y-m-d h:i:s');
     $editCat->merge_attributes($args);
     $result = $editCat->save();
     if ($result == true) {  
