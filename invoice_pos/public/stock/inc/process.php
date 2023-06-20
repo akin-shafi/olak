@@ -36,7 +36,7 @@ if (is_post_request()) {
   }
 
   if (isset($_POST['delete_stock'])) {
-    Stock::deleted($_POST['stockId']);
+    StockDetails::deleted($_POST['stockId']);
 
     http_response_code(200);
     exit(json_encode(['message' => 'Stock deleted successfully!']));

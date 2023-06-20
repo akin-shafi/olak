@@ -58,6 +58,8 @@
           </div>
         </div>
         <?php endif; ?>
+        <?php }else{ ?>
+          <button class="btn btn-sm btn-primary deleteItem" data-id="<?php echo $val->id;  ?>">Delete</button>
         <?php } ?>
     </td>
 </tr>

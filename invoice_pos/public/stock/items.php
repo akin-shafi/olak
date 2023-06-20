@@ -295,6 +295,45 @@ $(document).on('click', '.oneItem', function(e) {
 
     }); 
 })
+
+$(document).on('click', '.deleteItem', function(e) {
+    let stockId = $(this).data('id');
+    // let stockId = this.dataset.id;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: 'inc/process.php',
+                method: "POST",
+                data: {
+                stockId: stockId,
+                delete_stock: 1
+                },
+                dataType: 'json',
+                success: function(data) {
+                Swal.fire(
+                    'Deleted!',
+                    data.message,
+                    'success'
+                )
+
+                window.location.reload()
+                }
+            });
+
+        }
+      })
+
+});
+
 // Edit Stock
 $(document).on('click', '#editStock', function(e) {
     e.preventDefault();
