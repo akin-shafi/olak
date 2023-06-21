@@ -41,7 +41,7 @@
     <td>
         <?php if ($val->id == $arr->id) { ?>
         <?php //if ($val->qty_left != 0) { ?>
-        <?php if (in_array($loggedInAdmin->id, [1])) : ?>
+        <?php if (in_array($loggedInAdmin->admin_level, [1, 2])) : ?>
         <div class="dropdown ">
           <div class="btn-group">
             <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +59,9 @@
         </div>
         <?php endif; ?>
         <?php }else{ ?>
+          <?php if (in_array($loggedInAdmin->admin_level, [1, 2])) : ?>
           <button class="btn btn-sm btn-primary deleteItem" data-id="<?php echo $val->id;  ?>">Delete</button>
+        <?php endif; ?>
         <?php } ?>
     </td>
 </tr>
