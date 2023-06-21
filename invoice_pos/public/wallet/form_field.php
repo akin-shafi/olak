@@ -7,7 +7,7 @@
     <dl class="row">
       <input type="hidden" class="form-control" name="wallet[created_by]" value="<?php echo $loggedInAdmin->id ?>">
 
-      <?php if ($loggedInAdmin->admin_level == 1) { ?>
+      <?php if (in_array($loggedInAdmin->admin_level, [1, 2, 6])) { ?>
         
       <div class="form-group col-md-4">
         <label>Company Name <span class="text-danger">*</span></label>
