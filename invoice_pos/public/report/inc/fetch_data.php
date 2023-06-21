@@ -71,10 +71,8 @@ function generateTableHTML($data, $date) {
             $checker = '';
         }
 
-        if($sum_of_backlog != 0){
-            $alert = "bg-warning font-weight-bold";
-        }
-        
+        $alert = $sum_of_backlog != 0 ? $alert = "bg-warning font-weight-bold" : '';
+               
         $id = !empty($summary_report) ? $summary_report->id : '0';
        
         $html .= '<tr>';
