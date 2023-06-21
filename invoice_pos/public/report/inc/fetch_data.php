@@ -70,6 +70,10 @@ function generateTableHTML($data, $date) {
         }else{
             $checker = '';
         }
+
+        if($sum_of_backlog != 0){
+            $alert = "bg-warning font-weight-bold";
+        }
         
         $id = !empty($summary_report) ? $summary_report->id : '0';
        
@@ -78,7 +82,7 @@ function generateTableHTML($data, $date) {
         $html .= '<td>' . $row->branch_name . '</td>';
         $html .= '<td class="'.$checker.'">' . $manualCash . '</td>';
         $html .= '<td class="'.$checker.'">' . $formattedCashSales . '</td>';
-        $html .= '<td>' . $sum_of_backlog . '</td>';
+        $html .= '<td class="'.$alert.'">' . $sum_of_backlog . '</td>';
         $html .= '<td>' . number_format($transfer, 2) . '</td>';
         $html .= '<td>' . number_format($pos, 2) . '</td>';
         $html .= '<td>' . number_format($confirmed, 2) . '</td>';
