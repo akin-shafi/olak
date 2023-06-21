@@ -4,7 +4,7 @@ $page_title = 'Stock';
 require_login();
 $from = $_GET['from'] ?? date('Y-m-d');
 $to = $_GET['to'] ?? date('Y-m-d');
-$branch_id = $_GET['branch'] ?? $loggedInAdmin->id;
+$branch_id = $_GET['branch'] ?? $loggedInAdmin->branch_id;
 include(SHARED_PATH . '/admin_header.php'); ?>
 <style type="text/css">
 td a {
