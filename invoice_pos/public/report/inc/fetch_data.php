@@ -93,7 +93,7 @@ function generateTableHTML($data, $date) {
         $html .= '</tr>';
         $html .= '<tr>';
         if(!empty($summary_report)){
-            $html .= '<td colspan="11" class="text-center">' . $summary_report->complains . '</td>';
+            $html .= '<td colspan="11" class="text-center"> <strong>Complains: </strong> ' . $summary_report->complains . '</td>';
         }else{
             $html .= '<td></td>';
         }
