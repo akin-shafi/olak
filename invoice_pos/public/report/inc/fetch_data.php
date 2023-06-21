@@ -26,6 +26,7 @@ function generateTableHTML($data, $date) {
         <th>Branch</th>
         <th>Cash (Manual)</th>
         <th>Cash (System)</th>
+        <th>Sum of Backlog</th>
         <th>Transfer</th>
         <th>POS</th>
         <th>Confirmed Trans</th>
@@ -43,6 +44,7 @@ function generateTableHTML($data, $date) {
         $manualCash = !empty($summary_report) ? number_format($summary_report->cash_sales, 2) : "No Record";
         $expenses = !empty($summary_report) ? number_format($summary_report->expenses, 2) : "No Record";
         $refund = !empty($summary_report) ? number_format($summary_report->sum_of_refund, 2) : "No Record";
+        $sum_of_backlog = !empty($summary_report) ? number_format($summary_report->sum_of_backlog, 2) : "No Record";
         
         
         $systemCash = WalletFundingMethod::find_transaction([
@@ -76,6 +78,7 @@ function generateTableHTML($data, $date) {
         $html .= '<td>' . $row->branch_name . '</td>';
         $html .= '<td class="'.$checker.'">' . $manualCash . '</td>';
         $html .= '<td class="'.$checker.'">' . $formattedCashSales . '</td>';
+        $html .= '<td>' . $sum_of_backlog . '</td>';
         $html .= '<td>' . number_format($transfer, 2) . '</td>';
         $html .= '<td>' . number_format($pos, 2) . '</td>';
         $html .= '<td>' . number_format($confirmed, 2) . '</td>';

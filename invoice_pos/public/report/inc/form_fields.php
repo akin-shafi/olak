@@ -48,6 +48,11 @@
             <label for="refund">Sum of Refund:</label>
             <input required value="<?php echo $summary_report->sum_of_refund ?? '' ?>" name="createReport[sum_of_refund]" type="number" class="form-control" id="refund">
           </div>
+          
+          <div class="form-group">
+            <label for="refund">Sum of Backlog:</label>
+            <input required value="<?php echo $summary_report->sum_of_backlog ?? '' ?>" name="createReport[sum_of_backlog]" type="number" class="form-control" id="sum_of_backlog">
+          </div>
 
           <div class="form-group">
             <label for="complaintsInput">Complaints</label>

@@ -3,7 +3,7 @@
 class SummaryReport extends DatabaseObject {
 
   static protected $table_name = "summary_report";
-  static protected $db_columns = ['id', 'ref_no', 'report_date', 'branch_id', 'cash_sales', 'expenses', 'sum_of_refund','complains', 'created_by', 'created_at', 'updated_date', 'deleted'];
+  static protected $db_columns = ['id', 'ref_no', 'report_date', 'branch_id', 'cash_sales', 'sum_of_backlog','expenses', 'sum_of_refund','complains', 'created_by', 'created_at', 'updated_date', 'deleted'];
   
   public $id;
 
@@ -12,6 +12,7 @@ class SummaryReport extends DatabaseObject {
   public $branch_id;
   public $company_id;
   public $cash_sales;
+  public $sum_of_backlog;
   public $expenses;
   public $sum_of_refund;
   public $complains;
@@ -26,6 +27,7 @@ class SummaryReport extends DatabaseObject {
     $this->branch_id        = $args['branch_id'] ?? 0;
     $this->company_id       = $args['company_id'] ?? 0;
     $this->cash_sales       = $args['cash_sales'] ?? 0;
+    $this->sum_of_backlog   = $args['sum_of_backlog'] ?? 0;
     $this->expenses         = $args['expenses'] ?? 0;
     $this->sum_of_refund    = $args['sum_of_refund'] ?? 0;
     $this->complains        = $args['complains'] ?? '';
