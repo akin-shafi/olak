@@ -97,7 +97,10 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
                       <table class="table table-bordered">
                         <tr>
                           <th>Wallet Balance:</th>
-                          <td><?php echo $currency . ' ' . number_format($walletBalance) ?></td>
+                          <td>
+                            <?php echo $currency . ' ' . number_format($walletBalance) ?>
+                            <button class="btn btn-sm btn-outline-primary editClient" data-id="<?php echo $clients->id ?>"><i class="feather-edit"></i></div>
+                        </td>
                         </tr>
                        
                         <tr>
@@ -310,6 +313,28 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
   </div>
 </div>
 
+<div class="modal fade none-border"clientModal" aria-modal="true" id="editModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><strong> Edit wallet</strong></h4>
+            </div>
+            <div class="col-12 text-center" id="editwalletErrors"></div>
+            <form method="post" id="editwalletInput">
+                <div class="modal-body row" id="fetchwalletForm">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" id="editwallet"
+                        class="btn btn-primary save-event waves-effect waves-light">Edit
+                        wallet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <?php include(SHARED_PATH . '/admin_footer.php');
 ?>
 <script>
@@ -390,10 +415,44 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
 
 
 
+    // editwallet
+    $(document).on('click', '.editClient', function(e) {
+        $("#editModal").modal('show');
+        var eid = $(this).data('id');
+        console.log(eid)
+        $.ajax({
+            url: 'inc/fetch_wallet_form.php',
+            method: 'post',
+            data: {
+                walletForm: 1,
+                id: eid,
+            },
+            success: function(r) {
+                $("#fetchwalletForm").html(r)
+            }
 
+        }); 
+    })
 
+    $(document).on('click', '#editwallet', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: 'inc/script.php',
+            method: 'post',
+            data: $('#editwalletInput').serialize(),
+            dataType: 'json',
+            success: function(r) {
+                if (r.msg == 'OK') {
+                    successTime("Item updated Succesfully Reload to see changes");
+                    $("#editwalletModal").modal('hide');
+                    window.location.reload();
+                } else {
+                    $("#editwalletErrors").html(r.msg)
+                }
+            }
 
-
+        });
+    })
 
 
 
@@ -489,7 +548,7 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
 
     function gen_code() {
       $.ajax({
-          url: 'script.php',
+          url: 'inc/script.php',
           method: 'post',
           data: {
             gen_code: 1,

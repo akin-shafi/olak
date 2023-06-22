@@ -33,18 +33,23 @@ if (is_post_request()) {
             }
 
         }
-
-
-        // $invoices = Invoice::find_by_transid($billing->invoiceNum);
-        // foreach ($invoices as $value) {
-        //     Invoice::deleted($value->id);
-        // }
-
-        // $billing::deleted($invoiceId);
-
-        // exit(json_encode(['success' => true, 'msg' => 'Invoice record deleted successfully']));
-    
     }
 }
 
 ?>
+
+
+<?php if(isset($_POST['editWallet'])){
+   $id = $_POST['editWallet']['id'];
+   $update = Client::find_by_id($id);  
+   $args = $_POST['editWallet'];    
+   $args['updated_at'] = date('Y-m-d h:i:s');
+    $update->merge_attributes($args);
+    $result = $update->save();
+    if ($result == true) {  
+        exit(json_encode(['msg' => 'OK']));
+    } else {
+        exit(json_encode(['msg' => display_errors($update->errors)]));
+    }
+
+} ?>
