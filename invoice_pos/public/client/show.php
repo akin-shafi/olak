@@ -99,7 +99,9 @@ $totalUndelivered = Billing::sum_of_sales(['client_id' => $id, 'status' => 1]);
                           <th>Wallet Balance:</th>
                           <td>
                             <?php echo $currency . ' ' . number_format($walletBalance) ?>
+                            <?php if (in_array($loggedInAdmin->admin_level, [1, 2])) : ?>
                             <button class="btn btn-sm btn-outline-primary editClient" data-id="<?php echo $clients->id ?>"><i class="feather-edit"></i></div>
+                            <?php endif ?>
                         </td>
                         </tr>
                        
