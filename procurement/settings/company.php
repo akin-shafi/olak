@@ -26,18 +26,15 @@ $branch = Branch::find_by_undeleted();
         <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
           <div>
             <h4 class="mb-3">Company Setup</h4>
-            <p class="mb-0">A dashboard provides you an overview of company setup with access to the most important data,
+            <!-- <p class="mb-0">A dashboard provides you an overview of company setup with access to the most important data,
               <br> functions and controls.
-            </p>
+            </p> -->
           </div>
           <div class="d-flex justify-content-end">
-            <button class="btn btn-primary mb-3 mx-3 <?php echo !empty($company) ? 'd-none' : '' ?>" data-toggle="modal" data-target="#companyModel">
+            <button class="btn btn-primary mb-3 mx-3 " data-toggle="modal" data-target="#companyModel">
               &plus; Create Company</button>
 
-            <?php if (!empty($company)) : ?>
-              <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#branchModel">
-                &plus; Add Branch</button>
-            <?php endif; ?>
+           
           </div>
         </div>
       </div>
@@ -58,27 +55,30 @@ $branch = Branch::find_by_undeleted();
                       <tr class="ligth ligth-data">
                         <th>SN</th>
                         <th>Company Name</th>
-                        <th>Established In</th>
+                        <!-- <th>Branch</th> -->
+                        <th>Address</th>
+                        <!-- <th>Established In</th> -->
                         <th>Created At</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php $sn = 1;
+                      // pre_r($company);
                       foreach ($company as $data) :
-                        $companyName = Company::find_by_id($data->company_id)->name; ?>
+                        $companyName = Company::find_by_id($data->id)->name; ?>
                         <tr>
                           <td><?php echo $sn++; ?></td>
                           <td><?php echo ucwords($companyName); ?></td>
-                          <td><?php echo ucwords($data->name); ?></td>
+                          <!-- <td><?php //echo ucwords($data->name); ?></td> -->
                           <td><?php echo ucfirst($data->address); ?></td>
-                          <td><?php echo ucwords($data->state); ?></td>
-                          <td><?php echo ucwords($data->city); ?></td>
-                          <td><?php echo date('F d , Y', strtotime($data->established_in)); ?></td>
+                          <!-- <td><?php //echo ucwords($data->state); ?></td> -->
+                          <!-- <td><?php //echo ucwords($data->city); ?></td> -->
+                          <!-- <td><?php //echo date('F d , Y', strtotime($data->established_in)); ?></td> -->
                           <td><?php echo date('Y-m-d', strtotime($data->created_at)); ?></td>
                           <td>
                             <div class="btn-group">
-                              <button class="btn btn-warning edit-branch-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#branchModel">
+                              <button class="btn btn-warning edit-btn" data-id="<?php echo $data->id; ?>" data-toggle="modal" data-target="#editCompanyModel">
                                 <i class="fas fa-edit"></i></button>
                               <button class="btn btn-danger remove-branch-btn" data-id="<?php echo $data->id; ?>">
                                 <i class="fas fa-trash"></i>
@@ -108,7 +108,7 @@ $branch = Branch::find_by_undeleted();
         <h5 class="modal-title">Create Company</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
-      <form id="company_form" enctype="multipart/form-data">
+      <form class="company_form" enctype="multipart/form-data">
         <div class="modal-body">
           <div class="container">
             <div class="row">
@@ -166,56 +166,52 @@ $branch = Branch::find_by_undeleted();
   </div>
 </div>
 
-<div class="modal fade" id="branchModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal fade" id="editCompanyModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create Branch</h5>
+        <h5 class="modal-title">Edit Company</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
-      <form id="branch_form">
+      <form class="company_form" enctype="multipart/form-data">
         <div class="modal-body">
           <div class="container">
             <div class="row">
+              <input type="hidden" id="cBId">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="cBId" class="col-form-label">Company Name</label>
-                  <select name="branch[company_id]" class="form-control" id="cBId" required>
-                    <option value="">select company</option>
-                    <?php foreach ($company as $data) : ?>
-                      <option value="<?php echo $data->id ?>"><?php echo ucwords($data->name) ?></option>
-                    <?php endforeach; ?>
-                  </select>
+                  <label for="cName" class="col-form-label">Company Name</label>
+                  <input type="text" class="form-control" name="company[name]" id="editCName" placeholder="Company name" required>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="bName" class="col-form-label">Branch Name</label>
-                  <input type="text" class="form-control" name="branch[name]" id="bName" placeholder="Branch name" required>
+                  <label for="regNo" class="col-form-label">Registration Number</label>
+                  <input type="text" class="form-control" name="company[reg_no]" id="editRegNo" placeholder="Company number" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="email" class="col-form-label">Company Email</label>
+                  <input type="text" class="form-control" name="company[email]" id="editEmail" placeholder="Company email" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="phone" class="col-form-label">Company Contact</label>
+                  <input type="tel" class="form-control" name="company[phone]" id="editPhone" placeholder="Company phone number" required>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="bAddress" class="col-form-label">Branch Address</label>
-                  <textarea name="branch[address]" id="bAddress" class="form-control" placeholder="branch address" rows="3" required></textarea>
+                  <label for="address" class="col-form-label">Company Address</label>
+                  <textarea name="company[address]" id="editAddress" class="form-control" placeholder="Company address" rows="3" required></textarea>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6 m-auto">
                 <div class="form-group">
-                  <label for="bState" class="col-form-label">State</label>
-                  <input type="text" class="form-control" name="branch[state]" id="bState" placeholder="State" required>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="bCity" class="col-form-label">City</label>
-                  <input type="text" class="form-control" name="branch[city]" id="bCity" placeholder="City" required>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="bEst" class="col-form-label">Date Established</label>
-                  <input type="date" class="form-control" name="branch[established_in]" id="bEst" placeholder="Date Established" required>
+                  <label for="logo" class="col-form-label">Company Logo</label>
+                  <input type="file" class="form-control" name="logo" id="editEogo">
                 </div>
               </div>
             </div>
@@ -240,7 +236,7 @@ $branch = Branch::find_by_undeleted();
   $(document).ready(function() {
     const COMP_URL = 'inc/process.php';
 
-    $('#company_form').on("submit", function(e) {
+    $('.company_form').on("submit", function(e) {
       e.preventDefault();
       let cId = $('#cId').val()
 
@@ -291,15 +287,18 @@ $branch = Branch::find_by_undeleted();
         },
         dataType: 'json',
         success: function(r) {
-          $('#fName').val(r.data.full_name)
-          $('#email').val(r.data.email)
-          $('#phone').val(r.data.phone)
-          $('#cName').val(r.data.name)
-          $('#regNo').val(r.data.reg_no)
-          $('#address').val(r.data.address)
+          console.log(r)
+          $('#cBId').val(r.data.id)
+          $('#editCName').val(r.data.name)
+          $('#editRegNo').val(r.data.reg_no)
+          $('#editEmail').val(r.data.email)
+          $('#editPhone').val(r.data.phone)
+          $('#editAddress').val(r.data.address)
         }
       })
     });
+
+    
 
     $(document).on('click', '.remove-btn', function() {
       let cId = this.dataset.id;
@@ -339,102 +338,6 @@ $branch = Branch::find_by_undeleted();
     });
 
 
-    // *********** BRANCH
-    $('#branch_form').on("submit", function(e) {
-      e.preventDefault();
-      let bId = $('#bId').val()
-
-      let formData = new FormData(this);
-
-      if (bId == "") {
-        formData.append('new_branch', 1)
-      } else {
-        formData.append('edit_branch', 1)
-        formData.append('bId', bId)
-      }
-
-      $.ajax({
-        url: COMP_URL,
-        method: "POST",
-        data: formData,
-        contentType: false,
-        cache: false,
-        processData: false,
-        dataType: 'json',
-        beforeSend: function() {
-          $('.lds-hourglass').removeClass('d-none');
-        },
-        success: function(r) {
-          if (r.success == true) {
-            successAlert(r.msg);
-            setTimeout(() => {
-              $('.lds-hourglass').addClass('d-none');
-              window.location.reload()
-            }, 250);
-          } else {
-            errorAlert(r.msg);
-          }
-        }
-      })
-    });
-
-    $('.edit-branch-btn').on("click", function() {
-      let bId = this.dataset.id
-      $('#bId').val(bId)
-
-      $.ajax({
-        url: COMP_URL,
-        method: "GET",
-        data: {
-          bId: bId,
-          get_branch: 1
-        },
-        dataType: 'json',
-        success: function(r) {
-          $('#cBId').val(r.data.company_id)
-          $('#bName').val(r.data.name)
-          $('#bAddress').val(r.data.address)
-          $('#bState').val(r.data.state)
-          $('#bCity').val(r.data.city)
-          $('#bEst').val(r.data.established_in)
-        }
-      })
-    });
-
-    $(document).on('click', '.remove-branch-btn', function() {
-      let bId = this.dataset.id;
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.value) {
-          $.ajax({
-            url: COMP_URL,
-            method: "POST",
-            data: {
-              bId: bId,
-              delete_branch: 1
-            },
-            dataType: 'json',
-            success: function(data) {
-              Swal.fire(
-                'Deleted!',
-                data.msg,
-                'success'
-              )
-              setTimeout(() => {
-                window.location.reload()
-              }, 2000);
-            }
-          });
-        }
-      })
-
-    });
+    
   })
 </script>

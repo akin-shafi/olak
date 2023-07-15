@@ -31,7 +31,8 @@ class Request extends DatabaseObject
 
    const STATUS = [
       1 => 'New',
-      2 => 'Delivered',
+      2 => 'Price Attached',
+      3 => 'Delivered',
       // 3 => 'Rejected',
    ];
 
@@ -90,6 +91,58 @@ class Request extends DatabaseObject
       $sql .= "ORDER BY req.id DESC ";
 
       return static::find_by_sql($sql);
+   }
+
+   public static function find_by_status($options=[])
+   {
+      $status = $options['status'] ?? false;
+      // $company_id = $options['company_id'] ?? false;
+      $branch_id = $options['branch_id'] ?? false;
+      $status = $options['status'] ?? false;
+
+      $from = $options['from'] ?? false;
+      $to = $options['to'] ?? false;
+
+      
+       $sql = "SELECT * FROM " . static::$table_name . " ";
+      //  $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+      $sql .= "WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+
+       if ($status) {
+         $sql .= " AND status ='" . self::$database->escape_string($status) . "'";
+       }else{
+         $sql .= " AND status ='" . self::$database->escape_string(1) . "'";
+       }
+
+       if ($branch_id) {
+         $sql .= " AND branch_id ='" . self::$database->escape_string($branch_id) . "'";
+       }
+       
+
+       if ($from && $to) {
+         if ($from == $to) {
+         $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+       } elseif ($from > $to) {
+         $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+       } elseif ($from < $to) {
+         $sql .= " AND DATE(created_at) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+       }
+     } elseif ($from && !$to) {
+       $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($from) . "' ";
+     } elseif (!$from && $to) {
+       $sql .= " AND DATE(created_at) = '" . self::$database->escape_string($to) . "' ";
+     }
+
+       
+       
+       $sql .= " ORDER BY id DESC ";
+       $obj_array = static::find_by_sql($sql);
+       // if(!empty($obj_array)) {
+       //   return array_shift($obj_array);
+       // } else {
+       //   return false;
+       // }
+       return $obj_array;
    }
 
    public static function find_total_amount_by_status($option = [])

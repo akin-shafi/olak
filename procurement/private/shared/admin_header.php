@@ -1,4 +1,6 @@
-<?php // require_login();
+<?php 
+// echo "Hello WOrld";
+// require(url_for('vendor/autoload.php'));
 
 if (empty($loggedInAdmin->email)) {
    redirect_to('../logout.php');
@@ -112,7 +114,22 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                         <?php endif; ?>
                      </ul>
                   </li>
-
+                  <?php if (in_array($loggedInAdmin->admin_level, [1,2,4]) ) : ?>
+                     <li class="<?php echo $page == 'Report' ? 'active' : '' ?>">
+                        <a href="<?php echo url_for('settings/report.php') ?>" class="svg-icon">
+                        <i class="fas la-minus"></i>
+                           <span class="ml-4">Report</span>
+                        </a>
+                     </li>
+                  <?php endif; ?>
+                  <?php if (in_array($loggedInAdmin->admin_level, [1,2,4]) ) : ?>
+                     <li class="<?php echo $page == 'Expenses' ? 'active' : '' ?>">
+                        <a href="<?php echo url_for('expenses/') ?>" class="svg-icon">
+                        <i class="fas la-minus"></i>
+                           <span class="ml-4">Expenses</span>
+                        </a>
+                     </li>
+                  <?php endif; ?>
                   <?php if (isset($access->settings) && $access->settings == 1) : ?>
                      <li class="<?php echo $page == 'Settings' ? 'active' : '' ?>">
                         <a href="#settings" class="collapsed" data-toggle="collapse" aria-expanded="false">
@@ -140,21 +157,24 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                                  </a>
                               </li>
                            <?php endif; ?>
+                           <?php if (isset($access->users_mgt) && $access->users_mgt == 1) : ?>
+                              <li class="<?php echo $page_title == 'Company Setup' ? 'active' : '' ?>">
+                                 <a href="<?php echo url_for('settings/branch.php'); ?>">
+                                    <i class="fas la-minus"></i><span>Branch Setup</span>
+                                 </a>
+                              </li>
+                           <?php endif; ?>
                            <?php if ($loggedInAdmin->admin_level == 1) : ?>
                               <li class="<?php echo $page_title == 'Access Control' ? 'active' : '' ?>">
                                  <a href="<?php echo url_for('settings/access_control.php'); ?>">
                                     <i class="fas la-minus"></i><span>Access Control</span>
                                  </a>
                               </li>
-                              <li class="<?php echo $page_title == 'Report' ? 'active' : '' ?>">
-                                 <a href="<?php echo url_for('settings/report.php'); ?>">
-                                    <i class="fas la-minus"></i><span>Report</span>
-                                 </a>
-                              </li>
                            <?php endif; ?>
                         </ul>
                      </li>
                   <?php endif; ?>
+                 
 
                   <li class="d-none <?php echo $page == 'Invoice' ? 'active' : '' ?>">
                      <a href="<?php echo url_for('requests'); ?>" class="svg-icon">
@@ -193,7 +213,7 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                   </form>
                </div>
                <div class="d-flex align-items-center">
-                  <!--<div class="change-mode">
+                  <div class="change-mode">
                           <div class="custom-control custom-switch custom-switch-icon custom-control-inline">
                               <div class="custom-switch-inner">
                                   <p class="mb-0"> </p>
@@ -204,7 +224,7 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                                   </label>
                               </div>
                           </div>
-                      </div>-->
+                      </div>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
                      <i class="ri-menu-3-line"></i>
                   </button>
@@ -308,7 +328,7 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                                     </div>
                                     <div class="p-3">
                                        <h5 class="mb-1"><?php echo $loggedInAdmin->email; ?></h5>
-                                       <!-- <p class="mb-0">Since 10 march, 2020</p> -->
+                                       <p class="mb-0"><?php echo Admin::ADMIN_LEVEL[$loggedInAdmin->admin_level]; ?></p>
                                        <div class="d-flex align-items-center justify-content-center mt-3">
                                           <!-- <a href="https://templates.iqonic.design/posdash/html/app/user-profile.html" class="btn border mr-2">Profile</a> -->
                                           <a href="<?php echo url_for('logout.php') ?>" class="btn border">Sign Out</a>

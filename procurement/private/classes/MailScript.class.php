@@ -9,32 +9,23 @@ class MailScript extends DatabaseObject
 		 	$mailTo = $options['mailTo'] ?? '';
 	 		$recieverName = $options['recieverName'] ?? false;
 
-		    require_once(SHARED_PATH . '/mailer/class/class.phpmailer.php');
-            require_once(SHARED_PATH . '/mailer/class/class.smtp.php');
+		    // require_once(SHARED_PATH . '/mailer/class/class.phpmailer.php');
+            // require_once(SHARED_PATH . '/mailer/class/class.smtp.php');
   
             $mail = new PHPMailer(true);
+            $mail->SMTPDebug = 2; 
             $mail->IsSMTP();
             $mail->CharSet = 'UTF-8';
             
             // // localhost method
-            $mail->Host       = "localhost"; // SMTP server example
-            $mail->SMTPDebug  = 0;                     // enables SMTP debug information (for testing)
-            $mail->SMTPAuth   = true;                  // enable SMTP authentication
-            $mail->Port       = 25;                    // set the SMTP port for the GMAIL server
-            $mail->Username   = "u474mp54g1x5"; // SMTP account username example
-            $mail->Password   = "G3t2n0t3";        // SMTP account password example
+            $mail->Host       = 'sandbox.smtp.mailtrap.io';    // Specify main SMTP server (gmail = smtp.gmail.com)
+            $mail->SMTPAuth   = true;               // Enable SMTP authentication
+            $mail->Username   = '9f7a0feed1bf54';     // SMTP username
+            $mail->Password   = '4ace91a1750fbd';         // SMTP password
+            $mail->SMTPSecure = 'ssl';              // Enable TLS encryption, 'ssl' also accepted
+            $mail->Port       = 2525;                // TCP port to connect to (gmail = 465)
 
-
-            //smtp method
-            // $mail->Host       = "smtp.gmail.com";
-            // $mail->Username   = "sakinropo@gmail.com";
-            // $mail->Password   = "D3p0rtiv0@#";
-            // $mail->SMTPDebug  = 1;  
-            // $mail->SMTPAuth   = TRUE;
-            // $mail->SMTPSecure = "ssl";
-            // $mail->Port       = 465; // Port for SSL: 465 Port for TLS/STARTTLS: 587
-            
-
+           
             $mail->From = "ask@gettonote.com";
             $mail->FromName = "Tonote Technologies limited";
 

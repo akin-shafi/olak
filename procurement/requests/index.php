@@ -3,11 +3,17 @@
 $page = 'Request';
 $page_title = 'List Requests';
 include(SHARED_PATH . '/admin_header.php');
-
+$url_status = $_GET['status'] ?? '';
 $branches = Branch::find_all_branch();
 $requests =  in_array($loggedInAdmin->admin_level, [1, 2, 3])
-  ? Request::find_all_requests()
-  : Request::find_all_requests(['branch_id' => $loggedInAdmin->branch_id]);
+  ? Request::find_by_status(['status' => $url_status, 'branch_id' => $loggedInAdmin->branch_id])
+  : Request::find_by_status(['status' => $url_status]);
+
+
+$isRequester = $loggedInAdmin->admin_level == 4 ? true : false;
+
+
+
 ?>
 
 <style>
@@ -15,19 +21,63 @@ $requests =  in_array($loggedInAdmin->admin_level, [1, 2, 3])
   td {
     font-size: 0.9rem !important;
   }
+
+  #analytic .col > .card:hover{
+      background-color: #32BDEA;
+      border: 1px solid gray;
+  }
+
+  #analytic .col > .card:hover h5{
+      color: #FFF !important;
+  }
+  .col > .active{
+      background-color: #32BDEA !important;
+  }
+  .col > .active h5{
+    color: #FFF !important;
+  }
 </style>
 
 <div class="content-page">
+
+<div class="container">
+  <div class="row" id="analytic">
+    <?php foreach (Request::STATUS as $key => $value) { 
+      
+      ?>
+    <div class="col">
+      <a class="card <?php echo $url_status == $key ? 'active' : '' ?>"  href="<?php echo url_for('requests/index.php?status='. $key) ?>">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="text-start">
+              <h5 class="card-title"><?= $value ?></h5>
+            </div>
+            <div class="text-end">
+              <h5 class="card-title"><?php echo count(Request::find_by_status(['status' => $key])) ?></h5>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <?php } ?>
+    
+  </div>
+</div>
+
+
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12">
         <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
           <div>
             <h4 class="mb-3">Request List</h4>
-            <p class="mb-0">The request list effectively dictates request presentation and provides
-              space<br> to list your requests and offering in the most appealing way.</p>
+            <!-- <p class="mb-0">The request list effectively dictates request presentation and provides
+              space<br> to list your requests and offering in the most appealing way.</p> -->
           </div>
+          <?php  if($isRequester): ?>
           <a href="<?php echo url_for('requests/add-request.php'); ?>" class="btn btn-primary add-list"><i class="fa la-plus mr-3"></i>Add Request</a>
+          <?php endif ?>
         </div>
       </div>
 

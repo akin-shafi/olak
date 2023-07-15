@@ -19,8 +19,9 @@ class RequestDetail extends DatabaseObject
 
    const COLOR = [
       1 => 'primary',
-      2 => 'success',
-      3 => 'danger',
+      2 => 'warning',
+      3 => 'success',
+      4 => 'danger',
    ];
 
    public function __construct($args = [])

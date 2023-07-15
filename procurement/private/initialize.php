@@ -1,4 +1,6 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 ob_start(); // turn on output buffering
 
@@ -33,12 +35,17 @@ if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '192.16
 // $public_end = strpos($_SERVER['SCRIPT_NAME'], '/lawchamber') + 11;
 // $doc_root = substr($_SERVER['SCRIPT_NAME'], 0, $public_end);
 // define("WWW_ROOT", $doc_root);
-
 require_once('functions.php');
 require_once('status_error_functions.php');
 require_once('db_credentials.php');
 require_once('database_functions.php');
 require_once('validation_functions.php');
+
+// if()
+
+
+
+
 
 // Load class definitions manually
 
@@ -70,8 +77,16 @@ if ($session->admin != '') {
     $loggedInAdmin = Admin::find_by_email($session->admin);
 }
 
+
+// if(isset($loggedInAdmin)){
+//   require_once('../vendor/autoload.php');
+// }else{
+//   require_once('vendor/autoload.php');
+// }
+
 $currency = '₦';
 
+// pre_r($loggedInAdmin); 
   // if (isset($loggedInAdmin->id)) {
   //        $support = AccessControl::find_by_admin_id($loggedInAdmin->id)->support ?? 0;
   // }

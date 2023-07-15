@@ -56,7 +56,7 @@ if (empty($invoice)) {
                       <input type="text" class="form-control form-control-sm" name="req[full_name]" value="<?php echo $invoice->full_name ?>" placeholder="Enter your full name" data-errors="Please Enter Full Name." readonly>
                       <div class="help-block with-errors"></div>
                     </div>
-                    <div class="form-group mx-3">
+                    <div class="form-group d-none mx-3">
                       <label class="label-control">Company<sup class="text-danger">*</sup></label>
                       <select class="form-control form-control-sm select2 company" name="req[company_id]" id="company" required>
                         <option value="">-select a company-</option>
@@ -66,7 +66,7 @@ if (empty($invoice)) {
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group d-none">
                       <label class="label-control">Branch<sup class="text-danger">*</sup></label>
                       <select class="form-control form-control-sm select2 company" name="req[branch_id]" id="branch" required>
                         <option value="">-select a branch-</option>
@@ -139,7 +139,7 @@ if (empty($invoice)) {
                     <p class="mr-3"><b>To Balance</b></p>
                     <div>
                       <p class="mr-3" id="grand"><?php echo number_format(intval($invoice->grand_total), 2); ?></p>
-                      <input type="hidden" class="form-control form-control-sm" id="grand_total" name="req[grand_total]" readonly>
+                      <input type="hidden" class="form-control form-control-sm" id="grand_total" name="req[grand_total]" value="<?php echo $invoice->grand_total; ?>" readonly>
                     </div>
                   </div>
                 </div>
@@ -288,7 +288,7 @@ if (empty($invoice)) {
     }
 
     const calTotal = () => {
-      const grandTotal = $('#grand_total')
+      // const grandTotal = $('#grand_total')
       let totalAmount = 0;
       let amt = $('.amt')
 
@@ -297,7 +297,7 @@ if (empty($invoice)) {
         totalAmount += parseFloat(el.value);
       })
       $('#grand').text(numberWithCommas(totalAmount));
-      grandTotal.val(totalAmount);
+      $('#grand_total').val(totalAmount);
     }
   });
 </script>

@@ -68,6 +68,13 @@ if (is_post_request()) {
     $getRequest = Request::find_by_invoice($invoice_no);
     $reqId = $getRequest->id;
 
+    if($_POST['amount'][0] != ''){
+      $args['status'] = 2;
+    }else{
+      $args['status'] = 1;
+    }
+
+    
     if (!empty(RequestDetail::find_by_requests($reqId))) :
 
       if (!empty($_FILES['vend_img']['name'])) {
@@ -101,9 +108,11 @@ if (is_post_request()) {
         $invNum = $getRequest->invoice_no;
         $requestDetails = RequestDetail::find_by_requests($reqId);
 
+        
+        // echo $status;
         for ($i = 0; $i < count($requestDetails); $i++) {
           $detail = RequestDetail::find_by_id($requestDetails[$i]->id);
-
+          
           $data = [
             "request_id"    => $reqId,
             "item_name"     => $_POST['item_name'][$i],

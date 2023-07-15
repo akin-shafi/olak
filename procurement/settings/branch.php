@@ -25,10 +25,10 @@ $branch = Branch::find_by_undeleted();
       <div class="col-lg-12">
         <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
           <div>
-            <h4 class="mb-3">Company Setup</h4>
-            <p class="mb-0">A dashboard provides you an overview of company setup with access to the most important data,
+            <h4 class="mb-3">Branch Setup</h4>
+            <!-- <p class="mb-0">A dashboard provides you an overview of company setup with access to the most important data,
               <br> functions and controls.
-            </p>
+            </p> -->
           </div>
           <div class="d-flex justify-content-end">
             <button class="btn btn-primary mb-3 mx-3 <?php echo !empty($company) ? 'd-none' : '' ?>" data-toggle="modal" data-target="#companyModel">
@@ -70,7 +70,8 @@ $branch = Branch::find_by_undeleted();
                     <tbody>
                       <?php $sn = 1;
                       foreach ($branch as $data) :
-                        $companyName = Company::find_by_id($data->company_id)->name; ?>
+                        $companyName = Company::find_by_id($data->company_id)->name ?? '';
+                        ?>
                         <tr>
                           <td><?php echo $sn++; ?></td>
                           <td><?php echo ucwords($companyName); ?></td>
@@ -109,7 +110,7 @@ $branch = Branch::find_by_undeleted();
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create Company</h5>
+        <h5 class="modal-title">Create Branch</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <form id="company_form" enctype="multipart/form-data">
@@ -174,7 +175,7 @@ $branch = Branch::find_by_undeleted();
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Create Branch</h5>
+        <h5 class="modal-title">Edit Branch</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <form id="branch_form">

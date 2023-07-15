@@ -25,10 +25,10 @@ $companies = Company::find_by_undeleted();
       <div class="col-lg-12">
         <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
           <div>
-            <h4 class="mb-3">User List</h4>
-            <p class="mb-0">A dashboard provides you an overview of user list with access to the most important data,
+            <h4 class="mb-3"><?= $page_title ?></h4>
+            <!-- <p class="mb-0">A dashboard provides you an overview of user list with access to the most important data,
               <br> functions and controls.
-            </p>
+            </p> -->
           </div>
           <?php if ($loggedInAdmin->admin_level == 1) : ?>
             <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#userModel">
@@ -64,8 +64,8 @@ $companies = Company::find_by_undeleted();
                     <?php foreach ($admins as $data) :
                       // if ($data->admin_level == 1) continue;
 
-                      $company_name = Company::find_by_id($data->company_id)->name;
-                      $branch_name = Branch::find_by_id($data->branch_id)->name;
+                      $company_name = Company::find_by_id($data->company_id)->name ?? '';
+                      $branch_name = Branch::find_by_id($data->branch_id)->name ?? '';
                       $adminLevel = $data->admin_level != '' ? Admin::ADMIN_LEVEL[$data->admin_level] : 'Not set';
                       $imgUrl = !empty($data->profile_img) ? $data->profile_img : 'pro.png';
                       $createdBy = $data->created_by != '' ?  Admin::find_by_id($data->created_by)->full_name : 'Not set';

@@ -44,32 +44,12 @@ $isRequester = $loggedInAdmin->admin_level == 4 ? true : false;
                     </div>
                     <div class="form-group mx-3">
                       <input type="hidden" class="form-control form-control-sm" name="req[company_id]" value="<?php echo $loggedInAdmin->company_id ?>" id="company" readonly />
-                      <!-- <label class="label-control">Company<sup class="text-danger">*</sup></label> 
-                      <select class="form-control form-control-sm" name="req[company_id]" id="company">
-                        <?php //foreach ($companies as $value) : 
-                        ?>
-                          <option value="<?php //echo $value->id 
-                                          ?>"><?php //echo $value->name 
-                                              ?></option>
-                        <?php //endforeach; 
-                        ?>
-                      </select> -->
+          
                     </div>
                     <div class="form-group">
 
                       <input type="hidden" class="form-control form-control-sm" name="req[branch_id]" value="<?php echo $loggedInAdmin->branch_id ?>" id="branch" readonly />
-                      <!-- <label class="label-control">Branch<sup class="text-danger">*</sup></label> 
-                        <select class="form-control form-control-sm" name="req[branch_id]" id="branch" required>
-                        <option value="">-select a branch-</option>
-                        <?php //foreach ($branches as $value) : 
-                        ?>
-                          <option value="<?php //echo $value->id 
-                                          ?>">
-                            <?php //echo $value->name 
-                            ?> </option>
-                        <?php //endforeach; 
-                        ?>
-                      </select> -->
+                     
                     </div>
                   </div>
 
