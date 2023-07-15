@@ -88,7 +88,7 @@ $expenses =  Expenses::find_by_undeleted();
                 </td>
                 <td>
                   <a href="<?php echo url_for('expenses/edit-expenses.php?id='. $value->id) ?>" class="btn btn-primary">Edit</a>
-                  <a href="#" class="btn btn-danger">Delete</a>
+                  <a href="<?php echo url_for('expenses/delete.php?id='. $value->id) ?>" class="btn btn-danger">Delete</a>
                 </td>
               </tr>
             <?php endforeach ?>
