@@ -122,7 +122,7 @@ $access = AccessControl::find_by_user_id($loggedInAdmin->id);
                         </a>
                      </li>
                   <?php endif; ?>
-                  <?php if (isset($access->settings) && $access->expenses_mgt == 1) : ?>
+                  <?php if (isset($access->expenses_mgt) && $access->expenses_mgt == 1) : ?>
                      <li class="<?php echo $page == 'Expenses' ? 'active' : '' ?>">
                         <a href="<?php echo url_for('expenses/') ?>" class="svg-icon">
                         <i class="fas la-minus"></i>
