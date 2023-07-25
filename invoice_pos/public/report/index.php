@@ -87,7 +87,7 @@ $branch_id = $loggedInAdmin->branch_id;
     
 </div>
 
-
+<div class="lds-hourglass d-none"></div>
 </div>
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
@@ -121,39 +121,57 @@ $branch_id = $loggedInAdmin->branch_id;
     const EXPENSE_URL = 'inc/process.php';
     $(document).on('click', "#query", function() {
       let branch = $('#filter-branch').val()
-
-      // let selectedDate = $('#reportrange span').text()
       let selectedDate = $('#dateFilter').val()
         getDataSheet(branch, selectedDate);
-      // if (branch == '') {
-      //   alert('Kindly select a branch')
-      //   window.location.reload();
-      // } else {
-        
-      // }
     })
 
-    const getDataSheet = (branch, fltDate) => {
-      $.ajax({
+    // JavaScript/jQuery code
+$(document).on('click', "#query", function() {
+    let branch = $('#filter-branch').val()
+    let selectedDate = $('#dateFilter').val()
+    disableButton(); // Call the function to disable the button and show "Processing"
+    getDataSheet(branch, selectedDate);
+})
+
+const getDataSheet = (branch, fltDate) => {
+    $.ajax({
         url: EXPENSE_URL,
         method: "GET",
         data: {
-          branch: branch,
-          rangeText: fltDate,
-          filter: 1
+            branch: branch,
+            rangeText: fltDate,
+            filter: 1
         },
         cache: false,
         beforeSend: function() {
-          $('.lds-hourglass').removeClass('d-none');
+            $('.lds-hourglass').removeClass('d-none');
         },
         success: function(r) {
-          $('#salesReport').html(r)
-          setTimeout(() => {
-            $('.lds-hourglass').addClass('d-none');
-          }, 250);
+            $('#salesReport').html(r);
+            setTimeout(() => {
+                $('.lds-hourglass').addClass('d-none');
+                enableButton(); // Call the function to enable the button after data is received
+            }, 250);
+        },
+        error: function() {
+            // In case of an error, enable the button again
+            enableButton();
         }
-      })
-    }
+    });
+}
+
+function disableButton() {
+    $('#query').prop('disabled', true); // Disabling the button
+    $('#query').text('Processing...'); // Updating button text
+    $('.lds-hourglass').removeClass('d-none'); // Show the "Processing" animation
+}
+
+function enableButton() {
+    $('#query').prop('disabled', false); // Enabling the button
+    $('#query').text('Query Data'); // Restoring original button text
+    $('.lds-hourglass').addClass('d-none'); // Hiding the "Processing" animation
+}
+
 
     
     let branch = $('#filter-branch').val()
