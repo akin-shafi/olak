@@ -233,11 +233,29 @@ class Billing extends DatabaseObject
   {
     $company_id = $options['company_id'] ?? false;
     $branch_id = $options['branch_id'] ?? false;
+    $from = $options['from'] ?? false;
+    $to   = $options['to'] ?? false;
+
     $sql = "SELECT COUNT(*) AS counts, SUM(total_amount) AS total_amount, SUM(grand_total) AS grand_total, SUM(part_payment) AS part_payment, SUM(balance) AS balance FROM " . static::$table_name . " ";
     $sql .= " WHERE (deleted IS NULL OR deleted = 0 OR deleted = '') ";
     if ($company_id) { $sql .= " AND company_id='" . self::$database->escape_string($company_id) . "'";}
 
     if ($branch_id) { $sql .= " AND branch_id='" . self::$database->escape_string($branch_id) . "'"; }
+
+    if ($from && $to) {
+      if ($from == $to) {
+        $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from > $to) {
+        $sql .= " AND DATE(created_date) BETWEEN '" . self::$database->escape_string($to) . "' AND '" . self::$database->escape_string($from) . "' ";
+      } elseif ($from < $to) {
+        $sql .= " AND DATE(created_date) BETWEEN '" . self::$database->escape_string($from) . "' AND '" . self::$database->escape_string($to) . "' ";
+      }
+    } elseif ($from && !$to) {
+      $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($from) . "' ";
+    } elseif (!$from && $to) {
+      $sql .= " AND DATE(created_date) = '" . self::$database->escape_string($to) . "' ";
+    }
+
     // echo $sql;
     $obj_array = static::find_by_sql($sql);
     if (!empty($obj_array)) {

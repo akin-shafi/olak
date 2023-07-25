@@ -42,7 +42,7 @@ $branch_id = $loggedInAdmin->branch_id;
           </div>
           <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="d-flex justify-content-end">
-              <div class="daterange-container">
+              <div class="daterange-container d-none">
                 <div class="date-range">
                   <div id="reportrange">
                     <i class="feather-calendar cal"></i>
@@ -51,7 +51,7 @@ $branch_id = $loggedInAdmin->branch_id;
                   </div>
                 </div>
               </div>
-
+              <input type="date" name="dateFilter" id="dateFilter" value="<?php echo date('Y-m-d') ?>">
               <?php if (in_array($loggedInAdmin->admin_level, [1,2,6])) { ?>
                 <select class="form-control" id="filter-branch" style="width: 150px;">
                   <option value="" selected>All</option>
@@ -122,7 +122,8 @@ $branch_id = $loggedInAdmin->branch_id;
     $(document).on('click', "#query", function() {
       let branch = $('#filter-branch').val()
 
-      let selectedDate = $('#reportrange span').text()
+      // let selectedDate = $('#reportrange span').text()
+      let selectedDate = $('#dateFilter').val()
         getDataSheet(branch, selectedDate);
       // if (branch == '') {
       //   alert('Kindly select a branch')
@@ -156,7 +157,7 @@ $branch_id = $loggedInAdmin->branch_id;
 
     
     let branch = $('#filter-branch').val()
-    let selectedDate = $('#reportrange span').text()
+    let selectedDate = $('#dateFilter').val()
 
     getDataSheet(branch, selectedDate)
     // console.log(selectedDate)

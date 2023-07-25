@@ -3,17 +3,18 @@
 require_once('../../private/initialize.php');
 
 require_login();
+$from = $_POST['from'] ?? date("Y-m-d");
+$to = $_POST['to'] ?? date("Y-m-d");
 
 if (in_array($loggedInAdmin->admin_level, [1,2,3])) {
-  $billing = Billing::find_by_metrics();
+  $billing = Billing::find_by_metrics([ 'from' => $from, 'to' => $to]);
 }else{
   $billing = Billing::find_by_metrics(['branch_id' => $loggedInAdmin->branch_id]);
 }
 
 
 
-$from = $_POST['from'] ?? date("Y-m-d");
-$to = $_POST['to'] ?? date("Y-m-d");
+
 
 if ( in_array($loggedInAdmin->admin_level, [1,2,3])) {
     $revenue = Billing::sum_of_sales(['status' => 2, 'billingFormat' => 1, 'from' => $from, 'to' => $to,]) ?? 0;
@@ -158,7 +159,7 @@ $page = '';
 
 
     <!-- Row start -->
-    <div class="row gutters d-none">
+    <div class="row gutters ">
       <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-header">
