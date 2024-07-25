@@ -20,7 +20,7 @@ class Request extends DatabaseObject
    public $counts;
    public $deleted;
 
-   public $item_name;
+   public $item_name; 
    public $quantity;
    public $unit_price;
    public $request_id;

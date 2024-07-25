@@ -72,6 +72,9 @@ $due_date =  date('Y-m-d',strtotime('+'.$billing->due_date.' days',strtotime($to
                <div>
                   <h5 id="" class="ibcl_invoice_title" style="text-transform: uppercase;">Customer No: <b style="border-bottom: 1px solid #000;"><?php echo Client::find_by_id($billing->client_id)->customer_id; ?></b></h5>
                </div>
+               <div>
+                  <img src="<?= url_for('img/qrcode.png') ?>" alt="code" style="width: 90px; height:90px; ">
+               </div>
                
             </section>
             

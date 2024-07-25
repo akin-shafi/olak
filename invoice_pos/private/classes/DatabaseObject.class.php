@@ -312,10 +312,10 @@ class DatabaseObject
     } else {
       $sql .= " ORDER BY id DESC ";
     }
-    if ($limit) {
-      $sql .= "LIMIT " . self::$database->escape_string($limit) . " ";
-    }
-    
+    // if ($limit) {
+    //   $sql .= "LIMIT " . self::$database->escape_string(50) . " ";
+    // }
+    $sql .= "LIMIT " . self::$database->escape_string(150) . " ";
     
     // echo $sql;
 

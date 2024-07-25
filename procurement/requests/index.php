@@ -5,7 +5,8 @@ $page_title = 'List Requests';
 include(SHARED_PATH . '/admin_header.php');
 $url_status = $_GET['status'] ?? '';
 $branches = Branch::find_all_branch();
-$requests =  in_array($loggedInAdmin->admin_level, [1, 2, 3])
+// pre_r($loggedInAdmin);
+$requests =  !in_array($loggedInAdmin->admin_level, [1, 2, 3])
   ? Request::find_by_status(['status' => $url_status, 'branch_id' => $loggedInAdmin->branch_id])
   : Request::find_by_status(['status' => $url_status]);
 
@@ -42,9 +43,7 @@ $isRequester = $loggedInAdmin->admin_level == 4 ? true : false;
 
 <div class="container">
   <div class="row" id="analytic">
-    <?php foreach (Request::STATUS as $key => $value) { 
-      
-      ?>
+    <?php foreach (Request::STATUS as $key => $value) {  ?>
     <div class="col">
       <a class="card <?php echo $url_status == $key ? 'active' : '' ?>"  href="<?php echo url_for('requests/index.php?status='. $key) ?>">
         <div class="card-body">
@@ -53,7 +52,13 @@ $isRequester = $loggedInAdmin->admin_level == 4 ? true : false;
               <h5 class="card-title"><?= $value ?></h5>
             </div>
             <div class="text-end">
-              <h5 class="card-title"><?php echo count(Request::find_by_status(['status' => $key])) ?></h5>
+              <h5 class="card-title"><?php 
+
+               echo count(!in_array($loggedInAdmin->admin_level, [1, 2, 3])
+                ? Request::find_by_status(['status' => $key, 'branch_id' => $loggedInAdmin->branch_id])
+                : Request::find_by_status(['status' => $key]));
+
+              ?></h5>
             </div>
           </div>
         </div>
@@ -118,9 +123,9 @@ $isRequester = $loggedInAdmin->admin_level == 4 ? true : false;
 
                       if ($key == $data->status) :
                     ?>
-                        <span class="badge badge-<?php echo $color; ?>">
+                        <button class="changeStatus btn btn-sm btn-<?php echo $color; ?>" data-status="<?php echo $data->id; ?>">
                           <?php echo $value ?>
-                        </span>
+                        </button>
                     <?php endif;
                     endforeach; ?>
                   </td>
@@ -144,7 +149,7 @@ $isRequester = $loggedInAdmin->admin_level == 4 ? true : false;
                             <?php foreach (Request::STATUS as $key => $value) :
                               if ($value == 'New') continue;
                             ?>
-                              <button class="dropdown-item status" data-id="<?php echo $data->id; ?>" data-status="<?php echo $key; ?>">
+                              <button class="dropdown-item changeStatus" data-id="<?php echo $data->id; ?>" data-status="<?php echo $key; ?>">
                                 <?php echo $value; ?>
                               </button>
                             <?php endforeach; ?>
@@ -235,13 +240,85 @@ $isRequester = $loggedInAdmin->admin_level == 4 ? true : false;
   </div>
 
 
+<div class="modal fade" id="changeStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="popup text-left">
+            <h4 class="mb-3">Change Status</h4>
+            <div class="content create-workform bg-body">
+              <div class="table-responsive">
+                <form>
+                  <div class="form-group">
+                    <label class="control-label">Status</label>
+                    <select class="form-control" id="status_input">
+                      <option value="">select</option>
+                      <option value="2">Price Attached</option>
+                      <option value="3">Delivered</option>
+                    </select>
+                  </div>
+                  <input type="hidden" id="status_holder" name="">
+                </form>
+              </div>
+
+              <div class="col-lg-12 mt-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-end">
+                  <div class="btn btn-primary mr-4" data-dismiss="modal">Cancel</div>
+                  <button class="btn btn-primary mr-4" type="button" id="changeBtn"> Change</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 </div>
 
 <?php include(SHARED_PATH . '/admin_footer.php'); ?>
 
 <script>
   $(document).ready(function() {
-    const REQ_URL = './inc/request.php'
+
+     const REQ_URL = './inc/request.php'
+
+    $(document).on('click', '.changeStatus', function() {
+      let status = $(this).data('status');
+
+      $("#status_holder").val(status)
+      console.log(status)
+      $("#changeStatusModal").modal("show");
+    });
+
+    $(document).on('click', '#changeBtn', function(e) {
+        e.preventDefault()
+        let dataId = $("#status_holder").val()
+        let status_input = $("#status_input").val();
+
+        $.ajax({
+          url: REQ_URL,
+          method: "GET",
+          data: {
+            request_status: 1,
+            invoiceId: dataId,
+            request_status: status_input,
+            
+          },
+          dataType: 'json',
+          success: function(r) {
+            $("#changeStatusModal").modal("hide");
+            successAlert(r.message)
+            window.location.reload();
+          }
+        })
+     
+    });
+
+
+   
 
     $('.view-btn').on("click", function() {
       let iNo = this.dataset.invoice

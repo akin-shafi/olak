@@ -9,7 +9,7 @@ if (is_get_request()) {
 		$page = $_GET['fetch_page'];
 
 		$monthlyPayroll = Payroll::find_by_month(['month' => $month, 'payment_status' => 2]);
-
+ 
 		if (!empty($monthlyPayroll)) {
 			$payment_status = $monthlyPayroll[0]->payment_status;
 			if (!in_array($payment_status, [0, 1, 2])) {
@@ -106,7 +106,7 @@ if (is_get_request()) {
 				<?php endforeach ?>
 			</div>
 
-			<!-- //! This is not required for now -->
+			<!-- ! This is not required for now -->
 			<?php if ($isVisible == true) : ?>
 				<div class="row d-none">
 					<div class="col-xl-4 col-lg-12 col-md-12">

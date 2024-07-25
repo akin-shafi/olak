@@ -9,8 +9,6 @@ if ($loggedInAdmin->admin_level == 1) {
   $clients = Client::find_by_branch_id($loggedInAdmin->branch_id);
 }
 
-
-
 $page = 'Customer';
 
 ?>

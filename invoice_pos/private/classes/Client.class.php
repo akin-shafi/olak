@@ -45,8 +45,6 @@ class Client extends DatabaseObject
     $this->balance = $args['balance'] ?? 0;
     $this->deposit = $args['deposit'] ?? '';
     $this->payment_id = $args['payment_id'] ?? '';
-
-
     $this->created_by = $args['created_by'] ?? '';
     $this->created_at = $args['created_at'] ?? date('Y-m-d H:m:s');
     $this->deleted = $args['deleted'] ?? NULL;
@@ -86,27 +84,17 @@ class Client extends DatabaseObject
       $this->errors[] = "Customer already exist, We found Phone Number in record.";
     }
 
-    // if(is_blank($this->email)) {
-    //   $this->errors[] = "Email cannot be blank.";
-    // } elseif (!has_length($this->email, array('max' => 255))) {
-    //   $this->errors[] = "Email must be less than 255 characters.";
-    // } elseif (!has_valid_email_format($this->email)) {
-    //   $this->errors[] = "Email must be a valid format.";
-    // } elseif (!has_unique_client_email($this->email, $this->id ?? 0)) {
-    //   $this->errors[] = "The email you entered is already taken. Try another.";
-    // }
-
 
     return $this->errors;
   }
-
-
 
   public static function find_by_branch_id($bId)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE branch_id='" . self::$database->escape_string($bId) . "'";
     $sql .= " AND (deleted IS NULL OR deleted = 0 OR deleted = '') ";
+    $sql .= "ORDER BY id DESC ";
+    $sql .= "LIMIT 150";
     return static::find_by_sql($sql);
   }
 

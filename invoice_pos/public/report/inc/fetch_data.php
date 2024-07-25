@@ -7,7 +7,7 @@ $branches = Branch::find_by_undeleted(['order' => 'ASC']);
 // Prepare the JSON response
 $response = array(
     'date' => $date,
-    'table' => generateTableHTML($branches, $date, $totalConfirmed, $totalUnconfirmed)
+    'table' => generateTableHTML($branches, $date)
 );
 
 // Return the response as a JSON string
@@ -17,10 +17,10 @@ echo json_encode($response);
 /**
  * Helper function to generate the HTML for the data table
  */
-function generateTableHTML($data, $date, $totalConfirmed, $totalUnconfirmed) {
+function generateTableHTML($data, $date) {
  
     
-    $html .= '<table id="rowSelection" class="table table-sm table-striped table-bordered">';
+    $html = '<table id="rowSelection" class="table table-sm table-striped table-bordered">';
     $html .= '<thead>';
     $html .= 
     '<tr>
